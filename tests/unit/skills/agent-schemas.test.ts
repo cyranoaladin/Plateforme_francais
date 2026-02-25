@@ -5,9 +5,9 @@ import { type Skill, skillSchema } from '@/lib/llm/skills/types';
 const ALL_SKILLS = skillSchema.options as readonly Skill[];
 
 describe('Agent skill registry', () => {
-  it('has 27 registered skills', () => {
-    expect(ALL_SKILLS.length).toBe(27);
-    expect(Object.keys(skillConfigs).length).toBe(27);
+  it('has 28 registered skills', () => {
+    expect(ALL_SKILLS.length).toBe(28);
+    expect(Object.keys(skillConfigs).length).toBe(28);
   });
 
   it('every skill enum value has a matching config', () => {

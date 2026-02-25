@@ -98,29 +98,46 @@ model MemoryEvent {
 }
 
 model StudentProfile {
-  id                  String    @id @default(uuid())
-  userId              String    @unique
-  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                  String      @id @default(uuid())
+  userId              String      @unique
+  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   displayName         String
   classLevel          String
   targetScore         String
   establishment       String?
   eafDate             DateTime?
-  onboardingCompleted Boolean   @default(false)
-  selectedOeuvres     String[]  @default([])
+  onboardingCompleted Boolean     @default(false)
+  selectedOeuvres     String[]    @default([])
   classCode           String?
-  parcoursProgress    String[]  @default([])
-  badges              String[]  @default([])
-  xp                  Int       @default(0)
-  level               Int       @default(1)
-  xpToNextLevel       Int       @default(100)
-  preferredObjects    String[]  @default([])
-  weakSkills          String[]  @default([])
+  parcoursProgress    String[]    @default([])
+  badges              String[]    @default([])
+  xp                  Int         @default(0)
+  level               Int         @default(1)
+  xpToNextLevel       Int         @default(100)
+  preferredObjects    String[]    @default([])
+  weakSkills          String[]    @default([])
   skillMap            Json?
-  streak              Int       @default(0)
-  maxStreak           Int       @default(0)
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  streak              Int         @default(0)
+  maxStreak           Int         @default(0)
+  // ADDENDUM fields
+  voie                Voie        @default(GENERALE)
+  anneeScolaire       String      @default("2025-2026")
+  targetExamDate      DateTime?
+  weeklyGoalMinutes   Int         @default(120)
+  prefWorkingHours    Json?
+  accessibilityNeeds  Json?
+  personaPreference   ExamPersona @default(NEUTRE)
+  globalLevel         SkillLevel  @default(INSUFFISANT)
+  globalLevelUpdatedAt DateTime?
+  // Relations ADDENDUM
+  skillMapEntries     SkillMapEntry[]
+  weakSkillEntries    WeakSkillEntry[]
+  workMasteries       WorkMastery[]
+  memorySummaries     MemorySummary[]
+  documentDeposits    DocumentDeposit[]
+  agentInteractions   AgentInteraction[]
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
 }
 
 model Evaluation {
@@ -187,6 +204,107 @@ enum OralMode {
   FREE_PRACTICE
 }
 
+enum Voie {
+  GENERALE
+  TECHNOLOGIQUE
+}
+
+enum SkillLevel {
+  INSUFFISANT
+  PASSABLE
+  SATISFAISANT
+  EXCELLENT
+}
+
+enum ExamPersona {
+  BIENVEILLANT
+  NEUTRE
+  HOSTILE
+  RANDOM
+}
+
+enum SkillTrend {
+  IMPROVING
+  STABLE
+  DECLINING
+}
+
+enum EafSkill {
+  ORAL_LECTURE_FLUIDITE
+  ORAL_LECTURE_EXPRESSIVITE
+  ORAL_EXPLIC_MOUVEMENT
+  ORAL_EXPLIC_ANALYSE
+  ORAL_EXPLIC_CITATIONS
+  ORAL_EXPLIC_OUVERTURE
+  ORAL_GRAMM_IDENTIFICATION
+  ORAL_GRAMM_ANALYSE
+  ORAL_ENTRETIEN_CONNAISSANCE
+  ORAL_ENTRETIEN_REACTIVITE
+  ORAL_ENTRETIEN_CULTURE
+  ORAL_ENTRETIEN_CRITIQUE
+  ECRIT_COMMENT_PLAN
+  ECRIT_COMMENT_ANALYSE
+  ECRIT_COMMENT_CITATIONS
+  ECRIT_DISSERT_THESE
+  ECRIT_DISSERT_TRANSITION
+  ECRIT_DISSERT_EXEMPLES
+  TRANS_LANGUE_GRAMMAIRE
+  TRANS_LANGUE_STYLE
+  TRANS_LANGUE_SYNTAXE
+  TRANS_TEMPS_GESTION
+  TRANS_CULTURE_GENERALE
+}
+
+enum WeakSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum WeakStatus {
+  ACTIVE
+  IMPROVING
+  RESOLVED
+  DISMISSED
+}
+
+enum SummaryType {
+  FULL
+  ORAL
+  ECRIT
+  RECENT_SESSIONS
+  WEAK_SKILLS
+}
+
+enum DocStatus {
+  DOC_PENDING
+  DOC_PROCESSING
+  DOC_DONE
+  DOC_ERROR
+}
+
+enum DocType {
+  COPIE_ECRIT
+  ENREGISTREMENT_ORAL
+  RESSOURCE
+  AUTRE
+}
+
+enum AgentTypeEnum {
+  TIRAGE_ORAL
+  SHADOW_PREP
+  COACH_LECTURE
+  COACH_EXPLICATION
+  GRAMMAIRE_CIBLEE
+  ENTRETIEN_OEUVRE
+  BILAN_ORAL
+  DIAGNOSTIC_ECRIT
+  PASTICHE
+  QUIZ_ADAPTATIF
+  EXAMINATEUR_VIRTUEL
+}
+
 enum OralPhase {
   LECTURE
   EXPLICATION
@@ -200,6 +318,7 @@ model OralSession {
   user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   status           OralSessionStatus @default(DRAFT)
   mode             OralMode          @default(SIMULATION)
+  personaType      ExamPersona       @default(NEUTRE)
   anneeScolaire    String            @default("2025-2026")
   oeuvre           String
   extrait          String
@@ -441,4 +560,119 @@ model PushSubscription {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+// ============================================================
+// ADDENDUM — Memory Store Models (P0-SaaS-5)
+// ============================================================
+
+model SkillMapEntry {
+  id               String         @id @default(uuid())
+  profileId        String
+  profile          StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  skill            EafSkill
+  score            Float          @default(0.0)
+  confidence       Float          @default(0.0)
+  trend            SkillTrend     @default(STABLE)
+  observationCount Int            @default(0)
+  srNextReview     DateTime?
+  srInterval       Int            @default(1)
+  srEaseFactor     Float          @default(2.5)
+  srRepetitions    Int            @default(0)
+  lastObservedAt   DateTime?
+
+  @@unique([profileId, skill])
+}
+
+model WeakSkillEntry {
+  id              String         @id @default(uuid())
+  profileId       String
+  profile         StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  skill           EafSkill
+  pattern         String
+  category        String
+  examples        Json           @default("[]")
+  embedding       Unsupported("vector(1536)")?
+  frequency       Int            @default(1)
+  severity        WeakSeverity   @default(LOW)
+  decayedScore    Float          @default(1.0)
+  status          WeakStatus     @default(ACTIVE)
+  firstDetectedAt DateTime       @default(now())
+  lastOccurrence  DateTime       @default(now())
+  resolvedAt      DateTime?
+
+  @@index([profileId, status])
+  @@index([severity])
+}
+
+model WorkMastery {
+  id             String         @id @default(uuid())
+  profileId      String
+  profile        StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  workId         String
+  masteryLevel   Float          @default(0.0)
+  srNextReview   DateTime       @default(now())
+  srInterval     Int            @default(1)
+  srEaseFactor   Float          @default(2.5)
+  srRepetitions  Int            @default(0)
+  strongThemes   Json           @default("[]")
+  weakThemes     Json           @default("[]")
+  citationsKnown Json           @default("[]")
+  sessionsCount  Int            @default(0)
+  lastSessionAt  DateTime?
+
+  @@unique([profileId, workId])
+}
+
+model MemorySummary {
+  id          String         @id @default(uuid())
+  profileId   String
+  profile     StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  summaryType SummaryType
+  content     String         @db.Text
+  tokenCount  Int
+  embedding   Unsupported("vector(1536)")?
+  generatedAt DateTime       @default(now())
+  validUntil  DateTime
+  version     Int            @default(1)
+
+  @@unique([profileId, summaryType])
+}
+
+model DocumentDeposit {
+  id              String         @id @default(uuid())
+  profileId       String
+  profile         StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  filename        String
+  fileType        String
+  fileSize        Int
+  storageUrl      String
+  storageKey      String
+  ocrText         String?        @db.Text
+  analysisResult  Json?
+  analysisStatus  DocStatus      @default(DOC_PENDING)
+  linkedSessionId String?
+  workId          String?
+  depositType     DocType
+  createdAt       DateTime       @default(now())
+  expiresAt       DateTime?
+}
+
+model AgentInteraction {
+  id              String         @id @default(uuid())
+  profileId       String
+  profile         StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  sessionId       String?
+  agentType       AgentTypeEnum
+  inputSummary    String
+  outputSummary   String
+  feedbackScore   Int?
+  feedbackLabel   String?
+  tokensUsed      Int
+  latencyMs       Int
+  ragSourcesCount Int            @default(0)
+  createdAt       DateTime       @default(now())
+
+  @@index([profileId, createdAt])
+  @@index([agentType])
 }

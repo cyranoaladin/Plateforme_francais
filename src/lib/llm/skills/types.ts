@@ -28,6 +28,7 @@ export const skillSchema = z.enum([
   'sr_planner',
   'support_produit',
   'examinateur_virtuel',
+  'pastiche',
 ]);
 
 export type Skill = z.infer<typeof skillSchema>;

@@ -26,6 +26,7 @@ import { carnetLectureSkill } from '@/lib/llm/skills/revision-carnet-lecture';
 import { srPlannerSkill } from '@/lib/llm/skills/revision-sr-planner';
 import { supportProduitSkill } from '@/lib/llm/skills/support-produit';
 import { examinateurVirtuelSkill } from '@/lib/llm/skills/oral-examinateur-virtuel';
+import { pasticheSkill } from '@/lib/llm/skills/ecrit-pastiche';
 import { type Skill, type SkillConfig } from '@/lib/llm/skills/types';
 
 export const skillConfigs: Record<Skill, SkillConfig<unknown>> = {
@@ -56,6 +57,7 @@ export const skillConfigs: Record<Skill, SkillConfig<unknown>> = {
   sr_planner: srPlannerSkill,
   support_produit: supportProduitSkill,
   examinateur_virtuel: examinateurVirtuelSkill,
+  pastiche: pasticheSkill,
 };
 
 export function parseSkillOutput(skill: Skill, payload: unknown): unknown {
