@@ -10,10 +10,20 @@ const PUBLIC_API_PATHS = [
 ];
 
 /**
- * Security headers per cahier des charges V2 P0-7.
- * CSP without unsafe-eval/unsafe-inline, HSTS 2 years, X-Frame-Options DENY.
+ * Generate a random nonce for CSP inline script authorization.
  */
-function applySecurityHeaders(response: NextResponse): NextResponse {
+function generateNonce(): string {
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+  return btoa(String.fromCharCode(...array));
+}
+
+/**
+ * Security headers per cahier des charges V2 P0-7.
+ * CSP uses nonce-based script-src to allow Next.js inline scripts.
+ * HSTS 2 years, X-Frame-Options DENY.
+ */
+function applySecurityHeaders(response: NextResponse, nonce?: string): NextResponse {
   response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
@@ -23,7 +33,7 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      "script-src 'self'",
+      nonce ? `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'` : "script-src 'self'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self'",
@@ -70,7 +80,12 @@ export function middleware(request: NextRequest) {
     return applySecurityHeaders(NextResponse.redirect(url));
   }
 
-  return applySecurityHeaders(NextResponse.next());
+  const nonce = generateNonce();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-nonce', nonce);
+
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  return applySecurityHeaders(response, nonce);
 }
 
 export const config = {
