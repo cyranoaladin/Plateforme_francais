@@ -1,40 +1,58 @@
 # Runbook de déploiement — Nexus Réussite EAF
 
+Dernière mise à jour : 25 février 2026
+
 ## Prérequis serveur
 - Ubuntu 22.04 LTS
 - Node.js 20.x LTS
-- PostgreSQL 15+
+- PostgreSQL 15+ (port 5435 sur le serveur actuel)
 - Redis 7+
 - PM2 (`npm install -g pm2`)
-- Ollama (si embeddings locaux)
+- Nginx + Let's Encrypt (certbot)
+
+## Serveur actuel
+- **IP** : `88.99.254.59` (alias SSH `mf`)
+- **Domaine** : `eaf.nexusreussite.academy`
+- **Chemin app** : `/var/www/eaf_platform`
+- **PM2 process** : `eaf-platform`
 
 ## 1. Cloner et installer
 
 ```bash
-git clone <repo> eaf_platform
-cd eaf_platform
-npm ci --production=false
-cd packages/mcp-server && npm ci && cd ../..
+git clone https://github.com/cyranoaladin/Plateforme_francais.git /var/www/eaf_platform
+cd /var/www/eaf_platform
+npm install
 ```
 
 ## 2. Configurer l'environnement
 
 ```bash
-cp .env.example .env.local
-# Éditer .env.local avec les vraies valeurs :
-# DATABASE_URL, REDIS_URL, SESSION_SECRET (32+ chars), CSRF_SECRET (32+ chars),
-# MISTRAL_API_KEY, MCP_API_KEY, CLICTOPAY_USERNAME, CLICTOPAY_PASSWORD,
-# CLICTOPAY_WEBHOOK_SECRET, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, RESEND_API_KEY
-
-npm run mcp:init   # Génère packages/mcp-server/.env avec MCP_API_KEY
+# Créer .env avec les variables suivantes :
+DATABASE_URL="postgresql://user:pass@127.0.0.1:5435/eaf_prod"
+DIRECT_URL="postgresql://user:pass@127.0.0.1:5435/eaf_prod"
+REDIS_URL="redis://127.0.0.1:6379"
+MISTRAL_API_KEY="sk-..."
+GEMINI_API_KEY="..."                 # fallback
+OPENAI_API_KEY="..."                 # fallback
+LLM_PROVIDER="mistral"
+LLM_ROUTER_ENABLED="true"
+COOKIE_SECURE="true"
+SESSION_SECRET="<32+ chars>"
+CRON_SECRET="<32+ chars>"
+CLICTOPAY_USERNAME="..."
+CLICTOPAY_PASSWORD="..."
+RESEND_API_KEY="..."
+VAPID_PUBLIC_KEY="..."
+VAPID_PRIVATE_KEY="..."
+STORAGE_PROVIDER="local"
+MAX_UPLOAD_SIZE_MB="20"
 ```
 
 ## 3. Base de données
 
 ```bash
-# Créer la base et l'utilisateur PostgreSQL
-sudo -u postgres psql -c "CREATE USER eaf_user WITH PASSWORD 'CHANGEME';"
-sudo -u postgres psql -c "CREATE DATABASE eaf_db OWNER eaf_user;"
+# Créer la base (si première installation)
+sudo -u postgres psql -p 5435 -c "CREATE DATABASE eaf_prod;"
 
 # Appliquer les migrations
 npx prisma migrate deploy
@@ -42,72 +60,38 @@ npx prisma migrate deploy
 # Générer le client Prisma
 npx prisma generate
 
-# Seed optionnel (données de démonstration)
+# Synchroniser le schema (si nécessaire)
+npx prisma db push
+
+# Seed (données de démonstration)
 npm run db:seed
 ```
 
-## 4. Indexer le corpus RAG
-
-```bash
-# Placer les fichiers PDF/TXT dans /var/eaf/corpus/
-npm run rag:index
-```
-
-## 5. Build Next.js
+## 4. Build Next.js
 
 ```bash
 npm run build
-# En cas d'erreur Turbopack, utiliser :
+# En cas d'erreur Turbopack :
 npm run build:ci
 ```
 
-## 6. Lancer avec PM2
+## 5. Lancer avec PM2
 
 ```bash
-# Créer l'ecosystem PM2
-cat > ecosystem.config.cjs << 'EOF'
-module.exports = {
-  apps: [
-    {
-      name: 'eaf-nextjs',
-      script: 'node_modules/.bin/next',
-      args: 'start',
-      env: {
-        NODE_ENV: 'production',
-        PORT: 3000,
-      },
-      max_memory_restart: '512M',
-    },
-    {
-      name: 'eaf-mcp',
-      cwd: './packages/mcp-server',
-      script: 'node',
-      args: 'dist/index.js',
-      env: {
-        NODE_ENV: 'production',
-        MCP_TRANSPORT: 'http',
-        MCP_PORT: 3100,
-      },
-      max_memory_restart: '256M',
-    },
-  ],
-};
-EOF
-
-pm2 start ecosystem.config.cjs
+pm2 start npm --name "eaf-platform" -- start
 pm2 save
 pm2 startup
 ```
 
-## 7. Nginx (reverse proxy)
+## 6. Nginx (reverse proxy)
 
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name nexusreussite.academy;
+    server_name eaf.nexusreussite.academy;
 
-    ssl_certificate     /etc/letsencrypt/live/nexusreussite.academy/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/nexusreussite.academy/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/eaf.nexusreussite.academy/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/eaf.nexusreussite.academy/privkey.pem;
 
     location / {
         proxy_pass         http://127.0.0.1:3000;
@@ -120,43 +104,48 @@ server {
         proxy_set_header   X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
     }
-
-    # MCP interne — ne pas exposer publiquement
-    # location /mcp-internal/ { deny all; }
 }
 
 server {
     listen 80;
-    server_name nexusreussite.academy;
+    server_name eaf.nexusreussite.academy;
     return 301 https://$server_name$request_uri;
 }
+```
+
+## 7. Mise à jour (déploiement courant)
+
+```bash
+ssh mf
+cd /var/www/eaf_platform
+git pull origin main
+npm install
+npm run build
+pm2 restart eaf-platform
 ```
 
 ## 8. Vérifications post-déploiement
 
 ```bash
-# Health checks
-curl https://nexusreussite.academy/api/v1/health
-curl http://localhost:3100/health
-
-# TypeScript
-npm run typecheck
-cd packages/mcp-server && npx tsc --noEmit && cd ../..
-
-# Tests unitaires
-npm run test:unit
+# Health check
+curl https://eaf.nexusreussite.academy/api/v1/health
 
 # Logs
-pm2 logs eaf-nextjs --lines 50
-pm2 logs eaf-mcp --lines 50
+pm2 logs eaf-platform --lines 50
+
+# PM2 status
+pm2 status eaf-platform
 ```
 
 ## 9. Rollback d'urgence
 
 ```bash
-pm2 stop all
+ssh mf
+cd /var/www/eaf_platform
+pm2 stop eaf-platform
+git log --oneline -5
 git checkout <commit-precedent>
-npm ci
+npm install
 npm run build
-pm2 start ecosystem.config.cjs
+pm2 start eaf-platform
 ```

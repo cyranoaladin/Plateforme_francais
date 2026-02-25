@@ -1,13 +1,16 @@
 # Guide élève - EAF Premium
 
+Dernière mise à jour : 25 février 2026
+
 ## 1. Première connexion
 1. Ouvrir `/login`.
 2. Se connecter avec un compte existant ou créer un compte.
-3. En cas d'inscription, terminer l'onboarding (`/onboarding`).
+3. Utiliser le bouton œil pour afficher/masquer le mot de passe.
+4. En cas d'inscription, terminer l'onboarding (`/onboarding`).
 
-Compte démo:
-- Email: `jean@eaf.local`
-- Mot de passe: `demo1234`
+Compte démo :
+- Email : `jean@eaf.local`
+- Mot de passe : `demo1234`
 
 ## 2. Onboarding (3 étapes)
 ## Étape 1 - Qui es-tu ?
@@ -81,15 +84,23 @@ Vous y trouvez:
 - refus pédagogique si demande de copie complète
 
 ## 11. Profil (`/profil`)
-- badges débloqués
-- progression gamifiée
+- Badges débloqués
+- XP, niveau et progression
+- Streak de travail (jours consécutifs)
+- Compétences (skill map)
 
-## 12. Protection et confidentialité
+## 12. Abonnement (`/pricing`)
+- Choix du plan (FREE / PRO / MAX)
+- Paiement via ClicToPay
+- Confirmation sur `/paiement/confirmation`
+- En cas d'échec : `/paiement/refus`
+
+## 13. Protection et confidentialité
 - Session sécurisée par cookie
 - Protection CSRF
 - Votre audio micro est traité localement par le navigateur (STT)
 
-## 13. Problèmes fréquents
+## 14. Problèmes fréquents
 - Erreur CSRF: rafraîchir la page puis réessayer
 - Upload refusé: vérifier type/poids du fichier
 - Réponse IA de fallback: réessayer plus tard (provider indisponible)

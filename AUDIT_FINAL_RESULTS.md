@@ -3,15 +3,17 @@
 
 ---
 
-## Validation
+## Validation (session initiale 2026-02-25)
 
 | Commande | Résultat |
 |---|---|
 | `npx tsc --noEmit` | ✅ 0 erreurs |
-| `npm run test:unit` (vitest) | ✅ 16/16 fichiers, 91/91 tests |
+| `npm run test:unit` (vitest) | ✅ 16/16 fichiers, 91/91 tests (session initiale) |
 | `npm run mcp:test` | ✅ 2/2 fichiers, 15/15 tests |
 
-**Total : 106/106 tests verts, 0 erreur TypeScript.**
+**Total session initiale : 106/106 tests verts, 0 erreur TypeScript.**
+
+> Note : depuis cet audit initial, 60+ fichiers de tests unitaires ont été ajoutés dans `tests/unit/` (agents, api, billing, compliance, llm, memory, oral, rag, security, etc.).
 
 ---
 
