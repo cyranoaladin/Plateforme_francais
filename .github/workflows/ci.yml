@@ -83,6 +83,10 @@ jobs:
       - name: Prisma generate
         run: npx prisma generate
 
+      - name: Generate next-env.d.ts
+        run: |
+          printf '/// <reference types="next" />\n/// <reference types="next/image-types/global" />\n\n// NOTE: This file should not be edited\n// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.\n' > next-env.d.ts
+
       - name: TypeScript check (root)
         run: npx tsc --noEmit
 
