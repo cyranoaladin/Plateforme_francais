@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  DATABASE_URL: "postgresql://test:test@localhost:5432/eaf_test"
+  DIRECT_URL: "postgresql://test:test@localhost:5432/eaf_test"
+  REDIS_URL: "redis://localhost:6379"
+  SESSION_SECRET: "ci_session_secret_32chars_minimum_ok_here"
+  CSRF_SECRET: "ci_csrf_secret_32chars_minimum_ok_here_now"
+  NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+  LLM_ROUTER_ENABLED: "false"
+  LLM_COST_TRACKING: "false"
+  MCP_SERVER_URL: "http://localhost:3100"
+  MCP_API_KEY: "ci-key"
+  MCP_TRANSPORT: "http"
+  CRON_SECRET: "ci_cron_secret_32chars_minimum_ok_here"
+  OLLAMA_BASE_URL: "http://localhost:11434"
+
+jobs:
+  ci:
+    name: Lint → TypeScript → Tests → Build
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prisma validate
+        run: npx prisma validate
+
+      - name: Prisma generate
+        run: npx prisma generate
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: MCP tests
+        run: npm run mcp:test
+
+      - name: Build
+        run: npm run build
