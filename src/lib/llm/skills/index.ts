@@ -20,6 +20,12 @@ import { ecritBaremageSkill } from '@/lib/llm/skills/ecrit-baremage';
 import { revisionFichesSkill } from '@/lib/llm/skills/revision-fiches';
 import { quizAdaptatifSkill } from '@/lib/llm/skills/revision-quiz-adaptatif';
 import { spacedRepetitionSkill } from '@/lib/llm/skills/revision-spaced-repetition';
+import { oralPrep30Skill } from '@/lib/llm/skills/oral-prep30';
+import { citationsProcedesSkill } from '@/lib/llm/skills/revision-citations-procedes';
+import { carnetLectureSkill } from '@/lib/llm/skills/revision-carnet-lecture';
+import { srPlannerSkill } from '@/lib/llm/skills/revision-sr-planner';
+import { supportProduitSkill } from '@/lib/llm/skills/support-produit';
+import { examinateurVirtuelSkill } from '@/lib/llm/skills/oral-examinateur-virtuel';
 import { type Skill, type SkillConfig } from '@/lib/llm/skills/types';
 
 export const skillConfigs: Record<Skill, SkillConfig<unknown>> = {
@@ -44,6 +50,12 @@ export const skillConfigs: Record<Skill, SkillConfig<unknown>> = {
   revision_fiches: revisionFichesSkill,
   quiz_adaptatif: quizAdaptatifSkill,
   spaced_repetition: spacedRepetitionSkill,
+  oral_prep30: oralPrep30Skill,
+  citations_procedes: citationsProcedesSkill,
+  carnet_lecture: carnetLectureSkill,
+  sr_planner: srPlannerSkill,
+  support_produit: supportProduitSkill,
+  examinateur_virtuel: examinateurVirtuelSkill,
 };
 
 export function parseSkillOutput(skill: Skill, payload: unknown): unknown {

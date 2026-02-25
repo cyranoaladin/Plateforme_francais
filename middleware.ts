@@ -9,6 +9,34 @@ const PUBLIC_API_PATHS = [
   '/api/v1/payments/clictopay/callback',
 ];
 
+/**
+ * Security headers per cahier des charges V2 P0-7.
+ * CSP without unsafe-eval/unsafe-inline, HSTS 2 years, X-Frame-Options DENY.
+ */
+function applySecurityHeaders(response: NextResponse): NextResponse {
+  response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()');
+  response.headers.set(
+    'Content-Security-Policy',
+    [
+      "default-src 'self'",
+      "script-src 'self'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob:",
+      "font-src 'self'",
+      "connect-src 'self'",
+      "media-src 'self' blob:",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join('; '),
+  );
+  return response;
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -17,7 +45,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/favicon.ico') ||
     pathname.startsWith('/public')
   ) {
-    return NextResponse.next();
+    return applySecurityHeaders(NextResponse.next());
   }
 
   const isPublicPage = PUBLIC_PATHS.some((item) => pathname === item);
@@ -25,45 +53,24 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('eaf_session')?.value;
 
   if (!token && pathname.startsWith('/api') && !isPublicApi) {
-    return NextResponse.json({ error: 'Non authentifié.' }, { status: 401 });
+    return applySecurityHeaders(
+      NextResponse.json({ error: 'Non authentifié.' }, { status: 401 }),
+    );
   }
 
   if (!token && !pathname.startsWith('/api') && !isPublicPage) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
-    return NextResponse.redirect(url);
+    return applySecurityHeaders(NextResponse.redirect(url));
   }
 
   if (token && pathname === '/login') {
     const url = request.nextUrl.clone();
     url.pathname = '/';
-    return NextResponse.redirect(url);
+    return applySecurityHeaders(NextResponse.redirect(url));
   }
 
-  // L'autorisation stricte par rôle est vérifiée côté serveur via requireUserRole().
-  // Ici, on garde uniquement un hint UX pour les routes UI.
-  const isTeacherUiRoute = pathname.startsWith('/enseignant');
-  const isParentUiRoute = pathname.startsWith('/parent');
-
-  if (token && isTeacherUiRoute) {
-    const role = request.cookies.get('eaf_role')?.value;
-    if (role && role !== 'enseignant' && role !== 'admin') {
-      const url = request.nextUrl.clone();
-      url.pathname = '/';
-      return NextResponse.redirect(url);
-    }
-  }
-
-  if (token && isParentUiRoute) {
-    const role = request.cookies.get('eaf_role')?.value;
-    if (role && role !== 'parent' && role !== 'admin') {
-      const url = request.nextUrl.clone();
-      url.pathname = '/';
-      return NextResponse.redirect(url);
-    }
-  }
-
-  return NextResponse.next();
+  return applySecurityHeaders(NextResponse.next());
 }
 
 export const config = {

@@ -172,9 +172,17 @@ model CopieDeposee {
 
 enum OralSessionStatus {
   DRAFT
-  PREP
-  PASSAGE
-  DONE
+  PREP_RUNNING
+  PREP_ENDED
+  PASSAGE_RUNNING
+  PASSAGE_DONE
+  FINALIZED
+  ABANDONED
+}
+
+enum OralMode {
+  SIMULATION
+  FREE_PRACTICE
 }
 
 enum OralPhase {
@@ -185,27 +193,36 @@ enum OralPhase {
 }
 
 model OralSession {
-  id              String            @id @default(uuid())
-  userId          String
-  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status          OralSessionStatus @default(DRAFT)
-  oeuvre          String
-  extrait         String
-  question        String
-  transcript      String?
-  score           Float?
-  maxScore        Float?
-  feedback        Json?
-  prepStartedAt   DateTime?
-  prepEndedAt     DateTime?
+  id               String            @id @default(uuid())
+  userId           String
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status           OralSessionStatus @default(DRAFT)
+  mode             OralMode          @default(SIMULATION)
+  anneeScolaire    String            @default("2025-2026")
+  oeuvre           String
+  extrait          String
+  question         String
+  draw             Json?             // { textId, excerptStart, excerptEnd, grammarQuestion, workId, parcoursId }
+  transcript       String?
+  score            Float?
+  maxScore         Float?
+  totalScore       Int?              // /20, null before finalization
+  feedback         Json?
+  pdfUrl           String?
+  prepStartedAt    DateTime?
+  prepEndedAt      DateTime?
   passageStartedAt DateTime?
-  passageEndedAt  DateTime?
-  endedAt         DateTime?
-  createdAt       DateTime          @default(now())
-  phaseScores     OralPhaseScore[]
+  passageEndedAt   DateTime?
+  phaseTimestamps  Json?             // { reading: {start,end}, explication: {start,end}, ... }
+  endedAt          DateTime?
+  createdAt        DateTime          @default(now())
+  phaseScores      OralPhaseScore[]
+  oralTranscript   OralTranscript?
+  oralBilan        OralBilan?
 
   @@index([userId, createdAt])
   @@index([status])
+  @@index([anneeScolaire])
 }
 
 model OralPhaseScore {
@@ -215,16 +232,60 @@ model OralPhaseScore {
   phase         OralPhase
   score         Float
   maxScore      Float
+  aiScore       Float?       // Raw AI-suggested score before clamping
   transcript    String?      @db.Text
   feedback      String?      @db.Text
   pointsForts   String[]     @default([])
   axes          String[]     @default([])
+  criteria      Json?        // { [criterionId]: { label, score, maxScore, comment } }
   citations     Json?
   duration      Int          @default(0)
   createdAt     DateTime     @default(now())
 
   @@unique([sessionId, phase])
   @@index([sessionId])
+}
+
+model OralTranscript {
+  id          String      @id @default(uuid())
+  sessionId   String      @unique
+  session     OralSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  fullText    String      @db.Text
+  byPhase     Json?       // { LECTURE: "...", EXPLICATION: "...", ... }
+  audioUrl    String?
+  createdAt   DateTime    @default(now())
+}
+
+model OralBilan {
+  id             String      @id @default(uuid())
+  sessionId      String      @unique
+  session        OralSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  note           Float       // /20
+  mention        String
+  bilanGlobal    String      @db.Text
+  conseilFinal   String      @db.Text
+  axesProgres    String[]    @default([])
+  planRevision   Json?       // Spaced rep plan generated from this session
+  citations      Json?
+  createdAt      DateTime    @default(now())
+}
+
+model OfficialWork {
+  id             String   @id @default(uuid())
+  anneeScolaire  String   // e.g. '2025-2026'
+  oeuvre         String
+  auteur         String
+  editeur        String?
+  parcours       String
+  objetEtude     String   // Roman, Poésie, Théâtre, etc.
+  voie           String   @default("generale") // generale | technologique
+  urlEduscol     String?
+  urlBO          String?
+  createdAt      DateTime @default(now())
+
+  @@unique([anneeScolaire, oeuvre])
+  @@index([anneeScolaire])
+  @@index([objetEtude])
 }
 
 model Chunk {

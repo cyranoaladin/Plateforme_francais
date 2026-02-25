@@ -21,6 +21,12 @@ export const FORBIDDEN_PATTERNS: ReadonlyArray<{ pattern: RegExp; category: stri
   { pattern: /r[ée]pon[ds]+\s+[àa]\s+ma\s+place/i, category: 'substitution' },
   { pattern: /fai[st]?\s+(le|mon)\s+(devoir|travail)\s+[àa]\s+ma\s+place/i, category: 'substitution' },
   { pattern: /g[ée]n[èe]re\s+(un[e]?\s+)?(copie|r[ée]daction)\s+(compl[èe]te|pr[êe]te)/i, category: 'copie_complete' },
+  { pattern: /fai[st]?\s+l'explication\s+lin[ée]aire/i, category: 'redaction_complete' },
+  { pattern: /donne[sz]?[\s-]+(moi\s+)?(le\s+)?plan\s+complet\s+avec\s+(introduction|conclusion)/i, category: 'copie_complete' },
+  { pattern: /quel\s+est\s+le\s+corrig[ée]\s+de/i, category: 'copie_complete' },
+  { pattern: /passe[sz]?\s+(mon\s+)?oral\s+[àa]\s+ma\s+place/i, category: 'substitution' },
+  { pattern: /simule[sz]?\s+(ma\s+)?r[ée]ponse\s+compl[èe]te/i, category: 'substitution' },
+  { pattern: /r[ée]sou[dst]?\s+(l'exercice|la\s+question)\s+de\s+grammaire\s+[àa]\s+ma\s+place/i, category: 'substitution' },
 ];
 
 export const antiTricheResultSchema = z.object({

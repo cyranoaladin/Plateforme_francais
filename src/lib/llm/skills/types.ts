@@ -22,6 +22,12 @@ export const skillSchema = z.enum([
   'revision_fiches',
   'quiz_adaptatif',
   'spaced_repetition',
+  'oral_prep30',
+  'citations_procedes',
+  'carnet_lecture',
+  'sr_planner',
+  'support_produit',
+  'examinateur_virtuel',
 ]);
 
 export type Skill = z.infer<typeof skillSchema>;
