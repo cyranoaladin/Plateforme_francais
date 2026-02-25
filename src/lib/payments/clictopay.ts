@@ -20,7 +20,7 @@ export type ClicToPayInitResult = {
 export type PublicPaymentStatusResult = {
   orderRef: string;
   status: 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
-  plan: 'FREE' | 'MONTHLY' | 'LIFETIME';
+  plan: 'FREE' | 'PRO' | 'MAX' | 'MONTHLY' | 'LIFETIME';
   amountMillimes: number;
   currency: string;
   updatedAt: Date;
