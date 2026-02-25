@@ -18,9 +18,10 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="antialiased min-h-screen bg-background text-foreground flex">
+        <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
         <ThemeProvider>
           <WebVitalsReporter />
-          <AppShell>{children}</AppShell>
+          <AppShell><main id="main-content">{children}</main></AppShell>
           <ConsentBanner />
         </ThemeProvider>
       </body>

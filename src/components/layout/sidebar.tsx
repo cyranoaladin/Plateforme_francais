@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { DyslexiaToggle } from '@/components/accessibility/dyslexia-toggle';
 import {
   LayoutDashboard,
   Mic,
@@ -247,6 +248,7 @@ export function Sidebar() {
             >
               <Settings className="w-4 h-4" />
             </button>
+            <DyslexiaToggle />
             <button
               aria-label="Se déconnecter"
               onClick={handleLogout}
