@@ -7,6 +7,21 @@ export const skillSchema = z.enum([
   'correcteur',
   'quiz_maitre',
   'tuteur_libre',
+  'oral_tirage',
+  'coach_lecture',
+  'coach_explication',
+  'grammaire_ciblee',
+  'oral_entretien',
+  'oral_bilan_officiel',
+  'ecrit_diagnostic',
+  'ecrit_plans',
+  'ecrit_contraction',
+  'ecrit_essai',
+  'ecrit_langue',
+  'ecrit_baremage',
+  'revision_fiches',
+  'quiz_adaptatif',
+  'spaced_repetition',
 ]);
 
 export type Skill = z.infer<typeof skillSchema>;
