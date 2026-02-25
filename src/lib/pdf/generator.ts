@@ -296,9 +296,10 @@ export async function generateDocument(options: GeneratePDFOptions): Promise<Gen
           profileId: options.userId,
           filename: options.filename,
           fileType: 'html',
+          fileSize: Buffer.byteLength(html, 'utf-8'),
           storageUrl: url,
           storageKey: key,
-          depositType: 'GENERATED',
+          depositType: 'RESSOURCE',
         },
       });
     } catch (error) {
