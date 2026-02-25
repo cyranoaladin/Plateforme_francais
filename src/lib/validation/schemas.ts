@@ -9,7 +9,6 @@ export const registerBodySchema = z.object({
   email: z.string().trim().email(),
   password: z.string().min(8),
   displayName: z.string().trim().min(1).max(120).optional(),
-  role: z.enum(['eleve', 'enseignant', 'parent']).optional(),
 });
 
 export const memoryEventTypes = z.enum([

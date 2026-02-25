@@ -9,7 +9,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('jean@eaf.local');
   const [password, setPassword] = useState('demo1234');
   const [displayName, setDisplayName] = useState('Jean Dupont');
-  const [role, setRole] = useState<'eleve' | 'enseignant' | 'parent'>('eleve');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -28,7 +27,6 @@ export default function LoginPage() {
           email,
           password,
           displayName,
-          role: mode === 'register' ? role : undefined,
         }),
       });
 
@@ -87,23 +85,6 @@ export default function LoginPage() {
             </div>
           )}
 
-          {mode === 'register' && (
-            <div>
-              <label className="block text-sm text-muted-foreground mb-1" htmlFor="register-role">
-                Rôle
-              </label>
-              <select
-                id="register-role"
-                value={role}
-                onChange={(event) => setRole(event.target.value as 'eleve' | 'enseignant' | 'parent')}
-                className="w-full bg-background border border-input rounded-lg px-3 py-2"
-              >
-                <option value="eleve">Élève</option>
-                <option value="enseignant">Enseignant</option>
-                <option value="parent">Parent</option>
-              </select>
-            </div>
-          )}
 
           <div>
             <label className="block text-sm text-muted-foreground mb-1" htmlFor="email">

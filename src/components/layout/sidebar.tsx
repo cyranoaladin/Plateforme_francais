@@ -47,7 +47,6 @@ const mobileNavItems = [
 
 type AuthMe = {
   email: string;
-  role: 'eleve' | 'enseignant' | 'parent';
   profile: {
     displayName: string;
     targetScore: string;
@@ -158,11 +157,7 @@ export function Sidebar() {
     ? Math.max(0, Math.ceil((new Date(me.profile.eafDate).getTime() - nowTs) / (1000 * 60 * 60 * 24)))
     : null;
 
-  const items = me?.role === 'enseignant'
-    ? [{ name: 'Enseignant', href: '/enseignant', icon: LayoutDashboard }]
-    : me?.role === 'parent'
-      ? [{ name: 'Parent', href: '/parent', icon: LayoutDashboard }]
-      : navItems;
+  const items = navItems;
 
   return (
     <>

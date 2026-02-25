@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     email,
     passwordHash: credentials.passwordHash,
     passwordSalt: credentials.passwordSalt,
-    role: parsed.data.role ?? 'eleve',
+    role: 'eleve',
     profile: {
       ...DEFAULT_PROFILE,
       displayName: displayName || DEFAULT_PROFILE.displayName,
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
 
   const session = await createUserSession(userId);
   await setSessionCookie(session.token);
-  await setRoleCookie(parsed.data.role ?? 'eleve');
+  await setRoleCookie('eleve');
 
   const response = NextResponse.json({ ok: true }, { status: 201 });
   await ensureCsrfCookie(response);

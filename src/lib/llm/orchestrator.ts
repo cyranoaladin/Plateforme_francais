@@ -5,6 +5,7 @@ import { logger } from '@/lib/logger';
 import { SYSTEM_PROMPT_EAF } from '@/lib/llm/prompts/system';
 import { fallbackSkillOutput, parseSkillOutput, skillPromptFor } from '@/lib/llm/skills';
 import { type Skill } from '@/lib/llm/skills/types';
+import { classifyAntiTriche, buildRefusalOutput } from '@/lib/compliance/anti-triche';
 
 type OrchestrateInput = {
   skill: Skill;
@@ -29,6 +30,12 @@ function extractJsonBlock(text: string): string {
 }
 
 export async function orchestrate({ skill, userQuery, context, userId }: OrchestrateInput): Promise<unknown> {
+  const compliance = classifyAntiTriche(userQuery);
+  if (!compliance.allowed) {
+    logger.info({ skill, userId, category: compliance.category }, 'llm.orchestrate.blocked_anti_triche');
+    return buildRefusalOutput(compliance);
+  }
+
   const prompt = [
     SYSTEM_PROMPT_EAF,
     `Utilisateur: ${userId}`,
