@@ -87,6 +87,9 @@ jobs:
         run: |
           printf '/// <reference types="next" />\n/// <reference types="next/image-types/global" />\n\n// NOTE: This file should not be edited\n// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.\n' > next-env.d.ts
 
+      - name: Config sanity check
+        run: npm run ci:config-sanity
+
       - name: TypeScript check (root — src only)
         run: npx tsc --noEmit
 

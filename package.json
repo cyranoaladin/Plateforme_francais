@@ -26,7 +26,9 @@
     "mcp:start": "cd packages/mcp-server && node dist/index.js",
     "mcp:inspect": "cd packages/mcp-server && npx @modelcontextprotocol/inspector tsx src/index.ts",
     "mcp:test": "cd packages/mcp-server && vitest run",
-    "mcp:init": "node -e \"const fs=require('fs');const envPath='packages/mcp-server/.env';if(!fs.existsSync(envPath)){fs.copyFileSync(envPath+'.example',envPath);console.log('packages/mcp-server/.env créé depuis .env.example');}const k=require('crypto').randomBytes(32).toString('hex');let e=fs.readFileSync(envPath,'utf8');e=e.replace(/MCP_API_KEY=.*/,'MCP_API_KEY='+k);fs.writeFileSync(envPath,e);console.log('MCP_API_KEY générée :',k);\""
+    "mcp:init": "node -e \"const fs=require('fs');const envPath='packages/mcp-server/.env';if(!fs.existsSync(envPath)){fs.copyFileSync(envPath+'.example',envPath);console.log('packages/mcp-server/.env créé depuis .env.example');}const k=require('crypto').randomBytes(32).toString('hex');let e=fs.readFileSync(envPath,'utf8');e=e.replace(/MCP_API_KEY=.*/,'MCP_API_KEY='+k);fs.writeFileSync(envPath,e);console.log('MCP_API_KEY générée :',k);\"",
+    "setup": "bash scripts/setup.sh",
+    "ci:config-sanity": "node scripts/check-env.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.996.0",

@@ -1,5 +1,6 @@
 import { OFFICIAL_REFERENCES, type ReferenceDoc } from '@/data/references';
 import { levelFromDocId, scoreFromDistance, vectorSearch } from '@/lib/rag/vector-search';
+import { reciprocalRankFusion, metadataRerank } from '@/lib/rag/rerank';
 
 export type RagSearchResult = {
   id: string;
@@ -102,39 +103,54 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
     .slice(0, maxResults);
 }
 
+/**
+ * Search official references using hybrid RAG V2:
+ *   1. Fetch top-20 from vector search
+ *   2. Fetch top-20 from lexical search
+ *   3. RRF fusion → top-20 merged
+ *   4. Metadata rerank (boost same oeuvre/parcours)
+ *   5. Return top-N (default 5)
+ */
 export async function searchOfficialReferences(
   query: string,
   maxResults = 5,
+  context?: { oeuvre?: string; parcours?: string },
 ): Promise<RagSearchResult[]> {
-  const topK = Number.parseInt(process.env.RAG_TOP_K ?? `${maxResults}`, 10);
-  const safeTopK = Number.isFinite(topK) ? Math.max(1, Math.min(topK, 20)) : maxResults;
+  const PREFETCH = 20;
 
   if (!query.trim()) {
     return lexicalSearch(query, maxResults);
   }
 
+  const lexicalResults = lexicalSearch(query, PREFETCH);
+
+  let vectorResults: RagSearchResult[] = [];
   try {
-    const result = await vectorSearch(query, Math.max(maxResults, safeTopK));
-
-    if (result.chunks.length === 0) {
-      console.info('[rag] mode=lexical reason=empty_vector_result');
-      return lexicalSearch(query, maxResults);
+    const result = await vectorSearch(query, PREFETCH);
+    if (result.chunks.length > 0) {
+      vectorResults = result.chunks.map((chunk) => ({
+        id: chunk.docId,
+        title: chunk.sourceTitle,
+        type: (chunk.sourceType as ReferenceDoc['type']) ?? 'texte_officiel',
+        level: levelFromDocId(chunk.docId),
+        excerpt: chunk.content.slice(0, 220),
+        url: chunk.sourceUrl,
+        score: scoreFromDistance(Number(chunk.distance)),
+      }));
     }
-
-    const mapped = result.chunks.slice(0, maxResults).map((chunk) => ({
-      id: chunk.docId,
-      title: chunk.sourceTitle,
-      type: (chunk.sourceType as ReferenceDoc['type']) ?? 'texte_officiel',
-      level: levelFromDocId(chunk.docId),
-      excerpt: chunk.content.slice(0, 220),
-      url: chunk.sourceUrl,
-      score: scoreFromDistance(Number(chunk.distance)),
-    }));
-
-    console.info('[rag] mode=vector results=%d', mapped.length);
-    return mapped;
-  } catch (error) {
-    console.info('[rag] mode=lexical reason=vector_unavailable', error);
-    return lexicalSearch(query, maxResults);
+  } catch {
+    console.info('[rag] vector_unavailable, lexical-only fallback');
   }
+
+  // RRF fusion of both lists
+  const fused = vectorResults.length > 0
+    ? reciprocalRankFusion(vectorResults, lexicalResults)
+    : lexicalResults;
+
+  // Metadata rerank with context boost
+  const reranked = metadataRerank(fused, context);
+
+  const final = reranked.slice(0, maxResults);
+  console.info('[rag] mode=%s results=%d', vectorResults.length > 0 ? 'hybrid_rrf' : 'lexical', final.length);
+  return final;
 }
