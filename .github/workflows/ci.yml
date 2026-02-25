@@ -75,7 +75,7 @@ jobs:
         run: npm ci
 
       - name: Install MCP server dependencies
-        run: cd packages/mcp-server && npm ci
+        run: npm install --workspace=packages/mcp-server --ignore-scripts
 
       - name: Prisma validate
         run: npx prisma validate
