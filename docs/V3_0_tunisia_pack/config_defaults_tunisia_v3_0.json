@@ -1,0 +1,73 @@
+{
+  "deployment_defaults": {
+    "country": "Tunisie",
+    "center_type": "centres_etranger",
+    "exam_group": "groupe_1B",
+    "timezone": "Africa/Tunis",
+    "locale": "fr-TN",
+    "academy_rattachement": "Aix-Marseille",
+    "written_eaf": {
+      "date": "2026-06-08",
+      "start_local": "08:00",
+      "end_local": "12:00",
+      "convocation_minutes_before": 30,
+      "note": "Centres étrangers groupe 1(B) : EAF français le lundi 8 juin 2026 matin (horaires en heures locales)."
+    },
+    "oral_eaf": {
+      "status": "to_be_set_by_academy",
+      "note": "Le calendrier des épreuves orales est fixé par le recteur de l’académie de rattachement en fonction des propositions SCAC.",
+      "expected_window_reference_metropole": {
+        "start": "2026-06-22",
+        "end": "2026-07-03"
+      }
+    }
+  },
+  "planning_policy": {
+    "today": "2026-02-21",
+    "days_until_written_eaf": 107,
+    "macro_phases": [
+      {
+        "name": "Phase 1 – Diagnostic + fondations",
+        "date_range": {
+          "start": "2026-02-21",
+          "end": "2026-03-15"
+        },
+        "target": "Stabiliser la méthode + langue + bases des œuvres choisies."
+      },
+      {
+        "name": "Phase 2 – Montée en puissance écrit",
+        "date_range": {
+          "start": "2026-03-16",
+          "end": "2026-05-10"
+        },
+        "target": "Rythme 4–5 séances/sem, entraînements comment/dissert + banque d’erreurs."
+      },
+      {
+        "name": "Phase 3 – Simulations bac écrit",
+        "date_range": {
+          "start": "2026-05-11",
+          "end": "2026-06-07"
+        },
+        "target": "2 simulations 4h + relectures ciblées + gestion du temps."
+      },
+      {
+        "name": "Phase 4 – Oral intensif",
+        "date_range": {
+          "start": "2026-06-09",
+          "end": "2026-07-03"
+        },
+        "target": "Explication linéaire + grammaire + JurySim + entretien (selon calendrier académique)."
+      }
+    ]
+  },
+  "ui_defaults": {
+    "default_pathway": "difficulte|objectif_14plus|desorganise|oral_prioritaire",
+    "dashboard_widgets": [
+      "countdown_written",
+      "week_plan",
+      "skillmap_heatmap",
+      "next_best_action",
+      "error_bank_due"
+    ]
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eaf.labomaths.tn/schemas/ResourceCard.schema.json",
+  "title": "ResourceCard",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "resource_id",
+    "type",
+    "title",
+    "url",
+    "authority_level",
+    "level",
+    "objectives",
+    "usage_instructions",
+    "license",
+    "legal_basis",
+    "created_at"
+  ],
+  "properties": {
+    "resource_id": {
+      "type": "string",
+      "description": "UUID or stable slug"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "video",
+        "podcast",
+        "pdf",
+        "html",
+        "exercise",
+        "tool",
+        "course",
+        "slide"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "provider": {
+      "type": "string",
+      "description": "Ex: Lumni, France Culture, Eduscol, WebLettres"
+    },
+    "duration_s": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "debutant",
+        "intermediaire",
+        "avance"
+      ]
+    },
+    "authority_level": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "usage_instructions": {
+      "type": "string",
+      "description": "Consigne pédagogique : quoi faire après avoir consommé la ressource (production attendue)."
+    },
+    "follow_up_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "work_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "object_of_study": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "parcours": {
+          "type": "string"
+        }
+      }
+    },
+    "license": {
+      "type": "string",
+      "description": "Public domain / CC / proprietary / unknown"
+    },
+    "legal_basis": {
+      "type": "string",
+      "description": "Public info / pedagogical exception / license / link-only metadata"
+    },
+    "transcript_policy": {
+      "type": "string",
+      "enum": [
+        "link_only",
+        "allowed_extracts",
+        "full_transcript_allowed"
+      ],
+      "default": "link_only"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

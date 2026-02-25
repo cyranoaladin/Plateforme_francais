@@ -1,0 +1,36 @@
+{
+  "name": "@nexus-eaf/mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for Nexus Réussite EAF — 27 specialized tools for AI agents",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "inspect": "npx @modelcontextprotocol/inspector tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@prisma/client": "^6.0.0",
+    "ioredis": "^5.3.2",
+    "pino": "^9.5.0",
+    "pino-pretty": "^11.3.0",
+    "zod": "^3.23.8",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.6.0",
+    "tsx": "^4.19.0",
+    "vitest": "^2.1.0",
+    "prisma": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

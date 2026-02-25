@@ -1,0 +1,341 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  eleve
+  enseignant
+  parent
+  admin
+}
+
+enum CopieStatus {
+  pending
+  processing
+  done
+  error
+}
+
+enum SubscriptionPlan {
+  FREE
+  MONTHLY
+  LIFETIME
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
+  PAUSED
+}
+
+enum PaymentProvider {
+  CLICTOPAY
+}
+
+enum PaymentStatus {
+  PENDING
+  ACCEPTED
+  REFUSED
+  ERROR
+}
+
+model User {
+  id           String          @id @default(uuid())
+  email        String          @unique
+  passwordHash String
+  passwordSalt String
+  role         UserRole        @default(eleve)
+  profile      StudentProfile?
+  sessions     Session[]
+  memoryEvents MemoryEvent[]
+  evaluations  Evaluation[]
+  epreuves     EpreuveBlanche[]
+  copies       CopieDeposee[]
+  oralSessions OralSession[]
+  subscription Subscription?
+  payments     PaymentTransaction[]
+  usages       UsageCounter[]
+  pushSubscriptions PushSubscription[]
+  complianceLogs    ComplianceLog[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model Session {
+  token      String   @id
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  lastSeenAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model MemoryEvent {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  feature   String
+  path      String?
+  payload   Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([type])
+}
+
+model StudentProfile {
+  id                  String    @id @default(uuid())
+  userId              String    @unique
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  displayName         String
+  classLevel          String
+  targetScore         String
+  establishment       String?
+  eafDate             DateTime?
+  onboardingCompleted Boolean   @default(false)
+  selectedOeuvres     String[]  @default([])
+  classCode           String?
+  parcoursProgress    String[]  @default([])
+  badges              String[]  @default([])
+  xp                  Int       @default(0)
+  level               Int       @default(1)
+  xpToNextLevel       Int       @default(100)
+  preferredObjects    String[]  @default([])
+  weakSkills          String[]  @default([])
+  skillMap            Json?
+  streak              Int       @default(0)
+  maxStreak           Int       @default(0)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model Evaluation {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind        String
+  score       Float
+  maxScore    Float
+  status      String
+  payload     Json?
+  evaluatedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([userId, evaluatedAt])
+}
+
+model EpreuveBlanche {
+  id          String         @id @default(uuid())
+  userId      String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        String
+  sujet       String
+  texte       String
+  consignes   String
+  bareme      Json
+  generatedAt DateTime       @default(now())
+  createdAt   DateTime       @default(now())
+  copies      CopieDeposee[]
+
+  @@index([userId, generatedAt])
+}
+
+model CopieDeposee {
+  id          String         @id @default(uuid())
+  epreuveId   String
+  userId      String
+  epreuve     EpreuveBlanche @relation(fields: [epreuveId], references: [id], onDelete: Cascade)
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  filePath    String
+  fileType    String
+  status      CopieStatus    @default(pending)
+  ocrText     String?
+  correction  Json?
+  createdAt   DateTime       @default(now())
+  correctedAt DateTime?
+
+  @@index([userId, createdAt])
+  @@index([epreuveId])
+}
+
+model OralSession {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  oeuvre     String
+  extrait    String
+  question   String
+  transcript String?
+  score      Float?
+  maxScore   Float?
+  feedback   Json?
+  endedAt    DateTime?
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Chunk {
+  id             String                     @id @default(uuid())
+  docId          String
+  sourceTitle    String
+  sourceUrl      String
+  sourceType     String
+  content        String
+  embedding      Unsupported("vector(768)")?
+  chunkIndex     Int
+  title          String?
+  authorityLevel String                     @default("D")
+  docType        String?
+  legalBasis     String?
+  publishedAt    DateTime?
+  sectionPath    String?
+  page           Int?
+  hash           String?                    @unique
+  createdAt      DateTime                   @default(now())
+
+  @@index([docId])
+  @@index([sourceType])
+  @@index([authorityLevel])
+  @@index([docType])
+}
+
+model LlmCostLog {
+  id           String   @id @default(cuid())
+  userId       String?
+  skill        String
+  provider     String
+  model        String
+  tier         String
+  inputTokens  Int      @default(0)
+  outputTokens Int      @default(0)
+  costEurCents Int      @default(0)
+  latencyMs    Int      @default(0)
+  success      Boolean  @default(true)
+  errorCode    String?
+  contextSize  Int?
+  createdAt    DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([provider, createdAt])
+  @@index([skill, createdAt])
+  @@index([tier, createdAt])
+}
+
+model LlmBudgetAlert {
+  id            String   @id @default(cuid())
+  period        String
+  totalEurCents Int
+  threshold     Int
+  alertedAt     DateTime @default(now())
+}
+
+model Subscription {
+  id                 String             @id @default(uuid())
+  userId             String             @unique
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  externalCustomerId String?
+  externalContractId String?
+  plan               SubscriptionPlan   @default(FREE)
+  status             SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  cancelAtPeriodEnd  Boolean            @default(false)
+  trialEnd           DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  @@index([plan, status])
+}
+
+model UsageCounter {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  feature    String
+  periodKey  String
+  count      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, feature, periodKey])
+  @@index([periodKey, feature])
+}
+
+model PaymentTransaction {
+  id               String          @id @default(uuid())
+  userId           String
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider         PaymentProvider @default(CLICTOPAY)
+  status           PaymentStatus   @default(PENDING)
+  plan             SubscriptionPlan
+  amountMillimes   Int
+  currency         String          @default("TND")
+  orderRef         String          @unique
+  providerRef      String?
+  callbackPayload  Json?
+  initiatedAt      DateTime        @default(now())
+  completedAt      DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([provider, status])
+}
+
+model ErrorBankItem {
+  id                String   @id @default(uuid())
+  studentId         String
+  errorType         String
+  errorContext      String   @db.Text
+  correction        String   @default("") @db.Text
+  severity          String   @default("major")
+  sourceInteractionId String?
+  nextRevision      DateTime?
+  revisionCount     Int      @default(0)
+  archivedAt        DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([studentId, nextRevision])
+  @@index([studentId, archivedAt])
+}
+
+model ComplianceLog {
+  id        String   @id @default(cuid())
+  ruleId    String
+  action    String
+  reason    String
+  skill     String
+  studentId String?
+  user      User?    @relation(fields: [studentId], references: [id], onDelete: SetNull)
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([ruleId, createdAt])
+  @@index([studentId, createdAt])
+}
+
+model PushSubscription {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}

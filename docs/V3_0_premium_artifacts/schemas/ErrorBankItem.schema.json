@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eaf.labomaths.tn/schemas/ErrorBankItem.schema.json",
+  "title": "ErrorBankItem",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "error_id",
+    "student_id",
+    "category",
+    "label",
+    "example",
+    "correction",
+    "created_at",
+    "schedule"
+  ],
+  "properties": {
+    "error_id": {
+      "type": "string"
+    },
+    "student_id": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "langue",
+        "methode",
+        "analyse",
+        "structure",
+        "citation",
+        "oral"
+      ]
+    },
+    "label": {
+      "type": "string"
+    },
+    "example": {
+      "type": "string",
+      "description": "Extrait fautif (ou comportement observé)"
+    },
+    "correction": {
+      "type": "string",
+      "description": "Correction attendue + règle"
+    },
+    "why_it_matters": {
+      "type": "string"
+    },
+    "drill_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "schedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "due_dates"
+      ],
+      "properties": {
+        "due_dates": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date"
+          },
+          "minItems": 1
+        },
+        "spaced_repetition_policy": {
+          "type": "string",
+          "enum": [
+            "J2_J7_J21",
+            "custom"
+          ],
+          "default": "J2_J7_J21"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "in_progress",
+        "resolved"
+      ],
+      "default": "open"
+    }
+  }
+}

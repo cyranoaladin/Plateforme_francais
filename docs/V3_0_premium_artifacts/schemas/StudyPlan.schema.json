@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eaf.labomaths.tn/schemas/StudyPlan.schema.json",
+  "title": "StudyPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "student_id",
+    "week_start",
+    "sessions"
+  ],
+  "properties": {
+    "student_id": {
+      "type": "string"
+    },
+    "week_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "sessions": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "session_id",
+          "duration_min",
+          "objective",
+          "axis",
+          "tasks"
+        ],
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "duration_min": {
+            "type": "integer",
+            "enum": [
+              10,
+              20,
+              25,
+              45,
+              60
+            ]
+          },
+          "axis": {
+            "type": "string",
+            "enum": [
+              "ecrit",
+              "oral",
+              "langue",
+              "oeuvres",
+              "methode"
+            ]
+          },
+          "objective": {
+            "type": "string"
+          },
+          "tasks": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "resource_id references"
+            }
+          },
+          "deliverable": {
+            "type": "string",
+            "description": "Ce que l’élève doit produire (texte, plan, audio, quiz…)."
+          },
+          "assessment": {
+            "type": "string",
+            "description": "Comment la séance est validée (rubric / quiz / check)."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "entrainement",
+              "examen"
+            ],
+            "default": "entrainement"
+          }
+        }
+      }
+    }
+  }
+}

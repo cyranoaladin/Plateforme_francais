@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eaf.labomaths.tn/schemas/DiagnosticResult.schema.json",
+  "title": "DiagnosticResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "student_id",
+    "created_at",
+    "inputs",
+    "skill_map",
+    "priorities",
+    "week_plan"
+  ],
+  "properties": {
+    "student_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "written_sample",
+        "grammar_quiz",
+        "oral_sample"
+      ],
+      "properties": {
+        "written_sample": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "text",
+            "prompt_id",
+            "timebox_s"
+          ],
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "prompt_id": {
+              "type": "string"
+            },
+            "timebox_s": {
+              "type": "integer"
+            }
+          }
+        },
+        "grammar_quiz": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "answers",
+            "score"
+          ],
+          "properties": {
+            "answers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "oral_sample": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "transcript",
+            "timebox_s"
+          ],
+          "properties": {
+            "transcript": {
+              "type": "string"
+            },
+            "timebox_s": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "skill_map": {
+      "$ref": "https://eaf.labomaths.tn/schemas/SkillMap.schema.json"
+    },
+    "priorities": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 5,
+      "items": {
+        "type": "string"
+      }
+    },
+    "week_plan": {
+      "$ref": "https://eaf.labomaths.tn/schemas/StudyPlan.schema.json"
+    }
+  }
+}

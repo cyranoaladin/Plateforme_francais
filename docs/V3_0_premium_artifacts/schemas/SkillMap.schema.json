@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eaf.labomaths.tn/schemas/SkillMap.schema.json",
+  "title": "SkillMap",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "student_id",
+    "generated_at",
+    "axes"
+  ],
+  "properties": {
+    "student_id": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "axes": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "axis",
+          "score",
+          "micro_skills"
+        ],
+        "properties": {
+          "axis": {
+            "type": "string",
+            "enum": [
+              "ecrit",
+              "oral",
+              "langue",
+              "oeuvres",
+              "methode"
+            ]
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "micro_skills": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "label",
+                "score",
+                "evidence"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "score": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "snippet"
+                    ],
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "quote_from_submission",
+                          "observed_error",
+                          "rubric_signal"
+                        ]
+                      },
+                      "snippet": {
+                        "type": "string"
+                      },
+                      "submission_id": {
+                        "type": "string"
+                      },
+                      "note": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

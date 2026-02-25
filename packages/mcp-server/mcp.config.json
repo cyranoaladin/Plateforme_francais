@@ -1,0 +1,125 @@
+{
+  "_comment": "Configuration MCP — Nexus Réussite EAF — eaf.nexusreussite.academy",
+  "_comment2": "Placer à la racine du projet. Les variables ${VAR} sont résolues depuis .env",
+
+  "mcpServers": {
+
+    "nexus-eaf": {
+      "_description": "MCP Server custom Nexus EAF — 27 outils pédagogiques spécialisés",
+      "command": "node",
+      "args": ["packages/mcp-server/dist/index.js"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}",
+        "REDIS_URL": "${REDIS_URL}",
+        "MCP_API_KEY": "${MCP_API_KEY}",
+        "MCP_TRANSPORT": "stdio",
+        "MCP_LOG_LEVEL": "info",
+        "OLLAMA_BASE_URL": "${OLLAMA_BASE_URL}",
+        "OLLAMA_MODEL": "${OLLAMA_MODEL}",
+        "OLLAMA_EMBEDDING_MODEL": "${OLLAMA_EMBEDDING_MODEL}"
+      }
+    },
+
+    "postgres-readonly": {
+      "_description": "Accès DB en lecture seule — pour debugging et requêtes admin LLM",
+      "_install": "npx -y @modelcontextprotocol/server-postgres@latest",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres@latest",
+        "${DATABASE_URL}"
+      ],
+      "env": {
+        "POSTGRES_READ_ONLY": "true"
+      }
+    },
+
+    "filesystem": {
+      "_description": "Accès fichiers serveur — corpus PDF, templates rapports, logs",
+      "_install": "npx -y @modelcontextprotocol/server-filesystem@latest",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem@latest",
+        "/var/eaf/corpus",
+        "/var/eaf/templates",
+        "/var/eaf/reports"
+      ]
+    },
+
+    "fetch": {
+      "_description": "Récupération web — Éduscol, Légifrance pour mise à jour corpus officiel",
+      "_install": "npx -y @modelcontextprotocol/server-fetch@latest",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-fetch@latest"
+      ],
+      "env": {
+        "ALLOWED_DOMAINS": "eduscol.education.fr,education.gouv.fr,legifrance.gouv.fr,eur-lex.europa.eu"
+      }
+    },
+
+    "memory": {
+      "_description": "Mémoire long terme des agents — graphe entités/relations persistant",
+      "_install": "npx -y @modelcontextprotocol/server-memory@latest",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory@latest"
+      ]
+    },
+
+    "brave-search": {
+      "_description": "Recherche web temps réel — vérification œuvres au programme, actualités EAF",
+      "_install": "npx -y @modelcontextprotocol/server-brave-search@latest",
+      "_requires": "Clé API gratuite : https://brave.com/search/api/",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search@latest"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    },
+
+    "puppeteer": {
+      "_description": "Browser headless — scraping annales Éduscol, capture pages pour corpus",
+      "_install": "npx -y @modelcontextprotocol/server-puppeteer@latest",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer@latest"
+      ]
+    },
+
+    "resend-email": {
+      "_description": "Email transactionnel — rapports hebdo, notifications correction prête",
+      "_install": "npm install resend-mcp-server",
+      "_note": "Vérifier disponibilité du package Resend MCP",
+      "command": "npx",
+      "args": ["-y", "resend-mcp-server"],
+      "env": {
+        "RESEND_API_KEY": "${RESEND_API_KEY}",
+        "EMAIL_FROM": "${EMAIL_FROM}"
+      }
+    }
+  },
+
+  "claude_desktop_config": {
+    "_comment": "Copier ce bloc dans ~/Library/Application Support/Claude/claude_desktop_config.json",
+    "mcpServers": {
+      "nexus-eaf": {
+        "command": "node",
+        "args": ["/path/to/nexus-eaf/packages/mcp-server/dist/index.js"],
+        "env": {
+          "DATABASE_URL": "postgresql://user:pass@localhost:5432/eaf_db",
+          "MCP_API_KEY": "VOTRE_CLE_MCP",
+          "MCP_LOG_LEVEL": "debug",
+          "LOG_PRETTY": "true"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,349 @@
+[
+  {
+    "resource_id": "rc-boen-programme-2025-2026",
+    "type": "html",
+    "title": "Programme national d’œuvres 2025-2026 (voie générale) – BOEN",
+    "url": "https://www.education.gouv.fr/bo/2024/Hebdo30/MENE2418442N",
+    "provider": "BOEN",
+    "duration_s": 0,
+    "level": "intermediaire",
+    "authority_level": "A",
+    "objectives": [
+      "Connaître le programme officiel",
+      "Éviter les œuvres hors programme",
+      "Repérer œuvre + parcours"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Lis uniquement les sections 'voie générale' puis crée ta fiche 'œuvre + parcours' pour l’objet choisi.",
+    "follow_up_tasks": [
+      "Fiche 1 page : œuvre/parcours",
+      "Liste 10 notions-clés + 5 citations (si domaine public)"
+    ],
+    "tags": [
+      "#Programme",
+      "#Session2026",
+      "#VoieGenerale"
+    ],
+    "work_ref": null,
+    "license": "public_info",
+    "legal_basis": "public information",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  },
+  {
+    "resource_id": "rc-boen-centres-etranger-2026",
+    "type": "pdf",
+    "title": "Centres à l’étranger – calendrier bac 2026 (Tunisie groupe 1B) – BOEN",
+    "url": "https://www.education.gouv.fr/bo/2025/Hebdo40/MENE2526851N",
+    "provider": "BOEN",
+    "duration_s": 0,
+    "level": "intermediaire",
+    "authority_level": "A",
+    "objectives": [
+      "Connaître les dates EAF en Tunisie",
+      "Préparer la logistique d’examen"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Note l’horaire local de l’écrit (08:00–12:00) et planifie 2 simulations complètes à J-21 et J-7.",
+    "follow_up_tasks": [
+      "Simulation 4h comment/dissert",
+      "Checklist logistique (matériel, convocation, temps)"
+    ],
+    "tags": [
+      "#Tunisie",
+      "#CentresEtranger",
+      "#Calendrier"
+    ],
+    "work_ref": null,
+    "license": "public_info",
+    "legal_basis": "public information",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  },
+  {
+    "resource_id": "rc-eduscol-epreuves-bac",
+    "type": "html",
+    "title": "Éduscol – Épreuves terminales du bac général (rappels EAF)",
+    "url": "https://eduscol.education.fr/727/les-epreuves-terminales-du-baccalaureat-general",
+    "provider": "Éduscol",
+    "duration_s": 0,
+    "level": "intermediaire",
+    "authority_level": "A",
+    "objectives": [
+      "Comprendre le cadre des épreuves",
+      "Savoir distinguer national vs académique"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Relève : durée/coeff de l’écrit + structure de l’oral ; transforme en 'fiche format' (recto-verso).",
+    "follow_up_tasks": [
+      "Fiche format",
+      "Auto-quiz 10 questions sur modalités"
+    ],
+    "tags": [
+      "#Modalites",
+      "#EAF",
+      "#Officiel"
+    ],
+    "work_ref": null,
+    "license": "public_info",
+    "legal_basis": "public information",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  },
+  {
+    "resource_id": "rc-lumni-balzac-peau-enseignants",
+    "type": "video",
+    "title": "Lumni Enseignement – La Peau de chagrin (dossier + adaptation + pistes)",
+    "url": "https://enseignants.lumni.fr/parcours/1109/bac-de-francais-2025-la-peau-de-chagrin-de-balzac.html",
+    "provider": "Lumni Enseignement",
+    "duration_s": 180,
+    "level": "intermediaire",
+    "authority_level": "D",
+    "objectives": [
+      "Comprendre l’œuvre et le parcours",
+      "Identifier enjeux désir/énergie",
+      "Préparer l’entretien oral"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Regarde l’adaptation par segments. Après chaque segment, écris 3 lignes : enjeu + procédé + effet.",
+    "follow_up_tasks": [
+      "Fiche personnage Raphaël / Foedora / Pauline",
+      "Plan d’entretien : 6 questions + réponses"
+    ],
+    "tags": [
+      "#Balzac",
+      "#Roman",
+      "#PeauDeChagrin",
+      "#Oral"
+    ],
+    "work_ref": {
+      "object_of_study": "roman_recit",
+      "author": "Honoré de Balzac",
+      "title": "La Peau de chagrin",
+      "parcours": "Les romans de l’énergie : création et destruction"
+    },
+    "license": "proprietary",
+    "legal_basis": "link-only metadata",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  },
+  {
+    "resource_id": "rc-lumni-balzac-oral-video",
+    "type": "video",
+    "title": "Lumni – La Peau de Chagrin : préparation à l’oral (vidéo)",
+    "url": "https://www.lumni.fr/video/la-peau-de-chagrin-de-balzac-oral",
+    "provider": "Lumni",
+    "duration_s": 714,
+    "level": "debutant",
+    "authority_level": "D",
+    "objectives": [
+      "Préparer un passage oral",
+      "Structurer une explication courte",
+      "Vocabulaire d’analyse"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Choisis un extrait. Écris 'mouvements' + 2 procédés par mouvement. Entraîne-toi 2 minutes chronométrées.",
+    "follow_up_tasks": [
+      "Enregistrement audio 2 min",
+      "Auto-évaluation : clarté/structure/lexique"
+    ],
+    "tags": [
+      "#Balzac",
+      "#Oral",
+      "#Mouvements"
+    ],
+    "work_ref": {
+      "object_of_study": "roman_recit",
+      "author": "Honoré de Balzac",
+      "title": "La Peau de chagrin",
+      "parcours": "Les romans de l’énergie : création et destruction"
+    },
+    "license": "proprietary",
+    "legal_basis": "link-only metadata",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  },
+  {
+    "resource_id": "rc-lumni-rimbaud-oral-video",
+    "type": "video",
+    "title": "Lumni – Cahiers de Douai (Rimbaud) : préparation à l’oral (vidéo)",
+    "url": "https://www.lumni.fr/video/cahier-de-douai-rimbaud-oral",
+    "provider": "Lumni",
+    "duration_s": 592,
+    "level": "debutant",
+    "authority_level": "D",
+    "objectives": [
+      "Préparer l’entretien oral",
+      "Argumenter un choix de poème",
+      "Lecture cursive & sensibilité"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Prépare 2 réponses : 'poème préféré' + 'pourquoi'. Ajoute 1 procédé + 1 effet précis dans chaque réponse.",
+    "follow_up_tasks": [
+      "Fiche 6 procédés poétiques",
+      "Entraînement 8 minutes entretien (JurySim)"
+    ],
+    "tags": [
+      "#Rimbaud",
+      "#Poésie",
+      "#Oral"
+    ],
+    "work_ref": {
+      "object_of_study": "poesie",
+      "author": "Arthur Rimbaud",
+      "title": "Cahier de Douai (22 poèmes)",
+      "parcours": "Émancipations créatrices"
+    },
+    "license": "proprietary",
+    "legal_basis": "link-only metadata",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  },
+  {
+    "resource_id": "rc-lumni-rimbaud-collection",
+    "type": "audio",
+    "title": "Lumni Enseignement – Cahier de Douai : lectures des 22 poèmes (collection)",
+    "url": "https://enseignants.lumni.fr/collections/1014/cahier-de-douai-d-arthur-rimbaud.html",
+    "provider": "Lumni Enseignement",
+    "duration_s": 0,
+    "level": "intermediaire",
+    "authority_level": "D",
+    "objectives": [
+      "Mémoriser des passages",
+      "S’entraîner à la lecture expressive",
+      "Appropriation du recueil"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Choisis 1 poème. Lecture expressive 2 fois. Puis note : rythme, ponctuation, tonalité, images dominantes.",
+    "follow_up_tasks": [
+      "Fiche lecture expressive (2 points)",
+      "Mini commentaire : 8 lignes"
+    ],
+    "tags": [
+      "#Rimbaud",
+      "#Lecture",
+      "#Oral"
+    ],
+    "work_ref": {
+      "object_of_study": "poesie",
+      "author": "Arthur Rimbaud",
+      "title": "Cahier de Douai (22 poèmes)",
+      "parcours": "Émancipations créatrices"
+    },
+    "license": "proprietary",
+    "legal_basis": "link-only metadata",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  },
+  {
+    "resource_id": "rc-franceculture-la-boetie-2015",
+    "type": "podcast",
+    "title": "France Culture – Discours de la servitude volontaire (La Boétie) – émission",
+    "url": "https://www.radiofrance.fr/franceculture/podcasts/le-gai-savoir/discours-de-la-servitude-volontaire-la-boetie-2507988",
+    "provider": "France Culture",
+    "duration_s": 3540,
+    "level": "avance",
+    "authority_level": "D",
+    "objectives": [
+      "Approfondir l’objet d’étude 'littérature d’idées'",
+      "Comprendre la thèse de la servitude volontaire",
+      "Préparer l’entretien (culture)"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Écoute 15 min. Ensuite : écris 5 idées + 1 contre-argument + 3 mots-clés (lexique du pouvoir).",
+    "follow_up_tasks": [
+      "Plan d’entretien : 4 questions 'liberté/servitude'",
+      "Carte mentale : mécanismes de soumission"
+    ],
+    "tags": [
+      "#LaBoetie",
+      "#LitteratureDIdees",
+      "#Podcast"
+    ],
+    "work_ref": {
+      "object_of_study": "litterature_idees",
+      "author": "Étienne de La Boétie",
+      "title": "Discours de la servitude volontaire",
+      "parcours": "« Défendre » et « entretenir » la liberté"
+    },
+    "license": "proprietary",
+    "legal_basis": "link-only metadata",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  },
+  {
+    "resource_id": "rc-franceculture-servitude-2024",
+    "type": "podcast",
+    "title": "France Culture – La servitude volontaire (analyse philosophique) – 2024",
+    "url": "https://www.radiofrance.fr/franceculture/podcasts/avec-philosophie/la-servitude-volontaire-une-hypothese-hautement-transgressive-en-philosophie-politique-9421477",
+    "provider": "France Culture",
+    "duration_s": 3480,
+    "level": "avance",
+    "authority_level": "D",
+    "objectives": [
+      "Mobiliser des références",
+      "Structurer un entretien",
+      "Nuancer une thèse"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Après écoute : écris 1 thèse + 2 arguments + 1 objection. Transforme en plan en 3 parties.",
+    "follow_up_tasks": [
+      "Fiche 'thèse/antithèse/synthèse' (1 page)"
+    ],
+    "tags": [
+      "#LaBoetie",
+      "#Philo",
+      "#Entretien"
+    ],
+    "work_ref": {
+      "object_of_study": "litterature_idees",
+      "author": "Étienne de La Boétie",
+      "title": "Discours de la servitude volontaire",
+      "parcours": "« Défendre » et « entretenir » la liberté"
+    },
+    "license": "proprietary",
+    "legal_basis": "link-only metadata",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  },
+  {
+    "resource_id": "rc-lumni-oeuvres-programme-2026",
+    "type": "html",
+    "title": "Lumni – Bac de français : œuvres au programme (synthèse)",
+    "url": "https://www.lumni.fr/article/bac-de-francais-les-oeuvres-au-programme",
+    "provider": "Lumni",
+    "duration_s": 0,
+    "level": "debutant",
+    "authority_level": "D",
+    "objectives": [
+      "Avoir une vue d’ensemble du programme",
+      "Retrouver œuvre/parcours rapidement"
+    ],
+    "prerequisites": [],
+    "usage_instructions": "Utilise cette page comme index. Ensuite, complète ton 'tableau des 12 œuvres' (objet d’étude → œuvre → parcours).",
+    "follow_up_tasks": [
+      "Tableau des œuvres (A4)",
+      "Choix lecture cursive (1 par objet)"
+    ],
+    "tags": [
+      "#Programme",
+      "#Synthese",
+      "#Index"
+    ],
+    "work_ref": null,
+    "license": "proprietary",
+    "legal_basis": "link-only metadata",
+    "transcript_policy": "link_only",
+    "created_at": "2026-02-21T00:00:00+01:00",
+    "updated_at": "2026-02-21T00:00:00+01:00"
+  }
+]

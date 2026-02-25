@@ -1,0 +1,22 @@
+{
+  "manifest_version": "1.0.0",
+  "project": "antigravity-eaf-voie-generale",
+  "contact": "UNSPECIFIED",
+  "assumptions_unspecified": ["budget", "hosting_region", "llm_provider", "resource_estimates_cpu_gpu_ram"],
+  "files": [
+    {"path": ".antigravity/skills.md", "description": "Contrats des agents/skills (I/O, prompts, tests).", "priority": "must"},
+    {"path": ".antigravity/rules.md", "description": "Règles immuables (AI Act, RGPD mineurs, droits, anti-fraude, logs).", "priority": "must"},
+    {"path": ".antigravity/workflow.md", "description": "Pipelines ingestion/RAG + orchestration agentique + QA/ops.", "priority": "must"},
+    {"path": ".antigravity/README.md", "description": "Mode d’emploi dev (ingestion, tests, déploiement).", "priority": "must"},
+    {"path": ".antigravity/manifest.json", "description": "Manifest machine-readible (vars env, fichiers, version).", "priority": "must"}
+  ],
+  "required_env": [
+    {"name": "LLM_API_KEY", "description": "Clé API du fournisseur LLM (UNSPECIFIED)."},
+    {"name": "EMBEDDINGS_MODEL", "description": "Nom modèle embeddings (UNSPECIFIED)."},
+    {"name": "VECTOR_DB_URL", "description": "Connexion base vectorielle (ex: Postgres+pgvector)."},
+    {"name": "AUDIT_LOG_URL", "description": "Endpoint/stockage logs immuables (append-only)."},
+    {"name": "STORAGE_BUCKET", "description": "Stockage corpus/raw+normalized (UNSPECIFIED)."},
+    {"name": "YEAR_SCOPE_DEFAULT", "description": "Année scolaire par défaut (ex: 2025-2026)."}
+  ],
+  "resource_estimates_minimal": "UNSPECIFIED"
+}

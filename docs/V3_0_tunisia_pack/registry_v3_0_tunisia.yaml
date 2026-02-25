@@ -1,0 +1,350 @@
+version: v3.0
+scope:
+  product: Plateforme EAF Premium
+  track: premiere_generale
+  exam_session_label: baccalaureat_session_2027
+  eaf_written_date_metropole: '2026-06-11T08:00:00+02:00'
+  eaf_oral_window_metropole:
+    start: '2026-06-22'
+    end: '2026-07-03'
+  notes:
+  - L’épreuve anticipée de français est passée en classe de première mais comptabilisée
+    dans la session du baccalauréat de l’année suivante.
+  - Les centres à l'étranger ont des calendriers spécifiques ; ingestion par juridiction
+    obligatoire.
+authority_levels:
+  A: Institutionnel (BOEN, Éduscol) – vérité de terrain, citations obligatoires
+  B: Académies / annales / guides – exploitable si cohérent avec A
+  C: Conformité (AI Act, CNIL, LIL, OWASP) – garde-fous surplombants
+  D: Ressources pédagogiques / multimédia – jamais normatif, usage explicatif/entrainement
+legal_policies:
+  copyright:
+    rule: Aucune ingestion intégrale d’œuvres sous droits ; texte intégral uniquement
+      si domaine public certain ou licence explicite.
+    default_policy_for_media: link_only + metadata + pédagogie (ResourceCard).
+  minors:
+    threshold_france: 15
+    policy: Si <15 ans et base légale=consentement, consentement parent requis ; sinon
+      403.
+  ai_act:
+    emotion_inference: Interdit en contexte éducatif. Aucun score/diagnostic émotionnel.
+sources:
+- id: boen_programme_2025_2026
+  authority: A
+  title: BOEN – Programme national d’œuvres – année scolaire 2025-2026 (EAF juin 2026)
+  url: https://www.education.gouv.fr/bo/2024/Hebdo30/MENE2418442N
+  doc_type: html
+  update_frequency: annual
+  jurisdiction:
+  - metropole
+  - outre_mer
+  - centres_etranger
+  parser: html_section
+  chunking:
+    strategy: section+line
+    max_tokens: 900
+    overlap: 80
+  tags:
+  - '#ProgrammeNational'
+  - '#Session2026'
+  - '#PremiereGenerale'
+  - '#A'
+- id: boen_centres_etranger_calendrier_2026
+  authority: A
+  title: 'BOEN – Centres ouverts à l’étranger : calendrier et organisation examens
+    2026'
+  url: https://www.education.gouv.fr/bo/2025/Hebdo40/MENE2526851N
+  doc_type: html/pdf
+  update_frequency: annual
+  jurisdiction:
+  - centres_etranger
+  parser: html_section+pdf_pages
+  chunking:
+    strategy: page
+    max_tokens: 700
+    overlap: 60
+  tags:
+  - '#Calendrier'
+  - '#CentresEtranger'
+  - '#Session2026'
+  - '#A'
+- id: eduscol_bac_detail_epreuves
+  authority: A
+  title: Éduscol – Détail des épreuves du baccalauréat général (EAF)
+  url: https://eduscol.education.fr/727/detail-des-epreuves-du-baccalaureat-general
+  doc_type: html
+  update_frequency: semiannual
+  jurisdiction:
+  - metropole
+  - outre_mer
+  - centres_etranger
+  parser: html_section
+  chunking:
+    strategy: section
+    max_tokens: 900
+    overlap: 80
+  tags:
+  - '#Modalites'
+  - '#EAF'
+  - '#Coefficients'
+  - '#A'
+- id: eduscol_lettres_objet_litterature_idees_2025
+  authority: A
+  title: 'Éduscol Lettres – Ressources d’accompagnement : littérature d’idées (Boétie/Fontenelle/Graffigny)'
+  url: https://eduscol.education.fr/lettres/
+  doc_type: html
+  update_frequency: monthly
+  jurisdiction:
+  - metropole
+  - outre_mer
+  - centres_etranger
+  parser: site_crawl_whitelist
+  chunking:
+    strategy: section
+    max_tokens: 950
+    overlap: 90
+  tags:
+  - '#LitteratureDIdees'
+  - '#RessourcesAccompagnement'
+  - '#A'
+- id: terminologie_grammaticale_officielle
+  authority: A
+  title: Terminologie grammaticale officielle (référentiel)
+  url: https://eduscol.education.fr/
+  doc_type: pdf/html
+  update_frequency: as_needed
+  jurisdiction:
+  - metropole
+  - outre_mer
+  - centres_etranger
+  parser: pdf_pages
+  chunking:
+    strategy: notion
+    max_tokens: 650
+    overlap: 60
+  tags:
+  - '#Langue'
+  - '#Grammaire'
+  - '#Terminologie'
+  - '#A'
+- id: annales_eaf_2024_2025
+  authority: B
+  title: Banque d’annales EAF (sujets + corrigés) – sessions 2024-2025
+  url: https://www.education.gouv.fr/
+  doc_type: pdf/html
+  update_frequency: annual
+  jurisdiction:
+  - metropole
+  - outre_mer
+  - centres_etranger
+  parser: pdf_pages+html_section
+  chunking:
+    strategy: exercise_unit
+    max_tokens: 900
+    overlap: 80
+  tags:
+  - '#Annales'
+  - '#Sujets'
+  - '#Correction'
+  - '#B'
+- id: cnil_guidance_minors_ai
+  authority: C
+  title: CNIL – Recommandations données personnelles mineurs / éducation
+  url: https://www.cnil.fr/
+  doc_type: html
+  update_frequency: quarterly
+  jurisdiction:
+  - metropole
+  - outre_mer
+  - centres_etranger
+  parser: html_section
+  chunking:
+    strategy: section
+    max_tokens: 850
+    overlap: 70
+  tags:
+  - '#Conformite'
+  - '#RGPD'
+  - '#Mineurs'
+  - '#C'
+- id: ai_act_2024_1689
+  authority: C
+  title: Règlement (UE) 2024/1689 – AI Act (interdiction inférence émotion en éducation)
+  url: https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng
+  doc_type: html
+  update_frequency: stable
+  jurisdiction:
+  - eu
+  parser: html_section
+  chunking:
+    strategy: article
+    max_tokens: 800
+    overlap: 60
+  tags:
+  - '#AIAct'
+  - '#EmotionInference'
+  - '#C'
+- id: owasp_llm01_prompt_injection
+  authority: C
+  title: OWASP Top 10 for LLM – LLM01 Prompt Injection
+  url: https://owasp.org/
+  doc_type: html
+  update_frequency: semiannual
+  jurisdiction:
+  - global
+  parser: html_section
+  chunking:
+    strategy: section
+    max_tokens: 900
+    overlap: 80
+  tags:
+  - '#Security'
+  - '#OWASP'
+  - '#LLM01'
+  - '#C'
+- id: lumni_eaf_dossiers
+  authority: D
+  title: Lumni – Dossiers & vidéos Bac de français (ResourceCards)
+  url: https://www.lumni.fr/
+  doc_type: html
+  update_frequency: monthly
+  jurisdiction:
+  - metropole
+  - outre_mer
+  - centres_etranger
+  parser: resourcecard_only
+  chunking:
+    strategy: metadata_only
+  tags:
+  - '#Video'
+  - '#Podcast'
+  - '#D'
+- id: france_culture_podcasts
+  authority: D
+  title: France Culture – Podcasts (ResourceCards + chapitrage)
+  url: https://www.radiofrance.fr/franceculture
+  doc_type: html/rss
+  update_frequency: weekly
+  jurisdiction:
+  - global
+  parser: resourcecard_only
+  chunking:
+    strategy: metadata_only
+  tags:
+  - '#Podcast'
+  - '#Culture'
+  - '#D'
+- id: weblettres_sequences
+  authority: D
+  title: WebLettres – Séquences, questionnaires, lectures cursives (curation)
+  url: https://www.weblettres.net/
+  doc_type: html
+  update_frequency: monthly
+  jurisdiction:
+  - global
+  parser: curation_whitelist
+  chunking:
+    strategy: section
+    max_tokens: 850
+    overlap: 70
+  tags:
+  - '#Sequences'
+  - '#LecturesCursives'
+  - '#D'
+- id: wikisource_gutenberg_public_domain
+  authority: B
+  title: Wikisource / Gutenberg – Textes domaine public (Boétie, Fontenelle, Graffigny,
+    Rimbaud, Prévost, Balzac, Corneille, Musset…)
+  url: https://fr.wikisource.org/
+  doc_type: html
+  update_frequency: stable
+  jurisdiction:
+  - global
+  parser: html_book_structured
+  chunking:
+    strategy: chapter_scene
+    max_tokens: 1200
+    overlap: 120
+  tags:
+  - '#Oeuvres'
+  - '#DomainePublic'
+  - '#B'
+work_catalog:
+- object_of_study: litterature_idees
+  renewed_for_year: 2025-2026
+  works:
+  - author: Étienne de La Boétie
+    title: Discours de la servitude volontaire
+    parcours: « Défendre » et « entretenir » la liberté
+    ingestion_policy: full_text_if_public_domain_else_link+excerpts
+  - author: Bernard Le Bouyer de Fontenelle
+    title: Entretiens sur la pluralité des mondes
+    parcours: Le goût de la science
+    ingestion_policy: full_text_if_public_domain_else_link+excerpts
+  - author: Françoise de Graffigny
+    title: Lettres d'une Péruvienne
+    parcours: « Un nouvel univers s’est offert à mes yeux »
+    ingestion_policy: full_text_if_public_domain_else_link+excerpts
+- object_of_study: theatre
+  works:
+  - author: Pierre Corneille
+    title: Le Menteur
+    parcours: Mensonge et comédie
+    ingestion_policy: full_text_if_public_domain_else_link+excerpts
+  - author: Alfred de Musset
+    title: On ne badine pas avec l’amour
+    parcours: Les jeux du cœur et de la parole
+    ingestion_policy: full_text_if_public_domain_else_link+excerpts
+  - author: Nathalie Sarraute
+    title: Pour un oui ou pour un non
+    parcours: Théâtre et dispute
+    ingestion_policy: link+excerpts+analysis_only
+- object_of_study: poesie
+  works:
+  - author: Arthur Rimbaud
+    title: Cahier de Douai (22 poèmes)
+    parcours: Émancipations créatrices
+    ingestion_policy: full_text_if_public_domain_else_link+excerpts
+  - author: Francis Ponge
+    title: La rage de l’expression
+    parcours: Dans l’atelier du poète
+    ingestion_policy: link+excerpts+analysis_only
+  - author: Hélène Dorion
+    title: Mes forêts
+    parcours: La poésie, la nature, l’intime
+    ingestion_policy: link+excerpts+analysis_only
+- object_of_study: roman_recit
+  works:
+  - author: Abbé Prévost
+    title: Manon Lescaut
+    parcours: Personnages en marge, plaisirs du romanesque
+    ingestion_policy: full_text_if_public_domain_else_link+excerpts
+  - author: Honoré de Balzac
+    title: La Peau de chagrin
+    parcours: 'Les romans de l’énergie : création et destruction'
+    ingestion_policy: full_text_if_public_domain_else_link+excerpts
+  - author: Colette
+    title: Sido suivi de Les Vrilles de la vigne
+    parcours: La célébration du monde
+    ingestion_policy: link+excerpts+analysis_only
+deployment_defaults:
+  country: Tunisie
+  center_type: centres_etranger
+  exam_group: groupe_1B
+  timezone: Africa/Tunis
+  locale: fr-TN
+  academy_rattachement: Aix-Marseille
+  written_eaf:
+    date: '2026-06-08'
+    start_local: 08:00
+    end_local: '12:00'
+    convocation_minutes_before: 30
+    note: 'Centres étrangers groupe 1(B) : EAF français le lundi 8 juin 2026 matin
+      (horaires en heures locales).'
+  oral_eaf:
+    status: to_be_set_by_academy
+    note: Le calendrier des épreuves orales est fixé par le recteur de l’académie
+      de rattachement en fonction des propositions SCAC.
+    expected_window_reference_metropole:
+      start: '2026-06-22'
+      end: '2026-07-03'
