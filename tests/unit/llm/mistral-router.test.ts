@@ -49,7 +49,7 @@ describe('Routage par tier — getTierForSkill', () => {
       'correcteur',
       'avocat_diable',
       'self_reflection',
-    ])('skill "%s" → reasoning', (skill) => {
+    ])('skill "%s" → reasoning', (skill: string) => {
       expect(getTierForSkill(skill)).toBe('reasoning');
     });
   });
@@ -63,7 +63,7 @@ describe('Routage par tier — getTierForSkill', () => {
       'bibliothecaire',
       'rapport_auto',
       'langue',
-    ])('skill "%s" → standard', (skill) => {
+    ])('skill "%s" → standard', (skill: string) => {
       expect(getTierForSkill(skill)).toBe('standard');
     });
   });
@@ -73,7 +73,7 @@ describe('Routage par tier — getTierForSkill', () => {
       'rappel_agent',
       'planner',
       'student_modeler',
-    ])('skill "%s" → micro', (skill) => {
+    ])('skill "%s" → micro', (skill: string) => {
       expect(getTierForSkill(skill)).toBe('micro');
     });
   });

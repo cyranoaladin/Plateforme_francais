@@ -8,7 +8,7 @@ describe('classifyIntent — routage par mot-clé', () => {
       ['Je veux travailler mon introduction', 'methode'],
       ['Conseils pour la conclusion', 'methode'],
       ['Stratégie pour le brouillon', 'methode'],
-    ])('"%s" → %s', (query, expected) => {
+    ])('"%s" → %s', (query: string, expected: string) => {
       expect(classifyIntent(query)).toBe(expected);
     });
   });
@@ -18,7 +18,7 @@ describe('classifyIntent — routage par mot-clé', () => {
       ['Je veux rédiger un commentaire', 'entrainement_ecrit'],
       ['Aide-moi pour la dissertation', 'entrainement_ecrit'],
       ["Sujet d'analyse de texte", 'entrainement_ecrit'],
-    ])('"%s" → %s', (query, expected) => {
+    ])('"%s" → %s', (query: string, expected: string) => {
       expect(classifyIntent(query)).toBe(expected);
     });
   });
@@ -28,7 +28,7 @@ describe('classifyIntent — routage par mot-clé', () => {
       ["Simulation d'oral s'il vous plaît", 'entrainement_oral'],
       ['Explication linéaire du poème', 'entrainement_oral'],
       ['Préparer mon entretien avec le jury', 'entrainement_oral'],
-    ])('"%s" → %s', (query, expected) => {
+    ])('"%s" → %s', (query: string, expected: string) => {
       expect(classifyIntent(query)).toBe(expected);
     });
   });
@@ -38,7 +38,7 @@ describe('classifyIntent — routage par mot-clé', () => {
       ['Analyser la subordonnée relative', 'langue'],
       ['La négation dans cette phrase', 'langue'],
       ['Identifier la syntaxe de la phrase complexe', 'langue'],
-    ])('"%s" → %s', (query, expected) => {
+    ])('"%s" → %s', (query: string, expected: string) => {
       expect(classifyIntent(query)).toBe(expected);
     });
   });
@@ -48,7 +48,7 @@ describe('classifyIntent — routage par mot-clé', () => {
       ['Le Dormeur du val de Rimbaud', 'oeuvre'],
       ['Parcours poésie session 2026', 'oeuvre'],
       ["Auteur et contexte de l'œuvre", 'oeuvre'],
-    ])('"%s" → %s', (query, expected) => {
+    ])('"%s" → %s', (query: string, expected: string) => {
       expect(classifyIntent(query)).toBe(expected);
     });
   });
@@ -58,7 +58,7 @@ describe('classifyIntent — routage par mot-clé', () => {
       ['Chercher un document officiel', 'bibliotheque'],
       ['Référence Éduscol pour le barème', 'bibliotheque'],
       ['Source officielle sur le règlement', 'bibliotheque'],
-    ])('"%s" → %s', (query, expected) => {
+    ])('"%s" → %s', (query: string, expected: string) => {
       expect(classifyIntent(query)).toBe(expected);
     });
   });
@@ -68,7 +68,7 @@ describe('classifyIntent — routage par mot-clé', () => {
       ['Faire mon bilan initial', 'diagnostic'],
       ['Évaluation de positionnement', 'diagnostic'],
       ['Mon niveau EAF', 'diagnostic'],
-    ])('"%s" → %s', (query, expected) => {
+    ])('"%s" → %s', (query: string, expected: string) => {
       expect(classifyIntent(query)).toBe(expected);
     });
   });

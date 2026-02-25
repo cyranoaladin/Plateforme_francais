@@ -32,14 +32,13 @@
     "next-env.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "tests/unit/**/*.ts",
-    "vitest.config.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "packages",
-    ".next"
+    ".next",
+    "tests"
   ]
 }

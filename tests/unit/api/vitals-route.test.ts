@@ -61,7 +61,7 @@ describe('POST /api/v1/metrics/vitals', () => {
     expect(body.ok).toBe(true);
   });
 
-  it.each(['LCP', 'FID', 'CLS', 'TTFB', 'INP'])('accepte la métrique %s', async (name) => {
+  it.each(['LCP', 'FID', 'CLS', 'TTFB', 'INP'])('accepte la métrique %s', async (name: string) => {
     const { POST } = await import('@/app/api/v1/metrics/vitals/route');
     const req = new Request('http://localhost/', {
       method: 'POST',

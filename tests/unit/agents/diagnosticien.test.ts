@@ -168,7 +168,7 @@ describe('generateStudyPlan — modes de progression', () => {
 
   it.each(['difficulte', 'objectif_14_plus', 'fort_desorganise', 'oral_prioritaire'])(
     'mode "%s" génère 6 semaines × 3 sessions',
-    async (mode) => {
+    async (mode: string) => {
       const { runDiagnostic } = await import('@/lib/agents/diagnosticien');
       const result = await runDiagnostic({
         studentId: `stu-mode-${mode}`,
