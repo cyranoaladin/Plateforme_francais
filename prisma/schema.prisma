@@ -170,21 +170,61 @@ model CopieDeposee {
   @@index([epreuveId])
 }
 
+enum OralSessionStatus {
+  DRAFT
+  PREP
+  PASSAGE
+  DONE
+}
+
+enum OralPhase {
+  LECTURE
+  EXPLICATION
+  GRAMMAIRE
+  ENTRETIEN
+}
+
 model OralSession {
-  id         String   @id @default(uuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  oeuvre     String
-  extrait    String
-  question   String
-  transcript String?
-  score      Float?
-  maxScore   Float?
-  feedback   Json?
-  endedAt    DateTime?
-  createdAt  DateTime @default(now())
+  id              String            @id @default(uuid())
+  userId          String
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status          OralSessionStatus @default(DRAFT)
+  oeuvre          String
+  extrait         String
+  question        String
+  transcript      String?
+  score           Float?
+  maxScore        Float?
+  feedback        Json?
+  prepStartedAt   DateTime?
+  prepEndedAt     DateTime?
+  passageStartedAt DateTime?
+  passageEndedAt  DateTime?
+  endedAt         DateTime?
+  createdAt       DateTime          @default(now())
+  phaseScores     OralPhaseScore[]
 
   @@index([userId, createdAt])
+  @@index([status])
+}
+
+model OralPhaseScore {
+  id            String       @id @default(uuid())
+  sessionId     String
+  session       OralSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  phase         OralPhase
+  score         Float
+  maxScore      Float
+  transcript    String?      @db.Text
+  feedback      String?      @db.Text
+  pointsForts   String[]     @default([])
+  axes          String[]     @default([])
+  citations     Json?
+  duration      Int          @default(0)
+  createdAt     DateTime     @default(now())
+
+  @@unique([sessionId, phase])
+  @@index([sessionId])
 }
 
 model Chunk {

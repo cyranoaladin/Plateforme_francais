@@ -55,30 +55,31 @@ describe('Oral Service', () => {
 
   it('generateOralBilan retourne un résultat structuré', async () => {
     const { generateOralBilan } = await import('@/lib/oral/service');
-    const session = {
-      id: 'session-test',
-      userId: 'user-test',
-      oeuvre: 'Le Mariage forcé',
-      extrait: 'Extrait',
-      questionGrammaire: 'Question',
-      interactions: [
-        {
-          step: 'LECTURE' as const,
-          transcript: 'Ma lecture.',
-          duration: 120,
-          feedback: { feedback: 'Bien.', score: 4, max: 6, points_forts: [], axes: [] },
-          createdAt: new Date().toISOString(),
-        },
-      ],
-      createdAt: new Date().toISOString(),
-      endedAt: null,
+    const phaseInputs = [
+      { phase: 'LECTURE' as const, score: 1.5, maxScore: 2 },
+      { phase: 'EXPLICATION' as const, score: 5, maxScore: 8 },
+      { phase: 'GRAMMAIRE' as const, score: 1, maxScore: 2 },
+      { phase: 'ENTRETIEN' as const, score: 5, maxScore: 8 },
+    ];
+    const phaseDetails: Record<string, { feedback: string }> = {
+      LECTURE: { feedback: 'Lecture fluide.' },
+      EXPLICATION: { feedback: 'Analyse correcte.' },
+      GRAMMAIRE: { feedback: 'Bonne maîtrise.' },
+      ENTRETIEN: { feedback: 'Réponses pertinentes.' },
     };
 
-    const result = await generateOralBilan(session);
+    const result = await generateOralBilan(phaseInputs, phaseDetails);
     expect(result.note).toBeGreaterThanOrEqual(0);
     expect(result.note).toBeLessThanOrEqual(20);
+    expect(result.note).toBe(12.5);
+    expect(result.maxNote).toBe(20);
     expect(result.mention).toBeTruthy();
     expect(result.phases).toBeDefined();
+    expect(result.phases.lecture.max).toBe(2);
+    expect(result.phases.explication.max).toBe(8);
+    expect(result.phases.grammaire.max).toBe(2);
+    expect(result.phases.entretien.max).toBe(8);
     expect(result.bilan_global).toBeTruthy();
+    expect(result.conseil_final).toBeTruthy();
   });
 });

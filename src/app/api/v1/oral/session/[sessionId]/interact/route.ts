@@ -1,30 +1,18 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
-import { orchestrate } from '@/lib/llm/orchestrator';
 import { appendOralInteraction, findOralSessionById } from '@/lib/oral/repository';
+import { evaluateOralPhase } from '@/lib/oral/service';
+import { PHASE_MAX_SCORES, type OralPhaseKey } from '@/lib/oral/scoring';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionInteractBodySchema } from '@/lib/validation/schemas';
 
-type InteractFeedback = {
-  feedback: string;
-  score: number;
-  max: number;
-  points_forts: string[];
-  axes: string[];
-  relance?: string;
-};
-
-const STEP_MAX: Record<'LECTURE' | 'EXPLICATION' | 'GRAMMAIRE' | 'ENTRETIEN', number> = {
-  LECTURE: 2,
-  EXPLICATION: 8,
-  GRAMMAIRE: 2,
-  ENTRETIEN: 8,
-};
-
 /**
  * POST /api/v1/oral/session/{sessionId}/interact
  * Body: { step, transcript, duration }
+ *
+ * Evaluates a single oral phase (LECTURE /2, EXPLICATION /8, GRAMMAIRE /2, ENTRETIEN /8).
+ * The AI proposes a score; it is clamped to the official maximum.
  */
 export async function POST(
   request: Request,
@@ -51,23 +39,19 @@ export async function POST(
     return parsed.response;
   }
 
-  const max = STEP_MAX[parsed.data.step];
+  const phase = parsed.data.step as OralPhaseKey;
+  if (!(phase in PHASE_MAX_SCORES)) {
+    return NextResponse.json({ error: 'Phase invalide.' }, { status: 400 });
+  }
 
-  const llmResult = (await orchestrate({
-    skill: 'coach_oral',
-    userId: auth.user.id,
-    userQuery: parsed.data.transcript,
-    context: `Étape: ${parsed.data.step}.\nDurée: ${parsed.data.duration}s.\nExtrait: ${session.extrait}\nQuestion grammaire: ${session.questionGrammaire}\nLe score max pour cette étape est ${max}.`,
-  })) as InteractFeedback;
-
-  const normalized: InteractFeedback = {
-    feedback: llmResult.feedback,
-    score: Math.max(0, Math.min(max, llmResult.score)),
-    max,
-    points_forts: llmResult.points_forts,
-    axes: llmResult.axes,
-    relance: llmResult.relance,
-  };
+  const evaluation = await evaluateOralPhase({
+    phase,
+    transcript: parsed.data.transcript,
+    extrait: session.extrait,
+    questionGrammaire: session.questionGrammaire,
+    oeuvre: session.oeuvre,
+    duration: parsed.data.duration,
+  });
 
   await appendOralInteraction({
     sessionId,
@@ -75,10 +59,10 @@ export async function POST(
       step: parsed.data.step,
       transcript: parsed.data.transcript,
       duration: parsed.data.duration,
-      feedback: normalized,
+      feedback: evaluation,
       createdAt: new Date().toISOString(),
     },
   });
 
-  return NextResponse.json(normalized, { status: 200 });
+  return NextResponse.json(evaluation, { status: 200 });
 }

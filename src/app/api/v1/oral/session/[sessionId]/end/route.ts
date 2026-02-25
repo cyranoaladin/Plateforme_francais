@@ -5,6 +5,8 @@ import { listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
 import { evaluateBadges } from '@/lib/gamification/badges';
 import { finalizeOralSession, findOralSessionById } from '@/lib/oral/repository';
+import { generateOralBilan } from '@/lib/oral/service';
+import type { OralPhaseKey } from '@/lib/oral/scoring';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionEndBodySchema } from '@/lib/validation/schemas';
@@ -12,6 +14,9 @@ import { oralSessionEndBodySchema } from '@/lib/validation/schemas';
 /**
  * POST /api/v1/oral/session/{sessionId}/end
  * Body: { notes? }
+ *
+ * Finalizes an oral session: computes official /20 score (2+8+2+8),
+ * generates a structured bilan, awards badges, persists results.
  */
 export async function POST(
   request: Request,
@@ -39,29 +44,27 @@ export async function POST(
     return parsed.response;
   }
 
-  const totalScore = session.interactions.reduce((sum, item) => sum + item.feedback.score, 0);
-  const totalMax = session.interactions.reduce((sum, item) => sum + item.feedback.max, 0);
-  const note = totalMax > 0 ? Number(((totalScore / totalMax) * 20).toFixed(1)) : 0;
+  const phaseInputs = session.interactions.map((i) => ({
+    phase: i.step as OralPhaseKey,
+    score: i.feedback.score,
+    maxScore: i.feedback.max,
+  }));
 
-  const final = {
-    note,
-    totalScore,
-    totalMax,
-    details: session.interactions,
-    bilan:
-      note >= 14
-        ? 'Très bonne prestation orale, encore perfectible dans la précision analytique.'
-        : note >= 10
-          ? 'Prestation solide mais irrégulière, poursuivre le travail sur la méthode.'
-          : 'Prestation fragile: renforcer structure, références textuelles et précision grammaticale.',
-    notes: parsed.data.notes ?? '',
-  };
+  const phaseDetails: Record<string, { feedback: string }> = {};
+  for (const i of session.interactions) {
+    phaseDetails[i.step] = { feedback: i.feedback.feedback };
+  }
+
+  const bilan = await generateOralBilan(phaseInputs, phaseDetails);
 
   await finalizeOralSession({
     sessionId,
-    finalFeedback: final as Prisma.JsonObject,
-    score: totalScore,
-    maxScore: totalMax,
+    finalFeedback: {
+      ...bilan,
+      notes: parsed.data.notes ?? '',
+    } as unknown as Prisma.JsonObject,
+    score: bilan.note,
+    maxScore: bilan.maxNote,
   });
 
   const timeline = await listMemoryEventsByUser(auth.user.id, 500);
@@ -71,11 +74,11 @@ export async function POST(
     timeline,
   });
 
-  if (note > 15) {
+  if (bilan.note > 15) {
     badgeResult = evaluateBadges({
       profile: { ...auth.user.profile, badges: badgeResult.badges },
       trigger: 'score',
-      score: note,
+      score: bilan.note,
       timeline,
     });
   }
@@ -85,5 +88,5 @@ export async function POST(
     badges: badgeResult.badges,
   });
 
-  return NextResponse.json({ ...final, newBadges: badgeResult.newBadges }, { status: 200 });
+  return NextResponse.json({ ...bilan, newBadges: badgeResult.newBadges }, { status: 200 });
 }

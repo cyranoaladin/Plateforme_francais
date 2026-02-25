@@ -3,20 +3,52 @@ import { getRouterProvider } from '@/lib/llm/factory';
 import { estimateTokens } from '@/lib/llm/token-estimate';
 import type { ProviderChatMessage } from '@/lib/llm/provider';
 import { logger } from '@/lib/logger';
-import type { OralSessionState } from '@/lib/oral/repository';
+import {
+  computeOralScore,
+  computeMention,
+  clampPhaseScore,
+  PHASE_MAX_SCORES,
+  type OralPhaseKey,
+  type PhaseScoreInput,
+} from '@/lib/oral/scoring';
 
+/** Standard citation format for RAG-sourced references. */
+export type Citation = {
+  title: string;
+  url: string;
+  snippet: string;
+};
+
+/** Result of evaluating a single oral phase via LLM. */
+export type PhaseEvaluation = {
+  feedback: string;
+  score: number;
+  max: number;
+  points_forts: string[];
+  axes: string[];
+  relance?: string;
+  citations?: Citation[];
+};
+
+/** Full bilan result for a completed oral session (4 phases, /20). */
 export type OralSessionResult = {
   note: number;
+  maxNote: number;
   mention: string;
   phases: {
-    lecture: { note: number; commentaire: string };
-    explication: { note: number; commentaire: string };
-    entretien: { note: number; commentaire: string };
+    lecture: { note: number; max: number; commentaire: string };
+    explication: { note: number; max: number; commentaire: string };
+    grammaire: { note: number; max: number; commentaire: string };
+    entretien: { note: number; max: number; commentaire: string };
   };
   bilan_global: string;
   conseil_final: string;
+  citations?: Citation[];
 };
 
+/**
+ * Pick a random extrait for the given oeuvre from the corpus.
+ */
 export function pickOralExtrait(oeuvre: string): {
   texte: string;
   questionGrammaire: string;
@@ -36,30 +68,37 @@ export function pickOralExtrait(oeuvre: string): {
 }
 
 /**
- * Génère le bilan final structuré d'une session orale via LLM tier-2.
+ * Evaluate a single oral phase transcript via LLM.
+ * The AI proposes a score; we clamp it to the official max.
  */
-export async function generateOralBilan(session: OralSessionState): Promise<OralSessionResult> {
-  const historyJson = JSON.stringify(session.interactions, null, 2);
+export async function evaluateOralPhase(input: {
+  phase: OralPhaseKey;
+  transcript: string;
+  extrait: string;
+  questionGrammaire: string;
+  oeuvre: string;
+  duration: number;
+}): Promise<PhaseEvaluation> {
+  const max = PHASE_MAX_SCORES[input.phase];
   const messages: ProviderChatMessage[] = [
     {
       role: 'system',
-      content: `Tu es examinateur EAF. À partir de l'historique de la simulation orale, génère une évaluation complète en JSON :
+      content: `Tu es examinateur EAF. Évalue la prestation de l'élève pour la phase "${input.phase}" (max ${max} points).
+Barème officiel: Lecture /2, Explication /8, Grammaire /2, Entretien /8 (total /20).
+Réponds UNIQUEMENT en JSON valide :
 {
-  "note": <0-20>,
-  "mention": <"Très bien"|"Bien"|"Assez bien"|"Passable"|"Insuffisant">,
-  "phases": {
-    "lecture": { "note": <0-6>, "commentaire": <string> },
-    "explication": { "note": <0-8>, "commentaire": <string> },
-    "entretien": { "note": <0-6>, "commentaire": <string> }
-  },
-  "bilan_global": <string>,
-  "conseil_final": <string>
+  "feedback": "<commentaire détaillé>",
+  "score": <0-${max}>,
+  "max": ${max},
+  "points_forts": ["<point>", ...],
+  "axes": ["<axe d'amélioration>", ...],
+  "relance": "<question de relance optionnelle pour l'entretien>"
 }
-Réponds UNIQUEMENT en JSON valide.`,
+IMPORTANT: Le score DOIT être compris entre 0 et ${max}. Ne jamais fournir de rédaction complète.`,
     },
     {
       role: 'user',
-      content: `Historique de la session :\n${historyJson}\n\nŒuvre : ${session.oeuvre}`,
+      content: `Phase: ${input.phase}\nDurée: ${input.duration}s\nŒuvre: ${input.oeuvre}\nExtrait: ${input.extrait}\nQuestion grammaire: ${input.questionGrammaire}\n\nTranscription de l'élève:\n${input.transcript}`,
     },
   ];
 
@@ -68,32 +107,73 @@ Réponds UNIQUEMENT en JSON valide.`,
     const response = await provider.generateContent(messages, {
       temperature: 0.2,
       responseMimeType: 'application/json',
-      maxTokens: 800,
+      maxTokens: 600,
     });
 
     const raw = (response.content ?? response.text ?? '').trim();
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]) as OralSessionResult;
+      const parsed = JSON.parse(jsonMatch[0]) as PhaseEvaluation;
+      return {
+        ...parsed,
+        score: clampPhaseScore(input.phase, parsed.score),
+        max,
+      };
     }
   } catch (error) {
-    logger.warn({ error, sessionId: session.id }, 'oral.generateBilan.failed');
+    logger.warn({ error, phase: input.phase }, 'oral.evaluatePhase.failed');
   }
 
-  // Fallback basé sur les scores accumulés
-  const totalScore = session.interactions.reduce((s, i) => s + i.feedback.score, 0);
-  const totalMax = session.interactions.reduce((s, i) => s + i.feedback.max, 0);
-  const note = totalMax > 0 ? Number(((totalScore / totalMax) * 20).toFixed(1)) : 10;
+  return {
+    feedback: 'Évaluation automatique — réessayez avec un transcript plus précis.',
+    score: 0,
+    max,
+    points_forts: [],
+    axes: ['Structurer davantage la réponse.'],
+  };
+}
+
+/**
+ * Generate the final structured bilan from per-phase scores.
+ * Uses computeOralScore() for official 2/8/2/8 totals.
+ */
+export async function generateOralBilan(phaseInputs: PhaseScoreInput[], phaseDetails: Record<string, { feedback: string }>): Promise<OralSessionResult> {
+  const scored = computeOralScore(phaseInputs);
+
+  const getComment = (phase: string): string =>
+    phaseDetails[phase]?.feedback ?? 'Évaluation automatique.';
+
+  const note = scored.total;
+  const mention = computeMention(note);
+
+  let bilan_global: string;
+  let conseil_final: string;
+
+  if (note >= 16) {
+    bilan_global = 'Excellente prestation orale — maîtrise solide des 4 composantes. Quelques raffinements possibles dans la précision analytique.';
+    conseil_final = 'Approfondissez les procédés stylistiques et variez les références intertextuelles.';
+  } else if (note >= 12) {
+    bilan_global = 'Bonne prestation avec des axes de progression identifiés. La structure est présente, la méthode doit se consolider.';
+    conseil_final = 'Travaillez les transitions entre parties et enrichissez les citations textuelles.';
+  } else if (note >= 8) {
+    bilan_global = 'Prestation fragile — des bases présentes mais une méthode à renforcer sur chaque composante.';
+    conseil_final = 'Reprenez les fiches méthode pour chaque phase et entraînez-vous avec des extraits variés.';
+  } else {
+    bilan_global = 'Prestation insuffisante — effort notable mais les fondamentaux doivent être repris.';
+    conseil_final = 'Commencez par maîtriser la lecture expressive et la structure de l\'explication linéaire.';
+  }
 
   return {
     note,
-    mention: note >= 16 ? 'Très bien' : note >= 14 ? 'Bien' : note >= 12 ? 'Assez bien' : note >= 10 ? 'Passable' : 'Insuffisant',
+    maxNote: scored.maxTotal,
+    mention,
     phases: {
-      lecture: { note: 3, commentaire: 'Évaluation automatique.' },
-      explication: { note: 4, commentaire: 'Évaluation automatique.' },
-      entretien: { note: 3, commentaire: 'Évaluation automatique.' },
+      lecture: { note: scored.phases.LECTURE.score, max: scored.phases.LECTURE.max, commentaire: getComment('LECTURE') },
+      explication: { note: scored.phases.EXPLICATION.score, max: scored.phases.EXPLICATION.max, commentaire: getComment('EXPLICATION') },
+      grammaire: { note: scored.phases.GRAMMAIRE.score, max: scored.phases.GRAMMAIRE.max, commentaire: getComment('GRAMMAIRE') },
+      entretien: { note: scored.phases.ENTRETIEN.score, max: scored.phases.ENTRETIEN.max, commentaire: getComment('ENTRETIEN') },
     },
-    bilan_global: 'Session complétée.',
-    conseil_final: 'Continuez à pratiquer régulièrement.',
+    bilan_global,
+    conseil_final,
   };
 }
