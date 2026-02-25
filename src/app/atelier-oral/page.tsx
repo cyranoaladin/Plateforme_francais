@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Mic, Play, Volume2, Loader2, CheckCircle2, Square, Headphones, Star, AlertCircle, Clock, BookOpen, FileText } from 'lucide-react';
+import { Mic, Play, Volume2, Loader2, CheckCircle2, Square, Headphones, Star, AlertCircle, Clock, BookOpen, FileText, Shield, Zap } from 'lucide-react';
 import { createBrowserStt } from '@/lib/stt/browser';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
@@ -9,6 +9,7 @@ import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
 type OralStep = 'LECTURE' | 'EXPLICATION' | 'GRAMMAIRE' | 'ENTRETIEN';
 type WizardPhase = 'TIRAGE' | 'PREP' | 'PASSAGE' | 'BILAN';
+type OralMode = 'SIMULATION' | 'FREE_PRACTICE';
 
 type SessionPayload = {
   sessionId: string;
@@ -51,8 +52,35 @@ const STEP_LABELS: Record<OralStep, string> = {
   ENTRETIEN: 'Entretien /8',
 };
 
+/** Indicative sub-timer durations in seconds for each phase */
+const PHASE_DURATIONS_S: Record<OralStep, number> = {
+  LECTURE: 2 * 60,
+  EXPLICATION: 8 * 60,
+  GRAMMAIRE: 2 * 60,
+  ENTRETIEN: 8 * 60,
+};
+
 const PREP_DURATION_S = 30 * 60;
 const PASSAGE_DURATION_S = 20 * 60;
+
+/** Prep checklist per cahier V2 §5.3 */
+const PREP_CHECKLIST = [
+  { id: 'contexte', label: 'Identifier le contexte de l\'extrait (auteur, œuvre, mouvement)' },
+  { id: 'mouvement', label: 'Repérer les mouvements du texte et l\'articulation des parties' },
+  { id: 'problematique', label: 'Formuler une problématique d\'analyse' },
+  { id: 'procedes', label: 'Relever les procédés clés + citations à commenter' },
+  { id: 'grammaire', label: 'Anticiper la question de grammaire (nature, fonction, analyse)' },
+];
+
+/** Official works 2025-2026 per cahier V2 §1 */
+const OEUVRES_2025_2026 = [
+  'Les Misérables (extraits) — Hugo',
+  'Les Fleurs du Mal — Baudelaire',
+  'Le Malade imaginaire — Molière',
+  'Les Confessions (extraits) — Rousseau',
+  'Déclaration des droits de la femme — Olympe de Gouges',
+  'Mme Bovary (extraits) — Flaubert',
+];
 
 /* ──────────────────── Helpers ──────────────────── */
 
@@ -66,10 +94,32 @@ function speakText(text: string) {
   window.speechSynthesis.speak(utterance);
 }
 
+/** Play a short beep/alert sound via Web Audio API */
+function playAlert() {
+  try {
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    gain.gain.value = 0.3;
+    osc.start();
+    osc.stop(ctx.currentTime + 0.2);
+  } catch { /* Audio not available */ }
+}
+
 function formatTimer(seconds: number): string {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+/** Timer color class: green → orange at 10min → red at 2min */
+function timerColorClass(remaining: number): string {
+  if (remaining <= 120) return 'bg-red-100 dark:bg-red-950/30 text-red-600 dark:text-red-400';
+  if (remaining <= 600) return 'bg-amber-100 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400';
+  return 'bg-emerald-100 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400';
 }
 
 /* ──────────────────── Timer Hook ──────────────────── */
@@ -77,14 +127,20 @@ function formatTimer(seconds: number): string {
 function useCountdown(totalSeconds: number, running: boolean) {
   const startRef = useRef<number>(0);
   const [remaining, setRemaining] = useState(totalSeconds);
+  const alertedRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
-    if (!running) return;
+    if (!running) { alertedRef.current.clear(); return; }
     startRef.current = Date.now();
 
     const tick = () => {
       const elapsed = Math.floor((Date.now() - startRef.current) / 1000);
-      setRemaining(Math.max(0, totalSeconds - elapsed));
+      const left = Math.max(0, totalSeconds - elapsed);
+      setRemaining(left);
+      if ((left === 600 || left === 120 || left === 0) && !alertedRef.current.has(left)) {
+        alertedRef.current.add(left);
+        playAlert();
+      }
     };
 
     tick();
@@ -98,12 +154,14 @@ function useCountdown(totalSeconds: number, running: boolean) {
 /* ──────────────────── Component ──────────────────── */
 
 export default function AtelierOralPage() {
-  const [oeuvre, setOeuvre] = useState('Le Mariage forcé');
+  const [oeuvre, setOeuvre] = useState(OEUVRES_2025_2026[0]);
+  const [mode, setMode] = useState<OralMode>('SIMULATION');
   const [session, setSession] = useState<SessionPayload | null>(null);
   const [wizardPhase, setWizardPhase] = useState<WizardPhase>('TIRAGE');
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [transcript, setTranscript] = useState('');
   const [prepNotes, setPrepNotes] = useState('');
+  const [prepChecklist, setPrepChecklist] = useState<Set<string>>(new Set());
   const [isMicOn, setIsMicOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [feedbacks, setFeedbacks] = useState<Record<OralStep, StepFeedback | undefined>>({
@@ -117,10 +175,11 @@ export default function AtelierOralPage() {
   const sttRef = useRef<ReturnType<typeof createBrowserStt> | null>(null);
 
   const currentStep = STEPS[currentStepIndex] ?? null;
+  const isSimulation = mode === 'SIMULATION';
   const prepRunning = wizardPhase === 'PREP';
   const passageRunning = wizardPhase === 'PASSAGE';
-  const prepRemaining = useCountdown(PREP_DURATION_S, prepRunning);
-  const passageRemaining = useCountdown(PASSAGE_DURATION_S, passageRunning);
+  const prepRemaining = useCountdown(PREP_DURATION_S, prepRunning && isSimulation);
+  const passageRemaining = useCountdown(PASSAGE_DURATION_S, passageRunning && isSimulation);
 
   useEffect(() => {
     sttRef.current = createBrowserStt();
@@ -143,7 +202,7 @@ export default function AtelierOralPage() {
       const response = await fetch('/api/v1/oral/session/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
-        body: JSON.stringify({ oeuvre }),
+        body: JSON.stringify({ oeuvre, mode }),
       });
       if (!response.ok) throw new Error('Impossible de démarrer la session orale.');
       const payload = (await response.json()) as SessionPayload;
@@ -152,6 +211,7 @@ export default function AtelierOralPage() {
       setCurrentStepIndex(0);
       setTranscript('');
       setPrepNotes('');
+      setPrepChecklist(new Set());
       setBilan(null);
       setFeedbacks({ LECTURE: undefined, EXPLICATION: undefined, GRAMMAIRE: undefined, ENTRETIEN: undefined });
       stepStartRef.current = Date.now();
@@ -160,7 +220,7 @@ export default function AtelierOralPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [oeuvre]);
+  }, [oeuvre, mode]);
 
   const startPassage = useCallback(() => {
     setWizardPhase('PASSAGE');
@@ -256,18 +316,32 @@ export default function AtelierOralPage() {
             <BookOpen className="w-9 h-9" />
           </div>
           <h2 className="text-xl font-bold text-foreground mb-2">Tirage au sort de l&apos;extrait</h2>
-          <p className="text-muted-foreground mb-6 max-w-md mx-auto">Choisis ton oeuvre. L&apos;IA tire un extrait et une question de grammaire, puis tu disposes de 30 minutes de préparation.</p>
-          <label htmlFor="oeuvre-select" className="sr-only">Choisir une oeuvre</label>
+          <p className="text-muted-foreground mb-6 max-w-md mx-auto">Choisis ton œuvre et ton mode. L&apos;IA tire un extrait et une question de grammaire, puis tu disposes de 30 minutes de préparation.</p>
+
+          {/* Mode toggle */}
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <button
+              onClick={() => setMode('SIMULATION')}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${mode === 'SIMULATION' ? 'bg-purple-600 text-white shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
+              aria-pressed={mode === 'SIMULATION'}
+            >
+              <Shield className="w-4 h-4" /> Simulation examen
+            </button>
+            <button
+              onClick={() => setMode('FREE_PRACTICE')}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${mode === 'FREE_PRACTICE' ? 'bg-purple-600 text-white shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
+              aria-pressed={mode === 'FREE_PRACTICE'}
+            >
+              <Zap className="w-4 h-4" /> Entraînement libre
+            </button>
+          </div>
+          {mode === 'FREE_PRACTICE' && (
+            <p className="text-xs text-amber-600 dark:text-amber-400 mb-4">Mode libre : les timers sont désactivés, tu peux prendre ton temps.</p>
+          )}
+
+          <label htmlFor="oeuvre-select" className="sr-only">Choisir une œuvre</label>
           <select id="oeuvre-select" className="border border-border rounded-xl bg-muted/30 px-4 py-3 mb-4 w-full max-w-sm mx-auto block text-foreground text-sm focus:ring-2 focus:ring-primary focus:outline-none" value={oeuvre} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(e.target.value)}>
-            <option>Le Mariage forcé</option>
-            <option>La Surprise de l&apos;amour</option>
-            <option>Déclaration des droits de la femme</option>
-            <option>Les Contemplations</option>
-            <option>Cahier de Douai</option>
-            <option>Sido / Les Vrilles de la vigne</option>
-            <option>Le Rouge et le Noir</option>
-            <option>La Peau de chagrin</option>
-            <option>La Peste</option>
+            {OEUVRES_2025_2026.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
           <button onClick={startSession} disabled={isLoading} className="px-8 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 hover:bg-purple-700 transition-colors disabled:opacity-50 shadow-md">
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />} Tirer un extrait
@@ -280,9 +354,14 @@ export default function AtelierOralPage() {
         <div className="bg-card rounded-3xl border border-border p-6 md:p-8 shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><FileText className="w-5 h-5" /> Préparation</h2>
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-lg font-bold ${prepRemaining < 300 ? 'bg-red-100 dark:bg-red-950/30 text-red-600' : 'bg-purple-100 dark:bg-purple-950/30 text-purple-600'}`}>
-              <Clock className="w-5 h-5" /> {formatTimer(prepRemaining)}
-            </div>
+            {isSimulation && (
+              <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-lg font-bold ${timerColorClass(prepRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant : ${formatTimer(prepRemaining)}`}>
+                <Clock className="w-5 h-5" /> {formatTimer(prepRemaining)}
+              </div>
+            )}
+            {!isSimulation && (
+              <span className="text-sm text-muted-foreground italic flex items-center gap-1"><Zap className="w-4 h-4" /> Mode libre — pas de chrono</span>
+            )}
           </div>
 
           <div className="rounded-2xl border border-border bg-muted/20 p-5">
@@ -291,8 +370,29 @@ export default function AtelierOralPage() {
             <p className="text-sm mt-3 text-muted-foreground"><span className="font-semibold text-foreground">Question de grammaire :</span> {session.questionGrammaire}</p>
           </div>
 
+          {/* Prep checklist — 5 guided steps per cahier V2 §5.3 */}
+          <div className="rounded-2xl border border-border bg-muted/10 p-5 space-y-3">
+            <p className="font-bold text-foreground text-sm flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-purple-500" /> Checklist de préparation</p>
+            {PREP_CHECKLIST.map((item) => (
+              <label key={item.id} className="flex items-start gap-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={prepChecklist.has(item.id)}
+                  onChange={() => setPrepChecklist((prev) => {
+                    const next = new Set(prev);
+                    if (next.has(item.id)) { next.delete(item.id); } else { next.add(item.id); }
+                    return next;
+                  })}
+                  className="mt-0.5 w-4 h-4 rounded border-border text-purple-600 focus:ring-purple-500"
+                />
+                <span className={`text-sm leading-snug ${prepChecklist.has(item.id) ? 'text-muted-foreground line-through' : 'text-foreground'}`}>{item.label}</span>
+              </label>
+            ))}
+            <p className="text-xs text-muted-foreground">{prepChecklist.size}/{PREP_CHECKLIST.length} étapes complétées</p>
+          </div>
+
           <div>
-            <label htmlFor="prep-notes" className="block text-sm font-semibold text-foreground mb-2">Notes de préparation (brouillon)</label>
+            <label htmlFor="prep-notes" className="block text-sm font-semibold text-foreground mb-2">Notes de préparation (brouillon — non évaluées)</label>
             <textarea
               id="prep-notes"
               value={prepNotes}
@@ -316,8 +416,21 @@ export default function AtelierOralPage() {
           {/* Timer */}
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold text-foreground">Passage oral</h2>
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-lg font-bold ${passageRemaining < 120 ? 'bg-red-100 dark:bg-red-950/30 text-red-600' : 'bg-purple-100 dark:bg-purple-950/30 text-purple-600'}`}>
-              <Clock className="w-5 h-5" /> {formatTimer(passageRemaining)}
+            <div className="flex items-center gap-3">
+              {/* Phase sub-timer (indicative) */}
+              {currentStep && isSimulation && (
+                <span className="text-xs text-muted-foreground font-mono">
+                  ~{PHASE_DURATIONS_S[currentStep] / 60} min
+                </span>
+              )}
+              {isSimulation && (
+                <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-lg font-bold ${timerColorClass(passageRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant passage : ${formatTimer(passageRemaining)}`}>
+                  <Clock className="w-5 h-5" /> {formatTimer(passageRemaining)}
+                </div>
+              )}
+              {!isSimulation && (
+                <span className="text-sm text-muted-foreground italic flex items-center gap-1"><Zap className="w-4 h-4" /> Mode libre</span>
+              )}
             </div>
           </div>
 
