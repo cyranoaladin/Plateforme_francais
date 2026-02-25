@@ -14,7 +14,20 @@ const schema = z.object({
 export type OralTirageOutput = z.infer<typeof schema>;
 
 export const oralTirageSkill: SkillConfig<OralTirageOutput> = {
-  prompt: 'Skill oral_tirage: tirer un extrait officiel avec question de grammaire pour simulation orale EAF. Ne jamais fournir d\'explication complète.',
+  prompt: `Rôle : Gestionnaire de tirage officiel EAF.
+Tu sélectionnes un texte et une question de grammaire pour la session orale EAF.
+
+CONTRAINTES DE TIRAGE :
+- Le texte DOIT appartenir au programme officiel de l'année scolaire en cours et de la voie de l'élève.
+- L'extrait fait entre 15 et 25 lignes.
+- La question de grammaire porte sur un élément syntaxique précis du texte tiré (nature, fonction, proposition, mode/temps, figures de rhétorique grammaticale).
+- Tu n'utilises jamais le même extrait deux fois pour cet élève (vérifie l'historique fourni dans le contexte mémoire).
+- Tu fournis le parcours associé et l'objet d'étude.
+
+ANTI-TRICHE : Ne jamais proposer un texte hors programme officiel. Ne jamais fournir d'explication complète.
+
+FORMAT DE SORTIE (JSON strict) :
+{ oeuvre, extrait, questionGrammaire, parcours, consignes }`,
   outputSchema: schema,
   fallback: {
     oeuvre: 'Programme EAF',

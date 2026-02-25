@@ -10,6 +10,15 @@ export type RagSearchResult = {
   excerpt: string;
   url: string;
   score: number;
+  sourceRef?: string;
+};
+
+export type RagSearchOptions = {
+  query: string;
+  maxResults?: number;
+  context?: { oeuvre?: string; parcours?: string };
+  sourceTypes?: string[];
+  workId?: string;
 };
 
 const STOP_WORDS = new Set([
@@ -153,4 +162,50 @@ export async function searchOfficialReferences(
   const final = reranked.slice(0, maxResults);
   console.info('[rag] mode=%s results=%d', vectorResults.length > 0 ? 'hybrid_rrf' : 'lexical', final.length);
   return final;
+}
+
+/**
+ * Search with structured options (production API).
+ * Delegates to searchOfficialReferences with extracted parameters.
+ */
+export async function searchWithOptions(opts: RagSearchOptions): Promise<RagSearchResult[]> {
+  let results = await searchOfficialReferences(
+    opts.query,
+    (opts.maxResults ?? 5) * 2,
+    opts.context,
+  );
+
+  if (opts.sourceTypes && opts.sourceTypes.length > 0) {
+    const allowed = new Set(opts.sourceTypes.map((t) => t.toLowerCase()));
+    results = results.filter((r) => allowed.has(r.type.toLowerCase()));
+  }
+
+  if (opts.workId) {
+    const wid = opts.workId.toLowerCase();
+    results = results.map((r) => ({
+      ...r,
+      score: r.id.toLowerCase().includes(wid) || r.title.toLowerCase().includes(wid)
+        ? r.score + 0.15
+        : r.score,
+    })).sort((a, b) => b.score - a.score);
+  }
+
+  return results.slice(0, opts.maxResults ?? 5);
+}
+
+/**
+ * Format RAG search results into a structured text block for prompt injection.
+ * Each result includes title, source reference, and excerpt.
+ */
+export function formatRagContextForPrompt(results: RagSearchResult[]): string {
+  if (results.length === 0) {
+    return '';
+  }
+
+  return results
+    .map((r, i) => {
+      const ref = r.sourceRef ? ` (${r.sourceRef})` : '';
+      return `[Document ${i + 1}] ${r.title}${ref}\n${r.excerpt}`;
+    })
+    .join('\n\n');
 }
