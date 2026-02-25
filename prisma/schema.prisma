@@ -24,6 +24,8 @@ enum CopieStatus {
 
 enum SubscriptionPlan {
   FREE
+  PRO
+  MAX
   MONTHLY
   LIFETIME
 }
