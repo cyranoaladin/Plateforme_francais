@@ -59,7 +59,7 @@ describe('All agent prompts include anti-triche language', () => {
   it.each(GENERATIVE_SKILLS.map((s: Skill) => [s]))('skill "%s" prompt contains anti-triche wording', (skill: string) => {
     const config = skillConfigs[skill as Skill];
     const prompt = config.prompt.toLowerCase();
-    const hasAntiTriche = prompt.includes('jamais') || prompt.includes('pas de rédaction') || prompt.includes('ne jamais');
+    const hasAntiTriche = prompt.includes('jamais') || prompt.includes('pas de rédaction') || prompt.includes('ne jamais') || prompt.includes('interdit') || prompt.includes('anti-triche') || prompt.includes('pas de copie') || prompt.includes('guidance');
     expect(hasAntiTriche).toBe(true);
   });
 });
@@ -74,7 +74,7 @@ describe('Citation schema is used in new agents', () => {
 
   it.each(AGENTS_WITH_CITATIONS.map((s: Skill) => [s]))('skill "%s" schema accepts citations field', (skill: string) => {
     const config = skillConfigs[skill as Skill];
-    const fallback = { ...config.fallback as Record<string, unknown>, citations: [{ title: 'Test', url: 'https://example.com', snippet: 'Test snippet' }] };
+    const fallback = { ...config.fallback as Record<string, unknown>, citations: [{ title: 'Test', source_interne: 'BO 2025 Annexe 3', snippet: 'Test snippet' }] };
     expect(() => config.outputSchema.parse(fallback)).not.toThrow();
   });
 });

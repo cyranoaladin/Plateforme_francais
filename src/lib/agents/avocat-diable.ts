@@ -29,7 +29,7 @@ const AvocatDiableSchema = z.object({
 });
 
 export type AvocatDiableResult = z.infer<typeof AvocatDiableSchema> & {
-  citations: Array<{ title: string; url: string; source: string }>;
+  citations: Array<{ title: string; source: string }>;
 };
 
 type AnalyzeInput = {
@@ -101,7 +101,7 @@ export async function analyzeAvocatDiable(input: AnalyzeInput): Promise<AvocatDi
       refs = mcpResult.hits.slice(0, 3).map((hit, index) => ({
         id: `mcp-${index + 1}`,
         title: hit.title ?? `Source ${index + 1}`,
-        url: hit.sourceUrl ?? '',
+        sourceRef: hit.sourceUrl ?? '',
         excerpt: hit.excerpt ?? '',
         type: (hit.docType as (typeof refs)[number]['type']) ?? 'texte_officiel',
         level: 'Niveau A',
@@ -112,7 +112,7 @@ export async function analyzeAvocatDiable(input: AnalyzeInput): Promise<AvocatDi
     // fallback refs already loaded from local RAG
   }
   const ragContext = refs
-    .map((ref, index) => `[${index + 1}] ${ref.title} (${ref.url})\n${ref.excerpt}`)
+    .map((ref, index) => `[${index + 1}] ${ref.title} (${ref.sourceRef})\n${ref.excerpt}`)
     .join('\n\n');
 
   const prompt = [
@@ -134,7 +134,7 @@ export async function analyzeAvocatDiable(input: AnalyzeInput): Promise<AvocatDi
     const parsed = AvocatDiableSchema.parse(JSON.parse(extractJson(completion.text)));
     return {
       ...parsed,
-      citations: refs.map((ref) => ({ title: ref.title, url: ref.url, source: ref.type })),
+      citations: refs.map((ref) => ({ title: ref.title, source: ref.type })),
     };
   } catch (error) {
     logger.warn({ error, userId: input.userId, route: 'avocat_diable' }, 'avocat_diable.fallback');
@@ -154,7 +154,7 @@ export async function analyzeAvocatDiable(input: AnalyzeInput): Promise<AvocatDi
       ],
       verdict: 'à_renforcer',
       score: 58,
-      citations: refs.map((ref) => ({ title: ref.title, url: ref.url, source: ref.type })),
+      citations: refs.map((ref) => ({ title: ref.title, source: ref.type })),
     };
   }
 }

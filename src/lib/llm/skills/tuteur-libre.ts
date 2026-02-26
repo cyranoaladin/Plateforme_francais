@@ -6,8 +6,8 @@ const schema = z.object({
   citations: z.array(
     z.object({
       title: z.string(),
-      source: z.string(),
-      url: z.string(),
+      source_interne: z.string(),
+      extrait: z.string(),
     }),
   ),
   suggestions: z.array(z.string()).max(3),
@@ -35,12 +35,16 @@ QUAND L'ÉLÈVE DEMANDE UN CORRIGÉ OU UNE RÉDACTION :
 
 STYLE : Tutoiement, encourageant mais exigeant, 150-400 mots, pédagogique et exploitable. Propose toujours 1 à 3 suggestions de questions de suivi.
 
+CITATIONS : Tu cites uniquement des sources de ta base interne. Format : { title, source_interne, extrait }. JAMAIS d'URLs.
+
+ANTI-TRICHE : Ne jamais rédiger de texte complet. Ne jamais fournir de corrigé intégral.
+
 FORMAT DE SORTIE (JSON strict) :
-{ answer, citations: [{ title, source, url }], suggestions: ["question1", ...] }`,
+{ answer, citations: [{ title, source_interne, extrait }], suggestions: ["question1", ...] }`,
   outputSchema: schema,
   fallback: {
     answer: 'Je peux vous guider étape par étape à partir de vos cours et des textes officiels.',
     citations: [],
-    suggestions: ['Souhaitez-vous une méthode de commentaire en 5 étapes ?'],
+    suggestions: ['Souhaites-tu une méthode de commentaire en 5 étapes ?'],
   },
 };

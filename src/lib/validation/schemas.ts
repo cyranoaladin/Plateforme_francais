@@ -100,6 +100,11 @@ export const onboardingCompleteBodySchema = z.object({
   selectedOeuvres: z.array(z.string().trim().min(1).max(200)).min(1),
   weakSignals: z.array(z.string().trim().min(1).max(120)).max(6),
   classCode: z.string().trim().max(12).optional(),
+  oeuvreChoisieEntretien: z.string().trim().min(1).max(300).optional(),
+});
+
+export const updateOeuvreChoisieSchema = z.object({
+  oeuvreChoisieEntretien: z.string().trim().min(1).max(300),
 });
 
 export const tuteurMessageBodySchema = z.object({
@@ -123,4 +128,28 @@ export const badgeEvaluateBodySchema = z.object({
 
 export const teacherCorrectionCommentBodySchema = z.object({
   comment: z.string().trim().min(1).max(1000),
+});
+
+const descriptifTexteItemSchema = z.object({
+  objetEtude: z.enum(['poesie', 'roman', 'theatre', 'litterature_idees']),
+  oeuvre: z.string().trim().min(1).max(200),
+  auteur: z.string().trim().min(1).max(100),
+  typeExtrait: z.enum(['extrait_oeuvre', 'extrait_parcours']),
+  titre: z.string().trim().min(1).max(200),
+  premieresLignes: z.string().trim().max(400).optional(),
+});
+
+export const descriptifUpsertSchema = z.object({
+  textes: z.array(descriptifTexteItemSchema).min(1).max(60),
+});
+
+export type DescriptifTexteItem = z.infer<typeof descriptifTexteItemSchema>;
+
+export const carnetEntrySchema = z.object({
+  oeuvre: z.string().trim().min(1).max(200),
+  auteur: z.string().trim().min(1).max(100),
+  type: z.enum(['citation', 'note', 'reaction', 'resume', 'lien_culturel']),
+  contenu: z.string().trim().min(1).max(2000),
+  page: z.string().trim().max(20).optional(),
+  tags: z.array(z.string().trim().min(1).max(50)).max(10).optional(),
 });

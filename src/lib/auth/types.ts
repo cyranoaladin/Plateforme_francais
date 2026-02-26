@@ -11,6 +11,7 @@ export type StudentProfile = {
   badges: string[];
   preferredObjects: string[];
   weakSkills: string[];
+  oeuvreChoisieEntretien?: string;
 };
 
 export type MemoryEventType =

@@ -30,13 +30,14 @@ export async function POST(request: Request) {
 
   const type = parsed.data.type as EpreuveType;
 
-  const generation = (await orchestrate({
+  const result = await orchestrate({
     skill: 'coach_ecrit',
     userId: auth.user.id,
     userQuery: `Génère un sujet de type ${type}. Oeuvre: ${parsed.data.oeuvre ?? 'libre'}. Thème: ${parsed.data.theme ?? 'libre'}.`,
     context:
       'La sortie JSON doit inclure: sujet, texte, consignes (durée 4h, rappel barème), bareme en points sur 20.',
-  })) as {
+  });
+  const generation = result.output as {
     sujet: string;
     texte: string;
     consignes: string;

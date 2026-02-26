@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { prisma } from '@/lib/db/client';
 import { appendOralInteraction, findOralSessionById } from '@/lib/oral/repository';
 import { evaluateOralPhase } from '@/lib/oral/service';
 import { PHASE_MAX_SCORES, type OralPhaseKey } from '@/lib/oral/scoring';
@@ -44,6 +45,8 @@ export async function POST(
     return NextResponse.json({ error: 'Phase invalide.' }, { status: 400 });
   }
 
+  const profile = await prisma.studentProfile.findUnique({ where: { userId: auth.user.id } });
+
   const evaluation = await evaluateOralPhase({
     phase,
     transcript: parsed.data.transcript,
@@ -51,6 +54,7 @@ export async function POST(
     questionGrammaire: session.questionGrammaire,
     oeuvre: session.oeuvre,
     duration: parsed.data.duration,
+    oeuvreChoisieEntretien: profile?.oeuvreChoisieEntretien ?? null,
   });
 
   await appendOralInteraction({

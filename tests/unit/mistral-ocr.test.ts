@@ -48,15 +48,15 @@ describe('extractTextFromCopie — Mistral OCR', () => {
     expect(result).toContain('[ocr indisponible');
   });
 
-  it('fallback Gemini si MIME non supporté', async () => {
+  it('fallback Pixtral si MIME non supporté par Mistral OCR', async () => {
     process.env.MISTRAL_API_KEY = 'test-key';
-    delete process.env.GEMINI_API_KEY;
 
     const result = await extractTextFromCopie({
       bytes: new TextEncoder().encode('fake-image'),
       mimeType: 'image/tiff',
     });
 
-    expect(result).toContain('[ocr indisponible');
+    // image/tiff → Pixtral fallback → réseau absent → erreur serveur ou indisponible
+    expect(result).toMatch(/\[ocr pixtral:|ocr indisponible/);
   });
 });

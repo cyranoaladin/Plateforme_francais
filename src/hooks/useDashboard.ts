@@ -41,6 +41,8 @@ export type DashboardMetrics = {
   onboardingCompleted: boolean;
   eafDate: string | null;
   countdownDays: number | null;
+  countdownEcrit: number | null;
+  countdownOral: number | null;
   isLoading: boolean;
   error: string | null;
 };
@@ -232,6 +234,8 @@ export function useDashboard(): DashboardMetrics {
               ),
             )
           : null,
+      countdownEcrit: Math.max(0, Math.ceil((new Date('2026-06-11T08:00:00').getTime() - Date.now()) / 86_400_000)),
+      countdownOral: Math.max(0, Math.ceil((new Date('2026-06-22T00:00:00').getTime() - Date.now()) / 86_400_000)),
       isLoading,
       error,
     };

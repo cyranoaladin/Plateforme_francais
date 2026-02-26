@@ -1,8 +1,4 @@
 import { promises as fs } from 'fs'
-import { GoogleGenerativeAI } from '@google/generative-ai'
-
-const GEMINI_OCR_PROMPT =
-  "Tu es un OCR spécialisé en copies d'élèves français. Transcris fidèlement le texte manuscrit."
 
 type OcrInput = {
   absolutePath?: string
@@ -24,6 +20,11 @@ async function resolveBytes(input: OcrInput): Promise<Buffer | null> {
   return null
 }
 
+/**
+ * Extract text from a student copy image/PDF.
+ * Priority: Mistral OCR → Pixtral multimodal fallback → explicit error.
+ * Gemini dependency has been removed (Mistral-first architecture).
+ */
 export async function extractTextFromCopie(input: OcrInput): Promise<string> {
   const bytes = await resolveBytes(input)
   if (!bytes) {
@@ -31,9 +32,13 @@ export async function extractTextFromCopie(input: OcrInput): Promise<string> {
   }
 
   const mistralApiKey = process.env.MISTRAL_API_KEY ?? ''
+  if (!mistralApiKey) {
+    return '[ocr indisponible: MISTRAL_API_KEY absente — configurez la variable d\'environnement]'
+  }
+
   const supportedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf']
 
-  if (mistralApiKey && supportedMimeTypes.includes(input.mimeType)) {
+  if (supportedMimeTypes.includes(input.mimeType)) {
     const base64 = toBase64(bytes)
     const baseUrl = (process.env.MISTRAL_BASE_URL ?? 'https://api.mistral.ai/v1').replace(/\/$/, '')
 
@@ -66,47 +71,46 @@ export async function extractTextFromCopie(input: OcrInput): Promise<string> {
         }
       }
     } catch {
-      // fallback Gemini below
+      // Mistral OCR failed — try Pixtral multimodal fallback
     }
   }
 
-  return extractTextFromCopieGemini({ ...input, bytes })
+  return extractTextFromCopieViaPixtral(input, bytes)
 }
 
-async function extractTextFromCopieGemini(input: OcrInput): Promise<string> {
-  const apiKey = process.env.GEMINI_API_KEY ?? ''
-  if (!apiKey) {
-    return '[ocr indisponible: GEMINI_API_KEY absente]'
+/**
+ * Fallback OCR via Pixtral (multimodal Mistral model).
+ * Used when mistral-ocr-latest fails or returns empty.
+ */
+async function extractTextFromCopieViaPixtral(input: OcrInput, bytes: Buffer): Promise<string> {
+  const mistralApiKey = process.env.MISTRAL_API_KEY ?? ''
+  if (!mistralApiKey) {
+    return '[ocr indisponible: MISTRAL_API_KEY absente — configurez la variable d\'environnement]'
   }
 
-  const bytes = await resolveBytes(input)
-  if (!bytes) {
-    return '[ocr indisponible: input image manquant]'
+  const base64 = Buffer.from(bytes).toString('base64')
+  try {
+    const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${mistralApiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'pixtral-12b-2409',
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'text', text: 'Transcris fidèlement ce document manuscrit ou tapuscrit. Retourne uniquement le texte, sans commentaire.' },
+            { type: 'image_url', image_url: { url: `data:${input.mimeType};base64,${base64}` } },
+          ],
+        }],
+        temperature: 0,
+      }),
+      signal: AbortSignal.timeout(60_000),
+    })
+
+    if (!response.ok) return '[ocr pixtral: erreur serveur]'
+    const data = (await response.json()) as { choices: [{ message: { content: string } }] }
+    return data.choices[0]?.message?.content?.trim() ?? '[ocr pixtral: réponse vide]'
+  } catch {
+    return '[ocr indisponible: échec Mistral OCR et Pixtral]'
   }
-
-  const base64 = toBase64(bytes)
-  const client = new GoogleGenerativeAI(apiKey)
-  const model = client.getGenerativeModel({ model: 'gemini-1.5-pro' })
-
-  const result = await model.generateContent({
-    contents: [
-      {
-        role: 'user',
-        parts: [
-          { text: GEMINI_OCR_PROMPT },
-          {
-            inlineData: {
-              data: base64,
-              mimeType: input.mimeType,
-            },
-          },
-        ],
-      },
-    ],
-    generationConfig: {
-      temperature: 0,
-    },
-  })
-
-  return result.response.text().trim()
 }

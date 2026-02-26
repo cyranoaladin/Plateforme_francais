@@ -79,7 +79,7 @@ export default function Dashboard() {
           <h1 className="text-2xl md:text-3xl font-bold mb-2">Bonjour, {data.displayName} !</h1>
           <p className="text-indigo-100 text-sm md:text-base mb-4 max-w-xl">
             Je suis <strong>Nexus</strong>, ton tuteur IA.
-            {data.countdownDays !== null && <> L&apos;épreuve approche ({data.countdownDays} jours). </>}
+            {data.countdownEcrit !== null && data.countdownEcrit > 0 && <> <strong>J-{data.countdownEcrit}</strong> avant l&apos;écrit · <strong>J-{data.countdownOral}</strong> avant les oraux. </>}
             {weakestSkill && <>Aujourd&apos;hui, je te conseille de travailler <strong>{weakestSkill.label.toLowerCase()}</strong>.</>}
           </p>
           <Link href="/tuteur" className="inline-flex items-center gap-2 bg-white text-indigo-600 px-5 py-2.5 rounded-xl font-bold hover:bg-indigo-50 transition-colors shadow-sm text-sm">

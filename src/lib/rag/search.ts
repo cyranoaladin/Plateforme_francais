@@ -8,9 +8,8 @@ export type RagSearchResult = {
   type: ReferenceDoc['type'];
   level: ReferenceDoc['level'];
   excerpt: string;
-  url: string;
+  sourceRef: string;
   score: number;
-  sourceRef?: string;
 };
 
 export type RagSearchOptions = {
@@ -91,7 +90,7 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
       type: doc.type,
       level: doc.level,
       excerpt: doc.excerpt,
-      url: doc.url,
+      sourceRef: doc.sourceRef,
       score: 0,
     }));
   }
@@ -104,7 +103,7 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
     type: doc.type,
     level: doc.level,
     excerpt: doc.excerpt,
-    url: doc.url,
+    sourceRef: doc.sourceRef,
     score: scoreDocument(doc, tokens),
   }))
     .filter((doc) => doc.score > 0)
@@ -143,7 +142,7 @@ export async function searchOfficialReferences(
         type: (chunk.sourceType as ReferenceDoc['type']) ?? 'texte_officiel',
         level: levelFromDocId(chunk.docId),
         excerpt: chunk.content.slice(0, 220),
-        url: chunk.sourceUrl,
+        sourceRef: chunk.sourceUrl,
         score: scoreFromDistance(Number(chunk.distance)),
       }));
     }

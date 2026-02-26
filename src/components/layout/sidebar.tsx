@@ -20,6 +20,8 @@ import {
   Award,
   Sparkles,
   Settings,
+  ClipboardList,
+  NotebookPen,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
@@ -32,6 +34,8 @@ const navItems = [
   { name: 'Atelier Oral', href: '/atelier-oral', icon: Mic },
   { name: 'Atelier Langue', href: '/atelier-langue', icon: BookOpen },
   { name: 'Mon Parcours', href: '/mon-parcours', icon: Map },
+  { name: 'Mon Descriptif', href: '/descriptif', icon: ClipboardList },
+  { name: 'Carnet', href: '/carnet', icon: NotebookPen },
   { name: 'Quiz', href: '/quiz', icon: HelpCircle },
   { name: 'Bibliothèque', href: '/bibliotheque', icon: Library },
   { name: 'Profil', href: '/profil', icon: UserCircle2 },
@@ -40,10 +44,10 @@ const navItems = [
 const mobileNavItems = [
   { name: 'Accueil', href: '/', icon: LayoutDashboard },
   { name: 'Tuteur', href: '/tuteur', icon: MessagesSquare },
-  { name: 'Écrit', href: '/atelier-ecrit', icon: PenTool },
   { name: 'Oral', href: '/atelier-oral', icon: Mic },
-  { name: 'Langue', href: '/atelier-langue', icon: BookOpen },
-  { name: 'Plus', href: '/bibliotheque', icon: Library },
+  { name: 'Écrit', href: '/atelier-ecrit', icon: PenTool },
+  { name: 'Parcours', href: '/mon-parcours', icon: Map },
+  { name: 'Profil', href: '/profil', icon: UserCircle2 },
 ];
 
 type AuthMe = {

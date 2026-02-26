@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { classifyIntent } from '@/lib/agents/router';
+import { classifyIntent, resolveSkillForIntent, routeQuery } from '@/lib/agents/router';
 
 describe('classifyIntent — routage par mot-clé', () => {
   describe('Catégorie methode', () => {
@@ -98,5 +98,51 @@ describe('classifyIntent — routage par mot-clé', () => {
       const result = classifyIntent("Préparer l'explication linéaire du poème");
       expect(result).toBe('entrainement_oral');
     });
+  });
+});
+
+describe('resolveSkillForIntent', () => {
+  it('methode sans contexte → tuteur_libre', () => {
+    expect(resolveSkillForIntent('methode')).toBe('tuteur_libre');
+  });
+
+  it('methode + oral → coach_oral', () => {
+    expect(resolveSkillForIntent('methode', { isOralSession: true })).toBe('coach_oral');
+  });
+
+  it('methode + écrit dissertation → ecrit_plans', () => {
+    expect(resolveSkillForIntent('methode', { isEcritSession: true, subType: 'dissertation' })).toBe('ecrit_plans');
+  });
+
+  it('correction + hasText → correcteur', () => {
+    expect(resolveSkillForIntent('correction', { hasText: true })).toBe('correcteur');
+  });
+
+  it('oeuvre → bibliothecaire', () => {
+    expect(resolveSkillForIntent('oeuvre')).toBe('bibliothecaire');
+  });
+
+  it('unknown → tuteur_libre', () => {
+    expect(resolveSkillForIntent('unknown')).toBe('tuteur_libre');
+  });
+});
+
+describe('routeQuery', () => {
+  it('retourne un objet {category, skill, confidence}', () => {
+    const result = routeQuery('Baudelaire');
+    expect(result).toHaveProperty('category');
+    expect(result).toHaveProperty('skill');
+    expect(result).toHaveProperty('confidence');
+  });
+
+  it('confidence 0.3 pour unknown', () => {
+    const result = routeQuery('xyzzyblabla');
+    expect(result.confidence).toBe(0.3);
+    expect(result.category).toBe('unknown');
+  });
+
+  it('confidence 0.85 pour catégorie reconnue', () => {
+    const result = routeQuery('oral simulation');
+    expect(result.confidence).toBe(0.85);
   });
 });

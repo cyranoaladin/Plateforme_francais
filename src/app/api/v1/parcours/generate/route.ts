@@ -35,12 +35,13 @@ export async function POST(request: Request) {
     return parsed.response;
   }
 
-  const generated = (await orchestrate({
+  const orchestrateResult = await orchestrate({
     skill: 'tuteur_libre',
     userId: auth.user.id,
     userQuery: 'Génère un plan de révision hebdomadaire en JSON.',
     context: `Faiblesses: ${auth.user.profile.weakSkills.join(', ')}. Date EAF: ${auth.user.profile.eafDate ?? 'non renseignée'}.`,
-  })) as { semaines?: Plan['semaines'] };
+  });
+  const generated = orchestrateResult.output as { semaines?: Plan['semaines'] };
 
   const fallback: Plan = {
     semaines: Array.from({ length: 4 }, (_, idx) => ({

@@ -28,6 +28,33 @@ describe('P0-SaaS-1: Examiner Personas', () => {
         expect(valid).toContain(result);
       }
     });
+
+    it('RANDOM with seed 0 always returns same persona', () => {
+      const first = resolvePersona('RANDOM', 0);
+      for (let i = 0; i < 10; i++) {
+        expect(resolvePersona('RANDOM', 0)).toBe(first);
+      }
+    });
+
+    it('RANDOM with seed 1 always returns same persona', () => {
+      const first = resolvePersona('RANDOM', 1);
+      for (let i = 0; i < 10; i++) {
+        expect(resolvePersona('RANDOM', 1)).toBe(first);
+      }
+    });
+
+    it('resolvePersona never returns RANDOM', () => {
+      for (let seed = 0; seed < 20; seed++) {
+        const result = resolvePersona('RANDOM', seed);
+        expect(result).not.toBe('RANDOM');
+      }
+    });
+
+    it('seed parameter is ignored for non-RANDOM personas', () => {
+      expect(resolvePersona('HOSTILE', 42)).toBe('HOSTILE');
+      expect(resolvePersona('NEUTRE', 99)).toBe('NEUTRE');
+      expect(resolvePersona('BIENVEILLANT', 0)).toBe('BIENVEILLANT');
+    });
   });
 
   describe('injectPersonaIntoPrompt', () => {

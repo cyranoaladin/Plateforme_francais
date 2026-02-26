@@ -75,19 +75,20 @@ export async function POST(request: Request) {
 
   const refs = await searchOfficialReferences(userMessage, 4);
   const context = refs
-    .map((ref, index) => `[${index + 1}] ${ref.title} (${ref.url})\n${ref.excerpt}`)
+    .map((ref, index) => `[${index + 1}] ${ref.title} (${ref.sourceRef})\n${ref.excerpt}`)
     .join('\n\n');
 
   const historyText = (parsed.data.conversationHistory ?? [])
     .map((item) => `${item.role}: ${item.content}`)
     .join('\n');
 
-  const generated = (await orchestrate({
+  const orchestrateResult = await orchestrate({
     skill: 'tuteur_libre',
     userId: auth.user.id,
     userQuery: userMessage,
     context: `Historique:\n${historyText}\n\nSources RAG:\n${context}`,
-  })) as {
+  });
+  const generated = orchestrateResult.output as {
     answer?: string;
     suggestions?: string[];
   };
@@ -96,7 +97,6 @@ export async function POST(request: Request) {
     index: index + 1,
     title: ref.title,
     source: ref.type,
-    url: ref.url,
   }));
 
   await incrementUsage(auth.user.id, 'tuteurMessagesPerDay');

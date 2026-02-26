@@ -15,7 +15,7 @@ export type ReferenceDoc = {
   excerpt: string;
   content: string;
   tags: string[];
-  url: string;
+  sourceRef: string;
   mediaUrl?: string;
   markdownContent?: string;
 };
@@ -30,7 +30,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: "Structurer l'introduction, l'analyse et la conclusion d'un commentaire.",
     content: 'Méthode complète du commentaire, de la problématique aux transitions.',
     tags: ['commentaire', 'méthode', 'écrit'],
-    url: 'https://eaf.local/ressources/fiche-commentaire-1',
+    sourceRef: 'https://eaf.local/ressources/fiche-commentaire-1',
     markdownContent:
       '# Commentaire littéraire\n\n1. Lire et annoter le texte.\n2. Définir la problématique.\n3. Construire un plan lisible.\n4. Justifier par citations brèves.\n\n```text\nIdée -> Procédé -> Effet\n```',
   },
@@ -43,7 +43,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: 'Construire une argumentation rigoureuse en trois parties.',
     content: 'Méthode dissertation: problématisation, argumentation, exemples, conclusion.',
     tags: ['dissertation', 'méthode', 'écrit'],
-    url: 'https://eaf.local/ressources/fiche-dissertation-1',
+    sourceRef: 'https://eaf.local/ressources/fiche-dissertation-1',
     markdownContent:
       '# Dissertation\n\n- Problématique claire\n- Plan dialectique ou thématique\n- Exemples précis issus des œuvres',
   },
@@ -56,7 +56,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: 'Conduire une explication linéaire du texte sans paraphrase.',
     content: 'Progression linéaire, analyse des procédés, effets de sens.',
     tags: ['oral', 'explication', 'méthode'],
-    url: 'https://eaf.local/ressources/fiche-explication-1',
+    sourceRef: 'https://eaf.local/ressources/fiche-explication-1',
     markdownContent:
       '# Explication linéaire\n\nRepérer les mouvements du texte et relier **forme** et **sens**.',
   },
@@ -69,7 +69,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: 'Répondre avec la terminologie 2020: nature, fonction, valeur.',
     content: 'Méthode brève et efficace pour sécuriser les 2 points de grammaire.',
     tags: ['grammaire', 'oral', 'terminologie'],
-    url: 'https://eaf.local/ressources/fiche-grammaire-1',
+    sourceRef: 'https://eaf.local/ressources/fiche-grammaire-1',
     markdownContent: '# Grammaire\n\nToujours nommer la **nature** puis la **fonction**.',
   },
   {
@@ -81,7 +81,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: 'Réduire un texte argumentatif en respectant sa logique.',
     content: 'Procédure de contraction: idées directrices, reformulation fidèle, concision.',
     tags: ['contraction', 'méthode', 'écrit'],
-    url: 'https://eaf.local/ressources/fiche-contraction-1',
+    sourceRef: 'https://eaf.local/ressources/fiche-contraction-1',
     markdownContent: '# Contraction\n\nConserver la structure argumentative du texte source.',
   },
   {
@@ -93,7 +93,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: 'Défendre une thèse personnelle avec nuance.',
     content: 'Méthodologie de l essai: thèse, arguments, contre-arguments, ouverture.',
     tags: ['essai', 'argumentation', 'écrit'],
-    url: 'https://eaf.local/ressources/fiche-essai-1',
+    sourceRef: 'https://eaf.local/ressources/fiche-essai-1',
     markdownContent: '# Essai\n\nThèse explicite, exemples solides, style clair.',
   },
   {
@@ -105,7 +105,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: 'Amorce, présentation du texte, problématique, annonce du plan.',
     content: 'Check-list des 4 éléments indispensables de l introduction.',
     tags: ['introduction', 'commentaire', 'dissertation'],
-    url: 'https://eaf.local/ressources/fiche-ouverture-1',
+    sourceRef: 'https://eaf.local/ressources/fiche-ouverture-1',
     markdownContent: '# Introduction\n\nNe pas oublier l annonce de plan.',
   },
   {
@@ -117,7 +117,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: 'Synthèse argumentée et ouverture pertinente.',
     content: 'Méthode pour conclure proprement un écrit EAF.',
     tags: ['conclusion', 'écrit'],
-    url: 'https://eaf.local/ressources/fiche-conclusion-1',
+    sourceRef: 'https://eaf.local/ressources/fiche-conclusion-1',
     markdownContent: '# Conclusion\n\nBilan + réponse à la problématique + ouverture.',
   },
   {
@@ -129,7 +129,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: 'Citer court, analyser juste.',
     content: 'Techniques d insertion de citations et d analyse des effets.',
     tags: ['citations', 'analyse', 'méthode'],
-    url: 'https://eaf.local/ressources/fiche-citations-1',
+    sourceRef: 'https://eaf.local/ressources/fiche-citations-1',
     markdownContent: '# Citations\n\nToujours expliquer la citation immédiatement.',
   },
   {
@@ -141,7 +141,7 @@ const METHOD_SHEETS: ReferenceDoc[] = [
     excerpt: 'Répartir lecture, explication, grammaire et entretien.',
     content: 'Stratégie de gestion du temps pour une prestation équilibrée.',
     tags: ['oral', 'gestion du temps'],
-    url: 'https://eaf.local/ressources/fiche-oral-temps',
+    sourceRef: 'https://eaf.local/ressources/fiche-oral-temps',
     markdownContent: '# Gestion du temps\n\n2 + 8 + 2 + 8 minutes.',
   },
 ];
@@ -156,7 +156,7 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: "L'épreuve anticipée de français évalue maîtrise linguistique et culture littéraire.",
     content: 'Attendus officiels pour oral et écrit, critères et finalités.',
     tags: ['barème', 'oral', 'écrit', 'explication linéaire'],
-    url: 'https://eduscol.education.fr/document/52932/download',
+    sourceRef: 'https://eduscol.education.fr/document/52932/download',
   },
   {
     id: 'eduscol-explication-attendus',
@@ -167,7 +167,7 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: 'Suivre le mouvement du texte et relier procédés et effets.',
     content: 'Attendus précis de l explication linéaire à l oral.',
     tags: ['explication', 'oral', 'analyse'],
-    url: 'https://eduscol.education.fr/document/24379/download',
+    sourceRef: 'https://eduscol.education.fr/document/24379/download',
   },
   {
     id: 'eduscol-grammaire-2020',
@@ -178,7 +178,7 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: 'Identifier nature, fonction et marques syntaxiques.',
     content: 'Terminologie officielle pour les analyses grammaticales.',
     tags: ['grammaire', 'terminologie', 'syntaxe'],
-    url: 'https://eduscol.education.fr/document/1872/download',
+    sourceRef: 'https://eduscol.education.fr/document/1872/download',
   },
   {
     id: 'eduscol-commentaire-grille',
@@ -189,7 +189,7 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: 'Compréhension, analyse, organisation et expression.',
     content: 'Répartition des critères du commentaire à l écrit.',
     tags: ['commentaire', 'barème', 'écrit'],
-    url: 'https://eduscol.education.fr/',
+    sourceRef: 'https://eduscol.education.fr/',
   },
   {
     id: 'eduscol-dissertation-grille',
@@ -200,7 +200,7 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: 'Problématisation, argumentation, exemples et expression.',
     content: 'Critères d évaluation de la dissertation EAF.',
     tags: ['dissertation', 'barème', 'écrit'],
-    url: 'https://eduscol.education.fr/',
+    sourceRef: 'https://eduscol.education.fr/',
   },
   {
     id: 'bo-programme-oeuvres-2025',
@@ -211,7 +211,7 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: 'Liste officielle des œuvres et parcours associés.',
     content: 'Cadre national des œuvres au programme de Première.',
     tags: ['programme', 'oeuvres', 'parcours'],
-    url: 'https://www.education.gouv.fr/bo',
+    sourceRef: 'https://www.education.gouv.fr/bo',
   },
   {
     id: 'eduscol-entretien-attendus',
@@ -222,7 +222,7 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: 'Évaluer argumentation personnelle et culture de lecture.',
     content: 'Attendus sur la capacité à dialoguer et justifier ses choix.',
     tags: ['oral', 'entretien', 'lecture cursive'],
-    url: 'https://eduscol.education.fr/',
+    sourceRef: 'https://eduscol.education.fr/',
   },
   {
     id: 'eduscol-copies-annotes',
@@ -233,7 +233,7 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: 'Comprendre ce qui distingue une copie moyenne d une excellente copie.',
     content: 'Exemples de productions annotées avec commentaires pédagogiques.',
     tags: ['exemples', 'copies', 'écrit'],
-    url: 'https://eduscol.education.fr/',
+    sourceRef: 'https://eduscol.education.fr/',
   },
   {
     id: 'bo-epreuve-temps',
@@ -244,7 +244,7 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: 'Rappel des durées: écrit 4h, oral structuré en deux parties.',
     content: 'Organisation temporelle et logistique des épreuves.',
     tags: ['durée', 'organisation', 'oral', 'écrit'],
-    url: 'https://www.education.gouv.fr/bo',
+    sourceRef: 'https://www.education.gouv.fr/bo',
   },
   {
     id: 'eu-ai-act-education',
@@ -255,59 +255,147 @@ const OFFICIAL_TEXTS: ReferenceDoc[] = [
     excerpt: 'Encadrement des usages IA et limites de certaines inférences.',
     content: 'Points de conformité et prudence pour outils éducatifs IA.',
     tags: ['conformité', 'ai', 'éducation'],
-    url: 'https://eur-lex.europa.eu/eli/reg/2024/1689/oj?locale=fr',
+    sourceRef: 'https://eur-lex.europa.eu/eli/reg/2024/1689/oj?locale=fr',
+  },
+  {
+    id: 'programme-eaf-2025-2026-complet',
+    title: 'Programme EAF 2025-2026 — 12 œuvres officielles voie générale',
+    type: 'texte_officiel',
+    source: 'BO',
+    level: 'Niveau A',
+    excerpt: 'Programme complet des 12 œuvres au programme EAF 2025-2026 avec parcours associés.',
+    content: 'Programme EAF 2025-2026 voie générale — 12 œuvres (3 par objet d\'étude). POÉSIE (parcours Émancipations créatrices / Dans l\'atelier du poète / La poésie, la nature, l\'intime) : Rimbaud (Cahier de Douai), Ponge (La rage de l\'expression), Hélène Dorion (Mes forêts). LITTÉRATURE D\'IDÉES (parcours : Défendre et entretenir la liberté / Le goût de la science / Un nouvel univers) : La Boétie (Discours de la servitude volontaire), Fontenelle (Entretiens sur la pluralité des mondes), Graffigny (Lettres d\'une Péruvienne). THÉÂTRE (parcours Mensonge et comédie / Les jeux du cœur et de la parole / Théâtre et dispute) : Corneille (Le Menteur), Musset (On ne badine pas avec l\'amour), Sarraute (Pour un oui ou pour un non). ROMAN (parcours Personnages en marge, plaisirs du romanesque / Les romans de l\'énergie : création et destruction / La célébration du monde) : Abbé Prévost (Manon Lescaut), Balzac (La Peau de chagrin), Colette (Sido suivi de Les Vrilles de la vigne). Calendrier : écrit le 11 juin 2026, oraux à partir du 22 juin 2026.',
+    tags: ['programme', 'oeuvres', 'parcours', '2025-2026'],
+    sourceRef: 'BO n°30 du 24 juillet 2025 + BO été 2024',
+  },
+  {
+    id: 'grammaire-programme-premiere',
+    title: 'Notions de grammaire au programme de Première — EAF',
+    type: 'texte_officiel',
+    source: 'EDUSCOL',
+    level: 'Niveau A',
+    excerpt: 'Les 3 axes de grammaire évalués à l\'oral EAF : syntaxe, logique, système verbal.',
+    content: 'Notions de grammaire évaluées à l\'EAF. AXE 1 — Syntaxe de la phrase complexe : juxtaposition, coordination, subordination conjonctive (cause, conséquence, opposition, condition, but, temps), subordonnée relative (pronoms relatifs, antécédent, valeur épithète/appositive), subordonnée interrogative indirecte. AXE 2 — Relations logiques : cause (parce que, puisque, comme), conséquence (si bien que, donc), opposition/concession (bien que + subjonctif, quoique, cependant), condition (si + indicatif/conditionnel, à condition que + subjonctif), but (pour que + subjonctif). AXE 3 — Système verbal : valeurs des temps de l\'indicatif, subjonctif (obligation/doute/sentiment/souhait/concession), conditionnel (hypothèse/politesse/futur dans le passé), concordance dans le discours rapporté, discours indirect libre (DIL). Manipulations : substitution, déplacement, transformation (actif/passif, affirmatif/négatif).',
+    tags: ['grammaire', 'programme', 'syntaxe', 'verbal', 'logique'],
+    sourceRef: 'Ressources Éduscol — Enseignement du français en Première',
+  },
+  {
+    id: 'descriptif-lecture-regles',
+    title: 'Descriptif de lecture — Règles et format officiel',
+    type: 'texte_officiel',
+    source: 'BO',
+    level: 'Niveau A',
+    excerpt: 'Minimum 20 textes, 5 par objet d\'étude, 3 par œuvre intégrale, 2 par parcours.',
+    content: 'Le descriptif de lecture est le document officiel qui liste les textes étudiés en Première, sur lesquels l\'examinateur peut interroger le candidat lors de la 1re partie de l\'oral. Règles voie générale : minimum 20 textes au total ; minimum 5 textes par objet d\'étude ; minimum 3 extraits par œuvre intégrale ; minimum 2 extraits pour le parcours associé ; l\'œuvre choisie par le candidat pour la 2e partie doit être mentionnée. Document signé par le professeur avec cachet établissement. L\'examinateur reçoit le descriptif en amont. Le candidat l\'apporte en double exemplaire et dispose des textes pendant la préparation.',
+    tags: ['descriptif', 'oral', 'textes', 'récapitulatif'],
+    sourceRef: 'Note de service consolidée mars 2024 + Rapport expertise session 2026',
+  },
+  {
+    id: 'jury-oral-2024',
+    title: 'Rapport du jury EAF 2024 — Épreuve orale',
+    type: 'texte_officiel',
+    source: 'EDUSCOL',
+    level: 'Niveau B',
+    excerpt: 'Points saillants du rapport jury oral 2024 : explication linéaire, grammaire, entretien.',
+    content: 'Points saillants du rapport jury oral 2024 : Les candidats doivent éviter de réciter des listes de procédés sans les interpréter. L\'explication linéaire exige un fil conducteur problématisé. La question de grammaire doit être traitée en trois étapes : identifier le fait grammatical, le nommer précisément, l\'interpréter dans le contexte du texte. L\'entretien porte sur la lecture cursive : 1 livre de la liste obligatoire + 1 œuvre de la liste personnelle. Les candidats doivent défendre leurs lectures avec des arguments personnels.',
+    tags: ['jury', 'oral', 'rapport', '2024'],
+    sourceRef: 'Rapport de jury EAF 2024, session normale',
+  },
+  {
+    id: 'methode-explication-lineaire',
+    title: 'Méthode officielle : l\'explication linéaire',
+    type: 'fiche_methode',
+    source: 'EDUSCOL',
+    level: 'Niveau A',
+    excerpt: 'Suivre le texte dans l\'ordre, dégager les mouvements, commenter procédés et effets.',
+    content: 'L\'explication linéaire suit le texte dans l\'ordre, mais ne le paraphrase pas. Elle dégage les mouvements du texte (2-3 parties), formule une problématique en introduction, commente les procédés en les interprétant (jamais de liste sèche), et conclut par une ouverture. Le fil conducteur doit être mentionné régulièrement. La grammaire doit être naturellement intégrée à l\'analyse. Durée conseillée : 8-10 minutes.',
+    tags: ['explication linéaire', 'oral', 'méthode'],
+    sourceRef: 'Éduscol — Ressources pour la Première générale',
+  },
+  {
+    id: 'methode-dissertation-eaf',
+    title: 'Méthode officielle : la dissertation EAF',
+    type: 'fiche_methode',
+    source: 'EDUSCOL',
+    level: 'Niveau A',
+    excerpt: 'Plan problématisé, exemples de l\'œuvre au programme + lectures personnelles.',
+    content: 'La dissertation en Première porte sur l\'objet d\'étude de l\'œuvre intégrale. Le plan dialectique (thèse-antithèse-synthèse) ou thématique doit être problématisé. Chaque argument est illustré par au minimum 1 exemple précis de l\'œuvre au programme + 1 exemple de la lecture cursive. L\'introduction comprend : accroche, présentation du sujet, problématique, annonce du plan. La conclusion synthétise et ouvre sur une question plus large.',
+    tags: ['dissertation', 'méthode', 'écrit'],
+    sourceRef: 'Éduscol — Ressources pour la Première générale',
+  },
+  {
+    id: 'bareme-oral-officiel',
+    title: 'Structure et barème officiel de l\'épreuve orale EAF',
+    type: 'texte_officiel',
+    source: 'BO',
+    level: 'Niveau A',
+    excerpt: 'Oral EAF : 20 min (12 min première partie /12 + 8 min entretien /8). Préparation 30 min.',
+    content: 'Épreuve orale EAF voie générale — 20 minutes + 30 minutes de préparation. PREMIÈRE PARTIE (12 points, 12 minutes) : 1) Lecture à voix haute /2 — diction, débit, expressivité, adresse au jury, intention de sens. 2) Explication linéaire /8 — introduction avec problématique, mouvements du texte, analyse des procédés interprétés, fil conducteur, références précises au texte. 3) Question de grammaire /2 — analyse syntaxique d\'UNE courte phrase ou partie de phrase du texte ; les notions de Seconde ne peuvent constituer le ressort essentiel. SECONDE PARTIE (8 points, 8 minutes) : présentation de l\'œuvre CHOISIE PAR LE CANDIDAT (lecture cursive ou œuvre étudiée en classe) + entretien en questions ouvertes avec l\'examinateur. L\'examinateur ne revient pas sur la première partie. Le candidat présente un récapitulatif des textes étudiés, signé par son professeur.',
+    tags: ['barème', 'oral', 'structure', 'épreuve'],
+    sourceRef: 'Note de service consolidée mars 2024 — Épreuves anticipées de français',
+  },
+  {
+    id: 'bareme-ecrit-officiel',
+    title: 'Structure et barème officiel de l\'épreuve écrite EAF',
+    type: 'texte_officiel',
+    source: 'BO',
+    level: 'Niveau A',
+    excerpt: 'Écrit EAF : 4 heures, coefficient 5. Choix entre commentaire /20 et dissertation /20.',
+    content: 'Épreuve écrite EAF voie générale — 4 heures, coefficient 5. Le candidat choisit entre : COMMENTAIRE (texte littéraire NON extrait d\'une œuvre au programme, en lien avec un objet d\'étude) /20, ou DISSERTATION (le candidat choisit parmi 3 sujets, chacun lié à une des 3 œuvres de l\'objet d\'étude ; s\'appuie sur l\'œuvre + lectures personnelles) /20. Pour la voie technologique : commentaire ou contraction de texte (~750 mots, contraction au quart ±10%) + essai /20.',
+    tags: ['barème', 'écrit', 'commentaire', 'dissertation'],
+    sourceRef: 'Note de service consolidée mars 2024 — Épreuves anticipées de français',
   },
 ];
 
 const VIDEOS: ReferenceDoc[] = Array.from({ length: 12 }, (_, i) => ({
   id: `video-${i + 1}`,
   title: `Vidéo méthode EAF #${i + 1}`,
-  type: 'video',
-  source: 'YOUTUBE',
-  level: i % 2 === 0 ? 'Niveau B' : 'Niveau C',
+  type: 'video' as const,
+  source: 'YOUTUBE' as const,
+  level: i % 2 === 0 ? 'Niveau B' as const : 'Niveau C' as const,
   excerpt: 'Capsule méthodologique sur l oral, le commentaire ou la dissertation.',
   content: 'Explications guidées, exemples et erreurs fréquentes.',
   tags: ['video', 'méthode', i % 2 === 0 ? 'oral' : 'écrit'],
-  url: `https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=${i + 1}`,
-  mediaUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+  sourceRef: `Vidéo EAF Premium #${i + 1}`,
 }));
 
 const AUDIOS: ReferenceDoc[] = Array.from({ length: 8 }, (_, i) => ({
   id: `audio-${i + 1}`,
   title: `Podcast littérature France Culture #${i + 1}`,
-  type: 'audio',
-  source: 'FRANCE_CULTURE',
-  level: 'Niveau B',
+  type: 'audio' as const,
+  source: 'FRANCE_CULTURE' as const,
+  level: 'Niveau B' as const,
   excerpt: 'Épisode de contextualisation historique et littéraire.',
   content: 'Éclairage culturel mobilisable à l entretien.',
   tags: ['audio', 'culture littéraire', 'entretien'],
-  url: `https://www.radiofrance.fr/franceculture/podcasts/episode-${i + 1}`,
-  mediaUrl: `https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav`,
+  sourceRef: `France Culture — Épisode ${i + 1}`,
 }));
 
 const EXEMPLES: ReferenceDoc[] = Array.from({ length: 10 }, (_, i) => ({
   id: `exemple-corrige-${i + 1}`,
   title: `Exemple corrigé commentaire #${i + 1}`,
-  type: 'exemple_corrige',
-  source: 'EAF_PREMIUM',
-  level: i < 4 ? 'Niveau A' : 'Niveau B',
+  type: 'exemple_corrige' as const,
+  source: 'EAF_PREMIUM' as const,
+  level: i < 4 ? 'Niveau A' as const : 'Niveau B' as const,
   excerpt: 'Extrait de copie corrigée avec annotations ciblées.',
   content: 'Analyse des points forts et axes d amélioration.',
   tags: ['exemple corrigé', 'commentaire', 'écrit'],
-  url: `https://eaf.local/exemples/corrige-${i + 1}`,
+  sourceRef: `EAF Premium — Corrigé #${i + 1}`,
 }));
 
 const OEUVRES: ReferenceDoc[] = [
-  'Le Mariage forcé',
-  "La Surprise de l'amour",
-  'Déclaration des droits de la femme',
-  'Les Contemplations',
-  'Cahier de Douai',
-  'Sido / Les Vrilles de la vigne',
-  'Le Rouge et le Noir',
-  'La Peau de chagrin',
-  'La Peste',
-  'Corpus transversal EAF',
+  'Cahier de Douai — Rimbaud',
+  'La rage de l\'expression — Ponge',
+  'Mes forêts — Hélène Dorion',
+  'Discours de la servitude volontaire — La Boétie',
+  'Entretiens sur la pluralité des mondes — Fontenelle',
+  'Lettres d\'une Péruvienne — Graffigny',
+  'Le Menteur — Corneille',
+  'On ne badine pas avec l\'amour — Musset',
+  'Pour un oui ou pour un non — Sarraute',
+  'Manon Lescaut — Abbé Prévost',
+  'La Peau de chagrin — Balzac',
+  'Sido suivi de Les Vrilles de la vigne — Colette',
 ].map((oeuvre, i) => ({
   id: `oeuvre-${i + 1}`,
   title: `Dossier œuvre: ${oeuvre}`,
@@ -317,7 +405,7 @@ const OEUVRES: ReferenceDoc[] = [
   excerpt: 'Repères auteur, enjeux du parcours et pistes de lecture.',
   content: `Dossier synthèse sur ${oeuvre}, avec contexte, thèmes majeurs et citations utiles.`,
   tags: ['oeuvre', 'parcours', oeuvre.toLowerCase()],
-  url: `https://eaf.local/oeuvres/${i + 1}`,
+  sourceRef: `Programme EAF 2025-2026 — ${oeuvre}`,
 }));
 
 export const OFFICIAL_REFERENCES: ReferenceDoc[] = [

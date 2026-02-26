@@ -16,6 +16,8 @@ type SessionPayload = {
   texte: string;
   questionGrammaire: string;
   instructions: string;
+  oeuvreChoisie?: string;
+  phraseGrammaire?: string;
 };
 
 type StepFeedback = {
@@ -72,14 +74,24 @@ const PREP_CHECKLIST = [
   { id: 'grammaire', label: 'Anticiper la question de grammaire (nature, fonction, analyse)' },
 ];
 
-/** Official works 2025-2026 per cahier V2 §1 */
-const OEUVRES_2025_2026 = [
-  'Les Misérables (extraits) — Hugo',
-  'Les Fleurs du Mal — Baudelaire',
-  'Le Malade imaginaire — Molière',
-  'Les Confessions (extraits) — Rousseau',
-  'Déclaration des droits de la femme — Olympe de Gouges',
-  'Mme Bovary (extraits) — Flaubert',
+/** Official works 2025-2026 per BO n°30 du 24 juillet 2025 + BO été 2024 */
+const OEUVRES_PROGRAMME_2025_2026 = [
+  // Poésie du XIXe au XXIe siècle
+  'Cahier de Douai — Rimbaud',
+  'La rage de l\'expression — Ponge',
+  'Mes forêts — Hélène Dorion',
+  // Littérature d'idées du XVIe au XVIIIe siècle
+  'Discours de la servitude volontaire — La Boétie',
+  'Entretiens sur la pluralité des mondes — Fontenelle',
+  'Lettres d\'une Péruvienne — Graffigny',
+  // Théâtre du XVIIe au XXIe siècle
+  'Le Menteur — Corneille',
+  'On ne badine pas avec l\'amour — Musset',
+  'Pour un oui ou pour un non — Sarraute',
+  // Roman et récit (programme 2025-2026)
+  'Manon Lescaut — Abbé Prévost',
+  'La Peau de chagrin — Balzac',
+  'Sido suivi de Les Vrilles de la vigne — Colette',
 ];
 
 /* ──────────────────── Helpers ──────────────────── */
@@ -154,7 +166,7 @@ function useCountdown(totalSeconds: number, running: boolean) {
 /* ──────────────────── Component ──────────────────── */
 
 export default function AtelierOralPage() {
-  const [oeuvre, setOeuvre] = useState(OEUVRES_2025_2026[0]);
+  const [oeuvre, setOeuvre] = useState(OEUVRES_PROGRAMME_2025_2026[0]);
   const [mode, setMode] = useState<OralMode>('SIMULATION');
   const [session, setSession] = useState<SessionPayload | null>(null);
   const [wizardPhase, setWizardPhase] = useState<WizardPhase>('TIRAGE');
@@ -341,9 +353,9 @@ export default function AtelierOralPage() {
 
           <label htmlFor="oeuvre-select" className="sr-only">Choisir une œuvre</label>
           <select id="oeuvre-select" className="border border-border rounded-xl bg-muted/30 px-4 py-3 mb-4 w-full max-w-sm mx-auto block text-foreground text-sm focus:ring-2 focus:ring-primary focus:outline-none" value={oeuvre} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(e.target.value)}>
-            {OEUVRES_2025_2026.map((o) => <option key={o} value={o}>{o}</option>)}
+            {OEUVRES_PROGRAMME_2025_2026.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
-          <button onClick={startSession} disabled={isLoading} className="px-8 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 hover:bg-purple-700 transition-colors disabled:opacity-50 shadow-md">
+          <button data-testid="start-session-btn" onClick={startSession} disabled={isLoading} className="px-8 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 hover:bg-purple-700 transition-colors disabled:opacity-50 shadow-md">
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />} Tirer un extrait
           </button>
         </section>
@@ -366,7 +378,7 @@ export default function AtelierOralPage() {
 
           <div className="rounded-2xl border border-border bg-muted/20 p-5">
             <p className="font-bold text-foreground text-sm mb-2">Extrait tiré</p>
-            <p className="font-serif text-base leading-relaxed text-foreground">{session.texte}</p>
+            <p data-testid="extrait-texte" className="font-serif text-base leading-relaxed text-foreground">{session.texte}</p>
             <p className="text-sm mt-3 text-muted-foreground"><span className="font-semibold text-foreground">Question de grammaire :</span> {session.questionGrammaire}</p>
           </div>
 

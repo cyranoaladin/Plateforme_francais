@@ -4,13 +4,17 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Send, BrainCircuit, Sparkles } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
+type Citation = {
+  index: number;
+  title: string;
+  source: string;
+};
+
 type Message = {
   role: 'user' | 'assistant';
   content: string;
-  citations?: { index: number; title: string; source: string; url: string }[];
+  citations?: Citation[];
 };
-
-const STORAGE_KEY = 'eaf_tuteur_history';
 
 export default function TuteurPage() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -18,22 +22,6 @@ export default function TuteurPage() {
   const [isSending, setIsSending] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-
-    try {
-      const parsed = JSON.parse(raw) as Message[];
-      setMessages(parsed);
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-  }, [messages]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -68,7 +56,7 @@ export default function TuteurPage() {
 
       const payload = (await response.json()) as {
         answer: string;
-        citations: { index: number; title: string; source: string; url: string }[];
+        citations: Citation[];
         suggestions: string[];
       };
 
@@ -148,8 +136,8 @@ export default function TuteurPage() {
                 {message.role === 'assistant' && message.citations && message.citations.length > 0 && (
                   <div className="mt-3 pt-3 border-t border-border/50 space-y-1">
                     {message.citations.map((citation) => (
-                      <div key={`${citation.index}-${citation.url}`} className="text-xs text-muted-foreground">
-                        [{citation.index}] {citation.title} &middot; <a href={citation.url} target="_blank" rel="noreferrer" className="underline text-primary hover:text-primary/80">source</a>
+                      <div key={`${citation.index}-${citation.title}`} className="text-xs text-muted-foreground">
+                        [{citation.index}] {citation.title} &middot; <span className="italic">{citation.source}</span>
                       </div>
                     ))}
                   </div>

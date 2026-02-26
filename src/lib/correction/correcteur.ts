@@ -29,12 +29,12 @@ export async function corrigerCopie(input: {
     .map((item) => `- ${item.titre} (${item.max})`)
     .join('\n');
 
-  const response = (await orchestrate({
+  const result = await orchestrate({
     skill: 'correcteur',
     userId: input.userId,
     userQuery: `Sujet: ${input.sujet}\n\nCopie OCR:\n${input.texteOCR}`,
     context: `Type d'épreuve: ${input.typeEpreuve}.\nRubriques officielles:\n${rubriques}`,
-  })) as CorrectionJson;
+  });
 
-  return response;
+  return result.output as CorrectionJson;
 }

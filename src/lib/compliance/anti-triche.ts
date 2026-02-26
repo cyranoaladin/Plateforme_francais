@@ -27,6 +27,12 @@ export const FORBIDDEN_PATTERNS: ReadonlyArray<{ pattern: RegExp; category: stri
   { pattern: /passe[sz]?\s+(mon\s+)?oral\s+[àa]\s+ma\s+place/i, category: 'substitution' },
   { pattern: /simule[sz]?\s+(ma\s+)?r[ée]ponse\s+compl[èe]te/i, category: 'substitution' },
   { pattern: /r[ée]sou[dst]?\s+(l'exercice|la\s+question)\s+de\s+grammaire\s+[àa]\s+ma\s+place/i, category: 'substitution' },
+  { pattern: /fai[st]?\s+l['']analyse\s+compl[èe]te/i, category: 'redaction_complete' },
+  { pattern: /r[ée]pon[ds]+\s+(enti[èe]rement|int[ée]gralement)\s+[àa]\s+(cette|ma)\s+question/i, category: 'redaction_complete' },
+  { pattern: /donne[sz]?[- ]+(moi\s+)?(un[e]?\s+)?r[ée]ponse\s+compl[èe]te/i, category: 'copie_complete' },
+  { pattern: /[ée]cri[st]?\s+(l['']introduction\s+et\s+(le\s+)?d[ée]veloppement|tout\s+(le\s+)?devoir)/i, category: 'redaction_complete' },
+  { pattern: /g[ée]n[èe]re?\s+(mon|le)\s+plan\s+(complet|int[ée]gral|d[ée]taill[ée])/i, category: 'copie_complete' },
+  { pattern: /quell?e[sz]?\s+sont\s+les?\s+r[ée]ponses?\s+[àa]\s+(donner|[ée]crire)/i, category: 'substitution' },
 ];
 
 export const antiTricheResultSchema = z.object({

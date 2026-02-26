@@ -41,7 +41,7 @@ type RagResult = {
   type: ResourceType;
   level: string;
   excerpt: string;
-  url: string;
+  sourceRef: string;
   score: number;
 };
 
@@ -157,7 +157,7 @@ export default function BibliothequePage() {
               {ragResults.map((item) => {
                 const Icon = TYPE_ICONS[item.type] ?? FileText;
                 return (
-                  <a key={`${item.id}-${item.url}`} href={item.url} target="_blank" rel="noreferrer"
+                  <div key={`${item.id}-${item.sourceRef}`}
                     className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:shadow-md hover:border-primary/30 transition-all group"
                   >
                     <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover:scale-105 transition-transform">
@@ -167,8 +167,7 @@ export default function BibliothequePage() {
                       <p className="text-sm font-semibold text-foreground truncate group-hover:text-primary transition-colors">{item.title}</p>
                       <p className="text-xs text-muted-foreground">{TYPE_LABELS[item.type]} &middot; score {item.score.toFixed(2)}</p>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground shrink-0" />
-                  </a>
+                  </div>
                 );
               })}
             </div>
@@ -214,11 +213,9 @@ export default function BibliothequePage() {
                       )}
 
                       <div className="flex gap-2 flex-wrap pt-1">
-                        <a href={item.url} target="_blank" rel="noreferrer"
-                          className="px-3 py-1.5 rounded-xl border border-border bg-background text-sm font-medium hover:bg-muted transition-colors inline-flex items-center gap-1.5"
-                        >
-                          <ExternalLink className="w-3 h-3" /> Ouvrir
-                        </a>
+                        <span className="px-3 py-1.5 rounded-xl border border-border bg-background text-sm font-medium text-muted-foreground inline-flex items-center gap-1.5">
+                          <FileText className="w-3 h-3" /> {item.sourceRef}
+                        </span>
                         {item.type === 'fiche_methode' && (
                           <button onClick={() => setModalDoc(item)}
                             className="px-3 py-1.5 rounded-xl border border-primary/30 text-primary text-sm font-medium hover:bg-primary/5 transition-colors"

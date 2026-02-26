@@ -15,7 +15,7 @@ import {
 /** Standard citation format for RAG-sourced references. */
 export type Citation = {
   title: string;
-  url: string;
+  source_interne: string;
   snippet: string;
 };
 
@@ -78,6 +78,7 @@ export async function evaluateOralPhase(input: {
   questionGrammaire: string;
   oeuvre: string;
   duration: number;
+  oeuvreChoisieEntretien?: string | null;
 }): Promise<PhaseEvaluation> {
   const max = PHASE_MAX_SCORES[input.phase];
   const messages: ProviderChatMessage[] = [
@@ -98,7 +99,7 @@ IMPORTANT: Le score DOIT être compris entre 0 et ${max}. Ne jamais fournir de r
     },
     {
       role: 'user',
-      content: `Phase: ${input.phase}\nDurée: ${input.duration}s\nŒuvre: ${input.oeuvre}\nExtrait: ${input.extrait}\nQuestion grammaire: ${input.questionGrammaire}\n\nTranscription de l'élève:\n${input.transcript}`,
+      content: `Phase: ${input.phase}\nDurée: ${input.duration}s\nŒuvre: ${input.oeuvre}\nExtrait: ${input.extrait}\nQuestion grammaire: ${input.questionGrammaire}\n\nTranscription de l'élève:\n${input.transcript}${input.phase === 'ENTRETIEN' ? (input.oeuvreChoisieEntretien ? `\n\n⚠️ ENTRETIEN (2e partie) : L'élève présente son œuvre choisie : "${input.oeuvreChoisieEntretien}". Posez des questions sur cette œuvre : thèmes, personnages, structure, intérêt personnel, liens avec le parcours. NE PAS questionner sur l'extrait tiré pour cette phase.` : "\n\n⚠️ ENTRETIEN : L'élève n'a pas encore renseigné son œuvre choisie. Invitez-le à la renseigner dans son profil, puis évaluez sa réactivité culturelle générale.") : ''}`,
     },
   ];
 

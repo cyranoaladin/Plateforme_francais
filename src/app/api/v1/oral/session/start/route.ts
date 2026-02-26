@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { prisma } from '@/lib/db/client';
 import { createOralSession } from '@/lib/oral/repository';
 import { pickOralExtrait } from '@/lib/oral/service';
 import { validateCsrf } from '@/lib/security/csrf';
@@ -49,9 +50,30 @@ export async function POST(request: Request) {
     return parsed.response;
   }
 
-  const selected = pickOralExtrait(parsed.data.oeuvre);
-  const texte = parsed.data.extrait ?? selected.texte;
-  const questionGrammaire = parsed.data.questionGrammaire ?? selected.questionGrammaire;
+  const profile = await prisma.studentProfile.findUnique({ where: { userId: auth.user.id } });
+  const oeuvreSlug = parsed.data.oeuvre;
+
+  const descriptifTextes = profile
+    ? await prisma.descriptifTexte.findMany({
+        where: { studentId: profile.id, oeuvre: { contains: oeuvreSlug.split('—')[0].trim(), mode: 'insensitive' } },
+        take: 10,
+      })
+    : [];
+
+  let texte: string;
+  let questionGrammaire: string;
+
+  if (descriptifTextes.length >= 4 && !parsed.data.extrait) {
+    const pick = descriptifTextes[Math.floor(Math.random() * descriptifTextes.length)]!;
+    texte = pick.premieresLignes
+      ? `[Extrait de votre descriptif] ${pick.titre} — ${pick.premieresLignes}`
+      : `[Extrait de votre descriptif] ${pick.titre}`;
+    questionGrammaire = parsed.data.questionGrammaire ?? 'Analysez la structure syntaxique de la première phrase de cet extrait.';
+  } else {
+    const selected = pickOralExtrait(oeuvreSlug);
+    texte = parsed.data.extrait ?? selected.texte;
+    questionGrammaire = parsed.data.questionGrammaire ?? selected.questionGrammaire;
+  }
 
   const session = await createOralSession({
     userId: auth.user.id,

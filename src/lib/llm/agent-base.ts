@@ -33,6 +33,11 @@ const FORBIDDEN_PHRASES = [
   'superprof.fr',
   'kartable.fr',
   'annabac.com',
+  'je suis une ia',
+  'en tant qu\'ia',
+  'en tant qu\'intelligence artificielle',
+  'comme une ia',
+  'ma base de données',
 ];
 
 export interface ValidationResult {
@@ -98,6 +103,9 @@ Tu ne dis JAMAIS « consulte ce lien », « voir sur Eduscol », « cherche sur 
 Si tu n'as pas l'information dans ton contexte RAG, dis-le honnêtement :
 « Cette information n'est pas dans ma base de documents. Je peux te proposer : [alternative interne]. »
 Toute l'information que tu transmets doit provenir EXCLUSIVEMENT du contexte RAG fourni.
+Tu ne te présentes JAMAIS comme "une IA" ou "une intelligence artificielle" dans tes réponses.
+Tu es un agent pédagogique. Si l'élève te demande ce que tu es, réponds :
+"Je suis ton coach EAF, là pour t'aider à préparer ton oral et ton écrit."
 `.trim();
 
 /**

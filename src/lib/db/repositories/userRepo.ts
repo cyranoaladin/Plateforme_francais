@@ -60,6 +60,7 @@ export async function listUsers(): Promise<UserRecord[]> {
               badges: user.profile.badges,
               preferredObjects: user.profile.preferredObjects,
               weakSkills: user.profile.weakSkills,
+              oeuvreChoisieEntretien: user.profile.oeuvreChoisieEntretien ?? undefined,
             }
           : DEFAULT_PROFILE,
       }),
@@ -102,6 +103,7 @@ export async function findUserByEmail(email: string): Promise<UserRecord | null>
             badges: user.profile.badges,
             preferredObjects: user.profile.preferredObjects,
             weakSkills: user.profile.weakSkills,
+              oeuvreChoisieEntretien: user.profile.oeuvreChoisieEntretien ?? undefined,
           }
         : DEFAULT_PROFILE,
     });
@@ -144,6 +146,7 @@ export async function findUserById(id: string): Promise<UserRecord | null> {
             badges: user.profile.badges,
             preferredObjects: user.profile.preferredObjects,
             weakSkills: user.profile.weakSkills,
+              oeuvreChoisieEntretien: user.profile.oeuvreChoisieEntretien ?? undefined,
           }
         : DEFAULT_PROFILE,
     });
@@ -184,6 +187,7 @@ export async function createUser(input: {
             badges: input.profile.badges,
             preferredObjects: input.profile.preferredObjects,
             weakSkills: input.profile.weakSkills,
+            oeuvreChoisieEntretien: input.profile.oeuvreChoisieEntretien,
           },
         },
       },
@@ -225,6 +229,7 @@ export async function updateUserProfile(userId: string, profile: StudentProfile)
         badges: profile.badges,
         preferredObjects: profile.preferredObjects,
         weakSkills: profile.weakSkills,
+        oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien ?? null,
       },
       create: {
         userId,
@@ -240,6 +245,7 @@ export async function updateUserProfile(userId: string, profile: StudentProfile)
         badges: profile.badges,
         preferredObjects: profile.preferredObjects,
         weakSkills: profile.weakSkills,
+        oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien ?? null,
       },
     });
     return;

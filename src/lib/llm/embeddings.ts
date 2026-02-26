@@ -1,4 +1,4 @@
-export const EMBEDDING_DIMENSION = 3072;
+export const EMBEDDING_DIMENSION = 1024;
 
 export function normalizeEmbeddingDimension(values: number[], dimension = EMBEDDING_DIMENSION): number[] {
   if (values.length === dimension) {

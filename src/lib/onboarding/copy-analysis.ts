@@ -158,14 +158,14 @@ export async function analyzeOnboardingCopy(
   const truncatedCopy = copyText.slice(0, 4000);
 
   try {
-    const analysis = await orchestrate({
+    const orchestrateResult = await orchestrate({
       skill: 'ecrit_diagnostic',
       userQuery: `Analyse cette copie de ${copyType} soumise pendant l'onboarding. Identifie le niveau, les forces et les faiblesses :\n\n${truncatedCopy}`,
       context: ragContext,
       userId,
     });
 
-    const result = analysis as {
+    const result = orchestrateResult.output as {
       niveau?: string;
       points_forts?: string[];
       lacunes?: string[];
@@ -180,7 +180,7 @@ export async function analyzeOnboardingCopy(
       lacunes: result.lacunes ?? [],
       recommandations: result.recommandations ?? [],
       priorites: result.priorites ?? [],
-      rawAnalysis: analysis,
+      rawAnalysis: orchestrateResult.output,
     };
   } catch (error) {
     logger.error({ userId, error }, 'onboarding.copy_analysis.orchestrate_failed');
@@ -278,10 +278,12 @@ export function getMiniDiagnosticExercise(): {
   consigne: string;
 } {
   return {
-    texte: `« Il n'est pas nécessaire d'espérer pour entreprendre ni de réussir pour persévérer. »
-— Guillaume d'Orange
+    texte: `« Hypocrite lecteur, — mon semblable, — mon frère ! »
+— Charles Baudelaire, "Au Lecteur", Les Fleurs du Mal (1857)
 
-Ce texte bref mais riche soulève la question de la persévérance face à l'incertitude.`,
-    consigne: `Écris 10 lignes d'analyse de cette citation. Identifie le procédé stylistique principal et explique l'effet produit. Cette analyse nous aidera à évaluer ton niveau initial.`,
+Ce vers liminaire des Fleurs du Mal interpelle directement le lecteur et l'implique dans une complicité morale.`,
+    consigne: `Écris 8-12 lignes d'analyse de ce vers. Identifie le ou les procédés stylistiques principaux
+(minimum 2 procédés nommés avec leur terme technique) et explique l'effet produit sur le lecteur.
+Cette analyse nous permettra d'évaluer ton niveau initial en expression et analyse littéraire.`,
   };
 }

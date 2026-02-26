@@ -23,7 +23,7 @@ describe('corrigerCopie', () => {
       conseil_final: 'Continuez.',
     };
 
-    orchestrateMock.mockResolvedValueOnce(expected);
+    orchestrateMock.mockResolvedValueOnce({ output: expected, skill: 'correcteur', blocked: false, ragDocsUsed: 0, memoryInjected: false, latencyMs: 100 });
 
     const result = await corrigerCopie({
       texteOCR: 'Texte élève',

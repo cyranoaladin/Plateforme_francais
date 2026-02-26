@@ -215,3 +215,24 @@ test.describe('Consentement RGPD', () => {
     }
   });
 });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 10. NOUVELLES PAGES (GAP-05)
+// ═══════════════════════════════════════════════════════════════════════════
+
+test.describe('Descriptif de lecture', () => {
+  test('page descriptif → formulaire visible + compteur textes', async ({ page }) => {
+    await login(page);
+    await page.goto('/descriptif');
+    await expect(page.getByRole('heading', { name: /Descriptif|Mon descriptif/i })).toBeVisible();
+    await expect(page.getByText(/0\/20|textes/i)).toBeVisible({ timeout: 5_000 });
+  });
+});
+
+test.describe('Carnet de lecture', () => {
+  test('page carnet → heading visible', async ({ page }) => {
+    await login(page);
+    await page.goto('/carnet');
+    await expect(page.getByRole('heading', { name: /Carnet/i })).toBeVisible();
+  });
+});

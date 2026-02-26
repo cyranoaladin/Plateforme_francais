@@ -34,35 +34,62 @@ type CircuitState = {
 };
 
 const SKILL_ROUTING: Record<string, MistralTier> = {
-  // Tier-1 (reasoning / large) — analyse complexe, raisonnement multi-axes
-  correcteur: 'reasoning',
-  diagnosticien: 'reasoning',
-  avocat_diable: 'reasoning',
-  self_reflection: 'reasoning',
-  coach_ecrit_correction: 'reasoning',
-  coach_oral_final: 'reasoning',
-  analyse_oeuvre_complete: 'large',
+  // Tier reasoning — analyse complexe, multi-axes (mistral-large)
+  correcteur:               'reasoning',
+  diagnosticien:            'reasoning',
+  avocat_diable:            'reasoning',
+  self_reflection:          'reasoning',
+  coach_ecrit_correction:   'reasoning',
+  coach_oral_final:         'reasoning',
+  coach_explication:        'reasoning', // explication linéaire = analyse profonde
+  ecrit_diagnostic:         'reasoning', // diagnostic multi-axes
+  pastiche:                 'reasoning', // réécriture 3 niveaux stylistiques
+
+  // Tier large — synthèse complexe (mistral-large avec contexte réduit)
+  analyse_oeuvre_complete:   'large',
   comparaison_multi_textes: 'large',
-  // Tier-2 (standard / small) — skills interactifs
-  tuteur_libre: 'standard',
-  bibliothecaire: 'standard',
-  coach_oral: 'standard',
-  coach_ecrit: 'standard',
-  quiz_maitre: 'standard',
-  rapport_auto: 'standard',
-  langue: 'standard',
-  // Tier-3 (micro / local) — skills légers, faible charge
-  planner: 'micro',
-  student_modeler: 'micro',
-  rappel_agent: 'micro',
-  quiz_simple: 'micro',
-  reformulation: 'micro',
-  suggestion_parcours: 'micro',
-  summary_session: 'micro',
-  validation_grammaticale: 'micro',
-  notification_content: 'micro',
+  oral_entretien:           'large',  // entretien adaptatif jury
+  oral_bilan_officiel:      'large',  // synthèse session 4 phases /20
+
+  // Tier standard — skills interactifs (mistral-small)
+  tuteur_libre:             'standard',
+  bibliothecaire:           'standard',
+  coach_oral:               'standard',
+  coach_ecrit:              'standard',
+  quiz_maitre:              'standard',
+  rapport_auto:             'standard',
+  langue:                   'standard',
+  oral_tirage:              'standard',
+  coach_lecture:            'standard',
+  grammaire_ciblee:         'standard',
+  oral_prep30:              'standard',
+  examinateur_virtuel:      'standard',
+  ecrit_plans:              'standard',
+  ecrit_baremage:           'standard',
+  ecrit_contraction:        'standard',
+  ecrit_essai:              'standard',
+  ecrit_langue:             'standard',
+
+  // Tier micro — génération légère (mistral-7b ou ollama local)
+  planner:                  'micro',
+  student_modeler:          'micro',
+  rappel_agent:             'micro',
+  quiz_simple:              'micro',
+  reformulation:            'micro',
+  suggestion_parcours:      'micro',
+  summary_session:          'micro',
+  validation_grammaticale:  'micro',
+  notification_content:     'micro',
+  revision_fiches:          'micro',
+  quiz_adaptatif:           'micro',
+  spaced_repetition:        'micro',
+  citations_procedes:       'micro',
+  carnet_lecture:           'micro',
+  sr_planner:               'micro',
+  support_produit:          'micro',
+
   // OCR
-  ocr_copie: 'ocr',
+  ocr_copie:                'ocr',
 };
 
 const providerCache = new Map<string, LLMProvider>();
