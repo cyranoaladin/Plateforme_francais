@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { DyslexiaToggle } from '@/components/accessibility/dyslexia-toggle';
@@ -18,7 +19,6 @@ import {
   Moon,
   Flame,
   Award,
-  Sparkles,
   Settings,
   ClipboardList,
   NotebookPen,
@@ -169,10 +169,16 @@ export function Sidebar() {
       {/* ─── Desktop Sidebar ─── */}
       <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 bg-card border-r border-border flex-col shadow-sm z-10">
         {/* Logo */}
-        <div className="p-6">
-          <Link href="/" className="flex items-center gap-2.5 text-primary group">
-            <Sparkles className="w-7 h-7 fill-primary/20 group-hover:scale-110 transition-transform" />
-            <span className="text-xl font-bold tracking-tight">Nexus EAF</span>
+        <div className="px-6 py-4">
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/images/logo_slogan_nexus.png"
+              alt="Nexus Réussite"
+              width={180}
+              height={60}
+              className="h-12 w-auto object-contain group-hover:opacity-90 transition-opacity"
+              priority
+            />
           </Link>
         </div>
 

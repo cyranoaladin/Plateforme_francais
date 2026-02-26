@@ -12,6 +12,7 @@ import {
   BookOpen,
   Target,
 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   Line,
@@ -70,8 +71,15 @@ export default function Dashboard() {
         <div className="absolute bottom-0 left-0 w-40 h-40 bg-white opacity-5 rounded-full translate-y-1/3 -translate-x-1/4" />
 
         <div className="relative z-10 w-20 h-20 md:w-28 md:h-28 bg-white/20 backdrop-blur-md rounded-full p-1.5 shrink-0 border border-white/30 shadow-xl flex items-center justify-center">
-          <div className="w-full h-full rounded-full bg-white/90 flex items-center justify-center">
-            <BrainCircuit className="w-10 h-10 md:w-14 md:h-14 text-indigo-600" />
+          <div className="w-full h-full rounded-full bg-white/90 flex items-center justify-center overflow-hidden">
+            <Image
+              src="/images/logo_nexus_reussite.png"
+              alt="Nexus Réussite"
+              width={80}
+              height={80}
+              className="w-full h-full object-contain p-1"
+              priority
+            />
           </div>
         </div>
 

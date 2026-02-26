@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -47,8 +48,29 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="w-full max-w-md bg-card border border-border rounded-2xl p-8 shadow-lg">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+      <div className="w-full max-w-md space-y-6">
+        {/* Logo centré au-dessus du formulaire */}
+        <div className="flex flex-col items-center gap-3">
+          <Image
+            src="/images/logo_nexus_reussite.png"
+            alt="Nexus Réussite"
+            width={72}
+            height={72}
+            className="w-16 h-16 object-contain"
+            priority
+          />
+          <Image
+            src="/images/logo_slogan_nexus.png"
+            alt="Nexus Réussite — Prépare ton EAF"
+            width={220}
+            height={60}
+            className="h-10 w-auto object-contain"
+            priority
+          />
+        </div>
+
+      <div className="bg-card border border-border rounded-2xl p-8 shadow-lg">
         <h1 className="text-2xl font-bold text-foreground mb-2">Connexion EAF Premium</h1>
         <p className="text-muted-foreground text-sm mb-6">
           Connectez-vous pour récupérer votre parcours, vos résultats et vos ressources.
@@ -155,6 +177,7 @@ export default function LoginPage() {
           Compte de démonstration: <span className="font-semibold">jean@eaf.local</span> /{' '}
           <span className="font-semibold">demo1234</span>
         </p>
+      </div>
       </div>
     </div>
   );
