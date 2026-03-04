@@ -72,7 +72,8 @@ export async function POST(request: Request) {
     userId: auth.user.id,
     userQuery: `Rédige un message de bienvenue personnalisé pour ${sanitizedData.displayName}.`,
     context: `Date EAF: ${sanitizedData.eafDate}. Oeuvres: ${sanitizedData.selectedOeuvres.join(', ')}.`,
-  })) as { answer?: string };
+  });
+  const message = orchestrateResult as { answer?: string };
 
   return NextResponse.json(
     {

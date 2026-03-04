@@ -11,7 +11,6 @@ export type RagSearchResult = {
   level: ReferenceDoc['level'];
   sourceRef: string;
   excerpt: string;
-  sourceRef: string;
   score: number;
 };
 
@@ -94,7 +93,6 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
       level: doc.level,
       sourceRef: doc.sourceRef,
       excerpt: doc.excerpt,
-      sourceRef: doc.sourceRef,
       score: 0,
     }));
   }
@@ -108,7 +106,6 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
     level: doc.level,
     sourceRef: doc.sourceRef,
     excerpt: doc.excerpt,
-    sourceRef: doc.sourceRef,
     score: scoreDocument(doc, tokens),
   }))
     .filter((doc) => doc.score > 0)
@@ -131,7 +128,6 @@ function externalChunkToResult(chunk: ExternalRAGChunk, index: number): RagSearc
     level: (metadata.niveau as ReferenceDoc['level']) ?? 'Niveau B',
     sourceRef: sourceUrl || title,
     excerpt: chunk.content.slice(0, 300),
-    url: sourceUrl,
     score: chunk.score,
   };
 }

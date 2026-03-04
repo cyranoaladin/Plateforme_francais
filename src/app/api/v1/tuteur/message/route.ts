@@ -165,13 +165,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const generated = (await orchestrate({
+  const orchestrateResult = await orchestrate({
     skill: 'tuteur_libre',
     userId: auth.user.id,
     userQuery: userMessage,
     context: `Historique:\n${historyText}\n\nSources RAG:\n${context}`,
   });
-  const generated = orchestrateResult.output as {
+  const generated = orchestrateResult as {
     answer?: string;
     suggestions?: string[];
   };

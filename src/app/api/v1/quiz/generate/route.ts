@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     userQuery: `Génère ${parsed.data.nbQuestions} questions sur ${parsed.data.theme} (difficulté ${parsed.data.difficulte}).`,
     context: 'Retourne strictement le format JSON attendu avec options[4] et bonneReponse index.',
   });
-  const generated = orchestrateResult.output as {
+  const generated = orchestrateResult as {
     questions?: Array<{
       id: string;
       enonce: string;

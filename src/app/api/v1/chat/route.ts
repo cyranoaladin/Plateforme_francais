@@ -73,14 +73,9 @@ export async function POST(request: Request) {
     createMemoryEvent(auth.user.id, {
       type: 'interaction',
       feature: 'chat',
-      payload: {
-        skill: result.skill,
-        ragDocsUsed: result.ragDocsUsed,
-        blocked: result.blocked,
-        latencyMs: result.latencyMs,
-      },
+      payload: { skill },
     }),
   ).catch(() => {});
 
-  return NextResponse.json(result, { status: 200 });
+  return NextResponse.json({ output: result, skill }, { status: 200 });
 }

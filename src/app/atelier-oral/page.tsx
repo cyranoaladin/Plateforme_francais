@@ -18,8 +18,6 @@ type SessionPayload = {
   phraseGrammaire?: string;
   oeuvreChoisie?: string;
   instructions: string;
-  oeuvreChoisie?: string;
-  phraseGrammaire?: string;
 };
 
 type StepFeedback = {

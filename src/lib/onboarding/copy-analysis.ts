@@ -165,7 +165,7 @@ export async function analyzeOnboardingCopy(
       userId,
     });
 
-    const result = orchestrateResult.output as {
+    const result = orchestrateResult as {
       niveau?: string;
       points_forts?: string[];
       lacunes?: string[];
@@ -180,7 +180,7 @@ export async function analyzeOnboardingCopy(
       lacunes: result.lacunes ?? [],
       recommandations: result.recommandations ?? [],
       priorites: result.priorites ?? [],
-      rawAnalysis: orchestrateResult.output,
+      rawAnalysis: orchestrateResult,
     };
   } catch (error) {
     logger.error({ userId, error }, 'onboarding.copy_analysis.orchestrate_failed');

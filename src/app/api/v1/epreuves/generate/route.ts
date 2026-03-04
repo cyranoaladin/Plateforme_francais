@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     context:
       'La sortie JSON doit inclure: sujet, texte, consignes (durée 4h, rappel barème), bareme en points sur 20.',
   });
-  const generation = result.output as {
+  const generation = result as {
     sujet: string;
     texte: string;
     consignes: string;

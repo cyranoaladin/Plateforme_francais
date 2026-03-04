@@ -166,7 +166,6 @@ export default function LoginPage() {
           <span className="font-semibold">demo1234</span>
         </p>
       </div>
-      </div>
     </div>
   );
 }

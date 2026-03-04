@@ -16,7 +16,7 @@ export type ReferenceDoc = {
   excerpt: string;
   content: string;
   tags: string[];
-  sourceRef: string;
+  url?: string;
   mediaUrl?: string;
   markdownContent?: string;
 };

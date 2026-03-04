@@ -44,7 +44,7 @@ export async function generateExamBlanc(config: ExamBlancConfig): Promise<ExamBl
       context: `Type: ${config.type}. Durée officielle: ${dureeMap[config.type]}.`,
     });
 
-    const output = result.output as {
+    const output = result as {
       sujet?: string;
       texte?: string;
       consignes?: string;

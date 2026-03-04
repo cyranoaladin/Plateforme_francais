@@ -36,5 +36,5 @@ export async function corrigerCopie(input: {
     context: `Type d'épreuve: ${input.typeEpreuve}.\nRubriques officielles:\n${rubriques}`,
   });
 
-  return result.output as CorrectionJson;
+  return result as CorrectionJson;
 }
