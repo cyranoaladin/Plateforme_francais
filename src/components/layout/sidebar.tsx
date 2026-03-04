@@ -18,10 +18,9 @@ import {
   Moon,
   Flame,
   Award,
-  Sparkles,
   Settings,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { useTheme } from '@/components/theme/theme-provider';
 
@@ -32,6 +31,7 @@ const navItems = [
   { name: 'Atelier Oral', href: '/atelier-oral', icon: Mic },
   { name: 'Atelier Langue', href: '/atelier-langue', icon: BookOpen },
   { name: 'Mon Parcours', href: '/mon-parcours', icon: Map },
+  { name: 'Carnet', href: '/carnet', icon: BookOpen },
   { name: 'Quiz', href: '/quiz', icon: HelpCircle },
   { name: 'Bibliothèque', href: '/bibliotheque', icon: Library },
   { name: 'Profil', href: '/profil', icon: UserCircle2 },
@@ -42,8 +42,10 @@ const mobileNavItems = [
   { name: 'Tuteur', href: '/tuteur', icon: MessagesSquare },
   { name: 'Écrit', href: '/atelier-ecrit', icon: PenTool },
   { name: 'Oral', href: '/atelier-oral', icon: Mic },
-  { name: 'Langue', href: '/atelier-langue', icon: BookOpen },
-  { name: 'Plus', href: '/bibliotheque', icon: Library },
+  { name: 'Quiz', href: '/quiz', icon: HelpCircle },
+  { name: 'Carnet', href: '/carnet', icon: BookOpen },
+  { name: 'Parcours', href: '/mon-parcours', icon: Map },
+  { name: 'Profil', href: '/profil', icon: UserCircle2 },
 ];
 
 type AuthMe = {
@@ -101,7 +103,11 @@ export function Sidebar() {
   const [globalScore, setGlobalScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [badgeCount, setBadgeCount] = useState(0);
-  const [nowTs] = useState(() => Date.now());
+  const joursAvantEAF = useMemo(() => {
+    const EAF_DATE = new Date('2026-06-08T08:00:00');
+    const now = new Date();
+    return Math.max(0, Math.ceil((EAF_DATE.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -154,22 +160,19 @@ export function Sidebar() {
     .slice(0, 2)
     .toUpperCase() ?? 'EL';
 
-  const countdown = me?.profile.eafDate
-    ? Math.max(0, Math.ceil((new Date(me.profile.eafDate).getTime() - nowTs) / (1000 * 60 * 60 * 24)))
-    : null;
-
   const items = navItems;
 
   return (
     <>
       {/* ─── Desktop Sidebar ─── */}
       <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 bg-card border-r border-border flex-col shadow-sm z-10">
-        {/* Logo */}
-        <div className="p-6">
-          <Link href="/" className="flex items-center gap-2.5 text-primary group">
-            <Sparkles className="w-7 h-7 fill-primary/20 group-hover:scale-110 transition-transform" />
-            <span className="text-xl font-bold tracking-tight">Nexus EAF</span>
-          </Link>
+        {/* Logo Nexus Réussite */}
+        <div className="p-6 flex justify-center border-b border-border">
+          <img 
+            src="/images/logo_nexus_reussite.png" 
+            alt="Nexus Réussite" 
+            className="h-20 w-20 object-contain rounded-full"
+          />
         </div>
 
         {/* Stats compactes */}
@@ -177,7 +180,7 @@ export function Sidebar() {
           <div className="grid grid-cols-3 gap-2">
             <div className="rounded-xl border border-border p-2.5 text-center bg-muted/30 hover:bg-muted/50 transition-colors">
               <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">J-EAF</p>
-              <p className="text-base font-bold text-primary mt-0.5">{countdown !== null ? countdown : '--'}</p>
+              <p className="text-base font-bold text-primary mt-0.5">{joursAvantEAF !== null ? joursAvantEAF : '--'}</p>
             </div>
             <div className="rounded-xl border border-border p-2.5 text-center bg-muted/30 hover:bg-muted/50 transition-colors">
               <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Streak</p>

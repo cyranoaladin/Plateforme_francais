@@ -40,11 +40,34 @@ const nextConfig: NextConfig = {
         source: '/(.*)',
         headers: SECURITY_HEADERS,
       },
+      // Headers pour la lecture vidéo
+      {
+        source: '/ressources/:path*',
+        headers: [
+          {
+            key: 'Accept-Ranges',
+            value: 'bytes',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Content-Type',
+            value: 'video/webm,video/x-matroska,video/mp4,application/pdf',
+          },
+        ],
+      },
     ]
   },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [],
+  },
+  // S'assurer que le dossier ressources est surveillé
+  experimental: {
+    // Optimisation pour les gros fichiers
+    optimizePackageImports: ['lucide-react', 'recharts'],
   },
 }
 

@@ -14,7 +14,7 @@ const schema = z.object({
 export type GrammaireCibleeOutput = z.infer<typeof schema>;
 
 export const grammaireCibleeSkill: SkillConfig<GrammaireCibleeOutput> = {
-  prompt: 'Skill grammaire_ciblee: évaluer la réponse de grammaire EAF (/2). Critères: identification correcte, analyse pertinente, terminologie précise. Ne jamais donner la réponse complète.',
+  prompt: `Skill grammaire_ciblee: evaluer une reponse de grammaire EAF (/2) sur UNE phrase courte du texte.\n+Terminologie programme Premiere obligatoire:\n+- Axe 1: syntaxe de la phrase complexe (coordination, subordination conjonctive/relative/interrogative indirecte, fonctions syntaxiques)\n+- Axe 2: relations logiques (cause, consequence, opposition/concession, condition, but)\n+- Axe 3: systeme verbal (valeurs des temps, subjonctif, conditionnel, concordance, discours indirect libre)\n+Methode d evaluation attendue: identifier, nommer precisement, interpreter dans le contexte du texte.\n+Ne jamais fournir une correction integrale de copie.`,
   outputSchema: schema,
   fallback: {
     feedback: 'Évaluation indisponible.',

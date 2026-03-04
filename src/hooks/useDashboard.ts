@@ -139,7 +139,21 @@ export function useDashboard(): DashboardMetrics {
       try {
         setIsLoading(true);
         const response = await fetch('/api/v1/memory/timeline?limit=200');
+        
         if (!response.ok) {
+          if (response.status === 401) {
+            // Utilisateur non authentifié - utiliser des données par défaut
+            setData({
+              profile: {
+                displayName: 'Élève',
+                onboardingCompleted: false,
+              },
+              timeline: [],
+              weakSignals: {},
+            });
+            setError(null);
+            return;
+          }
           throw new Error('Impossible de charger la timeline.');
         }
 

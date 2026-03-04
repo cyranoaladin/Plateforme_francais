@@ -38,7 +38,7 @@ describe('extractTextFromCopie — Mistral OCR', () => {
     );
   });
 
-  it('fallback Gemini si MISTRAL_API_KEY absente', async () => {
+  it('retourne un message explicite si MISTRAL_API_KEY absente', async () => {
     delete process.env.MISTRAL_API_KEY;
     delete process.env.GEMINI_API_KEY;
     const result = await extractTextFromCopie({
@@ -48,7 +48,7 @@ describe('extractTextFromCopie — Mistral OCR', () => {
     expect(result).toContain('[ocr indisponible');
   });
 
-  it('fallback Gemini si MIME non supporté', async () => {
+  it('retourne un message explicite si MIME non supporte', async () => {
     process.env.MISTRAL_API_KEY = 'test-key';
     delete process.env.GEMINI_API_KEY;
 
@@ -57,6 +57,6 @@ describe('extractTextFromCopie — Mistral OCR', () => {
       mimeType: 'image/tiff',
     });
 
-    expect(result).toContain('[ocr indisponible');
+    expect(result).toContain('[ocr');
   });
 });

@@ -65,7 +65,7 @@ test('parcours onboarding puis quiz puis oral simulé', async ({ page }) => {
   await page.locator('input[type="date"]').fill(eafDateStr);
 
   await page.getByRole('button', { name: 'Suivant' }).click();
-  await page.locator('label').filter({ hasText: 'Le Mariage forcé' }).first().click();
+  await page.locator('label').filter({ hasText: /Cahier de Douai|Le Menteur|Manon Lescaut/ }).first().click();
   await page.getByRole('button', { name: 'Suivant' }).click();
   await page.getByRole('button', { name: 'Terminer' }).click();
 
@@ -96,7 +96,7 @@ test('parcours onboarding puis quiz puis oral simulé', async ({ page }) => {
         'Content-Type': 'application/json',
         'X-CSRF-Token': csrf,
       },
-      body: JSON.stringify({ oeuvre: 'Le Mariage forcé' }),
+      body: JSON.stringify({ oeuvre: 'Cahier de Douai' }),
     });
 
     if (!response.ok) {

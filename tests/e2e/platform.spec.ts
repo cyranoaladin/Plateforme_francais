@@ -170,6 +170,14 @@ test.describe('Tuteur Libre', () => {
     await page.goto('/tuteur');
     await expect(page.getByRole('main')).toBeVisible();
   });
+
+  test('envoyer un message au tuteur retourne une reponse', async ({ page }) => {
+    await page.goto('/tuteur');
+    const input = page.getByLabel('Message au tuteur IA');
+    await input.fill('Donne moi une methode courte pour l introduction de dissertation.');
+    await page.locator('form button[type=\"submit\"]').click();
+    await expect(page.getByRole('log')).toContainText(/methode|problematique|plan/i, { timeout: 20_000 });
+  });
 });
 
 // ═══════════════════════════════════════════════════════════════════════════

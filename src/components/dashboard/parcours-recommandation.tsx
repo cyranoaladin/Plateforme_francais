@@ -46,7 +46,7 @@ export function ParcoursRecommandation() {
 
   return (
     <div className="mt-5 pt-5 border-t border-border">
-      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Recommandation:</p>
+      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Recommandation :</p>
       <Link
         href={recommended.href}
         className="flex items-center text-sm font-medium text-accent hover:text-accent-foreground hover:underline p-3 bg-accent/10 rounded-lg border border-accent/20 transition-all"

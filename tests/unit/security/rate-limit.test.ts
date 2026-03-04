@@ -1,9 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 const redisMock = {
   incr: vi.fn(),
   expire: vi.fn(),
   ttl: vi.fn(),
+  ping: vi.fn(),
 };
 
 vi.mock('@/lib/queue/correction-queue', () => ({
@@ -22,6 +23,11 @@ describe('checkRateLimit', () => {
     vi.resetModules();
     redisMock.expire.mockResolvedValue(1);
     redisMock.ttl.mockResolvedValue(55);
+    redisMock.ping.mockResolvedValue('PONG');
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
   it('permet la première requête (count=1)', async () => {
@@ -40,11 +46,72 @@ describe('checkRateLimit', () => {
     expect(result.retryAfter).toBeGreaterThan(0);
   });
 
-  it('fail-open si Redis est indisponible', async () => {
+  it('fail-closed si Redis est indisponible (erreur incr)', async () => {
+    redisMock.ping.mockResolvedValue('PONG');
     redisMock.incr.mockRejectedValue(new Error('ECONNREFUSED'));
     const { checkRateLimit } = await import('@/lib/security/rate-limit');
     const result = await checkRateLimit({ request: makeRequest('1.2.3.4'), key: 'test', limit: 5 });
-    expect(result.allowed).toBe(true);
+    expect(result.allowed).toBe(false);
+    expect(result.retryAfter).toBe(60);
+  });
+
+  it('fail-closed si ping Redis échoue (production)', async () => {
+    // Simuler NODE_ENV=production
+    const originalEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+    
+    try {
+      redisMock.ping.mockRejectedValue(new Error('ECONNREFUSED'));
+      const { checkRateLimit } = await import('@/lib/security/rate-limit');
+      const result = await checkRateLimit({ request: makeRequest('1.2.3.4'), key: 'test', limit: 5 });
+      expect(result.allowed).toBe(false);
+      expect(result.retryAfter).toBe(60);
+    } finally {
+      process.env.NODE_ENV = originalEnv;
+    }
+  });
+
+  it('fallback in-memory si ping Redis échoue (dev sans Redis)', async () => {
+    // Simuler Redis indisponible
+    redisMock.ping.mockRejectedValue(new Error('ECONNREFUSED'));
+    
+    const { checkRateLimit } = await import('@/lib/security/rate-limit');
+    
+    // Première requête — autorisée
+    const result1 = await checkRateLimit({ 
+      request: makeRequest('1.2.3.4'), 
+      key: 'test-memory', 
+      limit: 3,
+      windowMs: 60000 
+    });
+    expect(result1.allowed).toBe(true);
+    
+    // 2ème et 3ème requêtes — autorisées
+    const result2 = await checkRateLimit({ 
+      request: makeRequest('1.2.3.4'), 
+      key: 'test-memory', 
+      limit: 3,
+      windowMs: 60000 
+    });
+    expect(result2.allowed).toBe(true);
+    
+    const result3 = await checkRateLimit({ 
+      request: makeRequest('1.2.3.4'), 
+      key: 'test-memory', 
+      limit: 3,
+      windowMs: 60000 
+    });
+    expect(result3.allowed).toBe(true);
+    
+    // 4ème requête — bloquée (limite atteinte)
+    const result4 = await checkRateLimit({ 
+      request: makeRequest('1.2.3.4'), 
+      key: 'test-memory', 
+      limit: 3,
+      windowMs: 60000 
+    });
+    expect(result4.allowed).toBe(false);
+    expect(result4.retryAfter).toBeGreaterThan(0);
   });
 
   it('scinde les requêtes par IP — deux IPs différentes ont des compteurs distincts', async () => {

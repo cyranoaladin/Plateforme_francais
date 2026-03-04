@@ -2,11 +2,13 @@ import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { createLlmStream } from '@/lib/llm/streaming';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { searchOfficialReferences } from '@/lib/rag/search';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { requirePlan, incrementUsage } from '@/lib/billing/gating';
+import { sanitizeString } from '@/lib/security/sanitize';
 import { parseJsonBody } from '@/lib/validation/request';
 import { tuteurMessageBodySchema } from '@/lib/validation/schemas';
 
@@ -50,14 +52,47 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return parsed.response;
   }
+  const { searchParams } = new URL(request.url);
+  const wantsStream =
+    searchParams.get('stream') === '1' ||
+    request.headers.get('accept')?.includes('text/event-stream') === true;
 
-  const userMessage = parsed.data.message;
+  // ✅ SANITIZATION des inputs utilisateur
+  const userMessage = sanitizeString(parsed.data.message, { maxLength: 4000, allowHtml: false });
+  const conversationHistory = (parsed.data.conversationHistory ?? []).map(item => ({
+    role: item.role as 'user' | 'assistant',
+    content: sanitizeString(item.content, { maxLength: 4000, allowHtml: false }),
+  }));
+
   const lower = userMessage.toLowerCase();
   const asksFullCopy =
     (lower.includes('rédige') || lower.includes('fais')) &&
     (lower.includes('dissertation complète') || lower.includes('commentaire complet') || lower.includes('copie complète'));
 
   if (asksFullCopy) {
+    if (wantsStream) {
+      const encoder = new TextEncoder();
+      const text =
+        "Je ne peux pas rediger une copie complete a ta place. Je peux te guider etape par etape: problematique, plan, puis amelioration paragraphe par paragraphe.";
+      const stream = new ReadableStream<Uint8Array>({
+        start(controller) {
+          for (const token of text.split(' ')) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ token: `${token} ` })}\n\n`));
+          }
+          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+          controller.close();
+        },
+      });
+      return new NextResponse(stream, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/event-stream; charset=utf-8',
+          'Cache-Control': 'no-cache, no-transform',
+          Connection: 'keep-alive',
+        },
+      });
+    }
+
     return NextResponse.json(
       {
         answer:
@@ -75,12 +110,60 @@ export async function POST(request: Request) {
 
   const refs = await searchOfficialReferences(userMessage, 4);
   const context = refs
-    .map((ref, index) => `[${index + 1}] ${ref.title} (${ref.url})\n${ref.excerpt}`)
+    .map((ref, index) => `[${index + 1}] ${ref.title} (${ref.id})\n${ref.excerpt}`)
     .join('\n\n');
 
-  const historyText = (parsed.data.conversationHistory ?? [])
+  const historyText = conversationHistory
     .map((item) => `${item.role}: ${item.content}`)
     .join('\n');
+
+  const citations = refs.map((ref, index) => ({
+    index: index + 1,
+    title: ref.title,
+    source: ref.sourceRef ?? ref.type,
+  }));
+
+  if (wantsStream) {
+    const messages = [
+      {
+        role: 'system' as const,
+        content:
+          'Tu es un tuteur EAF. Reponds en francais clair et structure, sans URL, avec methode concrete.',
+      },
+      {
+        role: 'user' as const,
+        content: `Historique:\n${historyText}\n\nSources RAG:\n${context}\n\nQuestion eleve:\n${userMessage}`,
+      },
+    ];
+
+    await incrementUsage(auth.user.id, 'tuteurMessagesPerDay');
+    await createMemoryEventRecord(
+      createMemoryEvent(auth.user.id, {
+        type: 'discussion',
+        feature: 'tuteur_message_stream',
+        payload: {
+          citations: citations.length,
+        },
+      }),
+    );
+
+    return new NextResponse(
+      createLlmStream({
+        skill: 'tuteur_libre',
+        userId: auth.user.id,
+        messages,
+        options: { temperature: 0.2 },
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/event-stream; charset=utf-8',
+          'Cache-Control': 'no-cache, no-transform',
+          Connection: 'keep-alive',
+        },
+      },
+    );
+  }
 
   const generated = (await orchestrate({
     skill: 'tuteur_libre',
@@ -91,13 +174,6 @@ export async function POST(request: Request) {
     answer?: string;
     suggestions?: string[];
   };
-
-  const citations = refs.map((ref, index) => ({
-    index: index + 1,
-    title: ref.title,
-    source: ref.type,
-    url: ref.url,
-  }));
 
   await incrementUsage(auth.user.id, 'tuteurMessagesPerDay');
 

@@ -1,4 +1,5 @@
 import { getRedisClient } from '@/lib/queue/correction-queue';
+import { logger } from '@/lib/logger';
 
 export function getClientIp(request: Request): string {
   const forwardedFor = request.headers.get('x-forwarded-for');
@@ -10,6 +11,46 @@ export function getClientIp(request: Request): string {
   return realIp?.trim() || 'unknown';
 }
 
+// Fallback in-memory pour dev sans Redis ou quand Redis est indisponible
+const memoryStore = new Map<string, { count: number; resetAt: number }>();
+
+/**
+ * Rate limiting avec fallback in-memory
+ */
+function checkRateLimitMemory(input: {
+  key: string;
+  limit: number;
+  windowMs?: number;
+}): { allowed: boolean; retryAfter: number } {
+  const windowMs = input.windowMs ?? 60_000;
+  const now = Date.now();
+  const windowKey = Math.floor(now / windowMs);
+  const storeKey = `${input.key}:${windowKey}`;
+
+  const entry = memoryStore.get(storeKey);
+  if (!entry) {
+    memoryStore.set(storeKey, { count: 1, resetAt: now + windowMs });
+    return { allowed: true, retryAfter: 0 };
+  }
+
+  entry.count++;
+  if (entry.count > input.limit) {
+    return { allowed: false, retryAfter: Math.ceil((entry.resetAt - now) / 1000) };
+  }
+
+  return { allowed: true, retryAfter: 0 };
+}
+
+/**
+ * Vérifie le rate limit avec stratégie FAIL-CLOSED.
+ * 
+ * Stratégie:
+ * - Production: FAIL-CLOSED (bloque si Redis indisponible)
+ * - Développement: Fallback in-memory pour permettre le dev local
+ * 
+ * Cette approche prévient les attaques DoS en production tout en
+ * permettant le développement sans Redis.
+ */
 export async function checkRateLimit(input: {
   request: Request;
   key: string;
@@ -19,10 +60,34 @@ export async function checkRateLimit(input: {
   const windowMs = input.windowMs ?? 60_000;
   const windowSec = Math.ceil(windowMs / 1000);
   const ip = getClientIp(input.request);
-  const redisKey = `rl:${input.key}:${ip}`;
+  const isDev = process.env.NODE_ENV !== 'production';
 
   try {
     const redis = getRedisClient();
+    
+    // Test de connexion Redis (léger, sans overhead)
+    try {
+      await redis.ping();
+    } catch {
+      // Redis non connecté
+      if (isDev) {
+        // En dev: fallback in-memory pour permettre le développement
+        logger.warn(
+          { key: input.key, ip },
+          'rate_limit:redis_unavailable, using memory fallback (dev mode)',
+        );
+        return checkRateLimitMemory({ key: `${input.key}:${ip}`, limit: input.limit, windowMs: input.windowMs });
+      } else {
+        // En production: FAIL-CLOSED pour sécurité
+        logger.error(
+          { key: input.key, ip },
+          'rate_limit:redis_unavailable, fail_closed (production)',
+        );
+        return { allowed: false, retryAfter: 60 };
+      }
+    }
+
+    const redisKey = `rl:${input.key}:${ip}`;
     const current = await redis.incr(redisKey);
 
     if (current === 1) {
@@ -35,8 +100,15 @@ export async function checkRateLimit(input: {
     }
 
     return { allowed: true, retryAfter: 0 };
-  } catch {
-    // Fail-open si Redis indisponible.
-    return { allowed: true, retryAfter: 0 };
+  } catch (error) {
+    // ⚠️ FAIL-CLOSED: En cas d'erreur Redis imprévue, on bloque
+    // pour prévenir les attaques DoS et l'abus de quotas LLM.
+    logger.error(
+      { key: input.key, ip, error: error instanceof Error ? error.message : String(error) },
+      'rate_limit:redis_error, fail_closed — blocking request',
+    );
+
+    // Retourner FAIL-CLOSED avec retryAfter raisonnable (60 secondes)
+    return { allowed: false, retryAfter: 60 };
   }
 }

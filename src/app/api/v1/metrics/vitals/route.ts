@@ -52,8 +52,10 @@ async function writeStore(store: Store): Promise<void> {
  * Soumet une métrique Web Vital.
  */
 export async function POST(request: Request) {
-  const { auth, errorResponse } = await requireAuthenticatedUser();
-  if (!auth || errorResponse) return errorResponse!;
+  const { auth } = await requireAuthenticatedUser();
+  if (!auth) {
+    return NextResponse.json({ ok: false, reason: 'unauthenticated' }, { status: 202 });
+  }
 
   let body: unknown;
   try {

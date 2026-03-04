@@ -34,16 +34,34 @@ type CircuitState = {
 };
 
 const SKILL_ROUTING: Record<string, MistralTier> = {
-  // Tier-1 (reasoning / large) — analyse complexe, raisonnement multi-axes
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TIER-1: REASONING (magistral-medium-latest)
+  // Tâches complexes nécessitant raisonnement multi-axes, analyse approfondie
+  // ═══════════════════════════════════════════════════════════════════════════
   correcteur: 'reasoning',
   diagnosticien: 'reasoning',
   avocat_diable: 'reasoning',
   self_reflection: 'reasoning',
   coach_ecrit_correction: 'reasoning',
   coach_oral_final: 'reasoning',
+  ecrit_diagnostic: 'reasoning',
+  ecrit_baremage: 'reasoning',
+  oral_bilan_officiel: 'reasoning',
+  examinateur_virtuel: 'reasoning',
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TIER-1B: LARGE (mistral-large-latest)
+  // Analyse multi-textes, comparaisons complexes
+  // ═══════════════════════════════════════════════════════════════════════════
   analyse_oeuvre_complete: 'large',
   comparaison_multi_textes: 'large',
-  // Tier-2 (standard / small) — skills interactifs
+  ecrit_essai: 'large',
+  ecrit_contraction: 'large',
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TIER-2: STANDARD (mistral-small-latest)
+  // Skills interactifs, coaching, assistance conversationnelle
+  // ═══════════════════════════════════════════════════════════════════════════
   tuteur_libre: 'standard',
   bibliothecaire: 'standard',
   coach_oral: 'standard',
@@ -51,7 +69,25 @@ const SKILL_ROUTING: Record<string, MistralTier> = {
   quiz_maitre: 'standard',
   rapport_auto: 'standard',
   langue: 'standard',
-  // Tier-3 (micro / local) — skills légers, faible charge
+  ecrit_langue: 'standard',
+  ecrit_plans: 'standard',
+  oral_tirage: 'standard',
+  coach_lecture: 'standard',
+  coach_explication: 'standard',
+  oral_entretien: 'standard',
+  grammaire_ciblee: 'standard',
+  oral_prep30: 'standard',
+  pastiche: 'standard',
+  quiz_adaptatif: 'standard',
+  revision_fiches: 'standard',
+  citations_procedes: 'standard',
+  carnet_lecture: 'standard',
+  support_produit: 'standard',
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TIER-3: MICRO (ministral-8b-latest)
+  // Tâches légères, faible charge, réponses courtes
+  // ═══════════════════════════════════════════════════════════════════════════
   planner: 'micro',
   student_modeler: 'micro',
   rappel_agent: 'micro',
@@ -61,7 +97,13 @@ const SKILL_ROUTING: Record<string, MistralTier> = {
   summary_session: 'micro',
   validation_grammaticale: 'micro',
   notification_content: 'micro',
-  // OCR
+  spaced_repetition: 'micro',
+  sr_planner: 'micro',
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TIER-OCR (mistral-ocr-latest)
+  // Lecture et extraction de texte depuis images/PDF
+  // ═══════════════════════════════════════════════════════════════════════════
   ocr_copie: 'ocr',
 };
 

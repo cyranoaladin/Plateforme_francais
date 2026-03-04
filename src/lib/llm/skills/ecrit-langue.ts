@@ -18,7 +18,7 @@ const schema = z.object({
 export type EcritLangueOutput = z.infer<typeof schema>;
 
 export const ecritLangueSkill: SkillConfig<EcritLangueOutput> = {
-  prompt: 'Skill ecrit_langue: corriger les erreurs de langue dans un texte d\'élève EAF. Identifier chaque erreur avec sa règle. Ne jamais réécrire le texte entier.',
+  prompt: `Skill ecrit_langue: corriger les erreurs de langue dans un texte d eleve EAF.\n+Utiliser la terminologie du programme de Premiere:\n+- syntaxe phrase complexe (coordination/subordination/fonctions)\n+- relations logiques (cause, consequence, opposition, condition, but)\n+- systeme verbal (valeurs des temps, subjonctif, conditionnel, concordance)\n+Pour chaque erreur: extrait court, type d erreur, correction ponctuelle, regle explicite.\n+Ne jamais reecrire la copie entiere.`,
   outputSchema: schema,
   fallback: {
     corrections: [],

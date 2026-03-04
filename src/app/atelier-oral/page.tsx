@@ -15,6 +15,8 @@ type SessionPayload = {
   sessionId: string;
   texte: string;
   questionGrammaire: string;
+  phraseGrammaire?: string;
+  oeuvreChoisie?: string;
   instructions: string;
 };
 
@@ -73,13 +75,19 @@ const PREP_CHECKLIST = [
 ];
 
 /** Official works 2025-2026 per cahier V2 §1 */
-const OEUVRES_2025_2026 = [
-  'Les Misérables (extraits) — Hugo',
-  'Les Fleurs du Mal — Baudelaire',
-  'Le Malade imaginaire — Molière',
-  'Les Confessions (extraits) — Rousseau',
-  'Déclaration des droits de la femme — Olympe de Gouges',
-  'Mme Bovary (extraits) — Flaubert',
+const OEUVRES_PROGRAMME_2025_2026 = [
+  'Cahier de Douai — Arthur Rimbaud',
+  'La rage de l expression — Francis Ponge',
+  'Mes forets — Helene Dorion',
+  'Discours de la servitude volontaire — Etienne de La Boetie',
+  'Entretiens sur la pluralite des mondes — Fontenelle',
+  'Lettres d une Peruvienne — Francoise de Graffigny',
+  'Le Menteur — Pierre Corneille',
+  'On ne badine pas avec l amour — Alfred de Musset',
+  'Pour un oui ou pour un non — Nathalie Sarraute',
+  'Manon Lescaut — Abbe Prevost',
+  'La Peau de chagrin — Honore de Balzac',
+  'Sido suivi de Les Vrilles de la vigne — Colette',
 ];
 
 /* ──────────────────── Helpers ──────────────────── */
@@ -154,7 +162,7 @@ function useCountdown(totalSeconds: number, running: boolean) {
 /* ──────────────────── Component ──────────────────── */
 
 export default function AtelierOralPage() {
-  const [oeuvre, setOeuvre] = useState(OEUVRES_2025_2026[0]);
+  const [oeuvre, setOeuvre] = useState(OEUVRES_PROGRAMME_2025_2026[0]);
   const [mode, setMode] = useState<OralMode>('SIMULATION');
   const [session, setSession] = useState<SessionPayload | null>(null);
   const [wizardPhase, setWizardPhase] = useState<WizardPhase>('TIRAGE');
@@ -180,6 +188,10 @@ export default function AtelierOralPage() {
   const passageRunning = wizardPhase === 'PASSAGE';
   const prepRemaining = useCountdown(PREP_DURATION_S, prepRunning && isSimulation);
   const passageRemaining = useCountdown(PASSAGE_DURATION_S, passageRunning && isSimulation);
+  const phaseRemaining = useCountdown(
+    currentStep ? PHASE_DURATIONS_S[currentStep] : 0,
+    passageRunning && isSimulation && Boolean(currentStep),
+  );
 
   useEffect(() => {
     sttRef.current = createBrowserStt();
@@ -207,6 +219,12 @@ export default function AtelierOralPage() {
       if (!response.ok) throw new Error('Impossible de démarrer la session orale.');
       const payload = (await response.json()) as SessionPayload;
       setSession(payload);
+      try {
+        await fetch(`/api/v1/oral/session/${payload.sessionId}/start-prep`, {
+          method: 'POST',
+          headers: { 'X-CSRF-Token': getCsrfTokenFromDocument() },
+        });
+      } catch (e) { console.error('Failed to sync prep start', e); }
       setWizardPhase('PREP');
       setCurrentStepIndex(0);
       setTranscript('');
@@ -222,10 +240,17 @@ export default function AtelierOralPage() {
     }
   }, [oeuvre, mode]);
 
-  const startPassage = useCallback(() => {
+  const startPassage = useCallback(async () => {
+    if (!session) return;
+    try {
+      await fetch(`/api/v1/oral/session/${session.sessionId}/start-passage`, {
+        method: 'POST',
+        headers: { 'X-CSRF-Token': getCsrfTokenFromDocument() },
+      });
+    } catch (e) { console.error('Failed to sync passage start', e); }
     setWizardPhase('PASSAGE');
     stepStartRef.current = Date.now();
-  }, []);
+  }, [session]);
 
   const toggleMic = useCallback(() => {
     if (!sttRef.current) return;
@@ -341,7 +366,7 @@ export default function AtelierOralPage() {
 
           <label htmlFor="oeuvre-select" className="sr-only">Choisir une œuvre</label>
           <select id="oeuvre-select" className="border border-border rounded-xl bg-muted/30 px-4 py-3 mb-4 w-full max-w-sm mx-auto block text-foreground text-sm focus:ring-2 focus:ring-primary focus:outline-none" value={oeuvre} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(e.target.value)}>
-            {OEUVRES_2025_2026.map((o) => <option key={o} value={o}>{o}</option>)}
+            {OEUVRES_PROGRAMME_2025_2026.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
           <button onClick={startSession} disabled={isLoading} className="px-8 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 hover:bg-purple-700 transition-colors disabled:opacity-50 shadow-md">
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />} Tirer un extrait
@@ -368,6 +393,16 @@ export default function AtelierOralPage() {
             <p className="font-bold text-foreground text-sm mb-2">Extrait tiré</p>
             <p className="font-serif text-base leading-relaxed text-foreground">{session.texte}</p>
             <p className="text-sm mt-3 text-muted-foreground"><span className="font-semibold text-foreground">Question de grammaire :</span> {session.questionGrammaire}</p>
+            {session.phraseGrammaire && (
+              <p className="text-sm mt-2 text-muted-foreground">
+                <span className="font-semibold text-foreground">Phrase cible :</span> {session.phraseGrammaire}
+              </p>
+            )}
+            {session.oeuvreChoisie && (
+              <p className="text-sm mt-2 text-muted-foreground">
+                <span className="font-semibold text-foreground">Oeuvre choisie (entretien) :</span> {session.oeuvreChoisie}
+              </p>
+            )}
           </div>
 
           {/* Prep checklist — 5 guided steps per cahier V2 §5.3 */}
@@ -419,9 +454,7 @@ export default function AtelierOralPage() {
             <div className="flex items-center gap-3">
               {/* Phase sub-timer (indicative) */}
               {currentStep && isSimulation && (
-                <span className="text-xs text-muted-foreground font-mono">
-                  ~{PHASE_DURATIONS_S[currentStep] / 60} min
-                </span>
+                <span className="text-xs text-muted-foreground font-mono">{formatTimer(phaseRemaining)} phase</span>
               )}
               {isSimulation && (
                 <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-lg font-bold ${timerColorClass(passageRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant passage : ${formatTimer(passageRemaining)}`}>
@@ -457,6 +490,12 @@ export default function AtelierOralPage() {
             <summary className="cursor-pointer text-sm font-semibold text-foreground">Extrait &amp; question de grammaire</summary>
             <p className="font-serif text-sm leading-relaxed text-foreground mt-2">{session.texte}</p>
             <p className="text-sm mt-2 text-muted-foreground"><span className="font-semibold text-foreground">Grammaire :</span> {session.questionGrammaire}</p>
+            {session.phraseGrammaire && (
+              <p className="text-sm mt-2 text-muted-foreground"><span className="font-semibold text-foreground">Phrase cible :</span> {session.phraseGrammaire}</p>
+            )}
+            {session.oeuvreChoisie && (
+              <p className="text-sm mt-2 text-muted-foreground"><span className="font-semibold text-foreground">Entretien sur :</span> {session.oeuvreChoisie}</p>
+            )}
           </details>
 
           {/* Input area for current step */}

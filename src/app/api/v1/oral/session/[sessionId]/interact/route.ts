@@ -30,8 +30,9 @@ export async function POST(
 
   const { sessionId } = await params;
   const session = await findOralSessionById(sessionId);
+  // ✅ MESSAGE GÉNÉRIQUE
   if (!session || session.userId !== auth.user.id) {
-    return NextResponse.json({ error: 'Session introuvable.' }, { status: 404 });
+    return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
   }
 
   const parsed = await parseJsonBody(request, oralSessionInteractBodySchema);

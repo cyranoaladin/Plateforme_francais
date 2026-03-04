@@ -2,19 +2,22 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Sparkles, PenTool, Mic, BookOpen, BrainCircuit, CheckCircle2, ChevronRight } from 'lucide-react';
+import { PenTool, Mic, BookOpen, BrainCircuit, CheckCircle2, ChevronRight } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
 const OEUVRES = [
-  { id: 'mariage', title: 'Le Mariage forcé', author: 'Molière', type: 'Théâtre' },
-  { id: 'surprise', title: "La Surprise de l'amour", author: 'Marivaux', type: 'Théâtre' },
-  { id: 'gouges', title: 'Déclaration des droits de la femme', author: 'O. de Gouges', type: 'Idées' },
-  { id: 'contemplations', title: 'Les Contemplations', author: 'V. Hugo', type: 'Poésie' },
-  { id: 'douai', title: 'Cahier de Douai', author: 'A. Rimbaud', type: 'Poésie' },
+  { id: 'douai', title: 'Cahier de Douai', author: 'Arthur Rimbaud', type: 'Poésie' },
+  { id: 'ponge', title: 'La Rage de l\u2019expression', author: 'Francis Ponge', type: 'Poésie' },
+  { id: 'dorion', title: 'Mes forêts', author: 'Hélène Dorion', type: 'Poésie' },
+  { id: 'boetie', title: 'Discours de la servitude volontaire', author: 'Étienne de La Boétie', type: 'Littérature d\u2019idées' },
+  { id: 'fontenelle', title: 'Entretiens sur la pluralité des mondes', author: 'Fontenelle', type: 'Littérature d\u2019idées' },
+  { id: 'graffigny', title: 'Lettres d\u2019une Péruvienne', author: 'Françoise de Graffigny', type: 'Littérature d\u2019idées' },
+  { id: 'menteur', title: 'Le Menteur', author: 'Pierre Corneille', type: 'Théâtre' },
+  { id: 'musset', title: 'On ne badine pas avec l\u2019amour', author: 'Alfred de Musset', type: 'Théâtre' },
+  { id: 'sarraute', title: 'Pour un oui ou pour un non', author: 'Nathalie Sarraute', type: 'Théâtre' },
+  { id: 'prevost', title: 'Manon Lescaut', author: 'Abbé Prévost', type: 'Roman' },
+  { id: 'peau', title: 'La Peau de chagrin', author: 'Honoré de Balzac', type: 'Roman' },
   { id: 'sido', title: 'Sido / Les Vrilles de la vigne', author: 'Colette', type: 'Roman' },
-  { id: 'rouge', title: 'Le Rouge et le Noir', author: 'Stendhal', type: 'Roman' },
-  { id: 'peau', title: 'La Peau de chagrin', author: 'H. de Balzac', type: 'Roman' },
-  { id: 'peste', title: 'La Peste', author: 'A. Camus', type: 'Roman' },
 ];
 
 const SKILLS = [
@@ -34,6 +37,7 @@ export default function OnboardingPage() {
   const [establishment, setEstablishment] = useState('');
   const [eafDate, setEafDate] = useState('');
   const [selectedOeuvres, setSelectedOeuvres] = useState<string[]>([]);
+  const [customOeuvre, setCustomOeuvre] = useState('');
   const [classCode, setClassCode] = useState('');
   const [welcomeMessage, setWelcomeMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -78,7 +82,7 @@ export default function OnboardingPage() {
           classLevel,
           establishment: establishment || undefined,
           eafDate,
-          selectedOeuvres,
+          selectedOeuvres: customOeuvre.trim() ? [...selectedOeuvres, customOeuvre.trim()] : selectedOeuvres,
           weakSignals,
           classCode: classCode || undefined,
         }),
@@ -108,8 +112,13 @@ export default function OnboardingPage() {
         <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800 p-8 text-white text-center relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/3" />
           <div className="relative z-10 flex flex-col items-center">
-            <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 border border-white/20 shadow-lg">
-              <Sparkles className="w-8 h-8 text-white" />
+            {/* Logo Nexus Réussite */}
+            <div className="mb-4 bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 shadow-lg">
+              <img 
+                src="/images/logo_slogan_nexus.png" 
+                alt="Nexus Réussite" 
+                className="h-12 w-auto object-contain"
+              />
             </div>
             <h1 className="text-3xl font-bold mb-2">Bienvenue sur Nexus</h1>
             <p className="text-indigo-100 font-medium">Personnalisons ton parcours EAF en 3 étapes</p>
@@ -160,7 +169,7 @@ export default function OnboardingPage() {
           {step === 2 && (
             <div className="animate-in slide-in-from-right-8 duration-500">
               <h2 className="text-2xl font-bold text-foreground mb-2">Ton programme (2026)</h2>
-              <p className="text-muted-foreground mb-6">Sélectionne les oeuvres que tu étudies. Le tuteur IA s&apos;adaptera.</p>
+              <p className="text-muted-foreground mb-6">Sélectionne les œuvres que tu étudies. Le tuteur IA s&apos;adaptera.</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[45vh] overflow-y-auto pr-1">
                 {OEUVRES.map((oeuvre) => {
                   const isSelected = selectedOeuvres.includes(oeuvre.title);
@@ -187,6 +196,15 @@ export default function OnboardingPage() {
                     </div>
                   );
                 })}
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-bold text-foreground mb-2">Œuvre absente de la liste (optionnel)</label>
+                <input
+                  value={customOeuvre}
+                  onChange={(e) => setCustomOeuvre(e.target.value)}
+                  placeholder="Saisis ton œuvre exacte donnée par ton professeur"
+                  className="w-full p-3 bg-muted/30 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:outline-none text-foreground text-sm"
+                />
               </div>
             </div>
           )}
@@ -241,7 +259,11 @@ export default function OnboardingPage() {
                 if (step < 3) setStep((prev) => prev + 1);
                 else void submit();
               }}
-              disabled={(step === 1 && (!displayName.trim() || !eafDate)) || (step === 2 && selectedOeuvres.length === 0) || isSubmitting}
+              disabled={
+                (step === 1 && (!displayName.trim() || !eafDate)) ||
+                (step === 2 && selectedOeuvres.length === 0 && !customOeuvre.trim()) ||
+                isSubmitting
+              }
               className="px-8 py-3 rounded-xl font-bold text-primary-foreground bg-primary hover:bg-primary/90 transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 ml-auto"
             >
               {isSubmitting ? 'Finalisation...' : step === 3 ? 'Générer mon parcours' : 'Suivant'}

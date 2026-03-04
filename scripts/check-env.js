@@ -1,35 +1,22 @@
-#!/usr/bin/env node
-/**
- * CI config sanity check (P0-8).
- * Verifies all required environment variables are present.
- * Usage: npm run ci:config-sanity
- */
-
-const REQUIRED_VARS = [
+const mandatoryVars = [
   'DATABASE_URL',
-  'DIRECT_URL',
-  'REDIS_URL',
+  'MISTRAL_API_KEY',
   'SESSION_SECRET',
-  'CSRF_SECRET',
-  'NEXT_PUBLIC_APP_URL',
-  'NODE_ENV',
-  'LLM_ROUTER_ENABLED',
-  'LLM_TIER_1_PROVIDER',
-  'LLM_TIER_2_PROVIDER',
-  'LLM_TIER_3_PROVIDER',
-  'MCP_SERVER_URL',
-  'MCP_API_KEY',
-  'MCP_TRANSPORT',
-  'CRON_SECRET',
-  'OLLAMA_BASE_URL',
+  'NEXT_PUBLIC_API_URL',
 ];
 
-const missing = REQUIRED_VARS.filter((v) => !process.env[v]);
+let missing = 0;
+mandatoryVars.forEach(v => {
+  if (!process.env[v]) {
+    console.error(`[CRITICAL] Missing environment variable: ${v}`);
+    missing++;
+  }
+});
 
-if (missing.length > 0) {
-  console.error('❌ Config sanity check FAILED — missing environment variables:');
-  missing.forEach((v) => console.error(`   - ${v}`));
+if (missing > 0) {
+  console.error(`\nFAIL: ${missing} mandatory variable(s) missing. Check .env.local`);
   process.exit(1);
+} else {
+  console.log('Environment configuration: OK');
+  process.exit(0);
 }
-
-console.log(`✅ Config sanity check passed — ${REQUIRED_VARS.length} required variables present.`);

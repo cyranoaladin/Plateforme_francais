@@ -32,6 +32,12 @@ type CorrectionPayload = {
   } | null;
 };
 
+const PROCESSING_STEPS = [
+  'Lecture de la copie...',
+  'Analyse litteraire...',
+  'Redaction du bilan...',
+];
+
 export default function CorrectionCopiePage() {
   const params = useParams<{ copieId: string }>();
   const searchParams = useSearchParams();
@@ -39,6 +45,7 @@ export default function CorrectionCopiePage() {
 
   const [payload, setPayload] = useState<CorrectionPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [stepIndex, setStepIndex] = useState(0);
 
   useEffect(() => {
     if (!params.copieId || !epreuveId) {
@@ -59,6 +66,8 @@ export default function CorrectionCopiePage() {
 
       if (data.status === 'pending' || data.status === 'processing') {
         polling = setTimeout(load, 3000);
+      } else if (data.status === 'done') {
+        await fetch(`/api/v1/epreuves/copies/${params.copieId}/report`).catch(() => undefined);
       }
     };
 
@@ -70,6 +79,16 @@ export default function CorrectionCopiePage() {
       }
     };
   }, [epreuveId, params.copieId]);
+
+  useEffect(() => {
+    if (!payload || (payload.status !== 'pending' && payload.status !== 'processing')) {
+      return;
+    }
+    const id = setInterval(() => {
+      setStepIndex((prev) => (prev + 1) % PROCESSING_STEPS.length);
+    }, 1500);
+    return () => clearInterval(id);
+  }, [payload]);
 
   const correction = payload?.correction;
   const note = correction?.note ?? 0;
@@ -86,9 +105,18 @@ export default function CorrectionCopiePage() {
 
   if (!payload || payload.status === 'pending' || payload.status === 'processing') {
     return (
-      <div className="p-10 max-w-3xl mx-auto flex items-center gap-3" role="status">
-        <Loader2 className="w-5 h-5 animate-spin text-primary" />
-        <span>Correction en cours par l'IA…</span>
+      <div className="p-10 max-w-3xl mx-auto space-y-4" role="status">
+        <div className="flex items-center gap-3">
+          <Loader2 className="w-5 h-5 animate-spin text-primary" />
+          <span>Analyse IA en cours...</span>
+        </div>
+        <div className="space-y-2">
+          {PROCESSING_STEPS.map((step, idx) => (
+            <div key={step} className={`text-sm ${idx === stepIndex ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>
+              {idx + 1}. {step}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

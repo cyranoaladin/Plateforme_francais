@@ -46,10 +46,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
       <div className="w-full max-w-md bg-card border border-border rounded-2xl p-8 shadow-lg">
-        <h1 className="text-2xl font-bold text-foreground mb-2">Connexion EAF Premium</h1>
-        <p className="text-muted-foreground text-sm mb-6">
+        {/* Logo Nexus Réussite */}
+        <div className="flex justify-center mb-6">
+          <img 
+            src="/images/logo_slogan_nexus.png" 
+            alt="Nexus Réussite - Viser, Atteindre, Dépasser" 
+            className="h-20 w-auto object-contain"
+          />
+        </div>
+        
+        <h1 className="text-2xl font-bold text-foreground mb-2 text-center">Connexion EAF Premium</h1>
+        <p className="text-muted-foreground text-sm mb-6 text-center">
           Connectez-vous pour récupérer votre parcours, vos résultats et vos ressources.
         </p>
 
@@ -130,7 +139,7 @@ export default function LoginPage() {
         </form>
 
         <p className="text-xs text-muted-foreground mt-6">
-          Compte de démonstration: <span className="font-semibold">jean@eaf.local</span> /{' '}
+          Compte de démonstration : <span className="font-semibold">jean@eaf.local</span> /{' '}
           <span className="font-semibold">demo1234</span>
         </p>
       </div>

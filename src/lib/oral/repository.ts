@@ -100,7 +100,7 @@ export async function createOralSession(input: {
         userId: input.userId,
         oeuvre: input.oeuvre,
         extrait: input.extrait,
-        question: input.questionGrammaire,
+        question: input.questionGrammaire, status: "DRAFT",
         feedback: { interactions: [] },
       },
     });
@@ -204,4 +204,40 @@ export async function finalizeOralSession(input: {
         : item,
     ),
   }));
+}
+
+export async function startOralPrep(sessionId: string) {
+  if (await isDatabaseAvailable()) {
+    return await prisma.oralSession.update({
+      where: { id: sessionId },
+      data: {
+        status: 'PREP_RUNNING',
+        prepStartedAt: new Date(),
+      },
+    });
+  }
+}
+
+export async function endOralPrep(sessionId: string) {
+  if (await isDatabaseAvailable()) {
+    return await prisma.oralSession.update({
+      where: { id: sessionId },
+      data: {
+        status: 'PREP_ENDED',
+        prepEndedAt: new Date(),
+      },
+    });
+  }
+}
+
+export async function startOralPassage(sessionId: string) {
+  if (await isDatabaseAvailable()) {
+    return await prisma.oralSession.update({
+      where: { id: sessionId },
+      data: {
+        status: 'PASSAGE_RUNNING',
+        passageStartedAt: new Date(),
+      },
+    });
+  }
 }

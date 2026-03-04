@@ -52,6 +52,7 @@ export type OralSessionResult = {
 export function pickOralExtrait(oeuvre: string): {
   texte: string;
   questionGrammaire: string;
+  phraseGrammaire: string;
 } {
   const candidates = EXTRAITS_OEUVRES.filter((item) =>
     item.oeuvre.toLowerCase().includes(oeuvre.toLowerCase()),
@@ -64,6 +65,7 @@ export function pickOralExtrait(oeuvre: string): {
   return {
     texte: choice?.extrait ?? 'Aucun extrait disponible.',
     questionGrammaire: choice?.questionGrammaire ?? 'Analysez la syntaxe de la phrase.',
+    phraseGrammaire: (choice?.extrait ?? '').split('.').find((chunk) => chunk.trim().length > 20)?.trim() ?? 'Phrase cible indisponible.',
   };
 }
 

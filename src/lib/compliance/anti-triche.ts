@@ -1,18 +1,7 @@
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
 
-/**
- * Anti-triche classification for all generative endpoints.
- *
- * Policy: The platform NEVER produces complete essays, dissertations,
- * commentaires composés, or oral explanations. It provides methodology,
- * guidance, structured feedback, and partial examples only.
- *
- * When a forbidden request is detected, the system returns a structured
- * refusal with pedagogical guidance instead.
- */
-
-export const FORBIDDEN_PATTERNS: ReadonlyArray<{ pattern: RegExp; category: string }> = [
+export const FORBIDDEN_PATTERNS = [
   { pattern: /r[ée]dige[sz]?\s+(moi\s+)?(un[e]?\s+)?(dissertation|commentaire|contraction|essai|explication)/i, category: 'redaction_complete' },
   { pattern: /[ée]cri[st]?\s+(moi\s+)?(un[e]?\s+)?(dissertation|commentaire|contraction|essai|introduction|conclusion)/i, category: 'redaction_complete' },
   { pattern: /fai[st]?\s+(moi\s+)?(un[e]?\s+)?(dissertation|commentaire|contraction|essai)/i, category: 'redaction_complete' },
@@ -38,7 +27,7 @@ export const antiTricheResultSchema = z.object({
 
 export type AntiTricheResult = z.infer<typeof antiTricheResultSchema>;
 
-const GUIDANCE_BY_CATEGORY: Record<string, { refusal: string; guidance: string }> = {
+const GUIDANCE_BY_CATEGORY = {
   redaction_complete: {
     refusal: 'Je ne peux pas rédiger un texte complet à ta place — ce serait de la triche et ça ne t\'aiderait pas à progresser.',
     guidance: 'En revanche, je peux t\'aider à : (1) construire un plan détaillé, (2) formuler une problématique, (3) rédiger une phrase d\'amorce, (4) analyser un procédé stylistique, (5) te donner un feedback sur un paragraphe que tu as écrit.',
@@ -58,26 +47,15 @@ const DEFAULT_GUIDANCE = {
   guidance: 'Reformule ta question pour demander de l\'aide méthodologique, un feedback sur ton travail, ou des pistes d\'amélioration.',
 };
 
-/**
- * Classify a user query and determine if it's allowed.
- * Returns { allowed: true } for legitimate requests.
- * Returns { allowed: false, category, refusalMessage, guidanceMessage } for forbidden ones.
- */
 export function classifyAntiTriche(userQuery: string | undefined | null): AntiTricheResult {
-  if (!userQuery || typeof userQuery !== 'string') {
-    return { allowed: true };
-  }
+  if (!userQuery || typeof userQuery !== 'string') return { allowed: true };
   const trimmed = userQuery.trim();
-  if (trimmed.length === 0) {
-    return { allowed: true };
-  }
+  if (trimmed.length === 0) return { allowed: true };
 
   for (const { pattern, category } of FORBIDDEN_PATTERNS) {
     if (pattern.test(trimmed)) {
-      const messages = GUIDANCE_BY_CATEGORY[category] ?? DEFAULT_GUIDANCE;
-
-      logger.info({ category, queryLength: trimmed.length }, 'compliance.anti_triche.blocked');
-
+      const messages = GUIDANCE_BY_CATEGORY[category as keyof typeof GUIDANCE_BY_CATEGORY] || DEFAULT_GUIDANCE;
+      logger.info({ category, queryLength: trimmed.length }, 'compliance.anti_triche.blocked_input');
       return {
         allowed: false,
         category,
@@ -86,13 +64,27 @@ export function classifyAntiTriche(userQuery: string | undefined | null): AntiTr
       };
     }
   }
-
   return { allowed: true };
 }
 
-/**
- * Build a structured JSON refusal response for blocked requests.
- */
+export function validateLlmOutput(output: string | undefined | null, mode: 'entrainement' | 'examen' = 'examen'): AntiTricheResult {
+  if (!output || typeof output !== 'string') return { allowed: true };
+  const wordCount = output.split(/\s+/).length;
+  const hasEssayStructure = /introduction|développement|conclusion|première partie|transition/i.test(output);
+
+  if (wordCount > 180 && hasEssayStructure && mode === 'examen') {
+    const messages = GUIDANCE_BY_CATEGORY.redaction_complete;
+    logger.warn({ wordCount, hasEssayStructure }, 'compliance.anti_triche.blocked_output');
+    return {
+      allowed: false,
+      category: 'redaction_complete',
+      refusalMessage: messages.refusal,
+      guidanceMessage: messages.guidance,
+    };
+  }
+  return { allowed: true };
+}
+
 export function buildRefusalOutput(result: AntiTricheResult): Record<string, unknown> {
   return {
     blocked: true,

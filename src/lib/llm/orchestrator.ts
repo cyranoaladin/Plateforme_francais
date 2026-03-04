@@ -5,14 +5,44 @@ import { logger } from '@/lib/logger';
 import { SYSTEM_PROMPT_EAF } from '@/lib/llm/prompts/system';
 import { fallbackSkillOutput, parseSkillOutput, skillPromptFor } from '@/lib/llm/skills';
 import { type Skill } from '@/lib/llm/skills/types';
-import { classifyAntiTriche, buildRefusalOutput } from '@/lib/compliance/anti-triche';
+import { classifyAntiTriche, buildRefusalOutput, validateLlmOutput } from '@/lib/compliance/anti-triche';
+import { getMediaForAgent, formatMediaContextForPrompt } from '@/data/media-catalog';
+import type { AgentType } from '@/lib/memory/context-builder';
+
+/** Skills that should NOT receive media context injection */
+const SKILLS_WITHOUT_MEDIA: ReadonlySet<Skill> = new Set([
+  'oral_tirage',
+  'ecrit_baremage',
+  'support_produit',
+  'correcteur',
+]);
 
 type OrchestrateInput = {
   skill: Skill;
   userQuery: string;
   context?: string;
   userId: string;
+  oeuvreId?: string;
 };
+
+/** Maps a Skill to the closest AgentType for media filtering */
+function skillToAgentType(skill: Skill): AgentType {
+  const mapping: Partial<Record<Skill, AgentType>> = {
+    coach_oral: 'COACH_EXPLICATION',
+    oral_tirage: 'TIRAGE_ORAL',
+    coach_lecture: 'COACH_LECTURE',
+    coach_explication: 'COACH_EXPLICATION',
+    grammaire_ciblee: 'GRAMMAIRE_CIBLEE',
+    oral_entretien: 'ENTRETIEN_OEUVRE',
+    oral_bilan_officiel: 'BILAN_ORAL',
+    ecrit_diagnostic: 'DIAGNOSTIC_ECRIT',
+    pastiche: 'PASTICHE',
+    quiz_adaptatif: 'QUIZ_ADAPTATIF',
+    examinateur_virtuel: 'EXAMINATEUR_VIRTUEL',
+    oral_prep30: 'SHADOW_PREP',
+  };
+  return mapping[skill] ?? 'COACH_EXPLICATION';
+}
 
 function extractJsonBlock(text: string): string {
   const trimmed = text.trim();
@@ -29,11 +59,19 @@ function extractJsonBlock(text: string): string {
   return trimmed;
 }
 
-export async function orchestrate({ skill, userQuery, context, userId }: OrchestrateInput): Promise<unknown> {
+export async function orchestrate({ skill, userQuery, context, userId, oeuvreId }: OrchestrateInput): Promise<unknown> {
   const compliance = classifyAntiTriche(userQuery);
   if (!compliance.allowed) {
     logger.info({ skill, userId, category: compliance.category }, 'llm.orchestrate.blocked_anti_triche');
     return buildRefusalOutput(compliance);
+  }
+
+  // Build media context only for skills that benefit from it
+  let mediaContext = '';
+  if (!SKILLS_WITHOUT_MEDIA.has(skill)) {
+    const agentType = skillToAgentType(skill);
+    const mediaEntries = getMediaForAgent(agentType, oeuvreId);
+    mediaContext = formatMediaContextForPrompt(mediaEntries);
   }
 
   const prompt = [
@@ -41,11 +79,15 @@ export async function orchestrate({ skill, userQuery, context, userId }: Orchest
     `Utilisateur: ${userId}`,
     `Skill: ${skill}`,
     `Instruction skill: ${skillPromptFor(skill)}`,
+    '---',
     'Contexte RAG:',
     context && context.trim().length > 0 ? context : 'Aucun contexte source fourni.',
+    '---',
+    mediaContext.length > 0 ? mediaContext : '',
+    '---',
     'Question élève:',
     userQuery,
-  ].join('\n\n');
+  ].filter(Boolean).join('\n\n');
 
   try {
     const startedAt = Date.now();
@@ -55,7 +97,19 @@ export async function orchestrate({ skill, userQuery, context, userId }: Orchest
       responseMimeType: 'application/json',
     });
 
-    const parsedRaw = JSON.parse(extractJsonBlock(completion.text)) as unknown;
+    const rawText = completion.text;
+    const complianceOutput = classifyAntiTriche(rawText); 
+    if (!complianceOutput.allowed) {
+       return buildRefusalOutput(complianceOutput);
+    }
+
+    const parsedRaw = JSON.parse(extractJsonBlock(rawText)) as Record<string, unknown>;
+    
+    const textToValidate = String(parsedRaw.answer ?? parsedRaw.feedback ?? parsedRaw.content ?? '');
+    const finalCompliance = validateLlmOutput(textToValidate);
+    if (!finalCompliance.allowed) {
+       return buildRefusalOutput(finalCompliance);
+    }
     logger.info({
       skill,
       userId,

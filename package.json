@@ -20,6 +20,7 @@
     "prisma:migrate": "prisma migrate dev",
     "db:seed": "tsx scripts/seed.ts",
     "rag:index": "tsx scripts/index-rag.ts",
+    "db:seed:media": "tsx scripts/ingest-media-catalog.ts",
     "scheduler": "tsx src/lib/cron/scheduler.ts",
     "mcp:dev": "cd packages/mcp-server && tsx watch src/index.ts",
     "mcp:build": "cd packages/mcp-server && tsc",

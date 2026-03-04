@@ -101,6 +101,7 @@ export async function analyzeAvocatDiable(input: AnalyzeInput): Promise<AvocatDi
       refs = mcpResult.hits.slice(0, 3).map((hit, index) => ({
         id: `mcp-${index + 1}`,
         title: hit.title ?? `Source ${index + 1}`,
+        sourceRef: hit.sourceUrl ?? `mcp:${index + 1}`,
         url: hit.sourceUrl ?? '',
         excerpt: hit.excerpt ?? '',
         type: (hit.docType as (typeof refs)[number]['type']) ?? 'texte_officiel',

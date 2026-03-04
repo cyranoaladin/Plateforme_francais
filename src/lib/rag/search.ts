@@ -1,12 +1,15 @@
 import { OFFICIAL_REFERENCES, type ReferenceDoc } from '@/data/references';
 import { levelFromDocId, scoreFromDistance, vectorSearch } from '@/lib/rag/vector-search';
 import { reciprocalRankFusion, metadataRerank } from '@/lib/rag/rerank';
+import { externalRAG, type ExternalRAGChunk } from '@/lib/rag/external-client';
+import { logger } from '@/lib/logger';
 
 export type RagSearchResult = {
   id: string;
   title: string;
   type: ReferenceDoc['type'];
   level: ReferenceDoc['level'];
+  sourceRef: string;
   excerpt: string;
   url: string;
   score: number;
@@ -81,6 +84,7 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
       title: doc.title,
       type: doc.type,
       level: doc.level,
+      sourceRef: doc.sourceRef,
       excerpt: doc.excerpt,
       url: doc.url,
       score: 0,
@@ -94,6 +98,7 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
     title: doc.title,
     type: doc.type,
     level: doc.level,
+    sourceRef: doc.sourceRef,
     excerpt: doc.excerpt,
     url: doc.url,
     score: scoreDocument(doc, tokens),
@@ -104,12 +109,69 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
 }
 
 /**
- * Search official references using hybrid RAG V2:
- *   1. Fetch top-20 from vector search
- *   2. Fetch top-20 from lexical search
- *   3. RRF fusion → top-20 merged
- *   4. Metadata rerank (boost same oeuvre/parcours)
- *   5. Return top-N (default 5)
+ * Convert external RAG chunks to RagSearchResult format.
+ */
+function externalChunkToResult(chunk: ExternalRAGChunk, index: number): RagSearchResult {
+  const metadata = chunk.metadata ?? {};
+  const title = metadata.title ?? metadata.source ?? `Source ${index + 1}`;
+  const sourceUrl = typeof metadata.source === 'string' ? metadata.source : '';
+  
+  return {
+    id: metadata.chunk_id ?? `ext-${index}`,
+    title,
+    type: 'texte_officiel' as ReferenceDoc['type'],
+    level: (metadata.niveau as ReferenceDoc['level']) ?? 'Niveau B',
+    sourceRef: sourceUrl || title,
+    excerpt: chunk.content.slice(0, 300),
+    url: sourceUrl,
+    score: chunk.score,
+  };
+}
+
+/**
+ * Search using external RAG API (rag-api.nexusreussite.academy).
+ * Returns results from the rag_education collection.
+ */
+async function searchExternalRAG(
+  query: string,
+  maxResults: number,
+  context?: { oeuvre?: string; parcours?: string },
+): Promise<RagSearchResult[]> {
+  if (!externalRAG.isConfigured()) {
+    return [];
+  }
+
+  try {
+    const response = await externalRAG.search({
+      query,
+      topK: maxResults * 2,
+      rerank: true,
+      filters: {
+        matiere: 'Français',
+        oeuvre: context?.oeuvre,
+        parcours: context?.parcours,
+      },
+    });
+
+    if (response.results.length === 0) {
+      return [];
+    }
+
+    return response.results
+      .slice(0, maxResults)
+      .map((chunk, index) => externalChunkToResult(chunk, index));
+  } catch (error) {
+    logger.warn({ error, query: query.slice(0, 50) }, '[rag] external_rag_error');
+    return [];
+  }
+}
+
+/**
+ * Search official references using hybrid RAG V3:
+ *   1. Try external RAG API (rag-api.nexusreussite.academy) as primary source
+ *   2. Fallback to local hybrid search (vector + lexical + RRF)
+ *   3. Metadata rerank with context boost
+ *   4. Return top-N (default 5)
  */
 export async function searchOfficialReferences(
   query: string,
@@ -122,8 +184,25 @@ export async function searchOfficialReferences(
     return lexicalSearch(query, maxResults);
   }
 
+  // 1. Try external RAG first (primary source - 13 661 chunks)
+  let externalResults: RagSearchResult[] = [];
+  try {
+    externalResults = await searchExternalRAG(query, PREFETCH, context);
+    if (externalResults.length > 0) {
+      logger.info({
+        query: query.slice(0, 50),
+        resultsCount: externalResults.length,
+        source: 'external_rag',
+      }, '[rag] external_rag_success');
+    }
+  } catch (error) {
+    logger.warn({ error }, '[rag] external_rag_unavailable');
+  }
+
+  // 2. Local lexical search (always available)
   const lexicalResults = lexicalSearch(query, PREFETCH);
 
+  // 3. Local vector search (if database available)
   let vectorResults: RagSearchResult[] = [];
   try {
     const result = await vectorSearch(query, PREFETCH);
@@ -133,24 +212,54 @@ export async function searchOfficialReferences(
         title: chunk.sourceTitle,
         type: (chunk.sourceType as ReferenceDoc['type']) ?? 'texte_officiel',
         level: levelFromDocId(chunk.docId),
+        sourceRef: chunk.sourceUrl || chunk.docId,
         excerpt: chunk.content.slice(0, 220),
-        url: chunk.sourceUrl,
+        url: chunk.sourceUrl || chunk.docId,
         score: scoreFromDistance(Number(chunk.distance)),
       }));
     }
   } catch {
-    console.info('[rag] vector_unavailable, lexical-only fallback');
+    logger.info('[rag] local_vector_unavailable');
   }
 
-  // RRF fusion of both lists
-  const fused = vectorResults.length > 0
-    ? reciprocalRankFusion(vectorResults, lexicalResults)
-    : lexicalResults;
+  // 4. Determine search mode and fuse results
+  let fused: RagSearchResult[];
+  let mode: string;
 
-  // Metadata rerank with context boost
+  if (externalResults.length > 0) {
+    // External RAG as primary, fuse with local for diversity
+    const localFused = vectorResults.length > 0
+      ? reciprocalRankFusion(vectorResults, lexicalResults)
+      : lexicalResults;
+    
+    // RRF fusion: external results weighted higher
+    fused = reciprocalRankFusion(externalResults, localFused);
+    mode = 'external_hybrid';
+  } else if (vectorResults.length > 0) {
+    // Fallback to local hybrid
+    fused = reciprocalRankFusion(vectorResults, lexicalResults);
+    mode = 'local_hybrid';
+  } else {
+    // Lexical only fallback
+    fused = lexicalResults;
+    mode = 'lexical_only';
+  }
+
+  // 5. Metadata rerank with context boost
   const reranked = metadataRerank(fused, context);
 
   const final = reranked.slice(0, maxResults);
-  console.info('[rag] mode=%s results=%d', vectorResults.length > 0 ? 'hybrid_rrf' : 'lexical', final.length);
+  logger.info({ mode, resultsCount: final.length, query: query.slice(0, 30) }, '[rag] search_complete');
   return final;
+}
+
+/**
+ * Direct search on external RAG only (for agents needing pure external data).
+ */
+export async function searchExternalRAGOnly(
+  query: string,
+  maxResults = 10,
+  context?: { oeuvre?: string; parcours?: string; niveau?: string },
+): Promise<RagSearchResult[]> {
+  return searchExternalRAG(query, maxResults, context);
 }

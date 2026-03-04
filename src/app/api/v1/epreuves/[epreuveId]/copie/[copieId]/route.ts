@@ -19,8 +19,9 @@ export async function GET(
   const epreuve = await findEpreuveById(epreuveId);
   const copie = await findCopieById(copieId);
 
+  // ✅ MESSAGE GÉNÉRIQUE - Évite fuite d'information
   if (!epreuve || !copie || copie.epreuveId !== epreuve.id || copie.userId !== auth.user.id) {
-    return NextResponse.json({ error: 'Copie introuvable.' }, { status: 404 });
+    return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
   }
 
   return NextResponse.json(

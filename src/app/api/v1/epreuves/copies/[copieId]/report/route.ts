@@ -25,7 +25,7 @@ export async function GET(
 
   const epreuve = await findEpreuveById(copie.epreuveId);
   if (!epreuve) {
-    return NextResponse.json({ error: 'Épreuve introuvable.' }, { status: 404 });
+    return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
   }
 
   const buffer = await renderToBuffer(CorrectionReportPdf({ copie, epreuve }));

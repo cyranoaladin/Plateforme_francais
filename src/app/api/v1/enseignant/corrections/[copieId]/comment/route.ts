@@ -43,7 +43,7 @@ export async function POST(request: Request, context: { params: Promise<{ copieI
   });
 
   if (!copy) {
-    return NextResponse.json({ error: 'Copie introuvable.' }, { status: 404 });
+    return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
   }
 
   const teacherClassCode = auth.user.profile?.classCode ?? null;

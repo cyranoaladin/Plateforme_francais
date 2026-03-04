@@ -46,7 +46,7 @@ export async function POST(
   const epreuve = await findEpreuveById(epreuveId);
 
   if (!epreuve || epreuve.userId !== auth.user.id) {
-    return NextResponse.json({ error: 'Épreuve introuvable.' }, { status: 404 });
+    return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
   }
 
   const formData = await request.formData();

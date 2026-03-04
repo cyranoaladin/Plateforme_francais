@@ -191,8 +191,8 @@ export default function EnseignantPage() {
 
           <section className="rounded-xl border border-border bg-card p-5">
             <h2 className="text-xl font-semibold mb-3">Distribution des notes (épreuves blanches)</h2>
-            <div className="h-64 min-w-0">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="w-full" style={{ height: 256 }}>
+              <ResponsiveContainer width="100%" height={256}>
                 <BarChart data={payload.distribution}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="label" />

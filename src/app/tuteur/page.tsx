@@ -1,16 +1,14 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Send, BrainCircuit, Sparkles } from 'lucide-react';
+import { Send, Sparkles } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
 type Message = {
   role: 'user' | 'assistant';
   content: string;
-  citations?: { index: number; title: string; source: string; url: string }[];
+  citations?: { index: number; title: string; source: string }[];
 };
-
-const STORAGE_KEY = 'eaf_tuteur_history';
 
 export default function TuteurPage() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -18,22 +16,6 @@ export default function TuteurPage() {
   const [isSending, setIsSending] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-
-    try {
-      const parsed = JSON.parse(raw) as Message[];
-      setMessages(parsed);
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-  }, [messages]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -68,7 +50,7 @@ export default function TuteurPage() {
 
       const payload = (await response.json()) as {
         answer: string;
-        citations: { index: number; title: string; source: string; url: string }[];
+        citations: { index: number; title: string; source: string }[];
         suggestions: string[];
       };
 
@@ -100,8 +82,8 @@ export default function TuteurPage() {
       <div className="flex-1 flex flex-col bg-card rounded-3xl border border-border overflow-hidden shadow-sm">
         {/* Chat header */}
         <div className="bg-card border-b border-border p-4 flex items-center gap-3 shrink-0">
-          <div className="w-11 h-11 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center shrink-0">
-            <BrainCircuit className="w-6 h-6 text-primary" />
+          <div className="w-11 h-11 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
+            <img src="/images/logo.png" alt="Nexus" className="w-full h-full object-contain p-1" />
           </div>
           <div>
             <h3 className="font-bold text-foreground text-lg leading-tight">Nexus</h3>
@@ -131,8 +113,8 @@ export default function TuteurPage() {
               className={`flex gap-3 max-w-[85%] ${message.role === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
             >
               {message.role === 'assistant' && (
-                <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 shrink-0 flex items-center justify-center mt-1">
-                  <BrainCircuit className="w-4 h-4 text-primary" />
+                <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 shrink-0 flex items-center justify-center mt-1 overflow-hidden">
+                  <img src="/images/logo.png" alt="" className="w-5 h-5 object-contain p-0.5" />
                 </div>
               )}
               <div
@@ -148,8 +130,8 @@ export default function TuteurPage() {
                 {message.role === 'assistant' && message.citations && message.citations.length > 0 && (
                   <div className="mt-3 pt-3 border-t border-border/50 space-y-1">
                     {message.citations.map((citation) => (
-                      <div key={`${citation.index}-${citation.url}`} className="text-xs text-muted-foreground">
-                        [{citation.index}] {citation.title} &middot; <a href={citation.url} target="_blank" rel="noreferrer" className="underline text-primary hover:text-primary/80">source</a>
+                      <div key={`${citation.index}-${citation.title}`} className="text-xs text-muted-foreground">
+                        [{citation.index}] {citation.title} &middot; {citation.source}
                       </div>
                     ))}
                   </div>
@@ -161,8 +143,8 @@ export default function TuteurPage() {
           {/* Typing indicator */}
           {isSending && (
             <div className="flex gap-3 max-w-[85%] mr-auto">
-              <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 shrink-0 flex items-center justify-center mt-1">
-                <BrainCircuit className="w-4 h-4 text-primary" />
+              <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 shrink-0 flex items-center justify-center mt-1 overflow-hidden">
+                <img src="/images/logo.png" alt="" className="w-5 h-5 object-contain p-0.5" />
               </div>
               <div className="bg-muted/50 border border-border rounded-2xl rounded-tl-sm p-4 shadow-sm flex gap-1.5 items-center">
                 <span className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" />

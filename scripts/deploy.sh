@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# deploy.sh — Deploy Nexus Réussite EAF to VPS via SSH
+# Usage: ./scripts/deploy.sh [user@host] [--first-run]
+#
+# Examples:
+#   ./scripts/deploy.sh root@203.0.113.10
+#   ./scripts/deploy.sh eaf@eaf.nexusreussite.academy --first-run
+# ==============================================================================
+set -euo pipefail
+
+DOMAIN="eaf.nexusreussite.academy"
+APP_DIR="/opt/eaf_platform"
+BRANCH="${DEPLOY_BRANCH:-main}"
+SSH_TARGET="${1:?Usage: $0 user@host [--first-run]}"
+FIRST_RUN="${2:-}"
+
+echo "========================================="
+echo "  Nexus Réussite EAF — Deployment"
+echo "  Target: $SSH_TARGET"
+echo "  Domain: $DOMAIN"
+echo "  Branch: $BRANCH"
+echo "========================================="
+
+# --- Pre-flight checks ---
+echo "[0/8] Vérifications locales..."
+if ! ssh -o ConnectTimeout=5 "$SSH_TARGET" "echo ok" &>/dev/null; then
+  echo "❌ Impossible de se connecter à $SSH_TARGET"
+  echo "   Vérifiez votre clé SSH et l'adresse du serveur."
+  exit 1
+fi
+echo "  ✅ Connexion SSH OK"
+
+# --- 1. Sync code to server ---
+echo "[1/8] Synchronisation du code vers le serveur..."
+rsync -avz --delete \
+  --exclude='.git' \
+  --exclude='node_modules' \
+  --exclude='.next' \
+  --exclude='.env' \
+  --exclude='.env.local' \
+  --exclude='.env.backup' \
+  --exclude='.data' \
+  --exclude='ressources/' \
+  --exclude='coverage' \
+  --exclude='test-results' \
+  --exclude='.antigravity' \
+  --exclude='*.log' \
+  --exclude='*.tsbuildinfo' \
+  -e ssh \
+  ./ "$SSH_TARGET:$APP_DIR/"
+
+echo "  ✅ Code synchronisé"
+
+# --- 2. Install dependencies on server ---
+echo "[2/8] Installation des dépendances..."
+ssh "$SSH_TARGET" "cd $APP_DIR && npm ci --production=false"
+
+# --- 3. Install MCP server dependencies ---
+echo "[3/8] Installation des dépendances MCP..."
+ssh "$SSH_TARGET" "cd $APP_DIR && npm install --workspace=packages/mcp-server --ignore-scripts"
+
+# --- 4. Prisma generate & migrate ---
+echo "[4/8] Prisma generate & migrate..."
+ssh "$SSH_TARGET" "cd $APP_DIR && npx prisma generate && npx prisma migrate deploy"
+
+# --- 5. Build Next.js ---
+echo "[5/8] Build Next.js (production)..."
+ssh "$SSH_TARGET" "cd $APP_DIR && NODE_ENV=production npm run build"
+
+# --- 6. Build MCP server ---
+echo "[6/8] Build MCP server..."
+ssh "$SSH_TARGET" "cd $APP_DIR && npm run mcp:build"
+
+# --- 7. Setup Nginx + SSL (first run only) ---
+if [ "$FIRST_RUN" = "--first-run" ]; then
+  echo "[7/8] Configuration Nginx + SSL (première installation)..."
+
+  # Copy nginx config
+  ssh "$SSH_TARGET" "cat > /etc/nginx/sites-available/$DOMAIN" < scripts/nginx-eaf.conf
+  ssh "$SSH_TARGET" "ln -sf /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/"
+  ssh "$SSH_TARGET" "rm -f /etc/nginx/sites-enabled/default"
+  ssh "$SSH_TARGET" "nginx -t && systemctl reload nginx"
+
+  # SSL certificate
+  echo "  → Génération du certificat SSL Let's Encrypt..."
+  ssh "$SSH_TARGET" "certbot --nginx -d $DOMAIN --non-interactive --agree-tos --email admin@nexusreussite.academy --redirect"
+  echo "  ✅ Certificat SSL installé"
+else
+  echo "[7/8] Nginx — pas de reconfiguration (pas --first-run)"
+fi
+
+# --- 8. Restart PM2 ---
+echo "[8/8] Redémarrage des services PM2..."
+ssh "$SSH_TARGET" "cd $APP_DIR && pm2 startOrRestart ecosystem.config.cjs --env production"
+ssh "$SSH_TARGET" "pm2 save"
+
+echo ""
+echo "========================================="
+echo "  ✅ Déploiement terminé !"
+echo "========================================="
+echo ""
+echo "  🌐 https://$DOMAIN"
+echo ""
+echo "  Vérifications :"
+echo "    curl -s https://$DOMAIN/api/v1/health"
+echo "    ssh $SSH_TARGET 'pm2 status'"
+echo "    ssh $SSH_TARGET 'pm2 logs --lines 20'"
+echo ""

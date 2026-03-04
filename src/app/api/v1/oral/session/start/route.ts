@@ -52,10 +52,12 @@ export async function POST(request: Request) {
   const selected = pickOralExtrait(parsed.data.oeuvre);
   const texte = parsed.data.extrait ?? selected.texte;
   const questionGrammaire = parsed.data.questionGrammaire ?? selected.questionGrammaire;
+  const phraseGrammaire = selected.phraseGrammaire;
+  const oeuvreChoisie = auth.user.profile.selectedOeuvres?.[0] ?? parsed.data.oeuvre;
 
   const session = await createOralSession({
     userId: auth.user.id,
-    oeuvre: parsed.data.oeuvre,
+    oeuvre: oeuvreChoisie,
     extrait: texte,
     questionGrammaire,
   });
@@ -67,8 +69,10 @@ export async function POST(request: Request) {
       sessionId: session.id,
       texte,
       questionGrammaire,
+      phraseGrammaire,
+      oeuvreChoisie,
       instructions:
-        'Suivez les 4 étapes officielles: lecture, explication, grammaire, entretien. Soumettez chaque réponse pour recevoir un feedback IA.',
+        'Suivez les 4 etapes officielles: lecture (2 min), explication (8 min), grammaire (2 min), entretien (8 min sur l oeuvre choisie).',
     },
     { status: 200 },
   );

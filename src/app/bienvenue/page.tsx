@@ -6,7 +6,7 @@ export default function BienvenuePage() {
       <div className="max-w-6xl mx-auto space-y-10">
         <header className="space-y-4">
           <p className="inline-block text-xs uppercase tracking-widest border border-border rounded-full px-3 py-1">Préparation EAF Première</p>
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight max-w-4xl">EAF Premium, votre plateforme de révision guidée pour réussir l épreuve anticipée de français.</h1>
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight max-w-4xl">EAF Premium, votre plateforme de révision guidée pour réussir l’épreuve anticipée de français.</h1>
           <p className="text-muted-foreground max-w-2xl">Ateliers oral et écrit, parcours adaptatif, quiz ciblés et ressources officielles organisées pour progresser semaine après semaine.</p>
           <Link href="/login" className="inline-flex px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:scale-[1.02] transition-transform">Commencer</Link>
         </header>
@@ -26,7 +26,7 @@ export default function BienvenuePage() {
 
         <section className="grid md:grid-cols-3 gap-4">
           {[
-            ['Lina, élève de Première', 'J ai gagné 3 points en commentaire en 6 semaines grâce au suivi précis.'],
+            ['Lina, élève de Première', 'J’ai gagné 3 points en commentaire en 6 semaines grâce au suivi précis.'],
             ['M. Dubois, parent', 'Le tableau de progression est clair et rassurant, on sait quoi travailler.'],
             ['Mme Martin, professeure', 'Les retours sur la méthode sont cohérents avec les attendus EAF.'],
           ].map(([name, text]) => (
