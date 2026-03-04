@@ -71,6 +71,11 @@ async function extractTextFromCopieViaPixtral(input: OcrInput, bytes: Buffer): P
   return data.choices?.[0]?.message?.content?.trim() ?? '[ocr pixtral: reponse vide]';
 }
 
+/**
+ * Extract text from a student copy image/PDF.
+ * Priority: Mistral OCR → Pixtral multimodal fallback → explicit error.
+ * Gemini dependency has been removed (Mistral-first architecture).
+ */
 export async function extractTextFromCopie(input: OcrInput): Promise<string> {
   const bytes = await resolveBytes(input);
   if (!bytes) {

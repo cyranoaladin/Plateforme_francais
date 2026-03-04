@@ -27,12 +27,13 @@ export async function POST(request: Request) {
     return parsed.response;
   }
 
-  const generated = (await orchestrate({
+  const orchestrateResult = await orchestrate({
     skill: 'quiz_maitre',
     userId: auth.user.id,
     userQuery: `Génère ${parsed.data.nbQuestions} questions sur ${parsed.data.theme} (difficulté ${parsed.data.difficulte}).`,
     context: 'Retourne strictement le format JSON attendu avec options[4] et bonneReponse index.',
-  })) as {
+  });
+  const generated = orchestrateResult.output as {
     questions?: Array<{
       id: string;
       enonce: string;

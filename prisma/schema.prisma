@@ -116,6 +116,7 @@ model StudentProfile {
   xpToNextLevel       Int         @default(100)
   preferredObjects    String[]    @default([])
   weakSkills          String[]    @default([])
+  oeuvreChoisieEntretien String?
   skillMap            Json?
   streak              Int         @default(0)
   maxStreak           Int         @default(0)
@@ -136,6 +137,8 @@ model StudentProfile {
   memorySummaries     MemorySummary[]
   documentDeposits    DocumentDeposit[]
   agentInteractions   AgentInteraction[]
+  descriptifTextes    DescriptifTexte[]
+  carnetEntries       CarnetEntry[]
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
 }
@@ -416,7 +419,7 @@ model Chunk {
   sourceUrl      String
   sourceType     String
   content        String
-  embedding      Unsupported("vector(768)")?
+  embedding      Unsupported("vector(1024)")?
   chunkIndex     Int
   title          String?
   authorityLevel String                     @default("D")
@@ -675,4 +678,34 @@ model AgentInteraction {
 
   @@index([profileId, createdAt])
   @@index([agentType])
+}
+
+model DescriptifTexte {
+  id              String         @id @default(uuid())
+  studentId       String
+  student         StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  objetEtude      String
+  oeuvre          String
+  auteur          String
+  typeExtrait     String
+  titre           String
+  premieresLignes String?
+  createdAt       DateTime       @default(now())
+
+  @@index([studentId, objetEtude])
+}
+
+model CarnetEntry {
+  id        String         @id @default(uuid())
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  oeuvre    String
+  auteur    String
+  type      String
+  contenu   String
+  page      String?
+  tags      String[]       @default([])
+  createdAt DateTime       @default(now())
+
+  @@index([studentId, oeuvre])
 }

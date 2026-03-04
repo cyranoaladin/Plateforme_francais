@@ -38,7 +38,7 @@ export async function vectorSearch(query: string, topK: number): Promise<VectorS
 
   return {
     chunks: rows,
-    distances: rows.map((row) => Number(row.distance)),
+    distances: rows.map((row: VectorRow) => Number(row.distance)),
   };
 }
 

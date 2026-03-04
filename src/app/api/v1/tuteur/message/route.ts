@@ -170,7 +170,8 @@ export async function POST(request: Request) {
     userId: auth.user.id,
     userQuery: userMessage,
     context: `Historique:\n${historyText}\n\nSources RAG:\n${context}`,
-  })) as {
+  });
+  const generated = orchestrateResult.output as {
     answer?: string;
     suggestions?: string[];
   };

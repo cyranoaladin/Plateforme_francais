@@ -148,4 +148,52 @@ describe('P0-SaaS-5: Memory Context Builder', () => {
       expect(MAX_MEMORY_TOKENS).toBe(400);
     });
   });
+
+  describe('composeMemoryContext — edge cases', () => {
+    it('reste sous 400 tokens estimés pour un profil réel (heuristique 4 chars/token)', () => {
+      const ctx = composeMemoryContext(mockProfile, { agentType: 'ENTRETIEN_OEUVRE' });
+      const estimatedTokens = Math.ceil(ctx.length / 4);
+      expect(estimatedTokens).toBeLessThanOrEqual(400);
+    });
+
+    it('fonctionne sans currentWorkMastery ni recentSessionsSummary', () => {
+      const minimalProfile: MemoryProfile = {
+        ...mockProfile,
+        currentWorkMastery: null,
+        recentSessionsSummary: null,
+      };
+      const ctx = composeMemoryContext(minimalProfile, { agentType: 'ENTRETIEN_OEUVRE' });
+      expect(typeof ctx).toBe('string');
+      expect(ctx.length).toBeGreaterThan(20);
+      expect(ctx).toContain('PASSABLE');
+    });
+
+    it("ENTRETIEN_OEUVRE n'inclut pas les lacunes ORAL_GRAMM_ dans le contexte", () => {
+      const profileWithGramm: MemoryProfile = {
+        ...mockProfile,
+        weakSkills: [
+          { skill: 'ORAL_GRAMM_SUBORDONNEE', pattern: 'Erreurs subordonnées relatives', severity: 'HIGH', frequency: 3, lastOccurrenceDaysAgo: 2 },
+          { skill: 'ORAL_ENTRETIEN_REACTIVITE', pattern: 'Hésitations longues', severity: 'CRITICAL', frequency: 5, lastOccurrenceDaysAgo: 1 },
+        ],
+      };
+      const ctx = composeMemoryContext(profileWithGramm, { agentType: 'ENTRETIEN_OEUVRE' });
+      expect(ctx).not.toContain('Erreurs subordonnées relatives');
+      expect(ctx).not.toContain('ORAL_GRAMM_SUBORDONNEE');
+      expect(ctx).toContain('Hésitations longues');
+    });
+  });
+
+  describe('filterWeakSkillsByAgent — GRAMMAIRE_CIBLEE', () => {
+    it('GRAMMAIRE_CIBLEE ne voit que les ORAL_GRAMM_', () => {
+      const skills: WeakSkillSummary[] = [
+        { skill: 'ORAL_GRAMM_SUBORDONNEE', pattern: 'Erreurs subordonnées', severity: 'HIGH', frequency: 3, lastOccurrenceDaysAgo: 2 },
+        { skill: 'ORAL_ENTRETIEN_ARGUMENTATION', pattern: 'Argumentation faible', severity: 'MEDIUM', frequency: 2, lastOccurrenceDaysAgo: 5 },
+        { skill: 'TRANS_LANGUE_PONCTUATION', pattern: 'Ponctuation incorrecte', severity: 'LOW', frequency: 1, lastOccurrenceDaysAgo: 14 },
+      ];
+      const filtered = filterWeakSkillsByAgent(skills, 'GRAMMAIRE_CIBLEE');
+      expect(filtered.every((ws) => ws.skill.startsWith('ORAL_GRAMM_'))).toBe(true);
+      expect(filtered.length).toBeGreaterThanOrEqual(1);
+      expect(filtered[0].skill).toBe('ORAL_GRAMM_SUBORDONNEE');
+    });
+  });
 });

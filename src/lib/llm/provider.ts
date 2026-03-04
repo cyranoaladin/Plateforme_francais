@@ -55,6 +55,9 @@ export function getLlmProvider(): string {
   return normalizeProviderName(process.env.LLM_PROVIDER);
 }
 
+/**
+ * @deprecated Legacy mock — golden tests only. Production code must use orchestrate() from orchestrator.ts.
+ */
 function mockResponseForSkill(skill: LegacySkill): string {
   if (skill === 'diagnosticien') {
     return JSON.stringify({
@@ -86,13 +89,17 @@ function mockResponseForSkill(skill: LegacySkill): string {
 }
 
 /**
- * Compat legacy helper used by golden tests.
+ * @deprecated Legacy mock — golden tests only. Production code must use orchestrate() from orchestrator.ts.
  * In `LLM_PROVIDER=mock`, returns deterministic JSON strings by skill.
  */
 export async function llmChat(
   _messages: LegacyChatMessage[],
   options: LegacyChatOptions,
 ): Promise<string> {
+  if (process.env.NODE_ENV === 'production') {
+    console.warn('[DEPRECATED] llmChat() called in production — use orchestrate() instead');
+  }
+
   const provider = getLlmProvider();
 
   if (provider === 'mock') {

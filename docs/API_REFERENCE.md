@@ -28,7 +28,7 @@ Body:
 ```
 Réponse: `{ "ok": true }` (200)
 
-Rate limit: 10 req/min/IP sur login et register (`Retry-After` en cas de 429).
+Rate limit: 10 req/min/IP sur login, 3 req/heure/IP sur register (`Retry-After` en cas de 429).
 
 ### `POST /auth/logout`
 Réponse: `{ "ok": true }`
@@ -36,7 +36,7 @@ Réponse: `{ "ok": true }`
 ### `GET /auth/me`
 Réponse:
 ```json
-{ "id": "string", "email": "string", "role": "eleve|enseignant|parent", "profile": { "...": "..." } }
+{ "id": "string", "email": "string", "role": "eleve|enseignant|parent|admin", "profile": { "...": "..." } }
 ```
 
 ## Santé
@@ -235,11 +235,45 @@ Réponse:
 ```
 
 ## Monitoring
-### `GET /metrics/vitals`
-- Avec query params (`name`, `value`) => enregistre une mesure
-- Sans params => retourne l'agrégation courante
-
-Réponse:
+### `POST /metrics/vitals`
+Body:
 ```json
-{ "vitals": { "LCP": { "count": 0, "total": 0, "avg": 0, "last": 0 }, "FID": { "count": 0, "total": 0, "avg": 0, "last": 0 }, "CLS": { "count": 0, "total": 0, "avg": 0, "last": 0 } } }
+{ "name": "LCP|FID|CLS|TTFB|INP", "value": 0 }
 ```
+Réponse: `{ "ok": true }` (200)
+
+Auth requise. Stockage Redis (TTL 24h).
+
+### `GET /metrics/vitals`
+Réponse (admin only):
+```json
+{ "vitals": { "LCP": { "count": 0, "total": 0, "avg": 0, "last": 0 }, "FID": {}, "CLS": {}, "TTFB": {}, "INP": {} } }
+```
+
+## Cron
+Routes protégées par header `Authorization: Bearer <CRON_SECRET>`.
+
+### `POST /cron/weekly-reports`
+Génère et envoie les rapports hebdomadaires.
+Réponse: `{ "ok": true }` (200)
+
+### `POST /cron/revision-reminders`
+Envoie les rappels de révision (spaced repetition).
+Réponse: `{ "ok": true }` (200)
+
+## Paiements
+### `POST /payments/clictopay/callback`
+Callback ClicToPay (route publique, sans auth).
+Body: payload ClicToPay (vérification HMAC interne).
+Réponse: `{ "ok": true }` (200)
+
+## Rate limits par route
+
+| Route | Limite |
+|---|---|
+| `POST /auth/login` | 10 req/min/IP |
+| `POST /auth/register` | 3 req/heure/IP |
+| `POST /tuteur/message` | 30 msg/heure |
+| `POST /rag/search` | 20 req/min |
+| `POST /oral/session/start` | 3 sessions/heure |
+| `POST /epreuves/{id}/copie` | 5 uploads/heure/élève |

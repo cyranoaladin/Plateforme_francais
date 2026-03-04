@@ -18,6 +18,8 @@ type SessionPayload = {
   phraseGrammaire?: string;
   oeuvreChoisie?: string;
   instructions: string;
+  oeuvreChoisie?: string;
+  phraseGrammaire?: string;
 };
 
 type StepFeedback = {
@@ -368,7 +370,7 @@ export default function AtelierOralPage() {
           <select id="oeuvre-select" className="border border-border rounded-xl bg-muted/30 px-4 py-3 mb-4 w-full max-w-sm mx-auto block text-foreground text-sm focus:ring-2 focus:ring-primary focus:outline-none" value={oeuvre} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(e.target.value)}>
             {OEUVRES_PROGRAMME_2025_2026.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
-          <button onClick={startSession} disabled={isLoading} className="px-8 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 hover:bg-purple-700 transition-colors disabled:opacity-50 shadow-md">
+          <button data-testid="start-session-btn" onClick={startSession} disabled={isLoading} className="px-8 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 hover:bg-purple-700 transition-colors disabled:opacity-50 shadow-md">
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />} Tirer un extrait
           </button>
         </section>
@@ -391,7 +393,7 @@ export default function AtelierOralPage() {
 
           <div className="rounded-2xl border border-border bg-muted/20 p-5">
             <p className="font-bold text-foreground text-sm mb-2">Extrait tiré</p>
-            <p className="font-serif text-base leading-relaxed text-foreground">{session.texte}</p>
+            <p data-testid="extrait-texte" className="font-serif text-base leading-relaxed text-foreground">{session.texte}</p>
             <p className="text-sm mt-3 text-muted-foreground"><span className="font-semibold text-foreground">Question de grammaire :</span> {session.questionGrammaire}</p>
             {session.phraseGrammaire && (
               <p className="text-sm mt-2 text-muted-foreground">

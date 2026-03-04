@@ -1,37 +1,32 @@
-import { GeminiProvider } from '@/lib/llm/adapters/gemini';
-import { OpenAIProvider } from '@/lib/llm/adapters/openai';
+import { MistralProvider } from '@/lib/llm/adapters/mistral';
+import { OllamaProvider } from '@/lib/llm/adapters/ollama';
 import { type LLMProvider } from '@/lib/llm/provider';
+import { logger } from '@/lib/logger';
 
-export type LLMProviderName = 'gemini' | 'openai';
+// IMPORTANT: getLLMProvider() retourne le provider d'embeddings.
+// Embeddings = Mistral (mistral-embed) en priorité, Ollama fallback.
+// NE PAS utiliser Gemini/OpenAI pour les embeddings — incompatible avec le vector store pgvector.
 
-function resolveProviderName(): LLMProviderName {
-  const configured = process.env.LLM_PROVIDER;
-  if (configured === 'openai' || configured === 'gemini') {
-    return configured;
-  }
-
-  return 'gemini';
-}
-
-let providerCache: LLMProvider | null = null;
+let embeddingProviderCache: LLMProvider | null = null;
 
 export function getLLMProvider(): LLMProvider {
-  if (providerCache) {
-    return providerCache;
+  if (embeddingProviderCache) return embeddingProviderCache;
+
+  const hasMistralKey = Boolean(process.env.MISTRAL_API_KEY?.trim());
+
+  if (hasMistralKey) {
+    embeddingProviderCache = MistralProvider.createForTier('small');
+    logger.info({}, '[factory] embedding provider: mistral-embed');
+  } else {
+    embeddingProviderCache = new OllamaProvider();
+    logger.info({}, '[factory] embedding provider: ollama (fallback)');
   }
 
-  const name = resolveProviderName();
-
-  providerCache =
-    name === 'openai'
-      ? new OpenAIProvider(process.env.OPENAI_API_KEY ?? '')
-      : new GeminiProvider(process.env.GEMINI_API_KEY ?? '');
-
-  return providerCache;
+  return embeddingProviderCache;
 }
 
 export function resetLLMProviderCache() {
-  providerCache = null;
+  embeddingProviderCache = null;
 }
 
 // Re-exports du router Mistral multi-tier.

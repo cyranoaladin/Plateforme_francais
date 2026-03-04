@@ -1,10 +1,12 @@
 # Guide enseignant - EAF Premium
 
+Dernière mise à jour : 25 février 2026
+
 ## 1. Créer un compte enseignant
 1. Aller sur `/login`
 2. Choisir `Inscription`
 3. Sélectionner le rôle `Enseignant`
-4. Valider l'inscription
+4. Valider l'inscription (le bouton œil permet d'afficher/masquer le mot de passe)
 
 ## 2. Accéder au tableau enseignant
 Route: `/enseignant`

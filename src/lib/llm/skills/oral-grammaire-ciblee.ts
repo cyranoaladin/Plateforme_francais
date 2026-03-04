@@ -21,6 +21,6 @@ export const grammaireCibleeSkill: SkillConfig<GrammaireCibleeOutput> = {
     score: 0,
     max: 2,
     points_forts: [],
-    axes: ['Revoir les notions de grammaire de phrase.'],
+    axes: ['Revoir les 3 axes du programme : syntaxe complexe, relations logiques, système verbal.'],
   },
 };

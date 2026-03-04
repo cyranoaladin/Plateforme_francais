@@ -162,3 +162,54 @@ test('parcours onboarding puis quiz puis oral simulé', async ({ page }) => {
 
   expect(typeof ended.note).toBe('number');
 });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// GAP-05 — Critical E2E tests
+// ═══════════════════════════════════════════════════════════════════════════
+
+test('login → dashboard affiche compte à rebours EAF', async ({ page }) => {
+  await login(page);
+  await page.goto('/');
+  await expect(page.getByText(/J-\d+ avant l.écrit/)).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText(/J-\d+ avant les oraux/)).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('text=/\\/20/').first()).toBeVisible({ timeout: 10_000 });
+});
+
+test('démarrer session orale → tirage affiche un extrait et le chrono de 30 min', async ({ page }) => {
+  test.setTimeout(60_000);
+  await login(page);
+  await page.goto('/atelier-oral');
+
+  const oeuvreSelect = page.locator('select').first();
+  await oeuvreSelect.selectOption({ index: 1 });
+
+  await page.getByTestId('start-session-btn').click();
+
+  await expect(
+    page.getByTestId('extrait-texte').or(page.locator('[aria-label="Extrait"]')),
+  ).toBeVisible({ timeout: 20_000 });
+
+  await expect(
+    page.getByText(/30:00|29:|Préparation/i),
+  ).toBeVisible({ timeout: 20_000 });
+});
+
+test('envoyer message tuteur → réponse IA reçue sans URL', async ({ page }) => {
+  test.setTimeout(60_000);
+  await login(page);
+  await page.goto('/tuteur');
+
+  const query = 'Comment analyser une métaphore dans un poème de Rimbaud ?';
+  await page.getByRole('textbox').fill(query);
+  await page.getByRole('button', { name: /Envoyer|Send/i }).click();
+
+  await expect(
+    page.locator('.message-assistant, [data-role="assistant"]').last(),
+  ).toBeVisible({ timeout: 30_000 });
+
+  const responseText = await page
+    .locator('.message-assistant, [data-role="assistant"]')
+    .last()
+    .textContent();
+  expect(responseText).not.toMatch(/https?:\/\//);
+});

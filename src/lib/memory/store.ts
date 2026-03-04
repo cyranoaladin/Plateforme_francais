@@ -1,3 +1,10 @@
+/**
+ * @WARNING Ce fichier est le store d'AUTHENTIFICATION (users/sessions/events).
+ * Ce n'est PAS le Memory Store Pédagogique (SkillMap, WeakSkills, WorkMastery).
+ * Le Memory Store Pédagogique est dans les repositories Prisma :
+ * - src/lib/db/repositories/memoryRepo.ts
+ * - src/lib/db/repositories/sessionRepo.ts
+ */
 import { randomUUID } from 'crypto';
 import {
   type MemoryEvent,

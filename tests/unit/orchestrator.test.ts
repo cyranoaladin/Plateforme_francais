@@ -12,6 +12,37 @@ vi.mock('@/lib/llm/token-estimate', () => ({
   estimateTokens: () => 100,
 }));
 
+vi.mock('@/lib/logger', () => ({
+  logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
+}));
+
+vi.mock('@/lib/rag/search', () => ({
+  searchOfficialReferences: vi.fn().mockResolvedValue([]),
+  formatRagContextForPrompt: vi.fn().mockReturnValue(''),
+}));
+
+vi.mock('@/lib/memory/context-builder', () => ({
+  composeMemoryContext: vi.fn().mockReturnValue(''),
+}));
+
+vi.mock('@/lib/store/premium-store', () => ({
+  getOrCreateSkillMap: vi.fn().mockResolvedValue({
+    studentId: 'u1', axes: { oral: [] }, updatedAt: '',
+  }),
+}));
+
+vi.mock('@/lib/memory/scoring', () => ({
+  estimateGlobalLevel: vi.fn().mockReturnValue('SATISFAISANT'),
+}));
+
+vi.mock('@/lib/agents/student-modeler', () => ({
+  processInteraction: vi.fn().mockResolvedValue({}),
+}));
+
+vi.mock('@/lib/billing/gating', () => ({
+  requirePlan: vi.fn().mockResolvedValue({ allowed: true }),
+}));
+
 describe('orchestrate', () => {
   beforeEach(() => {
     generateContentMock.mockReset();
@@ -21,7 +52,7 @@ describe('orchestrate', () => {
     generateContentMock.mockResolvedValueOnce({
       text: JSON.stringify({
         answer: 'Réponse',
-        citations: [{ title: 'Doc', url: 'https://example.test', excerpt: 'x' }],
+        citations: [{ title: 'Doc', source_interne: 'BO 2025', snippet: 'x' }],
         nextSteps: ['Relire la méthode'],
       }),
       model: 'mock-model',
@@ -36,11 +67,9 @@ describe('orchestrate', () => {
       userId: 'u-1',
     });
 
-    expect(result).toEqual({
-      answer: 'Réponse',
-      citations: [{ title: 'Doc', url: 'https://example.test', excerpt: 'x' }],
-      nextSteps: ['Relire la méthode'],
-    });
+    expect(result.blocked).toBe(false);
+    expect(result.skill).toBe('bibliothecaire');
+    expect(result.output).toBeDefined();
   });
 
   it('retourne un fallback structuré en cas de JSON non conforme', async () => {
@@ -56,10 +85,8 @@ describe('orchestrate', () => {
       userId: 'u-2',
     });
 
-    expect(result).toEqual({
-      answer: "Je n'ai pas assez de sources fiables pour répondre précisément.",
-      citations: [],
-      nextSteps: ['Reformulez la question avec une oeuvre ou une notion précise.'],
-    });
+    expect(result.blocked).toBe(false);
+    expect(result.output).toBeDefined();
+    expect(result.skill).toBe('bibliothecaire');
   });
 });

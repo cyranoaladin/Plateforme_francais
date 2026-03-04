@@ -101,6 +101,15 @@ export async function getAuthenticatedUser() {
   return { user, token };
 }
 
+/**
+ * IDOR-safe: resolve userId from session cookie only.
+ * All API routes MUST use this instead of trusting request headers.
+ */
+export async function getAuthenticatedUserId(): Promise<string | null> {
+  const result = await getAuthenticatedUser();
+  return result?.user?.id ?? null;
+}
+
 export async function createUserSession(userId: string) {
   const session = createSession(userId);
   await createSessionRecord(session);

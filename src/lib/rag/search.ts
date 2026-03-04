@@ -11,8 +11,16 @@ export type RagSearchResult = {
   level: ReferenceDoc['level'];
   sourceRef: string;
   excerpt: string;
-  url: string;
+  sourceRef: string;
   score: number;
+};
+
+export type RagSearchOptions = {
+  query: string;
+  maxResults?: number;
+  context?: { oeuvre?: string; parcours?: string };
+  sourceTypes?: string[];
+  workId?: string;
 };
 
 const STOP_WORDS = new Set([
@@ -86,7 +94,7 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
       level: doc.level,
       sourceRef: doc.sourceRef,
       excerpt: doc.excerpt,
-      url: doc.url,
+      sourceRef: doc.sourceRef,
       score: 0,
     }));
   }
@@ -100,7 +108,7 @@ function lexicalSearch(query: string, maxResults = 5): RagSearchResult[] {
     level: doc.level,
     sourceRef: doc.sourceRef,
     excerpt: doc.excerpt,
-    url: doc.url,
+    sourceRef: doc.sourceRef,
     score: scoreDocument(doc, tokens),
   }))
     .filter((doc) => doc.score > 0)

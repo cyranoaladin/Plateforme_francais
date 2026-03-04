@@ -4,6 +4,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Send, Sparkles } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
+type Citation = {
+  index: number;
+  title: string;
+  source: string;
+};
+
 type Message = {
   role: 'user' | 'assistant';
   content: string;

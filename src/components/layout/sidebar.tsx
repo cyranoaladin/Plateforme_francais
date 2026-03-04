@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { DyslexiaToggle } from '@/components/accessibility/dyslexia-toggle';
@@ -19,6 +20,8 @@ import {
   Flame,
   Award,
   Settings,
+  ClipboardList,
+  NotebookPen,
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
@@ -40,7 +43,6 @@ const navItems = [
 const mobileNavItems = [
   { name: 'Accueil', href: '/', icon: LayoutDashboard },
   { name: 'Tuteur', href: '/tuteur', icon: MessagesSquare },
-  { name: 'Écrit', href: '/atelier-ecrit', icon: PenTool },
   { name: 'Oral', href: '/atelier-oral', icon: Mic },
   { name: 'Quiz', href: '/quiz', icon: HelpCircle },
   { name: 'Carnet', href: '/carnet', icon: BookOpen },

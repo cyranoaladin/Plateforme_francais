@@ -38,6 +38,7 @@ export async function POST(request: Request) {
       : undefined,
     eafDate: parsed.data.eafDate,
     selectedOeuvres: parsed.data.selectedOeuvres,
+    oeuvreChoisieEntretien: parsed.data.oeuvreChoisieEntretien ?? undefined,
     classCode: parsed.data.classCode,
     weakSignals: parsed.data.weakSignals,
   };
@@ -66,7 +67,7 @@ export async function POST(request: Request) {
     }),
   );
 
-  const message = (await orchestrate({
+  const orchestrateResult = await orchestrate({
     skill: 'tuteur_libre',
     userId: auth.user.id,
     userQuery: `Rédige un message de bienvenue personnalisé pour ${sanitizedData.displayName}.`,

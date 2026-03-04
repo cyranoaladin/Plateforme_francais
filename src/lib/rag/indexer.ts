@@ -84,7 +84,7 @@ export async function indexReferencesToVectorStore(): Promise<{ indexed: number;
       await insertChunk({
         docId: doc.id,
         sourceTitle: doc.title,
-        sourceUrl: doc.url,
+        sourceUrl: doc.sourceRef,
         sourceType: doc.type,
         content: chunk,
         embedding,

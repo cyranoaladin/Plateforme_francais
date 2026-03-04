@@ -33,10 +33,16 @@ Tu es exigeant mais jamais moqueur ni irrespectueux.`,
 /**
  * Resolve a persona type. RANDOM picks one of the 3 deterministic personas.
  */
-export function resolvePersona(persona: ExamPersona): Exclude<ExamPersona, 'RANDOM'> {
+export function resolvePersona(
+  persona: ExamPersona,
+  seed?: number,
+): Exclude<ExamPersona, 'RANDOM'> {
   if (persona === 'RANDOM') {
     const keys = Object.keys(EXAMINER_PERSONAS) as Exclude<ExamPersona, 'RANDOM'>[];
-    return keys[Math.floor(Math.random() * keys.length)];
+    const index = seed !== undefined
+      ? seed % keys.length
+      : Math.floor(Math.random() * keys.length);
+    return keys[index];
   }
   return persona;
 }

@@ -50,7 +50,6 @@ describe('extractTextFromCopie — Mistral OCR', () => {
 
   it('retourne un message explicite si MIME non supporte', async () => {
     process.env.MISTRAL_API_KEY = 'test-key';
-    delete process.env.GEMINI_API_KEY;
 
     const result = await extractTextFromCopie({
       bytes: new TextEncoder().encode('fake-image'),
