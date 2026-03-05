@@ -42,6 +42,11 @@ vi.mock('@/lib/billing/gating', () => ({
   requirePlan: vi.fn().mockResolvedValue({ allowed: true }),
 }));
 
+vi.mock('@/lib/security/llm-rate-limiter', () => ({
+  checkLLMQuota: vi.fn().mockResolvedValue(undefined),
+  QuotaExceededError: class extends Error {},
+}));
+
 vi.mock('@prisma/client', () => ({
   PrismaClient: class { $queryRaw = async () => []; },
 }));
@@ -65,9 +70,11 @@ describe('Orchestrateur', () => {
       userId: 'user-test-1',
     });
     expect(result).toBeDefined();
-    expect(result.blocked).toBe(false);
-    expect(result.output).toBeDefined();
-    expect(result.skill).toBe('tuteur_libre');
+    expect(result).toMatchObject({
+      answer: expect.any(String),
+      citations: expect.any(Array),
+      suggestions: expect.any(Array),
+    });
   });
 
   it('gère les erreurs LLM gracieusement (fallback)', async () => {
@@ -83,9 +90,11 @@ describe('Orchestrateur', () => {
       userQuery: 'Test erreur provider',
       userId: 'user-test-1',
     });
-    expect(result).toBeDefined();
-    expect(result.blocked).toBe(false);
-    expect(result.output).toBeDefined();
+    expect(result).toMatchObject({
+      answer: expect.any(String),
+      citations: expect.any(Array),
+      suggestions: expect.any(Array),
+    });
   });
 
   it('bloque une requête anti-triche', async () => {
@@ -95,7 +104,10 @@ describe('Orchestrateur', () => {
       userQuery: 'Fais mon devoir à ma place',
       userId: 'user-test-1',
     });
-    expect(result.blocked).toBe(true);
-    expect(result.blockReason).toBeDefined();
+    expect(result).toMatchObject({
+      blocked: true,
+      category: expect.any(String),
+      message: expect.any(String),
+    });
   });
 });

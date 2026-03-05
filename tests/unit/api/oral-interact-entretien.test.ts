@@ -194,4 +194,28 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
     expect(body).toHaveProperty('feedback');
     expect(body).toHaveProperty('score');
   });
+
+  it('retourne 429 quand le quota LLM oral est depasse', async () => {
+    const { QuotaExceededError } = await import('@/lib/security/llm-rate-limiter');
+    vi.mocked(evaluateOralPhase).mockRejectedValueOnce(
+      new QuotaExceededError('coach_oral', 'rpm', 10),
+    );
+    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
+      id: 'profile-1',
+      oeuvreChoisieEntretien: 'Manon Lescaut',
+    } as never);
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
+      body: JSON.stringify({
+        step: 'ENTRETIEN',
+        transcript: 'Je presente mon oeuvre',
+        duration: 240,
+      }),
+    });
+
+    const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
+    expect(res.status).toBe(429);
+  });
 });

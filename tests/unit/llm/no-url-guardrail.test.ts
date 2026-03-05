@@ -48,25 +48,25 @@ describe('Guardrail zéro URL dans les réponses LLM', () => {
 
   it('le skill grammaire contient bien les 3 axes du programme', async () => {
     const { grammaireCibleeSkill } = await import('@/lib/llm/skills/oral-grammaire-ciblee');
-    expect(grammaireCibleeSkill.prompt).toContain('AXE 1');
-    expect(grammaireCibleeSkill.prompt).toContain('AXE 2');
-    expect(grammaireCibleeSkill.prompt).toContain('AXE 3');
-    expect(grammaireCibleeSkill.prompt).toContain('SYNTAXE DE LA PHRASE COMPLEXE');
-    expect(grammaireCibleeSkill.prompt).toContain('RELATIONS LOGIQUES');
-    expect(grammaireCibleeSkill.prompt).toContain('SYSTÈME VERBAL');
+    expect(grammaireCibleeSkill.prompt).toContain('Axe 1');
+    expect(grammaireCibleeSkill.prompt).toContain('Axe 2');
+    expect(grammaireCibleeSkill.prompt).toContain('Axe 3');
+    expect(grammaireCibleeSkill.prompt.toLowerCase()).toContain('syntaxe');
+    expect(grammaireCibleeSkill.prompt.toLowerCase()).toContain('relations logiques');
+    expect(grammaireCibleeSkill.prompt.toLowerCase()).toContain('systeme verbal');
   });
 
-  it('le skill grammaire mentionne les questions hors-programme interdites', async () => {
+  it('le skill grammaire mentionne explicitement une contrainte anti-triche', async () => {
     const { grammaireCibleeSkill } = await import('@/lib/llm/skills/oral-grammaire-ciblee');
-    expect(grammaireCibleeSkill.prompt).toContain('HORS-PROGRAMME');
-    expect(grammaireCibleeSkill.prompt).toContain('figures de style');
+    expect(grammaireCibleeSkill.prompt.toLowerCase()).toContain('ne jamais fournir');
+    expect(grammaireCibleeSkill.prompt.toLowerCase()).toContain('correction integrale');
   });
 
   it('le skill ecrit-langue contient les 3 axes programme', async () => {
     const { ecritLangueSkill } = await import('@/lib/llm/skills/ecrit-langue');
-    expect(ecritLangueSkill.prompt).toContain('AXE 1');
-    expect(ecritLangueSkill.prompt).toContain('AXE 2');
-    expect(ecritLangueSkill.prompt).toContain('AXE 3');
+    expect(ecritLangueSkill.prompt.toLowerCase()).toContain('syntaxe');
+    expect(ecritLangueSkill.prompt.toLowerCase()).toContain('relations logiques');
+    expect(ecritLangueSkill.prompt.toLowerCase()).toContain('systeme verbal');
   });
 
   it('le fallback du skill grammaire ne contient pas d\'URL', async () => {

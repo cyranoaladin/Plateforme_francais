@@ -3,7 +3,7 @@ import { reciprocalRankFusion, metadataRerank } from '@/lib/rag/rerank';
 import { type RagSearchResult } from '@/lib/rag/search';
 
 function mockResult(id: string, title: string, score: number): RagSearchResult {
-  return { id, title, type: 'texte_officiel', level: 'premiere', excerpt: '', url: '', score };
+  return { id, title, type: 'texte_officiel', level: 'Niveau A', sourceRef: 'ref:test', excerpt: '', score };
 }
 
 describe('RAG Reranking V2', () => {
@@ -27,6 +27,21 @@ describe('RAG Reranking V2', () => {
       const fused = reciprocalRankFusion(list);
       expect(fused).toHaveLength(1);
       expect(fused[0].id).toBe('x');
+    });
+
+    it('handles identical ranked lists without duplicates in output', () => {
+      const listA = [mockResult('a', 'Doc A', 0.9), mockResult('b', 'Doc B', 0.8)];
+      const listB = [mockResult('a', 'Doc A', 0.7), mockResult('b', 'Doc B', 0.6)];
+      const fused = reciprocalRankFusion(listA, listB);
+      expect(fused).toHaveLength(2);
+      expect(fused.map((r) => r.id)).toEqual(['a', 'b']);
+    });
+
+    it('is deterministic for ties (stable by insertion order)', () => {
+      const listA = [mockResult('a', 'Doc A', 0.1)];
+      const listB = [mockResult('b', 'Doc B', 0.1)];
+      const fused = reciprocalRankFusion(listA, listB);
+      expect(fused.map((r) => r.id)).toEqual(['a', 'b']);
     });
   });
 

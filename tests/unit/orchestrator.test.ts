@@ -43,6 +43,11 @@ vi.mock('@/lib/billing/gating', () => ({
   requirePlan: vi.fn().mockResolvedValue({ allowed: true }),
 }));
 
+vi.mock('@/lib/security/llm-rate-limiter', () => ({
+  checkLLMQuota: vi.fn().mockResolvedValue(undefined),
+  QuotaExceededError: class extends Error {},
+}));
+
 describe('orchestrate', () => {
   beforeEach(() => {
     generateContentMock.mockReset();
@@ -52,7 +57,7 @@ describe('orchestrate', () => {
     generateContentMock.mockResolvedValueOnce({
       text: JSON.stringify({
         answer: 'Réponse',
-        citations: [{ title: 'Doc', source_interne: 'BO 2025', snippet: 'x' }],
+        citations: [{ title: 'Doc', source_interne: 'BO 2025', excerpt: 'x' }],
         nextSteps: ['Relire la méthode'],
       }),
       model: 'mock-model',
@@ -67,9 +72,11 @@ describe('orchestrate', () => {
       userId: 'u-1',
     });
 
-    expect(result.blocked).toBe(false);
-    expect(result.skill).toBe('bibliothecaire');
-    expect(result.output).toBeDefined();
+    expect(result).toMatchObject({
+      answer: 'Réponse',
+      citations: expect.any(Array),
+      nextSteps: expect.any(Array),
+    });
   });
 
   it('retourne un fallback structuré en cas de JSON non conforme', async () => {
@@ -85,8 +92,10 @@ describe('orchestrate', () => {
       userId: 'u-2',
     });
 
-    expect(result.blocked).toBe(false);
-    expect(result.output).toBeDefined();
-    expect(result.skill).toBe('bibliothecaire');
+    expect(result).toMatchObject({
+      answer: expect.any(String),
+      citations: expect.any(Array),
+      nextSteps: expect.any(Array),
+    });
   });
 });

@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: Nexus EAF Teacher RBAC Allowed Contracts
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:3000
+paths:
+  /api/v1/enseignant/dashboard:
+    get:
+      summary: Teacher dashboard allowed for teacher/admin role
+      responses:
+        '200':
+          description: Teacher dashboard payload
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [classCode, students, distribution, copies]
+                properties:
+                  classCode:
+                    type: [string, "null"]
+                  students:
+                    type: array
+                    items: { type: object }
+                  distribution:
+                    type: array
+                    items:
+                      type: object
+                      required: [label, count]
+                      properties:
+                        label: { type: string }
+                        count: { type: integer }
+                  copies:
+                    type: array
+                    items: { type: object }
+
+  /api/v1/enseignant/class-code:
+    post:
+      summary: Class code generation allowed for teacher/admin role
+      requestBody:
+        required: false
+      responses:
+        '200':
+          description: New class code generated
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [classCode]
+                properties:
+                  classCode:
+                    type: string
+                    minLength: 6
+                    maxLength: 6
+

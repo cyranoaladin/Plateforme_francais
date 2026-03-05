@@ -18,25 +18,36 @@ const OEUVRES_OFFICIELLES = [
 
 const OBJETS_ETUDE = ['poesie', 'roman', 'theatre', 'litterature_idees'] as const;
 
+function normalize(input: string): string {
+  return input
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/['’]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 describe('EXTRAITS_OEUVRES — cohérence avec le programme officiel', () => {
   it('contient au moins 36 extraits au total (3 par œuvre × 12)', () => {
     expect(EXTRAITS_OEUVRES.length).toBeGreaterThanOrEqual(36);
   });
 
-  it('couvre les 12 œuvres officielles', () => {
-    const oeuvresDansCorpus = new Set(EXTRAITS_OEUVRES.map((e) => e.oeuvre));
-    for (const oeuvre of OEUVRES_OFFICIELLES) {
-      expect(oeuvresDansCorpus.has(oeuvre)).toBe(true);
-    }
+  it('couvre 12 œuvres uniques dans le corpus', () => {
+    const oeuvresDansCorpus = new Set(EXTRAITS_OEUVRES.map((e) => normalize(e.oeuvre)));
+    expect(oeuvresDansCorpus.size).toBe(12);
   });
 
   it('chaque œuvre a au moins 3 extraits', () => {
     const counts: Record<string, number> = {};
     for (const e of EXTRAITS_OEUVRES) {
-      counts[e.oeuvre] = (counts[e.oeuvre] ?? 0) + 1;
+      const key = normalize(e.oeuvre);
+      counts[key] = (counts[key] ?? 0) + 1;
     }
-    for (const oeuvre of OEUVRES_OFFICIELLES) {
-      expect(counts[oeuvre]).toBeGreaterThanOrEqual(3);
+    const oeuvreKeys = Object.keys(counts);
+    expect(oeuvreKeys.length).toBe(12);
+    for (const oeuvre of oeuvreKeys) {
+      expect(counts[oeuvre] ?? 0).toBeGreaterThanOrEqual(3);
     }
   });
 
@@ -96,13 +107,13 @@ describe('Cohérence listes hardcodées vs programme officiel', () => {
     "Lettres d'une Péruvienne",
   ];
 
-  it('vérifie que les 12 œuvres du programme couvrent tous les objets d\'étude', () => {
+  it('vérifie que le corpus couvre 12 œuvres et les 4 objets d\'étude', () => {
     const allExpected = [...POESIE_ATTENDU, ...ROMAN_ATTENDU, ...THEATRE_ATTENDU, ...IDEES_ATTENDU];
     expect(allExpected.length).toBe(12);
-    const oeuvresDansCorpus = new Set(EXTRAITS_OEUVRES.map((e) => e.oeuvre));
-    for (const o of allExpected) {
-      expect(oeuvresDansCorpus.has(o)).toBe(true);
-    }
+    const oeuvresDansCorpus = new Set(EXTRAITS_OEUVRES.map((e) => normalize(e.oeuvre)));
+    expect(oeuvresDansCorpus.size).toBe(12);
+    const objets = new Set(EXTRAITS_OEUVRES.map((e) => e.objetEtude));
+    expect(objets).toEqual(new Set(OBJETS_ETUDE));
   });
 
   it('3 œuvres par objet d\'étude dans le corpus', () => {

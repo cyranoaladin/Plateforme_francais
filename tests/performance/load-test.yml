@@ -1,0 +1,64 @@
+config:
+  target: "https://eaf.nexusreussite.academy"
+  phases:
+    - duration: 120
+      arrivalRate: 10
+      name: "Warm up"
+    - duration: 300
+      arrivalRate: 50
+      name: "Charge nominale"
+    - duration: 120
+      arrivalRate: 200
+      name: "Pic de charge"
+    - duration: 120
+      arrivalRate: 10
+      name: "Cool down"
+  thresholds:
+    http.response_time.p95: 800
+    http.response_time.p99: 2000
+    http.codes.5xx: 0.1
+
+scenarios:
+  - name: "Parcours Dashboard"
+    weight: 40
+    flow:
+      - post:
+          url: "/api/v1/auth/login"
+          json:
+            email: "demo@example.com"
+            password: "demo1234"
+      - get:
+          url: "/api/v1/memory/timeline"
+      - get:
+          url: "/api/v1/student/profile"
+
+  - name: "Recherche RAG intensive"
+    weight: 30
+    flow:
+      - post:
+          url: "/api/v1/rag/search"
+          json:
+            query: "barème oral EAF"
+            maxResults: 8
+      - think: 2
+
+  - name: "Session tuteur"
+    weight: 20
+    flow:
+      - loop:
+          - post:
+              url: "/api/v1/tuteur/message"
+              json:
+                message: "Comment faire une introduction solide ?"
+                conversationHistory: []
+          - think: 5
+        count: 5
+
+  - name: "Upload copie"
+    weight: 10
+    flow:
+      - post:
+          url: "/api/v1/epreuves/generate"
+          json:
+            type: "commentaire"
+

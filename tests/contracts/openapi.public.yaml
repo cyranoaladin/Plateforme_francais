@@ -1,0 +1,152 @@
+openapi: 3.0.3
+info:
+  title: Nexus EAF Public API Contracts
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:3000
+paths:
+  /api/v1/health:
+    get:
+      summary: Health endpoint
+      responses:
+        '200':
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, service, database, mcpServer, checkedAt]
+                properties:
+                  status: { type: string }
+                  service: { type: string }
+                  database: { type: string }
+                  mcpServer: { type: string }
+                  checkedAt: { type: string, format: date-time }
+        '503':
+          description: Service degraded
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, service, database, mcpServer, checkedAt]
+                properties:
+                  status: { type: string }
+                  service: { type: string }
+                  database: { type: string }
+                  mcpServer: { type: string }
+                  checkedAt: { type: string, format: date-time }
+
+  /api/v1/auth/register:
+    post:
+      summary: Register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 8
+                displayName:
+                  type: string
+                  minLength: 1
+                  maxLength: 120
+      responses:
+        '201':
+          description: Registered
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok]
+                properties:
+                  ok: { type: boolean }
+        '400':
+          description: Invalid payload
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error]
+                properties:
+                  error: { type: string }
+        '409':
+          description: Existing account
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error]
+                properties:
+                  error: { type: string }
+        '429':
+          description: Rate limited
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error]
+                properties:
+                  error: { type: string }
+
+  /api/v1/auth/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 1
+      responses:
+        '200':
+          description: Login success
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok]
+                properties:
+                  ok: { type: boolean }
+        '400':
+          description: Invalid payload
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error]
+                properties:
+                  error: { type: string }
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error]
+                properties:
+                  error: { type: string }
+        '429':
+          description: Rate limited
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error]
+                properties:
+                  error: { type: string }
+
