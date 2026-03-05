@@ -1,0 +1,378 @@
+name: "Nexus EAF - CI/CD Pipeline"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * 1"
+    - cron: "0 3 1 * *"
+  push:
+    tags:
+      - "v*.*.*"
+    branches: [main, develop, "feature/**"]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  NODE_VERSION: "20"
+  COVERAGE_GATE_LINES: "45"
+  COVERAGE_GATE_FUNCTIONS: "43"
+  COVERAGE_GATE_BRANCHES: "37"
+  COVERAGE_GATE_STATEMENTS: "45"
+  DATABASE_URL: "postgresql://test:test@localhost:5432/eaf_test"
+  DIRECT_URL: "postgresql://test:test@localhost:5432/eaf_test"
+  REDIS_URL: "redis://localhost:6379"
+  LLM_PROVIDER: "mock"
+  LLM_TIER_1_PROVIDER: "mock"
+  LLM_TIER_2_PROVIDER: "mock"
+  LLM_TIER_3_PROVIDER: "mock"
+  LLM_ROUTER_ENABLED: "false"
+  LLM_COST_TRACKING: "false"
+  RAG_API_URL: "http://localhost:9999"
+  SESSION_SECRET: "ci_session_secret_32chars_minimum_ok_here"
+  CSRF_SECRET: "ci_csrf_secret_32chars_minimum_ok_here_now"
+  COOKIE_SECURE: "false"
+  NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+
+jobs:
+  static-analysis:
+    name: "Gate 1 - Analyse Statique"
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: TypeScript strict check
+        run: npx tsc --noEmit
+      - name: ESLint
+        run: npm run lint
+      - name: CSRF route audit
+        run: npm run ci:audit-csrf
+      - name: Audit dépendances npm
+        run: npx audit-ci --high
+      - name: Détection code mort
+        run: npx knip
+
+  unit-tests:
+    name: "Gate 2 - Tests Unitaires (114 fichiers, sans postgres requis)"
+    needs: static-analysis
+    runs-on: ubuntu-22.04
+    services:
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: Vitest coverage (tests unitaires uniquement)
+        run: npx vitest run tests/unit --coverage
+      - name: Coverage gate (progressif, 4 métriques)
+        run: |
+          node -e "
+            const fs=require('fs');
+            const p='coverage/coverage-summary.json';
+            if(!fs.existsSync(p)){console.error('Coverage summary not found');process.exit(1)}
+            const c=JSON.parse(fs.readFileSync(p,'utf8')).total;
+            const gates=[
+              ['lines',    parseFloat(process.env.COVERAGE_GATE_LINES||'45')],
+              ['functions', parseFloat(process.env.COVERAGE_GATE_FUNCTIONS||'43')],
+              ['branches',  parseFloat(process.env.COVERAGE_GATE_BRANCHES||'37')],
+              ['statements',parseFloat(process.env.COVERAGE_GATE_STATEMENTS||'45')]
+            ];
+            let fail=false;
+            for(const [k,min] of gates){
+              const v=c[k]?.pct??0;
+              if(v<min){console.error('Coverage '+k+' '+v+'% < gate '+min+'%');fail=true}
+              else{console.log('Coverage '+k+' '+v+'% >= gate '+min+'% ✓')}
+            }
+            if(fail) process.exit(1);
+          "
+
+  integration-tests:
+    name: "Gate 3 - Tests Integration"
+    needs: unit-tests
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: eaf_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - run: npx prisma migrate deploy
+      - run: |
+          if [ -f scripts/seed-test.ts ]; then npx tsx scripts/seed-test.ts; else echo "No seed-test.ts"; fi
+      - name: Vitest integration
+        run: npx vitest run tests/integration
+
+  contract-tests:
+    name: "Gate 3b - API Contract Tests"
+    needs: integration-tests
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: eaf_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - run: chmod +x tests/contracts/run-schemathesis.sh tests/contracts/run-schemathesis-auth.sh tests/contracts/run-schemathesis-teacher-rbac.sh tests/contracts/run-teacher-comment-rbac.sh tests/contracts/run-teacher-export-rbac.sh
+      - run: npx prisma migrate deploy
+      - run: npm run build:ci
+      - run: npm run start &
+      - run: npx wait-on http://127.0.0.1:3000/api/v1/health
+      - name: Schemathesis public contracts
+        run: npm run test:contracts | tee schemathesis-public.log
+      - name: Schemathesis authenticated contracts
+        run: npm run test:contracts:auth | tee schemathesis-auth.log
+      - name: Schemathesis teacher RBAC contracts
+        run: npm run test:contracts:teacher-rbac | tee schemathesis-teacher-rbac.log
+      - name: Teacher comment RBAC assertions
+        run: npm run test:contracts:teacher-comment-rbac | tee teacher-comment-rbac.log
+      - name: Teacher export RBAC assertions
+        run: npm run test:contracts:teacher-export-rbac | tee teacher-export-rbac.log
+      - name: Upload contract reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: schemathesis-reports
+          path: |
+            schemathesis-public.log
+            schemathesis-auth.log
+            schemathesis-teacher-rbac.log
+            teacher-comment-rbac.log
+            teacher-export-rbac.log
+
+  e2e-tests:
+    name: "Gate 4 - Tests E2E Playwright"
+    needs: [integration-tests, contract-tests]
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: eaf_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build:ci
+      - run: npm run start &
+      - run: npx wait-on http://localhost:3000
+      - run: npx playwright test --project=chromium
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+  security-scan:
+    name: "Gate 5 - Securite"
+    needs: unit-tests
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: npm audit high
+        run: npm audit --audit-level=high
+      - name: Secrets scan (GitLeaks)
+        uses: gitleaks/gitleaks-action@v2
+      - name: Snyk vuln scan
+        run: npx snyk test --severity-threshold=high
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: CodeQL init
+        uses: github/codeql-action/init@v3
+        with:
+          languages: typescript
+      - name: Build for CodeQL
+        run: npm run build:ci
+      - name: CodeQL analyze
+        uses: github/codeql-action/analyze@v3
+
+  performance-tests:
+    name: "Gate 5b - Performance Artillery"
+    needs: integration-tests
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: Artillery load test
+        run: npx artillery run tests/performance/load-test.yml
+
+  zap-security-tests:
+    name: "Gate 5c - OWASP ZAP"
+    needs: integration-tests
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 2 * * 1')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ZAP active scan
+        run: bash tests/security/run-zap.sh
+
+  mutation-tests:
+    name: "Gate 5d - Mutation Tests"
+    needs: unit-tests
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 3 1 * *')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: Stryker mutation testing
+        run: npm run test:mutation | tee stryker.log
+      - name: Upload mutation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stryker-reports
+          path: |
+            stryker.log
+            reports/mutation
+            .stryker-tmp/reports
+
+  deploy-staging:
+    name: "Gate 6 - Deploy Staging"
+    needs: [e2e-tests, security-scan]
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd /var/www/eaf-staging
+            git pull origin develop
+            npm ci --production
+            npx prisma migrate deploy
+            pm2 reload ecosystem.config.cjs --env staging
+
+  deploy-production:
+    name: "Gate 6b - Deploy Production (Blue-Green)"
+    needs: [e2e-tests, security-scan]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Blue-Green Deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            ACTIVE=$(cat /etc/nginx/conf.d/active-slot.txt)
+            NEXT=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
+            NEXT_PORT=$([ "$NEXT" = "blue" ] && echo "3000" || echo "3001")
+            cd /var/www/eaf-$NEXT
+            git pull origin main
+            npm ci --production
+            npx prisma migrate deploy
+            PORT=$NEXT_PORT pm2 start ecosystem.config.cjs --env production --name eaf-$NEXT
+            SMOKE_OK=0
+            for i in {1..30}; do
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${NEXT_PORT}/api/v1/health")
+              if [ "$STATUS" = "200" ]; then
+                SMOKE_OK=1
+                break
+              fi
+              sleep 2
+            done
+            if [ "$SMOKE_OK" = "0" ]; then
+              echo "Smoke test failed on slot $NEXT ($NEXT_PORT). Cleaning up."
+              pm2 delete eaf-$NEXT || true
+              exit 1
+            fi
+            echo $NEXT > /etc/nginx/conf.d/active-slot.txt
+            nginx -s reload
+            pm2 delete eaf-$ACTIVE
+
+  post-deploy-monitoring:
+    name: "Post-Deploy - Health & Canary"
+    needs: deploy-production
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Health check 5min
+        run: |
+          for i in {1..30}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://eaf.nexusreussite.academy/api/v1/health)
+            if [ "$STATUS" != "200" ]; then
+              echo "Health check failed"; exit 1
+            fi
+            sleep 10
+          done

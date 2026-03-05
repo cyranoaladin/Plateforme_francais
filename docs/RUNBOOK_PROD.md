@@ -1,6 +1,6 @@
 # RUNBOOK Production - EAF Premium
 
-Dernière mise à jour : 25 février 2026
+Dernière mise à jour : 5 mars 2026
 
 ## 1. Objectif
 Guide d'exploitation pour :
@@ -142,6 +142,39 @@ npm run build
 ```
 
 ## 12. Rollback
+
+### 12.1 Rollback post-deploy-monitoring (blue-green, < 5 min)
+
+Si le job `post-deploy-monitoring` échoue (health check 5 min retourne un code ≠ 200), le slot actif est potentiellement dégradé. Procédure d'urgence :
+
+```bash
+ssh mf
+
+# 1. Identifier le slot actif et le slot précédent
+ACTIVE=$(cat /etc/nginx/conf.d/active-slot.txt)
+PREV=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
+
+# 2. Vérifier que le slot précédent est encore fonctionnel
+PREV_PORT=$([ "$PREV" = "blue" ] && echo "3000" || echo "3001")
+curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:${PREV_PORT}/api/v1/health
+# Si 200 → le slot précédent est sain, procéder au rollback
+
+# 3. Basculer nginx vers le slot précédent
+echo $PREV > /etc/nginx/conf.d/active-slot.txt
+nginx -s reload
+
+# 4. Stopper le slot dégradé
+pm2 delete eaf-$ACTIVE || true
+
+# 5. Vérifier le rollback
+curl -s https://eaf.nexusreussite.academy/api/v1/health
+# Doit retourner 200
+```
+
+**Délai cible** : < 5 minutes entre détection et restauration du trafic.
+**Escalade** : si le slot précédent est aussi dégradé, appliquer le rollback général (§12.2).
+
+### 12.2 Rollback général (git checkout)
 ```bash
 ssh mf
 cd /var/www/eaf_platform
