@@ -8,6 +8,8 @@ import { searchOfficialReferences } from '@/lib/rag/search';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { requirePlan, incrementUsage } from '@/lib/billing/gating';
+import { getBillingContext } from '@/lib/billing/context';
+import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { sanitizeString } from '@/lib/security/sanitize';
 import { checkLLMQuota, QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -28,11 +30,34 @@ export async function POST(request: Request) {
     return csrfError;
   }
 
+  // Billing: Redis-based quota (primary)
+  const billing = await getBillingContext(auth.user.id);
+  const tutorQuota = billing.config.quotas.TUTOR_QUESTIONS;
+  if (tutorQuota) {
+    try {
+      await consumeQuota(auth.user.id, 'TUTOR_QUESTIONS', tutorQuota);
+    } catch (err) {
+      if (err instanceof BillingQuotaExceededError) {
+        return NextResponse.json(
+          {
+            error: `Quota de messages tuteur atteint (${err.limit} par jour, plan ${billing.planId}). Passe au plan supérieur.`,
+            code: 'QUOTA_EXCEEDED',
+            upgradeUrl: '/pricing',
+            plan: billing.planId,
+          },
+          { status: 402 },
+        );
+      }
+      throw err;
+    }
+  }
+
+  // Legacy Prisma-based gating (secondary)
   const gate = await requirePlan(auth.user.id, 'tuteurMessagesPerDay');
   if (!gate.allowed) {
     return NextResponse.json(
       { error: 'Quota de messages atteint. Passez au plan premium pour un accès illimité.', upgradeUrl: gate.upgradeUrl },
-      { status: 403 },
+      { status: 402 },
     );
   }
 

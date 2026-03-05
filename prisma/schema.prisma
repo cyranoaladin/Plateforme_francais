@@ -67,6 +67,7 @@ model User {
   usages       UsageCounter[]
   pushSubscriptions PushSubscription[]
   complianceLogs    ComplianceLog[]
+  activationCodes   ActivationCode[]
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
 }
@@ -523,6 +524,27 @@ model PaymentTransaction {
 
   @@index([userId, createdAt])
   @@index([provider, status])
+}
+
+model ActivationCode {
+  id               String   @id @default(cuid())
+  codeHash         String   @unique
+  plan             String   // "PRO" | "MAX"
+  durationDays     Int      // 30, 90, 365…
+  status           String   @default("CREATED") // CREATED | DELIVERED | REDEEMED | REVOKED
+  expiresAt        DateTime?
+  createdAt        DateTime @default(now())
+
+  redeemedAt       DateTime?
+  redeemedByUserId String?
+  redeemedByUser   User?    @relation(fields: [redeemedByUserId], references: [id])
+
+  batchId          String?
+  orderRef         String?
+  notes            String?
+
+  @@index([status])
+  @@index([batchId])
 }
 
 model ErrorBankItem {

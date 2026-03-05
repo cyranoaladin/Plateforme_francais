@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CheckCircle2, ChevronDown, ChevronUp, Loader2, Sparkles } from 'lucide-react';
+import { CheckCircle2, ChevronDown, ChevronUp, KeyRound, Loader2, Phone, Sparkles, Landmark, AlertTriangle } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 
@@ -159,6 +159,12 @@ export default function PricingPage() {
   const [pendingPlan, setPendingPlan] = useState<ClicToPayPlan | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [currency, setCurrency] = useState<Currency>('TND');
+
+  // Activation code state
+  const [codeInput, setCodeInput] = useState('');
+  const [codeLoading, setCodeLoading] = useState(false);
+  const [codeSuccess, setCodeSuccess] = useState<{ plan: string; endsAt: string; message: string } | null>(null);
+  const [codeError, setCodeError] = useState<string | null>(null);
 
   useEffect(() => {
     track({ name: 'page_view', props: { path: '/pricing' } });
@@ -329,6 +335,120 @@ export default function PricingPage() {
             </article>
           );
         })}
+      </section>
+
+      {/* ─── Bloc A: Activer avec un code ─── */}
+      <section className="mb-10 max-w-lg mx-auto">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <KeyRound className="w-5 h-5 text-violet-600" />
+            <h2 className="text-lg font-bold text-foreground">Activer avec un code</h2>
+          </div>
+          <p className="text-xs text-muted-foreground mb-4">
+            Tu as reçu un code d&apos;activation ? Saisis-le ci-dessous pour activer ton plan.
+          </p>
+
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (!codeInput.trim() || codeLoading) return;
+              setCodeError(null);
+              setCodeSuccess(null);
+              setCodeLoading(true);
+              track({ name: 'pricing_code_redeem_attempt', props: { plan: 'unknown' } });
+              try {
+                const res = await apiFetch<{ plan: string; endsAt: string; message: string }>(
+                  '/api/v1/billing/redeem-code',
+                  { method: 'POST', json: { code: codeInput.trim() } },
+                );
+                setCodeSuccess(res);
+                setCodeInput('');
+                track({ name: 'pricing_code_redeem_success', props: { plan: res.plan } });
+                // Refresh billing status
+                try {
+                  const updated = await apiFetch<BillingStatusPayload>('/api/payments/clictopay/status');
+                  setBilling(updated);
+                } catch { /* non-blocking */ }
+              } catch (err) {
+                if (isApiError(err)) {
+                  setCodeError(err.message);
+                  if (err.status === 429) {
+                    setCodeError(`Trop de tentatives. Réessaie dans ${err.retryAfterSec ?? 60}s.`);
+                  }
+                } else {
+                  setCodeError('Erreur inattendue. Vérifie ta connexion.');
+                }
+              } finally {
+                setCodeLoading(false);
+              }
+            }}
+            className="flex gap-2"
+          >
+            <input
+              type="text"
+              value={codeInput}
+              onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
+              placeholder="NEXUS-PRO-XXXX-XXXX"
+              className="flex-1 bg-background border border-input rounded-xl px-3 py-2.5 text-sm font-mono tracking-wider focus:ring-2 focus:ring-violet-500 focus:outline-none uppercase"
+              maxLength={25}
+              disabled={codeLoading}
+            />
+            <button
+              type="submit"
+              disabled={codeLoading || !codeInput.trim()}
+              className="px-5 py-2.5 rounded-xl bg-violet-600 text-white text-sm font-bold hover:bg-violet-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-md"
+            >
+              {codeLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Activer'}
+            </button>
+          </form>
+
+          {codeSuccess && (
+            <div className="mt-3 p-3 rounded-xl border border-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 dark:border-emerald-700 text-sm text-emerald-700 dark:text-emerald-300 flex items-start gap-2" role="status">
+              <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
+              <span>{codeSuccess.message}</span>
+            </div>
+          )}
+          {codeError && (
+            <div className="mt-3 p-3 rounded-xl border border-error/30 bg-error/10 text-sm text-error flex items-start gap-2" role="alert">
+              <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+              <span>{codeError}</span>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ─── Bloc B: Commander un code (Tunisie) ─── */}
+      <section className="mb-10 max-w-lg mx-auto">
+        <div className="rounded-2xl border border-dashed border-border bg-muted/20 p-6">
+          <h2 className="text-lg font-bold text-foreground mb-3">Commander un code (Tunisie)</h2>
+          <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+            Pas de carte bancaire ? Commande un code d&apos;activation et paye à la livraison ou par virement.
+          </p>
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <Landmark className="w-5 h-5 text-violet-500 shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-foreground">Virement bancaire</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Envoie le montant du plan choisi avec ta référence (email ou ID utilisateur) en motif.
+                  Le code sera envoyé par email sous 24h ouvrées.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Phone className="w-5 h-5 text-violet-500 shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-foreground">Livraison à domicile (Tunis)</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Commande via WhatsApp ou téléphone. Paiement à la livraison. Délai : 24–48h.
+                </p>
+              </div>
+            </div>
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-4 border-t border-border pt-3">
+            Une fois le code reçu, saisis-le dans le champ ci-dessus pour activer ton plan immédiatement.
+          </p>
+        </div>
       </section>
 
       {/* ─── Payment micro-copy ─── */}

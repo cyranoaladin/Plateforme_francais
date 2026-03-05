@@ -14,7 +14,9 @@ export type EafEvent =
   | { name: 'onboarding_step_submit'; props: { step: 1 | 2 | 3 } }
   | { name: 'onboarding_complete'; props: Record<string, never> }
   | { name: 'pricing_plan_select'; props: { plan: string } }
-  | { name: 'pricing_checkout_click'; props: { plan: string } };
+  | { name: 'pricing_checkout_click'; props: { plan: string } }
+  | { name: 'pricing_code_redeem_attempt'; props: { plan: string } }
+  | { name: 'pricing_code_redeem_success'; props: { plan: string } };
 
 declare global {
   interface Window {

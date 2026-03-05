@@ -5,6 +5,8 @@ import { pickOralExtrait } from '@/lib/oral/service';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { requirePlan, incrementUsage } from '@/lib/billing/gating';
+import { getBillingContext } from '@/lib/billing/context';
+import { consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionStartBodySchema } from '@/lib/validation/schemas';
 
@@ -37,11 +39,34 @@ export async function POST(request: Request) {
       );
     }
 
+    // Billing: check plan quota via Redis (primary) + Prisma (secondary)
+    const billing = await getBillingContext(auth.user.id);
+    const oralQuota = billing.config.quotas.ORAL_SESSIONS;
+    if (oralQuota) {
+      try {
+        await consumeQuota(auth.user.id, 'ORAL_SESSIONS', oralQuota);
+      } catch (err) {
+        if (err instanceof QuotaExceededError) {
+          return NextResponse.json(
+            {
+              error: `Quota de sessions orales atteint (${err.limit} par semaine, plan ${billing.planId}). Passe au plan supérieur.`,
+              code: 'QUOTA_EXCEEDED',
+              upgradeUrl: '/pricing',
+              plan: billing.planId,
+            },
+            { status: 402 },
+          );
+        }
+        throw err;
+      }
+    }
+
+    // Legacy Prisma-based gating (secondary persistence)
     const gate = await requirePlan(auth.user.id, 'oralSessionsPerMonth');
     if (!gate.allowed) {
       return NextResponse.json(
         { error: 'Quota de sessions orales atteint. Passez à un plan premium.', upgradeUrl: gate.upgradeUrl },
-        { status: 403 },
+        { status: 402 },
       );
     }
 
