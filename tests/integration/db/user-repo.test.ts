@@ -1,8 +1,31 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const state = {
-  users: [] as Array<{ id: string; email: string; passwordHash: string; passwordSalt: string; role: 'eleve'; createdAt: string; profile: any }>,
+type UserProfile = {
+  displayName: string;
+  classLevel: string;
+  targetScore: string;
+  onboardingCompleted: boolean;
+  selectedOeuvres: unknown[];
+  parcoursProgress: unknown[];
+  badges: unknown[];
+  preferredObjects: unknown[];
+  weakSkills: unknown[];
 };
+
+type User = {
+  id: string;
+  email: string;
+  passwordHash: string;
+  passwordSalt: string;
+  role: 'eleve';
+  createdAt: string;
+  profile: UserProfile;
+};
+
+type FallbackState = { users: User[]; sessions: unknown[]; events: unknown[] };
+type Updater = (prev: FallbackState) => FallbackState;
+
+const state: { users: User[] } = { users: [] };
 
 vi.mock('@/lib/db/client', () => ({
   isDatabaseAvailable: vi.fn().mockResolvedValue(false),
@@ -11,7 +34,7 @@ vi.mock('@/lib/db/client', () => ({
 
 vi.mock('@/lib/db/fallback-store', () => ({
   readFallbackStore: vi.fn(async () => ({ users: state.users, sessions: [], events: [] })),
-  writeFallbackStore: vi.fn(async (updater: any) => {
+  writeFallbackStore: vi.fn(async (updater: Updater) => {
     const next = updater({ users: state.users, sessions: [], events: [] });
     state.users = next.users;
   }),

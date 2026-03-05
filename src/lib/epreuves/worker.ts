@@ -12,7 +12,7 @@ import { resolveCopieAbsolutePath } from '@/lib/storage/copies';
 const running = new Set<string>();
 const MAX_ATTEMPTS = 3;
 
-export async function processCorrection(copieId: string, attempt = 1): Promise<void> {
+export async function processCorrection(copieId: string, attempt = 1, throwOnError = false): Promise<void> {
   let success = false;
   try {
     const copie = await findCopieById(copieId);
@@ -79,6 +79,10 @@ export async function processCorrection(copieId: string, attempt = 1): Promise<v
 
     success = true;
   } catch (error) {
+    if (throwOnError) {
+      throw error;
+    }
+
     if (attempt < MAX_ATTEMPTS) {
       const delayMs = Math.pow(2, attempt) * 1000;
       logger.warn(

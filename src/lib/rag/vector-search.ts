@@ -1,4 +1,4 @@
-import { OFFICIAL_REFERENCES } from '@/data/references';
+import { Prisma } from '@prisma/client';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { getLLMProvider } from '@/lib/llm/factory';
 import { toVectorLiteral } from '@/lib/llm/embeddings';
@@ -11,6 +11,9 @@ type VectorRow = {
   sourceType: string;
   content: string;
   distance: number;
+  level?: string;
+  oeuvre?: string;
+  parcours?: string;
 };
 
 export type VectorSearchResult = {
@@ -27,13 +30,14 @@ export async function vectorSearch(query: string, topK: number): Promise<VectorS
   const embedding = await provider.getEmbeddings(query);
   const vectorLiteral = toVectorLiteral(embedding);
 
-  const rows = await prisma.$queryRawUnsafe<VectorRow[]>(
-    `SELECT "id", "docId", "sourceTitle", "sourceUrl", "sourceType", "content", ("embedding" <-> $1::vector) AS "distance"
-     FROM "Chunk"
-     ORDER BY "embedding" <-> $1::vector
-     LIMIT $2`,
-    vectorLiteral,
-    topK,
+  const rows = await prisma.$queryRaw<VectorRow[]>(
+    Prisma.sql`
+      SELECT "id", "docId", "sourceTitle", "sourceUrl", "sourceType", "content", 
+             ("embedding" <-> ${vectorLiteral}::vector) AS "distance"
+      FROM "Chunk"
+      ORDER BY "embedding" <-> ${vectorLiteral}::vector
+      LIMIT ${topK}
+    `
   );
 
   return {
@@ -46,6 +50,9 @@ export function scoreFromDistance(distance: number): number {
   return Number((100 / (1 + Math.max(distance, 0))).toFixed(2));
 }
 
-export function levelFromDocId(docId: string) {
-  return OFFICIAL_REFERENCES.find((item) => item.id === docId)?.level ?? 'Niveau B';
+/**
+ * @deprecated Use metadata directly from the database Chunk entry.
+ */
+export function levelFromDocId() {
+  return 'Première'; // Default for EAF
 }

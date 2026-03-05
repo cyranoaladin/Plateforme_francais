@@ -182,7 +182,9 @@ function getOrCreateOllamaProvider(): OllamaProvider {
 }
 
 export function estimateTokens(messages: { content: string }[]): number {
-  return messages.reduce((sum, msg) => sum + Math.ceil(msg.content.length / 4), 0);
+  const totalChars = messages.reduce((sum, msg) => sum + msg.content.length, 0);
+  // Based on audit P0-07: use 3.5 chars/token and 1.2 safety margin
+  return Math.ceil((totalChars / 3.5) * 1.2);
 }
 
 export function getTierForSkill(skill: string): MistralTier {

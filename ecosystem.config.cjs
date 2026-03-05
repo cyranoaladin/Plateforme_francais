@@ -47,5 +47,19 @@ module.exports = {
       max_restarts: 10,
       restart_delay: 3000,
     },
+    {
+      name: 'eaf-worker',
+      script: 'node_modules/.bin/tsx',
+      args: 'src/lib/queue/start-worker.ts',
+      cwd: '/opt/eaf_platform',
+      env: {
+        NODE_ENV: 'production',
+      },
+      instances: 1,
+      exec_mode: 'fork',
+      max_memory_restart: '512M',
+      autorestart: true,
+      max_restarts: 10,
+    },
   ],
 };

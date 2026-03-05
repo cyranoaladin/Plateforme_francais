@@ -1,20 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { EXTRAITS_OEUVRES } from '@/data/extraits-oeuvres';
 
-const OEUVRES_OFFICIELLES = [
-  'Cahier de Douai',
-  "La rage de l'expression",
-  'Mes forêts',
-  'Discours de la servitude volontaire',
-  'Entretiens sur la pluralité des mondes',
-  "Lettres d'une Péruvienne",
-  'Le Menteur',
-  "On ne badine pas avec l'amour",
-  'Pour un oui ou pour un non',
-  'Manon Lescaut',
-  'La Peau de chagrin',
-  'Sido suivi de Les Vrilles de la vigne',
-] as const;
+
 
 const OBJETS_ETUDE = ['poesie', 'roman', 'theatre', 'litterature_idees'] as const;
 

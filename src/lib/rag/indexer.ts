@@ -62,6 +62,10 @@ async function insertChunk(input: ChunkInsert): Promise<void> {
 }
 
 export async function indexReferencesToVectorStore(): Promise<{ indexed: number; skipped: boolean }> {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Local indexer disabled in production. Use external RAG ingestion pipeline.');
+  }
+
   if (!(await isDatabaseAvailable())) {
     return { indexed: 0, skipped: true };
   }

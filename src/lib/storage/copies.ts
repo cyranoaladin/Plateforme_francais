@@ -1,5 +1,4 @@
 import { randomUUID } from 'crypto';
-import { promises as fs } from 'fs';
 import path from 'path';
 
 type SavedFile = {
@@ -42,29 +41,30 @@ function resolveExtension(contentType: string): string {
   }
 }
 
+import { getStorageProvider } from './provider';
+
 export async function saveCopieFile(input: {
   userId: string;
   fileType: string;
   bytes: Uint8Array;
 }): Promise<SavedFile> {
-  if ((process.env.STORAGE_PROVIDER ?? 'local') === 's3') {
-    throw new Error('STORAGE_PROVIDER=s3 non implémenté dans cette version.');
-  }
-
+  const provider = getStorageProvider();
   const ext = resolveExtension(input.fileType);
-  const relativePath = path.join('uploads', 'copies', input.userId, `${randomUUID()}.${ext}`);
-  const absolutePath = path.join(process.cwd(), '.data', relativePath);
+  const relativePath = path.join('copies', input.userId, `${randomUUID()}.${ext}`);
 
-  await fs.mkdir(path.dirname(absolutePath), { recursive: true });
-  await fs.writeFile(absolutePath, input.bytes);
+  const key = await provider.uploadFile(relativePath, input.bytes, input.fileType);
 
   return {
-    filePath: relativePath,
-    absolutePath,
+    filePath: key,
+    absolutePath: path.join(process.cwd(), '.data', 'uploads', key), // Backward compatibility for OCR if local
     fileType: input.fileType,
   };
 }
 
 export function resolveCopieAbsolutePath(filePath: string): string {
-  return path.join(process.cwd(), '.data', filePath);
+  // If local, it's relative to .data/uploads
+  if (!filePath.startsWith('http')) {
+    return path.join(process.cwd(), '.data', 'uploads', filePath);
+  }
+  return filePath;
 }

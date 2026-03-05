@@ -1,11 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const state = { copies: [] as any[] };
+type Copie = { id: string; status: string };
+type EpreuvesState = { epreuves: unknown[]; copies: Copie[] };
+type Updater = (prev: EpreuvesState) => EpreuvesState;
+
+const state: { copies: Copie[] } = { copies: [] };
 
 vi.mock('@/lib/db/client', () => ({ isDatabaseAvailable: vi.fn().mockResolvedValue(false), prisma: {} }));
 vi.mock('@/lib/epreuves/fallback-store', () => ({
   readEpreuvesFallbackStore: vi.fn(async () => ({ epreuves: [], copies: state.copies })),
-  writeEpreuvesFallbackStore: vi.fn(async (updater: any) => {
+  writeEpreuvesFallbackStore: vi.fn(async (updater: Updater) => {
     const next = updater({ epreuves: [], copies: state.copies });
     state.copies = next.copies;
   }),

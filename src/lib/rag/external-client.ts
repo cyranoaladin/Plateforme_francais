@@ -80,6 +80,17 @@ class ExternalRAGClient {
     this.defaultRerank = process.env.RAG_RERANK === 'true';
     this.defaultAlpha = parseFloat(process.env.RAG_ALPHA ?? '0.7');
     this.timeout = parseInt(process.env.RAG_TIMEOUT_MS ?? '8000', 10);
+
+    // Do not throw here as it breaks next build
+    if (process.env.NODE_ENV === 'production' && !this.token) {
+      logger.error('[ExternalRAG] RAG_API_TOKEN is missing in production environment.');
+    }
+  }
+
+  private ensureConfigured() {
+    if (process.env.NODE_ENV === 'production' && !this.isConfigured()) {
+      throw new Error('CRITICAL: RAG_API_TOKEN is missing in production environment.');
+    }
   }
 
   private headers(): HeadersInit {
@@ -100,6 +111,7 @@ class ExternalRAGClient {
    * Vérifie la santé de l'API RAG.
    */
   async health(): Promise<ExternalRAGHealthResponse> {
+    this.ensureConfigured();
     try {
       const response = await fetch(`${this.baseUrl}/health`, {
         method: 'GET',
@@ -126,6 +138,7 @@ class ExternalRAGClient {
    * Récupère les statistiques d'une collection.
    */
   async getStats(collection?: string): Promise<ExternalRAGStatsResponse | null> {
+    this.ensureConfigured();
     const targetCollection = collection ?? this.collection;
     try {
       const response = await fetch(`${this.baseUrl}/stats/${targetCollection}`, {
@@ -150,7 +163,11 @@ class ExternalRAGClient {
    * Recherche sémantique dans le RAG externe.
    */
   async search(params: ExternalRAGSearchParams): Promise<ExternalRAGSearchResponse> {
+    this.ensureConfigured();
     if (!this.isConfigured()) {
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error('RAG_API_TOKEN is not configured in production.');
+      }
       logger.info('[ExternalRAG] not_configured, returning empty results');
       return {
         results: [],
@@ -280,6 +297,7 @@ class ExternalRAGClient {
    * Liste les collections disponibles.
    */
   async listCollections(): Promise<string[]> {
+    this.ensureConfigured();
     try {
       const response = await fetch(`${this.baseUrl}/collections`, {
         method: 'GET',

@@ -139,17 +139,29 @@ function timerColorClass(remaining: number): string {
 
 /* ──────────────────── Timer Hook ──────────────────── */
 
-function useCountdown(totalSeconds: number, running: boolean) {
-  const startRef = useRef<number>(0);
+function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: string) {
   const [remaining, setRemaining] = useState(totalSeconds);
   const alertedRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
-    if (!running) { alertedRef.current.clear(); return; }
-    startRef.current = Date.now();
+    if (!running) {
+      alertedRef.current.clear();
+      if (persistenceKey) localStorage.removeItem(`timer_start_${persistenceKey}`);
+      return;
+    }
+
+    let startTime = Date.now();
+    if (persistenceKey) {
+      const stored = localStorage.getItem(`timer_start_${persistenceKey}`);
+      if (stored) {
+        startTime = parseInt(stored, 10);
+      } else {
+        localStorage.setItem(`timer_start_${persistenceKey}`, startTime.toString());
+      }
+    }
 
     const tick = () => {
-      const elapsed = Math.floor((Date.now() - startRef.current) / 1000);
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const left = Math.max(0, totalSeconds - elapsed);
       setRemaining(left);
       if ((left === 600 || left === 120 || left === 0) && !alertedRef.current.has(left)) {
@@ -161,7 +173,7 @@ function useCountdown(totalSeconds: number, running: boolean) {
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, [running, totalSeconds]);
+  }, [running, totalSeconds, persistenceKey]);
 
   return remaining;
 }
@@ -196,11 +208,12 @@ export default function AtelierOralPage() {
   const isSimulation = mode === 'SIMULATION';
   const prepRunning = wizardPhase === 'PREP';
   const passageRunning = wizardPhase === 'PASSAGE';
-  const prepRemaining = useCountdown(PREP_DURATION_S, prepRunning && isSimulation);
-  const passageRemaining = useCountdown(PASSAGE_DURATION_S, passageRunning && isSimulation);
+  const prepRemaining = useCountdown(PREP_DURATION_S, prepRunning && isSimulation, session?.sessionId ? `prep_${session.sessionId}` : undefined);
+  const passageRemaining = useCountdown(PASSAGE_DURATION_S, passageRunning && isSimulation, session?.sessionId ? `pass_${session.sessionId}` : undefined);
   const phaseRemaining = useCountdown(
     currentStep ? PHASE_DURATIONS_S[currentStep] : 0,
     passageRunning && isSimulation && Boolean(currentStep),
+    session?.sessionId && currentStep ? `phase_${session.sessionId}_${currentStep}` : undefined
   );
 
   useEffect(() => {
@@ -218,23 +231,27 @@ export default function AtelierOralPage() {
   /* ── API calls ── */
 
   const startSession = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
+    console.log('[AtelierOral] Starting session...', { oeuvre, mode });
     try {
       const response = await fetch('/api/v1/oral/session/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
         body: JSON.stringify({ oeuvre, mode }),
       });
-      if (!response.ok) throw new Error('Impossible de démarrer la session orale.');
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        console.error('[AtelierOral] Start session failed:', response.status, errData);
+        throw new Error(errData.error || 'Impossible de démarrer la session orale.');
+      }
       const payload = (await response.json()) as SessionPayload;
+      console.log('[AtelierOral] Session started:', payload.sessionId);
       setSession(payload);
       try {
         await fetch(`/api/v1/oral/session/${payload.sessionId}/start-prep`, {
           method: 'POST',
           headers: { 'X-CSRF-Token': getCsrfTokenFromDocument() },
         });
-      } catch (e) { console.error('Failed to sync prep start', e); }
+      } catch (e) { console.error('[AtelierOral] Failed to sync prep start', e); }
       setWizardPhase('PREP');
       setCurrentStepIndex(0);
       setTranscript('');
@@ -246,6 +263,7 @@ export default function AtelierOralPage() {
       setJuryTurns([]);
       stepStartRef.current = Date.now();
     } catch (cause) {
+      console.error('[AtelierOral] Error in startSession:', cause);
       setError(cause instanceof Error ? cause.message : 'Erreur inconnue.');
     } finally {
       setIsLoading(false);
@@ -399,6 +417,7 @@ export default function AtelierOralPage() {
           <div className="flex items-center justify-center gap-3 mb-5">
             <button
               onClick={() => setMode('SIMULATION')}
+              data-testid="mode-simulation-btn"
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${mode === 'SIMULATION' ? 'bg-purple-600 text-white shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
               aria-pressed={mode === 'SIMULATION'}
             >
@@ -406,6 +425,7 @@ export default function AtelierOralPage() {
             </button>
             <button
               onClick={() => setMode('FREE_PRACTICE')}
+              data-testid="mode-practice-btn"
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${mode === 'FREE_PRACTICE' ? 'bg-purple-600 text-white shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
               aria-pressed={mode === 'FREE_PRACTICE'}
             >
@@ -417,7 +437,13 @@ export default function AtelierOralPage() {
           )}
 
           <label htmlFor="oeuvre-select" className="sr-only">Choisir une œuvre</label>
-          <select id="oeuvre-select" className="border border-border rounded-xl bg-muted/30 px-4 py-3 mb-4 w-full max-w-sm mx-auto block text-foreground text-sm focus:ring-2 focus:ring-primary focus:outline-none" value={oeuvre} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(e.target.value)}>
+          <select
+            id="oeuvre-select"
+            data-testid="oeuvre-select"
+            className="border border-border rounded-xl bg-muted/30 px-4 py-3 mb-4 w-full max-w-sm mx-auto block text-foreground text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+            value={oeuvre}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(e.target.value)}
+          >
             {OEUVRES_PROGRAMME_2025_2026.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
           <button data-testid="start-session-btn" onClick={startSession} disabled={isLoading} className="px-8 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 hover:bg-purple-700 transition-colors disabled:opacity-50 shadow-md">
@@ -433,7 +459,7 @@ export default function AtelierOralPage() {
             <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><FileText className="w-5 h-5" /> Préparation</h2>
             {isSimulation && (
               <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-lg font-bold ${timerColorClass(prepRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant : ${formatTimer(prepRemaining)}`}>
-                <Clock className="w-5 h-5" /> {formatTimer(prepRemaining)}
+                <Clock className="w-5 h-5 flex-shrink-0" /> {formatTimer(prepRemaining)}
               </div>
             )}
             {!isSimulation && (
@@ -510,7 +536,7 @@ export default function AtelierOralPage() {
               )}
               {isSimulation && (
                 <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-lg font-bold ${timerColorClass(passageRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant passage : ${formatTimer(passageRemaining)}`}>
-                  <Clock className="w-5 h-5" /> {formatTimer(passageRemaining)}
+                  <Clock className="w-5 h-5 flex-shrink-0" /> {formatTimer(passageRemaining)}
                 </div>
               )}
               {!isSimulation && (
@@ -524,10 +550,9 @@ export default function AtelierOralPage() {
             <div className="absolute left-0 right-0 h-0.5 bg-border top-5 z-0" />
             {STEPS.map((stepName, i) => (
               <div key={stepName} className="relative z-10 flex flex-col items-center gap-2">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 transition-all text-sm ${
-                  i === currentStepIndex ? 'bg-purple-600 border-purple-600 text-white shadow-md' :
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 transition-all text-sm ${i === currentStepIndex ? 'bg-purple-600 border-purple-600 text-white shadow-md' :
                   i < currentStepIndex ? 'bg-purple-100 dark:bg-purple-900/30 border-purple-600 text-purple-600' : 'bg-card border-border text-muted-foreground'
-                }`}>
+                  }`}>
                   {i < currentStepIndex ? <CheckCircle2 className="w-5 h-5" /> : i + 1}
                 </div>
                 <span className={`text-[10px] md:text-xs font-medium text-center ${i === currentStepIndex ? 'text-purple-600 dark:text-purple-400' : 'text-muted-foreground'}`}>
@@ -594,11 +619,10 @@ export default function AtelierOralPage() {
                         key={profile}
                         type="button"
                         onClick={() => setExaminerProfile(profile)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold border ${
-                          examinerProfile === profile
-                            ? 'border-purple-600 bg-purple-600 text-white'
-                            : 'border-border bg-card text-muted-foreground'
-                        }`}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold border ${examinerProfile === profile
+                          ? 'border-purple-600 bg-purple-600 text-white'
+                          : 'border-border bg-card text-muted-foreground'
+                          }`}
                       >
                         {profile}
                       </button>
@@ -660,6 +684,12 @@ export default function AtelierOralPage() {
                   )}
                   {item.axes.length > 0 && (
                     <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-3">
+                      {error && (
+                        <div data-testid="error-alert" className="bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 p-4 rounded-2xl text-sm flex items-center gap-3">
+                          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                          <p className="flex-1 font-medium">{error}</p>
+                        </div>
+                      )}
                       <p className="text-xs font-bold text-amber-700 dark:text-amber-400 mb-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> Axes d&apos;amélioration</p>
                       <ul className="text-xs text-foreground/80 space-y-0.5">{item.axes.map((a: string) => <li key={a}>- {a}</li>)}</ul>
                     </div>
@@ -686,12 +716,11 @@ export default function AtelierOralPage() {
             <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
             <h2 className="text-2xl font-bold text-foreground mb-1">Bilan officiel</h2>
             <p className="text-5xl font-bold text-foreground my-4">{bilan.note}/{bilan.maxNote}</p>
-            <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold ${
-              bilan.note >= 16 ? 'bg-emerald-100 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300' :
+            <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold ${bilan.note >= 16 ? 'bg-emerald-100 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300' :
               bilan.note >= 12 ? 'bg-blue-100 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300' :
-              bilan.note >= 10 ? 'bg-amber-100 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300' :
-              'bg-red-100 dark:bg-red-950/30 text-red-700 dark:text-red-300'
-            }`}>{bilan.mention}</span>
+                bilan.note >= 10 ? 'bg-amber-100 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300' :
+                  'bg-red-100 dark:bg-red-950/30 text-red-700 dark:text-red-300'
+              }`}>{bilan.mention}</span>
           </div>
 
           {/* Per-phase scores */}

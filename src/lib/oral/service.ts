@@ -1,9 +1,8 @@
 import { EXTRAITS_OEUVRES } from '@/data/extraits-oeuvres';
-import { getRouterProvider } from '@/lib/llm/factory';
-import { estimateTokens } from '@/lib/llm/token-estimate';
-import type { ProviderChatMessage } from '@/lib/llm/provider';
+import { prisma } from '@/lib/db/client';
+import { orchestrate } from '@/lib/llm/orchestrator';
+import { type Skill } from '@/lib/llm/skills/types';
 import { logger } from '@/lib/logger';
-import { checkLLMQuota } from '@/lib/security/llm-rate-limiter';
 import {
   computeOralScore,
   computeMention,
@@ -48,31 +47,68 @@ export type OralSessionResult = {
 };
 
 /**
- * Pick a random extrait for the given oeuvre from the corpus.
+ * Pick an extrait based on the student's "Descriptif de lecture" for simulations.
  */
-export function pickOralExtrait(oeuvre: string): {
+export async function pickOralExtrait(params: {
+  oeuvre: string;
+  userId: string;
+  mode: 'SIMULATION' | 'FREE_PRACTICE';
+}): Promise<{
   texte: string;
   questionGrammaire: string;
   phraseGrammaire: string;
-} {
-  const candidates = EXTRAITS_OEUVRES.filter((item) =>
-    item.oeuvre.toLowerCase().includes(oeuvre.toLowerCase()),
-  );
+}> {
+  const profile = await prisma.studentProfile.findUnique({
+    where: { userId: params.userId },
+    include: { descriptifTextes: true },
+  });
 
-  const pool = candidates.length > 0 ? candidates : EXTRAITS_OEUVRES;
-  const index = Math.floor(Math.random() * pool.length);
-  const choice = pool[index] ?? pool[0];
+  if (!profile) {
+    throw new Error('Profil étudiant introuvable.');
+  }
+
+  // Simulation: must have at least 20 texts in the descriptif
+  if (params.mode === 'SIMULATION' && profile.descriptifTextes.length < 20) {
+    throw new Error('Descriptif incomplet: 20 textes requis pour lancer une simulation.');
+  }
+
+  console.log(`[pickOralExtrait] User: ${params.userId}, Oeuvre: ${params.oeuvre}, Mode: ${params.mode}`);
+  console.log(`[pickOralExtrait] Found ${profile.descriptifTextes.length} texts in descriptif.`);
+
+  const studentList = profile.descriptifTextes.filter((t) =>
+    params.oeuvre.toLowerCase().includes(t.oeuvre.toLowerCase())
+  );
+  console.log(`[pickOralExtrait] Filtered student list: ${studentList.length} matches for "${params.oeuvre}"`);
+
+  // If we found specific texts in the student's list for this oeuvre, use them
+  // Otherwise, if free practice, we can fallback to the corpus
+  const pool = studentList.length > 0 ? studentList : (params.mode === 'SIMULATION' ? [] : EXTRAITS_OEUVRES);
+
+  if (pool.length === 0) {
+    console.error(`[pickOralExtrait] ERROR: No texts found for "${params.oeuvre}" in simulation mode.`);
+    throw new Error(`Aucun texte trouvé dans votre descriptif pour l'œuvre "${params.oeuvre}".`);
+  }
+
+  const choice = pool[Math.floor(Math.random() * pool.length)];
+  console.log(`[pickOralExtrait] Picked: ${'titre' in choice ? choice.titre : choice.id}`);
+
+  // Resolve full content from corpus based on title/oeuvre if it's a student reference
+  const corpusMatch = EXTRAITS_OEUVRES.find((item) =>
+    item.oeuvre.toLowerCase().includes(params.oeuvre.toLowerCase()) ||
+    params.oeuvre.toLowerCase().includes(item.oeuvre.toLowerCase())
+  ) ?? EXTRAITS_OEUVRES[0];
+
+  console.log(`[pickOralExtrait] Corpus match: ${corpusMatch?.oeuvre}`);
 
   return {
-    texte: choice?.extrait ?? 'Aucun extrait disponible.',
-    questionGrammaire: choice?.questionGrammaire ?? 'Analysez la syntaxe de la phrase.',
-    phraseGrammaire: (choice?.extrait ?? '').split('.').find((chunk) => chunk.trim().length > 20)?.trim() ?? 'Phrase cible indisponible.',
+    texte: corpusMatch?.extrait ?? 'Texte indisponible.',
+    questionGrammaire: corpusMatch?.questionGrammaire ?? 'Analysez la syntaxe de la phrase.',
+    phraseGrammaire: (corpusMatch?.extrait ?? '').split('.').find((chunk) => chunk.trim().length > 20)?.trim() ?? 'Phrase cible indisponible.',
   };
 }
 
 /**
- * Evaluate a single oral phase transcript via LLM.
- * The AI proposes a score; we clamp it to the official max.
+ * Evaluate a single oral phase transcript via the centralized Orchestrator (Skills).
  */
 export async function evaluateOralPhase(input: {
   phase: OralPhaseKey;
@@ -81,64 +117,40 @@ export async function evaluateOralPhase(input: {
   questionGrammaire: string;
   oeuvre: string;
   duration: number;
-  userId?: string;
+  userId: string;
   oeuvreChoisieEntretien?: string | null;
 }): Promise<PhaseEvaluation> {
-  const max = PHASE_MAX_SCORES[input.phase];
-  const messages: ProviderChatMessage[] = [
-    {
-      role: 'system',
-      content: `Tu es examinateur EAF. Évalue la prestation de l'élève pour la phase "${input.phase}" (max ${max} points).
-Barème officiel: Lecture /2, Explication /8, Grammaire /2, Entretien /8 (total /20).
-Réponds UNIQUEMENT en JSON valide :
-{
-  "feedback": "<commentaire détaillé>",
-  "score": <0-${max}>,
-  "max": ${max},
-  "points_forts": ["<point>", ...],
-  "axes": ["<axe d'amélioration>", ...],
-  "relance": "<question de relance optionnelle pour l'entretien>"
-}
-IMPORTANT: Le score DOIT être compris entre 0 et ${max}. Ne jamais fournir de rédaction complète.`,
-    },
-    {
-      role: 'user',
-      content: `Phase: ${input.phase}\nDurée: ${input.duration}s\nŒuvre: ${input.oeuvre}\nExtrait: ${input.extrait}\nQuestion grammaire: ${input.questionGrammaire}\n\nTranscription de l'élève:\n${input.transcript}${input.phase === 'ENTRETIEN' ? (input.oeuvreChoisieEntretien ? `\n\n⚠️ ENTRETIEN (2e partie) : L'élève présente son œuvre choisie : "${input.oeuvreChoisieEntretien}". Posez des questions sur cette œuvre : thèmes, personnages, structure, intérêt personnel, liens avec le parcours. NE PAS questionner sur l'extrait tiré pour cette phase.` : "\n\n⚠️ ENTRETIEN : L'élève n'a pas encore renseigné son œuvre choisie. Invitez-le à la renseigner dans son profil, puis évaluez sa réactivité culturelle générale.") : ''}`,
-    },
-  ];
+  const mapping: Record<OralPhaseKey, Skill> = {
+    LECTURE: 'coach_lecture',
+    EXPLICATION: 'coach_explication',
+    GRAMMAIRE: 'grammaire_ciblee',
+    ENTRETIEN: 'oral_entretien',
+  };
+
+  const skill = mapping[input.phase];
 
   try {
-    if (input.userId) {
-      await checkLLMQuota(input.userId, 'coach_oral');
-    }
-    const provider = getRouterProvider('coach_oral', estimateTokens(messages));
-    const response = await provider.generateContent(messages, {
-      temperature: 0.2,
-      responseMimeType: 'application/json',
-      maxTokens: 600,
-    });
+    const result = await orchestrate({
+      skill,
+      userId: input.userId,
+      userQuery: input.transcript,
+      context: `Œuvre: ${input.oeuvre}\nExtrait: ${input.extrait}\nQuestion: ${input.questionGrammaire}\nDurée: ${input.duration}s${input.phase === 'ENTRETIEN' ? `\n\nŒuvre choisie par l'élève: ${input.oeuvreChoisieEntretien ?? 'Non renseignée'}` : ''}`,
+    }) as PhaseEvaluation;
 
-    const raw = (response.content ?? response.text ?? '').trim();
-    const jsonMatch = raw.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]) as PhaseEvaluation;
-      return {
-        ...parsed,
-        score: clampPhaseScore(input.phase, parsed.score),
-        max,
-      };
-    }
+    return {
+      ...result,
+      score: clampPhaseScore(input.phase, result.score),
+    };
   } catch (error) {
-    logger.warn({ error, phase: input.phase }, 'oral.evaluatePhase.failed');
+    logger.error({ error, phase: input.phase }, 'oral.evaluatePhase.failed');
+    return {
+      feedback: 'Évaluation automatique indisponible.',
+      score: 0,
+      max: PHASE_MAX_SCORES[input.phase],
+      points_forts: [],
+      axes: ['Vérifiez votre connexion et recommencez.'],
+    };
   }
-
-  return {
-    feedback: 'Évaluation automatique — réessayez avec un transcript plus précis.',
-    score: 0,
-    max,
-    points_forts: [],
-    axes: ['Structurer davantage la réponse.'],
-  };
 }
 
 /**

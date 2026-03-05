@@ -19,6 +19,9 @@ env:
   COOKIE_SECURE: "false"
   LLM_ROUTER_ENABLED: "false"
   LLM_COST_TRACKING: "false"
+  # LLM Mocks (FP-12)
+  # In CI, we use 'mock' providers to ensure deterministic tests and avoid
+  # external API costs/latency. Real providers are used in staging/production.
   LLM_TIER_1_PROVIDER: "mock"
   LLM_TIER_2_PROVIDER: "mock"
   LLM_TIER_3_PROVIDER: "mock"
@@ -101,6 +104,10 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # ROADMAP: Coverage Gate (FP-10)
+      # Current threshold: 45% (progressive gate active).
+      # Q2 2026 Target: 60%
+      # Q4 2026 Target: 80%+ (Full strict enforcement)
       - name: Unit tests
         run: npm run test:unit -- --reporter=verbose
 

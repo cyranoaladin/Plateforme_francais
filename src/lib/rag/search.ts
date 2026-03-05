@@ -8,10 +8,11 @@ export type RagSearchResult = {
   id: string;
   title: string;
   type: ReferenceDoc['type'];
-  level: ReferenceDoc['level'];
+  level: string;
   sourceRef: string;
   excerpt: string;
   score: number;
+  url?: string;
 };
 
 export type RagSearchOptions = {
@@ -120,7 +121,7 @@ function externalChunkToResult(chunk: ExternalRAGChunk, index: number): RagSearc
   const metadata = chunk.metadata ?? {};
   const title = metadata.title ?? metadata.source ?? `Source ${index + 1}`;
   const sourceUrl = typeof metadata.source === 'string' ? metadata.source : '';
-  
+
   return {
     id: metadata.chunk_id ?? `ext-${index}`,
     title,
@@ -215,7 +216,7 @@ export async function searchOfficialReferences(
         id: chunk.docId,
         title: chunk.sourceTitle,
         type: (chunk.sourceType as ReferenceDoc['type']) ?? 'texte_officiel',
-        level: levelFromDocId(chunk.docId),
+        level: chunk.level || levelFromDocId(),
         sourceRef: chunk.sourceUrl || chunk.docId,
         excerpt: chunk.content.slice(0, 220),
         url: chunk.sourceUrl || chunk.docId,
@@ -235,7 +236,7 @@ export async function searchOfficialReferences(
     const localFused = vectorResults.length > 0
       ? reciprocalRankFusion(vectorResults, lexicalResults)
       : lexicalResults;
-    
+
     // RRF fusion: external results weighted higher
     fused = reciprocalRankFusion(externalResults, localFused);
     mode = 'external_hybrid';

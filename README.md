@@ -1,4 +1,4 @@
-# Nexus EAF Platform
+# Nexus EAF Platform [![CI/CD](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml)
 
 Dernière mise à jour: 5 mars 2026
 

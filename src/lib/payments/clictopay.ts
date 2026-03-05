@@ -240,6 +240,12 @@ export async function applyClicToPayStatusToTransaction(params: {
     throw new Error('Transaction ClicToPay introuvable.');
   }
 
+  // Idempotency: if already final, return current status without calling gateway
+  if (tx.status === 'ACCEPTED' || tx.status === 'REFUSED') {
+    logger.info({ orderRef: tx.orderRef, status: tx.status }, 'clictopay.apply_status.idempotent_skip');
+    return { updated: false, status: tx.status };
+  }
+
   const gatewayStatus = tx.providerRef
     ? await getOrderStatusByOrderId(tx.providerRef)
     : await getOrderStatusByOrderNumber(tx.orderRef);
@@ -290,7 +296,7 @@ export async function applyClicToPayStatusToTransaction(params: {
   }
 
   const isFailure = mappedStatus === 'REFUSED' || mappedStatus === 'ERROR';
-  const failureAlreadyNotified = previousStatus === 'REFUSED' || previousStatus === 'ERROR';
+  const failureAlreadyNotified = previousStatus === 'ERROR';
 
   if (isFailure && !failureAlreadyNotified) {
     const user = await prisma.user.findUnique({

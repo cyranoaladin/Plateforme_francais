@@ -429,12 +429,17 @@ model Chunk {
   sectionPath    String?
   page           Int?
   hash           String?                    @unique
+  level          String?
+  oeuvre         String?
+  parcours       String?
   createdAt      DateTime                   @default(now())
 
   @@index([docId])
   @@index([sourceType])
   @@index([authorityLevel])
   @@index([docType])
+  @@index([level])
+  @@index([oeuvre])
 }
 
 model LlmCostLog {

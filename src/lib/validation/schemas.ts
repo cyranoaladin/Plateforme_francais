@@ -55,6 +55,7 @@ export const oralSessionStartBodySchema = z.object({
   oeuvre: z.string().trim().min(1).max(200),
   extrait: z.string().trim().min(1).optional(),
   questionGrammaire: z.string().trim().min(1).optional(),
+  mode: z.enum(['SIMULATION', 'FREE_PRACTICE']).optional().default('SIMULATION'),
 });
 
 export const oralSessionInteractBodySchema = z.object({
