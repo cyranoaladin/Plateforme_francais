@@ -12,20 +12,22 @@ import { parseJsonBody } from '@/lib/validation/request';
 import { loginBodySchema } from '@/lib/validation/schemas';
 
 export async function POST(request: Request) {
-  const limit = await checkRateLimit({
-    request,
-    key: 'auth:login',
-    limit: 10,
-  });
+  if (process.env.E2E_DISABLE_RATE_LIMIT !== '1') {
+    const limit = await checkRateLimit({
+      request,
+      key: 'auth:login',
+      limit: 10,
+    });
 
-  if (!limit.allowed) {
-    return NextResponse.json(
-      { error: 'Trop de tentatives. Réessayez plus tard.' },
-      {
-        status: 429,
-        headers: { 'Retry-After': String(limit.retryAfter) },
-      },
-    );
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'Trop de tentatives. Réessayez plus tard.' },
+        {
+          status: 429,
+          headers: { 'Retry-After': String(limit.retryAfter) },
+        },
+      );
+    }
   }
 
   const parsed = await parseJsonBody(request, loginBodySchema);

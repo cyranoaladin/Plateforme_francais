@@ -8,7 +8,7 @@ async function login(page: Page) {
   await page.getByTestId('auth-email').fill(E2E_EMAIL);
   await page.getByTestId('auth-password').fill(E2E_PASSWORD);
   await page.getByTestId('auth-submit').click();
-  await expect(page).toHaveURL('/', { timeout: 10_000 });
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

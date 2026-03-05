@@ -290,18 +290,10 @@ export async function generateDocument(options: GeneratePDFOptions): Promise<Gen
 
   if (await isDatabaseAvailable()) {
     try {
-      type StudentProfileLookup = (args: {
-        where: { userId: string };
-        select: { id: true };
-      }) => Promise<{ id: string } | null>;
-      const profileLookup = (prisma as { studentProfile?: { findUnique?: StudentProfileLookup } }).studentProfile
-        ?.findUnique;
-      const profile = profileLookup
-        ? await profileLookup({
-            where: { userId: options.userId },
-            select: { id: true },
-          })
-        : null;
+      const profile = await prisma.studentProfile.findUnique({
+        where: { userId: options.userId },
+        select: { id: true },
+      });
 
       if (!profile?.id) {
         logger.warn(

@@ -5,7 +5,7 @@ async function login(page: Page) {
   await page.getByTestId('auth-email').fill(process.env.E2E_USER_EMAIL ?? 'jean@eaf.local');
   await page.getByTestId('auth-password').fill(process.env.E2E_USER_PASSWORD ?? 'demo1234');
   await page.getByTestId('auth-submit').click();
-  await expect(page).toHaveURL(/.*(?<!login)$/); // URL should NOT end with login
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 }
 
 test('Sélection œuvre → démarrage simulation → affichage extrait', async ({ page }) => {
@@ -16,6 +16,7 @@ test('Sélection œuvre → démarrage simulation → affichage extrait', async 
   await login(page);
   await page.goto('/atelier-oral');
 
+  await page.getByTestId('mode-practice-btn').click();
   await page.getByTestId('oeuvre-select').selectOption({ index: 1 });
   await page.getByTestId('start-session-btn').click();
 

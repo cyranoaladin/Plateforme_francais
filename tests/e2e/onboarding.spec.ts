@@ -10,7 +10,7 @@ async function registerAndLogin(page: Page) {
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);
   await page.getByTestId('auth-submit').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 }
 
 test('Inscription → onboarding wizard → dashboard personnalisé', async ({ page }) => {
@@ -26,6 +26,6 @@ test('Inscription → onboarding wizard → dashboard personnalisé', async ({ p
   await page.getByRole('button', { name: /suivant/i }).click();
 
   await page.getByRole('button', { name: /générer mon parcours|terminer/i }).click();
-  await expect(page).toHaveURL('/', { timeout: 15_000 });
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
   await expect(page.getByRole('heading', { name: /Tableau de bord/i })).toBeVisible();
 });

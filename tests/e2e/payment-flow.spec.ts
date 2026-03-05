@@ -30,7 +30,7 @@ test.describe('Payment Flow E2E', () => {
     await page.getByTestId('auth-email').fill('jean@eaf.local');
     await page.getByTestId('auth-password').fill('demo1234');
     await page.getByTestId('auth-submit').click();
-    await expect(page).toHaveURL('/', { timeout: 10000 });
+    await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 
     // Navigate to pricing
     await page.goto('/pricing');
@@ -61,7 +61,7 @@ test.describe('Payment Flow E2E', () => {
     await page.getByTestId('auth-email').fill('jean@eaf.local');
     await page.getByTestId('auth-password').fill('demo1234');
     await page.getByTestId('auth-submit').click();
-    await expect(page).toHaveURL('/', { timeout: 10000 });
+    await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 
     // Try to access a premium feature (should show paywall if FREE plan)
     await page.goto('/atelier-oral');
@@ -88,7 +88,7 @@ test.describe('Payment - User Journey', () => {
     await page.getByTestId('auth-email').fill('jean@eaf.local');
     await page.getByTestId('auth-password').fill('demo1234');
     await page.getByTestId('auth-submit').click();
-    await expect(page).toHaveURL('/', { timeout: 10000 });
+    await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 
     // Go to pricing
     await page.goto('/pricing');

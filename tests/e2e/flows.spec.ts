@@ -5,7 +5,7 @@ async function login(page: Page, email = 'jean@eaf.local', password = 'demo1234'
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);
   await page.getByTestId('auth-submit').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 }
 
 async function registerAndLogin(page: Page) {
@@ -18,7 +18,7 @@ async function registerAndLogin(page: Page) {
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);
   await page.getByTestId('auth-submit').click();
-  await expect(page).toHaveURL('/');
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 
   return { email, password };
 }
@@ -44,10 +44,10 @@ test('upload copie puis polling jusqu au statut done', async ({ page }) => {
   await page.locator('input[type="file"]').first().setInputFiles(fixturePath);
 
   await page.getByRole('button', { name: 'Lancer la correction IA' }).click();
-  await expect(page.getByText(/Correction en cours par l'IA/)).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText(/Analyse IA en cours|Correction en cours/)).toBeVisible({ timeout: 20_000 });
 
-  await expect(page.getByRole('link', { name: 'Voir mon rapport de correction' })).toBeVisible({ timeout: 90000 });
-  await page.getByRole('link', { name: 'Voir mon rapport de correction' }).click();
+  await expect(page.getByRole('link', { name: /Voir mon rapport/i })).toBeVisible({ timeout: 90000 });
+  await page.getByRole('link', { name: /Voir mon rapport/i }).click();
   await expect(page.getByRole('heading', { name: 'Rapport de correction' })).toBeVisible();
 });
 
@@ -69,7 +69,7 @@ test('parcours onboarding puis quiz puis oral simulé', async ({ page }) => {
   await page.getByRole('button', { name: 'Suivant' }).click();
   await page.getByRole('button', { name: 'Terminer' }).click();
 
-  await expect(page).toHaveURL('/', { timeout: 10000 });
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
   await expect(page.getByRole('heading', { name: 'Tableau de bord' }).first()).toBeVisible();
 
   await page.goto('/quiz');
@@ -180,6 +180,7 @@ test('démarrer session orale → tirage affiche un extrait et le chrono de 30 m
   await login(page);
   await page.goto('/atelier-oral');
 
+  await page.getByTestId('mode-practice-btn').click();
   const oeuvreSelect = page.locator('select').first();
   await oeuvreSelect.selectOption({ index: 1 });
 

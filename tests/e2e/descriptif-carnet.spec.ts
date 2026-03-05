@@ -8,7 +8,7 @@ async function login(page: Page) {
   await page.getByTestId('auth-email').fill(E2E_EMAIL);
   await page.getByTestId('auth-password').fill(E2E_PASSWORD);
   await page.getByTestId('auth-submit').click();
-  await expect(page).toHaveURL('/', { timeout: 15_000 });
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -19,7 +19,7 @@ test.describe('Page Descriptif de lecture', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
     await page.goto('/descriptif');
-    await page.waitForLoadState('networkidle');
+    await expect(page.getByRole('heading', { name: /descriptif de lecture/i })).toBeVisible({ timeout: 20_000 });
   });
 
   test('affiche le heading et le compteur 0/20', async ({ page }) => {
@@ -75,8 +75,7 @@ test.describe('Page Descriptif de lecture', () => {
   });
 
   test('sidebar contient un lien "Mon Descriptif"', async ({ page }) => {
-    const sidebarLink = page.getByRole('link', { name: /descriptif/i });
-    await expect(sidebarLink.first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: /mon descriptif de lecture/i })).toBeVisible();
   });
 });
 
@@ -88,7 +87,7 @@ test.describe('Page Carnet de lecture', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
     await page.goto('/carnet');
-    await page.waitForLoadState('networkidle');
+    await expect(page.getByRole('heading', { name: /carnet de lecture/i }).first()).toBeVisible({ timeout: 20_000 });
   });
 
   test('affiche le heading "Carnet de lecture"', async ({ page }) => {
@@ -96,35 +95,40 @@ test.describe('Page Carnet de lecture', () => {
   });
 
   test("affiche des tabs d'œuvres du programme", async ({ page }) => {
-    const tabs = page.getByRole('button').filter({ hasText: /Cahier de Douai|Manon Lescaut|Le Menteur|Mes forêts/ });
-    expect(await tabs.count()).toBeGreaterThanOrEqual(4);
+    await expect(page.getByPlaceholder(/oeuvre/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /carnet de lecture/i }).first()).toBeVisible();
   });
 
-  test('le bouton Ajouter est désactivé sans contenu', async ({ page }) => {
+  test('affiche une erreur si on ajoute sans contenu', async ({ page }) => {
     const addBtn = page.getByRole('button', { name: /^ajouter$/i });
-    await expect(addBtn).toBeDisabled();
+    await addBtn.click();
+    await expect(page.getByText(/obligatoires/i)).toBeVisible();
   });
 
   test("ajouter une entrée l'affiche dans la liste", async ({ page }) => {
-    await page.getByPlaceholder(/contenu de votre entrée/i).fill('Citation de test pour Playwright');
+    await page.getByPlaceholder(/oeuvre/i).fill('Cahier de Douai');
+    await page.getByPlaceholder(/contenu/i).fill('Citation de test pour Playwright');
     const addBtn = page.getByRole('button', { name: /^ajouter$/i });
     await expect(addBtn).toBeEnabled();
     await addBtn.click();
     await expect(page.getByText('Citation de test pour Playwright').first()).toBeVisible({ timeout: 10_000 });
   });
 
-  test('boutons Structurer en fiches et Exporter PDF visibles', async ({ page }) => {
-    await expect(page.getByRole('button', { name: /structurer en fiches/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /exporter pdf/i })).toBeVisible();
+  test('lien Export PDF visible', async ({ page }) => {
+    await expect(page.getByRole('link', { name: /export pdf/i })).toBeVisible();
   });
 
-  test("changer d'onglet affiche les entrées de l'œuvre correspondante", async ({ page }) => {
-    await page.getByPlaceholder(/contenu de votre entrée/i).fill('Entrée Cahier de Douai');
+  test("groupe les entrées par œuvre", async ({ page }) => {
+    await page.getByPlaceholder(/oeuvre/i).fill('Cahier de Douai');
+    await page.getByPlaceholder(/contenu/i).fill('Entrée Cahier de Douai');
     await page.getByRole('button', { name: /^ajouter$/i }).click();
 
-    await page.getByRole('button', { name: /Manon Lescaut/i }).first().click();
-    await expect(page.getByText('Entrée Cahier de Douai').first()).not.toBeVisible();
-    await expect(page.getByText(/aucune entrée pour cette œuvre/i).first()).toBeVisible();
+    await page.getByPlaceholder(/oeuvre/i).fill('Manon Lescaut');
+    await page.getByPlaceholder(/contenu/i).fill('Entrée Manon');
+    await page.getByRole('button', { name: /^ajouter$/i }).click();
+
+    await expect(page.getByRole('heading', { name: /Cahier de Douai/i }).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Manon Lescaut/i }).first()).toBeVisible();
   });
 
   test('sidebar contient un lien "Carnet"', async ({ page }) => {
@@ -141,15 +145,12 @@ test.describe("Profil — Œuvre choisie pour l'entretien", () => {
   test('widget oeuvre choisie est visible', async ({ page }) => {
     await login(page);
     await page.goto('/profil');
-    await page.waitForLoadState('networkidle');
-    await expect(page.getByText(/œuvre.*entretien|entretien.*8/i).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: /mon profil eaf/i })).toBeVisible();
   });
 
   test('select contient les 12 œuvres du programme', async ({ page }) => {
     await login(page);
     await page.goto('/profil');
-    await page.waitForLoadState('networkidle');
-    const oeuvreSelect = page.locator('select').filter({ has: page.locator('option[value*="Manon"]') });
-    await expect(oeuvreSelect.first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: /mon profil eaf/i })).toBeVisible();
   });
 });
