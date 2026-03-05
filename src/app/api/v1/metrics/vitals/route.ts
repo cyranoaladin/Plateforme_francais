@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
 import { z } from 'zod';
+import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 
 const VitalSchema = z.object({
@@ -14,7 +13,7 @@ const VitalSchema = z.object({
 
 /**
  * POST /api/v1/metrics/vitals
- * Reçoit les Web Vitals du client et les persiste dans un fichier local.
+ * Reçoit les Web Vitals du client et les persiste en base de données.
  */
 export async function POST(request: Request) {
   let body;
@@ -31,18 +30,15 @@ export async function POST(request: Request) {
   }
 
   try {
-    const logDir = path.join(process.cwd(), '.data', 'metrics');
-    const logFile = path.join(logDir, 'vitals.log');
-
-    await fs.mkdir(logDir, { recursive: true });
-
-    const logEntry = {
-      ...result.data,
-      timestamp: new Date().toISOString(),
-      userAgent: request.headers.get('user-agent') ?? 'unknown',
-    };
-
-    await fs.appendFile(logFile, JSON.stringify(logEntry) + '\n');
+    await prisma.webVital.create({
+      data: {
+        name: result.data.name,
+        value: result.data.value,
+        rating: result.data.rating ?? null,
+        navigationType: result.data.navigationType ?? null,
+        userAgent: request.headers.get('user-agent') ?? 'unknown',
+      },
+    });
 
     return NextResponse.json({ ok: true });
   } catch (error) {

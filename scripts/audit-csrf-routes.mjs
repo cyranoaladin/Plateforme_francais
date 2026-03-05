@@ -11,6 +11,7 @@ const EXEMPT_POST_ROUTES = new Set([
   'src/app/api/v1/cron/weekly-reports/route.ts',
   'src/app/api/v1/metrics/vitals/route.ts',
   'src/app/api/v1/payments/clictopay/callback/route.ts',
+  'src/app/api/v1/student/descriptif/route.ts', // re-exports from recapitulatif (has validateCsrf)
 ]);
 
 const MUTATIVE_METHODS = ['POST', 'PUT', 'PATCH', 'DELETE'];
@@ -35,15 +36,30 @@ function asRepoPath(abs) {
 }
 
 function hasMutativeHandler(content) {
-  return MUTATIVE_METHODS.some((m) => content.includes(`export async function ${m}`));
+  return MUTATIVE_METHODS.some((m) => (
+    content.includes(`export async function ${m}`) ||
+    content.includes(`export const ${m} =`) ||
+    content.includes(`export const ${m}=`) ||
+    new RegExp(`export\\s*\\{[^}]*\\b${m}\\b[^}]*\\}`).test(content)
+  ));
 }
 
 function isExempt(repoPath, content) {
-  if (!content.includes('export async function POST')) {
+  const hasPost =
+    content.includes('export async function POST') ||
+    content.includes('export const POST =') ||
+    content.includes('export const POST=') ||
+    /export\s*\{[^}]*\bPOST\b[^}]*\}/.test(content);
+  if (!hasPost) {
     return false;
   }
   return EXEMPT_POST_ROUTES.has(repoPath);
 }
+
+const CRON_ROUTES = new Set([
+  'src/app/api/v1/cron/revision-reminders/route.ts',
+  'src/app/api/v1/cron/weekly-reports/route.ts',
+]);
 
 const violations = [];
 const routeFiles = walk(API_ROOT);
@@ -62,6 +78,15 @@ for (const abs of routeFiles) {
   if (!hasMutativeHandler(content)) {
     continue;
   }
+
+  // Cron routes: must use CRON_SECRET, not CSRF
+  if (CRON_ROUTES.has(repoPath)) {
+    if (!content.includes('validateCronSecret') && !content.includes('CRON_SECRET')) {
+      violations.push(`${repoPath} [CRON SANS AUTH]`);
+    }
+    continue;
+  }
+
   if (isExempt(repoPath, content)) {
     continue;
   }

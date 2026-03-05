@@ -1,7 +1,34 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { applyClicToPayStatusToTransaction } from '@/lib/payments/clictopay';
+import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
+
+/* ─── IP Allowlist ─── */
+const CLICTOPAY_IP_ALLOWLIST = (process.env.CLICTOPAY_IP_ALLOWLIST ?? '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+function isIpAllowed(clientIp: string): boolean {
+  if (CLICTOPAY_IP_ALLOWLIST.length === 0) return true; // not configured = allow all
+  return CLICTOPAY_IP_ALLOWLIST.some((allowed) => {
+    if (allowed.includes('/')) {
+      // Simple CIDR match (IPv4 only)
+      const [subnet, bits] = allowed.split('/');
+      const mask = ~((1 << (32 - Number(bits))) - 1) >>> 0;
+      const subnetNum = ipToNum(subnet!);
+      const clientNum = ipToNum(clientIp);
+      return (subnetNum & mask) === (clientNum & mask);
+    }
+    return allowed === clientIp;
+  });
+}
+
+function ipToNum(ip: string): number {
+  const parts = ip.split('.').map(Number);
+  return ((parts[0]! << 24) | (parts[1]! << 16) | (parts[2]! << 8) | parts[3]!) >>> 0;
+}
 
 /**
  * Vérifie la signature ClicToPay si CLICTOPAY_WEBHOOK_SECRET est défini.
@@ -47,9 +74,17 @@ function verifyClicToPaySignature(params: Record<string, string>): boolean {
  */
 export async function POST(request: Request) {
   try {
+    // 1. IP Allowlist
+    const clientIp = (request.headers.get('x-forwarded-for') ?? '').split(',')[0]?.trim() ?? '';
+    if (!isIpAllowed(clientIp)) {
+      logger.warn({ clientIp }, 'clictopay.callback.ip_blocked');
+      return NextResponse.json({ error: 'Forbidden.' }, { status: 403 });
+    }
+
     const text = await request.text();
     const params = Object.fromEntries(new URLSearchParams(text));
 
+    // 2. HMAC signature verification
     if (!verifyClicToPaySignature(params)) {
       logger.warn({ params }, 'clictopay.callback.invalid_signature');
       return NextResponse.json({ error: 'Signature invalide.' }, { status: 401 });
@@ -60,6 +95,21 @@ export async function POST(request: Request) {
 
     if (!orderRef && !orderId) {
       return NextResponse.json({ error: 'Paramètres manquants.' }, { status: 400 });
+    }
+
+    // 3. Idempotence: if this transaction was already processed, return early
+    if (orderRef) {
+      try {
+        const existing = await prisma.paymentTransaction.findFirst({
+          where: { orderRef, status: 'ACCEPTED' },
+        });
+        if (existing) {
+          logger.info({ orderRef }, 'clictopay.callback.idempotent_skip');
+          return NextResponse.json({ ok: true, idempotent: true, status: 'ACCEPTED' });
+        }
+      } catch {
+        // Non-blocking: proceed with normal flow if DB check fails
+      }
     }
 
     const result = await applyClicToPayStatusToTransaction({

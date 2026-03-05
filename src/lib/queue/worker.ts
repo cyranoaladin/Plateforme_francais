@@ -40,5 +40,22 @@ export function startCorrectionWorker() {
         logger.error({ error: err }, 'worker.redis_error');
     });
 
+    // Graceful shutdown: finish in-flight jobs before exiting (PM2 blue-green / Docker)
+    async function gracefulShutdown(signal: string) {
+        logger.info(`[CorrectionWorker] Signal ${signal} reçu. Fermeture gracieuse...`);
+        await worker.pause();
+        const forceTimeout = setTimeout(() => {
+            logger.error('[CorrectionWorker] Timeout arrêt gracieux (30s). Arrêt forcé.');
+            process.exit(1);
+        }, 30_000);
+        await worker.close();
+        clearTimeout(forceTimeout);
+        logger.info('[CorrectionWorker] Worker fermé proprement.');
+        process.exit(0);
+    }
+
+    process.on('SIGTERM', () => void gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => void gracefulShutdown('SIGINT'));
+
     return worker;
 }

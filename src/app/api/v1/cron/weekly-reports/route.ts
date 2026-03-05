@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { generateWeeklyReport } from '@/lib/agents/rapport-auto';
@@ -6,8 +7,16 @@ import { logger } from '@/lib/logger';
 export const maxDuration = 300;
 
 export async function POST(request: Request) {
-  const secret = request.headers.get('x-cron-secret');
-  if (secret !== process.env.CRON_SECRET) {
+  const expected = process.env.CRON_SECRET;
+  if (!expected) {
+    logger.error('CRON_SECRET not configured');
+    return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 });
+  }
+  const secret = request.headers.get('x-cron-secret') ?? '';
+  if (
+    secret.length !== expected.length ||
+    !timingSafeEqual(Buffer.from(secret), Buffer.from(expected))
+  ) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

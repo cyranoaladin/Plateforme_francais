@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
@@ -74,9 +74,14 @@ class S3StorageProvider implements StorageProvider {
         return getSignedUrl(this.client, command, { expiresIn });
     }
 
-    async deleteFile(_key: string): Promise<void> {
-        void _key;
-        // Implement delete if needed
+    async deleteFile(key: string): Promise<void> {
+        await this.client.send(
+            new DeleteObjectCommand({
+                Bucket: this.bucket,
+                Key: key,
+            })
+        );
+        logger.info({ key, bucket: this.bucket }, 'storage.s3.delete');
     }
 }
 

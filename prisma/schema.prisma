@@ -722,6 +722,18 @@ model DescriptifTexte {
   @@index([studentId, objetEtude])
 }
 
+model WebVital {
+  id             String   @id @default(cuid())
+  name           String   // LCP, FID, CLS, TTFB, INP
+  value          Float
+  rating         String?  // good, needs-improvement, poor
+  navigationType String?
+  userAgent      String?
+  createdAt      DateTime @default(now())
+
+  @@index([name, createdAt])
+}
+
 model CarnetEntry {
   id        String         @id @default(uuid())
   studentId String
