@@ -14,9 +14,9 @@ test('Question légitime → réponse tuteur + citations éventuelles', async ({
   await page.goto('/tuteur');
 
   await page.getByRole('textbox').fill('Comment analyser une métaphore dans un poème de Rimbaud ?');
-  await page.getByRole('button', { name: /envoyer|send/i }).click();
+  await page.locator('form button[type="submit"]').click();
 
-  const assistant = page.locator('[data-role="assistant"], .message-assistant').last();
+  const assistant = page.locator('[role="status"]').last();
   await expect(assistant).toBeVisible({ timeout: 30_000 });
   const text = await assistant.textContent();
   expect((text ?? '').length).toBeGreaterThan(20);

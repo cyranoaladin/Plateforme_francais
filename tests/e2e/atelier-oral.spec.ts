@@ -21,5 +21,5 @@ test('Sélection œuvre → démarrage simulation → affichage extrait', async 
   await page.getByTestId('start-session-btn').click();
 
   await expect(page.getByTestId('extrait-texte')).toBeVisible({ timeout: 20_000 });
-  await expect(page.getByText(/Préparation|30:00|29:/i)).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText(/Préparation|Mode libre/i).first()).toBeVisible({ timeout: 20_000 });
 });
