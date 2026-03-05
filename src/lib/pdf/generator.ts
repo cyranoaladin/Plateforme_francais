@@ -290,10 +290,29 @@ export async function generateDocument(options: GeneratePDFOptions): Promise<Gen
 
   if (await isDatabaseAvailable()) {
     try {
+      type StudentProfileLookup = (args: {
+        where: { userId: string };
+        select: { id: true };
+      }) => Promise<{ id: string } | null>;
+      const profileLookup = (prisma as { studentProfile?: { findUnique?: StudentProfileLookup } }).studentProfile
+        ?.findUnique;
+      const profile = profileLookup
+        ? await profileLookup({
+            where: { userId: options.userId },
+            select: { id: true },
+          })
+        : null;
+
+      if (!profile?.id) {
+        logger.warn(
+          { userId: options.userId, filename: options.filename },
+          'pdf.generator.profile_not_found_skip_deposit',
+        );
+      } else {
       await prisma.documentDeposit.create({
         data: {
           id: randomUUID(),
-          profileId: options.userId,
+          profileId: profile.id,
           filename: options.filename,
           fileType: 'html',
           fileSize: Buffer.byteLength(html, 'utf-8'),
@@ -302,6 +321,7 @@ export async function generateDocument(options: GeneratePDFOptions): Promise<Gen
           depositType: 'RESSOURCE',
         },
       });
+      }
     } catch (error) {
       logger.error({ userId: options.userId, filename: options.filename, error }, 'pdf.generator.deposit_save_error');
     }

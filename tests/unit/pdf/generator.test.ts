@@ -9,9 +9,22 @@ import { PDFTemplate } from '@/lib/pdf/generator';
  * the rendering logic and document metadata in isolation.
  */
 
+const {
+  isDatabaseAvailableMock,
+  studentProfileFindUniqueMock,
+  documentDepositCreateMock,
+} = vi.hoisted(() => ({
+  isDatabaseAvailableMock: vi.fn().mockResolvedValue(false),
+  studentProfileFindUniqueMock: vi.fn(),
+  documentDepositCreateMock: vi.fn(),
+}));
+
 vi.mock('@/lib/db/client', () => ({
-  isDatabaseAvailable: vi.fn().mockResolvedValue(false),
-  prisma: { documentDeposit: { create: vi.fn() } },
+  isDatabaseAvailable: isDatabaseAvailableMock,
+  prisma: {
+    studentProfile: { findUnique: studentProfileFindUniqueMock },
+    documentDeposit: { create: documentDepositCreateMock },
+  },
 }));
 
 vi.mock('@/lib/logger', () => ({
@@ -51,6 +64,9 @@ describe('generateDocument (mocked FS)', () => {
   let generateDocument: typeof import('@/lib/pdf/generator').generateDocument;
 
   beforeEach(async () => {
+    isDatabaseAvailableMock.mockResolvedValue(false);
+    studentProfileFindUniqueMock.mockReset();
+    documentDepositCreateMock.mockReset();
     const mod = await import('@/lib/pdf/generator');
     generateDocument = mod.generateDocument;
   });
@@ -153,6 +169,31 @@ describe('generateDocument (mocked FS)', () => {
     expect(result).toHaveProperty('html');
     expect(typeof result.html).toBe('string');
     expect(result.html.length).toBeGreaterThan(0);
+  });
+
+  it('stocke le document avec profileId résolu depuis userId', async () => {
+    isDatabaseAvailableMock.mockResolvedValueOnce(true);
+    studentProfileFindUniqueMock.mockResolvedValueOnce({ id: 'profile-123' });
+
+    await generateDocument({
+      template: PDFTemplate.BILAN_ORAL,
+      data: { title: 'Test', note: 10, maxNote: 20, mention: 'Passable' },
+      userId: 'user-123',
+      filename: 'test-doc',
+    });
+
+    expect(studentProfileFindUniqueMock).toHaveBeenCalledWith({
+      where: { userId: 'user-123' },
+      select: { id: true },
+    });
+    expect(documentDepositCreateMock).toHaveBeenCalledTimes(1);
+    expect(documentDepositCreateMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          profileId: 'profile-123',
+        }),
+      }),
+    );
   });
 });
 
