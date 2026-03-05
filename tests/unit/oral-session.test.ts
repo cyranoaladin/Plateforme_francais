@@ -28,6 +28,38 @@ vi.mock('@/lib/logger', () => ({
   logger: { warn: vi.fn(), info: vi.fn(), error: vi.fn() },
 }));
 
+vi.mock('@/lib/db/client', () => ({
+  prisma: {
+    studentProfile: {
+      findUnique: vi.fn().mockResolvedValue({
+        userId: 'user-test',
+        descriptifTextes: [
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 1' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 2' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 3' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 4' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 5' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 6' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 7' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 8' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 9' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 10' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 11' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 12' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 13' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 14' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 15' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 16' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 17' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 18' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 19' },
+          { oeuvre: 'Le Mariage forcé', titre: 'Texte 20' },
+        ],
+      }),
+    },
+  },
+}));
+
 vi.mock('@/data/extraits-oeuvres', () => ({
   EXTRAITS_OEUVRES: [
     {
@@ -41,14 +73,22 @@ vi.mock('@/data/extraits-oeuvres', () => ({
 describe('Oral Service', () => {
   it('pickOralExtrait retourne un extrait valide', async () => {
     const { pickOralExtrait } = await import('@/lib/oral/service');
-    const result = pickOralExtrait('Le Mariage forcé');
+    const result = await pickOralExtrait({
+      oeuvre: 'Le Mariage forcé',
+      userId: 'user-test',
+      mode: 'SIMULATION',
+    });
     expect(result.texte).toBe('Extrait test.');
     expect(result.questionGrammaire).toBe('Question test.');
   });
 
   it('pickOralExtrait retourne un fallback pour oeuvre inconnue', async () => {
     const { pickOralExtrait } = await import('@/lib/oral/service');
-    const result = pickOralExtrait('Oeuvre inexistante');
+    const result = await pickOralExtrait({
+      oeuvre: 'Oeuvre inexistante',
+      userId: 'user-test',
+      mode: 'FREE_PRACTICE',
+    });
     expect(result.texte).toBeTruthy();
     expect(result.questionGrammaire).toBeTruthy();
   });

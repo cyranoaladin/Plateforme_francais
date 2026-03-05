@@ -28,7 +28,7 @@ test.describe('Navigation principale', () => {
 
     for (const route of routes) {
       await page.goto(route);
-      await expect(page.getByRole('main')).toBeVisible({ timeout: 10_000 });
+      await expect(page.locator('main').first()).toBeVisible({ timeout: 10_000 });
       const title = await page.title();
       expect(title.toLowerCase()).not.toContain('404');
       expect(title.toLowerCase()).not.toContain('erreur');

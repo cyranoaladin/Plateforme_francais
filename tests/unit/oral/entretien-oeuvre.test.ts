@@ -1,22 +1,14 @@
 import { describe, it, expect, vi } from 'vitest';
 
-vi.mock('@/lib/llm/factory', () => ({
-  getRouterProvider: () => ({
-    generateContent: vi.fn().mockResolvedValue({
-      content: JSON.stringify({
-        feedback: 'Bonne présentation.',
-        score: 7,
-        max: 8,
-        points_forts: ['Maîtrise du propos'],
-        axes: ['Approfondir le contexte'],
-        relance: "Qu'est-ce qui vous a touché dans cette œuvre ?",
-      }),
-    }),
+vi.mock('@/lib/llm/orchestrator', () => ({
+  orchestrate: vi.fn().mockResolvedValue({
+    feedback: 'Bonne présentation.',
+    score: 7,
+    max: 8,
+    points_forts: ['Maîtrise du propos'],
+    axes: ['Approfondir le contexte'],
+    relance: "Qu'est-ce qui vous a touché dans cette œuvre ?",
   }),
-}));
-
-vi.mock('@/lib/llm/token-estimate', () => ({
-  estimateTokens: vi.fn().mockReturnValue(200),
 }));
 
 vi.mock('@/lib/logger', () => ({

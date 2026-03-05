@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const isDatabaseAvailableMock = vi.fn();
-const queryRawUnsafeMock = vi.fn();
+const queryRawMock = vi.fn();
 const getEmbeddingsMock = vi.fn();
 
 vi.mock('@/lib/db/client', () => ({
   isDatabaseAvailable: isDatabaseAvailableMock,
   prisma: {
-    $queryRawUnsafe: queryRawUnsafeMock,
+    $queryRaw: queryRawMock,
   },
 }));
 
@@ -21,14 +21,14 @@ describe('vectorSearch', () => {
   beforeEach(() => {
     vi.resetModules();
     isDatabaseAvailableMock.mockReset();
-    queryRawUnsafeMock.mockReset();
+    queryRawMock.mockReset();
     getEmbeddingsMock.mockReset();
   });
 
   it('retourne les chunks et distances depuis pgvector', async () => {
     isDatabaseAvailableMock.mockResolvedValueOnce(true);
     getEmbeddingsMock.mockResolvedValueOnce([0.12, 0.34, 0.56]);
-    queryRawUnsafeMock.mockResolvedValueOnce([
+    queryRawMock.mockResolvedValueOnce([
       {
         id: 'c1',
         docId: 'd1',

@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const e2ePort = Number(process.env.E2E_PORT ?? '3110');
-const e2eBaseUrl = `http://127.0.0.1:${e2ePort}`;
+const e2eBaseUrl = process.env.E2E_BASE_URL ?? `http://127.0.0.1:${e2ePort}`;
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -13,7 +13,7 @@ export default defineConfig({
   webServer: process.env.E2E_BASE_URL
     ? undefined
     : {
-      command: `sh -c "npm run db:seed && npm run build:ci && npm run start -- --hostname 127.0.0.1 --port ${e2ePort}"`,
+      command: `sh -c "npx prisma migrate deploy && npm run db:seed && npm run build:ci && npm run start -- --hostname 127.0.0.1 --port ${e2ePort}"`,
       url: e2eBaseUrl,
       reuseExistingServer: process.env.CI ? false : true,
       cwd: process.cwd(),

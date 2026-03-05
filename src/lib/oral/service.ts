@@ -140,6 +140,7 @@ export async function evaluateOralPhase(input: {
     return {
       ...result,
       score: clampPhaseScore(input.phase, result.score),
+      max: PHASE_MAX_SCORES[input.phase],
     };
   } catch (error) {
     logger.error({ error, phase: input.phase }, 'oral.evaluatePhase.failed');

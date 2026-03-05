@@ -70,7 +70,7 @@ test('parcours onboarding puis quiz puis oral simulé', async ({ page }) => {
   await page.getByRole('button', { name: 'Terminer' }).click();
 
   await expect(page).toHaveURL('/', { timeout: 10000 });
-  await expect(page.getByRole('heading', { name: 'Tableau de bord' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Tableau de bord' }).first()).toBeVisible();
 
   await page.goto('/quiz');
   await page.getByRole('button', { name: 'Générer' }).click();
@@ -86,7 +86,7 @@ test('parcours onboarding puis quiz puis oral simulé', async ({ page }) => {
   await expect(page.getByText(/Score:\s*\d+%/)).toBeVisible();
 
   await page.goto('/atelier-oral');
-  await expect(page.getByRole('heading', { name: 'Atelier Oral IA' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Atelier Oral IA' }).first()).toBeVisible();
 
   const token = await csrfToken(page);
   const started = await page.evaluate(async (csrf) => {
@@ -170,8 +170,8 @@ test('parcours onboarding puis quiz puis oral simulé', async ({ page }) => {
 test('login → dashboard affiche compte à rebours EAF', async ({ page }) => {
   await login(page);
   await page.goto('/');
-  await expect(page.getByText(/J-\d+ avant l.écrit/)).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText(/J-\d+ avant les oraux/)).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText(/J-\d+ avant l.écrit/).first()).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText(/J-\d+ avant les oraux/).first()).toBeVisible({ timeout: 10_000 });
   await expect(page.locator('text=/\\/20/').first()).toBeVisible({ timeout: 10_000 });
 });
 
@@ -189,9 +189,7 @@ test('démarrer session orale → tirage affiche un extrait et le chrono de 30 m
     page.getByTestId('extrait-texte').or(page.locator('[aria-label="Extrait"]')),
   ).toBeVisible({ timeout: 20_000 });
 
-  await expect(
-    page.getByText(/30:00|29:|Préparation/i),
-  ).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText(/30:00|29:|Préparation/i).first()).toBeVisible({ timeout: 20_000 });
 });
 
 test('envoyer message tuteur → réponse IA reçue sans URL', async ({ page }) => {

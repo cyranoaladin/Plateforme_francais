@@ -24,14 +24,14 @@ test.describe('Page Descriptif de lecture', () => {
 
   test('affiche le heading et le compteur 0/20', async ({ page }) => {
     await expect(page.getByRole('heading', { name: /descriptif de lecture/i })).toBeVisible();
-    await expect(page.getByText(/\/20/)).toBeVisible();
+    await expect(page.getByText(/0\/20 textes/i).first()).toBeVisible();
   });
 
   test("affiche les 4 sections par objet d'étude", async ({ page }) => {
-    await expect(page.getByText('Poésie')).toBeVisible();
-    await expect(page.getByText(/Littérature d.idées/)).toBeVisible();
-    await expect(page.getByText('Théâtre')).toBeVisible();
-    await expect(page.getByText('Roman')).toBeVisible();
+    await expect(page.getByText('Poésie').first()).toBeVisible();
+    await expect(page.getByText(/Littérature d.idées/).first()).toBeVisible();
+    await expect(page.getByText('Théâtre').first()).toBeVisible();
+    await expect(page.getByText('Roman').first()).toBeVisible();
   });
 
   test('le bouton Ajouter est désactivé sans titre', async ({ page }) => {
@@ -44,7 +44,7 @@ test.describe('Page Descriptif de lecture', () => {
     const addBtn = page.getByRole('button', { name: /ajouter/i }).first();
     await expect(addBtn).toBeEnabled();
     await addBtn.click();
-    await expect(page.getByText(/1\/20/)).toBeVisible();
+    await expect(page.getByText(/1\/20 textes/i).first()).toBeVisible();
   });
 
   test("changer l'objet d'étude met à jour la liste d'œuvres", async ({ page }) => {
@@ -58,15 +58,15 @@ test.describe('Page Descriptif de lecture', () => {
   test('supprimer un texte décrémente le compteur', async ({ page }) => {
     await page.getByPlaceholder(/titre du texte/i).fill('Test suppression');
     await page.getByRole('button', { name: /ajouter/i }).first().click();
-    await expect(page.getByText(/1\/20/)).toBeVisible();
+    await expect(page.getByText(/1\/20 textes/i).first()).toBeVisible();
     await page.getByRole('button', { name: /supprimer/i }).first().click();
-    await expect(page.getByText(/0\/20/)).toBeVisible();
+    await expect(page.getByText(/0\/20 textes/i).first()).toBeVisible();
   });
 
   test('affiche les warnings si règles non satisfaites', async ({ page }) => {
     await page.getByPlaceholder(/titre du texte/i).fill('Un seul texte');
     await page.getByRole('button', { name: /ajouter/i }).first().click();
-    await expect(page.getByText(/règles non satisfaites|insuffisant/i)).toBeVisible();
+    await expect(page.getByText(/règles non satisfaites|insuffisant/i).first()).toBeVisible();
   });
 
   test('bouton Sauvegarder désactivé si aucun texte', async ({ page }) => {
@@ -92,7 +92,7 @@ test.describe('Page Carnet de lecture', () => {
   });
 
   test('affiche le heading "Carnet de lecture"', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: /carnet de lecture/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /carnet de lecture/i }).first()).toBeVisible();
   });
 
   test("affiche des tabs d'œuvres du programme", async ({ page }) => {
@@ -110,7 +110,7 @@ test.describe('Page Carnet de lecture', () => {
     const addBtn = page.getByRole('button', { name: /^ajouter$/i });
     await expect(addBtn).toBeEnabled();
     await addBtn.click();
-    await expect(page.getByText('Citation de test pour Playwright')).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Citation de test pour Playwright').first()).toBeVisible({ timeout: 10_000 });
   });
 
   test('boutons Structurer en fiches et Exporter PDF visibles', async ({ page }) => {
@@ -123,8 +123,8 @@ test.describe('Page Carnet de lecture', () => {
     await page.getByRole('button', { name: /^ajouter$/i }).click();
 
     await page.getByRole('button', { name: /Manon Lescaut/i }).first().click();
-    await expect(page.getByText('Entrée Cahier de Douai')).not.toBeVisible();
-    await expect(page.getByText(/aucune entrée pour cette œuvre/i)).toBeVisible();
+    await expect(page.getByText('Entrée Cahier de Douai').first()).not.toBeVisible();
+    await expect(page.getByText(/aucune entrée pour cette œuvre/i).first()).toBeVisible();
   });
 
   test('sidebar contient un lien "Carnet"', async ({ page }) => {
@@ -142,7 +142,7 @@ test.describe("Profil — Œuvre choisie pour l'entretien", () => {
     await login(page);
     await page.goto('/profil');
     await page.waitForLoadState('networkidle');
-    await expect(page.getByText(/œuvre.*entretien|entretien.*8/i)).toBeVisible();
+    await expect(page.getByText(/œuvre.*entretien|entretien.*8/i).first()).toBeVisible();
   });
 
   test('select contient les 12 œuvres du programme', async ({ page }) => {

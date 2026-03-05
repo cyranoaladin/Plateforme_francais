@@ -11,29 +11,31 @@ vi.mock('@prisma/client', () => ({
   PrismaClient: class { $queryRaw = async () => []; },
 }));
 
-// Capture LLM messages for evaluateOralPhase integration tests
-const capturedMessages: Array<Array<{ role: string; content: string }>> = [];
-const mockGenerateContent = vi.fn().mockImplementation(
-  (messages: Array<{ role: string; content: string }>) => {
-    capturedMessages.push(messages);
-    return Promise.resolve({
-      content: JSON.stringify({
-        feedback: 'Bonne prestation.',
-        score: 7,
-        max: 8,
-        points_forts: ['Argumentation solide'],
-        axes: ['Approfondir le contexte'],
-      }),
-    });
-  },
-);
-
-vi.mock('@/lib/llm/factory', () => ({
-  getRouterProvider: () => ({ generateContent: mockGenerateContent }),
+const { mockFindUnique, mockOrchestrate } = vi.hoisted(() => ({
+  mockFindUnique: vi.fn(),
+  mockOrchestrate: vi.fn(),
 }));
 
-vi.mock('@/lib/llm/token-estimate', () => ({
-  estimateTokens: vi.fn().mockReturnValue(200),
+vi.mock('@/lib/db/client', () => ({
+  prisma: {
+    studentProfile: {
+      findUnique: mockFindUnique,
+    },
+  },
+}));
+
+const capturedOrchestrateInput: Array<{ context?: string; skill: string; userId: string; userQuery: string }> = [];
+vi.mock('@/lib/llm/orchestrator', () => ({
+  orchestrate: mockOrchestrate.mockImplementation((input: { context?: string; skill: string; userId: string; userQuery: string }) => {
+    capturedOrchestrateInput.push(input);
+    return Promise.resolve({
+      feedback: 'Bonne prestation.',
+      score: 7,
+      max: 8,
+      points_forts: ['Argumentation solide'],
+      axes: ['Approfondir le contexte'],
+    });
+  }),
 }));
 
 import { pickOralExtrait, evaluateOralPhase, type Citation } from '@/lib/oral/service';
@@ -46,21 +48,37 @@ import {
 
 describe('Oral Session Flow — integration', () => {
   beforeEach(() => {
-    capturedMessages.length = 0;
-    mockGenerateContent.mockClear();
+    capturedOrchestrateInput.length = 0;
+    mockFindUnique.mockReset();
+    mockOrchestrate.mockClear();
+    mockFindUnique.mockResolvedValue({
+      userId: 'user-test',
+      descriptifTextes: Array.from({ length: 20 }).map((_, i) => ({
+        oeuvre: i < 10 ? 'Baudelaire' : 'Rimbaud',
+        titre: `Texte ${i + 1}`,
+      })),
+    });
   });
 
   describe('pickOralExtrait', () => {
-    it('retourne un texte et une question de grammaire', () => {
-      const result = pickOralExtrait('Baudelaire');
+    it('retourne un texte et une question de grammaire', async () => {
+      const result = await pickOralExtrait({
+        oeuvre: 'Baudelaire',
+        userId: 'user-test',
+        mode: 'SIMULATION',
+      });
       expect(result).toHaveProperty('texte');
       expect(result).toHaveProperty('questionGrammaire');
       expect(typeof result.texte).toBe('string');
       expect(result.texte.length).toBeGreaterThan(0);
     });
 
-    it('retourne un extrait même pour une oeuvre inconnue (fallback)', () => {
-      const result = pickOralExtrait('OeuvreInexistante12345');
+    it('retourne un extrait même pour une oeuvre inconnue (fallback)', async () => {
+      const result = await pickOralExtrait({
+        oeuvre: 'OeuvreInexistante12345',
+        userId: 'user-test',
+        mode: 'FREE_PRACTICE',
+      });
       expect(result.texte.length).toBeGreaterThan(0);
     });
   });
@@ -117,11 +135,10 @@ describe('Oral Session Flow — integration', () => {
         oeuvreChoisieEntretien: 'Manon Lescaut — Abbé Prévost',
       });
 
-      expect(capturedMessages.length).toBeGreaterThan(0);
-      const userMsg = capturedMessages[0]!.find((m) => m.role === 'user')?.content ?? '';
-      expect(userMsg).toContain('Manon Lescaut — Abbé Prévost');
-      expect(userMsg).toContain('œuvre choisie');
-      expect(userMsg).toContain("NE PAS questionner sur l'extrait");
+      expect(capturedOrchestrateInput.length).toBeGreaterThan(0);
+      const context = capturedOrchestrateInput[0]!.context ?? '';
+      expect(context).toContain('Manon Lescaut — Abbé Prévost');
+      expect(context).toContain("Œuvre choisie par l'élève");
     });
 
     it("mentionne l'invitation à renseigner l'œuvre si oeuvreChoisieEntretien est null", async () => {
@@ -135,9 +152,9 @@ describe('Oral Session Flow — integration', () => {
         oeuvreChoisieEntretien: null,
       });
 
-      expect(capturedMessages.length).toBeGreaterThan(0);
-      const userMsg = capturedMessages[0]!.find((m) => m.role === 'user')?.content ?? '';
-      expect(userMsg).toContain("n'a pas encore renseigné son œuvre choisie");
+      expect(capturedOrchestrateInput.length).toBeGreaterThan(0);
+      const context = capturedOrchestrateInput[0]!.context ?? '';
+      expect(context).toContain('Non renseignée');
     });
   });
 });

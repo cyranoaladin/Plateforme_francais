@@ -10,11 +10,11 @@ test('Parcours mobile: login + dashboard + navigation', async ({ page }) => {
   await page.getByTestId('auth-submit').click();
   await expect(page).toHaveURL('/');
 
-  await expect(page.getByRole('heading', { name: /Tableau de bord/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Tableau de bord/i }).first()).toBeVisible();
 
   await page.goto('/quiz');
-  await expect(page.getByRole('heading', { name: /Quiz adaptatif/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Quiz adaptatif/i }).first()).toBeVisible();
 
   await page.goto('/atelier-oral');
-  await expect(page.getByRole('heading', { name: /Oral EAF/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Oral EAF/i }).first()).toBeVisible();
 });

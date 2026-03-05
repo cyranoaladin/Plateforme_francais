@@ -18,7 +18,7 @@ async function login(page: Page) {
 test.describe('Authentification', () => {
   test('login avec identifiants valides → dashboard', async ({ page }) => {
     await login(page);
-    await expect(page.getByRole('main')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
   });
 
   test('login avec mauvais mot de passe → message erreur', async ({ page }) => {
@@ -53,7 +53,7 @@ test.describe('Navigation principale', () => {
     await page.goto('/');
     await page.getByRole('link', { name: /bibliothèque/i }).click();
     await expect(page).toHaveURL(/\/bibliotheque/);
-    await expect(page.getByRole('main')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
   });
 
   test('clic Atelier Écrit → page Atelier Écrit', async ({ page }) => {
@@ -104,7 +104,7 @@ test.describe('Atelier Écrit', () => {
 
   test('la page Atelier Écrit charge correctement', async ({ page }) => {
     await page.goto('/atelier-ecrit');
-    await expect(page.getByRole('main')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
   });
 
   test('bouton générer une épreuve est présent', async ({ page }) => {
@@ -124,7 +124,7 @@ test.describe('Atelier Oral', () => {
 
   test('la page Atelier Oral charge correctement', async ({ page }) => {
     await page.goto('/atelier-oral');
-    await expect(page.getByRole('main')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
   });
 
   test('bouton démarrer simulation est visible', async ({ page }) => {
@@ -143,7 +143,7 @@ test.describe('Atelier Langue', () => {
 
   test('la page Atelier Langue charge', async ({ page }) => {
     await page.goto('/atelier-langue');
-    await expect(page.getByRole('main')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
   });
 
   test('soumettre une réponse → feedback reçu', async ({ page }) => {
@@ -168,7 +168,7 @@ test.describe('Tuteur Libre', () => {
 
   test('la page Tuteur charge', async ({ page }) => {
     await page.goto('/tuteur');
-    await expect(page.getByRole('main')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
   });
 
   test('envoyer un message au tuteur retourne une reponse', async ({ page }) => {
@@ -190,7 +190,7 @@ test.describe('Performance', () => {
   test('le dashboard charge en moins de 5 secondes', async ({ page }) => {
     const start = Date.now();
     await page.goto('/');
-    await expect(page.getByRole('main')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
     expect(Date.now() - start).toBeLessThan(5_000);
   });
 

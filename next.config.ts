@@ -6,23 +6,7 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url))
 
 const SECURITY_HEADERS = [
   { key: 'X-DNS-Prefetch-Control', value: 'on' },
-  {
-    // Baseline CSP; middleware injects runtime nonce for scripts.
-    key: 'Content-Security-Policy',
-    value: [
-      "default-src 'self'",
-      "script-src 'self'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob:",
-      "font-src 'self'",
-      "connect-src 'self' https://api.mistral.ai https://generativelanguage.googleapis.com https://api.openai.com",
-      "media-src 'self' blob: mediastream:",
-      "frame-src 'none'",
-      "frame-ancestors 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-    ].join('; '),
-  },
+  // CSP is handled in middleware to support runtime nonce/header logic.
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
