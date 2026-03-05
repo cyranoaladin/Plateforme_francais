@@ -32,6 +32,8 @@ env:
   CSRF_SECRET: "ci_csrf_secret_32chars_minimum_ok_here_now"
   COOKIE_SECURE: "false"
   NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+  NEXT_PUBLIC_API_URL: "http://localhost:3000/api/v1"
+  MISTRAL_API_KEY: "ci_mock_mistral_key_not_real"
 
 jobs:
   static-analysis:

@@ -13,6 +13,8 @@ env:
   SESSION_SECRET: "ci_session_secret_32chars_minimum_ok_here"
   CSRF_SECRET: "ci_csrf_secret_32chars_minimum_ok_here_now"
   NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+  NEXT_PUBLIC_API_URL: "http://localhost:3000/api/v1"
+  MISTRAL_API_KEY: "ci_mock_mistral_key_not_real"
   NODE_ENV: "test"
   COOKIE_SECURE: "false"
   LLM_ROUTER_ENABLED: "false"
@@ -38,7 +40,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:16-alpine
+        image: pgvector/pgvector:pg16
         env:
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
