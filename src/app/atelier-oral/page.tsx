@@ -29,6 +29,13 @@ type StepFeedback = {
   relance?: string;
 };
 
+type ExaminerProfile = 'BIENVEILLANT' | 'NEUTRE' | 'HOSTILE';
+
+type JuryTurn = {
+  role: 'jury' | 'eleve';
+  content: string;
+};
+
 type BilanResult = {
   note: number;
   maxNote: number;
@@ -178,6 +185,9 @@ export default function AtelierOralPage() {
   const [bilan, setBilan] = useState<BilanResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [badgeToasts, setBadgeToasts] = useState<string[]>([]);
+  const [examinerProfile, setExaminerProfile] = useState<ExaminerProfile>('NEUTRE');
+  const [juryTurns, setJuryTurns] = useState<JuryTurn[]>([]);
+  const [isJuryLoading, setIsJuryLoading] = useState(false);
 
   const stepStartRef = useRef<number>(Date.now());
   const sttRef = useRef<ReturnType<typeof createBrowserStt> | null>(null);
@@ -232,6 +242,8 @@ export default function AtelierOralPage() {
       setPrepChecklist(new Set());
       setBilan(null);
       setFeedbacks({ LECTURE: undefined, EXPLICATION: undefined, GRAMMAIRE: undefined, ENTRETIEN: undefined });
+      setExaminerProfile('NEUTRE');
+      setJuryTurns([]);
       stepStartRef.current = Date.now();
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Erreur inconnue.');
@@ -303,10 +315,50 @@ export default function AtelierOralPage() {
     }
   }, [session, currentStep, currentStepIndex, transcript, prepNotes, isMicOn]);
 
+  const askExaminerFollowUp = useCallback(async () => {
+    if (!session || currentStep !== 'ENTRETIEN' || transcript.trim().length === 0) {
+      return;
+    }
+
+    setIsJuryLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/v1/oral/jury-respond', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': getCsrfTokenFromDocument(),
+        },
+        body: JSON.stringify({
+          message: transcript,
+          oeuvreChoisie: session.oeuvreChoisie,
+          examinerProfile,
+          conversationHistory: juryTurns,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Impossible de générer une relance examinateur.');
+      }
+      const payload = (await response.json()) as { juryText: string };
+      setJuryTurns((prev) => [
+        ...prev,
+        { role: 'eleve', content: transcript },
+        { role: 'jury', content: payload.juryText },
+      ]);
+      speakText(payload.juryText);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Erreur inconnue.');
+    } finally {
+      setIsJuryLoading(false);
+    }
+  }, [currentStep, examinerProfile, juryTurns, session, transcript]);
+
   const resetAll = useCallback(() => {
     setSession(null);
     setBilan(null);
     setWizardPhase('TIRAGE');
+    setExaminerProfile('NEUTRE');
+    setJuryTurns([]);
   }, []);
 
   /* ──────────────────── Render ──────────────────── */
@@ -532,6 +584,48 @@ export default function AtelierOralPage() {
                   placeholder="Le transcript micro apparaît ici, vous pouvez le corriger avant envoi..."
                 />
               </div>
+
+              {currentStep === 'ENTRETIEN' && (
+                <div className="rounded-2xl border border-border bg-muted/20 p-4 space-y-3">
+                  <p className="text-sm font-semibold text-foreground">Simulation examinateur dialoguant</p>
+                  <div className="flex flex-wrap gap-2">
+                    {(['BIENVEILLANT', 'NEUTRE', 'HOSTILE'] as ExaminerProfile[]).map((profile) => (
+                      <button
+                        key={profile}
+                        type="button"
+                        onClick={() => setExaminerProfile(profile)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold border ${
+                          examinerProfile === profile
+                            ? 'border-purple-600 bg-purple-600 text-white'
+                            : 'border-border bg-card text-muted-foreground'
+                        }`}
+                      >
+                        {profile}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={askExaminerFollowUp}
+                    disabled={isJuryLoading || transcript.trim().length === 0}
+                    className="px-4 py-2 rounded-xl bg-card border border-border text-sm font-medium hover:bg-muted disabled:opacity-50 inline-flex items-center gap-2"
+                  >
+                    {isJuryLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Headphones className="w-4 h-4" />}
+                    Obtenir une relance examinateur
+                  </button>
+
+                  {juryTurns.length > 0 && (
+                    <div className="max-h-44 overflow-auto rounded-xl border border-border bg-card p-3 space-y-2">
+                      {juryTurns.slice(-6).map((turn, idx) => (
+                        <p key={`${turn.role}-${idx}`} className="text-xs text-foreground/90">
+                          <span className="font-semibold">{turn.role === 'jury' ? 'Examinateur' : 'Vous'} :</span> {turn.content}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="flex justify-center">
                 <button onClick={submitStep} disabled={isLoading || transcript.trim().length === 0} className="px-6 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 disabled:opacity-50 hover:bg-purple-700 transition-colors shadow-md">

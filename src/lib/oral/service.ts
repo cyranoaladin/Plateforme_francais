@@ -3,6 +3,7 @@ import { getRouterProvider } from '@/lib/llm/factory';
 import { estimateTokens } from '@/lib/llm/token-estimate';
 import type { ProviderChatMessage } from '@/lib/llm/provider';
 import { logger } from '@/lib/logger';
+import { checkLLMQuota } from '@/lib/security/llm-rate-limiter';
 import {
   computeOralScore,
   computeMention,
@@ -80,6 +81,7 @@ export async function evaluateOralPhase(input: {
   questionGrammaire: string;
   oeuvre: string;
   duration: number;
+  userId?: string;
   oeuvreChoisieEntretien?: string | null;
 }): Promise<PhaseEvaluation> {
   const max = PHASE_MAX_SCORES[input.phase];
@@ -106,6 +108,9 @@ IMPORTANT: Le score DOIT être compris entre 0 et ${max}. Ne jamais fournir de r
   ];
 
   try {
+    if (input.userId) {
+      await checkLLMQuota(input.userId, 'coach_oral');
+    }
     const provider = getRouterProvider('coach_oral', estimateTokens(messages));
     const response = await provider.generateContent(messages, {
       temperature: 0.2,

@@ -7,8 +7,8 @@ import { runCorrectionWorker } from '@/lib/epreuves/worker';
 import { evaluateBadges } from '@/lib/gamification/badges';
 import { saveCopieFile } from '@/lib/storage/copies';
 import { validateCsrf } from '@/lib/security/csrf';
+import { InvalidFileTypeError, validateUpload } from '@/lib/security/file-validator';
 import { checkRateLimit } from '@/lib/security/rate-limit';
-import { copieUploadMetaSchema } from '@/lib/validation/schemas';
 
 /**
  * POST /api/v1/epreuves/{epreuveId}/copie
@@ -59,23 +59,24 @@ export async function POST(
   const maxUploadMb = Number.parseInt(process.env.MAX_UPLOAD_SIZE_MB ?? '20', 10);
   const maxBytes = (Number.isFinite(maxUploadMb) ? maxUploadMb : 20) * 1024 * 1024;
 
-  const validation = copieUploadMetaSchema.safeParse({
-    fileType: file.type,
-    fileSize: file.size,
-  });
-
-  if (!validation.success) {
-    return NextResponse.json({ error: 'Type de fichier non supporté.' }, { status: 400 });
-  }
-
   if (file.size > maxBytes) {
     return NextResponse.json({ error: `Fichier trop volumineux (max ${maxUploadMb}MB).` }, { status: 413 });
   }
 
   const bytes = new Uint8Array(await file.arrayBuffer());
+  let detected;
+  try {
+    detected = validateUpload(bytes, file.name);
+  } catch (error) {
+    if (error instanceof InvalidFileTypeError) {
+      return NextResponse.json({ error: 'Type de fichier non supporté.' }, { status: 415 });
+    }
+    throw error;
+  }
+
   const saved = await saveCopieFile({
     userId: auth.user.id,
-    fileType: file.type,
+    fileType: detected.mime,
     bytes,
   });
 

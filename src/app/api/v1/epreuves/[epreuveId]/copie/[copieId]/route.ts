@@ -30,6 +30,7 @@ export async function GET(
       status: copie.status,
       correction: copie.correction,
       ocrText: copie.ocrText,
+      fileType: copie.fileType,
       createdAt: copie.createdAt,
       correctedAt: copie.correctedAt,
     },

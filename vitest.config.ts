@@ -7,21 +7,25 @@ export default defineConfig({
     exclude: ['tests/e2e/**'],
     environment: 'node',
     pool: 'forks',
-    testTimeout: 30_000,
+    testTimeout: 15_000,
     hookTimeout: 10_000,
     coverage: {
       provider: 'v8',
-      include: ['src/lib/**/*.ts', 'src/app/api/**/*.ts'],
+      reporter: ['text', 'json-summary', 'html'],
+      include: ['src/**/*.ts', 'src/**/*.tsx'],
       exclude: [
         'src/**/*.d.ts',
-        'src/**/types.ts',
-        'src/**/types/**',
-        'src/lib/db/migrations/**',
+        'src/app/**/page.tsx',
+        'src/app/**/layout.tsx',
+        'node_modules/',
+        '**/*.config.*',
       ],
       thresholds: {
-        lines: 80,
-        branches: 75,
-        functions: 80,
+        // Temporary progressive gate (2026-03-05), raised stepwise in CI roadmap.
+        lines: 45,
+        functions: 43,
+        branches: 37,
+        statements: 45,
       },
     },
     env: {

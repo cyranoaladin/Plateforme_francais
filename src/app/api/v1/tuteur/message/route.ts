@@ -9,6 +9,7 @@ import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { requirePlan, incrementUsage } from '@/lib/billing/gating';
 import { sanitizeString } from '@/lib/security/sanitize';
+import { checkLLMQuota, QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 import { parseJsonBody } from '@/lib/validation/request';
 import { tuteurMessageBodySchema } from '@/lib/validation/schemas';
 
@@ -124,6 +125,18 @@ export async function POST(request: Request) {
   }));
 
   if (wantsStream) {
+    try {
+      await checkLLMQuota(auth.user.id, 'tuteur_libre');
+    } catch (error) {
+      if (error instanceof QuotaExceededError) {
+        return NextResponse.json(
+          { error: `Quota IA atteint (${error.scope}). Réessayez plus tard.` },
+          { status: 429 },
+        );
+      }
+      throw error;
+    }
+
     const messages = [
       {
         role: 'system' as const,
@@ -165,12 +178,23 @@ export async function POST(request: Request) {
     );
   }
 
-  const orchestrateResult = await orchestrate({
-    skill: 'tuteur_libre',
-    userId: auth.user.id,
-    userQuery: userMessage,
-    context: `Historique:\n${historyText}\n\nSources RAG:\n${context}`,
-  });
+  let orchestrateResult: unknown;
+  try {
+    orchestrateResult = await orchestrate({
+      skill: 'tuteur_libre',
+      userId: auth.user.id,
+      userQuery: userMessage,
+      context: `Historique:\n${historyText}\n\nSources RAG:\n${context}`,
+    });
+  } catch (error) {
+    if (error instanceof QuotaExceededError) {
+      return NextResponse.json(
+        { error: `Quota IA atteint (${error.scope}). Réessayez plus tard.` },
+        { status: 429 },
+      );
+    }
+    throw error;
+  }
   const generated = orchestrateResult as {
     answer?: string;
     suggestions?: string[];

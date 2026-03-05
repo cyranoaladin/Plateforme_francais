@@ -1,76 +1,59 @@
-# Démarrage rapide — Nexus Réussite EAF
+# Démarrage Rapide - Nexus EAF
 
-Dernière mise à jour : 25 février 2026
+Dernière mise à jour: 5 mars 2026
 
 ## Prérequis
+
 - Node.js 20+
-- PostgreSQL 15+ (avec extension `pgvector` pour RAG vectoriel, optionnel)
+- PostgreSQL 16+ (pgvector recommandé)
 - Redis 7+
 
 ## Installation
 
 ```bash
-cd eaf_platform
 npm install
-
-# Configuration
-# Créer .env (ou .env.local) avec vos valeurs (voir table ci-dessous)
-
-# Base de données
+cp .env.example .env
 npx prisma generate
-npx prisma migrate deploy
+# Activer pgvector (une fois par base)
+psql "$DATABASE_URL" -c "CREATE EXTENSION IF NOT EXISTS vector;"
 
-# Seed (données de démonstration — compte jean@eaf.local / demo1234)
+# Développement local
+npx prisma migrate dev
+
+# Production (CI/CD ou serveur)
+# npx prisma migrate deploy
 npm run db:seed
-
-# Indexation RAG (corpus EAF, optionnel)
-npm run rag:index
 ```
 
-## Démarrage développement
+## Lancement local
 
 ```bash
-# Terminal 1 — Next.js
 npm run dev
-
-# Terminal 2 — MCP Server (optionnel)
-npm run mcp:dev
-
-# Vérification
 curl http://localhost:3000/api/v1/health
 ```
 
-Application : `http://localhost:3000`
+Application: `http://localhost:3000`
+Compte démo: `jean@eaf.local` / `demo1234`
 
-Compte démo : `jean@eaf.local` / `demo1234`
-
-## Tests
+## Vérifications qualité
 
 ```bash
-npm run typecheck       # TypeScript
-npm run test:unit       # Vitest (60+ fichiers)
-npm run test:e2e        # Playwright
-npm run mcp:test        # Tests MCP Server
-npm run test:all        # Unit + MCP
+npm run typecheck
+npm run lint
+npm run test:unit
+npm run test:unit -- --coverage
+npm run test:e2e
 ```
 
-## Variables obligatoires en production
+## Vérifications chiffrées rapides
 
-| Variable | Description |
-|----------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `DIRECT_URL` | PostgreSQL direct URL (Prisma) |
-| `REDIS_URL` | Redis connection string |
-| `MISTRAL_API_KEY` | Clé API Mistral (LLM principal) |
-| `LLM_PROVIDER` | `mistral` (défaut) / `gemini` / `openai` |
-| `LLM_ROUTER_ENABLED` | `"true"` pour routage multi-tier Mistral |
-| `COOKIE_SECURE` | `"true"` en production |
-| `SESSION_SECRET` | Secret session (32+ chars) |
-| `CRON_SECRET` | Secret routes cron (32+ chars) |
-| `CLICTOPAY_USERNAME` | Identifiant ClicToPay |
-| `CLICTOPAY_PASSWORD` | Mot de passe ClicToPay |
-| `RESEND_API_KEY` | Clé API Resend (emails) |
-| `VAPID_PUBLIC_KEY` | Clé VAPID push notifications |
-| `VAPID_PRIVATE_KEY` | Clé VAPID privée |
+```bash
+find src/app/api/v1 -name 'route.ts' | wc -l
+find tests -type f | wc -l
+```
 
-Variables optionnelles : `GEMINI_API_KEY`, `OPENAI_API_KEY`, `MCP_API_KEY`, `STORAGE_PROVIDER`, `MAX_UPLOAD_SIZE_MB`.
+## Référence documentation audit
+
+- `docs/DOCUMENTATION_AUDIT_COMPLETE_INDEX.md`
+- `docs/TESTS_QUALITY_COMPLETE.md`
+- `docs/SECURITY_COMPLIANCE_COMPLETE.md`

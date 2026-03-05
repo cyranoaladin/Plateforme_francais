@@ -143,14 +143,20 @@ export async function updateCopieStatus(input: {
   ocrText?: string | null;
   correction?: CorrectionJson | null;
   correctedAt?: string | null;
+  errorMessage?: string | null;
 }) {
+  const correctionPayload =
+    input.errorMessage && input.status === 'error'
+      ? ({ errorMessage: input.errorMessage } as Prisma.InputJsonValue)
+      : (input.correction as Prisma.InputJsonValue | undefined);
+
   if (await isDatabaseAvailable()) {
     await prisma.copieDeposee.update({
       where: { id: input.copieId },
       data: {
         status: input.status,
         ocrText: input.ocrText,
-        correction: input.correction as Prisma.InputJsonValue | undefined,
+        correction: correctionPayload,
         correctedAt: input.correctedAt ? new Date(input.correctedAt) : undefined,
       },
     });
@@ -165,7 +171,9 @@ export async function updateCopieStatus(input: {
             ...item,
             status: input.status,
             ocrText: input.ocrText ?? item.ocrText,
-            correction: input.correction ?? item.correction,
+            correction: (input.errorMessage && input.status === 'error'
+              ? ({ errorMessage: input.errorMessage } as unknown as CorrectionJson)
+              : (input.correction ?? item.correction)),
             correctedAt: input.correctedAt ?? item.correctedAt,
           }
         : item,

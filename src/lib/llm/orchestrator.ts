@@ -3,11 +3,12 @@ import { getRouterProvider } from '@/lib/llm/factory';
 import { estimateTokens } from '@/lib/llm/token-estimate';
 import { logger } from '@/lib/logger';
 import { SYSTEM_PROMPT_EAF } from '@/lib/llm/prompts/system';
-import { fallbackSkillOutput, parseSkillOutput, skillPromptFor } from '@/lib/llm/skills';
+import { fallbackSkillOutput, parseSkillOutput, skillPromptFor, skillSchemaFor } from '@/lib/llm/skills';
 import { type Skill } from '@/lib/llm/skills/types';
 import { classifyAntiTriche, buildRefusalOutput, validateLlmOutput } from '@/lib/compliance/anti-triche';
 import { getMediaForAgent, formatMediaContextForPrompt } from '@/data/media-catalog';
 import type { AgentType } from '@/lib/memory/context-builder';
+import { checkLLMQuota, QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 
 /** Skills that should NOT receive media context injection */
 const SKILLS_WITHOUT_MEDIA: ReadonlySet<Skill> = new Set([
@@ -92,6 +93,8 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
   ].filter(Boolean).join('\n\n');
 
   try {
+    await checkLLMQuota(userId, skill);
+
     const provider = getRouterProvider(skill, estimateTokens([{ content: prompt }]));
     const completion = await provider.generateContent(prompt, {
       temperature: 0.2,
@@ -112,6 +115,21 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
       return buildRefusalOutput(finalCompliance);
     }
 
+    const skillSchema = skillSchemaFor(skill);
+    const validated = skillSchema.safeParse(parsedRaw);
+    if (!validated.success) {
+      logger.error(
+        {
+          skill,
+          userId,
+          error: validated.error.format(),
+          rawOutput: rawText.slice(0, 500),
+        },
+        '[llm] schema_validation_failure',
+      );
+      return fallbackSkillOutput(skill);
+    }
+
     logger.info({
       skill,
       userId,
@@ -122,8 +140,11 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
       success: true,
     }, 'llm.orchestrate.success');
 
-    return parseSkillOutput(skill, parsedRaw);
+    return parseSkillOutput(skill, validated.data);
   } catch (error) {
+    if (error instanceof QuotaExceededError) {
+      throw error;
+    }
     if (error instanceof ZodError) {
       logger.error({ skill, issues: error.issues, success: false }, 'llm.orchestrate.parse_error');
       return fallbackSkillOutput(skill);

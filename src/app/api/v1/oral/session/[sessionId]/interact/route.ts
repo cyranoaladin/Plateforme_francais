@@ -5,6 +5,7 @@ import { appendOralInteraction, findOralSessionById } from '@/lib/oral/repositor
 import { evaluateOralPhase } from '@/lib/oral/service';
 import { PHASE_MAX_SCORES, type OralPhaseKey } from '@/lib/oral/scoring';
 import { validateCsrf } from '@/lib/security/csrf';
+import { QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionInteractBodySchema } from '@/lib/validation/schemas';
 
@@ -48,15 +49,27 @@ export async function POST(
 
   const profile = await prisma.studentProfile.findUnique({ where: { userId: auth.user.id } });
 
-  const evaluation = await evaluateOralPhase({
-    phase,
-    transcript: parsed.data.transcript,
-    extrait: session.extrait,
-    questionGrammaire: session.questionGrammaire,
-    oeuvre: session.oeuvre,
-    duration: parsed.data.duration,
-    oeuvreChoisieEntretien: profile?.oeuvreChoisieEntretien ?? null,
-  });
+  let evaluation;
+  try {
+    evaluation = await evaluateOralPhase({
+      phase,
+      transcript: parsed.data.transcript,
+      extrait: session.extrait,
+      questionGrammaire: session.questionGrammaire,
+      oeuvre: session.oeuvre,
+      duration: parsed.data.duration,
+      userId: auth.user.id,
+      oeuvreChoisieEntretien: profile?.oeuvreChoisieEntretien ?? null,
+    });
+  } catch (error) {
+    if (error instanceof QuotaExceededError) {
+      return NextResponse.json(
+        { error: `Quota IA atteint (${error.scope}). Réessayez plus tard.` },
+        { status: 429 },
+      );
+    }
+    throw error;
+  }
 
   await appendOralInteraction({
     sessionId,

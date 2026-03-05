@@ -3,10 +3,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { Loader2, Download, Flame } from 'lucide-react';
+import { mapAnnotationsToRegions } from '@/lib/correction/annotation-mapper';
 
 type CorrectionPayload = {
   copieId: string;
   status: 'pending' | 'processing' | 'done' | 'error';
+  ocrText?: string | null;
+  fileType?: string;
   correction: {
     note: number;
     mention: string;
@@ -46,6 +49,7 @@ export default function CorrectionCopiePage() {
   const [payload, setPayload] = useState<CorrectionPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
+  const [activeAnnotation, setActiveAnnotation] = useState<number>(0);
 
   useEffect(() => {
     if (!params.copieId || !epreuveId) {
@@ -92,6 +96,15 @@ export default function CorrectionCopiePage() {
 
   const correction = payload?.correction;
   const note = correction?.note ?? 0;
+  const imageUrl = payload ? `/api/v1/epreuves/copies/${payload.copieId}/file` : null;
+  const isImageCopy = Boolean(payload?.fileType?.startsWith('image/'));
+
+  const annotationRegions = useMemo(() => {
+    if (!correction) {
+      return [];
+    }
+    return mapAnnotationsToRegions(payload?.ocrText, correction.annotations);
+  }, [correction, payload?.ocrText]);
 
   const noteColor = useMemo(() => {
     if (note >= 15) return 'bg-success/20 text-success border-success/40';
@@ -167,13 +180,61 @@ export default function CorrectionCopiePage() {
 
       <section className="rounded-xl border border-border bg-card p-5">
         <h2 className="font-semibold mb-3">Annotations ciblées</h2>
-        <div className="space-y-3">
-          {correction.annotations.map((item, index) => (
-            <div key={`${item.extrait}-${index}`} className="rounded-lg border border-border p-3">
-              <p className="text-sm font-medium">« {item.extrait} »</p>
-              <p className="text-sm text-muted-foreground mt-1">{item.commentaire}</p>
-            </div>
-          ))}
+        <div className="grid lg:grid-cols-2 gap-4">
+          <div className="space-y-3">
+            {correction.annotations.map((item, index) => {
+              const selected = index === activeAnnotation;
+              return (
+                <button
+                  key={`${item.extrait}-${index}`}
+                  type="button"
+                  onClick={() => setActiveAnnotation(index)}
+                  className={`w-full text-left rounded-lg border p-3 transition-colors ${
+                    selected
+                      ? 'border-primary bg-primary/5'
+                      : 'border-border hover:border-primary/40'
+                  }`}
+                >
+                  <p className="text-sm font-medium">« {item.extrait} »</p>
+                  <p className="text-sm text-muted-foreground mt-1">{item.commentaire}</p>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="rounded-lg border border-border bg-muted/20 p-3">
+            {isImageCopy && imageUrl ? (
+              <div className="relative">
+                <img src={imageUrl} alt="Copie manuscrite" className="w-full rounded-md border border-border" />
+                <div className="absolute inset-0 pointer-events-none">
+                  {annotationRegions.map((region, idx) => {
+                    const selected = idx === activeAnnotation;
+                    return (
+                      <div
+                        key={`region-${idx}`}
+                        className={`absolute rounded-md border-2 transition-all ${
+                          selected
+                            ? 'border-primary bg-primary/15 shadow-md'
+                            : 'border-amber-500/70 bg-amber-200/20'
+                        }`}
+                        style={{
+                          top: `${region.topPct}%`,
+                          left: `${region.leftPct}%`,
+                          width: `${region.widthPct}%`,
+                          height: `${region.heightPct}%`,
+                          opacity: selected ? 1 : 0.55,
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Aperçu visuel indisponible pour ce format de copie.
+              </p>
+            )}
+          </div>
         </div>
       </section>
 

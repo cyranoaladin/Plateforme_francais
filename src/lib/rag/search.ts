@@ -267,3 +267,16 @@ export async function searchExternalRAGOnly(
 ): Promise<RagSearchResult[]> {
   return searchExternalRAG(query, maxResults, context);
 }
+
+export function formatRagContextForPrompt(results: RagSearchResult[]): string {
+  if (results.length === 0) {
+    return '';
+  }
+
+  return results
+    .map((result, index) => {
+      const source = result.sourceRef || result.title;
+      return `[Document ${index + 1}] ${result.title}\nSource: ${source}\nExtrait: ${result.excerpt}`;
+    })
+    .join('\n\n');
+}

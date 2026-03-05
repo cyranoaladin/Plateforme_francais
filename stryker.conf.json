@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker/master/packages/api/schema/stryker-schema.json",
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vitest.config.ts"
+  },
+  "mutate": [
+    "src/lib/security/file-validator.ts",
+    "src/lib/security/llm-rate-limiter.ts",
+    "src/lib/rag/rerank.ts"
+  ],
+  "reporters": ["progress", "clear-text", "html"],
+  "coverageAnalysis": "off",
+  "timeoutMS": 60000,
+  "timeoutFactor": 1.5,
+  "maxConcurrentTestRunners": 2,
+  "thresholds": {
+    "high": 80,
+    "low": 70,
+    "break": 65
+  }
+}
+

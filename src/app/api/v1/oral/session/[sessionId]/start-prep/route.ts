@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { startOralPrep, findOralSessionById } from '@/lib/oral/repository';
+import { validateCsrf } from '@/lib/security/csrf';
 
 export async function POST(
   request: Request,
@@ -8,6 +9,9 @@ export async function POST(
 ) {
   const { auth, errorResponse } = await requireAuthenticatedUser();
   if (!auth || errorResponse) return errorResponse;
+
+  const csrfError = await validateCsrf(request);
+  if (csrfError) return csrfError;
 
   const { sessionId } = await params;
   const session = await findOralSessionById(sessionId);

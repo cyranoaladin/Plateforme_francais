@@ -79,7 +79,7 @@ class ExternalRAGClient {
     this.defaultTopK = parseInt(process.env.RAG_TOP_K ?? '10', 10);
     this.defaultRerank = process.env.RAG_RERANK === 'true';
     this.defaultAlpha = parseFloat(process.env.RAG_ALPHA ?? '0.7');
-    this.timeout = parseInt(process.env.RAG_TIMEOUT_MS ?? '30000', 10);
+    this.timeout = parseInt(process.env.RAG_TIMEOUT_MS ?? '8000', 10);
   }
 
   private headers(): HeadersInit {
@@ -176,14 +176,17 @@ class ExternalRAGClient {
     };
 
     const startTime = Date.now();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
     try {
       const response = await fetch(`${this.baseUrl}/search`, {
         method: 'POST',
         headers: this.headers(),
         body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(this.timeout),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         const errorText = await response.text().catch(() => 'Unknown error');
@@ -227,12 +230,21 @@ class ExternalRAGClient {
         latencyMs,
       }, '[ExternalRAG] search_error');
 
+      if (error instanceof Error && error.name === 'AbortError') {
+        logger.warn(
+          { query: params.query.slice(0, 50), timeoutMs: this.timeout },
+          '[ExternalRAG] external_timeout_fallback_local',
+        );
+      }
+
       return {
         results: [],
         query: params.query,
         collection: params.collection ?? this.collection,
         total_found: 0,
       };
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 

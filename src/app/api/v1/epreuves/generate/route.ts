@@ -3,6 +3,7 @@ import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { createEpreuve } from '@/lib/epreuves/repository';
 import { type EpreuveType } from '@/lib/epreuves/types';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { epreuveGenerateBodySchema } from '@/lib/validation/schemas';
@@ -30,13 +31,24 @@ export async function POST(request: Request) {
 
   const type = parsed.data.type as EpreuveType;
 
-  const result = await orchestrate({
-    skill: 'coach_ecrit',
-    userId: auth.user.id,
-    userQuery: `Génère un sujet de type ${type}. Oeuvre: ${parsed.data.oeuvre ?? 'libre'}. Thème: ${parsed.data.theme ?? 'libre'}.`,
-    context:
-      'La sortie JSON doit inclure: sujet, texte, consignes (durée 4h, rappel barème), bareme en points sur 20.',
-  });
+  let result: unknown;
+  try {
+    result = await orchestrate({
+      skill: 'coach_ecrit',
+      userId: auth.user.id,
+      userQuery: `Génère un sujet de type ${type}. Oeuvre: ${parsed.data.oeuvre ?? 'libre'}. Thème: ${parsed.data.theme ?? 'libre'}.`,
+      context:
+        'La sortie JSON doit inclure: sujet, texte, consignes (durée 4h, rappel barème), bareme en points sur 20.',
+    });
+  } catch (error) {
+    if (error instanceof QuotaExceededError) {
+      return NextResponse.json(
+        { error: `Quota IA atteint (${error.scope}). Réessayez plus tard.` },
+        { status: 429 },
+      );
+    }
+    throw error;
+  }
   const generation = result as {
     sujet: string;
     texte: string;

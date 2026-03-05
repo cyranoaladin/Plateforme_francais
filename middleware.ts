@@ -10,45 +10,30 @@ const PUBLIC_API_PATHS = [
   '/api/v1/metrics/vitals',
 ];
 
-/**
- * Security headers per cahier des charges V2 P0-7.
- * 
- * NOTE: CSP avec 'unsafe-inline' pour scripts est REQUIS pour Next.js
- * Next.js utilise des scripts inline pour:
- * - Hydration
- * - Hot reload (dev)
- * - Webpack runtime
- * - React refresh
- * 
- * En production, on pourrait utiliser des nonces, mais Next.js ne le supporte pas nativement.
- * Alternative: Utiliser CSP avec hash des scripts inline (complexe à maintenir)
- */
-function applySecurityHeaders(response: NextResponse): NextResponse {
-  // Note: process.env.NODE_ENV n'est pas fiable dans middleware Next.js
-  // On utilise une approche conservative avec 'unsafe-inline' partout
-  // C'est requis pour le fonctionnement de Next.js
-  
+function applySecurityHeaders(response: NextResponse, nonce: string): NextResponse {
+  const isDev = process.env.NODE_ENV !== 'production';
+  const scriptSrc = isDev
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+    : `script-src 'self' 'nonce-${nonce}'`;
+
   response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()');
-  
-  // CSP adaptée pour Next.js
-  // 'unsafe-inline' requis pour scripts inline de Next.js
-  // 'unsafe-eval' requis pour webpack (dev + production avec Next.js)
-  // connect-src '*' requis pour appels API externes (LLM providers)
-  // media-src 'self' blob: mediastream: requis pour lecture vidéo
+  response.headers.set('Permissions-Policy', 'camera=(self), microphone=(self), geolocation=()');
+  response.headers.set('x-nonce', nonce);
+
   response.headers.set(
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      scriptSrc,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self'",
       "connect-src 'self' https://api.mistral.ai https://generativelanguage.googleapis.com https://api.openai.com",
       "media-src 'self' blob: mediastream:",
+      "frame-src 'none'",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -59,13 +44,18 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const nonce = crypto.randomUUID().replace(/-/g, '');
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-nonce', nonce);
+
+  const withHeaders = (response: NextResponse): NextResponse => applySecurityHeaders(response, nonce);
 
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/favicon.ico') ||
     pathname.startsWith('/public')
   ) {
-    return applySecurityHeaders(NextResponse.next());
+    return withHeaders(NextResponse.next({ request: { headers: requestHeaders } }));
   }
 
   const isPublicPage = PUBLIC_PATHS.some((item) => pathname === item);
@@ -73,7 +63,7 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('eaf_session')?.value;
 
   if (!token && pathname.startsWith('/api') && !isPublicApi) {
-    return applySecurityHeaders(
+    return withHeaders(
       NextResponse.json({ error: 'Non authentifié.' }, { status: 401 }),
     );
   }
@@ -81,16 +71,16 @@ export function middleware(request: NextRequest) {
   if (!token && !pathname.startsWith('/api') && !isPublicPage) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
-    return applySecurityHeaders(NextResponse.redirect(url));
+    return withHeaders(NextResponse.redirect(url));
   }
 
   if (token && pathname === '/login') {
     const url = request.nextUrl.clone();
     url.pathname = '/';
-    return applySecurityHeaders(NextResponse.redirect(url));
+    return withHeaders(NextResponse.redirect(url));
   }
 
-  return applySecurityHeaders(NextResponse.next());
+  return withHeaders(NextResponse.next({ request: { headers: requestHeaders } }));
 }
 
 export const config = {

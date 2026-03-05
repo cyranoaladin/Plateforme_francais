@@ -9,6 +9,13 @@ import { generateTtsUrl } from '@/lib/tts/generator';
 const bodySchema = z.object({
   message: z.string().trim().min(1).max(4000),
   oeuvreChoisie: z.string().trim().max(200).optional(),
+  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE']).optional(),
+  conversationHistory: z.array(
+    z.object({
+      role: z.enum(['jury', 'eleve']),
+      content: z.string().trim().min(1).max(1000),
+    }),
+  ).max(20).optional(),
 });
 
 export async function POST(request: Request) {
@@ -27,17 +34,50 @@ export async function POST(request: Request) {
     return parsed.response;
   }
 
-  const result = (await orchestrate({
-    skill: 'oral_entretien',
-    userId: auth.user.id,
-    userQuery: parsed.data.message,
-    context: parsed.data.oeuvreChoisie ? `Oeuvre choisie: ${parsed.data.oeuvreChoisie}` : undefined,
-  })) as {
-    feedback?: string;
-    relance?: string;
-  };
+  const profile = parsed.data.examinerProfile ?? 'NEUTRE';
+  const history = parsed.data.conversationHistory ?? [];
+  const memoryContext = history
+    .slice(-6)
+    .map((item, idx) => `${idx + 1}. [${item.role}] ${item.content}`)
+    .join('\n');
 
-  const juryText = result.relance ?? result.feedback ?? 'Peux-tu preciser ton argument avec un exemple du texte ?';
+  let juryText = 'Peux-tu preciser ton argument avec un exemple du texte ?';
+  try {
+    const result = (await orchestrate({
+      skill: 'examinateur_virtuel',
+      userId: auth.user.id,
+      userQuery: parsed.data.message,
+      context: [
+        parsed.data.oeuvreChoisie ? `Oeuvre choisie: ${parsed.data.oeuvreChoisie}` : '',
+        `Persona examinateur: ${profile}`,
+        `Historique récent:\n${memoryContext || 'Aucun échange précédent.'}`,
+        'Objectif: produire UNE relance imprévisible mais pertinente en tenant compte des réponses précédentes.',
+      ].filter(Boolean).join('\n\n'),
+    })) as {
+      questions?: Array<{ question: string; difficulte: number }>;
+      consigne_examinateur?: string;
+    };
+
+    const questions = Array.isArray(result.questions) ? result.questions : [];
+    if (questions.length > 0) {
+      const targetDifficulty = Math.min(3, 1 + Math.floor(history.length / 2));
+      const picked = questions
+        .slice()
+        .sort((a, b) => Math.abs((a.difficulte ?? 1) - targetDifficulty) - Math.abs((b.difficulte ?? 1) - targetDifficulty))[0];
+      juryText = picked?.question ?? juryText;
+    } else if (result.consigne_examinateur) {
+      juryText = result.consigne_examinateur;
+    }
+  } catch {
+    const fallback = (await orchestrate({
+      skill: 'oral_entretien',
+      userId: auth.user.id,
+      userQuery: parsed.data.message,
+      context: parsed.data.oeuvreChoisie ? `Oeuvre choisie: ${parsed.data.oeuvreChoisie}` : undefined,
+    })) as { feedback?: string; relance?: string };
+    juryText = fallback.relance ?? fallback.feedback ?? juryText;
+  }
+
   const ttsUrl = await generateTtsUrl(juryText);
 
   return NextResponse.json(
