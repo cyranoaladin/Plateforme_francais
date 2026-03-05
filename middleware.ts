@@ -11,7 +11,6 @@ const PUBLIC_API_PATHS = [
 ];
 
 function applySecurityHeaders(response: NextResponse, nonce: string): NextResponse {
-  const isDev = process.env.NODE_ENV !== 'production';
   const scriptSrc = "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
 
   response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
