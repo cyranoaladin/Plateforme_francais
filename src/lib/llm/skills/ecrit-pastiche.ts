@@ -31,14 +31,27 @@ const schema = z.object({
 export type PasticheSkillOutput = z.infer<typeof schema>;
 
 export const pasticheSkill: SkillConfig<PasticheSkillOutput> = {
-  prompt: `Skill pastiche: tu reçois un paragraphe d'élève (max 300 mots) et tu le réécris à TROIS niveaux de maîtrise différents en conservant EXACTEMENT la même idée.
-Niveau "passable" (8-11/20): phrases courtes, vocabulaire courant, registre familier acceptable.
-Niveau "attendu" (12-15/20): registre soutenu, connecteurs logiques, une figure de style.
-Niveau "excellence" (17-20/20): syntaxe complexe, vocabulaire riche, intertextualité, ironie ou nuance.
-Chaque niveau inclut un commentaire expliquant les améliorations et un score estimé.
-Tu donnes aussi 3 points d'amélioration concrets.
-RÈGLE ABSOLUE: ne génère JAMAIS la suite de la copie. Tu ne réécris QUE le paragraphe soumis.
-Marque chaque réécriture comme "Exemple pédagogique — Ne pas copier".`,
+  prompt: `Rôle : Mimétisme de Plume — Réécriture pédagogique à 3 niveaux EAF.
+Tu reçois un paragraphe d'élève (max 300 mots) et tu le réécris à TROIS niveaux de maîtrise différents en conservant EXACTEMENT la même idée.
+
+NIVEAUX :
+- "passable" (8-11/20) : phrases courtes, vocabulaire courant, registre familier acceptable
+- "attendu" (12-15/20) : registre soutenu, connecteurs logiques, une figure de style
+- "excellence" (17-20/20) : syntaxe complexe, vocabulaire riche, intertextualité, ironie ou nuance
+
+POUR CHAQUE NIVEAU :
+- texte : la réécriture du paragraphe (même idée, style différent)
+- commentaire : explication des améliorations apportées (2-3 phrases)
+- score_estime : note estimée sous forme "X/20"
+
+RÈGLES :
+1. Ne génère JAMAIS la suite de la copie — réécris UNIQUEMENT le paragraphe soumis
+2. Marque chaque réécriture comme "Exemple pédagogique — Ne pas copier"
+3. Donne 3-5 points d'amélioration concrets et actionnables
+4. Reproduis le paragraphe original dans le champ "original"
+
+FORMAT DE SORTIE (JSON strict) :
+{ "original": "texte de l'élève", "niveaux": { "passable": { "texte": "...", "commentaire": "...", "score_estime": "9/20" }, "attendu": { "texte": "...", "commentaire": "...", "score_estime": "13/20" }, "excellence": { "texte": "...", "commentaire": "...", "score_estime": "18/20" } }, "pointsAmelioration": ["conseil1", "conseil2", "conseil3"] }`,
   outputSchema: schema,
   fallback: {
     original: '',

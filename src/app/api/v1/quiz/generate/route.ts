@@ -1,15 +1,25 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { getMediaForAgent, formatMediaContextForPrompt, type MediaEntry } from '@/data/media-catalog';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { getThemeConfig } from '@/lib/quiz/theme-mapping';
+import { searchOfficialReferences, type RagSearchResult } from '@/lib/rag/search';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { quizGenerateBodySchema } from '@/lib/validation/schemas';
 
 /**
  * POST /api/v1/quiz/generate
- * Body: { theme, difficulte: 1|2|3, nbQuestions: 5|10|20 }
+ * Body: { theme: QuizTheme, difficulte: 1|2|3, nbQuestions: 5|10|20 }
+ *
+ * Pipeline:
+ *   1. Resolve theme → ThemeConfig (RAG query, LLM prompt, media categories)
+ *   2. RAG search: fetch relevant context chunks (external + local hybrid)
+ *   3. Media filter: select videos/docs matching theme categories
+ *   4. Build enriched context: RAG excerpts + media descriptions + student profile
+ *   5. Orchestrate LLM call with quiz_maitre skill + enriched context
  */
 export async function POST(request: Request) {
   const { auth, errorResponse } = await requireAuthenticatedUser();
@@ -27,12 +37,80 @@ export async function POST(request: Request) {
     return parsed.response;
   }
 
-  const orchestrateResult = await orchestrate({
-    skill: 'quiz_maitre',
-    userId: auth.user.id,
-    userQuery: `Génère ${parsed.data.nbQuestions} questions sur ${parsed.data.theme} (difficulté ${parsed.data.difficulte}).`,
-    context: 'Retourne strictement le format JSON attendu avec options[4] et bonneReponse index.',
-  });
+  const { theme, difficulte, nbQuestions } = parsed.data;
+  const themeConfig = getThemeConfig(theme);
+
+  // ── Step 1: RAG search for theme-specific context ──
+  let ragResults: RagSearchResult[] = [];
+  try {
+    ragResults = await searchOfficialReferences(
+      themeConfig.ragQuery,
+      6,
+      {
+        oeuvre: themeConfig.ragOeuvreFilter,
+        parcours: themeConfig.ragParcoursFilter,
+      },
+    );
+  } catch (err) {
+    console.error('[quiz/generate] RAG search error:', err instanceof Error ? err.message : err);
+  }
+
+  const ragContext = ragResults.length > 0
+    ? ragResults.map((r, i) => `[Source ${i + 1}] ${r.title}: ${r.excerpt}`).join('\n')
+    : 'Aucune source RAG disponible.';
+
+  // ── Step 2: Media context filtered by theme categories ──
+  let mediaContext = '';
+  try {
+    const allMedia = getMediaForAgent('QUIZ_ADAPTATIF');
+    const filtered: MediaEntry[] = allMedia.filter((m) =>
+      themeConfig.mediaCategories.includes(m.category),
+    );
+    if (filtered.length > 0) {
+      mediaContext = formatMediaContextForPrompt(filtered.slice(0, 3));
+    }
+  } catch {
+    // Media context is optional
+  }
+
+  // ── Step 3: Student profile context ──
+  const weakSkills = auth.user.profile.weakSkills ?? [];
+  const studentContext = weakSkills.length > 0
+    ? `Faiblesses de l'élève: ${weakSkills.join(', ')}.`
+    : '';
+
+  // ── Step 4: Build enriched context for LLM ──
+  const enrichedContext = [
+    `Thème sélectionné: ${themeConfig.label}.`,
+    `Difficulté: ${difficulte}/3. Nombre de questions: ${nbQuestions}.`,
+    studentContext,
+    '--- SOURCES RAG (base tes questions sur ces contenus vérifiés) ---',
+    ragContext,
+    mediaContext ? `--- RESSOURCES PÉDAGOGIQUES ---\n${mediaContext}` : '',
+    'Retourne strictement le format JSON attendu avec questions[].options (4 items) et bonneReponse (index 0-3).',
+  ].filter(Boolean).join('\n');
+
+  // ── Step 5: LLM orchestration ──
+  let orchestrateResult: unknown;
+  try {
+    orchestrateResult = await orchestrate({
+      skill: 'quiz_maitre',
+      userId: auth.user.id,
+      userQuery: `Génère exactement ${nbQuestions} questions QCM de niveau ${difficulte}/3.
+
+${themeConfig.llmPromptSuffix}
+
+IMPORTANT: Chaque question doit avoir exactement 4 options, 1 seule bonne réponse (index 0-3), et une explication pédagogique citant la source ou la règle officielle.`,
+      context: enrichedContext,
+    });
+  } catch (err) {
+    console.error('[quiz/generate] orchestrate error:', err instanceof Error ? err.message : err);
+    return NextResponse.json(
+      { error: 'Impossible de générer le quiz. Réessayez.' },
+      { status: 503 },
+    );
+  }
+
   const generated = orchestrateResult as {
     questions?: Array<{
       id: string;
@@ -43,29 +121,31 @@ export async function POST(request: Request) {
     }>;
   };
 
-  const fallbackQuestions = Array.from({ length: parsed.data.nbQuestions }, (_, idx) => ({
-    id: `${parsed.data.theme}-${idx + 1}`,
-    enonce: `Question ${idx + 1}: notion clé sur ${parsed.data.theme} ?`,
-    options: ['Proposition A', 'Proposition B', 'Proposition C', 'Proposition D'],
-    bonneReponse: (idx % 4) as 0 | 1 | 2 | 3,
-    explication: 'Révisez la notion dans votre fiche de méthode.',
-  }));
-
   const questions =
     generated.questions && generated.questions.length > 0
-      ? generated.questions.slice(0, parsed.data.nbQuestions)
-      : fallbackQuestions;
+      ? generated.questions.slice(0, nbQuestions)
+      : [];
+
+  if (questions.length === 0) {
+    return NextResponse.json(
+      { error: 'Le générateur de quiz n\'a pas pu produire de questions. Réessayez.' },
+      { status: 503 },
+    );
+  }
 
   await createMemoryEventRecord(
     createMemoryEvent(auth.user.id, {
       type: 'quiz',
       feature: 'quiz_generate',
       payload: {
-        theme: parsed.data.theme,
+        theme,
+        themeLabel: themeConfig.label,
+        difficulte,
         questionCount: questions.length,
+        ragSourceCount: ragResults.length,
       },
     }),
   );
 
-  return NextResponse.json({ questions }, { status: 200 });
+  return NextResponse.json({ questions, theme: themeConfig.label }, { status: 200 });
 }

@@ -81,8 +81,24 @@ export async function pickOralExtrait(params: {
   console.log(`[pickOralExtrait] Filtered student list: ${studentList.length} matches for "${params.oeuvre}"`);
 
   // If we found specific texts in the student's list for this oeuvre, use them
-  // Otherwise, if free practice, we can fallback to the corpus
-  const pool = studentList.length > 0 ? studentList : (params.mode === 'SIMULATION' ? [] : EXTRAITS_OEUVRES);
+  // Otherwise, fallback to the corpus for both modes (simulation and free practice)
+  let pool = studentList.length > 0 ? studentList : EXTRAITS_OEUVRES;
+  
+  // If still no texts found for this specific oeuvre, try to find any text from the corpus
+  if (pool.length === 0 || (studentList.length === 0 && pool === EXTRAITS_OEUVRES)) {
+    // Try to find a match in the corpus for the requested oeuvre
+    const corpusMatch = EXTRAITS_OEUVRES.find((item) =>
+      params.oeuvre.toLowerCase().includes(item.oeuvre.toLowerCase()) ||
+      item.oeuvre.toLowerCase().includes(params.oeuvre.toLowerCase())
+    );
+    
+    if (corpusMatch) {
+      pool = [corpusMatch];
+    } else {
+      // Last resort: use any available extract
+      pool = EXTRAITS_OEUVRES;
+    }
+  }
 
   if (pool.length === 0) {
     console.error(`[pickOralExtrait] ERROR: No texts found for "${params.oeuvre}" in simulation mode.`);

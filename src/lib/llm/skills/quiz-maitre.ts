@@ -4,10 +4,10 @@ import { type SkillConfig } from '@/lib/llm/skills/types';
 const schema = z.object({
   questions: z.array(
     z.object({
-      id: z.string(),
+      id: z.coerce.string(),
       enonce: z.string(),
-      options: z.array(z.string()).length(4),
-      bonneReponse: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+      options: z.array(z.string()).min(2).max(6),
+      bonneReponse: z.coerce.number().int().min(0).max(3),
       explication: z.string(),
     }),
   ),

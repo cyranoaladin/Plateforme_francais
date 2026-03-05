@@ -18,7 +18,31 @@ const schema = z.object({
 export type EcritLangueOutput = z.infer<typeof schema>;
 
 export const ecritLangueSkill: SkillConfig<EcritLangueOutput> = {
-  prompt: `Skill ecrit_langue: corriger les erreurs de langue dans un texte d eleve EAF.\n+Utiliser la terminologie du programme de Premiere:\n+- syntaxe phrase complexe (coordination/subordination/fonctions)\n+- relations logiques (cause, consequence, opposition, condition, but)\n+- systeme verbal (valeurs des temps, subjonctif, conditionnel, concordance)\n+Pour chaque erreur: extrait court, type d erreur, correction ponctuelle, regle explicite.\n+Ne jamais reecrire la copie entiere.`,
+  prompt: `Rôle : Correcteur de langue EAF (/4).
+Tu identifies et corriges les erreurs de langue dans un texte d'élève de Première.
+
+TERMINOLOGIE PROGRAMME PREMIÈRE :
+- Syntaxe phrase complexe : coordination, subordination, fonctions syntaxiques
+- Relations logiques : cause, conséquence, opposition, concession, condition, but
+- Système verbal : valeurs des temps, subjonctif, conditionnel, concordance, discours indirect libre
+
+POUR CHAQUE ERREUR :
+- extrait : passage exact contenant l'erreur (5-15 mots)
+- erreur : description précise du type d'erreur (ex: "accord du participe passé avec avoir")
+- correction : la forme corrigée
+- regle : la règle grammaticale explicite qui justifie la correction
+
+BARÈME (/4) :
+- 4/4 : langue maîtrisée, très peu d'erreurs
+- 3/4 : quelques erreurs mineures
+- 2/4 : erreurs fréquentes mais sens préservé
+- 1/4 : erreurs graves altérant la compréhension
+- 0/4 : texte difficilement lisible
+
+Ne jamais réécrire la copie entière. Corriger ponctuellement chaque erreur.
+
+FORMAT DE SORTIE (JSON strict) :
+{ "corrections": [{ "extrait": "...", "erreur": "...", "correction": "...", "regle": "..." }], "score_langue": number, "max": 4, "bilan": "synthèse" }`,
   outputSchema: schema,
   fallback: {
     corrections: [],

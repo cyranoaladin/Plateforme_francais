@@ -28,6 +28,7 @@ export type ExamBlancConfig = {
 
 /**
  * Generate a full EAF mock exam subject.
+ * Throws if the LLM fails or returns incomplete data.
  */
 export async function generateExamBlanc(config: ExamBlancConfig): Promise<ExamBlancSubject> {
   const dureeMap: Record<ExamType, string> = {
@@ -36,42 +37,40 @@ export async function generateExamBlanc(config: ExamBlancConfig): Promise<ExamBl
     contraction_essai: '4h (contraction 1h + essai 3h)',
   };
 
+  let result: unknown;
   try {
-    const result = await orchestrate({
+    result = await orchestrate({
       skill: 'coach_ecrit',
       userId: config.userId,
       userQuery: buildExamPrompt(config),
       context: `Type: ${config.type}. Durée officielle: ${dureeMap[config.type]}.`,
     });
-
-    const output = result as {
-      sujet?: string;
-      texte?: string;
-      consignes?: string;
-      bareme?: Record<string, number>;
-    };
-
-    return {
-      type: config.type,
-      sujet: output.sujet ?? `Sujet ${config.type} — ${config.oeuvre ?? 'Libre'}`,
-      texte: output.texte ?? '',
-      consignes: output.consignes ?? `Durée: ${dureeMap[config.type]}. Respectez le barème officiel.`,
-      duree: dureeMap[config.type],
-      bareme: output.bareme ?? getDefaultBareme(config.type),
-      generatedAt: new Date().toISOString(),
-    };
   } catch (err) {
     logger.error({ err, config }, 'exam_blanc.generation_failed');
-    return {
-      type: config.type,
-      sujet: `Sujet ${config.type} — génération indisponible`,
-      texte: '',
-      consignes: `Durée: ${dureeMap[config.type]}.`,
-      duree: dureeMap[config.type],
-      bareme: getDefaultBareme(config.type),
-      generatedAt: new Date().toISOString(),
-    };
+    throw new Error('La génération du sujet d\'examen blanc est temporairement indisponible. Réessayez dans quelques instants.');
   }
+
+  const output = result as {
+    sujet?: string;
+    texte?: string;
+    consignes?: string;
+    bareme?: Record<string, number>;
+  };
+
+  if (!output.sujet || !output.texte) {
+    logger.error({ output, config }, 'exam_blanc.incomplete_output');
+    throw new Error('Le générateur n\'a pas produit un sujet complet. Réessayez.');
+  }
+
+  return {
+    type: config.type,
+    sujet: output.sujet,
+    texte: output.texte,
+    consignes: output.consignes ?? `Durée: ${dureeMap[config.type]}. Respectez le barème officiel.`,
+    duree: dureeMap[config.type],
+    bareme: output.bareme ?? getDefaultBareme(config.type),
+    generatedAt: new Date().toISOString(),
+  };
 }
 
 function buildExamPrompt(config: ExamBlancConfig): string {

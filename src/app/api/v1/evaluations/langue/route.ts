@@ -3,11 +3,19 @@ import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { createEvaluation } from '@/lib/db/repositories/evaluationRepo';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
-import { evaluateLangueAnswer } from '@/lib/evaluation/langue';
+import { orchestrate } from '@/lib/llm/orchestrator';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { langueEvaluationBodySchema } from '@/lib/validation/schemas';
+
+type LangueResult = {
+  score: number;
+  max: number;
+  status: 'success' | 'warning' | 'error';
+  message: string;
+  missing: string[];
+};
 
 export async function POST(request: Request) {
   const { auth, errorResponse } = await requireAuthenticatedUser();
@@ -26,7 +34,51 @@ export async function POST(request: Request) {
   }
 
   const answer = parsed.data.answer ?? '';
-  const result = evaluateLangueAnswer(parsed.data.exerciseId, answer);
+  const sentence = parsed.data.sentence ?? '';
+  const question = parsed.data.question ?? '';
+
+  let result: LangueResult;
+
+  try {
+    const llmResult = (await orchestrate({
+      skill: 'grammaire_ciblee',
+      userId: auth.user.id,
+      userQuery: `Évalue cette réponse de grammaire EAF (/2).
+
+PHRASE : « ${sentence} »
+QUESTION : ${question}
+RÉPONSE DE L'ÉLÈVE : ${answer}
+
+Évalue la réponse selon les critères officiels EAF : identification, dénomination précise, interprétation dans le contexte.`,
+      context: 'Évaluation grammaire EAF. Barème /2. Terminologie programme Première obligatoire.',
+    })) as {
+      feedback?: string;
+      score?: number;
+      max?: number;
+      points_forts?: string[];
+      axes?: string[];
+    };
+
+    const score = typeof llmResult.score === 'number' ? llmResult.score : 0;
+    const max = typeof llmResult.max === 'number' ? llmResult.max : 2;
+
+    result = {
+      score,
+      max,
+      status: score >= 1.5 ? 'success' : score >= 0.5 ? 'warning' : 'error',
+      message: llmResult.feedback ?? 'Évaluation terminée.',
+      missing: llmResult.axes ?? [],
+    };
+  } catch (err) {
+    console.error('[evaluations/langue] LLM error:', err instanceof Error ? err.message : err);
+    result = {
+      score: 0,
+      max: 2,
+      status: 'error',
+      message: 'Impossible d\'évaluer votre réponse pour le moment. Réessayez.',
+      missing: [],
+    };
+  }
 
   const nextWeakSkills =
     result.status === 'success'
@@ -56,7 +108,7 @@ export async function POST(request: Request) {
       feature: 'atelier_langue_submit',
       path: '/atelier-langue',
       payload: {
-        exerciseId: parsed.data.exerciseId,
+        exerciseId: String(parsed.data.exerciseId),
         score: result.score,
         status: result.status,
         weakSkills: result.status === 'success' ? [] : ['Grammaire'],

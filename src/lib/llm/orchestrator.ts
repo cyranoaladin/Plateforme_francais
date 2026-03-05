@@ -118,6 +118,8 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
     const skillSchema = skillSchemaFor(skill);
     const validated = skillSchema.safeParse(parsedRaw);
     if (!validated.success) {
+      console.error(`[llm] schema_validation_failure for skill=${skill}`, JSON.stringify(validated.error.format()).slice(0, 300));
+      console.error(`[llm] raw output (first 500 chars):`, rawText.slice(0, 500));
       logger.error(
         {
           skill,
@@ -146,9 +148,11 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
       throw error;
     }
     if (error instanceof ZodError) {
+      console.error(`[llm] ZodError for skill=${skill}:`, error.issues);
       logger.error({ skill, issues: error.issues, success: false }, 'llm.orchestrate.parse_error');
       return fallbackSkillOutput(skill);
     }
+    console.error(`[llm] provider_error for skill=${skill}:`, error instanceof Error ? error.message : error);
     logger.error({ skill, error, success: false }, 'llm.orchestrate.provider_error');
     return fallbackSkillOutput(skill);
   }

@@ -100,23 +100,35 @@ export async function POST(request: Request) {
   const month = now.getMonth();
   const sequence = sequenceForMonth(month);
 
-  const generated = (await orchestrate({
-    skill: 'tuteur_libre',
-    userId: auth.user.id,
-    userQuery: 'Génère un plan hebdomadaire EAF en JSON valide (semaines, objectif, activités).',
-    context: `Date du jour : ${now.toISOString().slice(0, 10)}. Faiblesses : ${auth.user.profile.weakSkills.join(', ') || 'aucune précisée'}. Séquence prioritaire : ${sequence.objectif}.`,
-  })) as { semaines?: Plan['semaines'] };
-
-  const fallback: Plan = {
-    semaines: Array.from({ length: 4 }, (_, idx) => ({
-      numero: idx + 1,
-      objectif: sequence.objectif,
-      activites: sequence.activites,
-    })),
-  };
+  let generated: { weeks?: Array<{ weekNumber: number; tasks: Array<{ oeuvre: string; competence: string; dureeMinutes: number; priorite: string }> }> } | undefined;
+  try {
+    generated = (await orchestrate({
+      skill: 'sr_planner',
+      userId: auth.user.id,
+      userQuery: `Génère un plan de révision EAF sur 4 semaines. Faiblesses de l'élève : ${auth.user.profile.weakSkills.join(', ') || 'aucune précisée'}. Séquence prioritaire : ${sequence.objectif}.`,
+      context: `Date du jour : ${now.toISOString().slice(0, 10)}. Objectif : ${sequence.objectif}. Œuvres choisies : ${auth.user.profile.selectedOeuvres?.join(', ') || 'non précisées'}.`,
+    })) as typeof generated;
+  } catch (err) {
+    console.error('[parcours/generate] orchestrate error:', err instanceof Error ? err.message : err);
+  }
 
   const plan: Plan = {
-    semaines: generated.semaines && generated.semaines.length > 0 ? generated.semaines : fallback.semaines,
+    semaines: generated?.weeks && generated.weeks.length > 0
+      ? generated.weeks.map((w) => ({
+          numero: w.weekNumber,
+          objectif: sequence.objectif,
+          activites: w.tasks.map((t) => ({
+            type: t.competence,
+            titre: `${t.oeuvre} — ${t.competence}`,
+            duree: `${t.dureeMinutes} min`,
+            lien: sequence.activites[0]?.lien ?? '/mon-parcours',
+          })),
+        }))
+      : Array.from({ length: 4 }, (_, idx) => ({
+          numero: idx + 1,
+          objectif: sequence.objectif,
+          activites: sequence.activites,
+        })),
   };
 
   await createMemoryEventRecord(

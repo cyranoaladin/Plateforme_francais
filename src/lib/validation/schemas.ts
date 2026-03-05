@@ -31,8 +31,15 @@ export const memoryEventBodySchema = z.object({
 });
 
 export const langueEvaluationBodySchema = z.object({
-  exerciseId: z.union([z.literal(1), z.literal(2)]),
+  exerciseId: z.coerce.string().min(1),
+  sentence: z.string().trim().min(1).max(1000).optional(),
+  question: z.string().trim().min(1).max(1000).optional(),
   answer: z.string().default(''),
+});
+
+export const langueGenerateBodySchema = z.object({
+  theme: z.enum(['subordonnees', 'relations_logiques', 'systeme_verbal', 'mixte']).optional().default('mixte'),
+  count: z.number().int().min(1).max(10).optional().default(5),
 });
 
 export const ragSearchBodySchema = z.object({
@@ -87,8 +94,23 @@ export const parcoursGenerateBodySchema = z.object({
   forceRegenerate: z.boolean().optional(),
 });
 
+export const QUIZ_THEMES = [
+  'grammaire',
+  'figures_de_style',
+  'mouvements_litteraires',
+  'poesie',
+  'roman',
+  'theatre',
+  'litterature_idees',
+  'methode_commentaire',
+  'methode_dissertation',
+  'oral_eaf',
+] as const;
+
+export type QuizTheme = (typeof QUIZ_THEMES)[number];
+
 export const quizGenerateBodySchema = z.object({
-  theme: z.string().trim().min(1).max(120),
+  theme: z.enum(QUIZ_THEMES),
   difficulte: z.union([z.literal(1), z.literal(2), z.literal(3)]),
   nbQuestions: z.union([z.literal(5), z.literal(10), z.literal(20)]),
 });

@@ -7,9 +7,9 @@ import { useRouter } from 'next/navigation';
 export default function LoginPage() {
   const router = useRouter();
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [email, setEmail] = useState('jean@eaf.local');
-  const [password, setPassword] = useState('demo1234');
-  const [displayName, setDisplayName] = useState('Jean Dupont');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -162,8 +162,7 @@ export default function LoginPage() {
         </form>
 
         <p className="text-xs text-muted-foreground mt-6">
-          Compte de démonstration : <span className="font-semibold">jean@eaf.local</span> /{' '}
-          <span className="font-semibold">demo1234</span>
+          Pas encore de compte ? Inscrivez-vous gratuitement.
         </p>
       </div>
     </div>
