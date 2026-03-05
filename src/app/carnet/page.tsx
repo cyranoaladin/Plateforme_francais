@@ -105,6 +105,7 @@ export default function CarnetPage() {
           <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2"><BookOpen className="w-7 h-7 text-primary" /> Carnet de lecture</h1>
           <p className="text-muted-foreground">Notes personnelles pour l entretien oral: citations, reactions, resumes, liens culturels.</p>
         </div>
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- Download link, not navigation */}
         <a href="/api/v1/carnet/export" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border hover:bg-muted text-sm font-medium">
           <Download className="w-4 h-4" /> Export PDF
         </a>

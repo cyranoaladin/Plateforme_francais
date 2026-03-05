@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -52,13 +52,13 @@ export default function LoginPage() {
       <div className="w-full max-w-md bg-card border border-border rounded-2xl p-8 shadow-lg">
         {/* Logo Nexus Réussite */}
         <div className="flex justify-center mb-6">
-          <img 
-            src="/images/logo_slogan_nexus.png" 
-            alt="Nexus Réussite - Viser, Atteindre, Dépasser" 
+          <img
+            src="/images/logo_slogan_nexus.png"
+            alt="Nexus Réussite - Viser, Atteindre, Dépasser"
             className="h-20 w-auto object-contain"
           />
         </div>
-        
+
         <h1 className="text-2xl font-bold text-foreground mb-2 text-center">Connexion EAF Premium</h1>
         <p className="text-muted-foreground text-sm mb-6 text-center">
           Connectez-vous pour récupérer votre parcours, vos résultats et vos ressources.

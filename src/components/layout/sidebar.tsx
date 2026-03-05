@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { DyslexiaToggle } from '@/components/accessibility/dyslexia-toggle';
@@ -20,8 +19,6 @@ import {
   Flame,
   Award,
   Settings,
-  ClipboardList,
-  NotebookPen,
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
@@ -170,9 +167,9 @@ export function Sidebar() {
       <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 bg-card border-r border-border flex-col shadow-sm z-10">
         {/* Logo Nexus Réussite */}
         <div className="p-6 flex justify-center border-b border-border">
-          <img 
-            src="/images/logo_nexus_reussite.png" 
-            alt="Nexus Réussite" 
+          <img
+            src="/images/logo_nexus_reussite.png"
+            alt="Nexus Réussite"
             className="h-20 w-20 object-contain rounded-full"
           />
         </div>
@@ -223,11 +220,10 @@ export function Sidebar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all ${
-                  isActive
+                className={`flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all ${isActive
                     ? 'bg-primary/10 text-primary shadow-sm'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                }`}
+                  }`}
               >
                 <item.icon className={`w-[18px] h-[18px] ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
                 {item.name}
@@ -287,9 +283,8 @@ export function Sidebar() {
                 key={item.name}
                 href={item.href}
                 aria-label={item.name}
-                className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${
-                  active ? 'text-primary bg-primary/10 scale-105' : 'text-muted-foreground hover:text-foreground'
-                }`}
+                className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${active ? 'text-primary bg-primary/10 scale-105' : 'text-muted-foreground hover:text-foreground'
+                  }`}
               >
                 <item.icon className="w-5 h-5" />
                 <span className="text-[9px] mt-0.5 font-bold">{item.name}</span>

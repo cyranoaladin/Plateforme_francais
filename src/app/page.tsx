@@ -11,23 +11,17 @@ import {
   BookOpen,
   Target,
 } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import {
-  Line,
-  LineChart,
   Radar,
   RadarChart,
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
   ResponsiveContainer,
-  Tooltip,
-  CartesianGrid,
-  XAxis,
-  YAxis,
 } from 'recharts';
 import { ParcoursRecommandation } from '@/components/dashboard/parcours-recommandation';
+import { ProgressionChart } from '@/components/dashboard/progression-chart';
 import { useDashboard } from '@/hooks/useDashboard';
 
 const SKILL_BARS = [
@@ -61,6 +55,13 @@ export default function Dashboard() {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
 
+  const progressionData = data.weeklyProgression.map((item) => ({
+    date: item.week,
+    commentaire: item.score,
+    dissertation: null,
+    oral: null,
+  }));
+
   const weakestSkill = SKILL_BARS.reduce(
     (prev, curr) => (data.scores[curr.key] < data.scores[prev.key] ? curr : prev),
     SKILL_BARS[0],
@@ -75,9 +76,9 @@ export default function Dashboard() {
 
         {/* Logo Nexus Réussite - Étoile */}
         <div className="relative z-10 w-20 h-20 md:w-28 md:h-28 bg-white/90 rounded-full p-1.5 shrink-0 border border-white/30 shadow-xl flex items-center justify-center">
-          <img 
-            src="/images/logo.png" 
-            alt="Nexus Réussite" 
+          <img
+            src="/images/logo.png"
+            alt="Nexus Réussite"
             className="w-full h-full object-contain rounded-full"
           />
         </div>
@@ -204,17 +205,7 @@ export default function Dashboard() {
                 <h3 className="font-bold text-foreground">Progression hebdomadaire</h3>
                 <Clock className="w-4 h-4 text-muted-foreground" />
               </div>
-              <div className="w-full" style={{ height: 224 }}>
-                <ResponsiveContainer width="100%" height={224}>
-                  <LineChart data={data.weeklyProgression}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="week" tick={{ fontSize: 10 }} />
-                    <YAxis domain={[0, 20]} tick={{ fontSize: 10 }} />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="score" stroke="var(--color-warning, #f59e0b)" strokeWidth={2.5} dot={{ r: 3 }} />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
+              <ProgressionChart data={progressionData} target={12} />
               {data.isLoading && <p className="text-xs text-muted-foreground mt-2">Chargement...</p>}
             </div>
           </div>

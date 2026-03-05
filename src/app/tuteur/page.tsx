@@ -4,12 +4,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Send, Sparkles } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
-type Citation = {
-  index: number;
-  title: string;
-  source: string;
-};
-
 type Message = {
   role: 'user' | 'assistant';
   content: string;
@@ -124,11 +118,10 @@ export default function TuteurPage() {
                 </div>
               )}
               <div
-                className={`p-4 rounded-2xl ${
-                  message.role === 'user'
+                className={`p-4 rounded-2xl ${message.role === 'user'
                     ? 'bg-primary text-primary-foreground rounded-tr-sm shadow-md'
                     : 'bg-muted/50 border border-border text-foreground rounded-tl-sm shadow-sm'
-                }`}
+                  }`}
                 role={message.role === 'assistant' ? 'status' : undefined}
                 aria-live={message.role === 'assistant' ? 'polite' : undefined}
               >
