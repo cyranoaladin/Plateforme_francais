@@ -1,4 +1,6 @@
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db/client';
+import { sendTransactionalEmail } from '@/lib/email/client';
 import { logger } from '@/lib/logger';
 
 const PRICING_CENTS_PER_MILLION: Record<string, {
@@ -73,23 +75,11 @@ export async function trackLlmCall(params: TrackParams): Promise<void> {
   }
 
   try {
-    await prisma.$executeRawUnsafe(
-      `INSERT INTO "LlmCostLog"
+    await prisma.$executeRaw(
+      Prisma.sql`INSERT INTO "LlmCostLog"
         ("userId","skill","provider","model","tier","inputTokens","outputTokens","costEurCents","latencyMs","success","errorCode","contextSize","createdAt")
        VALUES
-        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,NOW())`,
-      params.userId ?? null,
-      params.skill,
-      params.provider,
-      params.model,
-      params.tier,
-      params.inputTokens,
-      params.outputTokens,
-      costEurCents,
-      params.latencyMs,
-      params.success,
-      params.errorCode ?? null,
-      params.contextSize ?? null,
+        (${params.userId ?? null},${params.skill},${params.provider},${params.model},${params.tier},${params.inputTokens},${params.outputTokens},${costEurCents},${params.latencyMs},${params.success},${params.errorCode ?? null},${params.contextSize ?? null},NOW())`
     );
   } catch (error) {
     logger.warn(
@@ -125,14 +115,14 @@ export async function checkBudgetAlerts(): Promise<void> {
   let monthTotal = 0;
 
   try {
+    const dayStart = startOfUtcDay();
+    const monthStart = startOfUtcMonth();
     const [dayRows, monthRows] = await Promise.all([
-      prisma.$queryRawUnsafe<Array<{ total: number | null }>>(
-        `SELECT COALESCE(SUM("costEurCents"), 0) AS total FROM "LlmCostLog" WHERE "createdAt" >= $1`,
-        startOfUtcDay(),
+      prisma.$queryRaw<Array<{ total: number | null }>>(
+        Prisma.sql`SELECT COALESCE(SUM("costEurCents"), 0) AS total FROM "LlmCostLog" WHERE "createdAt" >= ${dayStart}`,
       ),
-      prisma.$queryRawUnsafe<Array<{ total: number | null }>>(
-        `SELECT COALESCE(SUM("costEurCents"), 0) AS total FROM "LlmCostLog" WHERE "createdAt" >= $1`,
-        startOfUtcMonth(),
+      prisma.$queryRaw<Array<{ total: number | null }>>(
+        Prisma.sql`SELECT COALESCE(SUM("costEurCents"), 0) AS total FROM "LlmCostLog" WHERE "createdAt" >= ${monthStart}`,
       ),
     ]);
     dayTotal = Number(dayRows[0]?.total ?? 0);
@@ -145,29 +135,51 @@ export async function checkBudgetAlerts(): Promise<void> {
   if (dayTotal > dailyThreshold) {
     logger.warn({ dayTotal, dailyThreshold }, 'llm.budget.daily_exceeded');
     try {
-      await prisma.$executeRawUnsafe(
-        `INSERT INTO "LlmBudgetAlert" ("period","totalEurCents","threshold","alertedAt")
-         VALUES ('daily',$1,$2,NOW())`,
-        dayTotal,
-        dailyThreshold,
+      await prisma.$executeRaw(
+        Prisma.sql`INSERT INTO "LlmBudgetAlert" ("period","totalEurCents","threshold","alertedAt")
+         VALUES ('daily',${dayTotal},${dailyThreshold},NOW())`
       );
     } catch (error) {
       logger.warn({ error }, 'llm.budget.daily_alert_insert_error');
     }
+    await notifyBudgetExceeded('daily', dayTotal, dailyThreshold);
   }
 
   if (monthTotal > monthlyThreshold) {
     logger.error({ monthTotal, monthlyThreshold }, 'llm.budget.monthly_exceeded');
     try {
-      await prisma.$executeRawUnsafe(
-        `INSERT INTO "LlmBudgetAlert" ("period","totalEurCents","threshold","alertedAt")
-         VALUES ('monthly',$1,$2,NOW())`,
-        monthTotal,
-        monthlyThreshold,
+      await prisma.$executeRaw(
+        Prisma.sql`INSERT INTO "LlmBudgetAlert" ("period","totalEurCents","threshold","alertedAt")
+         VALUES ('monthly',${monthTotal},${monthlyThreshold},NOW())`
       );
     } catch (error) {
       logger.warn({ error }, 'llm.budget.monthly_alert_insert_error');
     }
+    await notifyBudgetExceeded('monthly', monthTotal, monthlyThreshold);
+  }
+}
+
+/**
+ * Sends an email alert to ADMIN_EMAIL when an LLM budget threshold is exceeded.
+ */
+async function notifyBudgetExceeded(period: string, totalCents: number, thresholdCents: number): Promise<void> {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!adminEmail) return;
+
+  try {
+    await sendTransactionalEmail({
+      to: adminEmail,
+      subject: `⚠️ Nexus EAF — Budget LLM ${period} dépassé`,
+      html: `
+        <h2>Alerte budget LLM (${period})</h2>
+        <p><strong>Total :</strong> ${(totalCents / 100).toFixed(2)} €</p>
+        <p><strong>Seuil :</strong> ${(thresholdCents / 100).toFixed(2)} €</p>
+        <p><strong>Date :</strong> ${new Date().toISOString()}</p>
+        <p>Vérifiez les coûts sur le dashboard admin ou via <code>getLlmCostReport()</code>.</p>
+      `,
+    });
+  } catch (error) {
+    logger.warn({ error, period }, 'llm.budget.email_notification_failed');
   }
 }
 
@@ -188,7 +200,8 @@ export async function getLlmCostReport(params?: {
   const start = new Date();
   start.setUTCDate(start.getUTCDate() - days);
 
-  const rows = await prisma.$queryRawUnsafe<
+  const userIdFilter = params?.userId ?? null;
+  const rows = await prisma.$queryRaw<
     Array<{
       userId: string | null;
       skill: string;
@@ -200,12 +213,10 @@ export async function getLlmCostReport(params?: {
       latencyMs: number;
     }>
   >(
-    `SELECT "userId","skill","model","tier","inputTokens","outputTokens","costEurCents","latencyMs"
+    Prisma.sql`SELECT "userId","skill","model","tier","inputTokens","outputTokens","costEurCents","latencyMs"
      FROM "LlmCostLog"
-     WHERE "createdAt" >= $1
-       AND ($2::text IS NULL OR "userId" = $2::text)`,
-    start,
-    params?.userId ?? null,
+     WHERE "createdAt" >= ${start}
+       AND (${userIdFilter}::text IS NULL OR "userId" = ${userIdFilter}::text)`,
   );
 
   const byModel: Record<string, { inputTokens: number; outputTokens: number; costEurCents: number }> = {};
@@ -261,11 +272,11 @@ export async function getLlmCostReport(params?: {
 }
 
 export async function getTodayCostCents(): Promise<number> {
-  const rows = await prisma.$queryRawUnsafe<Array<{ total: number | null }>>(
-    `SELECT COALESCE(SUM("costEurCents"), 0) AS total
+  const todayStart = startOfUtcDay();
+  const rows = await prisma.$queryRaw<Array<{ total: number | null }>>(
+    Prisma.sql`SELECT COALESCE(SUM("costEurCents"), 0) AS total
      FROM "LlmCostLog"
-     WHERE "createdAt" >= $1`,
-    startOfUtcDay(),
+     WHERE "createdAt" >= ${todayStart}`,
   );
   return Number(rows[0]?.total ?? 0);
 }

@@ -147,6 +147,14 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
     if (error instanceof QuotaExceededError) {
       throw error;
     }
+    if (error instanceof SyntaxError) {
+      console.error(`[llm] json_parse_error for skill=${skill}:`, error.message);
+      logger.error(
+        { skill, userId, error: error.message, success: false },
+        'llm.orchestrate.json_parse_error',
+      );
+      return fallbackSkillOutput(skill);
+    }
     if (error instanceof ZodError) {
       console.error(`[llm] ZodError for skill=${skill}:`, error.issues);
       logger.error({ skill, issues: error.issues, success: false }, 'llm.orchestrate.parse_error');

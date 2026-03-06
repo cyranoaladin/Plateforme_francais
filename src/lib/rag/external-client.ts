@@ -3,7 +3,23 @@
  * Connexion au système RAG éducation Français avec 13 661 chunks indexés.
  */
 
+import { z } from 'zod';
 import { logger } from '@/lib/logger';
+
+/* ─── Zod contract for external RAG response ─── */
+const ExternalRAGChunkSchema = z.object({
+  content: z.string(),
+  score: z.number(),
+  metadata: z.record(z.unknown()).default({}),
+});
+
+const ExternalRAGResponseSchema = z.object({
+  results: z.array(ExternalRAGChunkSchema).default([]),
+  query: z.string().optional(),
+  collection: z.string().optional(),
+  total_found: z.number().optional(),
+  search_time_ms: z.number().optional(),
+});
 
 export interface ExternalRAGSearchParams {
   query: string;
@@ -221,37 +237,61 @@ class ExternalRAGClient {
         };
       }
 
-      const data = await response.json();
+      const rawData = await response.json();
       const latencyMs = Date.now() - startTime;
+
+      // Strict Zod validation on external response
+      const parsed = ExternalRAGResponseSchema.safeParse(rawData);
+      if (!parsed.success) {
+        logger.error({
+          query: params.query.slice(0, 50),
+          zodErrors: parsed.error.format(),
+          latencyMs,
+        }, 'rag.external.contract_violation');
+        return {
+          results: [],
+          query: params.query,
+          collection: payload.collection,
+          total_found: 0,
+        };
+      }
+
+      const data = parsed.data;
+      const isEmpty = data.results.length === 0;
 
       logger.info({
         query: params.query.slice(0, 50),
         collection: payload.collection,
-        resultsCount: data.results?.length ?? 0,
+        resultsCount: data.results.length,
         latencyMs,
         rerank: payload.rerank,
-      }, '[ExternalRAG] search_success');
+        isEmpty,
+        statusCode: response.status,
+      }, 'rag.external.search_success');
 
       return {
-        results: data.results ?? [],
+        results: data.results as ExternalRAGChunk[],
         query: params.query,
         collection: payload.collection,
-        total_found: data.total_found ?? data.results?.length ?? 0,
+        total_found: data.total_found ?? data.results.length,
         search_time_ms: latencyMs,
       };
     } catch (error) {
       const latencyMs = Date.now() - startTime;
-      logger.error({
-        error,
-        query: params.query.slice(0, 50),
-        latencyMs,
-      }, '[ExternalRAG] search_error');
+      const isTimeout = error instanceof Error && error.name === 'AbortError';
 
-      if (error instanceof Error && error.name === 'AbortError') {
-        logger.warn(
-          { query: params.query.slice(0, 50), timeoutMs: this.timeout },
-          '[ExternalRAG] external_timeout_fallback_local',
-        );
+      if (isTimeout) {
+        logger.warn({
+          query: params.query.slice(0, 50),
+          timeoutMs: this.timeout,
+          latencyMs,
+        }, 'rag.external.timeout');
+      } else {
+        logger.error({
+          error,
+          query: params.query.slice(0, 50),
+          latencyMs,
+        }, 'rag.external.search_error');
       }
 
       return {
