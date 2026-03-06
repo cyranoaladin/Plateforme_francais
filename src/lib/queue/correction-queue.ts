@@ -17,20 +17,57 @@ const redisUrl = process.env.REDIS_URL ?? 'redis://localhost:6379';
 let connection: IORedis | null = null;
 let queue: Queue | null = null;
 
+/* ─── Circuit breaker state ─── */
+let circuitOpen = false;
+let circuitOpenedAt = 0;
+const CIRCUIT_RESET_MS = 10_000; // 10s cooldown before retrying
+
+function isCircuitOpen(): boolean {
+  if (!circuitOpen) return false;
+  if (Date.now() - circuitOpenedAt > CIRCUIT_RESET_MS) {
+    circuitOpen = false;
+    return false;
+  }
+  return true;
+}
+
+function openCircuit(): void {
+  circuitOpen = true;
+  circuitOpenedAt = Date.now();
+}
+
 function getConnection(): IORedis {
   if (connection) {
     return connection;
   }
 
   connection = new IORedis(redisUrl, {
-    maxRetriesPerRequest: null,
-    enableReadyCheck: true,
+    lazyConnect: true,
+    connectTimeout: 1000,
+    maxRetriesPerRequest: 1,
+    enableReadyCheck: false,
+  });
+
+  connection.on('error', (err) => {
+    logger.warn({ err: err.message }, 'redis.connection.error');
+    openCircuit();
+  });
+
+  connection.on('connect', () => {
+    circuitOpen = false;
   });
 
   return connection;
 }
 
+/**
+ * Returns the shared Redis client.
+ * Throws immediately if the circuit breaker is open (Redis recently failed).
+ */
 export function getRedisClient(): IORedis {
+  if (isCircuitOpen()) {
+    throw new Error('Redis circuit breaker open — skipping connection attempt');
+  }
   return getConnection();
 }
 

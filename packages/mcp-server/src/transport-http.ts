@@ -6,6 +6,7 @@ import { logger } from './lib/logger.js'
 interface HttpTransportOptions {
   port: number
   allowedOrigins: string[]
+  bindHost?: string
 }
 
 interface HttpTransport {
@@ -22,7 +23,12 @@ export function createHttpTransport(
   mcpServer: MCPServer,
   options: HttpTransportOptions,
 ): HttpTransport {
-  const { port, allowedOrigins } = options
+  const { port, allowedOrigins, bindHost = '127.0.0.1' } = options
+
+  // SECURITY: Refuse to start HTTP transport without an API key
+  if (!process.env.MCP_API_KEY) {
+    throw new Error('MCP_API_KEY is required to start the HTTP transport. Set it in the environment.')
+  }
 
   const server = createHttpServer((req, res) => {
     const origin = req.headers.origin ?? ''
@@ -105,8 +111,8 @@ export function createHttpTransport(
   return {
     start: () =>
       new Promise((resolve, reject) => {
-        server.listen(port, () => {
-          logger.info({ port }, '[MCP HTTP] listening')
+        server.listen(port, bindHost, () => {
+          logger.info({ port, bindHost }, '[MCP HTTP] listening')
           resolve()
         })
         server.on('error', reject)

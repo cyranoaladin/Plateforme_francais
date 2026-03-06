@@ -40,8 +40,8 @@ const RECOMMENDED_ACTIONS = [
 export default function Dashboard() {
   const data = useDashboard();
   const now = new Date();
-  // Date officielle EAF 2026 : Lundi 8 juin 2026
-  const EAF_DATE = new Date('2026-06-08T08:00:00');
+  // Date officielle EAF 2026 : Jeudi 11 juin 2026 (source: education.gouv.fr)
+  const EAF_DATE = new Date('2026-06-11T08:00:00');
   const joursAvantEAF = Math.max(0, Math.ceil((EAF_DATE.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
 
   const radarData = [

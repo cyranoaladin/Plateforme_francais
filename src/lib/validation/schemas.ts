@@ -9,7 +9,14 @@ export const registerBodySchema = z.object({
   email: z.string().trim().email(),
   password: z.string().min(8),
   displayName: z.string().trim().min(1).max(120).optional(),
-});
+  acceptedCgu: z.boolean().refine((v) => v === true, { message: 'Vous devez accepter les CGU.' }),
+  cguVersion: z.string().trim().min(1).max(20).default('2026-03'),
+  isMinor: z.boolean().default(false),
+  parentEmail: z.string().trim().email().optional(),
+}).refine(
+  (data) => !data.isMinor || (data.parentEmail && data.parentEmail.length > 0),
+  { message: 'Email parental requis pour les mineurs de moins de 15 ans.', path: ['parentEmail'] },
+);
 
 export const memoryEventTypes = z.enum([
   'navigation',

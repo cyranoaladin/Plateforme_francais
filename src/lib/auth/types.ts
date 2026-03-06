@@ -12,6 +12,10 @@ export type StudentProfile = {
   preferredObjects: string[];
   weakSkills: string[];
   oeuvreChoisieEntretien?: string;
+  isMinor?: boolean;
+  parentEmail?: string | null;
+  cguAcceptedAt?: string;
+  cguVersion?: string;
 };
 
 export type MemoryEventType =

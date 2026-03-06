@@ -52,6 +52,7 @@ export async function POST(request: Request) {
 
   const email = parsed.data.email.trim().toLowerCase();
   const displayName = parsed.data.displayName?.trim() ?? '';
+  const { acceptedCgu, cguVersion, isMinor, parentEmail } = parsed.data;
 
   const existing = await findUserByEmail(email);
   if (existing) {
@@ -60,6 +61,10 @@ export async function POST(request: Request) {
 
   const credentials = createPasswordCredentials(parsed.data.password);
   const userId = randomUUID();
+
+  // Extract IP hash for CGU consent proof (RGPD: no raw IP stored)
+  const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  const ipHash = Buffer.from(clientIp).toString('base64');
 
   await createUser({
     id: userId,
@@ -70,6 +75,10 @@ export async function POST(request: Request) {
     profile: {
       ...DEFAULT_PROFILE,
       displayName: displayName || DEFAULT_PROFILE.displayName,
+      isMinor: isMinor ?? false,
+      parentEmail: parentEmail ?? null,
+      cguAcceptedAt: new Date().toISOString(),
+      cguVersion,
     },
   });
 
@@ -77,7 +86,14 @@ export async function POST(request: Request) {
     createMemoryEvent(userId, {
       type: 'auth',
       feature: 'register',
-      payload: { email },
+      payload: {
+        email,
+        acceptedCgu: String(acceptedCgu),
+        cguVersion: cguVersion ?? '2026-03',
+        isMinor: String(isMinor ?? false),
+        parentEmail: parentEmail ?? 'none',
+        ipHash,
+      },
     }),
   );
 

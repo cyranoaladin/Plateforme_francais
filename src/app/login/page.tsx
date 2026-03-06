@@ -187,7 +187,13 @@ function AuthCard() {
         json: {
           email,
           password,
-          ...(mode === 'register' ? { displayName } : {}),
+          ...(mode === 'register' ? {
+            displayName,
+            acceptedCgu: acceptTerms,
+            cguVersion: '2026-03',
+            isMinor,
+            ...(isMinor && parentEmail ? { parentEmail } : {}),
+          } : {}),
         },
       });
 

@@ -1,18 +1,17 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const PUBLIC_PATHS = ['/login', '/bienvenue'];
+const PUBLIC_PATHS = ['/login', '/bienvenue', '/pricing', '/paiement/confirmation', '/paiement/refus'];
 const PUBLIC_API_PATHS = [
   '/api/v1/auth/login',
   '/api/v1/auth/register',
   '/api/v1/health',
   '/api/v1/payments/clictopay/callback',
+  '/api/v1/payments/clictopay/public-status',
   '/api/v1/metrics/vitals',
 ];
 
 function applySecurityHeaders(response: NextResponse, nonce: string): NextResponse {
-  const scriptSrc = "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
-
   response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
@@ -24,7 +23,7 @@ function applySecurityHeaders(response: NextResponse, nonce: string): NextRespon
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      scriptSrc,
+      `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self'",

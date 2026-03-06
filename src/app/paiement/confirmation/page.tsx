@@ -24,9 +24,9 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
     orderId: orderId ?? undefined,
   });
   const statusUrl = orderRef
-    ? `/api/payments/clictopay/public-status?orderRef=${encodeURIComponent(orderRef)}`
+    ? `/api/v1/payments/clictopay/public-status?orderRef=${encodeURIComponent(orderRef)}`
     : orderId
-      ? `/api/payments/clictopay/public-status?orderId=${encodeURIComponent(orderId)}`
+      ? `/api/v1/payments/clictopay/public-status?orderId=${encodeURIComponent(orderId)}`
       : null;
 
   const statusLabel =

@@ -126,8 +126,12 @@ const AGENT_SCOPES: Record<AgentSkill, string[]> = {
 export function verifyApiKey(providedKey: string | undefined): boolean {
   const validKey = process.env.MCP_API_KEY
   if (!validKey) {
-    logger.warn('[Auth] MCP_API_KEY not configured — running in UNSAFE mode')
-    return true // Dev mode sans clé configurée
+    if (process.env.MCP_TRANSPORT === 'http') {
+      logger.error('[Auth] MCP_API_KEY is required in HTTP mode — rejecting request')
+      return false
+    }
+    logger.warn('[Auth] MCP_API_KEY not configured — allowing stdio-only mode')
+    return true
   }
   if (!providedKey) return false
 
@@ -165,11 +169,19 @@ export function extractAgentContext(requestMeta?: Record<string, unknown>): {
   studentId?: string
   requestId: string
 } {
-  const skill = (requestMeta?.agentSkill as string) ?? 'system'
+  // SECURITY: Never trust client-supplied agentSkill in HTTP mode.
+  // In HTTP transport, scope MUST be 'system' (minimum privilege).
+  // Only stdio (local) callers may suggest a skill, and even then we validate.
+  const isHttp = process.env.MCP_TRANSPORT === 'http'
+  const rawSkill = (requestMeta?.agentSkill as string) ?? 'system'
   const validSkills = Object.keys(AGENT_SCOPES) as AgentSkill[]
-  const agentSkill = validSkills.includes(skill as AgentSkill)
-    ? (skill as AgentSkill)
-    : 'system'
+
+  let agentSkill: AgentSkill = 'system'
+  if (!isHttp && validSkills.includes(rawSkill as AgentSkill)) {
+    agentSkill = rawSkill as AgentSkill
+  } else if (isHttp && rawSkill !== 'system') {
+    logger.warn({ requestedSkill: rawSkill }, '[Auth] HTTP client attempted to set agentSkill — ignored, using system')
+  }
 
   return {
     agentSkill,

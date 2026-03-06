@@ -171,7 +171,7 @@ export default function PricingPage() {
 
     const load = async () => {
       try {
-        const payload = await apiFetch<BillingStatusPayload>('/api/payments/clictopay/status');
+        const payload = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status');
         setBilling(payload);
       } catch (err) {
         if (isApiError(err)) {
@@ -200,7 +200,7 @@ export default function PricingPage() {
     track({ name: 'pricing_checkout_click', props: { plan: planId } });
 
     try {
-      const payload = await apiFetch<{ checkoutUrl?: string }>('/api/payments/clictopay/init', {
+      const payload = await apiFetch<{ checkoutUrl?: string }>('/api/v1/payments/clictopay/init', {
         method: 'POST',
         json: { plan },
       });
@@ -366,7 +366,7 @@ export default function PricingPage() {
                 track({ name: 'pricing_code_redeem_success', props: { plan: res.plan } });
                 // Refresh billing status
                 try {
-                  const updated = await apiFetch<BillingStatusPayload>('/api/payments/clictopay/status');
+                  const updated = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status');
                   setBilling(updated);
                 } catch { /* non-blocking */ }
               } catch (err) {

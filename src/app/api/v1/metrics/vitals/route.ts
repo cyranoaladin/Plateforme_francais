@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
+import { checkRateLimit } from '@/lib/security/rate-limit';
 
 const VitalSchema = z.object({
   name: z.enum(['LCP', 'FID', 'CLS', 'TTFB', 'INP']),
@@ -14,8 +15,23 @@ const VitalSchema = z.object({
 /**
  * POST /api/v1/metrics/vitals
  * Reçoit les Web Vitals du client et les persiste en base de données.
+ * Rate-limited (100/min par IP) + graceful 202 on DB failure.
  */
 export async function POST(request: Request) {
+  // Rate limit: 100 requests per minute per IP
+  const limit = await checkRateLimit({
+    request,
+    key: 'vitals',
+    limit: 100,
+    windowMs: 60 * 1000,
+  });
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded.' },
+      { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } },
+    );
+  }
+
   let body;
   try {
     body = await request.json();
@@ -42,7 +58,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    logger.error({ error }, 'metrics.vitals.error');
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    // Graceful degradation: accept the event but drop it if DB is unavailable
+    logger.warn({ error }, 'metrics.vitals.db_unavailable');
+    return NextResponse.json({ ok: true, dropped: true }, { status: 202 });
   }
 }
