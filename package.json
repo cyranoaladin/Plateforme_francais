@@ -38,6 +38,35 @@
     "ci:config-sanity": "node scripts/check-env.js",
     "ci:audit-csrf": "node scripts/audit-csrf-routes.mjs"
   },
+  "overrides": {
+    "@modelcontextprotocol/sdk": {
+      "@hono/node-server": "1.19.10",
+      "express-rate-limit": "8.2.2",
+      "hono": "4.12.4"
+    },
+    "rollup": "4.59.0",
+    "eslint": {
+      "minimatch": "3.1.4"
+    },
+    "@eslint/config-array": {
+      "minimatch": "3.1.4"
+    },
+    "@eslint/eslintrc": {
+      "minimatch": "3.1.4"
+    },
+    "eslint-plugin-import": {
+      "minimatch": "3.1.4"
+    },
+    "eslint-plugin-jsx-a11y": {
+      "minimatch": "3.1.4"
+    },
+    "eslint-plugin-react": {
+      "minimatch": "3.1.4"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "9.0.9"
+    }
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.996.0",
     "@aws-sdk/s3-request-presigner": "^3.996.0",
