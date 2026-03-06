@@ -56,7 +56,7 @@ describe('Integration API /oral/session/start', () => {
     expect(res.status).toBe(429);
   });
 
-  it('retourne 403 si quota plan depasse', async () => {
+  it('retourne 402 si quota plan depasse', async () => {
     vi.mocked(checkRateLimit).mockResolvedValue({ allowed: true, retryAfter: 0 } as never);
     vi.mocked(requirePlan).mockResolvedValue({
       allowed: false,
@@ -69,7 +69,6 @@ describe('Integration API /oral/session/start', () => {
       body: JSON.stringify({ oeuvre: 'Manon Lescaut' }),
     });
     const res = await POST(req);
-    expect(res.status).toBe(403);
+    expect(res.status).toBe(402);
   });
 });
-

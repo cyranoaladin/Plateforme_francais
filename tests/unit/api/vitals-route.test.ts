@@ -1,51 +1,34 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const redisMock = { get: vi.fn(), set: vi.fn() };
+const createWebVital = vi.fn();
+const checkRateLimit = vi.fn();
 
-vi.mock('@/lib/queue/correction-queue', () => ({
-  getRedisClient: () => redisMock,
-}));
-
-vi.mock('@/lib/auth/guard', () => ({
-  requireAuthenticatedUser: vi.fn(),
-}));
-
-function makeAuthResult(role = 'eleve' as const) {
-  return {
-    auth: {
-      user: {
-        id: 'user-1',
-        role,
-        email: 'test@eaf.local',
-        passwordHash: '',
-        passwordSalt: '',
-        createdAt: '2026-01-01T00:00:00Z',
-        profile: {
-          displayName: 'Test',
-          classLevel: '1ère',
-          targetScore: '14',
-          onboardingCompleted: true,
-          selectedOeuvres: [],
-          parcoursProgress: [],
-          badges: [],
-          preferredObjects: [],
-          weakSkills: [],
-        },
-      },
-      token: 'test-token',
+vi.mock('@/lib/db/client', () => ({
+  prisma: {
+    webVital: {
+      create: (...args: unknown[]) => createWebVital(...args),
     },
-    errorResponse: null,
-  };
-}
+  },
+}));
+
+vi.mock('@/lib/logger', () => ({
+  logger: {
+    warn: vi.fn(),
+    info: vi.fn(),
+    error: vi.fn(),
+  },
+}));
+
+vi.mock('@/lib/security/rate-limit', () => ({
+  checkRateLimit: (...args: unknown[]) => checkRateLimit(...args),
+}));
 
 describe('POST /api/v1/metrics/vitals', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.clearAllMocks();
     vi.resetModules();
-    redisMock.get.mockResolvedValue(null);
-    redisMock.set.mockResolvedValue('OK');
-    const { requireAuthenticatedUser } = await import('@/lib/auth/guard');
-    vi.mocked(requireAuthenticatedUser).mockResolvedValue(makeAuthResult());
+    createWebVital.mockResolvedValue({ id: 'wv_1' });
+    checkRateLimit.mockResolvedValue({ allowed: true, retryAfter: 0 });
   });
 
   it('accepte une métrique LCP valide', async () => {
@@ -81,6 +64,19 @@ describe('POST /api/v1/metrics/vitals', () => {
     });
     const response = await POST(req);
     expect(response.status).toBe(400);
+  });
+
+  it('retourne 202 si la base est indisponible', async () => {
+    createWebVital.mockRejectedValueOnce(new Error('db unavailable'));
+    const { POST } = await import('@/app/api/v1/metrics/vitals/route');
+    const req = new Request('http://localhost/', {
+      method: 'POST',
+      body: JSON.stringify({ name: 'LCP', value: 500 }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const response = await POST(req);
+    expect(response.status).toBe(202);
+    await expect(response.json()).resolves.toEqual({ ok: true, dropped: true });
   });
 
   it('rejette une valeur négative', async () => {

@@ -4,8 +4,8 @@ const mockExecuteRaw = vi.fn();
 const mockQueryRaw = vi.fn();
 vi.mock('@/lib/db/client', () => ({
   prisma: {
-    $executeRawUnsafe: (...a: unknown[]) => mockExecuteRaw(...a),
-    $queryRawUnsafe: (...a: unknown[]) => mockQueryRaw(...a),
+    $executeRaw: (...a: unknown[]) => mockExecuteRaw(...a),
+    $queryRaw: (...a: unknown[]) => mockQueryRaw(...a),
   },
   isDatabaseAvailable: vi.fn().mockResolvedValue(true),
 }));

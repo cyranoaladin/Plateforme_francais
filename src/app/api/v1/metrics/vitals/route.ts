@@ -4,8 +4,10 @@ import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 
+const ALLOWED_VITAL_NAMES = ['CLS', 'FCP', 'FID', 'INP', 'LCP', 'TTFB'] as const;
+
 const VitalSchema = z.object({
-  name: z.string().min(1).max(50),
+  name: z.enum(ALLOWED_VITAL_NAMES),
   value: z.number().min(0).max(60000),
   id: z.string().optional(),
   rating: z.enum(['good', 'needs-improvement', 'poor']).optional(),

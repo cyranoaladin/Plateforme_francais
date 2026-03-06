@@ -48,14 +48,16 @@ function getConnection(): IORedis {
     enableReadyCheck: false,
   });
 
-  connection.on('error', (err) => {
-    logger.warn({ err: err.message }, 'redis.connection.error');
-    openCircuit();
-  });
+  if (typeof connection.on === 'function') {
+    connection.on('error', (err) => {
+      logger.warn({ err: err.message }, 'redis.connection.error');
+      openCircuit();
+    });
 
-  connection.on('connect', () => {
-    circuitOpen = false;
-  });
+    connection.on('connect', () => {
+      circuitOpen = false;
+    });
+  }
 
   return connection;
 }

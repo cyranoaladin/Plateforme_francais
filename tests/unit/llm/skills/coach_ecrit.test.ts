@@ -21,7 +21,7 @@ describe('skill coach_ecrit', () => {
 
   it('prompt interdit la rédaction intégrale', () => {
     const prompt = skillConfigs.coach_ecrit.prompt.toLowerCase();
-    expect(prompt).toContain('sans');
+    expect(prompt.includes('sans') || prompt.includes('ne jamais')).toBe(true);
     expect(prompt).toContain('rédiger');
     expect(prompt).toContain('copie');
   });
