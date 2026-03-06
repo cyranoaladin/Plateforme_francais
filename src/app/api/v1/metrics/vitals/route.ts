@@ -5,7 +5,7 @@ import { logger } from '@/lib/logger';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 
 const VitalSchema = z.object({
-  name: z.enum(['LCP', 'FID', 'CLS', 'TTFB', 'INP']),
+  name: z.string().min(1).max(50),
   value: z.number().min(0).max(60000),
   id: z.string().optional(),
   rating: z.enum(['good', 'needs-improvement', 'poor']).optional(),

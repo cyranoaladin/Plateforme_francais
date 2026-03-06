@@ -10,7 +10,14 @@ const schema = z.object({
       oeuvre: z.string(),
       competence: z.string(),
       dureeMinutes: z.number().int(),
-      priorite: z.enum(['haute', 'moyenne', 'basse']),
+      priorite: z.string().transform((v) => {
+        const map: Record<string, string> = {
+          'CRITIQUE': 'haute', 'ÉLEVÉE': 'haute', 'HAUTE': 'haute', 'haute': 'haute',
+          'MOYENNE': 'moyenne', 'moyenne': 'moyenne', 'MODÉRÉE': 'moyenne',
+          'BASSE': 'basse', 'basse': 'basse', 'FAIBLE': 'basse',
+        };
+        return map[v] ?? 'moyenne';
+      }),
     })),
   })),
   citations: z.array(citationSchema).max(3).optional(),
