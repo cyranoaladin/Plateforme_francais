@@ -1,0 +1,69 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "exclude": ["exports", "types", "enumMembers"],
+  "workspaces": {
+    ".": {
+      "entry": [
+        "src/app/**/*.{ts,tsx}",
+        "ecosystem.config.cjs",
+        "prisma/seed-official-works.ts",
+        "scripts/*.{ts,mjs}",
+        "src/scripts/*.ts",
+        "tests/**/*.{ts,tsx,mjs}",
+        "src/lib/queue/start-worker.ts",
+        "src/lib/queue/worker.ts"
+      ],
+      "project": [
+        "src/**/*.{ts,tsx}",
+        "prisma/*.ts",
+        "scripts/*.{ts,mjs}",
+        "tests/**/*.{ts,tsx,mjs}"
+      ],
+      "ignoreDependencies": [
+        "@mistralai/mistralai",
+        "@react-email/components",
+        "clsx",
+        "highlight.js",
+        "pino-pretty",
+        "react-markdown",
+        "rehype-highlight",
+        "tailwind-merge",
+        "tailwindcss",
+        "postcss"
+      ],
+      "ignoreBinaries": [
+        "audit-ci",
+        "wait-on",
+        "snyk",
+        "artillery"
+      ],
+      "ignore": [
+        "src/lib/agents/avocat-diable.ts",
+        "src/lib/epreuves/exam-blanc-generator.ts",
+        "src/lib/llm/context-manager.ts",
+        "src/lib/llm/self-reflection.ts",
+        "src/lib/portfolio/profil-card-generator.ts",
+        "src/lib/storage/s3-provider.ts"
+      ]
+    },
+    "packages/mcp-server": {
+      "entry": [
+        "src/transport-*.ts",
+        "prisma/seed-official-works.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "prisma/*.ts"
+      ],
+      "ignoreDependencies": [
+        "@hono/node-server",
+        "express-rate-limit",
+        "hono",
+        "pino-pretty"
+      ],
+      "ignore": [
+        "src/client.ts"
+      ]
+    }
+  }
+}

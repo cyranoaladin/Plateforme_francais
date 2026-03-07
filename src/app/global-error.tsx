@@ -7,6 +7,9 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  // Log for production monitoring (Sentry, server logs, etc.)
+  console.error('[GlobalError]', error?.digest ?? error?.message);
+
   return (
     <html lang="fr">
       <body style={{ fontFamily: 'Arial, sans-serif', padding: '2rem', textAlign: 'center' }}>
