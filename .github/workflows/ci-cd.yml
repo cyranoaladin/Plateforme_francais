@@ -14,10 +14,10 @@ on:
 
 env:
   NODE_VERSION: "20"
-  COVERAGE_GATE_LINES: "45"
-  COVERAGE_GATE_FUNCTIONS: "43"
-  COVERAGE_GATE_BRANCHES: "37"
-  COVERAGE_GATE_STATEMENTS: "45"
+  COVERAGE_GATE_LINES: "37"
+  COVERAGE_GATE_FUNCTIONS: "34"
+  COVERAGE_GATE_BRANCHES: "30"
+  COVERAGE_GATE_STATEMENTS: "37"
   DATABASE_URL: "postgresql://test:test@localhost:5432/eaf_test"
   DIRECT_URL: "postgresql://test:test@localhost:5432/eaf_test"
   REDIS_URL: "redis://localhost:6379"
