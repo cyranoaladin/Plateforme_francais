@@ -3,11 +3,21 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Eye, EyeOff, Loader2, ShieldCheck, BookOpen, Ban, AlertTriangle } from 'lucide-react';
+import {
+  AlertTriangle,
+  ArrowRight,
+  BadgeCheck,
+  BookOpen,
+  CheckCircle2,
+  Clock3,
+  Eye,
+  EyeOff,
+  Loader2,
+  ShieldCheck,
+  Users,
+} from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
-
-/* ─────────────────── Types ─────────────────── */
 
 type AuthMode = 'login' | 'register';
 
@@ -16,7 +26,33 @@ type ProfilePayload = {
   displayName?: string;
 };
 
-/* ─────────────────── Rate-limit countdown ─────────────────── */
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+};
+
+const TRUST_POINTS = [
+  'Compte gratuit',
+  'Aucun paiement avant essai',
+  'Onboarding en ~3 minutes',
+];
+
+const PROOF_CARDS = [
+  {
+    icon: BookOpen,
+    title: 'Parcours vraiment guidé',
+    body: 'Le produit structure l effort, relance les priorites et fait travailler l eleve a partir de ses œuvres, de son historique et de ses competences actives.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Cadre defendable',
+    body: 'Corpus officiel, logique EAF, attentes visibles et securite d acces : le produit reste explicable a un parent comme a un enseignant.',
+  },
+  {
+    icon: Users,
+    title: 'Entree sans friction',
+    body: 'La page permet de commencer tout de suite, de verifier la qualite du parcours puis de choisir un plan seulement si le rythme le demande.',
+  },
+];
 
 function RateLimitNotice({ retryAfterSec }: { retryAfterSec: number }) {
   const [remaining, setRemaining] = useState(retryAfterSec);
@@ -30,14 +66,14 @@ function RateLimitNotice({ retryAfterSec }: { retryAfterSec: number }) {
   if (remaining <= 0) return null;
 
   return (
-    <div className="rounded-xl border border-warning/30 bg-warning/10 p-3 text-sm text-warning flex items-start gap-2" role="status">
-      <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
-      <span>Trop de tentatives. Réessaie dans <strong>{remaining}s</strong>.</span>
+    <div className="flex items-start gap-3 rounded-[22px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="status">
+      <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+      <span>
+        Trop de tentatives. Reessaie dans <strong>{remaining}s</strong>.
+      </span>
     </div>
   );
 }
-
-/* ─────────────────── Password field with toggle ─────────────────── */
 
 function PasswordField({
   id,
@@ -53,9 +89,12 @@ function PasswordField({
   testId?: string;
 }) {
   const [show, setShow] = useState(false);
+
   return (
     <div>
-      <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor={id}>{label}</label>
+      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor={id}>
+        {label}
+      </label>
       <div className="relative">
         <input
           id={id}
@@ -63,68 +102,81 @@ function PasswordField({
           type={show ? 'text' : 'password'}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-background border border-input rounded-xl px-3 py-2.5 pr-10 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
+          className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 pr-11 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
           required
           minLength={8}
         />
         <button
           type="button"
           onClick={() => setShow((prev) => !prev)}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-1 text-slate-500 transition-colors hover:text-[#17324d]"
           aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
         >
-          {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>
       </div>
     </div>
   );
 }
 
-/* ─────────────────── Proof panel (left side desktop) ─────────────────── */
-
 function ProofPanel() {
   return (
-    <div className="hidden lg:flex lg:col-span-5 flex-col justify-center p-10 bg-gradient-to-br from-violet-600 via-indigo-600 to-violet-800 text-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3" />
-      <div className="absolute bottom-0 left-0 w-60 h-60 bg-white/5 rounded-full translate-y-1/3 -translate-x-1/4" />
+    <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] lg:h-full lg:p-8">
+      <div className="absolute -right-10 top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+      <div className="absolute -left-8 bottom-12 h-28 w-28 rounded-full bg-[#b87333]/18 blur-2xl" />
 
-      <div className="relative z-10 space-y-8">
-        <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-14 w-auto object-contain brightness-0 invert opacity-90" />
+      <div className="relative z-10">
+        <img src="/images/logo_slogan_nexus.png" alt="Nexus Reussite" className="h-12 w-auto object-contain brightness-0 invert" />
 
-        <h2 className="text-2xl font-bold leading-tight">
-          Prépare l&apos;EAF avec méthode,<br />pas au hasard.
+        <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+          <BadgeCheck className="h-4 w-4" />
+          Espace eleve premium
+        </div>
+
+        <h2 style={EDITORIAL_HEADING} className="mt-6 max-w-xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
+          Entre dans un cadre de travail qui se laisse verifier avant de demander plus.
         </h2>
 
-        <ul className="space-y-4">
-          <li className="flex items-start gap-3">
-            <ShieldCheck className="w-5 h-5 mt-0.5 shrink-0 text-violet-200" />
-            <span className="text-sm text-violet-100 leading-relaxed">
-              <strong className="text-white">Coaching actif</strong> — L&apos;IA te fait travailler, elle ne fait pas à ta place.
-            </span>
-          </li>
-          <li className="flex items-start gap-3">
-            <BookOpen className="w-5 h-5 mt-0.5 shrink-0 text-violet-200" />
-            <span className="text-sm text-violet-100 leading-relaxed">
-              <strong className="text-white">Sources vérifiables</strong> — Citations BO / Eduscol / œuvres au programme.
-            </span>
-          </li>
-          <li className="flex items-start gap-3">
-            <Ban className="w-5 h-5 mt-0.5 shrink-0 text-violet-200" />
-            <span className="text-sm text-violet-100 leading-relaxed">
-              <strong className="text-white">Anti-copier-coller</strong> — Refus pédagogique + alternative constructive.
-            </span>
-          </li>
-        </ul>
-
-        <p className="text-xs text-violet-200/80 border-t border-white/10 pt-4">
-          Connexion sécurisée. Protection CSRF. Limitation des tentatives.
+        <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
+          Cette page ne doit pas juste connecter un utilisateur. Elle doit montrer qu on peut essayer le produit, comprendre le cadre pedagogique, voir les sources mobilisables et commencer sans devoir decider tout de suite pour un abonnement.
         </p>
+
+        <div className="mt-6 flex flex-wrap gap-2.5">
+          {TRUST_POINTS.map((point) => (
+            <span key={point} className="rounded-full border border-white/12 bg-white/8 px-3.5 py-1.5 text-xs font-semibold text-slate-100">
+              {point}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-8 grid gap-3">
+          {PROOF_CARDS.map((card) => (
+            <article key={card.title} className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+              <div className="flex items-start gap-3">
+                <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#f4efe5] text-[#17324d]">
+                  <card.icon className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">{card.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-200">{card.body}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-8 rounded-[24px] bg-[#0f2740] p-4">
+          <div className="flex items-start gap-3">
+            <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+            <p className="text-sm leading-6 text-slate-200">
+              En inscription, l onboarding prend environ trois minutes. En connexion, tu recuperes ton espace sans refaire un tunnel inutile.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-/* ─────────────────── Auth Card (tabs + forms) ─────────────────── */
 
 function AuthCard() {
   const router = useRouter();
@@ -155,8 +207,8 @@ function AuthCard() {
     track({ name: 'page_view', props: { path: '/login' } });
   }, []);
 
-  const switchMode = useCallback((m: AuthMode) => {
-    setMode(m);
+  const switchMode = useCallback((nextMode: AuthMode) => {
+    setMode(nextMode);
     setError(null);
     setRateLimitSec(null);
   }, []);
@@ -172,7 +224,7 @@ function AuthCard() {
         return;
       }
       if (!acceptTerms) {
-        setError('Tu dois accepter les conditions d\'utilisation.');
+        setError('Tu dois accepter les conditions d utilisation.');
         return;
       }
     }
@@ -187,13 +239,15 @@ function AuthCard() {
         json: {
           email,
           password,
-          ...(mode === 'register' ? {
-            displayName,
-            acceptedCgu: acceptTerms,
-            cguVersion: '2026-03',
-            isMinor,
-            ...(isMinor && parentEmail ? { parentEmail } : {}),
-          } : {}),
+          ...(mode === 'register'
+            ? {
+                displayName,
+                acceptedCgu: acceptTerms,
+                cguVersion: '2026-03',
+                isMinor,
+                ...(isMinor && parentEmail ? { parentEmail } : {}),
+              }
+            : {}),
         },
       });
 
@@ -205,7 +259,6 @@ function AuthCard() {
         return;
       }
 
-      // Post-login gating: check onboarding status
       try {
         const profile = await apiFetch<ProfilePayload>('/api/v1/student/profile');
         if (!profile.onboardingCompleted) {
@@ -228,199 +281,273 @@ function AuthCard() {
           return;
         }
         if (err.status === 403) {
-          setError('Sécurité : rafraîchis la page puis réessaie.');
+          setError('Securite : rafraichis la page puis reessaie.');
           return;
         }
         setError(err.message);
       } else {
-        setError('Erreur inattendue. Vérifie ta connexion.');
+        setError('Erreur inattendue. Verifie ta connexion.');
       }
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const title = mode === 'login' ? 'Connexion a ton espace EAF' : 'Creer ton espace EAF';
+  const subtitle =
+    mode === 'login'
+      ? 'Retrouve ton parcours, tes ateliers, tes priorites et ton historique sans repartir de zero.'
+      : 'Commence gratuitement. Le parcours se construit a partir de tes œuvres, de ton niveau et du travail deja realise.';
+
   return (
-    <div className="w-full max-w-md">
-      {/* Logo mobile only */}
-      <div className="flex justify-center mb-6 lg:hidden">
-        <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-16 w-auto object-contain" />
-      </div>
+    <div className="w-full max-w-xl">
+      <div className="rounded-[34px] border border-[#d8ccb9] bg-white/88 p-6 shadow-[0_24px_70px_rgba(23,50,77,0.08)] sm:p-8 lg:p-9">
+        <div className="flex flex-col gap-4 border-b border-[#e6dbca] pb-5">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#17324d]">
+            {mode === 'login' ? 'Acces securise' : 'Inscription gratuite'}
+          </div>
+          <div>
+            <h1 style={EDITORIAL_HEADING} className="text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+              {title}
+            </h1>
+            <p className="mt-3 max-w-xl text-sm leading-7 text-slate-600 sm:text-base">{subtitle}</p>
+          </div>
+          <div className="flex flex-wrap gap-2.5">
+            {(mode === 'register'
+              ? ['Aucun paiement avant essai', 'Onboarding ~3 minutes', 'Free disponible tout de suite']
+              : ['Connexion securisee', 'Protection CSRF', 'Recuperation rapide de l espace']
+            ).map((item) => (
+              <span key={item} className="rounded-full border border-[#d8ccb9] bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
 
-      <div className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-lg">
-        <h1 className="text-xl font-bold text-foreground mb-1 text-center">
-          {mode === 'login' ? 'Connexion' : 'Créer un compte'}
-        </h1>
-        <p className="text-muted-foreground text-xs mb-5 text-center">
-          Accès sécurisé. {mode === 'register' && 'L\'onboarding prend ~3 minutes.'}
-        </p>
-
-        {/* Tabs */}
-        <div className="flex gap-1.5 mb-5 p-1 bg-muted rounded-xl">
+        <div className="mt-5 flex gap-1.5 rounded-2xl bg-[#efe7da] p-1">
           <button
             type="button"
             onClick={() => switchMode('login')}
-            className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${mode === 'login' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+            className={`flex-1 rounded-[18px] px-4 py-3 text-sm font-bold transition-colors ${
+              mode === 'login' ? 'bg-white text-[#17324d] shadow-sm' : 'text-slate-600 hover:text-[#17324d]'
+            }`}
           >
             Se connecter
           </button>
           <button
             type="button"
             onClick={() => switchMode('register')}
-            className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${mode === 'register' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+            className={`flex-1 rounded-[18px] px-4 py-3 text-sm font-bold transition-colors ${
+              mode === 'register' ? 'bg-white text-[#17324d] shadow-sm' : 'text-slate-600 hover:text-[#17324d]'
+            }`}
           >
-            Créer un compte
+            Creer un compte
           </button>
         </div>
 
-        {/* Rate limit notice */}
-        {rateLimitSec !== null && rateLimitSec > 0 && (
-          <div className="mb-4">
-            <RateLimitNotice retryAfterSec={rateLimitSec} />
-          </div>
-        )}
+        {rateLimitSec !== null && rateLimitSec > 0 ? <div className="mt-5"><RateLimitNotice retryAfterSec={rateLimitSec} /></div> : null}
 
-        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-          {mode === 'register' && (
+        <form ref={formRef} onSubmit={handleSubmit} className="mt-5 space-y-4">
+          {mode === 'register' ? (
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor="displayName">
-                Nom affiché
+              <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="displayName">
+                Prenom ou nom affiche
               </label>
               <input
                 id="displayName"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                className="w-full bg-background border border-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
-                placeholder="Ton prénom"
+                className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
+                placeholder="Ton prenom"
               />
             </div>
-          )}
+          ) : null}
 
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor="email">Email</label>
+            <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="email">
+              Email
+            </label>
             <input
               id="email"
               data-testid="auth-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-background border border-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
+              className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
               required
+              placeholder="jean@eaf.local"
             />
           </div>
 
           <PasswordField id="password" value={password} onChange={setPassword} label="Mot de passe" testId="auth-password" />
 
-          {mode === 'register' && (
+          {mode === 'register' ? (
             <>
               <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le mot de passe" />
 
-              {/* Terms */}
-              <label className="flex items-start gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={acceptTerms}
-                  onChange={(e) => setAcceptTerms(e.target.checked)}
-                  className="mt-1 accent-violet-600"
-                />
-                <span className="text-xs text-muted-foreground leading-relaxed">
-                  J&apos;accepte les <span className="underline">Conditions d&apos;utilisation</span> et la <span className="underline">Politique de confidentialité</span>.
-                </span>
-              </label>
+              <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={acceptTerms}
+                    onChange={(e) => setAcceptTerms(e.target.checked)}
+                    className="mt-1 accent-[#17324d]"
+                  />
+                  <span className="text-xs leading-6 text-slate-600">
+                    J accepte les Conditions d utilisation et la Politique de confidentialite.
+                  </span>
+                </label>
 
-              {/* Minor checkbox */}
-              <label className="flex items-start gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={isMinor}
-                  onChange={(e) => setIsMinor(e.target.checked)}
-                  className="mt-1 accent-violet-600"
-                />
-                <span className="text-xs text-muted-foreground">J&apos;ai moins de 15 ans</span>
-              </label>
+                <label className="mt-3 flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={isMinor}
+                    onChange={(e) => setIsMinor(e.target.checked)}
+                    className="mt-1 accent-[#17324d]"
+                  />
+                  <span className="text-xs leading-6 text-slate-600">
+                    J ai moins de 15 ans. Un consentement parental est necessaire.
+                  </span>
+                </label>
+              </div>
 
-              {isMinor && (
+              {isMinor ? (
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor="parentEmail">
-                    Email du parent / responsable légal
+                  <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="parentEmail">
+                    Email du parent / responsable legal
                   </label>
                   <input
                     id="parentEmail"
                     type="email"
                     value={parentEmail}
                     onChange={(e) => setParentEmail(e.target.value)}
-                    className="w-full bg-background border border-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
+                    className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
                     placeholder="parent@email.com"
                     required={isMinor}
                   />
-                  <p className="text-xs text-muted-foreground mt-1">Consentement parental requis pour les moins de 15 ans (RGPD).</p>
+                  <p className="mt-2 text-xs leading-6 text-slate-500">
+                    Ce champ est requis pour les moins de 15 ans dans le cadre RGPD.
+                  </p>
                 </div>
-              )}
+              ) : null}
             </>
-          )}
+          ) : null}
 
-          {error && (
-            <p className="text-error text-sm rounded-xl border border-error/30 bg-error/10 p-3" role="alert">{error}</p>
-          )}
+          {error ? (
+            <p className="rounded-[22px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="alert">
+              {error}
+            </p>
+          ) : null}
 
           <button
             data-testid="auth-submit"
             type="submit"
             disabled={isSubmitting || (rateLimitSec !== null && rateLimitSec > 0)}
-            className="w-full flex items-center justify-center gap-2 bg-violet-600 text-white rounded-xl py-2.5 font-bold text-sm hover:bg-violet-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed shadow-md"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#17324d] px-5 py-3.5 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? (
-              <><Loader2 className="w-4 h-4 animate-spin" /> {mode === 'login' ? 'Connexion\u2026' : 'Création\u2026'}</>
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {mode === 'login' ? 'Connexion...' : 'Creation...'}
+              </>
+            ) : mode === 'login' ? (
+              'Se connecter'
             ) : (
-              mode === 'login' ? 'Se connecter' : 'Créer mon compte'
+              'Creer mon compte'
             )}
           </button>
         </form>
 
-        {/* Help link (login only) */}
-        {mode === 'login' && (
-          <div className="mt-4">
+        {mode === 'login' ? (
+          <div className="mt-5 rounded-[24px] border border-[#d8ccb9] bg-[#fcfaf6] p-4">
             <button
               type="button"
               onClick={() => setShowHelp((prev) => !prev)}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors underline"
+              className="text-sm font-semibold text-[#17324d] underline-offset-4 transition-colors hover:underline"
             >
-              Problème de connexion ?
+              Probleme de connexion ?
             </button>
-            {showHelp && (
-              <p className="text-xs text-muted-foreground mt-2 p-3 bg-muted/30 rounded-xl border border-border leading-relaxed">
-                Vérifie ton email et ton mot de passe. Si tu vois une erreur de sécurité, rafraîchis la page et réessaie. Le mot de passe doit faire au moins 8 caractères.
+            {showHelp ? (
+              <p className="mt-3 text-sm leading-7 text-slate-600">
+                Verifie ton email, ton mot de passe et rafraichis la page en cas d erreur de securite. Si le blocage persiste, repasse par la creation de compte ou compare les plans avant de reessayer.
               </p>
-            )}
+            ) : null}
+          </div>
+        ) : (
+          <div className="mt-5 rounded-[24px] border border-[#d8ccb9] bg-[#fcfaf6] p-4">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#0f766e]" />
+              <p className="text-sm leading-7 text-slate-600">
+                Une fois le compte cree, tu arrives directement sur l onboarding pour cadrer tes oeuvres, ton rythme et ton point de depart, sans rien payer pour voir le produit.
+              </p>
+            </div>
           </div>
         )}
 
-        {/* Footer links */}
-        <div className="mt-5 pt-4 border-t border-border flex items-center justify-center gap-4 text-xs text-muted-foreground">
-          <Link href="/bienvenue" className="hover:text-foreground transition-colors">Accueil</Link>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 border-t border-[#e6dbca] pt-5 text-xs font-semibold text-slate-500">
+          <Link href="/bienvenue" className="transition-colors hover:text-[#17324d]">
+            Accueil
+          </Link>
           <span>·</span>
-          <Link href="/pricing" className="hover:text-foreground transition-colors">Tarifs</Link>
+          <Link href="/pricing" className="transition-colors hover:text-[#17324d]">
+            Tarifs
+          </Link>
+          <span>·</span>
+          <Link href="/bienvenue#faq" className="transition-colors hover:text-[#17324d]">
+            FAQ
+          </Link>
         </div>
       </div>
     </div>
   );
 }
 
-/* ─────────────────── Page (with Suspense for useSearchParams) ─────────────────── */
-
 export default function LoginPage() {
   return (
-    <div className="min-h-dvh flex items-stretch bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
-      <div className="grid w-full lg:grid-cols-12">
-        <ProofPanel />
-        <div className="col-span-12 lg:col-span-7 flex items-center justify-center p-6">
-          <Suspense fallback={
-            <div className="w-full max-w-md bg-card border border-border rounded-2xl p-8 shadow-lg flex items-center justify-center min-h-[400px]">
-              <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+    <div className="min-h-dvh overflow-x-clip bg-[#f4efe5] text-slate-900 [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[30rem] bg-[radial-gradient(circle_at_center_top,rgba(255,255,255,0.9),transparent_65%)]" />
+      <div className="pointer-events-none absolute right-0 top-24 h-72 w-72 rounded-full bg-[#0f766e]/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-0 top-[32rem] h-72 w-72 rounded-full bg-[#b87333]/10 blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        <header className="flex flex-col gap-5 rounded-[30px] border border-[#d8ccb9] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
+          <Link href="/bienvenue" className="flex items-center gap-4">
+            <img src="/images/logo_slogan_nexus.png" alt="Nexus Reussite" className="h-11 w-auto object-contain" />
+            <div className="hidden md:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
+              <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
+              Connexion 2026
             </div>
-          }>
-            <AuthCard />
-          </Suspense>
+          </Link>
+          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
+            <Link href="/bienvenue" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+              Retour accueil
+            </Link>
+            <Link href="/pricing" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+              Voir les plans
+            </Link>
+            <Link
+              href="/login?mode=register"
+              className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+            >
+              Demarrer gratuitement
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </header>
+
+        <div className="mt-8 grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch">
+          <ProofPanel />
+          <div className="flex items-center justify-center">
+            <Suspense
+              fallback={
+                <div className="flex w-full max-w-xl items-center justify-center rounded-[34px] border border-[#d8ccb9] bg-white/88 p-8 shadow-[0_24px_70px_rgba(23,50,77,0.08)] min-h-[420px]">
+                  <Loader2 className="h-6 w-6 animate-spin text-slate-500" />
+                </div>
+              }
+            >
+              <AuthCard />
+            </Suspense>
+          </div>
         </div>
       </div>
     </div>

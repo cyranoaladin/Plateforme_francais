@@ -9,8 +9,12 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
 
 const initBodySchema = z.object({
-  plan: z.enum(['MONTHLY', 'LIFETIME']),
+  plan: z.enum(['PRO', 'MAX', 'MONTHLY', 'LIFETIME']),
 });
+
+function toCheckoutPlan(raw: z.infer<typeof initBodySchema>['plan']): 'PRO' | 'MAX' {
+  return raw === 'MAX' || raw === 'LIFETIME' ? 'MAX' : 'PRO';
+}
 
 /**
  * POST /api/v1/payments/clictopay/init
@@ -49,7 +53,7 @@ export async function POST(request: Request) {
 
     const result = await initiateClicToPayPayment({
       userId,
-      plan: parsed.data.plan,
+      plan: toCheckoutPlan(parsed.data.plan),
       email: user.email,
     });
 

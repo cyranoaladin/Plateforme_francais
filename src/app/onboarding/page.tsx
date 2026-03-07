@@ -1,22 +1,39 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { PenTool, Mic, BookOpen, BrainCircuit, CheckCircle2, ChevronRight, Loader2, Search } from 'lucide-react';
+import {
+  BookOpen,
+  BrainCircuit,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  Clock3,
+  Loader2,
+  Mic,
+  PenTool,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  UserRound,
+} from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 
-/* ─────────────────── Data ─────────────────── */
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+};
 
 const OEUVRES = [
   { id: 'douai', title: 'Cahier de Douai', author: 'Arthur Rimbaud', type: 'Poésie' },
-  { id: 'ponge', title: 'La Rage de l\u2019expression', author: 'Francis Ponge', type: 'Poésie' },
+  { id: 'ponge', title: 'La Rage de l’expression', author: 'Francis Ponge', type: 'Poésie' },
   { id: 'dorion', title: 'Mes forêts', author: 'Hélène Dorion', type: 'Poésie' },
-  { id: 'boetie', title: 'Discours de la servitude volontaire', author: 'Étienne de La Boétie', type: 'Littérature d\u2019idées' },
-  { id: 'fontenelle', title: 'Entretiens sur la pluralité des mondes', author: 'Fontenelle', type: 'Littérature d\u2019idées' },
-  { id: 'graffigny', title: 'Lettres d\u2019une Péruvienne', author: 'Françoise de Graffigny', type: 'Littérature d\u2019idées' },
+  { id: 'boetie', title: 'Discours de la servitude volontaire', author: 'Étienne de La Boétie', type: 'Littérature d’idées' },
+  { id: 'fontenelle', title: 'Entretiens sur la pluralité des mondes', author: 'Fontenelle', type: 'Littérature d’idées' },
+  { id: 'graffigny', title: 'Lettres d’une Péruvienne', author: 'Françoise de Graffigny', type: 'Littérature d’idées' },
   { id: 'menteur', title: 'Le Menteur', author: 'Pierre Corneille', type: 'Théâtre' },
-  { id: 'musset', title: 'On ne badine pas avec l\u2019amour', author: 'Alfred de Musset', type: 'Théâtre' },
+  { id: 'musset', title: 'On ne badine pas avec l’amour', author: 'Alfred de Musset', type: 'Théâtre' },
   { id: 'sarraute', title: 'Pour un oui ou pour un non', author: 'Nathalie Sarraute', type: 'Théâtre' },
   { id: 'prevost', title: 'Manon Lescaut', author: 'Abbé Prévost', type: 'Roman' },
   { id: 'peau', title: 'La Peau de chagrin', author: 'Honoré de Balzac', type: 'Roman' },
@@ -33,37 +50,74 @@ const CLASS_LEVELS = [
 ];
 
 const SKILLS = [
-  { key: 'comprehension', label: 'Compréhension du texte', icon: BookOpen, color: 'text-amber-500' },
-  { key: 'procedes', label: 'Analyse des procédés', icon: BookOpen, color: 'text-blue-500' },
-  { key: 'plan', label: 'Organisation du plan', icon: PenTool, color: 'text-rose-500' },
-  { key: 'lecture', label: 'Lecture expressive', icon: Mic, color: 'text-purple-500' },
-  { key: 'grammaire', label: 'Grammaire', icon: BrainCircuit, color: 'text-emerald-500' },
-  { key: 'culture', label: 'Culture / œuvre & parcours', icon: BookOpen, color: 'text-indigo-500' },
+  { key: 'comprehension', label: 'Compréhension du texte', icon: BookOpen, color: 'text-[#b87333]' },
+  { key: 'procedes', label: 'Analyse des procédés', icon: PenTool, color: 'text-[#17324d]' },
+  { key: 'plan', label: 'Organisation du plan', icon: PenTool, color: 'text-[#0f766e]' },
+  { key: 'lecture', label: 'Lecture expressive', icon: Mic, color: 'text-[#7b6f9c]' },
+  { key: 'grammaire', label: 'Grammaire', icon: BrainCircuit, color: 'text-[#0f766e]' },
+  { key: 'culture', label: 'Culture / œuvre & parcours', icon: BookOpen, color: 'text-[#17324d]' },
 ] as const;
 
 const STEP_LABELS = ['Profil', 'Œuvres', 'Auto-évaluation'] as const;
 
-/* ─────────────────── Stepper ─────────────────── */
+const STEP_META = {
+  1: {
+    kicker: 'Étape 1',
+    title: 'Installe le contexte réel de travail.',
+    description:
+      'Nom affiché, classe, date EAF, établissement et code enseignant éventuel : on règle d’abord le terrain, pas l’interface.',
+    benefit: 'Ces données servent à personnaliser le parcours dès la première séance.',
+  },
+  2: {
+    kicker: 'Étape 2',
+    title: 'Rattache le produit à tes œuvres réelles.',
+    description:
+      'Le corpus et les relances ont plus de valeur si les œuvres étudiées sont connues dès le départ.',
+    benefit: 'Tu peux sélectionner les œuvres officielles et ajouter une œuvre absente si besoin.',
+  },
+  3: {
+    kicker: 'Étape 3',
+    title: 'Calibre le point de départ sans te juger.',
+    description:
+      'Cette auto-évaluation ne remplace pas un diagnostic. Elle permet juste d’éviter un premier parcours mal ciblé.',
+    benefit: 'Les axes faibles déclarés seront utilisés pour prioriser les prochains ateliers.',
+  },
+} satisfies Record<1 | 2 | 3, { kicker: string; title: string; description: string; benefit: string }>;
 
-function Stepper({ current }: { current: 1 | 2 | 3 }) {
+function StepRail({ current }: { current: 1 | 2 | 3 }) {
   return (
-    <nav aria-label="Étapes de l'onboarding" className="flex items-center justify-center gap-2">
+    <nav aria-label="Étapes de l'onboarding" className="space-y-3">
       {STEP_LABELS.map((label, idx) => {
         const stepNum = (idx + 1) as 1 | 2 | 3;
         const isActive = stepNum === current;
         const isDone = stepNum < current;
+
         return (
-          <div key={label} className="flex items-center gap-2">
-            {idx > 0 && <div className={`w-8 h-0.5 rounded-full transition-colors ${isDone ? 'bg-white' : 'bg-white/30'}`} />}
-            <div className="flex items-center gap-1.5" aria-current={isActive ? 'step' : undefined}>
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                isDone ? 'bg-white text-violet-700' : isActive ? 'bg-white text-violet-700' : 'bg-white/20 text-white/60'
-              }`}>
-                {isDone ? <CheckCircle2 className="w-4 h-4" /> : stepNum}
+          <div
+            key={label}
+            className={`rounded-[22px] border px-4 py-4 transition-colors ${
+              isActive
+                ? 'border-white/14 bg-white/12'
+                : isDone
+                  ? 'border-white/10 bg-black/10'
+                  : 'border-white/8 bg-white/5'
+            }`}
+            aria-current={isActive ? 'step' : undefined}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+                  isActive || isDone ? 'bg-[#f4efe5] text-[#17324d]' : 'bg-white/10 text-white/60'
+                }`}
+              >
+                {isDone ? <CheckCircle2 className="h-4 w-4" /> : stepNum}
               </div>
-              <span className={`text-xs font-semibold hidden sm:inline ${isActive || isDone ? 'text-white' : 'text-white/50'}`}>
-                {label}
-              </span>
+              <div>
+                <p className={`text-[11px] font-bold uppercase tracking-[0.22em] ${isActive || isDone ? 'text-[#d7c4aa]' : 'text-white/45'}`}>
+                  {`0${stepNum}`}
+                </p>
+                <p className={`text-sm font-semibold ${isActive || isDone ? 'text-white' : 'text-white/65'}`}>{label}</p>
+              </div>
             </div>
           </div>
         );
@@ -72,17 +126,22 @@ function Stepper({ current }: { current: 1 | 2 | 3 }) {
   );
 }
 
-/* ─────────────────── Error Banner ─────────────────── */
-
 function OnboardingErrorBanner({ message }: { message: string }) {
   return (
-    <div className="p-3 rounded-xl border border-error/30 bg-error/10 text-error mb-6 text-sm" role="alert">
+    <div className="mb-6 rounded-[22px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="alert">
       {message}
     </div>
   );
 }
 
-/* ─────────────────── Page ─────────────────── */
+function formatDateLabel(date: string) {
+  if (!date) return 'À renseigner';
+  try {
+    return new Date(date).toLocaleDateString('fr-FR');
+  } catch {
+    return date;
+  }
+}
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -113,7 +172,7 @@ export default function OnboardingPage() {
       Object.entries(ratings)
         .filter(([, value]) => value <= 2)
         .map(([key]) => {
-          const skill = SKILLS.find((s) => s.key === key);
+          const skill = SKILLS.find((item) => item.key === key);
           return skill?.label ?? key;
         }),
     [ratings],
@@ -121,11 +180,18 @@ export default function OnboardingPage() {
 
   const filteredOeuvres = useMemo(() => {
     if (!oeuvreSearch.trim()) return OEUVRES;
-    const q = oeuvreSearch.toLowerCase();
+    const query = oeuvreSearch.toLowerCase();
     return OEUVRES.filter(
-      (o) => o.title.toLowerCase().includes(q) || o.author.toLowerCase().includes(q) || o.type.toLowerCase().includes(q),
+      (oeuvre) =>
+        oeuvre.title.toLowerCase().includes(query) ||
+        oeuvre.author.toLowerCase().includes(query) ||
+        oeuvre.type.toLowerCase().includes(query),
     );
   }, [oeuvreSearch]);
+
+  const allSelectedOeuvres = useMemo(() => {
+    return customOeuvre.trim() ? [...selectedOeuvres, customOeuvre.trim()] : selectedOeuvres;
+  }, [customOeuvre, selectedOeuvres]);
 
   useEffect(() => {
     track({ name: 'page_view', props: { path: '/onboarding' } });
@@ -136,14 +202,9 @@ export default function OnboardingPage() {
   }, [step]);
 
   const toggleOeuvre = (title: string) => {
-    setSelectedOeuvres((prev) =>
-      prev.includes(title) ? prev.filter((item) => item !== title) : [...prev, title],
-    );
+    setSelectedOeuvres((prev) => (prev.includes(title) ? prev.filter((item) => item !== title) : [...prev, title]));
   };
 
-  /**
-   * Save profile data via PUT /api/v1/student/profile (autosave on step transition).
-   */
   const saveProfile = useCallback(async () => {
     try {
       await apiFetch('/api/v1/student/profile', {
@@ -153,7 +214,7 @@ export default function OnboardingPage() {
           classLevel,
           establishment: establishment || undefined,
           eafDate,
-          selectedOeuvres: customOeuvre.trim() ? [...selectedOeuvres, customOeuvre.trim()] : selectedOeuvres,
+          selectedOeuvres: allSelectedOeuvres,
           weakSkills: weakSignals,
           classCode: classCode || undefined,
         },
@@ -163,11 +224,10 @@ export default function OnboardingPage() {
         setError('Sécurité : rafraîchis la page puis réessaie.');
         return false;
       }
-      // Non-blocking for autosave: log but don't block navigation
       console.warn('[onboarding] autosave failed:', err);
     }
     return true;
-  }, [displayName, classLevel, establishment, eafDate, selectedOeuvres, customOeuvre, weakSignals, classCode]);
+  }, [allSelectedOeuvres, classCode, classLevel, displayName, eafDate, establishment, weakSignals]);
 
   const handleNext = async () => {
     setError(null);
@@ -202,14 +262,14 @@ export default function OnboardingPage() {
           classLevel,
           establishment: establishment || undefined,
           eafDate,
-          selectedOeuvres: customOeuvre.trim() ? [...selectedOeuvres, customOeuvre.trim()] : selectedOeuvres,
+          selectedOeuvres: allSelectedOeuvres,
           weakSignals,
           classCode: classCode || undefined,
         },
       });
 
       track({ name: 'onboarding_complete', props: {} });
-      setWelcomeMessage(payload.welcomeMessage ?? 'Ton parcours est prêt !');
+      setWelcomeMessage(payload.welcomeMessage ?? 'Ton parcours est prêt.');
       setTimeout(() => {
         router.push('/');
         router.refresh();
@@ -222,7 +282,7 @@ export default function OnboardingPage() {
           setError(err.message);
         }
       } else {
-        setError('Impossible de finaliser l\'onboarding. Réessaie.');
+        setError('Impossible de finaliser l’onboarding. Réessaie.');
       }
     } finally {
       setIsSubmitting(false);
@@ -234,247 +294,382 @@ export default function OnboardingPage() {
   };
 
   const step1Valid = displayName.trim().length > 0 && classLevel.trim().length > 0 && eafDate.length > 0;
-  const step2Valid = selectedOeuvres.length > 0 || customOeuvre.trim().length > 0;
-
-  const canProceed =
-    (step === 1 && step1Valid) ||
-    (step === 2 && step2Valid) ||
-    step === 3;
+  const step2Valid = allSelectedOeuvres.length > 0;
+  const canProceed = (step === 1 && step1Valid) || (step === 2 && step2Valid) || step === 3;
+  const currentMeta = STEP_META[step];
 
   return (
-    <div className="min-h-dvh flex flex-col bg-background">
-      {/* ─── Header ─── */}
-      <div className="bg-gradient-to-br from-violet-600 via-indigo-600 to-violet-800 text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/3" />
-        <div className="relative z-10 p-6 md:p-8">
-          <div className="flex flex-col items-center gap-4">
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-2.5 border border-white/20">
-              <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-10 w-auto object-contain" />
+    <div className="min-h-dvh overflow-x-clip bg-[#f4efe5] text-slate-900 [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[30rem] bg-[radial-gradient(circle_at_center_top,rgba(255,255,255,0.9),transparent_65%)]" />
+      <div className="pointer-events-none absolute right-0 top-20 h-72 w-72 rounded-full bg-[#0f766e]/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-0 top-[34rem] h-72 w-72 rounded-full bg-[#b87333]/10 blur-3xl" />
+
+      <main className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        <header className="flex flex-col gap-5 rounded-[30px] border border-[#d8ccb9] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
+            <div className="hidden md:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
+              <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
+              Onboarding 2026
             </div>
-            <div className="text-center">
-              <h1 className="text-xl font-bold">Onboarding (3 minutes)</h1>
-              <p className="text-violet-100 text-sm mt-1">Personnalisons ton parcours EAF</p>
-            </div>
-            <Stepper current={step} />
           </div>
-        </div>
-      </div>
-
-      {/* ─── Body ─── */}
-      <div className="flex-1 flex items-start justify-center p-4 md:p-6">
-        <div className="w-full max-w-xl rounded-2xl border border-border bg-card p-6 shadow-sm mt-4">
-          {error && <OnboardingErrorBanner message={error} />}
-          {welcomeMessage && (
-            <div className="p-3 rounded-xl border border-success/30 bg-success/10 text-success mb-6 text-sm flex items-center gap-2" role="status">
-              <CheckCircle2 className="w-4 h-4 shrink-0" /> {welcomeMessage}
+          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
+            <Link href="/bienvenue" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+              Revoir l’accueil
+            </Link>
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-4 py-2 text-[#f7f2ea]">
+              <Clock3 className="h-4 w-4" />
+              Environ 3 minutes
             </div>
-          )}
+          </div>
+        </header>
 
-          {/* Step 1 — Profil */}
-          {step === 1 && (
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-1">Étape 1/3 — Ton profil</h2>
-              <p className="text-sm text-muted-foreground mb-5">
-                Ces informations servent à personnaliser ton parcours. Tu pourras les modifier plus tard.
+        <div className="mt-8 grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+          <aside className="lg:sticky lg:top-6 lg:self-start">
+            <div className="rounded-[34px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+                <Sparkles className="h-4 w-4" />
+                Mise en route premium
+              </div>
+
+              <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
+                Nous réglons la plateforme autour de ton vrai contexte.
+              </h1>
+
+              <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
+                L’objectif n’est pas de remplir un profil pour la forme. L’objectif est de caler les premiers ateliers sur tes œuvres, ton rythme,
+                tes points d’appui et les attendus officiels dès la première connexion.
               </p>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor="ob-name">Nom et prénom</label>
-                  <input
-                    id="ob-name"
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    placeholder="Ton nom affiché"
-                    className="w-full bg-background border border-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
-                    required
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor="ob-class">Classe</label>
-                    <select
-                      id="ob-class"
-                      value={classLevel}
-                      onChange={(e) => setClassLevel(e.target.value)}
-                      className="w-full bg-background border border-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
-                    >
-                      {CLASS_LEVELS.map((c) => <option key={c} value={c}>{c}</option>)}
-                    </select>
+
+              <div className="mt-6 flex flex-wrap gap-2.5">
+                {['Modifiable plus tard', 'Parcours personnalisé', 'Aucune configuration inutile'].map((item) => (
+                  <span key={item} className="rounded-full border border-white/12 bg-white/8 px-3.5 py-1.5 text-xs font-semibold text-slate-100">
+                    {item}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-8">
+                <StepRail current={step} />
+              </div>
+
+              <div className="mt-8 rounded-[28px] bg-[#0f2740] p-5">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Ce que Nexus a déjà compris</p>
+                <div className="mt-4 space-y-3 text-sm text-slate-200">
+                  <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
+                    <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <div>
+                      <p className="font-semibold text-white">Profil</p>
+                      <p className="mt-1 leading-6">{displayName.trim() || 'Nom affiché à renseigner'} · {classLevel || 'Classe à confirmer'}</p>
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor="ob-date">Date EAF</label>
+                  <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
+                    <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <div>
+                      <p className="font-semibold text-white">Corpus</p>
+                      <p className="mt-1 leading-6">
+                        {allSelectedOeuvres.length > 0
+                          ? `${allSelectedOeuvres.length} œuvre(s) et parcours déjà pris en compte`
+                          : 'Aucune œuvre du programme sélectionnée pour l’instant'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
+                    <BrainCircuit className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <div>
+                      <p className="font-semibold text-white">Priorités</p>
+                      <p className="mt-1 leading-6">
+                        {weakSignals.length > 0 ? weakSignals.join(', ') : 'Aucune faiblesse auto-déclarée forte à ce stade'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
+                <div className="flex items-start gap-3">
+                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                  <p className="text-sm leading-6 text-slate-200">
+                    Les informations saisies ici servent à cadrer les premières recommandations, les ressources mobilisées et la progression visible.
+                    Elles restent modifiables ensuite dans le profil.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <section className="rounded-[34px] border border-[#d8ccb9] bg-white/88 p-6 shadow-[0_24px_70px_rgba(23,50,77,0.08)] sm:p-8 lg:p-9">
+            {error ? <OnboardingErrorBanner message={error} /> : null}
+            {welcomeMessage ? (
+              <div className="mb-6 flex items-center gap-2 rounded-[22px] border border-[#9cccaf] bg-[#eef8f0] p-4 text-sm text-[#25543d]" role="status">
+                <CheckCircle2 className="h-4 w-4 shrink-0" />
+                {welcomeMessage}
+              </div>
+            ) : null}
+
+            <div className="border-b border-[#e6dbca] pb-5">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">{currentMeta.kicker}</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                {currentMeta.title}
+              </h2>
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">{currentMeta.description}</p>
+              <div className="mt-4 rounded-[22px] border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-3 text-sm text-slate-600">
+                {currentMeta.benefit}
+              </div>
+            </div>
+
+            <div className="mt-6">
+              {step === 1 ? (
+                <div className="space-y-5">
+                  <div className="grid gap-5 md:grid-cols-[1fr_1fr]">
+                    <div className="md:col-span-2">
+                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-name">Nom affiché</label>
+                      <input
+                        id="ob-name"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        placeholder="Comment veux-tu apparaître dans la plateforme ?"
+                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-class">Classe</label>
+                      <select
+                        id="ob-class"
+                        value={classLevel}
+                        onChange={(e) => setClassLevel(e.target.value)}
+                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
+                      >
+                        {CLASS_LEVELS.map((classItem) => (
+                          <option key={classItem} value={classItem}>{classItem}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-date">Date EAF</label>
+                      <input
+                        id="ob-date"
+                        type="date"
+                        value={eafDate}
+                        onChange={(e) => setEafDate(e.target.value)}
+                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-school">Établissement</label>
+                      <input
+                        id="ob-school"
+                        value={establishment}
+                        onChange={(e) => setEstablishment(e.target.value)}
+                        placeholder="Nom de ton lycée"
+                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-code">Code classe enseignant</label>
+                      <input
+                        id="ob-code"
+                        value={classCode}
+                        onChange={(e) => setClassCode(e.target.value)}
+                        placeholder="Ex : PMF-1G2-2026"
+                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-5">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Prévisualisation</p>
+                    <div className="mt-4 grid gap-3 md:grid-cols-3">
+                      <div className="rounded-[22px] border border-[#d8ccb9] bg-white px-4 py-3">
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Nom</p>
+                        <p className="mt-1 text-sm font-semibold text-[#17324d]">{displayName.trim() || 'À renseigner'}</p>
+                      </div>
+                      <div className="rounded-[22px] border border-[#d8ccb9] bg-white px-4 py-3">
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Classe</p>
+                        <p className="mt-1 text-sm font-semibold text-[#17324d]">{classLevel}</p>
+                      </div>
+                      <div className="rounded-[22px] border border-[#d8ccb9] bg-white px-4 py-3">
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Échéance</p>
+                        <p className="mt-1 text-sm font-semibold text-[#17324d]">{formatDateLabel(eafDate)}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              {step === 2 ? (
+                <div className="space-y-5">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                     <input
-                      id="ob-date"
-                      type="date"
-                      value={eafDate}
-                      onChange={(e) => setEafDate(e.target.value)}
-                      className="w-full bg-background border border-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
-                      required
+                      value={oeuvreSearch}
+                      onChange={(e) => setOeuvreSearch(e.target.value)}
+                      placeholder="Rechercher une œuvre, un auteur, un objet d’étude..."
+                      className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] py-3 pl-10 pr-4 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
+                    />
+                  </div>
+
+                  {allSelectedOeuvres.length > 0 ? (
+                    <div className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Sélection en cours</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {allSelectedOeuvres.map((oeuvre) => (
+                          <span key={oeuvre} className="rounded-full border border-[#d8ccb9] bg-white px-3.5 py-1.5 text-xs font-semibold text-[#17324d]">
+                            {oeuvre}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <div className="grid gap-3 md:grid-cols-2">
+                    {filteredOeuvres.map((oeuvre) => {
+                      const isSelected = selectedOeuvres.includes(oeuvre.title);
+
+                      return (
+                        <button
+                          type="button"
+                          key={oeuvre.id}
+                          onClick={() => toggleOeuvre(oeuvre.title)}
+                          className={`rounded-[24px] border p-4 text-left transition-all ${
+                            isSelected
+                              ? 'border-[#17324d] bg-[#17324d] text-[#f7f2ea] shadow-[0_18px_45px_rgba(23,50,77,0.14)]'
+                              : 'border-[#d8ccb9] bg-white hover:-translate-y-0.5 hover:border-[#0f766e]'
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <p className={`text-[11px] font-bold uppercase tracking-[0.24em] ${isSelected ? 'text-[#d7c4aa]' : 'text-slate-500'}`}>
+                                {oeuvre.type}
+                              </p>
+                              <p className="mt-2 text-sm font-bold leading-6">{oeuvre.title}</p>
+                              <p className={`mt-1 text-sm ${isSelected ? 'text-slate-200' : 'text-slate-600'}`}>{oeuvre.author}</p>
+                            </div>
+                            <div className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${isSelected ? 'border-white bg-white text-[#17324d]' : 'border-[#d8ccb9] text-transparent'}`}>
+                              <CheckCircle2 className="h-4 w-4" />
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <div>
+                    <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="custom-oeuvre">
+                      Œuvre absente de la liste
+                    </label>
+                    <input
+                      id="custom-oeuvre"
+                      value={customOeuvre}
+                      onChange={(e) => setCustomOeuvre(e.target.value)}
+                      placeholder="Saisis exactement l’œuvre donnée par ton professeur"
+                      className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
                     />
                   </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor="ob-school">Établissement (optionnel)</label>
-                  <input
-                    id="ob-school"
-                    value={establishment}
-                    onChange={(e) => setEstablishment(e.target.value)}
-                    placeholder="Nom de ton lycée"
-                    className="w-full bg-background border border-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5" htmlFor="ob-code">Code classe enseignant (optionnel)</label>
-                  <input
-                    id="ob-code"
-                    value={classCode}
-                    onChange={(e) => setClassCode(e.target.value)}
-                    placeholder="Ex : PMF-1G2-2026"
-                    className="w-full bg-background border border-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+              ) : null}
 
-          {/* Step 2 — Œuvres */}
-          {step === 2 && (
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-1">Étape 2/3 — Tes œuvres</h2>
-              <p className="text-sm text-muted-foreground mb-5">
-                Sélectionne les œuvres étudiées cette année. Tu peux en ajouter plus tard.
-              </p>
-              <div className="relative mb-3">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <input
-                  value={oeuvreSearch}
-                  onChange={(e) => setOeuvreSearch(e.target.value)}
-                  placeholder="Rechercher une œuvre, un auteur…"
-                  className="w-full bg-background border border-input rounded-xl pl-9 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-h-[40vh] overflow-y-auto pr-1">
-                {filteredOeuvres.map((oeuvre) => {
-                  const isSelected = selectedOeuvres.includes(oeuvre.title);
-                  return (
-                    <button
-                      type="button"
-                      key={oeuvre.id}
-                      onClick={() => toggleOeuvre(oeuvre.title)}
-                      className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all flex items-center justify-between group text-left ${
-                        isSelected
-                          ? 'bg-violet-50 dark:bg-violet-950/30 border-violet-500 shadow-sm'
-                          : 'bg-card border-border hover:border-violet-300 dark:hover:border-violet-700'
-                      }`}
-                    >
-                      <div className="min-w-0">
-                        <div className={`text-[10px] font-bold uppercase tracking-wide mb-0.5 ${isSelected ? 'text-violet-600 dark:text-violet-400' : 'text-muted-foreground'}`}>{oeuvre.type}</div>
-                        <div className="font-bold text-foreground text-sm leading-tight truncate">{oeuvre.title}</div>
-                        <div className="text-xs text-muted-foreground truncate">{oeuvre.author}</div>
-                      </div>
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors shrink-0 ml-2 ${
-                        isSelected ? 'bg-violet-600 border-violet-600 text-white' : 'border-border text-transparent group-hover:border-violet-300'
-                      }`}>
-                        <CheckCircle2 className="w-3 h-3" />
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-              {selectedOeuvres.length > 0 && (
-                <p className="text-xs text-muted-foreground mt-2">{selectedOeuvres.length} œuvre{selectedOeuvres.length > 1 ? 's' : ''} sélectionnée{selectedOeuvres.length > 1 ? 's' : ''}</p>
-              )}
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-foreground mb-1.5">Œuvre absente de la liste (optionnel)</label>
-                <input
-                  value={customOeuvre}
-                  onChange={(e) => setCustomOeuvre(e.target.value)}
-                  placeholder="Saisis ton œuvre exacte donnée par ton professeur"
-                  className="w-full bg-background border border-input rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
-                />
-              </div>
-            </div>
-          )}
+              {step === 3 ? (
+                <div className="space-y-4">
+                  {SKILLS.map((skill) => {
+                    const Icon = skill.icon;
+                    const value = ratings[skill.key];
 
-          {/* Step 3 — Auto-évaluation */}
-          {step === 3 && (
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-1">Étape 3/3 — Ton point de départ</h2>
-              <p className="text-sm text-muted-foreground mb-5">
-                Ce n&apos;est pas une note. C&apos;est un réglage pour proposer les bons entraînements.
-              </p>
-              <div className="space-y-3">
-                {SKILLS.map((skill) => {
-                  const Icon = skill.icon;
-                  return (
-                    <div key={skill.key} className="bg-muted/30 p-4 rounded-xl border border-border">
-                      <div className="flex justify-between items-center mb-2">
-                        <div className="flex items-center gap-2 font-semibold text-foreground text-sm">
-                          <Icon className={`w-4 h-4 ${skill.color}`} />
-                          {skill.label}
+                    return (
+                      <div key={skill.key} className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-5">
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-3">
+                            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-[#17324d] shadow-sm">
+                              <Icon className={`h-5 w-5 ${skill.color}`} />
+                            </div>
+                            <div>
+                              <p className="text-sm font-semibold text-[#17324d]">{skill.label}</p>
+                              <p className="text-xs text-slate-500">Réglage initial pour prioriser les prochains ateliers.</p>
+                            </div>
+                          </div>
+                          <div className="rounded-full border border-[#d8ccb9] bg-white px-3 py-1 text-xs font-bold text-[#17324d]">
+                            {value} / 5
+                          </div>
                         </div>
-                        <span className="font-bold text-foreground bg-background px-2.5 py-0.5 rounded-lg border border-border text-xs">
-                          {ratings[skill.key]} / 5
-                        </span>
+                        <div className="mt-4">
+                          <input
+                            type="range"
+                            min={0}
+                            max={5}
+                            value={value}
+                            onChange={(e) => setRatings((prev) => ({ ...prev, [skill.key]: Number(e.target.value) }))}
+                            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[#e3d7c7] accent-[#17324d]"
+                            aria-label={`${skill.label} : ${value} sur 5`}
+                          />
+                          <div className="mt-2 flex justify-between text-[10px] font-medium uppercase tracking-[0.12em] text-slate-500">
+                            <span>Fragile</span>
+                            <span>Solide</span>
+                          </div>
+                        </div>
                       </div>
-                      <input
-                        type="range"
-                        min={0}
-                        max={5}
-                        value={ratings[skill.key]}
-                        onChange={(e) => setRatings((prev) => ({ ...prev, [skill.key]: Number(e.target.value) }))}
-                        className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-violet-600"
-                        aria-label={`${skill.label} : ${ratings[skill.key]} sur 5`}
-                      />
-                      <div className="flex justify-between text-[10px] font-medium text-muted-foreground mt-1 px-0.5">
-                        <span>Débutant</span>
-                        <span>Avancé</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              {weakSignals.length > 0 && (
-                <p className="text-xs text-muted-foreground mt-3">
-                  Points faibles détectés : <strong>{weakSignals.join(', ')}</strong> — la plateforme priorisera ces axes.
-                </p>
-              )}
-            </div>
-          )}
+                    );
+                  })}
 
-          {/* ─── Footer (Back/Next/Finish) ─── */}
-          <div className="flex items-center justify-between mt-8 pt-5 border-t border-border">
-            {step > 1 ? (
+                  <div className="rounded-[26px] border border-[#d8ccb9] bg-white p-5">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Priorisation détectée</p>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                      {weakSignals.length > 0
+                        ? `Le parcours mettra d’abord l’accent sur : ${weakSignals.join(', ')}.`
+                        : 'Aucune faiblesse forte auto-déclarée. Le parcours pourra commencer sur une base plus équilibrée.'}
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="mt-8 flex items-center justify-between border-t border-[#e6dbca] pt-5">
+              {step > 1 ? (
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  disabled={isSubmitting}
+                  className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-[#f1e7d8] disabled:opacity-50"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  Retour
+                </button>
+              ) : (
+                <div className="text-xs text-slate-500">Étape {step} sur 3</div>
+              )}
+
               <button
                 type="button"
-                onClick={handleBack}
-                disabled={isSubmitting}
-                className="px-5 py-2.5 rounded-xl font-semibold text-sm text-muted-foreground hover:bg-muted transition-colors disabled:opacity-50"
+                onClick={() => {
+                  if (step < 3) void handleNext();
+                  else void handleFinish();
+                }}
+                disabled={!canProceed || isSubmitting}
+                className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-6 py-3.5 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Retour
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Enregistrement...
+                  </>
+                ) : step === 3 ? (
+                  'Terminer'
+                ) : (
+                  <>
+                    Continuer
+                    <ChevronRight className="h-4 w-4" />
+                  </>
+                )}
               </button>
-            ) : <div />}
-
-            <button
-              type="button"
-              onClick={() => {
-                if (step < 3) void handleNext();
-                else void handleFinish();
-              }}
-              disabled={!canProceed || isSubmitting}
-              className="px-6 py-2.5 rounded-xl font-bold text-sm text-white bg-violet-600 hover:bg-violet-700 transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 ml-auto"
-            >
-              {isSubmitting ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Enregistrement&hellip;</>
-              ) : step === 3 ? (
-                'Terminer'
-              ) : (
-                <>Continuer <ChevronRight className="w-4 h-4" /></>
-              )}
-            </button>
-          </div>
+            </div>
+          </section>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

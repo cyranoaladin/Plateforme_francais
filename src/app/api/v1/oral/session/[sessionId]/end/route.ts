@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 import { type Prisma } from '@prisma/client';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
-import { listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
+import { processInteraction } from '@/lib/agents/student-modeler';
+import { createEvaluation } from '@/lib/db/repositories/evaluationRepo';
+import { createMemoryEventRecord, listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
+import { createMemoryEvent } from '@/lib/memory/store';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
 import { evaluateBadges } from '@/lib/gamification/badges';
 import { finalizeOralSession, findOralSessionById } from '@/lib/oral/repository';
@@ -55,6 +58,9 @@ export async function POST(
   for (const i of session.interactions) {
     phaseDetails[i.step] = { feedback: i.feedback.feedback };
   }
+  const weakSkills = Array.from(
+    new Set(session.interactions.flatMap((item) => item.feedback.axes ?? [])),
+  ).slice(0, 6);
 
   const bilan = await generateOralBilan(phaseInputs, phaseDetails);
 
@@ -67,6 +73,34 @@ export async function POST(
     score: bilan.note,
     maxScore: bilan.maxNote,
   });
+
+  await createEvaluation({
+    userId: auth.user.id,
+    kind: 'oral',
+    score: bilan.note,
+    maxScore: bilan.maxNote,
+    status: 'success',
+    payload: {
+      sessionId,
+      phases: phaseInputs,
+      axes: weakSkills,
+    } as Prisma.InputJsonValue,
+  });
+
+  await processInteraction({
+    studentId: auth.user.id,
+    interactionId: sessionId,
+    agent: 'oral_bilan_officiel',
+    rubric: {
+      criteria: session.interactions.map((item) => ({
+        id: item.step.toLowerCase(),
+        label: item.step,
+        score: item.feedback.score,
+        max: item.feedback.max,
+        evidence: item.feedback.feedback,
+      })),
+    },
+  }).catch(() => undefined);
 
   const timeline = await listMemoryEventsByUser(auth.user.id, 500);
   let badgeResult = evaluateBadges({
@@ -88,6 +122,20 @@ export async function POST(
     ...auth.user.profile,
     badges: badgeResult.badges,
   });
+
+  await createMemoryEventRecord(
+    createMemoryEvent(auth.user.id, {
+      type: 'evaluation',
+      feature: 'oral_session_end',
+      path: '/atelier-oral',
+      payload: {
+        sessionId,
+        score: bilan.note,
+        max: bilan.maxNote,
+        weakSkills,
+      },
+    }),
+  );
 
   return NextResponse.json({ ...bilan, newBadges: badgeResult.newBadges }, { status: 200 });
 }

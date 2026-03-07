@@ -1,60 +1,122 @@
 'use client';
 
 import Link from 'next/link';
-import { Users, GraduationCap, Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Compass, PenSquare, RefreshCcw } from 'lucide-react';
 import { track } from '@/components/analytics/events';
+
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+};
 
 const STEPS = [
   {
-    number: '1',
-    title: 'Je crée mon compte',
-    description: 'Inscription gratuite en 30 secondes avec email et mot de passe.',
-    icon: Users,
+    number: '01',
+    title: 'Cadrer le point de départ',
+    icon: Compass,
+    description: 'Œuvres choisies, objectifs, niveau perçu, contraintes de rythme : la plateforme comprend d’abord le terrain de jeu.',
+    student: 'L’élève renseigne son profil, ses œuvres et son niveau de départ.',
+    platform: 'Nexus construit une base de progression cohérente et prépare les premiers ateliers.',
   },
   {
-    number: '2',
-    title: 'Onboarding 3 minutes',
-    description: 'Profil, choix des œuvres au programme, auto-évaluation de départ.',
-    icon: GraduationCap,
+    number: '02',
+    title: 'Produire dans un format exigeant',
+    icon: PenSquare,
+    description: 'Chaque atelier force une production concrète : réponse orale, analyse, correction de langue, copie déposée.',
+    student: 'L’élève écrit, parle, justifie, reprend et corrige.',
+    platform: 'La plateforme balise la méthode, cite les références utiles et refuse les demandes de copie intégrale.',
   },
   {
-    number: '3',
-    title: 'Je démarre une séance',
-    description: 'Atelier écrit, oral, quiz ou parcours selon mes besoins identifiés.',
-    icon: Sparkles,
+    number: '03',
+    title: 'Réinjecter le feedback au bon endroit',
+    icon: RefreshCcw,
+    description: 'Le retour n’est pas décoratif : il alimente les signaux faibles, le parcours et les prochaines relances.',
+    student: 'L’élève sait précisément quoi retravailler et dans quel ordre.',
+    platform: 'Nexus priorise les lacunes, propose la séance suivante et garde une mémoire utile.',
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section id="comment-ca-marche" className="scroll-mt-20 py-16 md:py-24 bg-white/50 dark:bg-gray-900/50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-center text-foreground">Comment ça marche&nbsp;?</h2>
-        <p className="text-muted-foreground text-center mt-2 text-base leading-7">3 étapes, 3 minutes, tu es prêt.</p>
+    <section id="comment-ca-marche" className="scroll-mt-24 py-20 md:py-24">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">La méthode</p>
+          <h2
+            style={EDITORIAL_HEADING}
+            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl"
+          >
+            Une mécanique de progression, pas une accumulation d&apos;outils.
+          </h2>
+          <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+            La différence n&apos;est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic,
+            la production, la correction et la relance. Tout est pensé pour réduire la dispersion.
+          </p>
 
-        <div className="grid md:grid-cols-3 gap-8 mt-10">
-          {STEPS.map((step) => (
-            <div key={step.number} className="relative rounded-2xl border border-border bg-card p-6 text-center hover:shadow-lg transition-shadow group">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <step.icon className="w-7 h-7" />
-              </div>
-              <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-violet-600 text-white text-sm font-bold flex items-center justify-center shadow-md">
-                {step.number}
-              </div>
-              <h3 className="font-bold text-foreground text-lg">{step.title}</h3>
-              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{step.description}</p>
-            </div>
-          ))}
+          <div className="mt-8 rounded-[30px] border border-[#d8ccb9] bg-white/85 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.08)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Ce que la page promet</p>
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-700">
+              {[
+                'Un onboarding réellement utile, pas décoratif.',
+                'Des ateliers qui débouchent sur une production concrète.',
+                'Un feedback transformé en prochaine action.',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#0f766e]" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="mt-8">
+            <Link
+              href="/login?mode=register"
+              onClick={() => track({ name: 'cta_click', props: { cta: 'how_it_works_register', path: '/bienvenue' } })}
+              className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+            >
+              Démarrer l&apos;onboarding
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
 
-        <div className="text-center mt-10">
-          <Link
-            href="/login?mode=register"
-            onClick={() => track({ name: 'cta_click', props: { cta: 'how_it_works_register', path: '/bienvenue' } })}
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-violet-600 text-white font-bold hover:bg-violet-700 transition-colors shadow-md text-sm"
-          >
-            Faire l&apos;onboarding <ArrowRight className="w-4 h-4" />
-          </Link>
+        <div className="space-y-5">
+          {STEPS.map((step, index) => (
+            <article
+              key={step.number}
+              className="rounded-[30px] border border-[#d8ccb9] bg-white/85 p-6 shadow-[0_18px_40px_rgba(23,50,77,0.06)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
+              style={{ animationDelay: `${0.1 + index * 0.08}s` }}
+            >
+              <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+                <div className="max-w-2xl">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#17324d] text-sm font-bold text-[#f7f2ea]">
+                      {step.number}
+                    </span>
+                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[#d8ccb9] bg-[#efe7da] text-[#0f766e]">
+                      <step.icon className="h-5 w-5" />
+                    </div>
+                  </div>
+
+                  <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">{step.description}</p>
+                </div>
+
+                <div className="grid gap-3 md:w-[21rem]">
+                  <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Côté élève</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{step.student}</p>
+                  </div>
+                  <div className="rounded-[24px] bg-[#17324d] p-4 text-[#f7f2ea]">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Côté Nexus</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-200">{step.platform}</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

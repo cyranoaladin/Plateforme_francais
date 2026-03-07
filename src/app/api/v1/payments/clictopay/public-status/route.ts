@@ -10,7 +10,7 @@ import { logger } from '@/lib/logger';
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
-    const orderRef = url.searchParams.get('orderRef') ?? undefined;
+    const orderRef = url.searchParams.get('orderRef') ?? url.searchParams.get('ref') ?? undefined;
     const orderId = url.searchParams.get('orderId') ?? undefined;
 
     if (!orderRef && !orderId) {

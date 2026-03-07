@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
+import { checkQuota as checkBillingQuota } from '@/lib/billing/usage';
+import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createEpreuve } from '@/lib/epreuves/repository';
 import { type EpreuveType } from '@/lib/epreuves/types';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { createMemoryEvent } from '@/lib/memory/store';
 import { QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -30,12 +34,41 @@ export async function POST(request: Request) {
   }
 
   const type = parsed.data.type as EpreuveType;
+  let billing: Awaited<ReturnType<typeof getBillingContext>>;
+  try {
+    billing = await getBillingContext(auth.user.id);
+  } catch (error) {
+    if (error instanceof BillingContextUnavailableError) {
+      return NextResponse.json(
+        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { status: 503 },
+      );
+    }
+    throw error;
+  }
+
+  const writtenQuota = billing.config.quotas.WRITTEN_CORRECTIONS;
+  if (writtenQuota) {
+    const availability = await checkBillingQuota(auth.user.id, 'WRITTEN_CORRECTIONS', writtenQuota);
+    if (!availability.allowed) {
+      return NextResponse.json(
+        {
+          error: `Tu as atteint la limite incluse pour les corrections ecrites (${writtenQuota.limit} par mois, plan ${billing.planId}). Passe au plan superieur pour generer et corriger une nouvelle epreuve.`,
+          code: 'QUOTA_EXCEEDED',
+          upgradeUrl: '/pricing',
+          plan: billing.planId,
+        },
+        { status: 402 },
+      );
+    }
+  }
 
   let result: unknown;
   try {
     result = await orchestrate({
       skill: 'coach_ecrit',
       userId: auth.user.id,
+      workId: parsed.data.oeuvre,
       userQuery: `Génère un sujet de type ${type}. Oeuvre: ${parsed.data.oeuvre ?? 'libre'}. Thème: ${parsed.data.theme ?? 'libre'}.`,
       context:
         'La sortie JSON doit inclure: sujet, texte, consignes (durée 4h, rappel barème), bareme en points sur 20.',
@@ -43,7 +76,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof QuotaExceededError) {
       return NextResponse.json(
-        { error: `Quota IA atteint (${error.scope}). Réessayez plus tard.` },
+        { error: `Limite atteinte pour cette generation de sujet (${error.scope}). Réessayez plus tard.` },
         { status: 429 },
       );
     }
@@ -64,6 +97,19 @@ export async function POST(request: Request) {
     consignes: generation.consignes,
     bareme: generation.bareme,
   });
+
+  await createMemoryEventRecord(
+    createMemoryEvent(auth.user.id, {
+      type: 'interaction',
+      feature: 'epreuve_generate',
+      path: '/atelier-ecrit',
+      payload: {
+        epreuveId: epreuve.id,
+        type,
+        oeuvre: parsed.data.oeuvre ?? 'libre',
+      },
+    }),
+  );
 
   return NextResponse.json(
     {

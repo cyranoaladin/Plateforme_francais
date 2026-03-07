@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { processInteraction } from '@/lib/agents/student-modeler';
 import { createEvaluation } from '@/lib/db/repositories/evaluationRepo';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
@@ -101,6 +102,31 @@ RÉPONSE DE L'ÉLÈVE : ${answer}
       answerLength: answer.length,
     },
   });
+
+  await processInteraction({
+    studentId: auth.user.id,
+    interactionId: `langue:${parsed.data.exerciseId}:${Date.now()}`,
+    agent: 'grammaire_ciblee',
+    skillDeltas: [
+      {
+        microSkillId: 'langue_grammaire',
+        scoreDelta: result.max > 0 ? result.score / result.max : 0,
+        evidence: result.message,
+      },
+    ],
+    detectedErrors:
+      result.status === 'success'
+        ? []
+        : [
+            {
+              errorType: 'grammaire_erreur',
+              category: 'langue',
+              microSkillId: 'langue_grammaire',
+              example: answer.slice(0, 180) || question,
+              correction: result.message,
+            },
+          ],
+  }).catch(() => undefined);
 
   await createMemoryEventRecord(
     createMemoryEvent(auth.user.id, {

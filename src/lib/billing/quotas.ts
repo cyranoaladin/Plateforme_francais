@@ -125,13 +125,14 @@ export function buildPaywallMessage(plan: PlanId, feature: QuotaFeature): string
   const featureLabels: Record<QuotaFeature, string> = {
     oral_sessions: 'simulations orales',
     ecrit_corrections: 'corrections écrites',
-    llm_requests_daily: 'requêtes IA',
+    llm_requests_daily: 'demandes d accompagnement',
     rag_queries_daily: 'recherches documentaires',
   };
   const label = featureLabels[feature];
+  const periodLabel = feature.includes('daily') ? 'jour' : 'mois';
 
   if (plan === 'FREE') {
-    return `Tu as atteint la limite de ${limit} ${label} par ${feature.includes('daily') ? 'jour' : 'mois'} du plan Gratuit. Passe au plan Pro pour continuer !`;
+    return `Tu as atteint la limite incluse dans Free: ${limit} ${label} par ${periodLabel}. Ton travail reste conserve. Passe a Pro pour reprendre sans blocage.`;
   }
-  return `Tu as atteint la limite de ${limit} ${label} par ${feature.includes('daily') ? 'jour' : 'mois'}. Passe au plan Max pour un accès illimité !`;
+  return `Tu as atteint la limite incluse dans ton plan actuel: ${limit} ${label} par ${periodLabel}. Passe a Max pour continuer sans plafond sur cette action.`;
 }

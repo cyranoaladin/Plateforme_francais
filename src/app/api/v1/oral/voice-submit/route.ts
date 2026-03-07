@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { createMemoryEvent } from '@/lib/memory/store';
 import { validateCsrf } from '@/lib/security/csrf';
 import { transcribeAudio } from '@/lib/stt/transcriber';
 
@@ -45,6 +47,19 @@ export async function POST(request: Request) {
     score?: number;
     max?: number;
   };
+
+  await createMemoryEventRecord(
+    createMemoryEvent(auth.user.id, {
+      type: 'evaluation',
+      feature: 'oral_voice_submit',
+      path: '/atelier-oral',
+      payload: {
+        transcriptLength: transcript.length,
+        score: typeof feedback.score === 'number' ? feedback.score : 0,
+        max: typeof feedback.max === 'number' ? feedback.max : 2,
+      },
+    }),
+  ).catch(() => undefined);
 
   return NextResponse.json(
     {

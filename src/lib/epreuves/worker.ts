@@ -1,4 +1,6 @@
 import { corrigerCopie } from '@/lib/correction/correcteur';
+import { createEvaluation } from '@/lib/db/repositories/evaluationRepo';
+import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { extractTextFromCopie } from '@/lib/correction/ocr';
 import {
   findCopieById,
@@ -7,6 +9,7 @@ import {
 } from '@/lib/epreuves/repository';
 import { processInteraction } from '@/lib/agents/student-modeler';
 import { logger } from '@/lib/logger';
+import { createMemoryEvent } from '@/lib/memory/store';
 import { resolveCopieAbsolutePath } from '@/lib/storage/copies';
 
 const running = new Set<string>();
@@ -55,6 +58,34 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
       correctedAt: new Date().toISOString(),
     });
 
+    await createEvaluation({
+      userId: copie.userId,
+      kind: 'ecrit_blanc',
+      score: correction.note,
+      maxScore: 20,
+      status: 'success',
+      payload: {
+        copieId,
+        epreuveId: copie.epreuveId,
+        mention: correction.mention,
+        weakSkills: correction.bilan.axes_amelioration,
+      },
+    }).catch(() => undefined);
+
+    await createMemoryEventRecord(
+      createMemoryEvent(copie.userId, {
+        type: 'evaluation',
+        feature: 'copie_correction_done',
+        path: '/atelier-ecrit',
+        payload: {
+          copieId,
+          score: correction.note,
+          max: 20,
+          weakSkills: correction.bilan.axes_amelioration,
+        },
+      }),
+    ).catch(() => undefined);
+
     try {
       const rubriques = Array.isArray((correction as { rubriques?: unknown[] }).rubriques)
         ? ((correction as { rubriques: Array<{ titre: string; note: number; max: number; appreciation?: string }> }).rubriques)
@@ -101,6 +132,21 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
       status: 'error',
       errorMessage: error instanceof Error ? error.message : 'Erreur inconnue lors de la correction.',
     });
+    if (copieId) {
+      const failedCopie = await findCopieById(copieId).catch(() => null);
+      if (failedCopie) {
+        await createMemoryEventRecord(
+          createMemoryEvent(failedCopie.userId, {
+            type: 'interaction',
+            feature: 'copie_correction_error',
+            path: '/atelier-ecrit',
+            payload: {
+              copieId,
+            },
+          }),
+        ).catch(() => undefined);
+      }
+    }
   } finally {
     if (success || attempt >= MAX_ATTEMPTS) {
       running.delete(copieId);

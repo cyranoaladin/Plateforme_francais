@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
+import { createMemoryEvent } from '@/lib/memory/store';
 import { createOralSession } from '@/lib/oral/repository';
 import { pickOralExtrait } from '@/lib/oral/service';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
-import { requirePlan, incrementUsage } from '@/lib/billing/gating';
-import { getBillingContext } from '@/lib/billing/context';
+import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
 import { consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionStartBodySchema } from '@/lib/validation/schemas';
@@ -39,8 +40,19 @@ export async function POST(request: Request) {
       );
     }
 
-    // Billing: check plan quota via Redis (primary) + Prisma (secondary)
-    const billing = await getBillingContext(auth.user.id);
+    let billing: Awaited<ReturnType<typeof getBillingContext>>;
+    try {
+      billing = await getBillingContext(auth.user.id);
+    } catch (error) {
+      if (error instanceof BillingContextUnavailableError) {
+        return NextResponse.json(
+          { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+          { status: 503 },
+        );
+      }
+      throw error;
+    }
+
     const oralQuota = billing.config.quotas.ORAL_SESSIONS;
     if (oralQuota) {
       try {
@@ -49,7 +61,7 @@ export async function POST(request: Request) {
         if (err instanceof QuotaExceededError) {
           return NextResponse.json(
             {
-              error: `Quota de sessions orales atteint (${err.limit} par semaine, plan ${billing.planId}). Passe au plan supérieur.`,
+              error: `Tu as atteint la limite incluse pour l oral (${err.limit} sessions par semaine, plan ${billing.planId}). Tes donnees restent en place. Passe au plan superieur pour relancer une simulation tout de suite.`,
               code: 'QUOTA_EXCEEDED',
               upgradeUrl: '/pricing',
               plan: billing.planId,
@@ -59,15 +71,6 @@ export async function POST(request: Request) {
         }
         throw err;
       }
-    }
-
-    // Legacy Prisma-based gating (secondary persistence)
-    const gate = await requirePlan(auth.user.id, 'oralSessionsPerMonth');
-    if (!gate.allowed) {
-      return NextResponse.json(
-        { error: 'Quota de sessions orales atteint. Passez à un plan premium.', upgradeUrl: gate.upgradeUrl },
-        { status: 402 },
-      );
     }
 
     const parsed = await parseJsonBody(request, oralSessionStartBodySchema);
@@ -112,11 +115,18 @@ export async function POST(request: Request) {
       );
     }
 
-    try {
-      await incrementUsage(auth.user.id, 'oralSessionsPerMonth');
-    } catch (err) {
-      console.error('[oral/start] incrementUsage error:', err instanceof Error ? err.message : err);
-    }
+    await createMemoryEventRecord(
+      createMemoryEvent(auth.user.id, {
+        type: 'interaction',
+        feature: 'oral_session_start',
+        path: '/atelier-oral',
+        payload: {
+          sessionId: session.id,
+          oeuvre: oeuvreChoisie,
+          mode: parsed.data.mode ?? 'SIMULATION',
+        },
+      }),
+    );
 
     return NextResponse.json(
       {

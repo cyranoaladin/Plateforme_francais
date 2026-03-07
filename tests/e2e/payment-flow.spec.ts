@@ -15,12 +15,12 @@ test.describe('Payment Flow E2E', () => {
     await page.goto('/pricing');
     
     // Vérifier les 3 plans affichés
-    await expect(page.getByText(/Découverte/i).first()).toBeVisible();
-    await expect(page.getByText(/Mensuel/i).first()).toBeVisible();
-    await expect(page.getByText(/Accès à vie/i).first()).toBeVisible();
+    await expect(page.getByText(/^Free$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Pro$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Max$/i).first()).toBeVisible();
     
     // Vérifier les features
-    await expect(page.getByText(/Paiement sécurisé/i).first()).toBeVisible();
+    await expect(page.getByText(/Paiement securise|Flouci|virement/i).first()).toBeVisible();
     await expect(page.getByText(/Plan actif/i).first()).toBeVisible();
   });
 
@@ -36,7 +36,7 @@ test.describe('Payment Flow E2E', () => {
     await page.goto('/pricing');
     
     // Click on upgrade button (adapter le selector selon l'UI réelle)
-    const upgradeButtons = await page.getByRole('button', { name: /essayer|activer/i }).all();
+    const upgradeButtons = await page.getByRole('button', { name: /passer a pro|passer a max|creer mon compte/i }).all();
     if (upgradeButtons.length > 0) {
       await upgradeButtons[0].click();
       
@@ -47,7 +47,7 @@ test.describe('Payment Flow E2E', () => {
 
   test('page confirmation paiement est accessible', async ({ page }) => {
     await page.goto('/paiement/confirmation');
-    await expect(page.getByRole('heading', { name: /Paiement confirmé/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Paiement confirm/i })).toBeVisible();
   });
 
   test('page refus paiement est accessible', async ({ page }) => {
@@ -93,12 +93,12 @@ test.describe('Payment - User Journey', () => {
     await expect(page).toHaveURL(/\/pricing/, { timeout: 5000 });
 
     // Check plans are visible
-    await expect(page.getByText(/Découverte/i).first()).toBeVisible();
-    await expect(page.getByText(/Mensuel/i).first()).toBeVisible();
-    await expect(page.getByText(/Accès à vie/i).first()).toBeVisible();
+    await expect(page.getByText(/^Free$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Pro$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Max$/i).first()).toBeVisible();
 
     // Verify page has upgrade CTAs
-    const ctaCount = await page.getByRole('button', { name: /essayer|activer/i }).count();
+    const ctaCount = await page.getByRole('button', { name: /passer a pro|passer a max|creer mon compte/i }).count();
     expect(ctaCount).toBeGreaterThan(0);
   });
 });

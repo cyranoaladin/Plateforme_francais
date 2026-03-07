@@ -17,6 +17,8 @@ type TimelineResponse = {
     displayName: string;
     onboardingCompleted: boolean;
     eafDate?: string;
+    selectedOeuvres?: string[];
+    oeuvreChoisieEntretien?: string;
   };
   timeline: MemoryEvent[];
   weakSignals: Record<string, number>;
@@ -40,6 +42,8 @@ export type DashboardMetrics = {
   displayName: string;
   onboardingCompleted: boolean;
   eafDate: string | null;
+  selectedOeuvres: string[];
+  oeuvreChoisieEntretien: string | null;
   countdownDays: number | null;
   countdownEcrit: number | null;
   countdownOral: number | null;
@@ -238,6 +242,8 @@ export function useDashboard(): DashboardMetrics {
       displayName: data?.profile.displayName ?? 'Élève',
       onboardingCompleted: data?.profile.onboardingCompleted ?? false,
       eafDate: data?.profile.eafDate ?? null,
+      selectedOeuvres: data?.profile.selectedOeuvres ?? [],
+      oeuvreChoisieEntretien: data?.profile.oeuvreChoisieEntretien ?? null,
       countdownDays:
         data?.profile.eafDate
           ? Math.max(

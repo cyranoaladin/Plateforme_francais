@@ -13,6 +13,13 @@ export type BillingContext = {
   isActive: boolean;
 };
 
+export class BillingContextUnavailableError extends Error {
+  constructor() {
+    super('Contexte abonnement indisponible.');
+    this.name = 'BillingContextUnavailableError';
+  }
+}
+
 /**
  * Get the billing context for a user.
  * Falls back to FREE if no subscription or subscription expired.
@@ -53,12 +60,6 @@ export async function getBillingContext(userId: string): Promise<BillingContext>
       isActive: true,
     };
   } catch {
-    // Fail-safe: default to FREE on DB error
-    return {
-      planId: 'FREE',
-      config: PLAN_CATALOG.FREE,
-      endsAt: null,
-      isActive: true,
-    };
+    throw new BillingContextUnavailableError();
   }
 }

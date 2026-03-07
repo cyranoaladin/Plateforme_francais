@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
-import { listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
+import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
+import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
+import { createMemoryEventRecord, listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
 import { createCopie, findEpreuveById } from '@/lib/epreuves/repository';
 import { runCorrectionWorker } from '@/lib/epreuves/worker';
 import { evaluateBadges } from '@/lib/gamification/badges';
+import { createMemoryEvent } from '@/lib/memory/store';
 import { saveCopieFile } from '@/lib/storage/copies';
 import { validateCsrf } from '@/lib/security/csrf';
 import { InvalidFileTypeError, validateUpload } from '@/lib/security/file-validator';
@@ -74,6 +77,39 @@ export async function POST(
     throw error;
   }
 
+  let billing: Awaited<ReturnType<typeof getBillingContext>>;
+  try {
+    billing = await getBillingContext(auth.user.id);
+  } catch (error) {
+    if (error instanceof BillingContextUnavailableError) {
+      return NextResponse.json(
+        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { status: 503 },
+      );
+    }
+    throw error;
+  }
+
+  const writtenQuota = billing.config.quotas.WRITTEN_CORRECTIONS;
+  if (writtenQuota) {
+    try {
+      await consumeQuota(auth.user.id, 'WRITTEN_CORRECTIONS', writtenQuota);
+    } catch (error) {
+      if (error instanceof BillingQuotaExceededError) {
+        return NextResponse.json(
+          {
+            error: `Tu as atteint la limite incluse pour les corrections ecrites (${error.limit} par mois, plan ${billing.planId}). Passe au plan superieur pour lancer une nouvelle correction.`,
+            code: 'QUOTA_EXCEEDED',
+            upgradeUrl: '/pricing',
+            plan: billing.planId,
+          },
+          { status: 402 },
+        );
+      }
+      throw error;
+    }
+  }
+
   const saved = await saveCopieFile({
     userId: auth.user.id,
     fileType: detected.mime,
@@ -86,6 +122,19 @@ export async function POST(
     filePath: saved.filePath,
     fileType: saved.fileType,
   });
+
+  await createMemoryEventRecord(
+    createMemoryEvent(auth.user.id, {
+      type: 'interaction',
+      feature: 'copie_upload',
+      path: '/atelier-ecrit',
+      payload: {
+        copieId: copie.id,
+        epreuveId,
+        fileType: saved.fileType,
+      },
+    }),
+  );
 
   const timeline = await listMemoryEventsByUser(auth.user.id, 500);
   const badgeResult = evaluateBadges({

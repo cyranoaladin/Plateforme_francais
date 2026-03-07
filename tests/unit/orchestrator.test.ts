@@ -3,9 +3,16 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const generateContentMock = vi.fn();
 
 vi.mock('@/lib/llm/factory', () => ({
-  getRouterProvider: () => ({
-    generateContent: generateContentMock,
+  selectProvider: () => ({
+    provider: {
+      generateContent: generateContentMock,
+    },
+    tier: 'standard',
+    model: 'mock-model',
+    providerName: 'mistral_standard',
   }),
+  recordProviderSuccess: vi.fn(),
+  recordProviderError: vi.fn(),
 }));
 
 vi.mock('@/lib/llm/token-estimate', () => ({
@@ -22,12 +29,19 @@ vi.mock('@/lib/rag/search', () => ({
 }));
 
 vi.mock('@/lib/memory/context-builder', () => ({
-  composeMemoryContext: vi.fn().mockReturnValue(''),
+  composeMemoryContext: vi.fn().mockReturnValue('memoire active'),
+  truncateToTokenBudget: vi.fn((value: string) => value),
 }));
 
-vi.mock('@/lib/store/premium-store', () => ({
-  getOrCreateSkillMap: vi.fn().mockResolvedValue({
-    studentId: 'u1', axes: { oral: [] }, updatedAt: '',
+vi.mock('@/lib/memory/profile-loader', () => ({
+  loadMemoryProfileForUser: vi.fn().mockResolvedValue({
+    globalLevel: 'SATISFAISANT',
+    avgOralScore: 12,
+    avgEcritScore: 11,
+    totalSessions: 5,
+    weakSkills: [],
+    currentWorkMastery: null,
+    recentSessionsSummary: 'écrit (il y a 2j)',
   }),
 }));
 
@@ -46,6 +60,10 @@ vi.mock('@/lib/billing/gating', () => ({
 vi.mock('@/lib/security/llm-rate-limiter', () => ({
   checkLLMQuota: vi.fn().mockResolvedValue(undefined),
   QuotaExceededError: class extends Error {},
+}));
+
+vi.mock('@/lib/llm/cost-tracker', () => ({
+  trackLlmCall: vi.fn().mockResolvedValue(undefined),
 }));
 
 describe('orchestrate', () => {

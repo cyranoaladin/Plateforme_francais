@@ -1,9 +1,10 @@
 import { randomUUID } from 'crypto';
 import { prisma } from '@/lib/db/client';
+import { comparePlans, normalizePlanId, type PlanId } from '@/lib/billing/plan-catalog';
 import { sendTransactionalEmail } from '@/lib/email/client';
 import { logger } from '@/lib/logger';
 
-export type ClicToPayPlan = 'MONTHLY' | 'LIFETIME';
+export type ClicToPayPlan = 'PRO' | 'MAX';
 
 export type ClicToPayInitInput = {
   userId: string;
@@ -20,7 +21,7 @@ export type ClicToPayInitResult = {
 export type PublicPaymentStatusResult = {
   orderRef: string;
   status: 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
-  plan: 'FREE' | 'PRO' | 'MAX' | 'MONTHLY' | 'LIFETIME';
+  plan: PlanId;
   amountMillimes: number;
   currency: string;
   updatedAt: Date;
@@ -57,23 +58,41 @@ function apiBaseUrl(): string {
   return raw.replace(/\/$/, '');
 }
 
+function appBaseUrl(): string {
+  const raw = process.env.CLICTOPAY_PUBLIC_BASE_URL
+    ?? process.env.NEXT_PUBLIC_APP_URL
+    ?? 'https://eaf.nexusreussite.academy';
+  return raw.replace(/\/$/, '');
+}
+
 function callbackUrl(): string {
-  return process.env.CLICTOPAY_CALLBACK_URL ?? 'https://nexusreussite.academy/api/payments/clictopay/callback';
+  return process.env.CLICTOPAY_CALLBACK_URL ?? `${appBaseUrl()}/api/v1/payments/clictopay/callback`;
 }
 
 function successUrl(): string {
-  return process.env.CLICTOPAY_SUCCESS_URL ?? 'https://nexusreussite.academy/paiement/confirmation';
+  return process.env.CLICTOPAY_SUCCESS_URL ?? `${appBaseUrl()}/paiement/confirmation`;
 }
 
 function failureUrl(): string {
-  return process.env.CLICTOPAY_FAILURE_URL ?? 'https://nexusreussite.academy/paiement/refus';
+  return process.env.CLICTOPAY_FAILURE_URL ?? `${appBaseUrl()}/paiement/refus`;
 }
 
 function amountForPlanMillimes(plan: ClicToPayPlan): number {
-  if (plan === 'MONTHLY') {
-    return 14900;
+  if (plan === 'PRO') {
+    return 99_000;
   }
-  return 89000;
+  return 149_000;
+}
+
+function computePeriodEndForPlan(plan: PlanId, base: Date): Date {
+  const periodEnd = new Date(base);
+  if (plan === 'PRO') {
+    periodEnd.setUTCMonth(periodEnd.getUTCMonth() + 1);
+    return periodEnd;
+  }
+
+  periodEnd.setUTCFullYear(periodEnd.getUTCFullYear() + 100);
+  return periodEnd;
 }
 
 function isAcceptedStatus(payload: OrderStatusResponse): boolean {
@@ -267,28 +286,49 @@ export async function applyClicToPayStatusToTransaction(params: {
 
   if (mappedStatus === 'ACCEPTED') {
     const now = new Date();
-    const periodEnd = new Date(now);
+    const purchasedPlan = normalizePlanId(tx.plan);
+    const currentSubscription = await prisma.subscription.findUnique({
+      where: { userId: tx.userId },
+    });
+    const currentPlan = currentSubscription ? normalizePlanId(currentSubscription.plan) : 'FREE';
+    const currentEndsAt = currentSubscription?.currentPeriodEnd ?? null;
+    const hasActiveCurrentPlan =
+      currentSubscription?.status === 'ACTIVE' &&
+      currentEndsAt !== null &&
+      currentEndsAt > now;
 
-    if (tx.plan === 'MONTHLY') {
-      periodEnd.setUTCMonth(periodEnd.getUTCMonth() + 1);
-    } else {
-      periodEnd.setUTCFullYear(periodEnd.getUTCFullYear() + 100);
+    const purchasedIsStronger = comparePlans(purchasedPlan, currentPlan) > 0;
+    const purchasedMatchesCurrent = purchasedPlan === currentPlan;
+
+    let finalPlan: PlanId = purchasedPlan;
+    let periodStart = now;
+    let periodEnd = computePeriodEndForPlan(purchasedPlan, now);
+
+    if (hasActiveCurrentPlan && currentEndsAt) {
+      if (purchasedIsStronger || purchasedMatchesCurrent) {
+        periodStart = currentEndsAt > now ? currentEndsAt : now;
+        periodEnd = computePeriodEndForPlan(purchasedPlan, periodStart);
+      } else {
+        finalPlan = currentPlan;
+        periodStart = currentSubscription.currentPeriodStart ?? now;
+        periodEnd = currentEndsAt;
+      }
     }
 
     await prisma.subscription.upsert({
       where: { userId: tx.userId },
       update: {
-        plan: tx.plan,
+        plan: finalPlan,
         status: 'ACTIVE',
-        currentPeriodStart: now,
+        currentPeriodStart: periodStart,
         currentPeriodEnd: periodEnd,
         cancelAtPeriodEnd: false,
       },
       create: {
         userId: tx.userId,
-        plan: tx.plan,
+        plan: finalPlan,
         status: 'ACTIVE',
-        currentPeriodStart: now,
+        currentPeriodStart: periodStart,
         currentPeriodEnd: periodEnd,
         cancelAtPeriodEnd: false,
       },
@@ -346,7 +386,7 @@ export async function resolvePublicPaymentStatus(params: {
   return {
     orderRef: payment.orderRef,
     status: payment.status,
-    plan: payment.plan,
+    plan: normalizePlanId(payment.plan),
     amountMillimes: payment.amountMillimes,
     currency: payment.currency,
     updatedAt: payment.updatedAt,

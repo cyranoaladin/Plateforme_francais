@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { redeemActivationCode, RedeemError } from '@/lib/billing/redeem';
 import { logger } from '@/lib/logger';
+import { createMemoryEvent } from '@/lib/memory/store';
 
 /**
  * POST /api/v1/billing/redeem-code
@@ -68,6 +70,17 @@ export async function POST(request: Request) {
       { userId: auth.user.id, plan: result.plan, endsAt: result.endsAt },
       'billing:code_redeemed',
     );
+
+    await createMemoryEventRecord(
+      createMemoryEvent(auth.user.id, {
+        type: 'interaction',
+        feature: 'subscription_redeem_code',
+        path: '/pricing',
+        payload: {
+          plan: result.plan,
+        },
+      }),
+    ).catch(() => undefined);
 
     return NextResponse.json(
       {

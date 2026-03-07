@@ -1,16 +1,28 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { CheckCircle2, ChevronDown, ChevronUp, KeyRound, Loader2, Phone, Sparkles, Landmark, AlertTriangle } from 'lucide-react';
+import {
+  AlertTriangle,
+  ArrowRight,
+  BadgeCheck,
+  CheckCircle2,
+  ChevronDown,
+  ChevronUp,
+  Clock3,
+  ExternalLink,
+  KeyRound,
+  Landmark,
+  Loader2,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 
-/* ─────────────────── Types ─────────────────── */
-
-type SubscriptionPlan = 'FREE' | 'MONTHLY' | 'LIFETIME';
+type SubscriptionPlan = 'FREE' | 'PRO' | 'MAX';
 type PaymentStatus = 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
-type ClicToPayPlan = 'MONTHLY' | 'LIFETIME';
-type Currency = 'TND' | 'EUR';
+type CheckoutPlan = 'PRO' | 'MAX';
 
 type BillingStatusPayload = {
   subscription: {
@@ -20,25 +32,48 @@ type BillingStatusPayload = {
   };
   lastPayment: {
     orderRef: string;
+    plan: SubscriptionPlan;
     status: PaymentStatus;
     amountMillimes: number;
+    currency: string;
     createdAt: string;
   } | null;
 };
-
-/* ─────────────────── Plan data ─────────────────── */
 
 type PlanCard = {
   id: SubscriptionPlan;
   title: string;
   priceTND: string;
-  priceEUR: string;
   period: string;
   bullets: string[];
   cta: string;
   ctaDisabledLabel: string;
-  clicToPayPlan?: ClicToPayPlan;
+  checkoutPlan?: CheckoutPlan;
   highlighted: boolean;
+  kicker: string;
+  note: string;
+};
+
+const CONTACT_EMAIL = 'contact@nexusreussite.academy';
+const FLOUCI_INFO_URL = 'https://fr.flouci.com/feature/%20compte-professionnel';
+
+const PLAN_LABELS: Record<SubscriptionPlan, string> = {
+  FREE: 'Free',
+  PRO: 'Pro',
+  MAX: 'Max',
+};
+
+const BANK_TRANSFER_ROWS = [
+  { label: 'Identifiant', value: '871456' },
+  { label: 'Titulaire', value: 'STE M&M ACADEMY SUARL' },
+  { label: 'Nature du compte', value: 'COMPTES CHEQUES ENTREPRISES' },
+  { label: 'RIB', value: 'RIB25079000000156908404' },
+  { label: 'IBAN', value: 'TN5925079000000156908404' },
+  { label: 'BIC', value: 'BZITTNTT' },
+] as const;
+
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
 };
 
 const PLANS: PlanCard[] = [
@@ -46,121 +81,137 @@ const PLANS: PlanCard[] = [
     id: 'FREE',
     title: 'Free',
     priceTND: '0 TND',
-    priceEUR: '0 €',
     period: '',
     bullets: [
       '2 sessions orales / semaine',
-      '3 épreuves écrites / mois',
-      '10 questions tuteur / jour',
-      'Bibliothèque complète',
+      '3 corrections ecrites / mois',
+      '10 echanges guides / jour',
+      'Bibliotheque complete',
     ],
-    cta: 'Garder Free',
+    cta: 'Rester sur Free',
     ctaDisabledLabel: 'Plan actuel',
     highlighted: false,
+    kicker: 'Essai sans engagement',
+    note: 'Ideal pour voir le vrai produit, lancer l onboarding et verifier si le workflow merite une montee en puissance.',
   },
   {
-    id: 'MONTHLY',
+    id: 'PRO',
     title: 'Pro',
-    priceTND: '24,9 TND',
-    priceEUR: '9,90 €',
+    priceTND: '99 TND',
     period: '/ mois',
     bullets: [
       '10 sessions orales / semaine',
-      '20 épreuves écrites / mois',
-      '100 questions tuteur / jour',
+      '20 corrections ecrites / mois',
+      '100 echanges guides / jour',
       'OCR 20 copies / mois',
-      'Parcours personnalisé',
+      'Parcours personnalise',
       'Rapport PDF oral',
     ],
-    cta: 'Passer à Pro',
+    cta: 'Passer a Pro',
     ctaDisabledLabel: 'Plan actuel',
-    clicToPayPlan: 'MONTHLY',
+    checkoutPlan: 'PRO',
     highlighted: true,
+    kicker: 'Rythme regulier',
+    note: 'Le meilleur point d equilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
   },
   {
-    id: 'LIFETIME',
+    id: 'MAX',
     title: 'Max',
-    priceTND: '44,9 TND',
-    priceEUR: '19,90 €',
-    period: '/ mois',
+    priceTND: '149 TND',
+    period: 'paiement unique',
     bullets: [
-      'Oral illimité',
-      'Écrit illimité',
-      'Tuteur illimité',
+      'Oral illimite',
+      'Corrections ecrites illimitees',
+      'Accompagnement guide illimite',
       'OCR 50 copies / mois',
-      'Tokens 200k / jour',
+      'Capacite de traitement 200k / jour',
       'Spaced repetition',
       'Support prioritaire',
     ],
-    cta: 'Passer à Max',
+    cta: 'Passer a Max',
     ctaDisabledLabel: 'Plan actuel',
-    clicToPayPlan: 'LIFETIME',
+    checkoutPlan: 'MAX',
     highlighted: false,
+    kicker: 'Paiement unique',
+    note: 'Concu pour les usages intensifs et les familles qui veulent regler une seule fois sans conserver un abonnement mensuel.',
   },
 ];
 
-/* ─────────────────── Feature matrix ─────────────────── */
-
 const FEATURE_ROWS: Array<{ label: string; free: string; pro: string; max: string }> = [
-  { label: 'Sessions orales / semaine', free: '2', pro: '10', max: 'Illimité' },
-  { label: 'Épreuves écrites / mois', free: '3', pro: '20', max: 'Illimité' },
-  { label: 'RAG / questions tuteur / jour', free: '10', pro: '100', max: 'Illimité' },
+  { label: 'Sessions orales / semaine', free: '2', pro: '10', max: 'Illimite' },
+  { label: 'Corrections ecrites / mois', free: '3', pro: '20', max: 'Illimite' },
+  { label: 'Échanges guidés / jour', free: '10', pro: '100', max: 'Illimite' },
   { label: 'OCR copies / mois', free: '—', pro: '20', max: '50' },
-  { label: 'Tokens LLM / jour', free: '10k', pro: '50k', max: '200k' },
-  { label: 'Rapport PDF oral', free: '—', pro: '✓', max: '✓' },
-  { label: 'Spaced repetition', free: '—', pro: '—', max: '✓' },
+  { label: 'Capacité de traitement / jour', free: '10k', pro: '50k', max: '200k' },
+  { label: 'Rapport PDF oral', free: '—', pro: 'Oui', max: 'Oui' },
+  { label: 'Spaced repetition', free: '—', pro: '—', max: 'Oui' },
   { label: 'Support', free: 'FAQ', pro: 'Email', max: 'Prioritaire' },
 ];
 
-/* ─────────────────── Billing FAQ ─────────────────── */
-
 const BILLING_FAQ = [
   {
-    q: 'Que se passe-t-il si j\'atteins un quota ?',
-    a: 'L\'action est bloquée et la plateforme propose le plan adapté. Aucune donnée n\'est perdue.',
+    q: 'Que se passe-t-il si j atteins un quota ?',
+    a: 'La plateforme bloque l action concernee, conserve ton travail et t indique le plan utile pour reprendre sans repartir de zero.',
   },
   {
     q: 'Puis-je changer de plan ?',
-    a: 'Oui, à tout moment depuis cette page. Le changement prend effet immédiatement.',
+    a: 'Oui. Cette page sert justement a comparer, monter en puissance au bon moment et relire ton statut de facturation.',
   },
   {
     q: 'Comment fonctionne le paiement ?',
-    a: 'Paiement sécurisé via ClicToPay (cartes nationales et internationales, CVV2 et 3D Secure). Confirmation sur /paiement/confirmation, échec sur /paiement/refus.',
+    a: 'Le paiement carte est securise via ClicToPay. Si tu preferes un autre canal, la page propose aussi Flouci et le virement bancaire avec activation manuelle du plan.',
   },
   {
-    q: 'Moyens de paiement acceptés ?',
-    a: 'Carte bancaire locale, D17 / e-Dinar (Poste Tunisienne) selon disponibilité. Facturation mensuelle, résiliable à tout moment.',
+    q: 'Et si je n ai pas de carte bancaire ?',
+    a: 'Flouci et le virement bancaire couvrent ce cas. Ajoute l email du compte ou l identifiant utilisateur en reference pour accelerer l activation.',
+  },
+];
+
+const DECISION_GUIDES = [
+  {
+    title: 'Free',
+    body: 'Tu veux verifier la qualite du workflow, lancer l onboarding et juger le produit avant toute depense.',
+  },
+  {
+    title: 'Pro',
+    body: 'Tu travailles chaque semaine et tu veux une plateforme assez solide pour soutenir le rythme sans tomber vite sur les limites.',
+  },
+  {
+    title: 'Max',
+    body: 'Tu veux payer une seule fois, travailler sans plafond sur la duree et garder la marge maximale sur oral, ecrit et quiz.',
   },
 ];
 
 function BillingFaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
+
   return (
-    <div className="border border-border rounded-xl overflow-hidden">
+    <div className="rounded-[24px] border border-[#d8ccb9] bg-white/85 shadow-[0_14px_35px_rgba(23,50,77,0.05)]">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-muted/30 transition-colors"
+        className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
         aria-expanded={open}
       >
-        <span className="font-semibold text-foreground text-sm pr-4">{q}</span>
-        {open ? <ChevronUp className="w-4 h-4 shrink-0 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 shrink-0 text-muted-foreground" />}
+        <span className="text-sm font-semibold text-[#17324d] md:text-base">{q}</span>
+        {open ? (
+          <ChevronUp className="h-5 w-5 shrink-0 text-slate-500" />
+        ) : (
+          <ChevronDown className="h-5 w-5 shrink-0 text-slate-500" />
+        )}
       </button>
-      {open && <div className="px-4 pb-3 text-sm text-muted-foreground leading-relaxed">{a}</div>}
+      {open ? <div className="px-5 pb-5 text-sm leading-7 text-slate-600">{a}</div> : null}
     </div>
   );
 }
 
-/* ─────────────────── Page ─────────────────── */
-
 export default function PricingPage() {
   const [billing, setBilling] = useState<BillingStatusPayload | null>(null);
   const [loading, setLoading] = useState(true);
-  const [pendingPlan, setPendingPlan] = useState<ClicToPayPlan | null>(null);
+  const [pendingPlan, setPendingPlan] = useState<CheckoutPlan | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [currency, setCurrency] = useState<Currency>('TND');
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
-  // Activation code state
   const [codeInput, setCodeInput] = useState('');
   const [codeLoading, setCodeLoading] = useState(false);
   const [codeSuccess, setCodeSuccess] = useState<{ plan: string; endsAt: string; message: string } | null>(null);
@@ -173,8 +224,13 @@ export default function PricingPage() {
       try {
         const payload = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status');
         setBilling(payload);
+        setIsAuthenticated(true);
       } catch (err) {
-        if (isApiError(err)) {
+        if (isApiError(err) && err.status === 401) {
+          setBilling(null);
+          setIsAuthenticated(false);
+          setError(null);
+        } else if (isApiError(err)) {
           setError(err.message);
         } else {
           setError('Impossible de charger votre statut de facturation.');
@@ -188,13 +244,25 @@ export default function PricingPage() {
   }, []);
 
   const currentPlan = billing?.subscription.plan ?? 'FREE';
+  const currentPlanLabel = PLAN_LABELS[currentPlan] ?? currentPlan;
   const currentPeriodEndLabel = useMemo(() => {
     const value = billing?.subscription.currentPeriodEnd;
     if (!value) return null;
     return new Date(value).toLocaleDateString('fr-FR');
   }, [billing?.subscription.currentPeriodEnd]);
 
-  const startCheckout = async (plan: ClicToPayPlan, planId: string) => {
+  const lastPaymentLabel = useMemo(() => {
+    if (!billing?.lastPayment) return null;
+    return `${(billing.lastPayment.amountMillimes / 1000).toFixed(3)} ${billing.lastPayment.currency}`;
+  }, [billing?.lastPayment]);
+
+  const startCheckout = async (plan: CheckoutPlan, planId: string) => {
+    if (!isAuthenticated) {
+      track({ name: 'pricing_checkout_click', props: { plan: `${planId}_guest_redirect` } });
+      window.location.assign('/login?mode=register');
+      return;
+    }
+
     setError(null);
     setPendingPlan(plan);
     track({ name: 'pricing_checkout_click', props: { plan: planId } });
@@ -214,291 +282,555 @@ export default function PricingPage() {
       if (isApiError(err)) {
         setError(err.message);
       } else {
-        setError('Paiement indisponible. Réessaie dans quelques minutes.');
+        setError('Paiement indisponible. Reessaie dans quelques minutes.');
       }
       setPendingPlan(null);
     }
   };
 
+  const redeemCode = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!codeInput.trim() || codeLoading) return;
+
+    setCodeError(null);
+    setCodeSuccess(null);
+    setCodeLoading(true);
+    track({ name: 'pricing_code_redeem_attempt', props: { plan: 'unknown' } });
+
+    try {
+      const res = await apiFetch<{ plan: string; endsAt: string; message: string }>('/api/v1/billing/redeem-code', {
+        method: 'POST',
+        json: { code: codeInput.trim() },
+      });
+      setCodeSuccess(res);
+      setCodeInput('');
+      track({ name: 'pricing_code_redeem_success', props: { plan: res.plan } });
+
+      try {
+        const updated = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status');
+        setBilling(updated);
+      } catch {
+        // noop
+      }
+    } catch (err) {
+      if (isApiError(err)) {
+        setCodeError(err.status === 429 ? `Trop de tentatives. Reessaie dans ${err.retryAfterSec ?? 60}s.` : err.message);
+      } else {
+        setCodeError('Erreur inattendue. Verifie ta connexion.');
+      }
+    } finally {
+      setCodeLoading(false);
+    }
+  };
+
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-      {/* ─── Header ─── */}
-      <header className="mb-10 space-y-3">
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">Plans et quotas</h1>
-        <p className="text-muted-foreground text-base leading-7 max-w-xl">
-          Choisis un plan adapté à ton rythme. Les quotas évitent les abus et garantissent une expérience stable.
-        </p>
+    <div className="min-h-screen overflow-x-clip bg-[#f4efe5] text-slate-900 [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[radial-gradient(circle_at_center_top,rgba(255,255,255,0.9),transparent_65%)]" />
+      <div className="pointer-events-none absolute right-0 top-32 h-72 w-72 rounded-full bg-[#0f766e]/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-0 top-[38rem] h-72 w-72 rounded-full bg-[#b87333]/10 blur-3xl" />
 
-        {/* Currency toggle */}
-        <div className="flex items-center gap-2 mt-4">
-          <span className="text-xs text-muted-foreground">Devise :</span>
-          <div className="flex p-0.5 bg-muted rounded-lg">
-            <button
-              type="button"
-              onClick={() => setCurrency('TND')}
-              className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${currency === 'TND' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground'}`}
+      <main className="relative mx-auto max-w-7xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 lg:pb-24">
+        <header className="flex flex-col gap-5 rounded-[30px] border border-[#d8ccb9] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
+          <Link href="/bienvenue" className="flex items-center gap-4">
+            <img src="/images/logo_slogan_nexus.png" alt="Nexus Reussite" className="h-11 w-auto object-contain" />
+            <div className="hidden md:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
+              <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
+              Plans 2026
+            </div>
+          </Link>
+          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
+            <Link href="/bienvenue" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+              Retour accueil
+            </Link>
+            <Link href="/login" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+              Se connecter
+            </Link>
+            <Link
+              href="/login?mode=register"
+              className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
             >
-              TND
-            </button>
-            <button
-              type="button"
-              onClick={() => setCurrency('EUR')}
-              className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${currency === 'EUR' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground'}`}
+              Commencer gratuitement
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </header>
+
+        <section className="grid gap-8 pb-12 pt-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-end">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#cabaa5] bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#17324d] shadow-sm">
+              <BadgeCheck className="h-4 w-4 text-[#0f766e]" />
+              Tarification claire, sans promesse floue
+            </div>
+
+            <h1
+              style={EDITORIAL_HEADING}
+              className="mt-7 max-w-4xl text-5xl leading-[0.96] tracking-[-0.04em] text-[#17324d] sm:text-6xl lg:text-7xl"
             >
-              EUR
-            </button>
-          </div>
-          <span className="text-[10px] text-muted-foreground">Les prix peuvent varier selon la devise.</span>
-        </div>
-      </header>
+              Choisis le bon rythme de travail,
+              <span className="block text-[#0f766e]">puis laisse le produit faire le reste.</span>
+            </h1>
 
-      {/* ─── Current plan status ─── */}
-      <section className="mb-8 rounded-xl border border-border bg-card p-5">
-        {loading && (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="w-4 h-4 animate-spin" /> Chargement de votre abonnement…
-          </div>
-        )}
-        {!loading && (
-          <div className="space-y-1 text-sm">
-            <p>Plan actif : <strong>{currentPlan}</strong></p>
-            <p>Statut : <strong>{billing?.subscription.status ?? 'ACTIVE'}</strong></p>
-            {currentPeriodEndLabel && <p>Échéance : <strong>{currentPeriodEndLabel}</strong></p>}
-            {billing?.lastPayment && (
-              <p>Dernier paiement : <strong>{billing.lastPayment.status}</strong> ({(billing.lastPayment.amountMillimes / 1000).toFixed(3)} TND)</p>
-            )}
-          </div>
-        )}
-      </section>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
+              Compare les plans, comprends les quotas, vois les alternatives de paiement et decide seulement apres avoir compris ce que chaque niveau debloque vraiment.
+            </p>
 
-      {/* ─── Plan Cards ─── */}
-      <section className="grid gap-6 md:grid-cols-3 mb-12">
-        {PLANS.map((plan) => {
-          const isCurrent = plan.id === currentPlan;
-          const isLoadingPlan = pendingPlan !== null && plan.clicToPayPlan === pendingPlan;
-          const price = currency === 'TND' ? plan.priceTND : plan.priceEUR;
-
-          return (
-            <article
-              key={plan.id}
-              className={`rounded-2xl border p-6 flex flex-col transition hover:shadow-lg ${
-                plan.highlighted
-                  ? 'border-violet-500 bg-violet-50/50 dark:bg-violet-950/30 shadow-lg shadow-violet-600/10 ring-2 ring-violet-500/20'
-                  : isCurrent
-                    ? 'border-primary bg-primary/5'
-                    : 'border-border bg-card'
-              }`}
-            >
-              {plan.highlighted && (
-                <span className="inline-flex self-start items-center gap-1 px-2.5 py-0.5 text-xs font-bold rounded-full bg-violet-600 text-white mb-3">
-                  <Sparkles className="w-3 h-3" /> Populaire
-                </span>
-              )}
-              <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{plan.title}</p>
-              <div className="mt-2">
-                <span className="text-3xl font-bold text-foreground">{price}</span>
-                {plan.period && <span className="text-sm text-muted-foreground ml-1">{plan.period}</span>}
-              </div>
-
-              <ul className="mt-5 space-y-2.5 flex-1">
-                {plan.bullets.map((bullet) => (
-                  <li key={bullet} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                type="button"
-                disabled={isCurrent || !plan.clicToPayPlan || pendingPlan !== null}
-                onClick={() => {
-                  if (plan.clicToPayPlan) {
-                    track({ name: 'pricing_plan_select', props: { plan: plan.id } });
-                    void startCheckout(plan.clicToPayPlan, plan.id);
-                  }
-                }}
-                className={`mt-6 w-full rounded-xl py-2.5 text-sm font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
-                  plan.highlighted
-                    ? 'bg-violet-600 text-white hover:bg-violet-700 shadow-md'
-                    : 'bg-muted text-foreground hover:bg-muted/80 border border-border'
-                }`}
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <a
+                href="#plans"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#17324d] px-6 py-3.5 text-base font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
               >
-                {isLoadingPlan ? (
-                  <span className="flex items-center justify-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Redirection…</span>
-                ) : isCurrent ? (
-                  plan.ctaDisabledLabel
-                ) : (
-                  plan.cta
-                )}
-              </button>
-            </article>
-          );
-        })}
-      </section>
-
-      {/* ─── Bloc A: Activer avec un code ─── */}
-      <section className="mb-10 max-w-lg mx-auto">
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <div className="flex items-center gap-2 mb-3">
-            <KeyRound className="w-5 h-5 text-violet-600" />
-            <h2 className="text-lg font-bold text-foreground">Activer avec un code</h2>
-          </div>
-          <p className="text-xs text-muted-foreground mb-4">
-            Tu as reçu un code d&apos;activation ? Saisis-le ci-dessous pour activer ton plan.
-          </p>
-
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              if (!codeInput.trim() || codeLoading) return;
-              setCodeError(null);
-              setCodeSuccess(null);
-              setCodeLoading(true);
-              track({ name: 'pricing_code_redeem_attempt', props: { plan: 'unknown' } });
-              try {
-                const res = await apiFetch<{ plan: string; endsAt: string; message: string }>(
-                  '/api/v1/billing/redeem-code',
-                  { method: 'POST', json: { code: codeInput.trim() } },
-                );
-                setCodeSuccess(res);
-                setCodeInput('');
-                track({ name: 'pricing_code_redeem_success', props: { plan: res.plan } });
-                // Refresh billing status
-                try {
-                  const updated = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status');
-                  setBilling(updated);
-                } catch { /* non-blocking */ }
-              } catch (err) {
-                if (isApiError(err)) {
-                  setCodeError(err.message);
-                  if (err.status === 429) {
-                    setCodeError(`Trop de tentatives. Réessaie dans ${err.retryAfterSec ?? 60}s.`);
-                  }
-                } else {
-                  setCodeError('Erreur inattendue. Vérifie ta connexion.');
-                }
-              } finally {
-                setCodeLoading(false);
-              }
-            }}
-            className="flex gap-2"
-          >
-            <input
-              type="text"
-              value={codeInput}
-              onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
-              placeholder="NEXUS-PRO-XXXX-XXXX"
-              className="flex-1 bg-background border border-input rounded-xl px-3 py-2.5 text-sm font-mono tracking-wider focus:ring-2 focus:ring-violet-500 focus:outline-none uppercase"
-              maxLength={25}
-              disabled={codeLoading}
-            />
-            <button
-              type="submit"
-              disabled={codeLoading || !codeInput.trim()}
-              className="px-5 py-2.5 rounded-xl bg-violet-600 text-white text-sm font-bold hover:bg-violet-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-md"
-            >
-              {codeLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Activer'}
-            </button>
-          </form>
-
-          {codeSuccess && (
-            <div className="mt-3 p-3 rounded-xl border border-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 dark:border-emerald-700 text-sm text-emerald-700 dark:text-emerald-300 flex items-start gap-2" role="status">
-              <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
-              <span>{codeSuccess.message}</span>
+                Voir les plans
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <Link
+                href="/login?mode=register"
+                className="inline-flex items-center justify-center rounded-full border border-[#cabaa5] bg-white/85 px-6 py-3.5 text-base font-semibold text-[#17324d] transition-colors hover:bg-white"
+              >
+                Creer un compte gratuit
+              </Link>
             </div>
-          )}
-          {codeError && (
-            <div className="mt-3 p-3 rounded-xl border border-error/30 bg-error/10 text-sm text-error flex items-start gap-2" role="alert">
-              <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
-              <span>{codeError}</span>
-            </div>
-          )}
-        </div>
-      </section>
 
-      {/* ─── Bloc B: Commander un code (Tunisie) ─── */}
-      <section className="mb-10 max-w-lg mx-auto">
-        <div className="rounded-2xl border border-dashed border-border bg-muted/20 p-6">
-          <h2 className="text-lg font-bold text-foreground mb-3">Commander un code (Tunisie)</h2>
-          <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-            Pas de carte bancaire ? Commande un code d&apos;activation et paye à la livraison ou par virement.
-          </p>
-          <div className="space-y-3">
-            <div className="flex items-start gap-3">
-              <Landmark className="w-5 h-5 text-violet-500 shrink-0 mt-0.5" />
-              <div>
-                <p className="text-sm font-semibold text-foreground">Virement bancaire</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Envoie le montant du plan choisi avec ta référence (email ou ID utilisateur) en motif.
-                  Le code sera envoyé par email sous 24h ouvrées.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Phone className="w-5 h-5 text-violet-500 shrink-0 mt-0.5" />
-              <div>
-                <p className="text-sm font-semibold text-foreground">Livraison à domicile (Tunis)</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Commande via WhatsApp ou téléphone. Paiement à la livraison. Délai : 24–48h.
-                </p>
-              </div>
-            </div>
-          </div>
-          <p className="text-[10px] text-muted-foreground mt-4 border-t border-border pt-3">
-            Une fois le code reçu, saisis-le dans le champ ci-dessus pour activer ton plan immédiatement.
-          </p>
-        </div>
-      </section>
-
-      {/* ─── Payment micro-copy ─── */}
-      <p className="text-center text-xs text-muted-foreground mb-10">
-        Paiement en dinar tunisien. Facturation mensuelle, résiliable à tout moment.
-        Paiement possible via D17 / e-Dinar (Poste Tunisienne) selon disponibilité.
-      </p>
-
-      {error && (
-        <p className="mb-8 rounded-xl border border-error/30 bg-error/10 p-3 text-sm text-error" role="alert">
-          {error}
-        </p>
-      )}
-
-      {/* ─── Feature Matrix ─── */}
-      <section className="mb-12">
-        <h2 className="text-xl font-bold text-foreground mb-4">Comparaison détaillée</h2>
-        <div className="overflow-x-auto rounded-xl border border-border">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-muted/50">
-                <th className="text-left px-4 py-3 font-semibold text-foreground">Fonctionnalité</th>
-                <th className="text-center px-4 py-3 font-semibold text-foreground">Free</th>
-                <th className="text-center px-4 py-3 font-semibold text-violet-600 dark:text-violet-400">Pro</th>
-                <th className="text-center px-4 py-3 font-semibold text-foreground">Max</th>
-              </tr>
-            </thead>
-            <tbody>
-              {FEATURE_ROWS.map((row, idx) => (
-                <tr key={row.label} className={idx % 2 === 0 ? 'bg-card' : 'bg-muted/20'}>
-                  <td className="px-4 py-2.5 text-foreground font-medium">{row.label}</td>
-                  <td className="px-4 py-2.5 text-center text-muted-foreground">{row.free}</td>
-                  <td className="px-4 py-2.5 text-center font-semibold text-foreground">{row.pro}</td>
-                  <td className="px-4 py-2.5 text-center text-muted-foreground">{row.max}</td>
-                </tr>
+            <div className="mt-5 flex flex-wrap gap-2.5">
+              {['Aucun paiement avant essai', 'Paiement securise ClicToPay', 'Flouci et virement disponibles', 'Code activation possible'].map((item) => (
+                <span key={item} className="rounded-full border border-[#d8ccb9] bg-white/75 px-3.5 py-1.5 text-xs font-semibold text-slate-700">
+                  {item}
+                </span>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+            </div>
+          </div>
 
-      {/* ─── Billing FAQ ─── */}
-      <section className="max-w-2xl mx-auto mb-10">
-        <h2 className="text-xl font-bold text-foreground mb-4 text-center">Questions fréquentes — Facturation</h2>
-        <div className="space-y-2">
-          {BILLING_FAQ.map((item) => (
-            <BillingFaqItem key={item.q} q={item.q} a={item.a} />
-          ))}
-        </div>
-      </section>
-    </main>
+          <aside className="rounded-[34px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Ton statut</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
+                  Une facturation lisible, meme avant paiement.
+                </h2>
+              </div>
+              <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[#f7f2ea]">
+                Facturation en TND
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+                {loading ? (
+                  <div className="flex items-center gap-2 text-sm text-slate-200">
+                    <Loader2 className="h-4 w-4 animate-spin" /> Chargement du statut...
+                  </div>
+                ) : !isAuthenticated ? (
+                  <div className="space-y-3 text-sm text-slate-200">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Mode visiteur</p>
+                      <p className="mt-1 text-lg font-bold text-white">Aucun compte connecte</p>
+                    </div>
+                    <p className="leading-6 text-slate-200">
+                      Tu peux comparer les plans librement. Le compte gratuit n intervient qu au moment utile, pas avant.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-3 text-sm text-slate-200">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Plan actif</p>
+                      <p className="mt-1 text-lg font-bold text-white">{currentPlanLabel}</p>
+                    </div>
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Statut</p>
+                      <p className="mt-1 font-semibold text-white">{billing?.subscription.status ?? 'ACTIVE'}</p>
+                    </div>
+                    {currentPeriodEndLabel ? (
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Echeance</p>
+                        <p className="mt-1 font-semibold text-white">{currentPeriodEndLabel}</p>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Dernier paiement</p>
+                {!isAuthenticated ? (
+                  <div className="mt-3 space-y-2 text-sm text-slate-200">
+                    <p className="font-semibold text-white">Aucun paiement requis pour commencer</p>
+                    <p>Le plan Free permet deja de tester l onboarding, les premiers ateliers et la logique du produit.</p>
+                  </div>
+                ) : billing?.lastPayment ? (
+                  <div className="mt-3 space-y-2 text-sm text-slate-200">
+                    <p className="font-semibold text-white">{billing.lastPayment.status}</p>
+                    <p>{lastPaymentLabel}</p>
+                    <p className="text-xs text-slate-400">
+                      {PLAN_LABELS[billing.lastPayment.plan] ?? billing.lastPayment.plan} · Ref. {billing.lastPayment.orderRef}
+                    </p>
+                  </div>
+                ) : (
+                  <p className="mt-3 text-sm text-slate-200">Aucun paiement recent enregistre.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-[24px] bg-[#f4efe5] p-4 text-[#17324d]">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Devise et moyens de paiement</p>
+                  <p className="mt-1 text-sm font-semibold">Facturation en TND. Carte via ClicToPay, alternatives via Flouci et virement.</p>
+                </div>
+                <div className="rounded-full bg-[#17324d] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f2ea]">
+                  TND
+                </div>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        {error ? (
+          <div className="mb-8 flex items-start gap-3 rounded-[24px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="alert">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        ) : null}
+
+        <section id="plans" className="scroll-mt-24 pb-16">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Plans</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                Trois rythmes, trois plafonds, une seule logique de valeur.
+              </h2>
+            </div>
+            <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
+              Le but n est pas de noyer l offre. Il est de rendre le choix simple, defensible et rapide pour l eleve comme pour le parent qui paie.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {PLANS.map((plan) => {
+              const isCurrent = isAuthenticated && plan.id === currentPlan;
+              const isLoadingPlan = pendingPlan !== null && plan.checkoutPlan === pendingPlan;
+              const accent = plan.highlighted
+                ? 'border-[#17324d] bg-[#17324d] text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.18)]'
+                : isCurrent
+                  ? 'border-[#0f766e] bg-[#f8f4ec] text-[#17324d]'
+                  : 'border-[#d8ccb9] bg-white/85 text-[#17324d]';
+
+              return (
+                <article key={plan.id} className={`${accent} rounded-[32px] border p-6`}>
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.26em] opacity-70">{plan.kicker}</p>
+                      <h3 style={EDITORIAL_HEADING} className="mt-3 text-4xl tracking-[-0.03em]">
+                        {plan.title}
+                      </h3>
+                    </div>
+                    {plan.highlighted ? (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/12 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white">
+                        <Sparkles className="h-3.5 w-3.5" />
+                        Recommande
+                      </span>
+                    ) : null}
+                  </div>
+
+                  <div className="mt-4 flex items-end gap-2">
+                    <span className="text-4xl font-bold">{plan.priceTND}</span>
+                    {plan.period ? <span className="pb-1 text-sm opacity-75">{plan.period}</span> : null}
+                  </div>
+
+                  <p className={`mt-3 text-sm leading-7 ${plan.highlighted ? 'text-slate-200' : 'text-slate-600'}`}>
+                    {plan.note}
+                  </p>
+
+                  <ul className="mt-6 space-y-3 text-sm leading-6">
+                    {plan.bullets.map((bullet) => (
+                      <li key={bullet} className="flex items-start gap-3">
+                        <CheckCircle2 className={`mt-1 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-[#d7c4aa]' : 'text-[#0f766e]'}`} />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type="button"
+                    disabled={(isAuthenticated && isCurrent) || (isAuthenticated && !plan.checkoutPlan) || pendingPlan !== null}
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        if (plan.checkoutPlan) {
+                          void startCheckout(plan.checkoutPlan, plan.id);
+                        } else {
+                          window.location.assign('/login?mode=register');
+                        }
+                        return;
+                      }
+                      if (plan.checkoutPlan) {
+                        track({ name: 'pricing_plan_select', props: { plan: plan.id } });
+                        void startCheckout(plan.checkoutPlan, plan.id);
+                      }
+                    }}
+                    className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
+                      plan.highlighted
+                        ? 'bg-[#f7f2ea] text-[#17324d] hover:-translate-y-0.5 hover:bg-white'
+                        : 'bg-[#17324d] text-[#f7f2ea] hover:-translate-y-0.5 hover:bg-[#0f2740]'
+                    }`}
+                  >
+                    {isLoadingPlan ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Redirection...
+                      </>
+                    ) : !isAuthenticated ? (
+                      plan.id === 'FREE' ? 'Creer mon compte gratuit' : 'Creer mon compte'
+                    ) : isCurrent ? (
+                      plan.ctaDisabledLabel
+                    ) : (
+                      plan.cta
+                    )}
+                  </button>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="pb-16">
+          <div className="rounded-[34px] border border-[#d8ccb9] bg-white/80 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-8">
+            <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Aide a la decision</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                  La bonne offre depend du rythme, pas d un argument marketing vide.
+                </h2>
+              </div>
+              <div className="grid gap-3 md:grid-cols-3">
+                {DECISION_GUIDES.map((guide) => (
+                  <article key={guide.title} className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+                    <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#17324d]">{guide.title}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{guide.body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-5 pb-16 lg:grid-cols-2">
+          <article className="rounded-[32px] border border-[#d8ccb9] bg-white/85 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+            <div className="flex items-center gap-2">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#17324d] text-[#f7f2ea]">
+                <KeyRound className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Activation</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                  Activer avec un code
+                </h2>
+              </div>
+            </div>
+
+            <p className="mt-4 text-sm leading-7 text-slate-600">
+              Si un code d activation t a ete envoye, active ton plan ici sans repasser par le checkout ni ressaisir un paiement.
+            </p>
+
+            {isAuthenticated ? (
+              <form onSubmit={redeemCode} className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <input
+                  type="text"
+                  value={codeInput}
+                  onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
+                  placeholder="NEXUS-PRO-XXXX-XXXX"
+                  className="flex-1 rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm font-mono tracking-wider text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
+                  maxLength={25}
+                  disabled={codeLoading}
+                />
+                <button
+                  type="submit"
+                  disabled={codeLoading || !codeInput.trim()}
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#17324d] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-colors hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {codeLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                  {codeLoading ? 'Activation...' : 'Activer'}
+                </button>
+              </form>
+            ) : (
+              <div className="mt-6 rounded-[22px] border border-[#d8ccb9] bg-[#fcfaf6] p-4 text-sm leading-7 text-slate-600">
+                Connecte-toi d abord pour rattacher le code a ton compte, puis reviens ici pour l activer.
+              </div>
+            )}
+
+            {codeSuccess ? (
+              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#9cccaf] bg-[#eef8f0] p-4 text-sm text-[#25543d]" role="status">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+                <span>{codeSuccess.message}</span>
+              </div>
+            ) : null}
+            {codeError ? (
+              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="alert">
+                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                <span>{codeError}</span>
+              </div>
+            ) : null}
+          </article>
+
+          <article className="rounded-[32px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
+            <div className="flex items-center gap-2">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]">
+                <Landmark className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Paiement alternatif</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-white">
+                  Commander un code en Tunisie
+                </h2>
+              </div>
+            </div>
+
+            <p className="mt-4 text-sm leading-7 text-slate-200">
+              Si la carte bancaire n est pas le bon canal, la page propose un lien Flouci et un virement bancaire avec activation manuelle du plan.
+            </p>
+
+            <div className="mt-6 space-y-3">
+              <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+                <div className="flex items-start gap-3">
+                  <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[#d7c4aa]" />
+                  <div>
+                    <p className="text-sm font-semibold text-white">Paiement Flouci</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-200">
+                      Wallet, carte ou e-Dinar via Flouci si ce canal correspond mieux a votre contexte. Le lien de paiement et la validation manuelle passent ensuite par l equipe Nexus.
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-3">
+                      <a
+                        href={FLOUCI_INFO_URL}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]"
+                      >
+                        Voir Flouci
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                      <a
+                        href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Paiement Flouci Nexus Reussite')}&body=${encodeURIComponent('Bonjour,%0D%0AJe souhaite regler mon abonnement Nexus via Flouci.%0D%0AMon email de compte : %0D%0AMon identifiant utilisateur (si connu) : %0D%0APlan souhaite : Pro / Max')}`}
+                        className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-white/8"
+                      >
+                        Demander un lien Flouci
+                      </a>
+                    </div>
+                    <p className="mt-3 text-xs leading-6 text-slate-300">
+                      Utilisez l email du compte ou votre identifiant utilisateur dans la demande pour accelerer l activation.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+                <div className="flex items-start gap-3">
+                  <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-[#d7c4aa]" />
+                  <div>
+                    <p className="text-sm font-semibold text-white">Virement bancaire</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-200">Ajoutez l email du compte ou l identifiant utilisateur en motif. Le plan est active apres verification du reglement.</p>
+                    <div className="mt-4 grid gap-2 rounded-[20px] bg-[#0f2740] p-4 text-sm text-slate-100 sm:grid-cols-2">
+                      {BANK_TRANSFER_ROWS.map((row) => (
+                        <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
+                          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#d7c4aa]">{row.label}</p>
+                          <p className="mt-1 break-all font-semibold text-white">{row.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-4 flex flex-wrap gap-3">
+                      <a
+                        href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Reussite')}&body=${encodeURIComponent('Bonjour,%0D%0AJe vous envoie la reference de mon virement pour activation.%0D%0AEmail du compte : %0D%0AIdentifiant utilisateur (si connu) : %0D%0APlan regle : Pro / Max%0D%0AReference du virement : ')}`}
+                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]"
+                      >
+                        Envoyer la reference
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 rounded-[24px] bg-[#0f2740] p-4">
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                <p className="text-sm leading-6 text-slate-200">
+                  Facturation en dinar tunisien. Pro = 99 TND par mois. Max = 149 TND en paiement unique. Le code d activation est envoye apres confirmation si vous utilisez Flouci ou le virement.
+                </p>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section className="pb-16">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Comparaison detaillee</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                Les quotas sont visibles, donc la decision reste rationnelle.
+              </h2>
+            </div>
+            <div className="rounded-full border border-[#d8ccb9] bg-white/80 px-4 py-2 text-sm font-semibold text-slate-600">
+              <Clock3 className="mr-2 inline h-4 w-4 text-[#0f766e]" />
+              Compare en 30 secondes
+            </div>
+          </div>
+
+          <div className="mt-10 overflow-x-auto rounded-[30px] border border-[#d8ccb9] bg-white/85 shadow-[0_18px_45px_rgba(23,50,77,0.05)]">
+            <table className="w-full min-w-[760px] text-sm">
+              <thead>
+                <tr className="bg-[#f8f4ec] text-left">
+                  <th className="px-5 py-4 font-bold text-[#17324d]">Fonctionnalite</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Free</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Pro</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Max</th>
+                </tr>
+              </thead>
+              <tbody>
+                {FEATURE_ROWS.map((row, index) => (
+                  <tr key={row.label} className={index % 2 === 0 ? 'bg-white' : 'bg-[#fbf8f2]'}>
+                    <td className="px-5 py-3.5 font-medium text-[#17324d]">{row.label}</td>
+                    <td className="px-5 py-3.5 text-center text-slate-600">{row.free}</td>
+                    <td className="px-5 py-3.5 text-center font-semibold text-[#17324d]">{row.pro}</td>
+                    <td className="px-5 py-3.5 text-center text-slate-600">{row.max}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="grid gap-6 pb-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">FAQ facturation</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+              Les questions d argent doivent etre traitees aussi clairement que le reste.
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+              Si la page est bonne, elle coupe court aux hesitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon.
+            </p>
+
+            <div className="mt-8 rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Dernier pas</p>
+              <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
+                Commence gratuitement si tu veux juger le produit sur piece.
+              </h3>
+              <p className="mt-3 text-sm leading-7 text-slate-200">
+                Le plan gratuit suffit a tester le coeur du workflow. Le premium vient ensuite si la preparation devient assez intense pour justifier plus de volume.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white">
+                  Creer mon compte gratuit
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/bienvenue" className="inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6">
+                  Revoir la page d accueil
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {BILLING_FAQ.map((item) => (
+              <BillingFaqItem key={item.q} q={item.q} a={item.a} />
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }

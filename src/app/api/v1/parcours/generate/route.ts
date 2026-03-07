@@ -99,12 +99,14 @@ export async function POST(request: Request) {
   const now = new Date();
   const month = now.getMonth();
   const sequence = sequenceForMonth(month);
+  const primaryWorkId = auth.user.profile.selectedOeuvres?.[0];
 
   let generated: { weeks?: Array<{ weekNumber: number; tasks: Array<{ oeuvre: string; competence: string; dureeMinutes: number; priorite: string }> }> } | undefined;
   try {
     generated = (await orchestrate({
       skill: 'sr_planner',
       userId: auth.user.id,
+      workId: primaryWorkId,
       userQuery: `Génère un plan de révision EAF sur 4 semaines. Faiblesses de l'élève : ${auth.user.profile.weakSkills.join(', ') || 'aucune précisée'}. Séquence prioritaire : ${sequence.objectif}.`,
       context: `Date du jour : ${now.toISOString().slice(0, 10)}. Objectif : ${sequence.objectif}. Œuvres choisies : ${auth.user.profile.selectedOeuvres?.join(', ') || 'non précisées'}.`,
     })) as typeof generated;
@@ -137,6 +139,7 @@ export async function POST(request: Request) {
       feature: 'parcours_generate',
       payload: {
         weekCount: plan.semaines.length,
+        primaryWorkId: primaryWorkId ?? 'none',
       },
     }),
   );

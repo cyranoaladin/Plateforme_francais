@@ -7,18 +7,27 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
  */
 
 // Mock LLM provider
-vi.mock('@/lib/llm/factory', () => ({
-  getRouterProvider: () => ({
-    generateContent: vi.fn().mockResolvedValue({
-      text: JSON.stringify({
-        answer: 'La métaphore dans ce poème crée un effet de distance.',
-        citations: [{ title: 'Rapport jury 2024', source_interne: 'Rapport jury EAF 2024 p.12', snippet: 'Les procédés doivent être analysés.' }],
-        suggestions: ['Approfondir la notion de métaphore'],
-      }),
-      model: 'mistral-small',
-      usage: { promptTokens: 100, completionTokens: 80, latencyMs: 400 },
-    }),
+const generateContentMock = vi.fn().mockResolvedValue({
+  text: JSON.stringify({
+    answer: 'La métaphore dans ce poème crée un effet de distance.',
+    citations: [{ title: 'Rapport jury 2024', source_interne: 'Rapport jury EAF 2024 p.12', snippet: 'Les procédés doivent être analysés.' }],
+    suggestions: ['Approfondir la notion de métaphore'],
   }),
+  model: 'mistral-small',
+  usage: { promptTokens: 100, completionTokens: 80, latencyMs: 400 },
+});
+
+vi.mock('@/lib/llm/factory', () => ({
+  selectProvider: () => ({
+    provider: {
+      generateContent: generateContentMock,
+    },
+    tier: 'standard',
+    model: 'mistral-small',
+    providerName: 'mistral_standard',
+  }),
+  recordProviderSuccess: vi.fn(),
+  recordProviderError: vi.fn(),
   getLLMProvider: () => ({
     getEmbeddings: vi.fn().mockResolvedValue(new Array(1024).fill(0.1)),
   }),
@@ -35,11 +44,15 @@ vi.mock('@/lib/rag/search', () => ({
   formatRagContextForPrompt: vi.fn().mockReturnValue('[Document 1] Rapport jury 2024\nLes procédés stylistiques...'),
 }));
 
-vi.mock('@/lib/store/premium-store', () => ({
-  getOrCreateSkillMap: vi.fn().mockResolvedValue({
-    studentId: 'user-test-123',
-    axes: { oral: [{ microSkillId: 'lecture', score: 0.65 }] },
-    updatedAt: new Date().toISOString(),
+vi.mock('@/lib/memory/profile-loader', () => ({
+  loadMemoryProfileForUser: vi.fn().mockResolvedValue({
+    globalLevel: 'SATISFAISANT',
+    avgOralScore: 13,
+    avgEcritScore: 12,
+    totalSessions: 9,
+    weakSkills: [],
+    currentWorkMastery: null,
+    recentSessionsSummary: 'quiz (il y a 1j)',
   }),
 }));
 
@@ -60,6 +73,15 @@ vi.mock('@/lib/agents/student-modeler', () => ({
 vi.mock('@/lib/billing/gating', () => ({
   requirePlan: vi.fn().mockResolvedValue({ allowed: true }),
   incrementUsage: vi.fn(),
+}));
+
+vi.mock('@/lib/memory/context-builder', () => ({
+  composeMemoryContext: vi.fn().mockReturnValue('memoire pipeline'),
+  truncateToTokenBudget: vi.fn((value: string) => value),
+}));
+
+vi.mock('@/lib/llm/cost-tracker', () => ({
+  trackLlmCall: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock('@/lib/logger', () => ({

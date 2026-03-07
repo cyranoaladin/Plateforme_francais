@@ -1,233 +1,779 @@
 'use client';
 
+import Link from 'next/link';
+import { useMemo, useSyncExternalStore } from 'react';
 import {
   AlertTriangle,
-  ChevronRight,
-  Clock,
-  Flame,
-  Mic,
-  MessageSquare,
-  PenTool,
+  ArrowRight,
   BookOpen,
+  BrainCircuit,
+  CalendarDays,
+  CheckCircle2,
+  Clock3,
+  Flame,
+  GraduationCap,
+  Map as MapIcon,
+  MessageSquare,
+  Mic,
+  PenTool,
+  ShieldCheck,
+  Sparkles,
   Target,
 } from 'lucide-react';
-import Link from 'next/link';
 import {
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
   Radar,
   RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
   ResponsiveContainer,
 } from 'recharts';
 import { ParcoursRecommandation } from '@/components/dashboard/parcours-recommandation';
 import { ProgressionChart } from '@/components/dashboard/progression-chart';
 import { useDashboard } from '@/hooks/useDashboard';
+import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 
-const SKILL_BARS = [
-  { key: 'ecrit' as const, label: 'Écrit', article: "l'", color: 'bg-blue-500' },
-  { key: 'oral' as const, label: 'Oral', article: "l'", color: 'bg-purple-500' },
-  { key: 'grammaire' as const, label: 'Grammaire', article: 'la ', color: 'bg-emerald-500' },
-  { key: 'lectureCursive' as const, label: 'Lecture cursive', article: 'la ', color: 'bg-amber-500' },
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+};
+
+const SKILL_META = [
+  {
+    key: 'ecrit' as const,
+    label: 'Écrit',
+    accent: 'bg-[#17324d]',
+    copy: 'Structurer vite, sans perdre la tension de l’argumentation.',
+  },
+  {
+    key: 'oral' as const,
+    label: 'Oral',
+    accent: 'bg-[#0f766e]',
+    copy: 'Garder une parole nette, mobile et assez solide pour tenir la relance.',
+  },
+  {
+    key: 'grammaire' as const,
+    label: 'Grammaire',
+    accent: 'bg-[#b87333]',
+    copy: 'Verrouiller les notions qui coûtent des points trop rapidement.',
+  },
+  {
+    key: 'lectureCursive' as const,
+    label: 'Lecture cursive',
+    accent: 'bg-[#6b587d]',
+    copy: 'Réactiver les œuvres pour qu’elles restent disponibles à l’oral.',
+  },
 ];
 
-const RECOMMENDED_ACTIONS = [
-  { title: 'Simulation orale guidée', duration: '15 min', type: 'oral', icon: Mic, href: '/atelier-oral', colorBg: 'bg-purple-500/10', colorText: 'text-purple-600 dark:text-purple-400' },
-  { title: 'Exercice de grammaire ciblé', duration: '5 min', type: 'langue', icon: BookOpen, href: '/atelier-langue', colorBg: 'bg-emerald-500/10', colorText: 'text-emerald-600 dark:text-emerald-400' },
-  { title: 'Entraînement au commentaire écrit', duration: '20 min', type: 'ecrit', icon: PenTool, href: '/atelier-ecrit', colorBg: 'bg-blue-500/10', colorText: 'text-blue-600 dark:text-blue-400' },
+const ACTIONS = {
+  oral: [
+    {
+      title: 'Simulation orale guidée',
+      detail: 'Remettre en route lecture, explication et relance sans te disperser.',
+      duration: '15 min',
+      href: '/atelier-oral',
+      icon: Mic,
+    },
+    {
+      title: 'Question de grammaire courte',
+      detail: 'Réactiver une notion précise avant qu’elle ne sorte du radar.',
+      duration: '5 min',
+      href: '/atelier-langue',
+      icon: BrainCircuit,
+    },
+    {
+      title: 'Débrief avec Nexus',
+      detail: 'Faire verbaliser ce qui a coincé et repartir avec un axe net.',
+      duration: '8 min',
+      href: '/tuteur',
+      icon: MessageSquare,
+    },
+  ],
+  ecrit: [
+    {
+      title: 'Bloc commentaire ou dissertation',
+      detail: 'Passer d’une intention vague à une structure exploitable.',
+      duration: '20 min',
+      href: '/atelier-ecrit',
+      icon: PenTool,
+    },
+    {
+      title: 'Revoir la méthode utile',
+      detail: 'Reprendre une ressource courte qui élimine les erreurs de charpente.',
+      duration: '6 min',
+      href: '/bibliotheque',
+      icon: BookOpen,
+    },
+    {
+      title: 'Questionner le tuteur',
+      detail: 'Lever un blocage ciblé avant de relancer la production.',
+      duration: '8 min',
+      href: '/tuteur',
+      icon: MessageSquare,
+    },
+  ],
+  grammaire: [
+    {
+      title: 'Exercice de langue ciblé',
+      detail: 'Travailler le point faible sans re-rentrer dans un tunnel théorique.',
+      duration: '7 min',
+      href: '/atelier-langue',
+      icon: BrainCircuit,
+    },
+    {
+      title: 'Retour au texte support',
+      detail: 'Remettre la notion en contexte pour l’ancrer plus durablement.',
+      duration: '8 min',
+      href: '/bibliotheque',
+      icon: BookOpen,
+    },
+    {
+      title: 'Clarifier avec Nexus',
+      detail: 'Formuler la règle, puis la réutiliser dans un cas proche.',
+      duration: '8 min',
+      href: '/tuteur',
+      icon: MessageSquare,
+    },
+  ],
+  lectureCursive: [
+    {
+      title: 'Réouvrir une œuvre',
+      detail: 'Réactiver les repères, citations et enjeux qui servent vraiment.',
+      duration: '12 min',
+      href: '/bibliotheque',
+      icon: BookOpen,
+    },
+    {
+      title: 'Préparer l’oral sur l’œuvre',
+      detail: 'Reconnecter la lecture au futur entretien, pas à une fiche morte.',
+      duration: '15 min',
+      href: '/atelier-oral',
+      icon: Mic,
+    },
+    {
+      title: 'Faire émerger les enjeux',
+      detail: 'Utiliser Nexus pour transformer une lecture floue en matière exploitable.',
+      duration: '8 min',
+      href: '/tuteur',
+      icon: MessageSquare,
+    },
+  ],
+};
+
+const FOCUS_COPY = {
+  oral: {
+    eyebrow: 'Axe dominant du moment',
+    title: 'Stabiliser ta prise de parole avant d’augmenter le volume de travail.',
+    detail: 'L’oral se gagne sur l’enchaînement des gestes justes, pas sur des sessions trop longues.',
+  },
+  ecrit: {
+    eyebrow: 'Axe dominant du moment',
+    title: 'Sécuriser la charpente de l’écrit avant de chercher plus d’ampleur.',
+    detail: 'Quand la structure tient, les progrès deviennent enfin cumulables.',
+  },
+  grammaire: {
+    eyebrow: 'Axe dominant du moment',
+    title: 'Verrouiller le point de langue qui fait perdre des points trop vite.',
+    detail: 'La bonne séance de grammaire est courte, contextualisée et immédiatement réutilisable.',
+  },
+  lectureCursive: {
+    eyebrow: 'Axe dominant du moment',
+    title: 'Réactiver les œuvres pour retrouver de la matière à l’oral et à l’écrit.',
+    detail: 'La lecture utile n’est pas exhaustive: elle remet en circulation les repères décisifs.',
+  },
+};
+
+const LAUNCHPAD = [
+  {
+    title: 'Atelier oral',
+    detail: 'Lecture, explication, entretien: repartir sur une séquence complète.',
+    href: '/atelier-oral',
+    icon: Mic,
+    tone: 'from-[#17324d] via-[#274d73] to-[#0f766e]',
+  },
+  {
+    title: 'Atelier écrit',
+    detail: 'Commentaire, dissertation ou sujet blanc selon le besoin réel.',
+    href: '/atelier-ecrit',
+    icon: PenTool,
+    tone: 'from-[#7a4b24] via-[#b87333] to-[#d8a363]',
+  },
+  {
+    title: 'Bibliothèque',
+    detail: 'Ressources courtes pour relancer méthode, œuvres et repères utiles.',
+    href: '/bibliotheque',
+    icon: BookOpen,
+    tone: 'from-[#4e3a62] via-[#6b587d] to-[#9a88b0]',
+  },
+  {
+    title: 'Tuteur Nexus',
+    detail: 'Débloquer une difficulté précise au lieu de tourner en rond.',
+    href: '/tuteur',
+    icon: MessageSquare,
+    tone: 'from-[#0f766e] via-[#149a8f] to-[#7ed4c2]',
+  },
 ];
+
+function extractEventScore(event: {
+  feature: string;
+  path?: string;
+  payload?: Record<string, string | number | boolean | string[]>;
+  createdAt: string;
+}): number | null {
+  const score = event.payload?.score;
+  const max = event.payload?.max;
+
+  if (typeof score === 'number' && typeof max === 'number' && max > 0) {
+    return Math.max(0, Math.min(20, Number(((score / max) * 20).toFixed(1))));
+  }
+
+  if (typeof score === 'number') {
+    return Math.max(0, Math.min(20, Number((score <= 2 ? score * 10 : score).toFixed(1))));
+  }
+
+  return null;
+}
+
+function formatActivity(event: { type: string; feature: string; createdAt: string; path?: string }) {
+  const feature = event.feature.replace(/_/g, ' ');
+  const date = new Date(event.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+
+  if (event.type === 'evaluation') return { label: `Évaluation ${feature}`, date };
+  if (event.type === 'navigation') return { label: `Passage par ${feature}`, date };
+  return { label: feature, date };
+}
+
+function formatCountdown(value: number | null, label: string) {
+  if (value === null) {
+    return `${label}: date non renseignée`;
+  }
+  if (value < 0) {
+    return `${label}: épreuve passée`;
+  }
+  return `${label}: J-${value}`;
+}
+
+function describeMomentum(current: number | null, previous: number | null) {
+  if (current === null || previous === null) {
+    return {
+      label: 'Lecture encore incomplète',
+      detail: 'Le tableau de bord a besoin de davantage de sessions pour dégager une tendance propre.',
+    };
+  }
+
+  const delta = Number((current - previous).toFixed(1));
+  if (delta >= 0.8) {
+    return {
+      label: 'Trajectoire en hausse',
+      detail: `Tu gagnes ${delta.toFixed(1)} point sur la dernière fenêtre utile. Continue sans changer de méthode trop tôt.`,
+    };
+  }
+  if (delta <= -0.8) {
+    return {
+      label: 'Trajectoire à resserrer',
+      detail: `Tu perds ${Math.abs(delta).toFixed(1)} point. Mieux vaut réduire la dispersion et revenir à un bloc plus simple.`,
+    };
+  }
+  return {
+    label: 'Rythme stable',
+    detail: 'La progression existe, mais elle demande encore quelques sessions pour devenir franchement lisible.',
+  };
+}
+
+function buildSeries(feature: string, path?: string): 'commentaire' | 'dissertation' | 'oral' {
+  const text = `${feature} ${path ?? ''}`.toLowerCase();
+
+  if (text.includes('oral')) return 'oral';
+  if (text.includes('dissert') || text.includes('essai')) return 'dissertation';
+  return 'commentaire';
+}
+
+function pickPayloadString(
+  payload: Record<string, string | number | boolean | string[]> | undefined,
+  keys: string[],
+): string | null {
+  for (const key of keys) {
+    const value = payload?.[key];
+    if (typeof value === 'string' && value.trim().length > 0) {
+      return value.trim();
+    }
+  }
+
+  return null;
+}
 
 export default function Dashboard() {
   const data = useDashboard();
-  const now = new Date();
-  // Date officielle EAF 2026 : Jeudi 11 juin 2026 (source: education.gouv.fr)
-  const EAF_DATE = new Date('2026-06-11T08:00:00');
-  const joursAvantEAF = Math.max(0, Math.ceil((EAF_DATE.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
-
-  const radarData = [
-    { skill: 'Oral', score: data.scores.oral },
-    { skill: 'Écrit', score: data.scores.ecrit },
-    { skill: 'Grammaire', score: data.scores.grammaire },
-    { skill: 'Lecture cursive', score: data.scores.lectureCursive },
-  ];
-
-  const weakSignals = Object.entries(data.weakSignals)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 3);
-
-  const progressionData = data.weeklyProgression.map((item) => ({
-    date: item.week,
-    commentaire: item.score,
-    dissertation: null,
-    oral: null,
-  }));
-
-  const weakestSkill = SKILL_BARS.reduce(
-    (prev, curr) => (data.scores[curr.key] < data.scores[prev.key] ? curr : prev),
-    SKILL_BARS[0],
+  const chartsReady = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
   );
 
+  const weakestSkill = SKILL_META.reduce(
+    (prev, curr) => (data.scores[curr.key] < data.scores[prev.key] ? curr : prev),
+    SKILL_META[0],
+  );
+  const strongestSkill = SKILL_META.reduce(
+    (prev, curr) => (data.scores[curr.key] > data.scores[prev.key] ? curr : prev),
+    SKILL_META[0],
+  );
+
+  const radarData = SKILL_META.map((skill) => ({ skill: skill.label, score: data.scores[skill.key] }));
+  const focusCopy = FOCUS_COPY[weakestSkill.key] ?? FOCUS_COPY.ecrit;
+  const weakSignals = Object.entries(data.weakSignals).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const recentActivity = data.timeline.slice(0, 5).map(formatActivity);
+  const averageScore = Number(
+    (SKILL_META.reduce((sum, skill) => sum + data.scores[skill.key], 0) / SKILL_META.length).toFixed(1),
+  );
+
+  const progressionData = useMemo(() => {
+    const buckets = new Map<
+      string,
+      {
+        label: string;
+        commentaire: number[];
+        dissertation: number[];
+        oral: number[];
+      }
+    >();
+
+    for (const event of data.timeline) {
+      if (event.type !== 'evaluation') continue;
+      const score = extractEventScore(event);
+      if (score === null) continue;
+
+      const date = new Date(event.createdAt);
+      const key = date.toISOString().slice(0, 10);
+      const label = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const bucket = buckets.get(key) ?? { label, commentaire: [], dissertation: [], oral: [] };
+      bucket[buildSeries(event.feature, event.path)].push(score);
+      buckets.set(key, bucket);
+    }
+
+    if (buckets.size === 0) {
+      return data.weeklyProgression.map((item) => ({
+        date: item.week,
+        commentaire: item.score,
+        dissertation: null,
+        oral: null,
+      }));
+    }
+
+    return Array.from(buckets.entries())
+      .sort(([left], [right]) => left.localeCompare(right))
+      .slice(-8)
+      .map(([, values]) => ({
+        date: values.label,
+        commentaire: values.commentaire.length
+          ? Number((values.commentaire.reduce((sum, value) => sum + value, 0) / values.commentaire.length).toFixed(1))
+          : null,
+        dissertation: values.dissertation.length
+          ? Number((values.dissertation.reduce((sum, value) => sum + value, 0) / values.dissertation.length).toFixed(1))
+          : null,
+        oral: values.oral.length
+          ? Number((values.oral.reduce((sum, value) => sum + value, 0) / values.oral.length).toFixed(1))
+          : null,
+      }));
+  }, [data.timeline, data.weeklyProgression]);
+
+  const tutorHref = useMemo(() => {
+    let workId: string | null = data.oeuvreChoisieEntretien ?? data.selectedOeuvres[0] ?? null;
+    let parcours: string | null = null;
+    let sessionId: string | null = null;
+
+    for (const event of data.timeline) {
+      if (!workId) {
+        workId = pickPayloadString(event.payload, ['workId', 'oeuvreChoisie', 'oeuvre']);
+      }
+      if (!parcours) {
+        parcours = pickPayloadString(event.payload, ['parcours']);
+      }
+      if (!sessionId) {
+        sessionId = pickPayloadString(event.payload, ['sessionId']);
+      }
+
+      if (workId && parcours && sessionId) {
+        break;
+      }
+    }
+
+    return buildTuteurHref({ workId, parcours, sessionId });
+  }, [data.oeuvreChoisieEntretien, data.selectedOeuvres, data.timeline]);
+
+  const focusActions = useMemo(
+    () =>
+      (ACTIONS[weakestSkill.key] ?? ACTIONS.ecrit).map((action) => ({
+        ...action,
+        href: action.href === '/tuteur' ? tutorHref : action.href,
+      })),
+    [tutorHref, weakestSkill.key],
+  );
+
+  const latestProgressScore = data.weeklyProgression.at(-1)?.score ?? null;
+  const previousProgressScore = data.weeklyProgression.at(-2)?.score ?? null;
+  const momentum = describeMomentum(latestProgressScore, previousProgressScore);
+  const ritualLead = focusActions[0];
+
   return (
-    <div className="p-4 md:p-8 max-w-6xl mx-auto space-y-6 animate-in fade-in duration-500">
-      {/* ─── Hero Header ─── */}
-      <header className="bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800 rounded-3xl p-6 md:p-8 text-white flex flex-col md:flex-row items-center gap-6 shadow-lg relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-white opacity-5 rounded-full translate-y-1/3 -translate-x-1/4" />
+    <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
+      <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8 lg:p-10">
+        <div className="absolute inset-y-0 right-[-10%] hidden w-[44%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_68%)] blur-2xl lg:block" />
+        <div className="absolute left-[-8%] top-[-16%] h-48 w-48 rounded-full bg-[rgba(216,163,99,0.18)] blur-3xl" />
 
-        {/* Logo Nexus Réussite - Étoile */}
-        <div className="relative z-10 w-20 h-20 md:w-28 md:h-28 bg-white/90 rounded-full p-1.5 shrink-0 border border-white/30 shadow-xl flex items-center justify-center">
-          <img
-            src="/images/logo.png"
-            alt="Nexus Réussite"
-            className="w-full h-full object-contain rounded-full"
-          />
-        </div>
+        <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+              <ShieldCheck className="h-4 w-4" />
+              Cockpit de progression EAF
+            </div>
 
-        <div className="relative z-10 flex-1 text-center md:text-left">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">Bonjour, {data.displayName} !</h1>
-          <p className="text-indigo-100 text-sm md:text-base mb-4 max-w-xl">
-            Je suis <strong>Nexus</strong>, ton tuteur IA.
-            {' '}<strong>J-{joursAvantEAF}</strong> avant les épreuves du bac de français.
-            {weakestSkill && <> Aujourd&apos;hui, je te conseille de travailler <strong>{weakestSkill.article}{weakestSkill.label.toLowerCase()}</strong>.</>}
-          </p>
-          <Link href="/tuteur" className="inline-flex items-center gap-2 bg-white text-indigo-600 px-5 py-2.5 rounded-xl font-bold hover:bg-indigo-50 transition-colors shadow-sm text-sm">
-            <MessageSquare className="w-4 h-4" /> Discuter avec Nexus
-          </Link>
-        </div>
+            <h1
+              style={EDITORIAL_HEADING}
+              className="mt-6 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl"
+            >
+              {data.displayName}, ton tableau de bord doit toujours déboucher sur une action exploitable.
+            </h1>
 
-        <div className="relative z-10 hidden lg:flex flex-col gap-3 shrink-0">
-          <div className="bg-white/10 px-5 py-3 rounded-2xl backdrop-blur-sm border border-white/20 flex items-center gap-3">
-            <div className="p-2 bg-orange-500/20 rounded-full"><Flame className="w-5 h-5 text-orange-300" /></div>
-            <div>
-              <div className="text-[10px] text-indigo-100 uppercase tracking-wide font-semibold">Série active</div>
-              <div className="font-bold text-lg">{data.streak} jours</div>
+            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
+              {formatCountdown(data.countdownEcrit, 'Écrit')}. {formatCountdown(data.countdownOral, 'Oral')}. Le signal du moment indique de remettre
+              d’abord <strong>{weakestSkill.label.toLowerCase()}</strong> au centre, à partir de l’historique réel des séances et des attendus EAF,
+              puis seulement ensuite d’élargir.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+                Point fort courant: <strong>{strongestSkill.label}</strong>
+              </span>
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+                Angle à retendre: <strong>{weakestSkill.label}</strong>
+              </span>
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+                Niveau moyen: <strong>{averageScore} / 20</strong>
+              </span>
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+                Dernier passage: <strong>{recentActivity[0]?.date ?? 'pas encore de session'}</strong>
+              </span>
+            </div>
+
+            {!data.onboardingCompleted ? (
+              <div className="mt-6 rounded-[24px] border border-[#d8ccb9] bg-[#f4efe5] p-4 text-[#17324d] shadow-[0_10px_28px_rgba(15,23,42,0.08)]">
+                <p className="text-sm font-semibold">Le profil n’est pas encore entièrement personnalisé.</p>
+                <p className="mt-2 text-sm leading-7 text-slate-600">
+                  Finaliser l’onboarding permettra d’ancrer le cockpit sur les œuvres, le niveau déclaré et les priorités à travailler.
+                </p>
+                <Link
+                  href="/onboarding"
+                  className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#17324d] transition-colors hover:text-[#0f766e]"
+                >
+                  Reprendre l’onboarding
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            ) : null}
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {[
+                { label: 'Série active', value: `${data.streak} jours`, icon: Flame },
+                { label: 'Sessions tracées', value: `${data.totalSessions}`, icon: Target },
+                {
+                  label: 'Personnalisation',
+                  value: data.onboardingCompleted ? 'Active' : 'À terminer',
+                  icon: CheckCircle2,
+                },
+                { label: 'Repère fort', value: strongestSkill.label, icon: GraduationCap },
+              ].map((item) => (
+                <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                      <item.icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-400">{item.label}</p>
+                      <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="bg-white/10 px-5 py-3 rounded-2xl backdrop-blur-sm border border-white/20 flex items-center gap-3">
-            <div className="p-2 bg-emerald-500/20 rounded-full"><Target className="w-5 h-5 text-emerald-300" /></div>
-            <div>
-              <div className="text-[10px] text-indigo-100 uppercase tracking-wide font-semibold">Sessions</div>
-              <div className="font-bold text-lg">{data.totalSessions}</div>
+
+          <div className="grid gap-4">
+            <div className="rounded-[30px] border border-white/12 bg-white/8 p-5 backdrop-blur-sm shadow-[0_18px_48px_rgba(15,23,42,0.18)]">
+              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+                <Sparkles className="h-4 w-4" />
+                Rituel recommandé aujourd’hui
+              </div>
+              <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">
+                {focusCopy.title}
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-slate-200">{focusCopy.detail}</p>
+
+              <div className="mt-6 space-y-3">
+                {focusActions.map((action, index) => {
+                  const Icon = action.icon;
+                  const isLead = index === 0;
+
+                  return (
+                    <Link
+                      key={action.title}
+                      href={action.href}
+                      className={`block rounded-[24px] border p-4 transition-all hover:-translate-y-0.5 ${
+                        isLead
+                          ? 'border-[#f7f2ea]/18 bg-[#f7f2ea] text-[#17324d] shadow-[0_18px_35px_rgba(15,23,42,0.16)]'
+                          : 'border-white/10 bg-white/6 text-[#f7f2ea]'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div
+                          className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl ${
+                            isLead ? 'bg-[#17324d] text-[#f7f2ea]' : 'bg-white/10 text-[#d7c4aa]'
+                          }`}
+                        >
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <p className={`text-sm font-semibold ${isLead ? 'text-[#17324d]' : 'text-white'}`}>{action.title}</p>
+                            <span className={`text-xs font-bold uppercase tracking-[0.18em] ${isLead ? 'text-slate-500' : 'text-slate-300'}`}>
+                              {action.duration}
+                            </span>
+                          </div>
+                          <p className={`mt-2 text-sm leading-6 ${isLead ? 'text-slate-600' : 'text-slate-200'}`}>{action.detail}</p>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-[26px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Fenêtre d’épreuve</p>
+                <div className="mt-4 space-y-3">
+                  {[
+                    { label: 'Écrit', value: data.countdownEcrit, icon: CalendarDays },
+                    { label: 'Oral', value: data.countdownOral, icon: Clock3 },
+                  ].map((item) => (
+                    <div key={item.label} className="rounded-[20px] border border-white/10 bg-black/10 px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                          <item.icon className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">{item.label}</p>
+                          <p className="mt-1 text-lg font-semibold text-white">
+                            {item.value === null ? 'Date non renseignée' : item.value < 0 ? 'Épreuve passée' : `J-${item.value}`}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-[26px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Cap du moment</p>
+                <p className="mt-4 text-2xl font-semibold leading-tight text-white">{focusCopy.eyebrow}</p>
+                <p className="mt-3 text-sm leading-7 text-slate-200">{weakestSkill.copy}</p>
+                <Link
+                  href={ritualLead.href}
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#f7f2ea] transition-colors hover:text-[#d7c4aa]"
+                >
+                  Ouvrir l’action prioritaire
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </header>
+      </section>
 
-      {data.error && (
-        <div className="p-4 bg-error/10 text-error border border-error/30 rounded-xl">{data.error}</div>
-      )}
+      {data.error ? (
+        <div className="rounded-[24px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d] shadow-[0_12px_28px_rgba(182,80,80,0.08)]">
+          <AlertTriangle className="mr-2 inline h-4 w-4" />
+          {data.error}
+        </div>
+      ) : null}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* ─── Skill Map (bars) ─── */}
-        <div className="bg-card p-6 rounded-3xl border border-border shadow-sm">
-          <h3 className="text-lg font-bold text-foreground mb-6 flex items-center gap-2">
-            <img src="/images/logo.png" alt="" className="w-5 h-5" /> Carte des compétences
-          </h3>
-          <div className="space-y-5">
-            {SKILL_BARS.map((skill) => {
+      <section className="grid gap-6 xl:grid-cols-[0.94fr_1.06fr]">
+        <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Boussole</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                Une lecture visuelle rapide de tes quatre grands axes.
+              </h2>
+            </div>
+            <div className="rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+              Moyenne {averageScore} / 20
+            </div>
+          </div>
+
+          <div className="mt-6 h-80 min-w-0">
+            {chartsReady ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart data={radarData}>
+                  <PolarGrid stroke="#d8ccb9" />
+                  <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: '#52606d' }} />
+                  <PolarRadiusAxis domain={[0, 20]} tick={{ fontSize: 10, fill: '#768390' }} />
+                  <Radar dataKey="score" stroke="#17324d" fill="#17324d" fillOpacity={0.22} />
+                </RadarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-full items-center justify-center rounded-[24px] bg-[#f8f4ec] text-sm text-slate-500">
+                Préparation du graphique...
+              </div>
+            )}
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            {radarData.map((item) => (
+              <span key={item.skill} className="rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3.5 py-1.5 text-xs font-semibold text-slate-600">
+                {item.skill}: {item.score.toFixed(1)} / 20
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Trajectoire</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                La progression doit être lisible, pas seulement ressentie.
+              </h2>
+            </div>
+            <div className="rounded-[22px] border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-3 text-sm text-slate-600">
+              <p className="font-semibold text-[#17324d]">{momentum.label}</p>
+              <p className="mt-1 max-w-sm text-xs leading-5 text-slate-500">{momentum.detail}</p>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            {chartsReady ? (
+              <ProgressionChart data={progressionData} target={12} />
+            ) : (
+              <div className="flex h-64 items-center justify-center rounded-[24px] bg-[#f8f4ec] text-sm text-slate-500">
+                Préparation du graphique...
+              </div>
+            )}
+          </div>
+
+          {data.isLoading ? <p className="mt-3 text-xs text-slate-500">Chargement de la progression...</p> : null}
+        </div>
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[0.98fr_1.02fr]">
+        <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Cartographie fine</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                Ce que tu tiens bien, et ce qu’il faut remettre sous tension.
+              </h2>
+            </div>
+            <Link
+              href="/mon-parcours"
+              className="inline-flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-2 text-sm font-semibold text-[#17324d] transition-colors hover:border-[#0f766e] hover:text-[#0f766e]"
+            >
+              Voir le parcours
+              <MapIcon className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="mt-6 space-y-5">
+            {SKILL_META.map((skill) => {
               const score = data.scores[skill.key];
               return (
                 <div key={skill.key}>
-                  <div className="flex justify-between text-sm font-medium mb-1.5">
-                    <span className="text-foreground">{skill.label}</span>
-                    <span className="text-muted-foreground">{score.toFixed(1)}/20</span>
+                  <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
+                    <div>
+                      <span className="text-[#17324d]">{skill.label}</span>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">{skill.copy}</p>
+                    </div>
+                    <span className="shrink-0 text-slate-500">{score.toFixed(1)} / 20</span>
                   </div>
-                  <div className="h-2.5 w-full bg-muted rounded-full overflow-hidden">
-                    <div className={`h-full rounded-full ${skill.color} transition-all duration-1000 ease-out`} style={{ width: `${(score / 20) * 100}%` }} />
+                  <div className="h-2.5 w-full rounded-full bg-[#e7ddcf]">
+                    <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(score / 20) * 100}%` }} />
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {weakestSkill && (
-            <div className="mt-8 pt-6 border-t border-border">
-              <p className="text-sm text-muted-foreground mb-3">Axe prioritaire :</p>
-              <div className={`${weakestSkill.color.replace('bg-', 'bg-')}/10 p-3 rounded-xl text-sm font-medium flex items-center gap-2 text-foreground border border-border`}>
-                <Target className="w-4 h-4 text-primary" /> Renforcer {weakestSkill.article}{weakestSkill.label.toLowerCase()}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ─── Right column: Recommended + Charts ─── */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Recommended actions */}
-          <div className="bg-card p-6 rounded-3xl border border-border shadow-sm">
-            <h3 className="text-lg font-bold text-foreground mb-5">Parcours recommandé</h3>
-            <div className="space-y-3">
-              {RECOMMENDED_ACTIONS.map((action) => {
-                const Icon = action.icon;
-                return (
-                  <Link key={action.title} href={action.href}
-                    className="group flex items-center justify-between p-4 rounded-2xl border border-border hover:border-primary/30 hover:shadow-md transition-all cursor-pointer bg-muted/20 hover:bg-card"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-3 rounded-xl ${action.colorBg} ${action.colorText}`}>
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">{action.title}</h4>
-                        <p className="text-sm text-muted-foreground">{action.duration}</p>
-                      </div>
-                    </div>
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                      <ChevronRight className="w-4 h-4" />
-                    </div>
-                  </Link>
-                );
-              })}
-              <ParcoursRecommandation />
-            </div>
-          </div>
-
-          {/* Charts row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-card rounded-2xl border border-border p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-foreground">Radar compétences</h3>
-                <span className="px-2.5 py-1 bg-primary/15 text-primary text-xs font-bold rounded-full">Réel</span>
-              </div>
-              <div className="w-full" style={{ height: 224 }}>
-                <ResponsiveContainer width="100%" height={224}>
-                  <RadarChart data={radarData}>
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11 }} />
-                    <PolarRadiusAxis domain={[0, 20]} tick={{ fontSize: 10 }} />
-                    <Radar dataKey="score" stroke="var(--color-primary, #6366f1)" fill="var(--color-primary, #6366f1)" fillOpacity={0.3} />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            <div className="bg-card rounded-2xl border border-border p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-foreground">Progression hebdomadaire</h3>
-                <Clock className="w-4 h-4 text-muted-foreground" />
-              </div>
-              <ProgressionChart data={progressionData} target={12} />
-              {data.isLoading && <p className="text-xs text-muted-foreground mt-2">Chargement...</p>}
-            </div>
-          </div>
-
-          {/* Weak signals */}
-          {weakSignals.length > 0 && (
-            <div className="bg-card rounded-2xl border border-error/20 p-5 shadow-sm relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-1 h-full bg-error/70" />
-              <h3 className="text-base font-bold text-foreground flex items-center gap-2 mb-4">
-                <AlertTriangle className="w-4 h-4 text-error" /> Points de vigilance
-              </h3>
-              <div className="flex flex-wrap gap-2">
+          <div className="mt-8 rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Points de vigilance remontés</p>
+            {weakSignals.length > 0 ? (
+              <div className="mt-3 flex flex-wrap gap-2">
                 {weakSignals.map(([skill, count]) => (
-                  <span key={skill} className="px-3 py-1.5 rounded-full bg-error/10 text-error text-sm font-medium border border-error/20">
+                  <span key={skill} className="rounded-full border border-[#d8ccb9] bg-white px-3.5 py-1.5 text-xs font-semibold text-[#17324d]">
                     {skill} ({count})
                   </span>
                 ))}
               </div>
-            </div>
-          )}
+            ) : (
+              <p className="mt-3 text-sm leading-7 text-slate-600">Aucun signal faible fort n’est remonté sur la fenêtre récente.</p>
+            )}
+          </div>
+
+          <ParcoursRecommandation weakSignals={data.weakSignals} />
         </div>
-      </div>
+
+        <div className="space-y-6">
+          <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Activité récente</p>
+            <div className="mt-6 space-y-3">
+              {recentActivity.length > 0 ? (
+                recentActivity.map((item) => (
+                  <div key={`${item.label}-${item.date}`} className="flex items-start gap-3 rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+                    <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#17324d] text-[#f7f2ea]">
+                      <Clock3 className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#17324d]">{item.label}</p>
+                      <p className="mt-1 text-sm text-slate-500">{item.date}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4 text-sm leading-7 text-slate-600">
+                  Pas encore d’activité exploitable. Lance un premier atelier pour transformer ce cockpit en vrai tableau de pilotage.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Lanceur</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
+              Le bon tableau de bord réduit la décision à un prochain geste clair.
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-200 sm:text-base">
+              Tu ne dois pas quitter cet écran avec une intention floue. Choisis un bloc, lance-le, puis reviens lire ce que la session a réellement déplacé.
+            </p>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {LAUNCHPAD.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.title}
+                    href={item.href === '/tuteur' ? tutorHref : item.href}
+                    className={`rounded-[24px] border border-white/10 bg-gradient-to-br ${item.tone} p-4 text-white shadow-[0_18px_40px_rgba(15,23,42,0.16)] transition-transform hover:-translate-y-0.5`}
+                  >
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <p className="mt-4 text-base font-semibold">{item.title}</p>
+                    <p className="mt-2 text-sm leading-6 text-white/80">{item.detail}</p>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

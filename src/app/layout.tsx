@@ -7,7 +7,7 @@ import { ConsentBanner } from "@/components/consent/ConsentBanner";
 
 export const metadata: Metadata = {
   title: "EAF Premium",
-  description: "Plateforme IA premium de préparation à l’EAF en Première voie générale",
+  description: "Plateforme premium de préparation à l’EAF avec parcours personnalisé, corpus officiel et suivi de progression en Première voie générale",
 };
 
 export default function RootLayout({

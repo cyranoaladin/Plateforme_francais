@@ -139,6 +139,9 @@ export const updateOeuvreChoisieSchema = z.object({
 
 export const tuteurMessageBodySchema = z.object({
   message: z.string().trim().min(1).max(4000),
+  workId: z.string().trim().min(1).max(200).optional(),
+  parcours: z.string().trim().min(1).max(200).optional(),
+  sessionId: z.string().trim().min(1).max(120).optional(),
   conversationHistory: z
     .array(
       z.object({

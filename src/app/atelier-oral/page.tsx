@@ -1,11 +1,26 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Mic, Play, Volume2, Loader2, CheckCircle2, Square, Headphones, Star, AlertCircle, Clock, BookOpen, FileText, Shield, Zap } from 'lucide-react';
+import {
+  AlertCircle,
+  BookOpen,
+  CheckCircle2,
+  Clock,
+  Headphones,
+  Loader2,
+  Mic,
+  Play,
+  Shield,
+  Sparkles,
+  Square,
+  Star,
+  Volume2,
+  Zap,
+} from 'lucide-react';
+import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { createBrowserStt } from '@/lib/stt/browser';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
-
-/* ──────────────────── Types ──────────────────── */
 
 type OralStep = 'LECTURE' | 'EXPLICATION' | 'GRAMMAIRE' | 'ENTRETIEN';
 type WizardPhase = 'TIRAGE' | 'PREP' | 'PASSAGE' | 'BILAN';
@@ -51,7 +66,9 @@ type BilanResult = {
   newBadges?: string[];
 };
 
-/* ──────────────────── Constants ──────────────────── */
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+};
 
 const STEPS: OralStep[] = ['LECTURE', 'EXPLICATION', 'GRAMMAIRE', 'ENTRETIEN'];
 const STEP_LABELS: Record<OralStep, string> = {
@@ -61,7 +78,25 @@ const STEP_LABELS: Record<OralStep, string> = {
   ENTRETIEN: 'Entretien /8',
 };
 
-/** Indicative sub-timer durations in seconds for each phase */
+const STEP_GUIDANCE: Record<OralStep, { title: string; body: string }> = {
+  LECTURE: {
+    title: 'Lecture expressive',
+    body: 'Soigne le débit, les ponctuations et les respirations. La note vient autant de la netteté que de la simple fluidité.',
+  },
+  EXPLICATION: {
+    title: 'Explication linéaire',
+    body: 'Reste sur une problématique claire, des mouvements lisibles et des procédés commentés plutôt que simplement listés.',
+  },
+  GRAMMAIRE: {
+    title: 'Question de grammaire',
+    body: 'Nomme précisément le fait de langue, rattache-le à la phrase, puis explique brièvement son effet.',
+  },
+  ENTRETIEN: {
+    title: 'Entretien examinateur',
+    body: 'Réponds nettement, repars de l œuvre choisie et garde une logique de dialogue plutôt qu une mini dissertation flottante.',
+  },
+};
+
 const PHASE_DURATIONS_S: Record<OralStep, number> = {
   LECTURE: 2 * 60,
   EXPLICATION: 8 * 60,
@@ -72,16 +107,14 @@ const PHASE_DURATIONS_S: Record<OralStep, number> = {
 const PREP_DURATION_S = 30 * 60;
 const PASSAGE_DURATION_S = 20 * 60;
 
-/** Prep checklist per cahier V2 §5.3 */
 const PREP_CHECKLIST = [
-  { id: 'contexte', label: 'Identifier le contexte de l\'extrait (auteur, œuvre, mouvement)' },
-  { id: 'mouvement', label: 'Repérer les mouvements du texte et l\'articulation des parties' },
-  { id: 'problematique', label: 'Formuler une problématique d\'analyse' },
+  { id: 'contexte', label: "Identifier le contexte de l'extrait (auteur, œuvre, mouvement)" },
+  { id: 'mouvement', label: "Repérer les mouvements du texte et l'articulation des parties" },
+  { id: 'problematique', label: 'Formuler une problématique d analyse' },
   { id: 'procedes', label: 'Relever les procédés clés + citations à commenter' },
   { id: 'grammaire', label: 'Anticiper la question de grammaire (nature, fonction, analyse)' },
 ];
 
-/** Official works 2025-2026 per cahier V2 §1 */
 const OEUVRES_PROGRAMME_2025_2026 = [
   'Cahier de Douai — Arthur Rimbaud',
   'La rage de l expression — Francis Ponge',
@@ -97,19 +130,16 @@ const OEUVRES_PROGRAMME_2025_2026 = [
   'Sido suivi de Les Vrilles de la vigne — Colette',
 ];
 
-/* ──────────────────── Helpers ──────────────────── */
-
 function speakText(text: string) {
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'fr-FR';
   const voices = window.speechSynthesis.getVoices();
-  const preferred = voices.find((v) => v.lang.toLowerCase().startsWith('fr') && v.name.toLowerCase().includes('google'));
+  const preferred = voices.find((voice) => voice.lang.toLowerCase().startsWith('fr') && voice.name.toLowerCase().includes('google'));
   if (preferred) utterance.voice = preferred;
   window.speechSynthesis.speak(utterance);
 }
 
-/** Play a short beep/alert sound via Web Audio API */
 function playAlert() {
   try {
     const ctx = new AudioContext();
@@ -121,7 +151,9 @@ function playAlert() {
     gain.gain.value = 0.3;
     osc.start();
     osc.stop(ctx.currentTime + 0.2);
-  } catch { /* Audio not available */ }
+  } catch {
+    // Audio not available.
+  }
 }
 
 function formatTimer(seconds: number): string {
@@ -130,14 +162,11 @@ function formatTimer(seconds: number): string {
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 }
 
-/** Timer color class: green → orange at 10min → red at 2min */
-function timerColorClass(remaining: number): string {
-  if (remaining <= 120) return 'bg-red-100 dark:bg-red-950/30 text-red-600 dark:text-red-400';
-  if (remaining <= 600) return 'bg-amber-100 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400';
-  return 'bg-emerald-100 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400';
+function timerTone(remaining: number): string {
+  if (remaining <= 120) return 'border-[#f2c7bf] bg-[#fff0ed] text-[#c44f3c]';
+  if (remaining <= 600) return 'border-[#efd9b4] bg-[#fff7ea] text-[#af7a20]';
+  return 'border-[#cde5de] bg-[#edf7f3] text-[#0f766e]';
 }
-
-/* ──────────────────── Timer Hook ──────────────────── */
 
 function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: string) {
   const [remaining, setRemaining] = useState(totalSeconds);
@@ -175,10 +204,8 @@ function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: s
     return () => clearInterval(id);
   }, [running, totalSeconds, persistenceKey]);
 
-  return remaining;
+  return running ? remaining : totalSeconds;
 }
-
-/* ──────────────────── Component ──────────────────── */
 
 export default function AtelierOralPage() {
   const [oeuvre, setOeuvre] = useState(OEUVRES_PROGRAMME_2025_2026[0]);
@@ -192,7 +219,10 @@ export default function AtelierOralPage() {
   const [isMicOn, setIsMicOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [feedbacks, setFeedbacks] = useState<Record<OralStep, StepFeedback | undefined>>({
-    LECTURE: undefined, EXPLICATION: undefined, GRAMMAIRE: undefined, ENTRETIEN: undefined,
+    LECTURE: undefined,
+    EXPLICATION: undefined,
+    GRAMMAIRE: undefined,
+    ENTRETIEN: undefined,
   });
   const [bilan, setBilan] = useState<BilanResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -213,7 +243,7 @@ export default function AtelierOralPage() {
   const phaseRemaining = useCountdown(
     currentStep ? PHASE_DURATIONS_S[currentStep] : 0,
     passageRunning && isSimulation && Boolean(currentStep),
-    session?.sessionId && currentStep ? `phase_${session.sessionId}_${currentStep}` : undefined
+    session?.sessionId && currentStep ? `phase_${session.sessionId}_${currentStep}` : undefined,
   );
 
   useEffect(() => {
@@ -228,11 +258,19 @@ export default function AtelierOralPage() {
     return { totalScore, totalMax };
   }, [feedbacks]);
 
-  /* ── API calls ── */
+  const oralTutorHref = useMemo(
+    () =>
+      buildTuteurHref({
+        workId: session?.oeuvreChoisie ?? oeuvre,
+        sessionId: session?.sessionId ?? null,
+      }),
+    [oeuvre, session?.oeuvreChoisie, session?.sessionId],
+  );
 
   const startSession = useCallback(async () => {
-    console.log('[AtelierOral] Starting session...', { oeuvre, mode });
     try {
+      setIsLoading(true);
+      setError(null);
       const response = await fetch('/api/v1/oral/session/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
@@ -240,18 +278,18 @@ export default function AtelierOralPage() {
       });
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        console.error('[AtelierOral] Start session failed:', response.status, errData);
         throw new Error(errData.error || 'Impossible de démarrer la session orale.');
       }
       const payload = (await response.json()) as SessionPayload;
-      console.log('[AtelierOral] Session started:', payload.sessionId);
       setSession(payload);
       try {
         await fetch(`/api/v1/oral/session/${payload.sessionId}/start-prep`, {
           method: 'POST',
           headers: { 'X-CSRF-Token': getCsrfTokenFromDocument() },
         });
-      } catch (e) { console.error('[AtelierOral] Failed to sync prep start', e); }
+      } catch {
+        // Sync failure is non-blocking for the UI.
+      }
       setWizardPhase('PREP');
       setCurrentStepIndex(0);
       setTranscript('');
@@ -263,12 +301,11 @@ export default function AtelierOralPage() {
       setJuryTurns([]);
       stepStartRef.current = Date.now();
     } catch (cause) {
-      console.error('[AtelierOral] Error in startSession:', cause);
       setError(cause instanceof Error ? cause.message : 'Erreur inconnue.');
     } finally {
       setIsLoading(false);
     }
-  }, [oeuvre, mode]);
+  }, [mode, oeuvre]);
 
   const startPassage = useCallback(async () => {
     if (!session) return;
@@ -277,14 +314,20 @@ export default function AtelierOralPage() {
         method: 'POST',
         headers: { 'X-CSRF-Token': getCsrfTokenFromDocument() },
       });
-    } catch (e) { console.error('Failed to sync passage start', e); }
+    } catch {
+      // Sync failure is non-blocking for the UI.
+    }
     setWizardPhase('PASSAGE');
     stepStartRef.current = Date.now();
   }, [session]);
 
   const toggleMic = useCallback(() => {
     if (!sttRef.current) return;
-    if (isMicOn) { sttRef.current.stop(); setIsMicOn(false); return; }
+    if (isMicOn) {
+      sttRef.current.stop();
+      setIsMicOn(false);
+      return;
+    }
     sttRef.current.start();
     setIsMicOn(true);
   }, [isMicOn]);
@@ -300,7 +343,7 @@ export default function AtelierOralPage() {
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
         body: JSON.stringify({ step: currentStep, transcript, duration }),
       });
-      if (!response.ok) throw new Error('Échec de l\'analyse IA.');
+      if (!response.ok) throw new Error("Échec de l'analyse de la prestation.");
       const payload = (await response.json()) as StepFeedback;
       setFeedbacks((prev) => ({ ...prev, [currentStep]: payload }));
       if (currentStep === 'ENTRETIEN' && payload.relance) speakText(payload.relance);
@@ -329,9 +372,12 @@ export default function AtelierOralPage() {
       setError(cause instanceof Error ? cause.message : 'Erreur inconnue.');
     } finally {
       setIsLoading(false);
-      if (isMicOn) { sttRef.current?.stop(); setIsMicOn(false); }
+      if (isMicOn) {
+        sttRef.current?.stop();
+        setIsMicOn(false);
+      }
     }
-  }, [session, currentStep, currentStepIndex, transcript, prepNotes, isMicOn]);
+  }, [currentStep, currentStepIndex, isMicOn, prepNotes, session, transcript]);
 
   const askExaminerFollowUp = useCallback(async () => {
     if (!session || currentStep !== 'ENTRETIEN' || transcript.trim().length === 0) {
@@ -377,252 +423,392 @@ export default function AtelierOralPage() {
     setWizardPhase('TIRAGE');
     setExaminerProfile('NEUTRE');
     setJuryTurns([]);
+    setTranscript('');
+    setPrepNotes('');
+    setPrepChecklist(new Set());
+    setCurrentStepIndex(0);
+    setError(null);
   }, []);
 
-  /* ──────────────────── Render ──────────────────── */
-
   return (
-    <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6 animate-in fade-in duration-500">
-      <header>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Oral EAF — Simulation officielle</h1>
-        <p className="text-muted-foreground mt-1">Préparation 30 min + Passage 20 min — Barème : Lecture /2 · Explication /8 · Grammaire /2 · Entretien /8</p>
-      </header>
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
+      <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#17324d] px-6 py-7 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.22)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+        <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
+        <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
-      {error && <div className="rounded-xl border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/30 p-3 text-red-700 dark:text-red-300 text-sm" role="alert">{error}</div>}
-
-      {/* ── Phase indicator ── */}
-      {session && (
-        <div className="flex items-center gap-3 text-sm">
-          {(['TIRAGE', 'PREP', 'PASSAGE', 'BILAN'] as WizardPhase[]).map((ph, i) => (
-            <div key={ph} className="flex items-center gap-1.5">
-              {i > 0 && <div className="w-6 h-px bg-border" />}
-              <span className={`px-3 py-1 rounded-full text-xs font-semibold ${wizardPhase === ph ? 'bg-purple-600 text-white' : 'bg-muted text-muted-foreground'}`}>
-                {ph === 'TIRAGE' ? 'Tirage' : ph === 'PREP' ? 'Prépa 30\'' : ph === 'PASSAGE' ? 'Passage 20\'' : 'Bilan'}
-              </span>
+        <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+              <BookOpen className="h-4 w-4" />
+              Oral EAF
             </div>
-          ))}
+            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+              Une simulation officielle pensée comme un cockpit d entraînement, pas comme un outil brut.
+            </h1>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
+              Tirage, préparation, passage puis bilan. Tout est réuni dans un seul espace pour te garder concentré sur la qualité de ta prise de parole, la precision des attendus officiels et les points a retravailler la seance suivante.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
+            {[
+              { label: 'Préparation', value: isSimulation ? '30 min' : 'Libre' },
+              { label: 'Passage', value: isSimulation ? '20 min' : 'Libre' },
+              { label: 'Barème', value: '2 + 8 + 2 + 8' },
+            ].map((item) => (
+              <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">{item.label}</p>
+                <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {error && (
+        <div data-testid="error-alert" className="rounded-[24px] border border-[#f0c7bf] bg-[#fff0ed] px-5 py-4 text-sm text-[#c44f3c]" role="alert">
+          {error}
         </div>
       )}
 
-      {/* ════════════════ TIRAGE ════════════════ */}
-      {wizardPhase === 'TIRAGE' && !session && (
-        <section className="bg-card rounded-3xl border border-border p-8 md:p-10 shadow-sm text-center">
-          <div className="w-20 h-20 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center mx-auto mb-6">
-            <BookOpen className="w-9 h-9" />
+      {session && (
+        <section className="rounded-[26px] border border-[#e7dac6] bg-[#fffaf4] px-5 py-4 shadow-[0_14px_35px_rgba(23,50,77,0.05)]">
+          <div className="flex flex-wrap items-center gap-3">
+            {(['TIRAGE', 'PREP', 'PASSAGE', 'BILAN'] as WizardPhase[]).map((phase) => {
+              const active = wizardPhase === phase;
+              return (
+                <span
+                  key={phase}
+                  className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] ${active ? 'bg-[#17324d] text-white' : 'border border-[#dfd1bc] bg-white text-[#6d7e8d]'}`}
+                >
+                  {phase === 'TIRAGE' ? 'Tirage' : phase === 'PREP' ? "Prépa 30'" : phase === 'PASSAGE' ? "Passage 20'" : 'Bilan'}
+                </span>
+              );
+            })}
           </div>
-          <h2 className="text-xl font-bold text-foreground mb-2">Tirage au sort de l&apos;extrait</h2>
-          <p className="text-muted-foreground mb-6 max-w-md mx-auto">Choisis ton œuvre et ton mode. L&apos;IA tire un extrait et une question de grammaire, puis tu disposes de 30 minutes de préparation.</p>
-
-          {/* Mode toggle */}
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <button
-              onClick={() => setMode('SIMULATION')}
-              data-testid="mode-simulation-btn"
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${mode === 'SIMULATION' ? 'bg-purple-600 text-white shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
-              aria-pressed={mode === 'SIMULATION'}
-            >
-              <Shield className="w-4 h-4" /> Simulation examen
-            </button>
-            <button
-              onClick={() => setMode('FREE_PRACTICE')}
-              data-testid="mode-practice-btn"
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${mode === 'FREE_PRACTICE' ? 'bg-purple-600 text-white shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
-              aria-pressed={mode === 'FREE_PRACTICE'}
-            >
-              <Zap className="w-4 h-4" /> Entraînement libre
-            </button>
-          </div>
-          {mode === 'FREE_PRACTICE' && (
-            <p className="text-xs text-amber-600 dark:text-amber-400 mb-4">Mode libre : les timers sont désactivés, tu peux prendre ton temps.</p>
-          )}
-
-          <label htmlFor="oeuvre-select" className="sr-only">Choisir une œuvre</label>
-          <select
-            id="oeuvre-select"
-            data-testid="oeuvre-select"
-            className="border border-border rounded-xl bg-muted/30 px-4 py-3 mb-4 w-full max-w-sm mx-auto block text-foreground text-sm focus:ring-2 focus:ring-primary focus:outline-none"
-            value={oeuvre}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(e.target.value)}
-          >
-            {OEUVRES_PROGRAMME_2025_2026.map((o) => <option key={o} value={o}>{o}</option>)}
-          </select>
-          <button data-testid="start-session-btn" onClick={startSession} disabled={isLoading} className="px-8 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 hover:bg-purple-700 transition-colors disabled:opacity-50 shadow-md">
-            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />} Tirer un extrait
-          </button>
         </section>
       )}
 
-      {/* ════════════════ PREP (30 min) ════════════════ */}
-      {wizardPhase === 'PREP' && session && (
-        <div className="bg-card rounded-3xl border border-border p-6 md:p-8 shadow-sm space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><FileText className="w-5 h-5" /> Préparation</h2>
-            {isSimulation && (
-              <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-lg font-bold ${timerColorClass(prepRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant : ${formatTimer(prepRemaining)}`}>
-                <Clock className="w-5 h-5 flex-shrink-0" /> {formatTimer(prepRemaining)}
+      {wizardPhase === 'TIRAGE' && !session && (
+        <div className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
+          <section className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-6 shadow-[0_20px_70px_rgba(23,50,77,0.08)] md:p-7">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#17324d]/8 text-[#17324d]">
+                <Sparkles className="h-5 w-5" />
               </div>
-            )}
-            {!isSimulation && (
-              <span className="text-sm text-muted-foreground italic flex items-center gap-1"><Zap className="w-4 h-4" /> Mode libre — pas de chrono</span>
-            )}
-          </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Démarrage</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+                  Tirage au sort de l extrait
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5d7287]">
+                  Choisis ton œuvre et le niveau de contrainte. La plateforme tire l extrait, la question de grammaire puis t installe directement dans le rythme de l épreuve.
+                </p>
+              </div>
+            </div>
 
-          <div className="rounded-2xl border border-border bg-muted/20 p-5">
-            <p className="font-bold text-foreground text-sm mb-2">Extrait tiré</p>
-            <p data-testid="extrait-texte" className="font-serif text-base leading-relaxed text-foreground">{session.texte}</p>
-            <p className="text-sm mt-3 text-muted-foreground"><span className="font-semibold text-foreground">Question de grammaire :</span> {session.questionGrammaire}</p>
-            {session.phraseGrammaire && (
-              <p className="text-sm mt-2 text-muted-foreground">
-                <span className="font-semibold text-foreground">Phrase cible :</span> {session.phraseGrammaire}
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => setMode('SIMULATION')}
+                data-testid="mode-simulation-btn"
+                className={`inline-flex items-center gap-2 rounded-[18px] px-4 py-3 text-sm font-semibold transition ${mode === 'SIMULATION' ? 'bg-[#17324d] text-white' : 'border border-[#dfd1bc] bg-white text-[#17324d]'}`}
+                aria-pressed={mode === 'SIMULATION'}
+              >
+                <Shield className="h-4 w-4" />
+                Simulation examen
+              </button>
+              <button
+                onClick={() => setMode('FREE_PRACTICE')}
+                data-testid="mode-practice-btn"
+                className={`inline-flex items-center gap-2 rounded-[18px] px-4 py-3 text-sm font-semibold transition ${mode === 'FREE_PRACTICE' ? 'bg-[#0f766e] text-white' : 'border border-[#dfd1bc] bg-white text-[#17324d]'}`}
+                aria-pressed={mode === 'FREE_PRACTICE'}
+              >
+                <Zap className="h-4 w-4" />
+                Entraînement libre
+              </button>
+            </div>
+
+            {mode === 'FREE_PRACTICE' && (
+              <p className="mt-4 rounded-[18px] border border-[#d8e8e3] bg-[#edf7f3] px-4 py-3 text-sm text-[#0f766e]">
+                Mode libre : les timers sont désactivés, tu peux prendre ton temps.
               </p>
             )}
-            {session.oeuvreChoisie && (
-              <p className="text-sm mt-2 text-muted-foreground">
-                <span className="font-semibold text-foreground">Oeuvre choisie (entretien) :</span> {session.oeuvreChoisie}
-              </p>
-            )}
-          </div>
 
-          {/* Prep checklist — 5 guided steps per cahier V2 §5.3 */}
-          <div className="rounded-2xl border border-border bg-muted/10 p-5 space-y-3">
-            <p className="font-bold text-foreground text-sm flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-purple-500" /> Checklist de préparation</p>
-            {PREP_CHECKLIST.map((item) => (
-              <label key={item.id} className="flex items-start gap-3 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={prepChecklist.has(item.id)}
-                  onChange={() => setPrepChecklist((prev) => {
-                    const next = new Set(prev);
-                    if (next.has(item.id)) { next.delete(item.id); } else { next.add(item.id); }
-                    return next;
-                  })}
-                  className="mt-0.5 w-4 h-4 rounded border-border text-purple-600 focus:ring-purple-500"
-                />
-                <span className={`text-sm leading-snug ${prepChecklist.has(item.id) ? 'text-muted-foreground line-through' : 'text-foreground'}`}>{item.label}</span>
+            <div className="mt-6 max-w-xl">
+              <label htmlFor="oeuvre-select" className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#7a6858]">
+                Œuvre du programme
               </label>
-            ))}
-            <p className="text-xs text-muted-foreground">{prepChecklist.size}/{PREP_CHECKLIST.length} étapes complétées</p>
-          </div>
+              <select
+                id="oeuvre-select"
+                data-testid="oeuvre-select"
+                className="w-full rounded-[18px] border border-[#dfd1bc] bg-white px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#17324d]/20 focus:ring-2 focus:ring-[#17324d]/8"
+                value={oeuvre}
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(event.target.value)}
+              >
+                {OEUVRES_PROGRAMME_2025_2026.map((work) => (
+                  <option key={work} value={work}>
+                    {work}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label htmlFor="prep-notes" className="block text-sm font-semibold text-foreground mb-2">Notes de préparation (brouillon — non évaluées)</label>
-            <textarea
-              id="prep-notes"
-              value={prepNotes}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrepNotes(e.target.value)}
-              className="w-full min-h-48 border border-border rounded-2xl bg-muted/20 p-4 text-sm text-foreground focus:ring-2 focus:ring-primary/50 focus:outline-none"
-              placeholder="Structure ton explication linéaire, prépare tes axes, note les procédés..."
-            />
-          </div>
-
-          <div className="flex justify-center">
-            <button onClick={startPassage} className="px-8 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 hover:bg-purple-700 transition-colors shadow-md">
-              <Play className="w-4 h-4" /> Commencer le passage (20 min)
+            <button
+              data-testid="start-session-btn"
+              onClick={startSession}
+              disabled={isLoading}
+              className="mt-6 inline-flex items-center gap-2 rounded-[20px] bg-[#17324d] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50"
+            >
+              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
+              Tirer un extrait
             </button>
-          </div>
+          </section>
+
+          <aside className="space-y-6">
+            <section className="rounded-[28px] border border-[#d8e8e3] bg-[#edf7f3] p-5 shadow-[0_18px_55px_rgba(15,118,110,0.08)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Ce qui va suivre</p>
+              <div className="mt-4 space-y-3">
+                {[
+                  'Préparation structurée de 30 minutes avec notes personnelles.',
+                  'Passage en quatre temps : lecture, explication, grammaire, entretien.',
+                  'Bilan final /20 avec conseil concret pour la prochaine séance.',
+                ].map((item, index) => (
+                  <div key={item} className="rounded-[20px] border border-[#d3e7e1] bg-white/88 px-4 py-4 text-sm leading-7 text-[#33536f]">
+                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#0f766e]/10 text-xs font-semibold text-[#0f766e]">{index + 1}</span>
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-[28px] border border-[#e7dac6] bg-[#f8f1e7] p-5 shadow-[0_18px_55px_rgba(122,75,36,0.08)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Usage premium</p>
+              <p className="mt-4 text-sm leading-7 text-[#5d7287]">
+                Une bonne simulation orale ne cherche pas à parler beaucoup. Elle cherche à rendre la parole plus nette, plus articulée et plus défendable étape après étape.
+              </p>
+              <Link
+                href={oralTutorHref}
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#17324d] transition-colors hover:text-[#0f766e]"
+              >
+                Préparer cette œuvre avec le guidage
+              </Link>
+            </section>
+          </aside>
         </div>
       )}
 
-      {/* ════════════════ PASSAGE (20 min — 4 sub-tabs) ════════════════ */}
-      {wizardPhase === 'PASSAGE' && session && (
-        <div className="bg-card rounded-3xl border border-border p-6 md:p-8 shadow-sm space-y-6">
-          {/* Timer */}
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-foreground">Passage oral</h2>
-            <div className="flex items-center gap-3">
-              {/* Phase sub-timer (indicative) */}
-              {currentStep && isSimulation && (
-                <span className="text-xs text-muted-foreground font-mono">{formatTimer(phaseRemaining)} phase</span>
-              )}
-              {isSimulation && (
-                <div className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-lg font-bold ${timerColorClass(passageRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant passage : ${formatTimer(passageRemaining)}`}>
-                  <Clock className="w-5 h-5 flex-shrink-0" /> {formatTimer(passageRemaining)}
+      {wizardPhase === 'PREP' && session && (
+        <div className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
+          <section className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-6 shadow-[0_20px_70px_rgba(23,50,77,0.08)] md:p-7">
+            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Préparation</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+                  Préparation
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5d7287]">
+                  Lis, structure, choisis tes procédés et prépare la grammaire. Les notes restent un brouillon de travail, pas un objet évalué.
+                </p>
+              </div>
+              {isSimulation ? (
+                <div className={`inline-flex items-center gap-2 rounded-[18px] border px-4 py-3 font-mono text-lg font-semibold ${timerTone(prepRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant : ${formatTimer(prepRemaining)}`}>
+                  <Clock className="h-5 w-5" />
+                  {formatTimer(prepRemaining)}
                 </div>
-              )}
-              {!isSimulation && (
-                <span className="text-sm text-muted-foreground italic flex items-center gap-1"><Zap className="w-4 h-4" /> Mode libre</span>
+              ) : (
+                <span className="inline-flex items-center gap-2 rounded-[18px] border border-[#d8e8e3] bg-[#edf7f3] px-4 py-3 text-sm font-medium text-[#0f766e]">
+                  <Zap className="h-4 w-4" />
+                  Mode libre
+                </span>
               )}
             </div>
-          </div>
 
-          {/* Step tabs */}
-          <div className="flex justify-between items-center relative">
-            <div className="absolute left-0 right-0 h-0.5 bg-border top-5 z-0" />
-            {STEPS.map((stepName, i) => (
-              <div key={stepName} className="relative z-10 flex flex-col items-center gap-2">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 transition-all text-sm ${i === currentStepIndex ? 'bg-purple-600 border-purple-600 text-white shadow-md' :
-                  i < currentStepIndex ? 'bg-purple-100 dark:bg-purple-900/30 border-purple-600 text-purple-600' : 'bg-card border-border text-muted-foreground'
-                  }`}>
-                  {i < currentStepIndex ? <CheckCircle2 className="w-5 h-5" /> : i + 1}
-                </div>
-                <span className={`text-[10px] md:text-xs font-medium text-center ${i === currentStepIndex ? 'text-purple-600 dark:text-purple-400' : 'text-muted-foreground'}`}>
-                  {STEP_LABELS[stepName]}
-                </span>
+            <div className="mt-6 rounded-[24px] border border-[#eadbc5] bg-white p-5 shadow-[0_12px_30px_rgba(23,50,77,0.05)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Extrait tiré</p>
+              <p data-testid="extrait-texte" className="mt-4 font-serif text-base leading-8 text-[#17324d]">{session.texte}</p>
+              <div className="mt-5 space-y-2 text-sm leading-7 text-[#33536f]">
+                <p><span className="font-semibold text-[#17324d]">Question de grammaire :</span> {session.questionGrammaire}</p>
+                {session.phraseGrammaire && (
+                  <p><span className="font-semibold text-[#17324d]">Phrase cible :</span> {session.phraseGrammaire}</p>
+                )}
+                {session.oeuvreChoisie && (
+                  <p><span className="font-semibold text-[#17324d]">Œuvre choisie (entretien) :</span> {session.oeuvreChoisie}</p>
+                )}
               </div>
-            ))}
-          </div>
+            </div>
 
-          {/* Extrait reference */}
-          <details className="rounded-2xl border border-border bg-muted/20 p-4">
-            <summary className="cursor-pointer text-sm font-semibold text-foreground">Extrait &amp; question de grammaire</summary>
-            <p className="font-serif text-sm leading-relaxed text-foreground mt-2">{session.texte}</p>
-            <p className="text-sm mt-2 text-muted-foreground"><span className="font-semibold text-foreground">Grammaire :</span> {session.questionGrammaire}</p>
-            {session.phraseGrammaire && (
-              <p className="text-sm mt-2 text-muted-foreground"><span className="font-semibold text-foreground">Phrase cible :</span> {session.phraseGrammaire}</p>
-            )}
-            {session.oeuvreChoisie && (
-              <p className="text-sm mt-2 text-muted-foreground"><span className="font-semibold text-foreground">Entretien sur :</span> {session.oeuvreChoisie}</p>
-            )}
-          </details>
+            <div className="mt-6">
+              <label htmlFor="prep-notes" className="mb-2 block text-sm font-semibold text-[#17324d]">
+                Notes de préparation (brouillon — non évaluées)
+              </label>
+              <textarea
+                id="prep-notes"
+                value={prepNotes}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setPrepNotes(event.target.value)}
+                className="min-h-60 w-full rounded-[24px] border border-[#dfd1bc] bg-white px-4 py-4 text-sm leading-7 text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/20 focus:ring-2 focus:ring-[#17324d]/8"
+                placeholder="Structure ton explication linéaire, prépare tes axes, note les procédés..."
+              />
+            </div>
 
-          {/* Input area for current step */}
-          {currentStep && (
-            <div className="space-y-4">
-              <div className="flex flex-col items-center text-center">
+            <button
+              onClick={startPassage}
+              className="mt-6 inline-flex items-center gap-2 rounded-[20px] bg-[#17324d] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
+            >
+              <Play className="h-4 w-4" />
+              Commencer le passage (20 min)
+            </button>
+          </section>
+
+          <aside className="space-y-6">
+            <section className="rounded-[28px] border border-[#d8e8e3] bg-[#edf7f3] p-5 shadow-[0_18px_55px_rgba(15,118,110,0.08)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Checklist de préparation</p>
+              <div className="mt-4 space-y-3">
+                {PREP_CHECKLIST.map((item) => (
+                  <label key={item.id} className="flex cursor-pointer items-start gap-3 rounded-[20px] border border-[#d3e7e1] bg-white/88 px-4 py-4 text-sm leading-7 text-[#33536f]">
+                    <input
+                      type="checkbox"
+                      checked={prepChecklist.has(item.id)}
+                      onChange={() =>
+                        setPrepChecklist((prev) => {
+                          const next = new Set(prev);
+                          if (next.has(item.id)) {
+                            next.delete(item.id);
+                          } else {
+                            next.add(item.id);
+                          }
+                          return next;
+                        })
+                      }
+                      className="mt-1 h-4 w-4 rounded border-[#cfe2dc] text-[#0f766e] focus:ring-[#0f766e]"
+                    />
+                    <span className={prepChecklist.has(item.id) ? 'text-[#7f918d] line-through' : ''}>{item.label}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="mt-4 text-sm font-medium text-[#0f766e]">{prepChecklist.size}/{PREP_CHECKLIST.length} étapes complétées</p>
+            </section>
+
+            <section className="rounded-[28px] border border-[#e7dac6] bg-[#f8f1e7] p-5 shadow-[0_18px_55px_rgba(122,75,36,0.08)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Rappel</p>
+              <p className="mt-4 text-sm leading-7 text-[#5d7287]">
+                La préparation utile ne cherche pas à tout écrire. Elle cherche à sécuriser les mouvements du texte, deux ou trois procédés décisifs et une réponse propre à la grammaire.
+              </p>
+              <Link
+                href={oralTutorHref}
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#17324d] transition-colors hover:text-[#0f766e]"
+              >
+                Débloquer un point avant le passage
+              </Link>
+            </section>
+          </aside>
+        </div>
+      )}
+
+      {wizardPhase === 'PASSAGE' && session && currentStep && (
+        <div className="grid gap-6 xl:grid-cols-[1.04fr_0.96fr]">
+          <section className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-6 shadow-[0_20px_70px_rgba(23,50,77,0.08)] md:p-7">
+            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Passage oral</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+                  {STEP_GUIDANCE[currentStep].title}
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5d7287]">{STEP_GUIDANCE[currentStep].body}</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                {isSimulation && (
+                  <span className={`inline-flex items-center gap-2 rounded-[18px] border px-4 py-3 font-mono text-lg font-semibold ${timerTone(passageRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant passage : ${formatTimer(passageRemaining)}`}>
+                    <Clock className="h-5 w-5" />
+                    {formatTimer(passageRemaining)}
+                  </span>
+                )}
+                {isSimulation && (
+                  <span className="rounded-[16px] border border-[#dfd1bc] bg-white px-3 py-2 text-xs font-mono text-[#6d7e8d]">
+                    {formatTimer(phaseRemaining)} phase
+                  </span>
+                )}
+                {!isSimulation && (
+                  <span className="inline-flex items-center gap-2 rounded-[18px] border border-[#d8e8e3] bg-[#edf7f3] px-4 py-3 text-sm font-medium text-[#0f766e]">
+                    <Zap className="h-4 w-4" />
+                    Mode libre
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-3 md:grid-cols-4">
+              {STEPS.map((stepName, index) => {
+                const complete = index < currentStepIndex;
+                const active = index === currentStepIndex;
+                return (
+                  <div
+                    key={stepName}
+                    className={`rounded-[22px] border px-4 py-4 text-center ${active ? 'border-[#17324d]/18 bg-white shadow-[0_12px_24px_rgba(23,50,77,0.06)]' : complete ? 'border-[#d8e8e3] bg-[#edf7f3]' : 'border-[#e7dac6] bg-[#fbf5ec]'}`}
+                  >
+                    <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${active ? 'bg-[#17324d] text-white' : complete ? 'bg-[#0f766e]/10 text-[#0f766e]' : 'bg-white text-[#6d7e8d]'}`}>
+                      {complete ? <CheckCircle2 className="h-5 w-5" /> : index + 1}
+                    </div>
+                    <p className={`mt-3 text-xs font-semibold uppercase tracking-[0.14em] ${active ? 'text-[#17324d]' : 'text-[#7a6858]'}`}>{STEP_LABELS[stepName]}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <details className="mt-6 rounded-[24px] border border-[#eadbc5] bg-white p-5 shadow-[0_12px_30px_rgba(23,50,77,0.05)]">
+              <summary className="cursor-pointer text-sm font-semibold text-[#17324d]">Extrait & question de grammaire</summary>
+              <p className="mt-3 font-serif text-sm leading-7 text-[#17324d]">{session.texte}</p>
+              <div className="mt-3 space-y-2 text-sm leading-7 text-[#33536f]">
+                <p><span className="font-semibold text-[#17324d]">Grammaire :</span> {session.questionGrammaire}</p>
+                {session.phraseGrammaire && <p><span className="font-semibold text-[#17324d]">Phrase cible :</span> {session.phraseGrammaire}</p>}
+                {session.oeuvreChoisie && <p><span className="font-semibold text-[#17324d]">Entretien sur :</span> {session.oeuvreChoisie}</p>}
+              </div>
+            </details>
+
+            <div className="mt-6 space-y-5">
+              <div className="flex flex-col items-center rounded-[26px] border border-[#d8e8e3] bg-[#edf7f3] px-5 py-6 text-center">
                 {!isMicOn ? (
                   <>
-                    <button onClick={toggleMic} className="w-20 h-20 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center hover:bg-purple-500/20 transition-colors mb-3">
-                      <Mic className="w-9 h-9" />
+                    <button onClick={toggleMic} className="flex h-20 w-20 items-center justify-center rounded-full bg-[#17324d] text-white shadow-[0_16px_34px_rgba(23,50,77,0.18)] transition hover:bg-[#244a6d]">
+                      <Mic className="h-9 w-9" />
                     </button>
-                    <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Clique pour enregistrer — {STEP_LABELS[currentStep]}</p>
+                    <p className="mt-4 text-sm font-semibold text-[#17324d]">Clique pour enregistrer — {STEP_LABELS[currentStep]}</p>
                   </>
                 ) : (
                   <>
-                    <div className="relative w-24 h-24 flex items-center justify-center mb-3">
-                      <div className="absolute inset-0 bg-rose-500 rounded-full animate-ping opacity-20" />
-                      <button onClick={toggleMic} className="relative z-10 w-20 h-20 bg-rose-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-rose-600 transition-colors">
-                        <Square className="w-8 h-8" fill="currentColor" />
+                    <div className="relative flex h-24 w-24 items-center justify-center">
+                      <div className="absolute inset-0 animate-ping rounded-full bg-[#c44f3c] opacity-20" />
+                      <button onClick={toggleMic} className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-[#c44f3c] text-white shadow-[0_16px_34px_rgba(196,79,60,0.22)] transition hover:bg-[#b33f30]">
+                        <Square className="h-8 w-8" fill="currentColor" />
                       </button>
                     </div>
-                    <p className="text-sm font-bold text-rose-500 animate-pulse">Enregistrement en cours...</p>
+                    <p className="mt-4 text-sm font-bold text-[#c44f3c]">Enregistrement en cours...</p>
                   </>
                 )}
               </div>
 
               <div>
-                <label htmlFor="oral-transcript" className="sr-only">Transcription de votre réponse</label>
+                <label htmlFor="oral-transcript" className="mb-2 block text-sm font-semibold text-[#17324d]">
+                  Transcription / réponse
+                </label>
                 <textarea
                   id="oral-transcript"
                   value={transcript}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTranscript(e.target.value)}
-                  className="w-full min-h-36 border border-border rounded-2xl bg-muted/20 p-4 text-sm text-foreground focus:ring-2 focus:ring-primary/50 focus:outline-none shadow-inner"
+                  onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setTranscript(event.target.value)}
+                  className="min-h-40 w-full rounded-[24px] border border-[#dfd1bc] bg-white px-4 py-4 text-sm leading-7 text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/20 focus:ring-2 focus:ring-[#17324d]/8"
                   placeholder="Le transcript micro apparaît ici, vous pouvez le corriger avant envoi..."
                 />
               </div>
 
               {currentStep === 'ENTRETIEN' && (
-                <div className="rounded-2xl border border-border bg-muted/20 p-4 space-y-3">
-                  <p className="text-sm font-semibold text-foreground">Simulation examinateur dialoguant</p>
-                  <div className="flex flex-wrap gap-2">
+                <div className="rounded-[24px] border border-[#d8e8e3] bg-[#edf7f3] p-5">
+                  <p className="text-sm font-semibold text-[#17324d]">Simulation examinateur dialoguant</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
                     {(['BIENVEILLANT', 'NEUTRE', 'HOSTILE'] as ExaminerProfile[]).map((profile) => (
                       <button
                         key={profile}
                         type="button"
                         onClick={() => setExaminerProfile(profile)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold border ${examinerProfile === profile
-                          ? 'border-purple-600 bg-purple-600 text-white'
-                          : 'border-border bg-card text-muted-foreground'
-                          }`}
+                        className={`rounded-[16px] border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] ${examinerProfile === profile ? 'border-[#17324d] bg-[#17324d] text-white' : 'border-[#cfe2dc] bg-white text-[#17324d]'}`}
                       >
                         {profile}
                       </button>
@@ -633,17 +819,17 @@ export default function AtelierOralPage() {
                     type="button"
                     onClick={askExaminerFollowUp}
                     disabled={isJuryLoading || transcript.trim().length === 0}
-                    className="px-4 py-2 rounded-xl bg-card border border-border text-sm font-medium hover:bg-muted disabled:opacity-50 inline-flex items-center gap-2"
+                    className="mt-4 inline-flex items-center gap-2 rounded-[18px] border border-[#cfe2dc] bg-white px-4 py-2.5 text-sm font-medium text-[#17324d] transition hover:border-[#17324d]/18 disabled:opacity-50"
                   >
-                    {isJuryLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Headphones className="w-4 h-4" />}
+                    {isJuryLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Headphones className="h-4 w-4" />}
                     Obtenir une relance examinateur
                   </button>
 
                   {juryTurns.length > 0 && (
-                    <div className="max-h-44 overflow-auto rounded-xl border border-border bg-card p-3 space-y-2">
+                    <div className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[20px] border border-[#d3e7e1] bg-white p-4">
                       {juryTurns.slice(-6).map((turn, idx) => (
-                        <p key={`${turn.role}-${idx}`} className="text-xs text-foreground/90">
-                          <span className="font-semibold">{turn.role === 'jury' ? 'Examinateur' : 'Vous'} :</span> {turn.content}
+                        <p key={`${turn.role}-${idx}`} className="text-sm leading-7 text-[#33536f]">
+                          <span className="font-semibold text-[#17324d]">{turn.role === 'jury' ? 'Examinateur' : 'Vous'} :</span> {turn.content}
                         </p>
                       ))}
                     </div>
@@ -651,113 +837,163 @@ export default function AtelierOralPage() {
                 </div>
               )}
 
-              <div className="flex justify-center">
-                <button onClick={submitStep} disabled={isLoading || transcript.trim().length === 0} className="px-6 py-3 rounded-xl bg-purple-600 text-white font-bold inline-flex items-center gap-2 disabled:opacity-50 hover:bg-purple-700 transition-colors shadow-md">
-                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />} Soumettre — {STEP_LABELS[currentStep]}
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  onClick={submitStep}
+                  disabled={isLoading || transcript.trim().length === 0}
+                  className="inline-flex items-center gap-2 rounded-[20px] bg-[#17324d] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50"
+                >
+                  {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
+                  Soumettre — {STEP_LABELS[currentStep]}
                 </button>
+                <p className="text-xs text-[#6d7e8d]">Votre voix est traitée localement. Aucun audio n est envoyé à nos serveurs.</p>
+              </div>
+            </div>
+          </section>
+
+          <aside className="space-y-6">
+            <section className="rounded-[28px] border border-[#d8e8e3] bg-[#edf7f3] p-5 shadow-[0_18px_55px_rgba(15,118,110,0.08)]">
+              <div className="flex items-center justify-between">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Feedbacks intermédiaires</p>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#0f766e]">
+                  {aggregated.totalScore.toFixed(1)} / {aggregated.totalMax.toFixed(1) || 20}
+                </span>
               </div>
 
-              <p className="text-xs text-muted-foreground text-center">Votre voix est traitée localement. Aucun audio n&apos;est envoyé à nos serveurs.</p>
-            </div>
-          )}
+              <div className="mt-4 space-y-4" role="status" aria-live="polite">
+                {STEPS.map((step) => {
+                  const item = feedbacks[step];
+                  if (!item) return null;
+                  return (
+                    <div key={step} className="rounded-[22px] border border-[#d3e7e1] bg-white p-4 shadow-[0_10px_24px_rgba(15,118,110,0.05)]">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-sm font-semibold text-[#17324d]">{STEP_LABELS[step]}</p>
+                        <span className="rounded-full bg-[#17324d]/8 px-3 py-1 text-sm font-semibold text-[#17324d]">
+                          {item.score}/{item.max}
+                        </span>
+                      </div>
+                      <p className="mt-3 text-sm leading-7 text-[#33536f]">{item.feedback}</p>
 
-          {/* Per-step feedbacks */}
-          <div className="space-y-4" role="status" aria-live="polite">
-            {STEPS.map((step) => {
-              const item = feedbacks[step];
-              if (!item) return null;
-              return (
-                <div key={step} className="rounded-2xl border border-border p-5 bg-muted/20 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Headphones className="w-4 h-4 text-purple-500" />
-                      <p className="font-bold text-foreground text-sm">{STEP_LABELS[step]}</p>
-                    </div>
-                    <span className="font-bold text-foreground bg-card px-3 py-1 rounded-xl border border-border text-sm">{item.score}/{item.max}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.feedback}</p>
-                  {item.points_forts.length > 0 && (
-                    <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3">
-                      <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400 mb-1 flex items-center gap-1"><Star className="w-3 h-3" /> Points forts</p>
-                      <ul className="text-xs text-foreground/80 space-y-0.5">{item.points_forts.map((p: string) => <li key={p}>- {p}</li>)}</ul>
-                    </div>
-                  )}
-                  {item.axes.length > 0 && (
-                    <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-3">
-                      {error && (
-                        <div data-testid="error-alert" className="bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 p-4 rounded-2xl text-sm flex items-center gap-3">
-                          <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                          <p className="flex-1 font-medium">{error}</p>
+                      {item.points_forts.length > 0 && (
+                        <div className="mt-4 rounded-[18px] border border-[#d3e7e1] bg-[#edf7f3] p-3">
+                          <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[#0f766e]">Points forts</p>
+                          <ul className="space-y-1 text-xs leading-6 text-[#33536f]">
+                            {item.points_forts.map((point) => (
+                              <li key={point} className="flex gap-2"><Star className="mt-1 h-3.5 w-3.5 shrink-0 text-[#0f766e]" /> <span>{point}</span></li>
+                            ))}
+                          </ul>
                         </div>
                       )}
-                      <p className="text-xs font-bold text-amber-700 dark:text-amber-400 mb-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> Axes d&apos;amélioration</p>
-                      <ul className="text-xs text-foreground/80 space-y-0.5">{item.axes.map((a: string) => <li key={a}>- {a}</li>)}</ul>
-                    </div>
-                  )}
-                  <button onClick={() => speakText(item.feedback)} className="text-xs px-3 py-1.5 rounded-xl border border-border inline-flex items-center gap-1.5 hover:bg-muted transition-colors">
-                    <Volume2 className="w-3 h-3" /> Écouter
-                  </button>
-                  {item.relance && <p className="text-sm text-primary font-medium">Relance IA : {item.relance}</p>}
-                </div>
-              );
-            })}
-          </div>
 
-          {!currentStep && !bilan && (
-            <p className="text-sm text-muted-foreground text-center">Progression : {aggregated.totalScore.toFixed(1)} / {aggregated.totalMax.toFixed(1)} points</p>
-          )}
+                      {item.axes.length > 0 && (
+                        <div className="mt-4 rounded-[18px] border border-[#efd9b4] bg-[#fff7ea] p-3">
+                          <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[#af7a20]">Axes d amélioration</p>
+                          <ul className="space-y-1 text-xs leading-6 text-[#6b5735]">
+                            {item.axes.map((axis) => (
+                              <li key={axis} className="flex gap-2"><AlertCircle className="mt-1 h-3.5 w-3.5 shrink-0 text-[#af7a20]" /> <span>{axis}</span></li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      <div className="mt-4 flex flex-wrap items-center gap-3">
+                        <button onClick={() => speakText(item.feedback)} className="inline-flex items-center gap-1.5 rounded-[16px] border border-[#dfd1bc] bg-[#fffaf4] px-3 py-2 text-xs font-medium text-[#17324d] transition hover:border-[#17324d]/18">
+                          <Volume2 className="h-3.5 w-3.5" />
+                          Écouter
+                        </button>
+                        {item.relance && <span className="text-xs font-medium text-[#0f766e]">Relance de l examinateur : {item.relance}</span>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+
+            <section className="rounded-[28px] border border-[#e7dac6] bg-[#f8f1e7] p-5 shadow-[0_18px_55px_rgba(122,75,36,0.08)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Principe de séance</p>
+              <p className="mt-4 text-sm leading-7 text-[#5d7287]">
+                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu une longue réponse confuse. Le cockpit est conçu pour rendre cette discipline plus facile.
+              </p>
+              <Link
+                href={oralTutorHref}
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#17324d] transition-colors hover:text-[#0f766e]"
+              >
+                Reprendre cette phase avec le guidage
+              </Link>
+            </section>
+          </aside>
         </div>
       )}
 
-      {/* ════════════════ BILAN ════════════════ */}
       {wizardPhase === 'BILAN' && bilan && (
-        <div className="bg-card rounded-3xl border border-border p-6 md:p-8 shadow-sm space-y-6 animate-in slide-in-from-bottom-8 duration-500">
+        <section className="rounded-[32px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-6 shadow-[0_20px_70px_rgba(23,50,77,0.08)] md:p-8">
           <div className="text-center">
-            <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
-            <h2 className="text-2xl font-bold text-foreground mb-1">Bilan officiel</h2>
-            <p className="text-5xl font-bold text-foreground my-4">{bilan.note}/{bilan.maxNote}</p>
-            <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold ${bilan.note >= 16 ? 'bg-emerald-100 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300' :
-              bilan.note >= 12 ? 'bg-blue-100 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300' :
-                bilan.note >= 10 ? 'bg-amber-100 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300' :
-                  'bg-red-100 dark:bg-red-950/30 text-red-700 dark:text-red-300'
-              }`}>{bilan.mention}</span>
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#edf7f3] text-[#0f766e] shadow-[0_12px_28px_rgba(15,118,110,0.12)]">
+              <CheckCircle2 className="h-8 w-8" />
+            </div>
+            <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Bilan officiel</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-2 text-4xl leading-tight tracking-[-0.02em] text-[#17324d]">
+              {bilan.note}/{bilan.maxNote}
+            </h2>
+            <span className={`mt-4 inline-flex rounded-full px-4 py-2 text-sm font-semibold ${bilan.note >= 16 ? 'bg-[#edf7f3] text-[#0f766e]' : bilan.note >= 12 ? 'bg-[#eef3f8] text-[#17324d]' : bilan.note >= 10 ? 'bg-[#fff7ea] text-[#af7a20]' : 'bg-[#fff0ed] text-[#c44f3c]'}`}>
+              {bilan.mention}
+            </span>
           </div>
 
-          {/* Per-phase scores */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="mt-8 grid gap-4 md:grid-cols-4">
             {([
               { key: 'lecture', label: 'Lecture', data: bilan.phases.lecture },
               { key: 'explication', label: 'Explication', data: bilan.phases.explication },
               { key: 'grammaire', label: 'Grammaire', data: bilan.phases.grammaire },
               { key: 'entretien', label: 'Entretien', data: bilan.phases.entretien },
             ] as const).map(({ key, label, data }) => (
-              <div key={key} className="rounded-2xl border border-border p-4 bg-muted/20 text-center">
-                <p className="text-xs font-semibold text-muted-foreground mb-1">{label}</p>
-                <p className="text-2xl font-bold text-foreground">{data.note}<span className="text-sm text-muted-foreground">/{data.max}</span></p>
-                <p className="text-xs text-muted-foreground mt-1 leading-snug">{data.commentaire}</p>
+              <div key={key} className="rounded-[24px] border border-[#eadbc5] bg-white p-4 text-center shadow-[0_10px_24px_rgba(23,50,77,0.05)]">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7a6858]">{label}</p>
+                <p className="mt-3 text-3xl font-semibold text-[#17324d]">
+                  {data.note}
+                  <span className="text-sm text-[#7c8792]">/{data.max}</span>
+                </p>
+                <p className="mt-3 text-xs leading-6 text-[#5d7287]">{data.commentaire}</p>
               </div>
             ))}
           </div>
 
-          <div className="rounded-2xl border border-border bg-muted/20 p-5 space-y-3">
-            <p className="font-bold text-foreground text-sm">Bilan global</p>
-            <p className="text-sm text-foreground/80 leading-relaxed">{bilan.bilan_global}</p>
-            <p className="font-bold text-foreground text-sm mt-3">Conseil final</p>
-            <p className="text-sm text-foreground/80 leading-relaxed">{bilan.conseil_final}</p>
+          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+            <div className="rounded-[24px] border border-[#d8e8e3] bg-[#edf7f3] p-5">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Bilan global</p>
+              <p className="mt-3 text-sm leading-7 text-[#33536f]">{bilan.bilan_global}</p>
+            </div>
+            <div className="rounded-[24px] border border-[#efd9b4] bg-[#fff7ea] p-5">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#af7a20]">Conseil final</p>
+              <p className="mt-3 text-sm leading-7 text-[#6b5735]">{bilan.conseil_final}</p>
+            </div>
           </div>
 
-          <div className="flex justify-center">
-            <button onClick={resetAll} className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <button
+              onClick={resetAll}
+              className="inline-flex items-center gap-2 rounded-[20px] bg-[#17324d] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
+            >
               Nouvelle simulation
             </button>
+            <Link
+              href={oralTutorHref}
+              className="inline-flex items-center justify-center rounded-[20px] border border-[#d8ccb9] bg-white px-6 py-3 text-sm font-semibold text-[#17324d] transition hover:border-[#0f766e] hover:text-[#0f766e]"
+            >
+              Débriefer cette simulation
+            </Link>
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Badge toasts */}
-      <div className="fixed bottom-24 md:bottom-6 right-6 z-50 space-y-2">
+      <div className="fixed bottom-24 right-6 z-50 space-y-2 md:bottom-6">
         {badgeToasts.map((badge) => (
-          <div key={badge} className="rounded-xl border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/30 px-4 py-2.5 text-sm shadow-lg font-medium" role="status" aria-live="polite">
+          <div
+            key={badge}
+            className="rounded-[18px] border border-[#d8e8e3] bg-[#edf7f3] px-4 py-3 text-sm font-medium text-[#0f766e] shadow-[0_16px_32px_rgba(15,118,110,0.12)]"
+            role="status"
+            aria-live="polite"
+          >
             Badge débloqué : {badge}
           </div>
         ))}

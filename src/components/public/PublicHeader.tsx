@@ -2,77 +2,99 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import { track } from '@/components/analytics/events';
 
 const NAV_LINKS = [
-  { label: 'Fonctionnalités', href: '#fonctionnalites' },
-  { label: 'Tarifs', href: '#tarifs' },
+  { label: 'La méthode', href: '#comment-ca-marche' },
+  { label: 'Ateliers', href: '#fonctionnalites' },
+  { label: 'Plans', href: '#tarifs' },
   { label: 'FAQ', href: '#faq' },
-  { label: 'Sécurité', href: '#securite' },
 ];
 
-/**
- * Sticky public header for /bienvenue and /login.
- */
 export function PublicHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-lg bg-white/80 dark:bg-gray-950/80 border-b border-border/50">
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
-        <Link href="/bienvenue" className="flex items-center gap-2.5 shrink-0">
-          <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-10 w-auto object-contain" />
+    <header className="sticky top-0 z-50 border-b border-[#d8ccb9]/70 bg-[rgba(244,239,229,0.8)] backdrop-blur-xl supports-[backdrop-filter]:bg-[rgba(244,239,229,0.72)]">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/bienvenue" className="flex items-center gap-4 shrink-0">
+          <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
+          <div className="hidden xl:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
+            <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
+            Session 2026
+          </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6" aria-label="Navigation principale">
+        <nav className="hidden lg:flex items-center gap-8" aria-label="Navigation principale">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-slate-600 transition-colors hover:text-[#17324d]"
+            >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-3">
-          <Link href="/login" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+        <div className="hidden lg:flex items-center gap-3">
+          <Link href="/login" className="rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:text-[#17324d]">
             Se connecter
           </Link>
           <Link
             href="/login?mode=register"
             onClick={() => track({ name: 'cta_click', props: { cta: 'header_register', path: '/bienvenue' } })}
-            className="px-4 py-2 rounded-xl bg-violet-600 text-white text-sm font-bold hover:bg-violet-700 transition-colors shadow-md"
+            className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-sm font-bold text-[#f7f2ea] shadow-[0_18px_45px_rgba(23,50,77,0.16)] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
           >
-            Commencer gratuitement
+            Créer mon espace
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
         <button
           type="button"
           onClick={() => setMobileMenuOpen((prev) => !prev)}
-          className="md:hidden p-2 text-foreground"
+          className="lg:hidden rounded-full border border-[#d8ccb9] bg-white/80 p-2 text-[#17324d]"
           aria-label="Menu"
         >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
       {mobileMenuOpen && (
-        <nav className="md:hidden border-t border-border bg-card px-4 py-4 space-y-3" aria-label="Navigation mobile">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-muted-foreground hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
-          <div className="pt-2 flex flex-col gap-2">
-            <Link href="/login" className="text-sm font-medium text-foreground text-center py-2">Se connecter</Link>
-            <Link href="/login?mode=register" className="px-4 py-2.5 rounded-xl bg-violet-600 text-white text-sm font-bold text-center">
-              Commencer gratuitement
-            </Link>
+        <nav className="lg:hidden border-t border-[#d8ccb9] bg-[#f8f4ec] px-4 py-4" aria-label="Navigation mobile">
+          <div className="mx-auto flex max-w-7xl flex-col gap-2">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-[#17324d]"
+              >
+                {link.label}
+              </a>
+            ))}
+
+            <div className="mt-2 grid gap-2">
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="rounded-2xl border border-[#d8ccb9] bg-white px-4 py-3 text-center text-sm font-semibold text-[#17324d]"
+              >
+                Se connecter
+              </Link>
+              <Link
+                href="/login?mode=register"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  track({ name: 'cta_click', props: { cta: 'header_register_mobile', path: '/bienvenue' } });
+                }}
+                className="rounded-2xl bg-[#17324d] px-4 py-3 text-center text-sm font-bold text-[#f7f2ea]"
+              >
+                Créer mon espace
+              </Link>
+            </div>
           </div>
         </nav>
       )}

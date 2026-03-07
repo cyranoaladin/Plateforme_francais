@@ -1,44 +1,81 @@
-import { FileCheck, Shield, Lock } from 'lucide-react';
+import { CheckCheck, LockKeyhole, Quote, ShieldCheck, UserRoundCheck } from 'lucide-react';
+
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+};
 
 const TRUST_BLOCKS = [
   {
-    icon: FileCheck,
-    title: 'Coaching actif',
-    description: 'Pas de leçon magistrale : on s\'entraîne. L\'IA structure, guide et corrige — tu produis.',
+    icon: Quote,
+    title: 'Sources visibles, jamais opaques',
+    description: 'Quand le corpus intervient, l’élève voit ce qui fonde la réponse : BO, Eduscol, rapports de jury, œuvres au programme.',
   },
   {
-    icon: Shield,
-    title: 'Anti-copier-coller',
-    description: 'La plateforme refuse de produire un commentaire ou une dissertation à ta place. Elle propose une alternative constructive.',
+    icon: UserRoundCheck,
+    title: 'Anti-copie intégré dans le produit',
+    description: 'La plateforme refuse la dissertation ou le commentaire complets et bascule vers une alternative guidée, constructive et traçable.',
   },
   {
-    icon: Lock,
-    title: 'Fiabilité institutionnelle',
-    description: 'Toutes les corrections s\'appuient sur le BO, Eduscol et les œuvres au programme. Les réponses citent leurs sources.',
+    icon: LockKeyhole,
+    title: 'Protection des comptes et des mineurs',
+    description: 'Sessions sécurisées, protection CSRF, accès contrôlé, posture RGPD et refus de la publicité ciblée sur les comptes mineurs.',
   },
 ];
 
 export function Trust() {
   return (
-    <section id="securite" className="scroll-mt-20 py-16 md:py-24 bg-white/50 dark:bg-gray-900/50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-center text-foreground">
-          Pourquoi c&apos;est fiable&nbsp;?
-        </h2>
-        <p className="text-muted-foreground text-center mt-2 text-base leading-7">
-          Conformité, éthique pédagogique et sécurité par défaut.
-        </p>
+    <section id="securite" className="scroll-mt-24 bg-[#17324d] py-20 text-[#f7f2ea] md:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Engagements non négociables</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
+              Une plateforme commerciale crédible commence par ses garde-fous.
+            </h2>
+          </div>
+          <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">
+            Le premium ici ne repose pas sur des effets de style. Il repose sur une architecture pédagogique nette,
+            sur des limites explicites et sur une confiance qui se voit dans l&apos;interface.
+          </p>
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mt-10">
-          {TRUST_BLOCKS.map((block) => (
-            <div key={block.title} className="rounded-2xl border border-border bg-card p-6 text-center hover:shadow-lg transition-shadow">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                <block.icon className="w-7 h-7" />
-              </div>
-              <h3 className="font-bold text-foreground text-lg">{block.title}</h3>
-              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{block.description}</p>
+        <div className="mt-10 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="grid gap-5 md:grid-cols-3">
+            {TRUST_BLOCKS.map((block) => (
+              <article key={block.title} className="rounded-[30px] border border-white/10 bg-white/8 p-6 backdrop-blur-sm">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f4efe5] text-[#17324d]">
+                  <block.icon className="h-5 w-5" />
+                </div>
+                <h3 style={EDITORIAL_HEADING} className="mt-5 text-2xl leading-tight tracking-[-0.03em] text-white">
+                  {block.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-200">{block.description}</p>
+              </article>
+            ))}
+          </div>
+
+          <aside className="rounded-[32px] border border-white/10 bg-[#0f2740] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.18)] md:p-7">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Garantie Nexus
             </div>
-          ))}
+            <h3 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">
+              Ce que l&apos;interface rend explicite dès la page d&apos;accueil.
+            </h3>
+            <div className="mt-6 space-y-3">
+              {[
+                'Pas de rédaction intégrale de copie à la place de l’élève.',
+                'Citations internes affichables quand le corpus est mobilisé.',
+                'Parcours aligné sur les œuvres officielles et les attendus EAF.',
+                'Sécurité d’accès et respect des comptes mineurs assumés dans le produit.',
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
+                  <CheckCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                  <p className="text-sm leading-6 text-slate-200">{item}</p>
+                </div>
+              ))}
+            </div>
+          </aside>
         </div>
       </div>
     </section>

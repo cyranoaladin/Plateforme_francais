@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ClipboardList, Plus, Trash2, AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ClipboardList, Loader2, Plus, ShieldCheck, Trash2 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { StateNotice } from '@/components/ui/state-notice';
 
 type ObjetEtude = 'poesie' | 'roman' | 'theatre' | 'litterature_idees';
 type TypeExtrait = 'extrait_oeuvre' | 'extrait_parcours';
@@ -19,7 +20,7 @@ type DescriptifTexte = {
 
 const OBJETS_ETUDE: { key: ObjetEtude; label: string }[] = [
   { key: 'poesie', label: 'Poésie' },
-  { key: 'litterature_idees', label: 'Littérature d\'idées' },
+  { key: 'litterature_idees', label: "Littérature d'idées" },
   { key: 'theatre', label: 'Théâtre' },
   { key: 'roman', label: 'Roman' },
 ];
@@ -27,17 +28,17 @@ const OBJETS_ETUDE: { key: ObjetEtude; label: string }[] = [
 const OEUVRES_PAR_OBJET: Record<ObjetEtude, { oeuvre: string; auteur: string }[]> = {
   poesie: [
     { oeuvre: 'Cahier de Douai', auteur: 'Arthur Rimbaud' },
-    { oeuvre: 'La rage de l\'expression', auteur: 'Francis Ponge' },
+    { oeuvre: "La rage de l'expression", auteur: 'Francis Ponge' },
     { oeuvre: 'Mes forêts', auteur: 'Hélène Dorion' },
   ],
   litterature_idees: [
     { oeuvre: 'Discours de la servitude volontaire', auteur: 'Étienne de La Boétie' },
     { oeuvre: 'Entretiens sur la pluralité des mondes', auteur: 'Bernard Le Bouyer de Fontenelle' },
-    { oeuvre: 'Lettres d\'une Péruvienne', auteur: 'Françoise de Graffigny' },
+    { oeuvre: "Lettres d'une Péruvienne", auteur: 'Françoise de Graffigny' },
   ],
   theatre: [
     { oeuvre: 'Le Menteur', auteur: 'Pierre Corneille' },
-    { oeuvre: 'On ne badine pas avec l\'amour', auteur: 'Alfred de Musset' },
+    { oeuvre: "On ne badine pas avec l'amour", auteur: 'Alfred de Musset' },
     { oeuvre: 'Pour un oui ou pour un non', auteur: 'Nathalie Sarraute' },
   ],
   roman: [
@@ -45,6 +46,10 @@ const OEUVRES_PAR_OBJET: Record<ObjetEtude, { oeuvre: string; auteur: string }[]
     { oeuvre: 'La Peau de chagrin', auteur: 'Honoré de Balzac' },
     { oeuvre: 'Sido suivi de Les Vrilles de la vigne', auteur: 'Colette' },
   ],
+};
+
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
 };
 
 function validateDescriptifClient(textes: DescriptifTexte[]): string[] {
@@ -56,19 +61,19 @@ function validateDescriptifClient(textes: DescriptifTexte[]): string[] {
   const byOeuvre: Record<string, number> = {};
   const byParcours: Record<string, number> = {};
 
-  for (const t of textes) {
-    byObjet[t.objetEtude] = (byObjet[t.objetEtude] ?? 0) + 1;
-    const key = `${t.objetEtude}__${t.oeuvre}`;
-    if (t.typeExtrait === 'extrait_oeuvre') {
+  for (const texte of textes) {
+    byObjet[texte.objetEtude] = (byObjet[texte.objetEtude] ?? 0) + 1;
+    const key = `${texte.objetEtude}__${texte.oeuvre}`;
+    if (texte.typeExtrait === 'extrait_oeuvre') {
       byOeuvre[key] = (byOeuvre[key] ?? 0) + 1;
     } else {
       byParcours[key] = (byParcours[key] ?? 0) + 1;
     }
   }
 
-  for (const obj of OBJETS_ETUDE) {
-    const count = byObjet[obj.key] ?? 0;
-    if (count < 5) warnings.push(`${obj.label} : ${count}/5 textes.`);
+  for (const objet of OBJETS_ETUDE) {
+    const count = byObjet[objet.key] ?? 0;
+    if (count < 5) warnings.push(`${objet.label} : ${count}/5 textes.`);
   }
   for (const [key, count] of Object.entries(byOeuvre)) {
     if (count < 3) warnings.push(`Œuvre "${key.split('__')[1]}" : ${count}/3 extraits.`);
@@ -87,7 +92,6 @@ export default function DescriptifPage() {
   const [serverWarnings, setServerWarnings] = useState<string[]>([]);
   const [successMsg, setSuccessMsg] = useState('');
 
-  // Form state
   const [formObjet, setFormObjet] = useState<ObjetEtude>('poesie');
   const [formOeuvreIdx, setFormOeuvreIdx] = useState(0);
   const [formType, setFormType] = useState<TypeExtrait>('extrait_oeuvre');
@@ -96,8 +100,11 @@ export default function DescriptifPage() {
 
   useEffect(() => {
     fetch('/api/v1/student/descriptif')
-      .then((r) => r.json())
-      .then((data) => { setTextes(data.textes ?? []); setLoading(false); })
+      .then((response) => response.json())
+      .then((data) => {
+        setTextes(data.textes ?? []);
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }, []);
 
@@ -123,7 +130,7 @@ export default function DescriptifPage() {
   }, [formObjet, formOeuvreIdx, formType, formTitre, formPremieres]);
 
   const removeTexte = useCallback((id: string) => {
-    setTextes((prev) => prev.filter((t) => t.id !== id));
+    setTextes((prev) => prev.filter((texte) => texte.id !== id));
     setSuccessMsg('');
   }, []);
 
@@ -131,144 +138,230 @@ export default function DescriptifPage() {
     setSaving(true);
     setSuccessMsg('');
     try {
-      const res = await fetch('/api/v1/student/descriptif', {
+      const response = await fetch('/api/v1/student/descriptif', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
         body: JSON.stringify({
           textes: textes.map(({ objetEtude, oeuvre, auteur, typeExtrait, titre, premieresLignes }) => ({
-            objetEtude, oeuvre, auteur, typeExtrait, titre, premieresLignes: premieresLignes ?? undefined,
+            objetEtude,
+            oeuvre,
+            auteur,
+            typeExtrait,
+            titre,
+            premieresLignes: premieresLignes ?? undefined,
           })),
         }),
       });
-      const data = await res.json();
+      const data = await response.json();
       setServerWarnings(data.warnings ?? []);
       if (data.ok) setSuccessMsg(`${data.count} textes sauvegardés.`);
-    } catch { /* handled silently */ }
+    } catch {
+      // Silent fail to preserve current behavior.
+    }
     setSaving(false);
   }, [textes]);
 
   const textesParObjet = useMemo(() => {
     const groups: Record<ObjetEtude, DescriptifTexte[]> = {
-      poesie: [], litterature_idees: [], theatre: [], roman: [],
+      poesie: [],
+      litterature_idees: [],
+      theatre: [],
+      roman: [],
     };
-    for (const t of textes) {
-      if (groups[t.objetEtude]) groups[t.objetEtude].push(t);
+    for (const texte of textes) {
+      if (groups[texte.objetEtude]) groups[texte.objetEtude].push(texte);
     }
     return groups;
   }, [textes]);
 
   if (loading) {
     return (
-      <div className="p-8 max-w-6xl mx-auto flex items-center justify-center min-h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      <div className="mx-auto flex min-h-64 max-w-6xl items-center justify-center p-8">
+        <StateNotice
+          title="Chargement du descriptif"
+          description="Les textes deja saisis, les controles de repartition et les regles de couverture sont en cours de lecture."
+          variant="loading"
+          className="w-full max-w-2xl"
+        />
       </div>
     );
   }
 
   return (
-    <div className="p-4 md:p-8 max-w-6xl mx-auto space-y-6 animate-in fade-in duration-500">
-      <div className="flex items-center justify-between flex-wrap gap-4">
-        <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
-          <ClipboardList className="w-7 h-7 text-indigo-500" /> Mon Descriptif de lecture
-        </h1>
-        <div className="flex items-center gap-2">
-          <span className={`text-sm font-bold px-3 py-1 rounded-full ${textes.length >= 20 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' : 'bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400'}`}>
-            {textes.length}/20 textes
-          </span>
-        </div>
-      </div>
+    <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
+      <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#17324d] px-6 py-7 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.22)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+        <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
+        <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
-      {/* Warnings */}
+        <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+              <ClipboardList className="h-4 w-4" />
+              Mon Descriptif de lecture
+            </div>
+            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+              Le descriptif doit devenir une carte de passage crédible pour l oral, pas une simple liste remplie à la hâte.
+            </h1>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
+              Répartis les textes par objet d étude, équilibre œuvres et parcours, puis sauvegarde un descriptif cohérent avec le programme officiel et
+              réellement pilotable pour l oral.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
+            <div className={`rounded-[24px] border px-4 py-4 backdrop-blur-sm ${textes.length >= 20 ? 'border-[#d6e8df] bg-[#edf7f3] text-[#0f766e]' : 'border-white/12 bg-white/10 text-white'}`}>
+              <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${textes.length >= 20 ? 'text-[#0f766e]' : 'text-[#d7c4aa]'}`}>Textes</p>
+              <p className="mt-2 text-3xl font-semibold">{textes.length}/20</p>
+            </div>
+            <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Objets</p>
+              <p className="mt-2 text-3xl font-semibold text-white">4</p>
+            </div>
+            <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Statut</p>
+              <p className="mt-2 text-2xl font-semibold text-white">{clientWarnings.length === 0 ? 'Stable' : 'À compléter'}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {clientWarnings.length > 0 && (
-        <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
-          <h3 className="font-bold text-amber-700 dark:text-amber-400 text-sm mb-2 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4" /> Règles non satisfaites
+        <div className="rounded-[24px] border border-[#efd9b4] bg-[#fff7ea] p-4">
+          <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-[#af7a20]">
+            <AlertTriangle className="h-4 w-4" /> Règles non satisfaites
           </h3>
-          <ul className="text-xs text-amber-600 dark:text-amber-300 space-y-1">
-            {clientWarnings.map((w, i) => <li key={i}>• {w}</li>)}
+          <ul className="space-y-1 text-xs leading-6 text-[#6b5735]">
+            {clientWarnings.map((warning, index) => <li key={index}>• {warning}</li>)}
           </ul>
         </div>
       )}
 
       {successMsg && (
-        <div className="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-3 text-sm text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4" /> {successMsg}
+        <div className="rounded-[24px] border border-[#d6e8df] bg-[#edf7f3] p-4 text-sm text-[#0f766e] flex items-center gap-2">
+          <CheckCircle2 className="h-4 w-4" /> {successMsg}
         </div>
       )}
 
       {serverWarnings.length > 0 && (
-        <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-xl p-3">
-          <p className="text-xs font-bold text-amber-700 dark:text-amber-400 mb-1">Avertissements serveur :</p>
-          <ul className="text-xs text-amber-600 dark:text-amber-300 space-y-1">
-            {serverWarnings.map((w, i) => <li key={i}>• {w}</li>)}
+        <div className="rounded-[24px] border border-[#efd9b4] bg-[#fff7ea] p-4">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#af7a20]">Avertissements serveur</p>
+          <ul className="space-y-1 text-xs leading-6 text-[#6b5735]">
+            {serverWarnings.map((warning, index) => <li key={index}>• {warning}</li>)}
           </ul>
         </div>
       )}
 
-      {/* Add form */}
-      <div className="bg-card border border-border rounded-2xl p-5 space-y-4">
-        <h2 className="font-bold text-foreground">Ajouter un texte</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <select value={formObjet} onChange={(e) => { setFormObjet(e.target.value as ObjetEtude); setFormOeuvreIdx(0); }} className="rounded-xl border border-border bg-muted/20 p-2.5 text-sm">
-            {OBJETS_ETUDE.map((o) => <option key={o.key} value={o.key}>{o.label}</option>)}
-          </select>
-          <select value={formOeuvreIdx} onChange={(e) => setFormOeuvreIdx(Number(e.target.value))} className="rounded-xl border border-border bg-muted/20 p-2.5 text-sm">
-            {OEUVRES_PAR_OBJET[formObjet].map((o, i) => <option key={i} value={i}>{o.oeuvre} — {o.auteur}</option>)}
-          </select>
-          <select value={formType} onChange={(e) => setFormType(e.target.value as TypeExtrait)} className="rounded-xl border border-border bg-muted/20 p-2.5 text-sm">
-            <option value="extrait_oeuvre">Extrait d&apos;œuvre</option>
-            <option value="extrait_parcours">Extrait du parcours</option>
-          </select>
-          <button onClick={addTexte} disabled={!formTitre.trim()} className="flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-xl px-4 py-2.5 text-sm font-bold disabled:opacity-50 hover:opacity-90 transition-opacity">
-            <Plus className="w-4 h-4" /> Ajouter
-          </button>
-        </div>
-        <input value={formTitre} onChange={(e) => setFormTitre(e.target.value)} placeholder="Titre du texte (ex: Acte III, scène 5)" className="w-full rounded-xl border border-border bg-muted/20 p-2.5 text-sm" />
-        <input value={formPremieres} onChange={(e) => setFormPremieres(e.target.value)} placeholder="Premières lignes (optionnel)" className="w-full rounded-xl border border-border bg-muted/20 p-2.5 text-sm" />
-      </div>
-
-      {/* Textes by objet d'étude */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {OBJETS_ETUDE.map((obj) => {
-          const items = textesParObjet[obj.key];
-          const count = items.length;
-          return (
-            <div key={obj.key} className="bg-card border border-border rounded-2xl p-5">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-bold text-foreground">{obj.label}</h3>
-                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${count >= 5 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400' : 'bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400'}`}>
-                  {count}/5
-                </span>
+      <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
+        <aside className="space-y-6">
+          <section className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_20px_70px_rgba(23,50,77,0.08)]">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#17324d]/8 text-[#17324d]">
+                <Plus className="h-5 w-5" />
               </div>
-              {count === 0 ? (
-                <p className="text-xs text-muted-foreground">Aucun texte ajouté.</p>
-              ) : (
-                <div className="space-y-2">
-                  {items.map((t) => (
-                    <div key={t.id} className="flex items-start gap-2 p-2 rounded-lg bg-muted/20 border border-border">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-foreground truncate">{t.oeuvre} — {t.auteur}</p>
-                        <p className="text-xs text-muted-foreground truncate">{t.titre}</p>
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded ${t.typeExtrait === 'extrait_oeuvre' ? 'bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400' : 'bg-purple-100 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400'}`}>
-                          {t.typeExtrait === 'extrait_oeuvre' ? 'Œuvre' : 'Parcours'}
-                        </span>
-                      </div>
-                      <button onClick={() => removeTexte(t.id)} className="p-1 text-red-500 hover:text-red-700 transition-colors shrink-0" aria-label="Supprimer">
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Ajouter un texte</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+                  Enrichir le descriptif
+                </h2>
+              </div>
             </div>
-          );
-        })}
+
+            <div className="mt-6 space-y-3">
+              <select value={formObjet} onChange={(event) => { setFormObjet(event.target.value as ObjetEtude); setFormOeuvreIdx(0); }} className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8">
+                {OBJETS_ETUDE.map((objet) => <option key={objet.key} value={objet.key}>{objet.label}</option>)}
+              </select>
+              <select value={formOeuvreIdx} onChange={(event) => setFormOeuvreIdx(Number(event.target.value))} className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8">
+                {OEUVRES_PAR_OBJET[formObjet].map((oeuvre, index) => <option key={index} value={index}>{oeuvre.oeuvre} — {oeuvre.auteur}</option>)}
+              </select>
+              <select value={formType} onChange={(event) => setFormType(event.target.value as TypeExtrait)} className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8">
+                <option value="extrait_oeuvre">Extrait d'œuvre</option>
+                <option value="extrait_parcours">Extrait du parcours</option>
+              </select>
+              <button onClick={addTexte} disabled={!formTitre.trim()} className="inline-flex items-center justify-center gap-2 rounded-[20px] bg-[#17324d] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50">
+                <Plus className="h-4 w-4" /> Ajouter
+              </button>
+              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex: Acte I, scène 1)" className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8" />
+              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premières lignes (optionnel)" className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8" />
+            </div>
+          </section>
+
+          <section className="rounded-[28px] border border-[#d8e8e3] bg-[#edf7f3] p-5 shadow-[0_18px_55px_rgba(15,118,110,0.08)]">
+            <div className="flex items-start gap-3">
+              <ShieldCheck className="mt-1 h-5 w-5 text-[#0f766e]" />
+              <div>
+                <p className="text-sm font-semibold text-[#17324d]">Règle d équilibre</p>
+                <p className="mt-2 text-sm leading-7 text-[#33536f]">
+                  Un bon descriptif répartit les textes par objet d étude, couvre les attendus officiels et évite les trous. Le but n est pas de
+                  remplir une contrainte administrative, mais de rendre l oral réellement défendable.
+                </p>
+              </div>
+            </div>
+          </section>
+        </aside>
+
+        <section className="space-y-6">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {OBJETS_ETUDE.map((objet) => {
+              const count = textesParObjet[objet.key].length;
+              return (
+                <div key={objet.key} className="rounded-[26px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_16px_40px_rgba(23,50,77,0.06)]">
+                  <p className="text-sm font-semibold text-[#17324d]">{objet.label}</p>
+                  <p className="mt-3 text-3xl font-semibold text-[#17324d]">{count}</p>
+                  <span className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${count >= 5 ? 'bg-[#edf7f3] text-[#0f766e]' : 'bg-[#fff7ea] text-[#af7a20]'}`}>
+                    {count}/5
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {OBJETS_ETUDE.map((objet) => {
+              const items = textesParObjet[objet.key];
+              const count = items.length;
+              return (
+                <section key={objet.key} className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_16px_40px_rgba(23,50,77,0.06)]">
+                  <div className="flex items-center justify-between gap-3">
+                    <h2 className="text-xl font-semibold text-[#17324d]">{objet.label}</h2>
+                    <span className={`rounded-full px-3 py-1 text-xs font-semibold ${count >= 5 ? 'bg-[#edf7f3] text-[#0f766e]' : 'bg-[#fff7ea] text-[#af7a20]'}`}>
+                      {count}/5
+                    </span>
+                  </div>
+                  {count === 0 ? (
+                    <p className="mt-4 text-sm text-[#6d7e8d]">Aucun texte ajouté.</p>
+                  ) : (
+                    <div className="mt-4 space-y-3">
+                      {items.map((texte) => (
+                        <article key={texte.id} className="rounded-[22px] border border-[#eadbc5] bg-white p-4 shadow-[0_10px_24px_rgba(23,50,77,0.05)]">
+                          <div className="flex items-start gap-3">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-semibold text-[#17324d] truncate">{texte.oeuvre} — {texte.auteur}</p>
+                              <p className="mt-1 text-sm font-medium text-[#33536f] truncate">{texte.titre}</p>
+                              <span className={`mt-3 inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold ${texte.typeExtrait === 'extrait_oeuvre' ? 'bg-[#eef3f8] text-[#17324d]' : 'bg-[#f4ecfb] text-[#6b587d]'}`}>
+                                {texte.typeExtrait === 'extrait_oeuvre' ? 'Œuvre' : 'Parcours'}
+                              </span>
+                              {texte.premieresLignes ? (
+                                <p className="mt-3 text-xs leading-6 text-[#6d7e8d]">{texte.premieresLignes}</p>
+                              ) : null}
+                            </div>
+                            <button onClick={() => removeTexte(texte.id)} className="p-2 text-[#b24838] transition hover:text-[#8c3428]" aria-label="Supprimer">
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              );
+            })}
+          </div>
+        </section>
       </div>
 
-      {/* Save button */}
       <div className="flex justify-end">
-        <button onClick={saveDescriptif} disabled={saving || textes.length === 0} className="flex items-center gap-2 bg-indigo-600 text-white rounded-xl px-6 py-3 font-bold text-sm disabled:opacity-50 hover:bg-indigo-700 transition-colors">
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
+        <button onClick={saveDescriptif} disabled={saving || textes.length === 0} className="inline-flex items-center gap-2 rounded-[20px] bg-[#17324d] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50">
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
           Sauvegarder le descriptif
         </button>
       </div>

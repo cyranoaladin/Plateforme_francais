@@ -1,9 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('@/lib/db/client', () => ({
+  isDatabaseAvailable: vi.fn().mockResolvedValue(false),
   prisma: {
     studentProfile: { findUnique: vi.fn() },
   },
+}));
+vi.mock('@/lib/db/repositories/memoryRepo', () => ({
+  createMemoryEventRecord: vi.fn().mockResolvedValue(undefined),
 }));
 vi.mock('@/lib/db/repositories/userRepo', () => ({
   updateUserProfile: vi.fn().mockResolvedValue(undefined),

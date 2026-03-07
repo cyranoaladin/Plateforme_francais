@@ -40,8 +40,9 @@ function verifyClicToPaySignature(params: Record<string, string>): boolean {
   if (!secret) {
     if (process.env.NODE_ENV === 'production') {
       logger.warn('[ClicToPay] CLICTOPAY_WEBHOOK_SECRET non configuré en production !');
+      return false;
     }
-    return true; // fail-open en dev uniquement
+    return true;
   }
 
   // ClicToPay signe : SHA-256(params triés alphabétiquement + secret)
@@ -142,9 +143,14 @@ export async function GET(request: Request) {
   try {
     const result = await applyClicToPayStatusToTransaction({ orderRef, orderId });
     const redirectPath = result.status === 'ACCEPTED' ? '/paiement/confirmation' : '/paiement/refus';
-    return NextResponse.redirect(
-      new URL(`${redirectPath}?ref=${orderRef ?? orderId}`, url.origin),
-    );
+    const redirectUrl = new URL(redirectPath, url.origin);
+    if (orderRef) {
+      redirectUrl.searchParams.set('orderRef', orderRef);
+    }
+    if (orderId) {
+      redirectUrl.searchParams.set('orderId', orderId);
+    }
+    return NextResponse.redirect(redirectUrl);
   } catch {
     return NextResponse.redirect(new URL('/paiement/refus', url.origin));
   }

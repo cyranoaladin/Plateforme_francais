@@ -1,62 +1,135 @@
-import { PenTool, Mic, Brain, BookOpen, Search, MessageCircle } from 'lucide-react';
+import { BookOpenText, BrainCircuit, FileStack, MessageCircleMore, Mic, ScanSearch, Sparkles } from 'lucide-react';
 
-const FEATURES = [
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+};
+
+const FEATURE_GROUPS = [
   {
-    icon: PenTool,
     title: 'Atelier écrit',
-    description: 'Je dépose une copie (PDF/image) : OCR, correction et rapport PDF.',
+    icon: FileStack,
+    tone: 'bg-[#17324d] text-[#f7f2ea] border-white/10',
+    badge: 'Production longue',
+    span: 'lg:col-span-7',
+    body: 'Dépose une copie PDF ou image, récupère une lecture OCR, une correction par rubriques et un rapport clair à reprendre.',
+    bullets: ['Dépôt PDF/image', 'OCR + correction structurée', 'Rapport PDF exploitable'],
   },
   {
+    title: 'Oral officiel',
     icon: Mic,
-    title: 'Atelier oral',
-    description: 'Simulation 4 phases : lecture, explication, grammaire, entretien.',
+    tone: 'bg-white/90 text-[#17324d] border-[#d8ccb9]',
+    badge: 'Format EAF',
+    span: 'lg:col-span-5',
+    body: 'Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.',
+    bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'],
   },
   {
-    icon: Brain,
-    title: 'Atelier langue',
-    description: 'Exercices ciblés, feedback immédiat.',
+    title: 'Corpus et citations',
+    icon: ScanSearch,
+    tone: 'bg-white/90 text-[#17324d] border-[#d8ccb9]',
+    badge: 'Sources visibles',
+    span: 'lg:col-span-4',
+    body: 'Le guidage et les ateliers mobilisent BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles et réutilisables.',
+    bullets: ['Citations internes', 'Recherche RAG documentée', 'Corpus 2025-2026'],
   },
   {
-    icon: BookOpen,
-    title: 'Quiz adaptatif',
-    description: 'Si < 60 %, le thème devient une priorité de travail.',
+    title: 'Langue et quiz adaptatif',
+    icon: BrainCircuit,
+    tone: 'bg-[#efe7da] text-[#17324d] border-[#d8ccb9]',
+    badge: 'Relance ciblée',
+    span: 'lg:col-span-4',
+    body: 'Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.',
+    bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'],
   },
   {
-    icon: Search,
-    title: 'Bibliothèque + RAG',
-    description: 'Recherche documentée, citations visibles.',
-  },
-  {
-    icon: MessageCircle,
-    title: 'Tuteur IA',
-    description: 'Aide méthodologique + refus pédagogique si demande de copie.',
+    title: 'Guidage personnalisé et mémoire de progression',
+    icon: MessageCircleMore,
+    tone: 'bg-white/90 text-[#17324d] border-[#d8ccb9]',
+    badge: 'Coaching actif',
+    span: 'lg:col-span-4',
+    body: 'Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance au lieu de repartir de zéro.',
+    bullets: ['Relances contextuelles', 'Signaux faibles', 'Séances suivantes cohérentes'],
   },
 ];
 
 export function Features() {
   return (
-    <section id="fonctionnalites" className="scroll-mt-20 py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-center text-foreground">
-          Tout ce qu&apos;il faut pour réussir l&apos;EAF
-        </h2>
-        <p className="text-muted-foreground text-center mt-2 text-base leading-7 max-w-xl mx-auto">
-          Chaque fonctionnalité est conçue pour te faire travailler activement, pas pour produire à ta place.
-        </p>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-          {FEATURES.map((feat) => (
-            <article
-              key={feat.title}
-              className="rounded-2xl border border-border bg-card p-6 hover:shadow-lg hover:border-violet-300 dark:hover:border-violet-700 transition-all group"
+    <section id="fonctionnalites" className="scroll-mt-24 py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Ateliers premium</p>
+            <h2
+              style={EDITORIAL_HEADING}
+              className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl"
             >
-              <div className="w-12 h-12 rounded-xl bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <feat.icon className="w-6 h-6" />
+              Tout ce qu&apos;il faut pour réussir l&apos;EAF, organisé par usage réel.
+            </h2>
+          </div>
+          <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
+            La page ne vend pas des “features” abstraites. Elle expose des situations concrètes de travail : produire,
+            corriger, citer, relancer, piloter.
+          </p>
+        </div>
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-12">
+          {FEATURE_GROUPS.map((feature, index) => (
+            <article
+              key={feature.title}
+              className={`${feature.span} ${feature.tone} rounded-[32px] border p-6 shadow-[0_18px_45px_rgba(23,50,77,0.08)] [animation:bienvenueFadeUp_.82s_ease-out_both] md:p-7`}
+              style={{ animationDelay: `${0.08 + index * 0.06}s` }}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black/10">
+                  <feature.icon className="h-5 w-5" />
+                </div>
+                <span className="rounded-full border border-current/15 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em]">
+                  {feature.badge}
+                </span>
               </div>
-              <h3 className="font-bold text-foreground">{feat.title}</h3>
-              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{feat.description}</p>
+
+              <h3 style={EDITORIAL_HEADING} className="mt-6 text-3xl leading-tight tracking-[-0.03em]">
+                {feature.title}
+              </h3>
+              <p className="mt-3 max-w-2xl text-sm leading-7 opacity-85 sm:text-base">{feature.body}</p>
+
+              <div className="mt-6 flex flex-wrap gap-2.5">
+                {feature.bullets.map((bullet) => (
+                  <span
+                    key={bullet}
+                    className="inline-flex items-center gap-2 rounded-full border border-current/12 bg-black/5 px-3.5 py-1.5 text-xs font-semibold"
+                  >
+                    <Sparkles className="h-3.5 w-3.5" />
+                    {bullet}
+                  </span>
+                ))}
+              </div>
             </article>
           ))}
+        </div>
+
+        <div className="mt-10 rounded-[32px] border border-[#d8ccb9] bg-white/80 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+          <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Fil directeur</p>
+              <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                De la copie à la relance, le même système garde le cap.
+              </h3>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                { icon: BookOpenText, title: 'Produire', text: 'Toujours une sortie concrète : copie, oral, réponse ou correction.' },
+                { icon: ScanSearch, title: 'Justifier', text: 'Les réponses exploitables gardent la trace des sources et des attentes.' },
+                { icon: BrainCircuit, title: 'Réactiver', text: 'Le feedback alimente ensuite le parcours au lieu de se perdre.' },
+              ].map((item) => (
+                <div key={item.title} className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+                  <item.icon className="h-5 w-5 text-[#0f766e]" />
+                  <p className="mt-3 text-sm font-bold text-[#17324d]">{item.title}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

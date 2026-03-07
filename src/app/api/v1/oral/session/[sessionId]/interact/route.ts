@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
+import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
+import { createMemoryEvent } from '@/lib/memory/store';
 import { appendOralInteraction, findOralSessionById } from '@/lib/oral/repository';
 import { evaluateOralPhase } from '@/lib/oral/service';
 import { PHASE_MAX_SCORES, type OralPhaseKey } from '@/lib/oral/scoring';
@@ -64,7 +66,7 @@ export async function POST(
   } catch (error) {
     if (error instanceof QuotaExceededError) {
       return NextResponse.json(
-        { error: `Quota IA atteint (${error.scope}). Réessayez plus tard.` },
+        { error: `Limite atteinte pour cette evaluation orale (${error.scope}). Réessayez plus tard.` },
         { status: 429 },
       );
     }
@@ -81,6 +83,21 @@ export async function POST(
       createdAt: new Date().toISOString(),
     },
   });
+
+  await createMemoryEventRecord(
+    createMemoryEvent(auth.user.id, {
+      type: 'evaluation',
+      feature: `oral_phase_${parsed.data.step.toLowerCase()}`,
+      path: '/atelier-oral',
+      payload: {
+        sessionId,
+        step: parsed.data.step,
+        score: evaluation.score,
+        max: evaluation.max,
+        duration: parsed.data.duration,
+      },
+    }),
+  );
 
   return NextResponse.json(evaluation, { status: 200 });
 }

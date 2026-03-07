@@ -174,7 +174,7 @@ test.describe('Tuteur Libre', () => {
 
   test('envoyer un message au tuteur retourne une reponse', async ({ page }) => {
     await page.goto('/tuteur');
-    const input = page.getByLabel('Message au tuteur IA');
+    const input = page.getByLabel('Message au tuteur de parcours');
     await input.fill('Donne moi une methode courte pour l introduction de dissertation.');
     await page.locator('form button[type=\"submit\"]').click();
     await expect(page.getByRole('log')).toContainText(/methode|problematique|plan/i, { timeout: 20_000 });

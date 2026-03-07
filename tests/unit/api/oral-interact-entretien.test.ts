@@ -24,6 +24,9 @@ vi.mock('@/lib/oral/service', () => ({
     axes: [],
   }),
 }));
+vi.mock('@/lib/db/repositories/memoryRepo', () => ({
+  createMemoryEventRecord: vi.fn().mockResolvedValue(undefined),
+}));
 vi.mock('@/lib/oral/scoring', () => ({
   PHASE_MAX_SCORES: { LECTURE: 2, EXPLICATION: 8, GRAMMAIRE: 2, ENTRETIEN: 8 },
 }));

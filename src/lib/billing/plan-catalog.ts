@@ -36,8 +36,8 @@ export type FlagValue = boolean | 'basic' | 'advanced' | 'ai' | 'faq' | 'email' 
 export type PlanConfig = {
   id: PlanId;
   label: string;
-  priceTndMonthly: number;
-  priceEurMonthly: number;
+  priceTnd: number;
+  billingCycle: 'free' | 'monthly' | 'lifetime';
   quotas: Partial<Record<EntitlementKey, QuotaEntry>>;
   flags: Partial<Record<FlagKey, FlagValue>>;
 };
@@ -46,8 +46,8 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   FREE: {
     id: 'FREE',
     label: 'Free',
-    priceTndMonthly: 0,
-    priceEurMonthly: 0,
+    priceTnd: 0,
+    billingCycle: 'free',
     quotas: {
       ORAL_SESSIONS: { limit: 2, period: 'week' },
       WRITTEN_CORRECTIONS: { limit: 3, period: 'month' },
@@ -71,8 +71,8 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   PRO: {
     id: 'PRO',
     label: 'Pro',
-    priceTndMonthly: 24.9,
-    priceEurMonthly: 9.9,
+    priceTnd: 99,
+    billingCycle: 'monthly',
     quotas: {
       ORAL_SESSIONS: { limit: 10, period: 'week' },
       WRITTEN_CORRECTIONS: { limit: 20, period: 'month' },
@@ -96,8 +96,8 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   MAX: {
     id: 'MAX',
     label: 'Max',
-    priceTndMonthly: 44.9,
-    priceEurMonthly: 19.9,
+    priceTnd: 149,
+    billingCycle: 'lifetime',
     quotas: {
       ORAL_SESSIONS: { limit: 'unlimited', period: 'week' },
       WRITTEN_CORRECTIONS: { limit: 'unlimited', period: 'month' },

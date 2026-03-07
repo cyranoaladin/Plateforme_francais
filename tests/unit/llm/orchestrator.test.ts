@@ -1,14 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+const { generateContentMock, selectProviderMock } = vi.hoisted(() => ({
+  generateContentMock: vi.fn(),
+  selectProviderMock: vi.fn(),
+}));
+
 vi.mock('@/lib/llm/factory', () => ({
-  getRouterProvider: vi.fn().mockReturnValue({
-    generateContent: vi.fn().mockResolvedValue({
-      text: JSON.stringify({ answer: 'Réponse test', suggestions: [] }),
-      model: 'mistral-small',
-      usage: { promptTokens: 100, completionTokens: 50, latencyMs: 200 },
-    }),
-    getEmbeddings: vi.fn().mockResolvedValue([]),
-  }),
+  selectProvider: selectProviderMock,
+  recordProviderSuccess: vi.fn(),
+  recordProviderError: vi.fn(),
 }));
 
 vi.mock('@/lib/logger', () => ({
@@ -21,12 +21,19 @@ vi.mock('@/lib/rag/search', () => ({
 }));
 
 vi.mock('@/lib/memory/context-builder', () => ({
-  composeMemoryContext: vi.fn().mockReturnValue(''),
+  composeMemoryContext: vi.fn().mockReturnValue('memoire active'),
+  truncateToTokenBudget: vi.fn((value: string) => value),
 }));
 
-vi.mock('@/lib/store/premium-store', () => ({
-  getOrCreateSkillMap: vi.fn().mockResolvedValue({
-    studentId: 'u1', axes: { oral: [] }, updatedAt: '',
+vi.mock('@/lib/memory/profile-loader', () => ({
+  loadMemoryProfileForUser: vi.fn().mockResolvedValue({
+    globalLevel: 'SATISFAISANT',
+    avgOralScore: 13,
+    avgEcritScore: 12,
+    totalSessions: 8,
+    weakSkills: [],
+    currentWorkMastery: null,
+    recentSessionsSummary: 'oral (aujourd’hui)',
   }),
 }));
 
@@ -47,13 +54,30 @@ vi.mock('@/lib/security/llm-rate-limiter', () => ({
   QuotaExceededError: class extends Error {},
 }));
 
-vi.mock('@prisma/client', () => ({
-  PrismaClient: class { $queryRaw = async () => []; },
+vi.mock('@/lib/llm/cost-tracker', () => ({
+  trackLlmCall: vi.fn().mockResolvedValue(undefined),
 }));
 
 describe('Orchestrateur', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    generateContentMock.mockReset();
+    selectProviderMock.mockReset();
+    generateContentMock.mockResolvedValue({
+      text: JSON.stringify({ answer: 'Réponse test', suggestions: [] }),
+      model: 'mistral-small',
+      usage: { promptTokens: 100, completionTokens: 50, latencyMs: 200 },
+    });
+
+    selectProviderMock.mockReturnValue({
+      provider: {
+        generateContent: generateContentMock,
+        getEmbeddings: vi.fn().mockResolvedValue([]),
+      },
+      tier: 'standard',
+      model: 'mistral-small',
+      providerName: 'mistral_standard',
+    });
   });
 
   it('le module orchestrator se charge sans crash', async () => {
@@ -79,9 +103,14 @@ describe('Orchestrateur', () => {
 
   it('gère les erreurs LLM gracieusement (fallback)', async () => {
     const factory = await import('@/lib/llm/factory');
-    vi.mocked(factory.getRouterProvider).mockReturnValue({
+    vi.mocked(factory.selectProvider).mockReturnValueOnce({
+      provider: {
       generateContent: vi.fn().mockRejectedValue(new Error('Timeout')),
       getEmbeddings: vi.fn(),
+      },
+      tier: 'standard',
+      model: 'mistral-small',
+      providerName: 'mistral_standard',
     } as never);
 
     const { orchestrate } = await import('@/lib/llm/orchestrator');
@@ -109,5 +138,19 @@ describe('Orchestrateur', () => {
       category: expect.any(String),
       message: expect.any(String),
     });
+  });
+
+  it('injecte un contexte mémoire dans le prompt envoyé au provider', async () => {
+    const { orchestrate } = await import('@/lib/llm/orchestrator');
+
+    await orchestrate({
+      skill: 'tuteur_libre',
+      userQuery: 'Aide-moi sur mon introduction.',
+      userId: 'user-test-1',
+    });
+
+    const prompt = generateContentMock.mock.calls[0]?.[0];
+    expect(String(prompt)).toContain('Contexte mémoire élève');
+    expect(String(prompt)).toContain('memoire active');
   });
 });

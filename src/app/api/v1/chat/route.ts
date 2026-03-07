@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { routeQuery } from '@/lib/agents/router';
 import { skillSchema } from '@/lib/llm/skills/types';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
-import { incrementUsage } from '@/lib/billing/gating';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
 
@@ -52,6 +53,39 @@ export async function POST(request: Request) {
     return parsed.response;
   }
 
+  let billing: Awaited<ReturnType<typeof getBillingContext>>;
+  try {
+    billing = await getBillingContext(auth.user.id);
+  } catch (error) {
+    if (error instanceof BillingContextUnavailableError) {
+      return NextResponse.json(
+        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { status: 503 },
+      );
+    }
+    throw error;
+  }
+
+  const tutorQuota = billing.config.quotas.TUTOR_QUESTIONS;
+  if (tutorQuota) {
+    try {
+      await consumeQuota(auth.user.id, 'TUTOR_QUESTIONS', tutorQuota);
+    } catch (error) {
+      if (error instanceof BillingQuotaExceededError) {
+        return NextResponse.json(
+          {
+            error: `Tu as atteint la limite incluse pour les echanges guides (${error.limit} par jour, plan ${billing.planId}). Passe au plan superieur pour continuer.`,
+            code: 'QUOTA_EXCEEDED',
+            upgradeUrl: '/pricing',
+            plan: billing.planId,
+          },
+          { status: 402 },
+        );
+      }
+      throw error;
+    }
+  }
+
   // Résolution du skill (auto si non fourni)
   let skill = parsed.data.skill ? skillSchema.safeParse(parsed.data.skill).data : undefined;
   if (!skill) {
@@ -67,13 +101,16 @@ export async function POST(request: Request) {
     parcours: parsed.data.parcours,
   });
 
-  await incrementUsage(auth.user.id, 'tuteurMessagesPerDay').catch(() => {});
-
   await createMemoryEventRecord(
     createMemoryEvent(auth.user.id, {
       type: 'interaction',
       feature: 'chat',
-      payload: { skill },
+      payload: {
+        skill,
+        workId: parsed.data.workId ?? 'none',
+        parcours: parsed.data.parcours ?? 'none',
+        queryLength: parsed.data.query.length,
+      },
     }),
   ).catch(() => {});
 

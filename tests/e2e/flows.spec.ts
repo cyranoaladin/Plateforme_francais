@@ -40,7 +40,7 @@ test('upload copie puis polling jusqu au statut done', async ({ page }) => {
   const fixturePath = `${process.cwd()}/tests/fixtures/copie-test.png`;
   await page.locator('input[type="file"]').first().setInputFiles(fixturePath);
 
-  const correctionButton = page.getByRole('button', { name: 'Lancer la correction IA' });
+  const correctionButton = page.getByRole('button', { name: 'Lancer la correction détaillée' });
   await expect(correctionButton).toBeEnabled();
   await correctionButton.click();
   await expect(page.locator('main').first()).toBeVisible();

@@ -44,6 +44,7 @@ export async function POST(request: Request) {
   };
 
   const nextWeak = Array.from(new Set([...auth.user.profile.weakSkills, ...sanitizedData.weakSignals]));
+  const primaryWorkId = sanitizedData.oeuvreChoisieEntretien ?? sanitizedData.selectedOeuvres[0];
 
   await updateUserProfile(auth.user.id, {
     ...auth.user.profile,
@@ -70,8 +71,9 @@ export async function POST(request: Request) {
   const orchestrateResult = await orchestrate({
     skill: 'tuteur_libre',
     userId: auth.user.id,
+    workId: primaryWorkId,
     userQuery: `Rédige un message de bienvenue personnalisé pour ${sanitizedData.displayName}.`,
-    context: `Date EAF: ${sanitizedData.eafDate}. Oeuvres: ${sanitizedData.selectedOeuvres.join(', ')}.`,
+    context: `Date EAF: ${sanitizedData.eafDate}. Oeuvres: ${sanitizedData.selectedOeuvres.join(', ')}. Signaux prioritaires: ${nextWeak.join(', ') || 'aucun signal prioritaire'}.`,
   });
   const message = orchestrateResult as { answer?: string };
 

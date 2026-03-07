@@ -6,9 +6,9 @@ describe('parcours recommender', () => {
   it('mappe les signaux faibles vers les bons ateliers', () => {
     const file = path.resolve(process.cwd(), 'src/components/dashboard/parcours-recommandation.tsx');
     const src = fs.readFileSync(file, 'utf8');
-    expect(src).toContain("'Problématisation'");
+    expect(src).toContain("'Retendre la problématique'");
     expect(src).toContain("href: '/atelier-ecrit'");
-    expect(src).toContain("'Explication linéaire'");
+    expect(src).toContain("'Relancer une explication linéaire'");
     expect(src).toContain("href: '/atelier-oral'");
   });
 });

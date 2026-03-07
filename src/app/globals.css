@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f6f8;
+  --background: #f4eee3;
   --foreground: #0f172a;
-  --muted: #e7eaef;
+  --muted: #ece2d3;
   --muted-foreground: #475569;
-  --card: #ffffff;
+  --card: #fffdf9;
   --card-foreground: #0f172a;
   --primary: #0f766e;
   --primary-foreground: #ffffff;
@@ -13,8 +13,8 @@
   --secondary-foreground: #ffffff;
   --accent: #d97706;
   --accent-foreground: #ffffff;
-  --border: #d6dbe3;
-  --input: #e7eaef;
+  --border: #dfd2bf;
+  --input: #efe5d8;
   --success: #15803d;
   --warning: #b45309;
   --error: #b91c1c;
@@ -63,8 +63,17 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "Trebuchet MS", "Avenir Next", "Segoe UI", Arial, sans-serif;
-  background-image: radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 40%);
+  font-family: "Avenir Next", "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+  background-image:
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.11), transparent 34%),
+    radial-gradient(circle at top left, rgba(185, 120, 50, 0.1), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(90deg, rgba(23, 50, 77, 0.02) 0 1px, transparent 1px 64px);
+}
+
+::selection {
+  background: rgba(15, 118, 110, 0.18);
+  color: var(--foreground);
 }
 
 /* ─── WCAG 2.1 AA: Focus visible ring ──────────────── */

@@ -18,9 +18,9 @@ test('Génération sujet → upload copie → lien rapport', async ({ page }) =>
 
   const fixturePath = `${process.cwd()}/tests/fixtures/copie-test.png`;
   await page.locator('input[type="file"]').first().setInputFiles(fixturePath);
-  await page.getByRole('button', { name: /Lancer la correction IA/i }).click();
+  await page.getByRole('button', { name: /Lancer la correction détaillée/i }).click();
   const correctionState = page
-    .getByText(/Analyse IA en cours/i)
+    .getByText(/Analyse de la copie en cours/i)
     .or(page.getByRole('link', { name: /Voir mon rapport/i }))
     .or(page.getByText(/Upload en cours/i));
   await expect(correctionState.first()).toBeVisible({ timeout: 20_000 });

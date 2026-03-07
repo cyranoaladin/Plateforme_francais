@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAuthenticatedUserId } from '@/lib/auth/session';
+import { normalizePlanId } from '@/lib/billing/plan-catalog';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 
@@ -25,15 +26,25 @@ export async function GET() {
 
     return NextResponse.json({
       subscription: {
-        plan: subscription?.plan ?? 'FREE',
+        plan: normalizePlanId(subscription?.plan ?? 'FREE'),
         status: subscription?.status ?? 'INACTIVE',
         currentPeriodEnd: subscription?.currentPeriodEnd ?? null,
         cancelAtPeriodEnd: subscription?.cancelAtPeriodEnd ?? false,
       },
+      lastPayment: lastTransaction
+        ? {
+            orderRef: lastTransaction.orderRef,
+            plan: normalizePlanId(lastTransaction.plan),
+            status: lastTransaction.status,
+            amountMillimes: lastTransaction.amountMillimes,
+            currency: lastTransaction.currency,
+            createdAt: lastTransaction.createdAt,
+          }
+        : null,
       lastTransaction: lastTransaction
         ? {
             orderRef: lastTransaction.orderRef,
-            plan: lastTransaction.plan,
+            plan: normalizePlanId(lastTransaction.plan),
             status: lastTransaction.status,
             amountMillimes: lastTransaction.amountMillimes,
             currency: lastTransaction.currency,

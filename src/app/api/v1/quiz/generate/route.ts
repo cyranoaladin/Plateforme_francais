@@ -2,11 +2,13 @@ import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { getMediaForAgent, formatMediaContextForPrompt, type MediaEntry } from '@/data/media-catalog';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
+import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { getThemeConfig } from '@/lib/quiz/theme-mapping';
 import { searchOfficialReferences, type RagSearchResult } from '@/lib/rag/search';
 import { validateCsrf } from '@/lib/security/csrf';
+import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { quizGenerateBodySchema } from '@/lib/validation/schemas';
 
@@ -38,6 +40,39 @@ export async function POST(request: Request) {
   }
 
   const { theme, difficulte, nbQuestions } = parsed.data;
+  let billing: Awaited<ReturnType<typeof getBillingContext>>;
+  try {
+    billing = await getBillingContext(auth.user.id);
+  } catch (error) {
+    if (error instanceof BillingContextUnavailableError) {
+      return NextResponse.json(
+        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { status: 503 },
+      );
+    }
+    throw error;
+  }
+
+  const quizQuota = billing.config.quotas.QUIZ_PER_DAY;
+  if (quizQuota) {
+    try {
+      await consumeQuota(auth.user.id, 'QUIZ_PER_DAY', quizQuota);
+    } catch (error) {
+      if (error instanceof BillingQuotaExceededError) {
+        return NextResponse.json(
+          {
+            error: `Tu as atteint la limite incluse pour les quiz (${error.limit} par jour, plan ${billing.planId}). Passe au plan superieur pour continuer.`,
+            code: 'QUOTA_EXCEEDED',
+            upgradeUrl: '/pricing',
+            plan: billing.planId,
+          },
+          { status: 402 },
+        );
+      }
+      throw error;
+    }
+  }
+
   const themeConfig = getThemeConfig(theme);
 
   // ── Step 1: RAG search for theme-specific context ──
@@ -96,6 +131,8 @@ export async function POST(request: Request) {
     orchestrateResult = await orchestrate({
       skill: 'quiz_maitre',
       userId: auth.user.id,
+      workId: themeConfig.ragOeuvreFilter,
+      parcours: themeConfig.ragParcoursFilter,
       userQuery: `Génère exactement ${nbQuestions} questions QCM de niveau ${difficulte}/3.
 
 ${themeConfig.llmPromptSuffix}

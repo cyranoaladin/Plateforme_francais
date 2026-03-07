@@ -146,10 +146,15 @@ export async function evaluateOralPhase(input: {
   const skill = mapping[input.phase];
 
   try {
+    const effectiveWorkId = input.phase === 'ENTRETIEN'
+      ? (input.oeuvreChoisieEntretien ?? input.oeuvre)
+      : input.oeuvre;
+
     const result = await orchestrate({
       skill,
       userId: input.userId,
       userQuery: input.transcript,
+      workId: effectiveWorkId,
       context: `Œuvre: ${input.oeuvre}\nExtrait: ${input.extrait}\nQuestion: ${input.questionGrammaire}\nDurée: ${input.duration}s${input.phase === 'ENTRETIEN' ? `\n\nŒuvre choisie par l'élève: ${input.oeuvreChoisieEntretien ?? 'Non renseignée'}` : ''}`,
     }) as PhaseEvaluation;
 

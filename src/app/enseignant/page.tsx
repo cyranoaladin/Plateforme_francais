@@ -1,7 +1,21 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import {
+  AlertTriangle,
+  ArrowRight,
+  BookMarked,
+  CalendarDays,
+  CheckCircle2,
+  ClipboardList,
+  Download,
+  GraduationCap,
+  MessageSquare,
+  RefreshCw,
+  ShieldCheck,
+  Sparkles,
+  Users,
+} from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
 type StudentItem = {
@@ -35,16 +49,48 @@ type DashboardPayload = {
   copies: CopyItem[];
 };
 
-type VitalsPayload = {
-  vitals: Record<'LCP' | 'FID' | 'CLS', { count: number; avg: number; last: number }>;
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
 };
+
+function formatDateTime(value: string | null) {
+  if (!value) return '—';
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return '—';
+  return parsed.toLocaleString('fr-FR', {
+    day: '2-digit',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function formatDay(value: string | null) {
+  if (!value) return '—';
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return '—';
+  return parsed.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+}
+
+function statusLabel(status: string) {
+  if (status === 'done') return 'Terminée';
+  if (status === 'error') return 'Erreur';
+  if (status === 'processing') return 'En traitement';
+  return 'En attente';
+}
+
+function statusStyle(status: string) {
+  if (status === 'done') return 'border-[#0f766e]/16 bg-[#eef9f6] text-[#0f766e]';
+  if (status === 'error') return 'border-[#b65050]/18 bg-[#fff0ef] text-[#8f2d2d]';
+  if (status === 'processing') return 'border-[#17324d]/14 bg-[#eef3f8] text-[#17324d]';
+  return 'border-[#b87333]/18 bg-[#fdf4e9] text-[#9a5f25]';
+}
 
 export default function EnseignantPage() {
   const [payload, setPayload] = useState<DashboardPayload | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
-  const [vitals, setVitals] = useState<VitalsPayload['vitals'] | null>(null);
 
   const load = async () => {
     setIsLoading(true);
@@ -52,6 +98,9 @@ export default function EnseignantPage() {
 
     try {
       const response = await fetch('/api/v1/enseignant/dashboard');
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('Accès enseignant indisponible pour cette session.');
+      }
       if (!response.ok) {
         throw new Error('Impossible de charger les données enseignant.');
       }
@@ -61,14 +110,9 @@ export default function EnseignantPage() {
       setCommentDrafts(
         Object.fromEntries(nextPayload.copies.map((item) => [item.copieId, item.teacherComment ?? ''])),
       );
-
-      const vitalsResponse = await fetch('/api/v1/metrics/vitals');
-      if (vitalsResponse.ok) {
-        const vitalsPayload = (await vitalsResponse.json()) as VitalsPayload;
-        setVitals(vitalsPayload.vitals);
-      }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Erreur inconnue.');
+      setPayload(null);
     } finally {
       setIsLoading(false);
     }
@@ -83,6 +127,23 @@ export default function EnseignantPage() {
     if (students.length === 0) return 0;
     return Number((students.reduce((sum, item) => sum + item.averageScore, 0) / students.length).toFixed(1));
   }, [payload?.students]);
+
+  const atRiskCount = useMemo(
+    () => (payload?.students ?? []).filter((student) => student.averageScore < 10).length,
+    [payload?.students],
+  );
+
+  const nextMockExam = useMemo(() => {
+    const dates = (payload?.students ?? [])
+      .map((student) => student.nextMockExam)
+      .filter((value): value is string => Boolean(value))
+      .sort();
+    return dates[0] ?? null;
+  }, [payload?.students]);
+
+  const totalCopies = payload?.copies.length ?? 0;
+  const correctedCopies = (payload?.copies ?? []).filter((copy) => copy.status === 'done').length;
+  const distributionMax = Math.max(...((payload?.distribution ?? []).map((item) => item.count)), 1);
 
   const generateClassCode = async () => {
     const response = await fetch('/api/v1/enseignant/class-code', {
@@ -102,9 +163,7 @@ export default function EnseignantPage() {
 
   const saveComment = async (copieId: string) => {
     const value = commentDrafts[copieId]?.trim();
-    if (!value) {
-      return;
-    }
+    if (!value) return;
 
     const response = await fetch(`/api/v1/enseignant/corrections/${copieId}/comment`, {
       method: 'POST',
@@ -116,7 +175,7 @@ export default function EnseignantPage() {
     });
 
     if (!response.ok) {
-      setError('Échec d enregistrement du commentaire.');
+      setError('Échec d’enregistrement du commentaire.');
       return;
     }
 
@@ -124,132 +183,288 @@ export default function EnseignantPage() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-6">
-      <header className="flex flex-wrap gap-3 items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Tableau de bord enseignant</h1>
-          <p className="text-muted-foreground mt-1">Suivi de progression de la classe et corrections IA en lecture seule.</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button onClick={generateClassCode} className="px-4 py-2 rounded-lg border border-border bg-background">
-            Générer un code classe
-          </button>
-          <a href="/api/v1/enseignant/export" className="px-4 py-2 rounded-lg bg-primary text-primary-foreground">
-            Export CSV
-          </a>
-        </div>
-      </header>
+    <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
+      <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8 lg:p-10">
+        <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
+        <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
-      {error && <div className="rounded-lg border border-error/30 bg-error/10 p-3 text-error" role="alert">{error}</div>}
-
-      {isLoading && <div className="rounded-lg border border-border bg-card p-4" role="status">Chargement du tableau enseignant…</div>}
-
-      {!isLoading && payload && (
-        <>
-          <section className="grid md:grid-cols-3 gap-4">
-            <article className="rounded-xl border border-border bg-card p-4">
-              <p className="text-sm text-muted-foreground">Code classe</p>
-              <p className="text-2xl font-bold tracking-widest">{payload.classCode ?? 'Non défini'}</p>
-            </article>
-            <article className="rounded-xl border border-border bg-card p-4">
-              <p className="text-sm text-muted-foreground">Élèves rattachés</p>
-              <p className="text-2xl font-bold">{payload.students.length}</p>
-            </article>
-            <article className="rounded-xl border border-border bg-card p-4">
-              <p className="text-sm text-muted-foreground">Score moyen classe</p>
-              <p className="text-2xl font-bold">{classAverage}/20</p>
-            </article>
-          </section>
-
-          <section className="rounded-xl border border-border bg-card p-5 space-y-4">
-            <h2 className="text-xl font-semibold">Progression des élèves</h2>
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-sm">
-                <thead>
-                  <tr className="text-left text-muted-foreground border-b border-border">
-                    <th className="py-2 pr-3">Élève</th>
-                    <th className="py-2 pr-3">Email</th>
-                    <th className="py-2 pr-3">Score moyen</th>
-                    <th className="py-2 pr-3">Dernière activité</th>
-                    <th className="py-2 pr-3">Prochaine épreuve blanche</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {payload.students.map((item) => (
-                    <tr key={item.id} className="border-b border-border/70">
-                      <td className="py-2 pr-3 font-medium">{item.displayName}</td>
-                      <td className="py-2 pr-3">{item.email}</td>
-                      <td className="py-2 pr-3">{item.averageScore}/20</td>
-                      <td className="py-2 pr-3">{item.lastActivity ? new Date(item.lastActivity).toLocaleString('fr-FR') : '—'}</td>
-                      <td className="py-2 pr-3">{item.nextMockExam ?? '—'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-start">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+              <ShieldCheck className="h-4 w-4" />
+              Cockpit enseignant
             </div>
-          </section>
+            <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+              La vue enseignant doit permettre de piloter la classe, pas de fouiller les données une par une.
+            </h1>
+            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
+              Code classe, niveau moyen, élèves à surveiller, repères de progression, copies corrigées et commentaires: tout doit rester lisible et
+              actionnable depuis un seul écran.
+            </p>
 
-          <section className="rounded-xl border border-border bg-card p-5">
-            <h2 className="text-xl font-semibold mb-3">Distribution des notes (épreuves blanches)</h2>
-            <div className="w-full" style={{ height: 256 }}>
-              <ResponsiveContainer width="100%" height={256}>
-                <BarChart data={payload.distribution}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="label" />
-                  <YAxis allowDecimals={false} />
-                  <Tooltip />
-                  <Bar dataKey="count" fill="var(--primary)" radius={[6, 6, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <button
+                onClick={() => void generateClassCode()}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white"
+              >
+                Générer un code classe
+                <Sparkles className="h-4 w-4" />
+              </button>
+              <a
+                href="/api/v1/enseignant/export"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6"
+              >
+                Export CSV
+                <Download className="h-4 w-4" />
+              </a>
             </div>
-          </section>
+          </div>
 
-          <section className="rounded-xl border border-border bg-card p-5 space-y-4">
-            <h2 className="text-xl font-semibold">Copies corrigées</h2>
-            <div className="space-y-3">
-              {payload.copies.map((copy) => (
-                <article key={copy.copieId} className="rounded-lg border border-border p-4 bg-background/70 space-y-3">
-                  <div className="flex flex-wrap gap-3 justify-between">
-                    <div>
-                      <p className="font-semibold">{copy.studentName}</p>
-                      <p className="text-sm text-muted-foreground">{copy.epreuveType} · {new Date(copy.createdAt).toLocaleString('fr-FR')}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm">Statut: {copy.status}</p>
-                      <p className="font-bold">Note: {copy.note ?? '—'}</p>
-                    </div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
+            {[
+              { label: 'Code classe', value: payload?.classCode ?? 'Non défini', icon: ShieldCheck },
+              { label: 'Élèves', value: `${payload?.students.length ?? 0}`, icon: Users },
+              { label: 'Moyenne classe', value: `${classAverage} / 20`, icon: GraduationCap },
+              { label: 'Copies corrigées', value: `${correctedCopies} / ${totalCopies}`, icon: CheckCircle2 },
+            ].map((item) => (
+              <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+                <div className="flex items-center gap-3">
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                    <item.icon className="h-5 w-5" />
                   </div>
-                  <textarea
-                    value={commentDrafts[copy.copieId] ?? ''}
-                    onChange={(event) => setCommentDrafts((prev) => ({ ...prev, [copy.copieId]: event.target.value }))}
-                    className="w-full min-h-20 border border-input rounded-lg bg-background p-2"
-                    placeholder="Ajouter un commentaire enseignant..."
-                  />
                   <div>
-                    <button onClick={() => void saveComment(copy.copieId)} className="px-3 py-2 rounded-lg border border-border bg-background">
-                      Enregistrer le commentaire
-                    </button>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-400">{item.label}</p>
+                    <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                   </div>
-                </article>
-              ))}
-              {payload.copies.length === 0 && <p className="text-sm text-muted-foreground">Aucune copie corrigée disponible.</p>}
+                </div>
+              </div>
+            ))}
+
+            <div className="sm:col-span-2 rounded-[26px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Lecture rapide</p>
+              <p className="mt-3 text-2xl font-semibold text-white">
+                {atRiskCount > 0 ? `${atRiskCount} élève${atRiskCount > 1 ? 's' : ''} à resserrer` : 'Aucun signal critique immédiat'}
+              </p>
+              <p className="mt-2 text-sm leading-7 text-slate-200">
+                {nextMockExam
+                  ? `Prochaine échéance détectée autour du ${formatDay(nextMockExam)}. Les commentaires enseignants doivent soutenir cette fenêtre.`
+                  : 'Aucune prochaine épreuve blanche remontée. Le tableau est centré sur le suivi courant de la classe.'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {error ? (
+        <div className="rounded-[24px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d] shadow-[0_12px_28px_rgba(182,80,80,0.08)]" role="alert">
+          <AlertTriangle className="mr-2 inline h-4 w-4" />
+          {error}
+        </div>
+      ) : null}
+
+      {isLoading ? (
+        <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 text-sm text-slate-500 shadow-[0_18px_45px_rgba(23,50,77,0.06)]" role="status">
+          Chargement du cockpit enseignant...
+        </div>
+      ) : null}
+
+      {!isLoading && payload ? (
+        <>
+          <section className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
+            <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+              <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Roster classe</p>
+                  <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                    Les élèves doivent être lisibles sans perdre la vue d’ensemble.
+                  </h2>
+                </div>
+                <button
+                  onClick={() => void load()}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-2 text-sm font-semibold text-[#17324d] transition-colors hover:border-[#0f766e] hover:text-[#0f766e]"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                  Actualiser
+                </button>
+              </div>
+
+              <div className="mt-8 overflow-hidden rounded-[24px] border border-[#d8ccb9]">
+                <div className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 bg-[#f8f4ec] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                  <span>Élève</span>
+                  <span>Email</span>
+                  <span>Score</span>
+                  <span>Dernière activité</span>
+                  <span>Prochaine échéance</span>
+                </div>
+                <div className="divide-y divide-[#d8ccb9] bg-white">
+                  {payload.students.length > 0 ? (
+                    payload.students.map((student) => (
+                      <div key={student.id} className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 px-4 py-4 text-sm text-slate-700">
+                        <div>
+                          <p className="font-semibold text-[#17324d]">{student.displayName}</p>
+                        </div>
+                        <p className="truncate text-slate-500">{student.email}</p>
+                        <p className={`font-semibold ${student.averageScore < 10 ? 'text-[#8f2d2d]' : 'text-[#17324d]'}`}>
+                          {student.averageScore} / 20
+                        </p>
+                        <p className="text-slate-500">{formatDateTime(student.lastActivity)}</p>
+                        <p className="text-slate-500">{formatDay(student.nextMockExam)}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="px-4 py-6 text-sm text-slate-500">Aucun élève rattaché à cette classe pour le moment.</div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Distribution des notes</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                  Une lecture directe de la répartition suffit souvent à orienter la prochaine séquence.
+                </h2>
+
+                <div className="mt-8 space-y-4">
+                  {payload.distribution.length > 0 ? (
+                    payload.distribution.map((item) => (
+                      <div key={item.label}>
+                        <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
+                          <span className="text-[#17324d]">{item.label}</span>
+                          <span className="text-slate-500">{item.count} élève{item.count > 1 ? 's' : ''}</span>
+                        </div>
+                        <div className="h-3 rounded-full bg-[#e7ddcf]">
+                          <div
+                            className="h-3 rounded-full bg-[#17324d]"
+                            style={{ width: `${(item.count / distributionMax) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4 text-sm leading-7 text-slate-600">
+                      Aucune distribution disponible tant que les copies corrigées restent absentes.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Pilotage rapide</p>
+                <div className="mt-6 grid gap-4 md:grid-cols-2">
+                  {[
+                    {
+                      title: 'Élèves à soutenir',
+                      value: `${atRiskCount}`,
+                      detail: 'Moyenne strictement sous 10/20 dans les données remontées.',
+                      icon: AlertTriangle,
+                    },
+                    {
+                      title: 'Prochaine échéance',
+                      value: nextMockExam ? formatDay(nextMockExam) : '—',
+                      detail: 'Première date d’épreuve blanche détectée dans la classe.',
+                      icon: CalendarDays,
+                    },
+                    {
+                      title: 'Copies ouvertes',
+                      value: `${totalCopies - correctedCopies}`,
+                      detail: 'Travail restant avant fermeture complète du lot actuel.',
+                      icon: ClipboardList,
+                    },
+                    {
+                      title: 'Commentaires',
+                      value: `${Object.values(commentDrafts).filter((value) => value.trim().length > 0).length}`,
+                      detail: 'Brouillons de retours enseignants actuellement présents.',
+                      icon: MessageSquare,
+                    },
+                  ].map((item) => (
+                    <article key={item.title} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                        <item.icon className="h-5 w-5" />
+                      </div>
+                      <p className="mt-4 text-sm font-semibold text-white">{item.title}</p>
+                      <p className="mt-1 text-2xl font-bold text-white">{item.value}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-200">{item.detail}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
 
-          <section className="rounded-xl border border-border bg-card p-5 space-y-3">
-            <h2 className="text-xl font-semibold">Santé de la plateforme</h2>
-            <div className="grid sm:grid-cols-3 gap-3">
-              {(['LCP', 'FID', 'CLS'] as const).map((key) => (
-                <article key={key} className="rounded-lg border border-border p-3 bg-background/70">
-                  <p className="text-sm text-muted-foreground">{key}</p>
-                  <p className="font-semibold">Moyenne: {vitals?.[key]?.avg ?? 0}</p>
-                  <p className="text-xs text-muted-foreground">Dernière valeur: {vitals?.[key]?.last ?? 0}</p>
-                </article>
-              ))}
+          <section className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Copies corrigées</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                  Les retours enseignants doivent rester rapides à écrire et simples à relire.
+                </h2>
+              </div>
+              <div className="rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-2 text-sm font-semibold text-slate-600">
+                {payload.copies.length} copie{payload.copies.length > 1 ? 's' : ''}
+              </div>
+            </div>
+
+            <div className="mt-8 space-y-4">
+              {payload.copies.length > 0 ? (
+                payload.copies.map((copy) => (
+                  <article key={copy.copieId} className="rounded-[26px] border border-[#d8ccb9] bg-[#fcfaf6] p-5 shadow-[0_14px_28px_rgba(23,50,77,0.04)]">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-base font-semibold text-[#17324d]">{copy.studentName}</span>
+                          <span className={`rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] ${statusStyle(copy.status)}`}>
+                            {statusLabel(copy.status)}
+                          </span>
+                        </div>
+                        <p className="mt-2 text-sm text-slate-500">
+                          {copy.epreuveType} · {formatDateTime(copy.createdAt)}
+                        </p>
+                      </div>
+                      <div className="rounded-[20px] border border-[#d8ccb9] bg-white px-4 py-3 text-sm text-slate-600">
+                        <p className="font-semibold text-[#17324d]">Note</p>
+                        <p className="mt-1 text-lg font-bold text-[#17324d]">{copy.note ?? '—'} / 20</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4">
+                      <textarea
+                        value={commentDrafts[copy.copieId] ?? ''}
+                        onChange={(event) =>
+                          setCommentDrafts((prev) => ({
+                            ...prev,
+                            [copy.copieId]: event.target.value,
+                          }))
+                        }
+                        className="min-h-24 w-full rounded-[20px] border border-[#d8ccb9] bg-white p-4 text-sm text-[#17324d] outline-none transition-colors focus:border-[#0f766e]"
+                        placeholder="Ajouter un commentaire enseignant..."
+                      />
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
+                        <BookMarked className="h-3.5 w-3.5" />
+                        Retour ciblé et lisible par l’élève
+                      </div>
+                      <button
+                        onClick={() => void saveComment(copy.copieId)}
+                        className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-4 py-2 text-sm font-semibold text-[#f7f2ea] transition-all hover:-translate-y-0.5"
+                      >
+                        Enregistrer
+                        <ArrowRight className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </article>
+                ))
+              ) : (
+                <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4 text-sm leading-7 text-slate-600">
+                  Aucune copie corrigée n’est encore disponible dans ce tableau.
+                </div>
+              )}
             </div>
           </section>
         </>
-      )}
+      ) : null}
     </div>
   );
 }

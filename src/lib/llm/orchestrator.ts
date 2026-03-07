@@ -1,5 +1,9 @@
 import { ZodError } from 'zod';
-import { getRouterProvider } from '@/lib/llm/factory';
+import {
+  recordProviderError,
+  recordProviderSuccess,
+  selectProvider,
+} from '@/lib/llm/factory';
 import { estimateTokens } from '@/lib/llm/token-estimate';
 import { logger } from '@/lib/logger';
 import { SYSTEM_PROMPT_EAF } from '@/lib/llm/prompts/system';
@@ -7,8 +11,11 @@ import { fallbackSkillOutput, parseSkillOutput, skillPromptFor, skillSchemaFor }
 import { type Skill } from '@/lib/llm/skills/types';
 import { classifyAntiTriche, buildRefusalOutput, validateLlmOutput } from '@/lib/compliance/anti-triche';
 import { getMediaForAgent, formatMediaContextForPrompt } from '@/data/media-catalog';
-import type { AgentType } from '@/lib/memory/context-builder';
+import { createAgentInteractionRecord, touchWorkMastery } from '@/lib/db/repositories/learningMemoryRepo';
+import { composeMemoryContext, truncateToTokenBudget, type AgentType } from '@/lib/memory/context-builder';
+import { loadMemoryProfileForUser } from '@/lib/memory/profile-loader';
 import { checkLLMQuota, QuotaExceededError } from '@/lib/security/llm-rate-limiter';
+import { trackLlmCall } from '@/lib/llm/cost-tracker';
 
 /** Skills that should NOT receive media context injection */
 const SKILLS_WITHOUT_MEDIA: ReadonlySet<Skill> = new Set([
@@ -47,6 +54,41 @@ function skillToAgentType(skill: Skill): AgentType {
   return mapping[skill] ?? 'COACH_EXPLICATION';
 }
 
+function skillToMemoryAgentType(skill: Skill): AgentType | null {
+  const mapping: Partial<Record<Skill, AgentType | null>> = {
+    bibliothecaire: null,
+    coach_ecrit: 'DIAGNOSTIC_ECRIT',
+    coach_oral: 'COACH_EXPLICATION',
+    correcteur: 'DIAGNOSTIC_ECRIT',
+    quiz_maitre: 'QUIZ_ADAPTATIF',
+    tuteur_libre: 'BILAN_ORAL',
+    oral_tirage: 'TIRAGE_ORAL',
+    coach_lecture: 'COACH_LECTURE',
+    coach_explication: 'COACH_EXPLICATION',
+    grammaire_ciblee: 'GRAMMAIRE_CIBLEE',
+    oral_entretien: 'ENTRETIEN_OEUVRE',
+    oral_bilan_officiel: 'BILAN_ORAL',
+    ecrit_diagnostic: 'DIAGNOSTIC_ECRIT',
+    ecrit_plans: 'DIAGNOSTIC_ECRIT',
+    ecrit_contraction: 'DIAGNOSTIC_ECRIT',
+    ecrit_essai: 'DIAGNOSTIC_ECRIT',
+    ecrit_langue: 'DIAGNOSTIC_ECRIT',
+    ecrit_baremage: 'DIAGNOSTIC_ECRIT',
+    revision_fiches: 'QUIZ_ADAPTATIF',
+    quiz_adaptatif: 'QUIZ_ADAPTATIF',
+    spaced_repetition: 'QUIZ_ADAPTATIF',
+    oral_prep30: 'SHADOW_PREP',
+    citations_procedes: 'DIAGNOSTIC_ECRIT',
+    carnet_lecture: 'QUIZ_ADAPTATIF',
+    sr_planner: 'QUIZ_ADAPTATIF',
+    support_produit: null,
+    examinateur_virtuel: 'EXAMINATEUR_VIRTUEL',
+    pastiche: 'PASTICHE',
+  };
+
+  return mapping[skill] ?? null;
+}
+
 function extractJsonBlock(text: string): string {
   const trimmed = text.trim();
   if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
@@ -60,8 +102,93 @@ function extractJsonBlock(text: string): string {
   return trimmed;
 }
 
-export async function orchestrate({ skill, userQuery, context, userId, oeuvreId }: OrchestrateInput): Promise<unknown> {
+function extractSkillSignals(payload: Record<string, unknown>): {
+  feedbackScore?: number;
+  feedbackMax?: number;
+  feedbackLabel?: string;
+  strongThemes: string[];
+  weakThemes: string[];
+  citationsKnown: string[];
+} {
+  const feedbackScore = typeof payload.score === 'number'
+    ? payload.score
+    : typeof payload.note === 'number'
+      ? payload.note
+      : typeof payload.score_langue === 'number'
+        ? payload.score_langue
+        : undefined;
+
+  const feedbackMax = typeof payload.max === 'number'
+    ? payload.max
+    : typeof payload.maxNote === 'number'
+      ? payload.maxNote
+      : typeof payload.max_score === 'number'
+        ? payload.max_score
+        : typeof payload.maxScore === 'number'
+          ? payload.maxScore
+          : undefined;
+
+  return {
+    feedbackScore,
+    feedbackMax,
+    feedbackLabel: typeof payload.mention === 'string' ? payload.mention : undefined,
+    strongThemes: Array.isArray(payload.points_forts)
+      ? payload.points_forts.filter((item): item is string => typeof item === 'string').slice(0, 6)
+      : [],
+    weakThemes: Array.isArray(payload.axes)
+      ? payload.axes.filter((item): item is string => typeof item === 'string').slice(0, 6)
+      : [],
+    citationsKnown: Array.isArray(payload.citations)
+      ? payload.citations
+          .map((item) => (item && typeof item === 'object' && 'title' in item ? (item as { title?: unknown }).title : null))
+          .filter((item): item is string => typeof item === 'string')
+          .slice(0, 8)
+      : [],
+  };
+}
+
+async function persistAgentMemory(input: {
+  userId: string;
+  skill: Skill;
+  userQuery: string;
+  prompt: string;
+  rawOutput: string;
+  context?: string;
+  workId?: string;
+  parsedOutput?: Record<string, unknown>;
+  tokensUsed: number;
+  latencyMs: number;
+}) {
+  const signals = input.parsedOutput ? extractSkillSignals(input.parsedOutput) : null;
+  await Promise.allSettled([
+    createAgentInteractionRecord({
+      userId: input.userId,
+      skill: input.skill,
+      inputSummary: `${input.userQuery}\n${input.context ?? ''}`.trim(),
+      outputSummary: input.rawOutput,
+      feedbackScore: signals?.feedbackScore ?? null,
+      feedbackLabel: signals?.feedbackLabel ?? null,
+      tokensUsed: input.tokensUsed,
+      latencyMs: input.latencyMs,
+      ragSourcesCount: signals?.citationsKnown.length ?? 0,
+    }),
+    touchWorkMastery({
+      userId: input.userId,
+      workId: input.workId,
+      normalizedScore: signals?.feedbackScore != null && signals.feedbackMax
+        ? Math.max(0, Math.min(1, signals.feedbackScore / signals.feedbackMax))
+        : null,
+      strongThemes: signals?.strongThemes,
+      weakThemes: signals?.weakThemes,
+      citationsKnown: signals?.citationsKnown,
+    }),
+  ]);
+}
+
+export async function orchestrate({ skill, userQuery, context, userId, oeuvreId, workId, parcours }: OrchestrateInput): Promise<unknown> {
   const startedAt = Date.now();
+  const memoryAgentType = skillToMemoryAgentType(skill);
+  const effectiveWorkId = workId ?? oeuvreId;
   
   const compliance = classifyAntiTriche(userQuery);
   if (!compliance.allowed) {
@@ -69,11 +196,24 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
     return buildRefusalOutput(compliance);
   }
 
+  let memoryContext = '';
+  if (memoryAgentType) {
+    const memoryProfile = await loadMemoryProfileForUser(userId, { workId: effectiveWorkId });
+    if (memoryProfile) {
+      memoryContext = truncateToTokenBudget(
+        composeMemoryContext(memoryProfile, {
+          agentType: memoryAgentType,
+          workId: effectiveWorkId,
+        }),
+      );
+    }
+  }
+
   // Build media context only for skills that benefit from it
   let mediaContext = '';
   if (!SKILLS_WITHOUT_MEDIA.has(skill)) {
     const agentType = skillToAgentType(skill);
-    const mediaEntries = getMediaForAgent(agentType, oeuvreId);
+    const mediaEntries = getMediaForAgent(agentType, effectiveWorkId);
     mediaContext = formatMediaContextForPrompt(mediaEntries);
   }
 
@@ -82,6 +222,11 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
     `Utilisateur: ${userId}`,
     `Skill: ${skill}`,
     `Instruction skill: ${skillPromptFor(skill)}`,
+    effectiveWorkId ? `WorkId: ${effectiveWorkId}` : '',
+    parcours ? `Parcours: ${parcours}` : '',
+    '---',
+    'Contexte mémoire élève:',
+    memoryContext.length > 0 ? memoryContext : 'Aucune mémoire pédagogique exploitable pour cette requête.',
     '---',
     'Contexte RAG:',
     context && context.trim().length > 0 ? context : 'Aucun contexte source fourni.',
@@ -92,18 +237,47 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
     userQuery,
   ].filter(Boolean).join('\n\n');
 
+  const selectedProvider = selectProvider({
+    skill,
+    contextTokens: estimateTokens([{ content: prompt }]),
+  });
+
   try {
     await checkLLMQuota(userId, skill);
 
-    const provider = getRouterProvider(skill, estimateTokens([{ content: prompt }]));
-    const completion = await provider.generateContent(prompt, {
+    const completion = await selectedProvider.provider.generateContent(prompt, {
       temperature: 0.2,
       responseMimeType: 'application/json',
     });
+    recordProviderSuccess(selectedProvider.tier);
 
     const rawText = completion.text;
     const complianceOutput = classifyAntiTriche(rawText);
     if (!complianceOutput.allowed) {
+      await trackLlmCall({
+        userId,
+        skill,
+        provider: selectedProvider.providerName,
+        model: completion.model ?? selectedProvider.model,
+        tier: selectedProvider.tier,
+        inputTokens: completion.usage?.promptTokens ?? 0,
+        outputTokens: completion.usage?.completionTokens ?? 0,
+        latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
+        success: false,
+        errorCode: 'ANTI_TRICHE_OUTPUT',
+        contextSize: estimateTokens([{ content: prompt }]),
+      });
+      await persistAgentMemory({
+        userId,
+        skill,
+        userQuery,
+        prompt,
+        rawOutput: JSON.stringify(buildRefusalOutput(complianceOutput)),
+        context,
+        workId: effectiveWorkId,
+        tokensUsed: (completion.usage?.promptTokens ?? 0) + (completion.usage?.completionTokens ?? 0),
+        latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
+      });
       return buildRefusalOutput(complianceOutput);
     }
 
@@ -112,6 +286,31 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
     const textToValidate = String(parsedRaw.answer ?? parsedRaw.feedback ?? parsedRaw.content ?? '');
     const finalCompliance = validateLlmOutput(textToValidate);
     if (!finalCompliance.allowed) {
+      await trackLlmCall({
+        userId,
+        skill,
+        provider: selectedProvider.providerName,
+        model: completion.model ?? selectedProvider.model,
+        tier: selectedProvider.tier,
+        inputTokens: completion.usage?.promptTokens ?? 0,
+        outputTokens: completion.usage?.completionTokens ?? 0,
+        latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
+        success: false,
+        errorCode: 'OUTPUT_VALIDATION',
+        contextSize: estimateTokens([{ content: prompt }]),
+      });
+      await persistAgentMemory({
+        userId,
+        skill,
+        userQuery,
+        prompt,
+        rawOutput: JSON.stringify(buildRefusalOutput(finalCompliance)),
+        context,
+        workId: effectiveWorkId,
+        parsedOutput: parsedRaw,
+        tokensUsed: (completion.usage?.promptTokens ?? 0) + (completion.usage?.completionTokens ?? 0),
+        latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
+      });
       return buildRefusalOutput(finalCompliance);
     }
 
@@ -129,7 +328,32 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
         },
         '[llm] schema_validation_failure',
       );
-      return fallbackSkillOutput(skill);
+      await trackLlmCall({
+        userId,
+        skill,
+        provider: selectedProvider.providerName,
+        model: completion.model ?? selectedProvider.model,
+        tier: selectedProvider.tier,
+        inputTokens: completion.usage?.promptTokens ?? 0,
+        outputTokens: completion.usage?.completionTokens ?? 0,
+        latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
+        success: false,
+        errorCode: 'SCHEMA_VALIDATION',
+        contextSize: estimateTokens([{ content: prompt }]),
+      });
+      const fallback = fallbackSkillOutput(skill);
+      await persistAgentMemory({
+        userId,
+        skill,
+        userQuery,
+        prompt,
+        rawOutput: JSON.stringify(fallback),
+        context,
+        workId: effectiveWorkId,
+        tokensUsed: (completion.usage?.promptTokens ?? 0) + (completion.usage?.completionTokens ?? 0),
+        latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
+      });
+      return fallback;
     }
 
     logger.info({
@@ -142,26 +366,91 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId 
       success: true,
     }, 'llm.orchestrate.success');
 
+    await trackLlmCall({
+      userId,
+      skill,
+      provider: selectedProvider.providerName,
+      model: completion.model ?? selectedProvider.model,
+      tier: selectedProvider.tier,
+      inputTokens: completion.usage?.promptTokens ?? 0,
+      outputTokens: completion.usage?.completionTokens ?? 0,
+      latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
+      success: true,
+      contextSize: estimateTokens([{ content: prompt }]),
+    });
+    await persistAgentMemory({
+      userId,
+      skill,
+      userQuery,
+      prompt,
+      rawOutput: JSON.stringify(validated.data),
+      context,
+      workId: effectiveWorkId,
+      parsedOutput: validated.data as Record<string, unknown>,
+      tokensUsed: (completion.usage?.promptTokens ?? 0) + (completion.usage?.completionTokens ?? 0),
+      latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
+    });
+
     return parseSkillOutput(skill, validated.data);
   } catch (error) {
     if (error instanceof QuotaExceededError) {
       throw error;
     }
+    recordProviderError(selectedProvider.tier);
     if (error instanceof SyntaxError) {
       console.error(`[llm] json_parse_error for skill=${skill}:`, error.message);
       logger.error(
         { skill, userId, error: error.message, success: false },
         'llm.orchestrate.json_parse_error',
       );
+      await trackLlmCall({
+        userId,
+        skill,
+        provider: selectedProvider.providerName,
+        model: selectedProvider.model,
+        tier: selectedProvider.tier,
+        inputTokens: 0,
+        outputTokens: 0,
+        latencyMs: Date.now() - startedAt,
+        success: false,
+        errorCode: 'JSON_PARSE',
+        contextSize: estimateTokens([{ content: prompt }]),
+      });
       return fallbackSkillOutput(skill);
     }
     if (error instanceof ZodError) {
       console.error(`[llm] ZodError for skill=${skill}:`, error.issues);
       logger.error({ skill, issues: error.issues, success: false }, 'llm.orchestrate.parse_error');
+      await trackLlmCall({
+        userId,
+        skill,
+        provider: selectedProvider.providerName,
+        model: selectedProvider.model,
+        tier: selectedProvider.tier,
+        inputTokens: 0,
+        outputTokens: 0,
+        latencyMs: Date.now() - startedAt,
+        success: false,
+        errorCode: 'ZOD_PARSE',
+        contextSize: estimateTokens([{ content: prompt }]),
+      });
       return fallbackSkillOutput(skill);
     }
     console.error(`[llm] provider_error for skill=${skill}:`, error instanceof Error ? error.message : error);
     logger.error({ skill, error, success: false }, 'llm.orchestrate.provider_error');
+    await trackLlmCall({
+      userId,
+      skill,
+      provider: selectedProvider.providerName,
+      model: selectedProvider.model,
+      tier: selectedProvider.tier,
+      inputTokens: 0,
+      outputTokens: 0,
+      latencyMs: Date.now() - startedAt,
+      success: false,
+      errorCode: error instanceof Error ? error.name || 'PROVIDER_ERROR' : 'PROVIDER_ERROR',
+      contextSize: estimateTokens([{ content: prompt }]),
+    });
     return fallbackSkillOutput(skill);
   }
 }

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
+import { createMemoryEvent } from '@/lib/memory/store';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { updateOeuvreChoisieSchema } from '@/lib/validation/schemas';
@@ -23,6 +25,17 @@ export async function PUT(request: Request) {
     ...auth.user.profile,
     oeuvreChoisieEntretien: parsed.data.oeuvreChoisieEntretien,
   });
+
+  await createMemoryEventRecord(
+    createMemoryEvent(auth.user.id, {
+      type: 'interaction',
+      feature: 'oeuvre_choisie_update',
+      path: '/profil',
+      payload: {
+        oeuvre: parsed.data.oeuvreChoisieEntretien,
+      },
+    }),
+  );
 
   return NextResponse.json({ ok: true });
 }

@@ -136,6 +136,9 @@ model StudentProfile {
   weakSkillEntries    WeakSkillEntry[]
   workMasteries       WorkMastery[]
   memorySummaries     MemorySummary[]
+  studyPlans          StudyPlanSnapshot[]
+  diagnosticResults   DiagnosticSnapshot[]
+  weeklyReports       WeeklyReportSnapshot[]
   documentDeposits    DocumentDeposit[]
   agentInteractions   AgentInteraction[]
   descriptifTextes    DescriptifTexte[]
@@ -273,6 +276,12 @@ enum WeakStatus {
   DISMISSED
 }
 
+enum RevisionPhase {
+  J2
+  J7
+  J21
+}
+
 enum SummaryType {
   FULL
   ORAL
@@ -307,6 +316,13 @@ enum AgentTypeEnum {
   PASTICHE
   QUIZ_ADAPTATIF
   EXAMINATEUR_VIRTUEL
+  TUTEUR_LIBRE
+  BIBLIOTHECAIRE
+  COACH_ECRIT
+  CORRECTEUR
+  QUIZ_MAITRE
+  ECRIT_LANGUE
+  SUPPORT_PRODUIT
 }
 
 enum OralPhase {
@@ -600,6 +616,7 @@ model SkillMapEntry {
   id               String         @id @default(uuid())
   profileId        String
   profile          StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  microSkillKey    String?
   skill            EafSkill
   score            Float          @default(0.0)
   confidence       Float          @default(0.0)
@@ -612,12 +629,14 @@ model SkillMapEntry {
   lastObservedAt   DateTime?
 
   @@unique([profileId, skill])
+  @@unique([profileId, microSkillKey])
 }
 
 model WeakSkillEntry {
   id              String         @id @default(uuid())
   profileId       String
   profile         StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  microSkillKey   String?
   skill           EafSkill
   pattern         String
   category        String
@@ -630,9 +649,24 @@ model WeakSkillEntry {
   firstDetectedAt DateTime       @default(now())
   lastOccurrence  DateTime       @default(now())
   resolvedAt      DateTime?
+  sourceInteractionId String?
+  sourceAgent     String?
+  revisions       WeakSkillRevision[]
 
   @@index([profileId, status])
   @@index([severity])
+}
+
+model WeakSkillRevision {
+  id               String         @id @default(uuid())
+  weakSkillEntryId String
+  weakSkillEntry   WeakSkillEntry @relation(fields: [weakSkillEntryId], references: [id], onDelete: Cascade)
+  phase            RevisionPhase
+  success          Boolean
+  notes            String?
+  createdAt        DateTime       @default(now())
+
+  @@index([weakSkillEntryId, createdAt])
 }
 
 model WorkMastery {
@@ -669,6 +703,40 @@ model MemorySummary {
   @@unique([profileId, summaryType])
 }
 
+model StudyPlanSnapshot {
+  id        String         @id @default(uuid())
+  profileId String
+  profile   StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  payload   Json
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@unique([profileId])
+}
+
+model DiagnosticSnapshot {
+  id          String         @id
+  profileId   String
+  profile     StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  payload     Json
+  completedAt DateTime
+  createdAt   DateTime       @default(now())
+
+  @@index([profileId, completedAt])
+}
+
+model WeeklyReportSnapshot {
+  id          String         @id
+  profileId   String
+  profile     StudentProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  weekLabel   String
+  payload     Json
+  generatedAt DateTime
+  createdAt   DateTime       @default(now())
+
+  @@index([profileId, generatedAt])
+}
+
 model DocumentDeposit {
   id              String         @id @default(uuid())
   profileId       String
@@ -696,7 +764,7 @@ model AgentInteraction {
   agentType       AgentTypeEnum
   inputSummary    String
   outputSummary   String
-  feedbackScore   Int?
+  feedbackScore   Float?
   feedbackLabel   String?
   tokensUsed      Int
   latencyMs       Int

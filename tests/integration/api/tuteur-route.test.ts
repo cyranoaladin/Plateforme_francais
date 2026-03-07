@@ -9,9 +9,19 @@ vi.mock('@/lib/security/csrf', () => ({
 vi.mock('@/lib/security/rate-limit', () => ({
   checkRateLimit: vi.fn().mockResolvedValue({ allowed: true, retryAfter: 0 }),
 }));
-vi.mock('@/lib/billing/gating', () => ({
-  requirePlan: vi.fn().mockResolvedValue({ allowed: true }),
-  incrementUsage: vi.fn().mockResolvedValue(undefined),
+vi.mock('@/lib/billing/context', () => ({
+  getBillingContext: vi.fn(),
+  BillingContextUnavailableError: class BillingContextUnavailableError extends Error {},
+}));
+vi.mock('@/lib/billing/usage', () => ({
+  consumeQuota: vi.fn(),
+  QuotaExceededError: class QuotaExceededError extends Error {
+    limit: number;
+    constructor(_entitlement: string, limit: number) {
+      super('quota');
+      this.limit = limit;
+    }
+  },
 }));
 vi.mock('@/lib/rag/search', () => ({
   searchOfficialReferences: vi.fn().mockResolvedValue([]),
@@ -33,6 +43,8 @@ vi.mock('@/lib/llm/streaming', () => ({
 }));
 
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { getBillingContext } from '@/lib/billing/context';
+import { consumeQuota } from '@/lib/billing/usage';
 import { orchestrate } from '@/lib/llm/orchestrator';
 
 describe('Integration API /tuteur/message', () => {
@@ -41,6 +53,17 @@ describe('Integration API /tuteur/message', () => {
     vi.mocked(requireAuthenticatedUser).mockResolvedValue({
       auth: { user: { id: 'u1', profile: {} } },
       errorResponse: null,
+    } as never);
+    vi.mocked(getBillingContext).mockResolvedValue({
+      planId: 'FREE',
+      config: { quotas: { TUTOR_QUESTIONS: { limit: 10, period: 'day' } } },
+      endsAt: null,
+      isActive: true,
+    } as never);
+    vi.mocked(consumeQuota).mockResolvedValue({
+      current: 1,
+      limit: 10,
+      remaining: 9,
     } as never);
   });
 
@@ -68,4 +91,3 @@ describe('Integration API /tuteur/message', () => {
     expect(res.status).toBe(400);
   });
 });
-

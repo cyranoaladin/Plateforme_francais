@@ -42,6 +42,7 @@ export async function generateExamBlanc(config: ExamBlancConfig): Promise<ExamBl
     result = await orchestrate({
       skill: 'coach_ecrit',
       userId: config.userId,
+      workId: config.oeuvre,
       userQuery: buildExamPrompt(config),
       context: `Type: ${config.type}. Durée officielle: ${dureeMap[config.type]}.`,
     });

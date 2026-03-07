@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { createMemoryEvent } from '@/lib/memory/store';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
@@ -46,6 +48,7 @@ export async function POST(request: Request) {
     const result = (await orchestrate({
       skill: 'examinateur_virtuel',
       userId: auth.user.id,
+      workId: parsed.data.oeuvreChoisie,
       userQuery: parsed.data.message,
       context: [
         parsed.data.oeuvreChoisie ? `Oeuvre choisie: ${parsed.data.oeuvreChoisie}` : '',
@@ -72,6 +75,7 @@ export async function POST(request: Request) {
     const fallback = (await orchestrate({
       skill: 'oral_entretien',
       userId: auth.user.id,
+      workId: parsed.data.oeuvreChoisie,
       userQuery: parsed.data.message,
       context: parsed.data.oeuvreChoisie ? `Oeuvre choisie: ${parsed.data.oeuvreChoisie}` : undefined,
     })) as { feedback?: string; relance?: string };
@@ -79,6 +83,19 @@ export async function POST(request: Request) {
   }
 
   const ttsUrl = await generateTtsUrl(juryText);
+
+  await createMemoryEventRecord(
+    createMemoryEvent(auth.user.id, {
+      type: 'discussion',
+      feature: 'oral_jury_respond',
+      path: '/atelier-oral',
+      payload: {
+        historyCount: history.length,
+        oeuvreChoisie: parsed.data.oeuvreChoisie ?? 'non_renseignee',
+        ttsAvailable: ttsUrl !== null,
+      },
+    }),
+  ).catch(() => undefined);
 
   return NextResponse.json(
     {

@@ -9,9 +9,19 @@ vi.mock('@/lib/security/csrf', () => ({
 vi.mock('@/lib/security/rate-limit', () => ({
   checkRateLimit: vi.fn(),
 }));
-vi.mock('@/lib/billing/gating', () => ({
-  requirePlan: vi.fn(),
-  incrementUsage: vi.fn().mockResolvedValue(undefined),
+vi.mock('@/lib/billing/context', () => ({
+  getBillingContext: vi.fn(),
+  BillingContextUnavailableError: class BillingContextUnavailableError extends Error {},
+}));
+vi.mock('@/lib/billing/usage', () => ({
+  consumeQuota: vi.fn(),
+  QuotaExceededError: class QuotaExceededError extends Error {
+    limit: number;
+    constructor(_entitlement: string, limit: number) {
+      super('quota');
+      this.limit = limit;
+    }
+  },
 }));
 vi.mock('@/lib/oral/repository', () => ({
   createOralSession: vi.fn(),
@@ -29,7 +39,8 @@ vi.mock('@/lib/db/client', () => ({
 
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { checkRateLimit } from '@/lib/security/rate-limit';
-import { requirePlan } from '@/lib/billing/gating';
+import { getBillingContext } from '@/lib/billing/context';
+import { consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { createOralSession } from '@/lib/oral/repository';
 
 describe('Integration API /oral/session/start', () => {
@@ -38,6 +49,17 @@ describe('Integration API /oral/session/start', () => {
     vi.mocked(requireAuthenticatedUser).mockResolvedValue({
       auth: { user: { id: 'u1', profile: { selectedOeuvres: [] } } },
       errorResponse: null,
+    } as never);
+    vi.mocked(getBillingContext).mockResolvedValue({
+      planId: 'FREE',
+      config: { quotas: { ORAL_SESSIONS: { limit: 2, period: 'week' } } },
+      endsAt: null,
+      isActive: true,
+    } as never);
+    vi.mocked(consumeQuota).mockResolvedValue({
+      current: 1,
+      limit: 2,
+      remaining: 1,
     } as never);
     vi.mocked(createOralSession).mockResolvedValue({
       id: 'os_1',
@@ -58,10 +80,7 @@ describe('Integration API /oral/session/start', () => {
 
   it('retourne 402 si quota plan depasse', async () => {
     vi.mocked(checkRateLimit).mockResolvedValue({ allowed: true, retryAfter: 0 } as never);
-    vi.mocked(requirePlan).mockResolvedValue({
-      allowed: false,
-      upgradeUrl: '/pricing',
-    } as never);
+    vi.mocked(consumeQuota).mockRejectedValue(new QuotaExceededError('ORAL_SESSIONS', 2, 0, 'week') as never);
     const { POST } = await import('@/app/api/v1/oral/session/start/route');
     const req = new Request('http://localhost/api/v1/oral/session/start', {
       method: 'POST',

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { DyslexiaToggle } from '@/components/accessibility/dyslexia-toggle';
 import {
+  Brain,
   LayoutDashboard,
   Mic,
   PenTool,
@@ -19,22 +20,24 @@ import {
   Flame,
   Award,
   Settings,
+  Quote,
+  Type,
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { useTheme } from '@/components/theme/theme-provider';
 
 const navItems = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-  { name: 'Tuteur IA', href: '/tuteur', icon: MessagesSquare },
-  { name: 'Atelier Écrit', href: '/atelier-ecrit', icon: PenTool },
-  { name: 'Atelier Oral', href: '/atelier-oral', icon: Mic },
-  { name: 'Atelier Langue', href: '/atelier-langue', icon: BookOpen },
-  { name: 'Mon Parcours', href: '/mon-parcours', icon: Map },
-  { name: 'Carnet', href: '/carnet', icon: BookOpen },
-  { name: 'Quiz', href: '/quiz', icon: HelpCircle },
-  { name: 'Bibliothèque', href: '/bibliotheque', icon: Library },
-  { name: 'Profil', href: '/profil', icon: UserCircle2 },
+  { name: 'Dashboard', href: '/', icon: LayoutDashboard, section: 'Pilotage', hint: 'Vue d ensemble' },
+  { name: 'Mon Parcours', href: '/mon-parcours', icon: Map, section: 'Pilotage', hint: 'Plan de progression' },
+  { name: 'Profil', href: '/profil', icon: UserCircle2, section: 'Pilotage', hint: 'Cap et repères' },
+  { name: 'Tuteur de parcours', href: '/tuteur', icon: MessagesSquare, section: 'Ateliers', hint: 'Question guidée' },
+  { name: 'Atelier Écrit', href: '/atelier-ecrit', icon: PenTool, section: 'Ateliers', hint: 'Sujet, copie, rapport' },
+  { name: 'Atelier Oral', href: '/atelier-oral', icon: Mic, section: 'Ateliers', hint: 'Simulation officielle' },
+  { name: 'Atelier Langue', href: '/atelier-langue', icon: Type, section: 'Ateliers', hint: 'Grammaire ciblée' },
+  { name: 'Quiz', href: '/quiz', icon: Brain, section: 'Ateliers', hint: 'Ancrage rapide' },
+  { name: 'Carnet', href: '/carnet', icon: Quote, section: 'Ressources', hint: 'Notes personnelles' },
+  { name: 'Bibliothèque', href: '/bibliotheque', icon: Library, section: 'Ressources', hint: 'Corpus et médias' },
 ];
 
 const mobileNavItems = [
@@ -159,93 +162,140 @@ export function Sidebar() {
     .slice(0, 2)
     .toUpperCase() ?? 'EL';
 
-  const items = navItems;
+  const navSections = [
+    {
+      label: 'Pilotage',
+      description: 'Voir où vous en êtes et quoi lancer ensuite.',
+      items: navItems.filter((item) => item.section === 'Pilotage'),
+    },
+    {
+      label: 'Ateliers',
+      description: 'Pratique guidée, évaluée et relancée selon le parcours.',
+      items: navItems.filter((item) => item.section === 'Ateliers'),
+    },
+    {
+      label: 'Ressources',
+      description: 'Matière personnelle et supports à exploiter.',
+      items: navItems.filter((item) => item.section === 'Ressources'),
+    },
+  ];
 
   return (
     <>
       {/* ─── Desktop Sidebar ─── */}
-      <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 bg-card border-r border-border flex-col shadow-sm z-10">
-        {/* Logo Nexus Réussite */}
-        <div className="p-6 flex justify-center border-b border-border">
-          <img
-            src="/images/logo_nexus_reussite.png"
-            alt="Nexus Réussite"
-            className="h-20 w-20 object-contain rounded-full"
-          />
-        </div>
+      <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 flex-col border-r border-[#e2d7c7] bg-[linear-gradient(180deg,#fbf7ef_0%,#f2eadf_100%)] shadow-[8px_0_30px_rgba(23,50,77,0.06)] z-10">
+        <div className="border-b border-[#e4dacb] px-5 py-5">
+          <div className="rounded-[28px] border border-[#eadfcf] bg-[linear-gradient(180deg,#fffdfa_0%,#f8f2e8_100%)] p-4 shadow-[0_14px_35px_rgba(23,50,77,0.05)]">
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/logo_nexus_reussite.png"
+                alt="Nexus Réussite"
+                className="h-14 w-14 object-contain rounded-full border border-[#eadfcf] bg-white p-1.5"
+              />
+              <div className="min-w-0">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Nexus Réussite</p>
+                <p className="mt-1 text-sm font-semibold text-[#17324d]">Cockpit élève EAF</p>
+                <p className="text-xs text-[#61768b]">Travail guidé, progression lisible, matière exploitable.</p>
+              </div>
+            </div>
 
-        {/* Stats compactes */}
-        <div className="px-4 pb-4 space-y-3">
-          <div className="grid grid-cols-3 gap-2">
-            <div className="rounded-xl border border-border p-2.5 text-center bg-muted/30 hover:bg-muted/50 transition-colors">
-              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">J-EAF</p>
-              <p className="text-base font-bold text-primary mt-0.5">{joursAvantEAF !== null ? joursAvantEAF : '--'}</p>
+            <div className="mt-4 grid grid-cols-3 gap-2">
+              <div className="rounded-2xl border border-[#e4dacb] bg-white/85 p-2.5 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8b7a67]">J-EAF</p>
+                <p className="mt-1 text-base font-bold text-[#17324d]">{joursAvantEAF !== null ? joursAvantEAF : '--'}</p>
+              </div>
+              <div className="rounded-2xl border border-[#e4dacb] bg-white/85 p-2.5 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8b7a67]">Streak</p>
+                <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[#17324d]">
+                  <Flame className="h-3.5 w-3.5 text-[#d97706]" /> {streak}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[#e4dacb] bg-white/85 p-2.5 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8b7a67]">Badges</p>
+                <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[#17324d]">
+                  <Award className="h-3.5 w-3.5 text-[#b8860b]" /> {badgeCount}
+                </p>
+              </div>
             </div>
-            <div className="rounded-xl border border-border p-2.5 text-center bg-muted/30 hover:bg-muted/50 transition-colors">
-              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Streak</p>
-              <p className="text-base font-bold mt-0.5 flex items-center justify-center gap-1">
-                <Flame className="w-3.5 h-3.5 text-orange-500" /> {streak}
-              </p>
-            </div>
-            <div className="rounded-xl border border-border p-2.5 text-center bg-muted/30 hover:bg-muted/50 transition-colors">
-              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Badges</p>
-              <p className="text-base font-bold mt-0.5 flex items-center justify-center gap-1">
-                <Award className="w-3.5 h-3.5 text-yellow-500" /> {badgeCount}
-              </p>
+
+            <div className="mt-4 rounded-[22px] border border-[#d9e7e1] bg-[#edf7f3] p-3.5">
+              <div className="flex items-center gap-3">
+                <div className="relative h-12 w-12 shrink-0">
+                  <svg viewBox="0 0 36 36" className="h-12 w-12 -rotate-90">
+                    <circle cx="18" cy="18" r="15.5" fill="none" stroke="currentColor" strokeOpacity="0.15" strokeWidth="3" />
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="15.5"
+                      fill="none"
+                      stroke="currentColor"
+                      className="text-primary"
+                      strokeWidth="3"
+                      strokeDasharray={`${Math.round((globalScore / 20) * 97.4)} 97.4`}
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-[#17324d]">{globalScore}</div>
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-[#17324d]">Trajectoire actuelle</p>
+                  <p className="text-xs leading-5 text-[#476277]">Objectif vise : {me?.profile.targetScore ?? '14/20'}.</p>
+                </div>
+              </div>
             </div>
           </div>
-
-          {/* Score global compact */}
-          <div className="rounded-xl border border-border p-3 bg-muted/30 flex items-center gap-4">
-            <div className="relative w-12 h-12 shrink-0">
-              <svg viewBox="0 0 36 36" className="w-12 h-12 -rotate-90">
-                <circle cx="18" cy="18" r="15.5" fill="none" stroke="currentColor" strokeOpacity="0.15" strokeWidth="3" />
-                <circle cx="18" cy="18" r="15.5" fill="none" stroke="currentColor" className="text-primary" strokeWidth="3"
-                  strokeDasharray={`${Math.round((globalScore / 20) * 97.4)} 97.4`} strokeLinecap="round" />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center text-xs font-bold">{globalScore}</div>
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-foreground">Score global</p>
-              <p className="text-xs text-muted-foreground">Objectif : {me?.profile.targetScore ?? '14/20'}</p>
-            </div>
-          </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
-          {items.map((item) => {
-            const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all ${isActive
-                    ? 'bg-primary/10 text-primary shadow-sm'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                  }`}
-              >
-                <item.icon className={`w-[18px] h-[18px] ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
-                {item.name}
-              </Link>
-            );
-          })}
+        <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
+          {navSections.map((section) => (
+            <section key={section.label}>
+              <div className="mb-3 px-2">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">{section.label}</p>
+                <p className="mt-1 text-xs leading-5 text-[#6d7f90]">{section.description}</p>
+              </div>
+              <div className="space-y-1.5">
+                {section.items.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={`group flex items-center gap-3 rounded-[20px] border px-4 py-3 text-sm transition-all ${
+                        isActive
+                          ? 'border-[#17324d]/10 bg-[#17324d] text-white shadow-[0_12px_22px_rgba(23,50,77,0.14)]'
+                          : 'border-transparent bg-white/55 text-[#5f7388] hover:border-[#dfd1bc] hover:bg-white hover:text-[#17324d]'
+                      }`}
+                    >
+                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${
+                        isActive ? 'bg-white/12 text-white' : 'bg-[#17324d]/8 text-[#17324d]'
+                      }`}>
+                        <item.icon className="h-[18px] w-[18px]" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className={`font-semibold ${isActive ? 'text-white' : 'text-[#17324d]'}`}>{item.name}</p>
+                        <p className={`text-xs ${isActive ? 'text-white/70' : 'text-[#73879a]'}`}>{item.hint}</p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
         </nav>
 
-        {/* Footer user card */}
-        <div className="p-4 border-t border-border space-y-3">
+        <div className="border-t border-[#e4dacb] p-4 space-y-3">
           <div className="flex items-center gap-3">
             <button
               aria-label="Basculer le thème"
               onClick={toggleTheme}
-              className="p-2 rounded-lg border border-border bg-background hover:bg-muted transition-colors"
+              className="rounded-xl border border-[#dfd1bc] bg-white/80 p-2.5 text-[#17324d] transition-colors hover:bg-white"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
               aria-label="Paramètres"
               onClick={() => router.push('/profil')}
-              className="p-2 rounded-lg border border-border bg-background hover:bg-muted transition-colors"
+              className="rounded-xl border border-[#dfd1bc] bg-white/80 p-2.5 text-[#17324d] transition-colors hover:bg-white"
             >
               <Settings className="w-4 h-4" />
             </button>
@@ -253,7 +303,7 @@ export function Sidebar() {
             <button
               aria-label="Se déconnecter"
               onClick={handleLogout}
-              className="p-2 rounded-lg border border-border bg-background hover:bg-muted transition-colors ml-auto"
+              className="ml-auto rounded-xl border border-[#dfd1bc] bg-white/80 p-2.5 text-[#17324d] transition-colors hover:bg-white"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -262,20 +312,20 @@ export function Sidebar() {
           <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-muted/50 transition-colors cursor-pointer group"
             onClick={() => router.push('/profil')}
           >
-            <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center text-primary font-bold text-sm shrink-0 group-hover:ring-2 ring-primary/30 transition-all">
+            <div className="w-10 h-10 rounded-full bg-[#17324d]/12 flex items-center justify-center text-[#17324d] font-bold text-sm shrink-0 group-hover:ring-2 ring-[#17324d]/20 transition-all">
               {initials}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-foreground truncate">{me?.profile.displayName ?? 'Élève'}</p>
-              <p className="text-xs text-muted-foreground">Premium EAF</p>
+              <p className="text-sm font-semibold text-[#17324d] truncate">{me?.profile.displayName ?? 'Élève'}</p>
+              <p className="text-xs text-[#73879a]">Espace connecté EAF</p>
             </div>
           </div>
         </div>
       </aside>
 
       {/* ─── Mobile Bottom Navigation ─── */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-border bg-card/95 backdrop-blur-md px-1 py-1.5 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
-        <div className="grid grid-cols-6 gap-0.5">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-[#dfd2bf] bg-[rgba(255,253,249,0.96)] px-2 py-2 backdrop-blur-md shadow-[0_-10px_26px_rgba(23,50,77,0.08)]">
+        <div className="flex gap-1 overflow-x-auto pb-0.5">
           {mobileNavItems.map((item) => {
             const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
             return (
@@ -283,11 +333,14 @@ export function Sidebar() {
                 key={item.name}
                 href={item.href}
                 aria-label={item.name}
-                className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${active ? 'text-primary bg-primary/10 scale-105' : 'text-muted-foreground hover:text-foreground'
-                  }`}
+                className={`min-w-[72px] flex-1 flex-col items-center justify-center rounded-2xl py-2 transition-all ${
+                  active
+                    ? 'scale-[1.03] bg-[#17324d] text-white shadow-[0_10px_18px_rgba(23,50,77,0.14)]'
+                    : 'text-[#6d7f90] hover:bg-white hover:text-[#17324d]'
+                } flex`}
               >
                 <item.icon className="w-5 h-5" />
-                <span className="text-[9px] mt-0.5 font-bold">{item.name}</span>
+                <span className="mt-0.5 text-[9px] font-bold">{item.name}</span>
               </Link>
             );
           })}

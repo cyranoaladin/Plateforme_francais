@@ -1,67 +1,224 @@
 'use client';
 
 import Link from 'next/link';
-import { GraduationCap, Mic, FileCheck, Shield, Eye, ArrowRight } from 'lucide-react';
+import {
+  ArrowRight,
+  BadgeCheck,
+  ChartColumn,
+  Clock3,
+  LibraryBig,
+  ShieldCheck,
+} from 'lucide-react';
 import { track } from '@/components/analytics/events';
 
-const BADGES = [
-  { icon: Mic, label: 'Oral conforme : /2 /8 /2 /8' },
-  { icon: FileCheck, label: 'Citations (BO / Eduscol / œuvres)' },
-  { icon: Shield, label: 'Sécurité : session + CSRF' },
-  { icon: Eye, label: 'Accessibilité : WCAG / mode dyslexie' },
+const EDITORIAL_HEADING = {
+  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+};
+
+const MICRO_PROOFS = [
+  'Oral officiel : /2 /8 /2 /8',
+  'Aucun paiement avant essai',
+  'Anti-copie actif',
+  'Sources internes visibles',
+];
+
+const FRICTION_REMOVERS = [
+  'Inscription gratuite',
+  'Onboarding ~3 minutes',
+  'Voir le produit avant de payer',
+];
+
+const HERO_STATS = [
+  { value: '3 min', label: 'pour un onboarding cadré' },
+  { value: '4 ateliers', label: 'écrit, oral, langue, quiz' },
+  { value: '12 œuvres', label: 'du programme voie générale' },
+  { value: '1 cockpit', label: 'pour piloter la progression' },
+];
+
+const ORAL_PHASES = [
+  { label: 'Lecture', score: '2/2' },
+  { label: 'Explication', score: '6/8' },
+  { label: 'Grammaire', score: '1.5/2' },
+  { label: 'Entretien', score: '7/8' },
+];
+
+const SIGNALS = [
+  { label: 'Question de grammaire', width: '72%' },
+  { label: 'Structure de plan', width: '86%' },
+  { label: 'Citations précises', width: '64%' },
 ];
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-violet-400/20 dark:bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] bg-indigo-400/15 dark:bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative overflow-hidden border-b border-[#d8ccb9]/70">
+      <div className="mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 md:pt-20 lg:px-8 lg:pb-20">
+        <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+          <div className="max-w-3xl [animation:bienvenueFadeUp_.8s_ease-out_both]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#cabaa5] bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#17324d] shadow-sm">
+              <BadgeCheck className="h-4 w-4 text-[#0f766e]" />
+              Parcours EAF premium
+            </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-16 relative">
-        <p className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800 rounded-full px-3 py-1 mb-6 font-bold">
-          <GraduationCap className="w-3.5 h-3.5" /> Préparation EAF Première 2025-2026
-        </p>
-
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground max-w-4xl leading-[1.15]">
-          Prépare l&apos;EAF avec méthode, pas au hasard.
-        </h1>
-
-        <p className="text-muted-foreground text-base leading-7 max-w-2xl mt-5">
-          Écrit, oral et langue : entraînement guidé, retours structurés, ressources à citations.
-          L&apos;IA ne fait pas à ta place : elle t&apos;apprend à produire.
-        </p>
-
-        <div className="flex flex-wrap gap-2 mt-6">
-          {BADGES.map((badge) => (
-            <span
-              key={badge.label}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border border-border bg-card/60 backdrop-blur text-foreground"
+            <h1
+              style={EDITORIAL_HEADING}
+              className="mt-7 text-5xl leading-[0.96] tracking-[-0.04em] text-[#17324d] sm:text-6xl lg:text-7xl"
             >
-              <badge.icon className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
-              {badge.label}
-            </span>
+              La preparation EAF qui se laisse verifier avant d etre achetee,
+              <span className="block text-[#0f766e]">puis accompagne vraiment quand le rythme monte.</span>
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
+              Nexus Reussite rassemble ecrit, oral, langue, corpus officiel et historique de progression dans un meme flux de travail.
+              Tu vois le vrai produit en gratuit, tu mesures la qualite du cadre, puis tu montes en puissance seulement si le volume de travail le justifie.
+            </p>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <Link
+                href="/login?mode=register"
+                onClick={() => track({ name: 'cta_click', props: { cta: 'hero_register', path: '/bienvenue' } })}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#17324d] px-6 py-3.5 text-base font-bold text-[#f7f2ea] shadow-[0_22px_60px_rgba(23,50,77,0.22)] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+              >
+                Créer mon espace gratuit
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <a
+                href="#comment-ca-marche"
+                onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/bienvenue' } })}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#cabaa5] bg-white/85 px-6 py-3.5 text-base font-semibold text-[#17324d] transition-colors hover:bg-white"
+              >
+                Voir la méthode
+              </a>
+              <Link
+                href="/pricing"
+                onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/bienvenue' } })}
+                className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-slate-600 transition-colors hover:text-[#17324d]"
+              >
+                Comparer les plans
+              </Link>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-600">
+              {FRICTION_REMOVERS.map((item) => (
+                <span key={item} className="inline-flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#0f766e]" />
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              {MICRO_PROOFS.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-[#d8ccb9] bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-sm"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative [animation:bienvenueFadeUp_.95s_ease-out_.12s_both]">
+            <div className="absolute -left-6 top-12 hidden h-24 w-24 rounded-full bg-[#b87333]/18 blur-2xl lg:block" />
+            <div className="absolute -right-4 top-20 hidden h-16 w-16 rounded-full bg-[#0f766e]/20 blur-2xl lg:block [animation:bienvenueFloat_8s_ease-in-out_infinite]" />
+
+            <div className="rounded-[32px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.28)] md:p-8">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#e4d4bd]">Cockpit élève</p>
+                  <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
+                    Une séance, des retours immédiatement exploitables.
+                  </h2>
+                </div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[#f7f2ea]">
+                  <Clock3 className="h-3.5 w-3.5 text-[#e4d4bd]" />
+                  Session 2026
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#d7c4aa]">Simulation orale</p>
+                    <p className="mt-1 text-sm text-slate-200">Score ventilé selon le format officiel, sans zone floue.</p>
+                  </div>
+                  <div className="rounded-full bg-[#0f766e]/25 px-3 py-1 text-xs font-bold text-[#bde5df]">16.5 / 20</div>
+                </div>
+
+                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {ORAL_PHASES.map((phase) => (
+                    <div key={phase.label} className="rounded-2xl border border-white/10 bg-[#102238] px-3 py-3">
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">{phase.label}</p>
+                      <p className="mt-2 text-lg font-bold text-white">{phase.score}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <LibraryBig className="h-4 w-4 text-[#e4d4bd]" />
+                    Citations internes mobilisées
+                  </div>
+                  <ul className="mt-4 space-y-3 text-sm text-slate-200">
+                    <li className="rounded-2xl bg-black/10 px-3 py-2">BO 2025, annexe 3 — attendus de l&apos;explication</li>
+                    <li className="rounded-2xl bg-black/10 px-3 py-2">Rapport jury EAF 2024 — erreurs fréquentes à l&apos;oral</li>
+                    <li className="rounded-2xl bg-black/10 px-3 py-2">Œuvre au programme — extrait contextualisé</li>
+                  </ul>
+                </div>
+
+                <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <ChartColumn className="h-4 w-4 text-[#e4d4bd]" />
+                    Axes prioritaires de relance
+                  </div>
+                  <div className="mt-4 space-y-4">
+                    {SIGNALS.map((signal) => (
+                      <div key={signal.label}>
+                        <div className="mb-1 flex items-center justify-between text-xs font-medium text-slate-300">
+                          <span>{signal.label}</span>
+                          <span>à retravailler</span>
+                        </div>
+                        <div className="h-2 rounded-full bg-white/10">
+                          <div className="h-2 rounded-full bg-gradient-to-r from-[#b87333] to-[#0f766e]" style={{ width: signal.width }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 rounded-[24px] bg-[#f4efe5] p-4 text-[#17324d] shadow-inner">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Chaîne de valeur</p>
+                    <p className="mt-1 text-base font-semibold">Copie déposée → correction structurée → rapport PDF → relance ciblée</p>
+                  </div>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-3 py-1.5 text-xs font-bold text-[#f7f2ea]">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    anti-copie actif
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {HERO_STATS.map((stat, index) => (
+            <div
+              key={stat.label}
+              className="rounded-[28px] border border-[#d8ccb9] bg-white/80 px-5 py-5 shadow-[0_12px_35px_rgba(23,50,77,0.07)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
+              style={{ animationDelay: `${0.18 + index * 0.08}s` }}
+            >
+              <p style={EDITORIAL_HEADING} className="text-3xl tracking-[-0.03em] text-[#17324d]">
+                {stat.value}
+              </p>
+              <p className="mt-1 text-sm leading-6 text-slate-600">{stat.label}</p>
+            </div>
           ))}
         </div>
-
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mt-8">
-          <Link
-            href="/login?mode=register"
-            onClick={() => track({ name: 'cta_click', props: { cta: 'hero_register', path: '/bienvenue' } })}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-violet-600 text-white font-bold text-base hover:bg-violet-700 transition-all shadow-lg shadow-violet-600/25 hover:shadow-violet-600/40"
-          >
-            Commencer gratuitement <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            href="/login"
-            onClick={() => track({ name: 'cta_click', props: { cta: 'hero_login', path: '/bienvenue' } })}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl border border-border bg-card text-foreground font-semibold text-base hover:bg-muted transition-colors"
-          >
-            Se connecter
-          </Link>
-        </div>
-        <a href="#comment-ca-marche" className="inline-block mt-4 text-sm text-violet-600 dark:text-violet-400 hover:underline font-medium">
-          Voir comment ça marche &darr;
-        </a>
       </div>
     </section>
   );

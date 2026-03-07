@@ -7,8 +7,7 @@ import { createMemoryEvent } from '@/lib/memory/store';
 import { searchOfficialReferences } from '@/lib/rag/search';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
-import { requirePlan, incrementUsage } from '@/lib/billing/gating';
-import { getBillingContext } from '@/lib/billing/context';
+import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
 import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { sanitizeString } from '@/lib/security/sanitize';
 import { checkLLMQuota, QuotaExceededError } from '@/lib/security/llm-rate-limiter';
@@ -30,8 +29,19 @@ export async function POST(request: Request) {
     return csrfError;
   }
 
-  // Billing: Redis-based quota (primary)
-  const billing = await getBillingContext(auth.user.id);
+  let billing: Awaited<ReturnType<typeof getBillingContext>>;
+  try {
+    billing = await getBillingContext(auth.user.id);
+  } catch (error) {
+    if (error instanceof BillingContextUnavailableError) {
+      return NextResponse.json(
+        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { status: 503 },
+      );
+    }
+    throw error;
+  }
+
   const tutorQuota = billing.config.quotas.TUTOR_QUESTIONS;
   if (tutorQuota) {
     try {
@@ -40,7 +50,7 @@ export async function POST(request: Request) {
       if (err instanceof BillingQuotaExceededError) {
         return NextResponse.json(
           {
-            error: `Quota de messages tuteur atteint (${err.limit} par jour, plan ${billing.planId}). Passe au plan supérieur.`,
+            error: `Tu as atteint la limite incluse pour le tuteur (${err.limit} messages par jour, plan ${billing.planId}). La conversation n est pas perdue. Passe au plan superieur pour continuer maintenant.`,
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
             plan: billing.planId,
@@ -50,15 +60,6 @@ export async function POST(request: Request) {
       }
       throw err;
     }
-  }
-
-  // Legacy Prisma-based gating (secondary)
-  const gate = await requirePlan(auth.user.id, 'tuteurMessagesPerDay');
-  if (!gate.allowed) {
-    return NextResponse.json(
-      { error: 'Quota de messages atteint. Passez au plan premium pour un accès illimité.', upgradeUrl: gate.upgradeUrl },
-      { status: 402 },
-    );
   }
 
   const rl = await checkRateLimit({
@@ -85,6 +86,15 @@ export async function POST(request: Request) {
 
   // ✅ SANITIZATION des inputs utilisateur
   const userMessage = sanitizeString(parsed.data.message, { maxLength: 4000, allowHtml: false });
+  const workId = parsed.data.workId
+    ? sanitizeString(parsed.data.workId, { maxLength: 200, allowHtml: false })
+    : undefined;
+  const parcours = parsed.data.parcours
+    ? sanitizeString(parsed.data.parcours, { maxLength: 200, allowHtml: false })
+    : undefined;
+  const sessionId = parsed.data.sessionId
+    ? sanitizeString(parsed.data.sessionId, { maxLength: 120, allowHtml: false })
+    : undefined;
   const conversationHistory = (parsed.data.conversationHistory ?? []).map(item => ({
     role: item.role as 'user' | 'assistant',
     content: sanitizeString(item.content, { maxLength: 4000, allowHtml: false }),
@@ -143,6 +153,11 @@ export async function POST(request: Request) {
     .map((item) => `${item.role}: ${item.content}`)
     .join('\n');
 
+  const pedagogicalContext = [
+    workId ? `Œuvre ciblée: ${workId}` : '',
+    parcours ? `Parcours ciblé: ${parcours}` : '',
+  ].filter(Boolean).join('\n');
+
   const citations = refs.map((ref, index) => ({
     index: index + 1,
     title: ref.title,
@@ -155,7 +170,7 @@ export async function POST(request: Request) {
     } catch (error) {
       if (error instanceof QuotaExceededError) {
         return NextResponse.json(
-          { error: `Quota IA atteint (${error.scope}). Réessayez plus tard.` },
+          { error: `Limite atteinte pour ce type d accompagnement (${error.scope}). Réessayez plus tard.` },
           { status: 429 },
         );
       }
@@ -170,17 +185,22 @@ export async function POST(request: Request) {
       },
       {
         role: 'user' as const,
-        content: `Historique:\n${historyText}\n\nSources RAG:\n${context}\n\nQuestion eleve:\n${userMessage}`,
+        content: [pedagogicalContext, `Historique:\n${historyText}`, `Sources RAG:\n${context}`, `Question eleve:\n${userMessage}`]
+          .filter(Boolean)
+          .join('\n\n'),
       },
     ];
 
-    await incrementUsage(auth.user.id, 'tuteurMessagesPerDay');
     await createMemoryEventRecord(
       createMemoryEvent(auth.user.id, {
         type: 'discussion',
         feature: 'tuteur_message_stream',
         payload: {
           citations: citations.length,
+          workId: workId ?? 'none',
+          parcours: parcours ?? 'none',
+          sessionId: sessionId ?? 'none',
+          historyCount: conversationHistory.length,
         },
       }),
     );
@@ -189,6 +209,11 @@ export async function POST(request: Request) {
       createLlmStream({
         skill: 'tuteur_libre',
         userId: auth.user.id,
+        sessionId,
+        workId,
+        parcours,
+        ragSourcesCount: citations.length,
+        contextSummary: [pedagogicalContext, `Historique:\n${historyText}`, `Sources RAG:\n${context}`].filter(Boolean).join('\n\n'),
         messages,
         options: { temperature: 0.2 },
       }),
@@ -209,12 +234,14 @@ export async function POST(request: Request) {
       skill: 'tuteur_libre',
       userId: auth.user.id,
       userQuery: userMessage,
-      context: `Historique:\n${historyText}\n\nSources RAG:\n${context}`,
+      workId,
+      parcours,
+      context: [pedagogicalContext, `Historique:\n${historyText}`, `Sources RAG:\n${context}`].filter(Boolean).join('\n\n'),
     });
   } catch (error) {
     if (error instanceof QuotaExceededError) {
       return NextResponse.json(
-        { error: `Quota IA atteint (${error.scope}). Réessayez plus tard.` },
+        { error: `Limite atteinte pour ce type d accompagnement (${error.scope}). Réessayez plus tard.` },
         { status: 429 },
       );
     }
@@ -225,14 +252,16 @@ export async function POST(request: Request) {
     suggestions?: string[];
   };
 
-  await incrementUsage(auth.user.id, 'tuteurMessagesPerDay');
-
   await createMemoryEventRecord(
     createMemoryEvent(auth.user.id, {
       type: 'discussion',
       feature: 'tuteur_message',
       payload: {
         citations: citations.length,
+        workId: workId ?? 'none',
+        parcours: parcours ?? 'none',
+        sessionId: sessionId ?? 'none',
+        historyCount: conversationHistory.length,
       },
     }),
   );
