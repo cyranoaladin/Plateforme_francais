@@ -29,6 +29,7 @@ export const skillSchema = z.enum([
   'support_produit',
   'examinateur_virtuel',
   'pastiche',
+  'langue_generator',
 ]);
 
 export type Skill = z.infer<typeof skillSchema>;

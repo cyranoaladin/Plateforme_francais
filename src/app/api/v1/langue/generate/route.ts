@@ -5,12 +5,14 @@ import { createMemoryEvent } from '@/lib/memory/store';
 import { validateCsrf } from '@/lib/security/csrf';
 import { langueGenerateBodySchema } from '@/lib/validation/schemas';
 import { parseJsonBody } from '@/lib/validation/request';
-import { buildLangueExerciseSeries } from '@/lib/langue/exercise-bank';
+import { buildLangueExerciseSeries, type LangueExercise } from '@/lib/langue/exercise-bank';
+import { orchestrate } from '@/lib/llm/orchestrator';
+import { logger } from '@/lib/logger';
 
 /**
  * POST /api/v1/langue/generate
  * Body: { theme?: 'subordonnees'|'relations_logiques'|'systeme_verbal'|'mixte', count?: 1-10 }
- * Builds a local, varied exercise series for the grammar workshop.
+ * Generates dynamic grammar exercises using LLM, with fallback to local bank.
  */
 export async function POST(request: Request) {
   const { auth, errorResponse } = await requireAuthenticatedUser();
@@ -30,7 +32,39 @@ export async function POST(request: Request) {
 
   const theme = parsed.data.theme ?? 'mixte';
   const count = parsed.data.count ?? 5;
-  const exercises = buildLangueExerciseSeries(theme, count);
+
+  // Try to generate exercises using LLM first
+  let exercises: LangueExercise[] = [];
+  let source = 'local_bank';
+
+  try {
+    const result = await orchestrate({
+      skill: 'langue_generator',
+      userId: auth.user.id,
+      userQuery: `Génère ${count} exercices de grammaire EAF sur le thème "${theme}".`,
+      context: `Thème: ${theme}. Nombre d'exercices: ${count}. Niveau: Première générale.`,
+    }) as { exercises?: Array<{ sentence: string; question: string; correction: string; axe?: string }> };
+
+    if (result.exercises && result.exercises.length > 0) {
+      exercises = result.exercises.map((ex, idx) => ({
+        id: `llm-${theme}-${idx}`,
+        sentence: ex.sentence,
+        question: ex.question,
+        correction: ex.correction,
+        axe: (ex.axe ?? theme) as Exclude<typeof theme, 'mixte'>,
+      }));
+      source = 'llm_generated';
+    }
+  } catch (err) {
+    logger.warn({ err, theme, count }, 'langue_generate.llm_failed');
+    // Fallback to local bank
+  }
+
+  // Fallback to local bank if LLM generation failed or returned empty
+  if (exercises.length === 0) {
+    exercises = buildLangueExerciseSeries(theme, count);
+    source = 'local_bank';
+  }
 
   await createMemoryEventRecord(
     createMemoryEvent(auth.user.id, {
@@ -40,6 +74,7 @@ export async function POST(request: Request) {
       payload: {
         theme,
         count: exercises.length,
+        source,
       },
     }),
   ).catch(() => undefined);
@@ -47,7 +82,7 @@ export async function POST(request: Request) {
   return NextResponse.json(
     {
       exercises,
-      source: 'local_bank',
+      source,
     },
     { status: 200 },
   );

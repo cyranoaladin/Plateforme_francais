@@ -111,7 +111,7 @@ Réponds en JSON :
         },
       ];
 
-      const provider = getRouterProvider("diagnosticien", estimateTokens(messages));
+      const provider = await getRouterProvider("diagnosticien", estimateTokens(messages));
       const llmResult = await provider.generateContent(messages, {
         temperature: 0.3,
         maxTokens: 1500,

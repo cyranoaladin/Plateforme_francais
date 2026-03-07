@@ -1,6 +1,8 @@
 import { MistralProvider, type MistralTier as MistralProviderTier } from '@/lib/llm/adapters/mistral';
 import { OllamaProvider } from '@/lib/llm/adapters/ollama';
-import type { LLMProvider } from '@/lib/llm/provider';
+import { GeminiProvider } from '@/lib/llm/adapters/gemini';
+import { OpenAIProvider } from '@/lib/llm/adapters/openai';
+import type { LLMProvider, ProviderChatMessage, GenerateContentOptions } from '@/lib/llm/provider';
 import { logger } from '@/lib/logger';
 
 export type MistralTier =
@@ -283,6 +285,166 @@ export function selectProvider(config: RouterConfig): SelectedProvider {
   return providerForTier(tier);
 }
 
-export function getRouterProvider(skill: string, contextTokens?: number): LLMProvider {
-  return selectProvider({ skill, contextTokens }).provider;
+// ═══════════════════════════════════════════════════════════════════════════
+// FALLBACK MULTI-LLM EN CASCADE AVEC TIMEOUT
+// Ordre de priorité : Gemini → OpenAI → Mistral → Ollama (local)
+// ═══════════════════════════════════════════════════════════════════════════
+
+interface LLMRequest {
+  prompt: string;
+  systemPrompt?: string;
+  maxTokens?: number;
+  temperature?: number;
+}
+
+interface LLMResponse {
+  content: string;
+  provider: string;
+  latencyMs: number;
+}
+
+const LLM_TIMEOUT_MS = Number(process.env.LLM_TIMEOUT_MS ?? '15000');
+const LLM_PROVIDER_ORDER = (process.env.LLM_PROVIDER_ORDER ?? 'gemini,openai,mistral,ollama')
+  .split(',')
+  .map((s) => s.trim()) as string[];
+
+async function callWithTimeout(
+  fn: () => Promise<string>,
+  timeoutMs: number,
+  providerName: string,
+): Promise<string> {
+  return Promise.race([
+    fn(),
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error(`${providerName} timeout after ${timeoutMs}ms`)), timeoutMs),
+    ),
+  ]);
+}
+
+export async function routeLLM(req: LLMRequest): Promise<LLMResponse> {
+  for (const providerName of LLM_PROVIDER_ORDER) {
+    const start = Date.now();
+    try {
+      let content: string;
+
+      if (providerName === 'gemini' && process.env.GEMINI_API_KEY) {
+        const gemini = new GeminiProvider(process.env.GEMINI_API_KEY);
+        const messages = req.systemPrompt
+          ? [{ role: 'system' as const, content: req.systemPrompt }, { role: 'user' as const, content: req.prompt }]
+          : [{ role: 'user' as const, content: req.prompt }];
+        const result = await callWithTimeout(
+          () => gemini.generateContent(messages, { maxTokens: req.maxTokens, temperature: req.temperature }).then((r) => r.text),
+          LLM_TIMEOUT_MS,
+          'gemini',
+        );
+        content = result;
+      } else if (providerName === 'openai' && process.env.OPENAI_API_KEY) {
+        const openai = new OpenAIProvider(process.env.OPENAI_API_KEY);
+        const messages = req.systemPrompt
+          ? [{ role: 'system' as const, content: req.systemPrompt }, { role: 'user' as const, content: req.prompt }]
+          : [{ role: 'user' as const, content: req.prompt }];
+        const result = await callWithTimeout(
+          () => openai.generateContent(messages, { maxTokens: req.maxTokens, temperature: req.temperature }).then((r) => r.text),
+          LLM_TIMEOUT_MS,
+          'openai',
+        );
+        content = result;
+      } else if (providerName === 'mistral' && process.env.MISTRAL_API_KEY) {
+        const mistral = MistralProvider.createForTier('small');
+        const messages = req.systemPrompt
+          ? [{ role: 'system' as const, content: req.systemPrompt }, { role: 'user' as const, content: req.prompt }]
+          : [{ role: 'user' as const, content: req.prompt }];
+        const result = await callWithTimeout(
+          () => mistral.generateContent(messages, { maxTokens: req.maxTokens, temperature: req.temperature }).then((r) => r.text),
+          LLM_TIMEOUT_MS,
+          'mistral',
+        );
+        content = result;
+      } else if (providerName === 'ollama') {
+        const ollama = getOrCreateOllamaProvider();
+        const messages = req.systemPrompt
+          ? [{ role: 'system' as const, content: req.systemPrompt }, { role: 'user' as const, content: req.prompt }]
+          : [{ role: 'user' as const, content: req.prompt }];
+        const result = await callWithTimeout(
+          () => ollama.generateContent(messages, { maxTokens: req.maxTokens, temperature: req.temperature }).then((r) => r.text),
+          LLM_TIMEOUT_MS,
+          'ollama',
+        );
+        content = result;
+      } else {
+        // Provider not configured, skip to next
+        continue;
+      }
+
+      const latencyMs = Date.now() - start;
+      logger.info({ provider: providerName, latencyMs }, 'llm.route.success');
+      return { content, provider: providerName, latencyMs };
+    } catch (err) {
+      logger.warn(
+        { provider: providerName, err, latencyMs: Date.now() - start },
+        `llm.route.failed - trying next provider`,
+      );
+      // Continue to next provider
+    }
+  }
+
+  logger.error({ providers: LLM_PROVIDER_ORDER }, 'llm.route.all_providers_failed');
+  throw new Error('All LLM providers failed. Please try again later.');
+}
+
+export async function getRouterProvider(skill: string, contextTokens?: number): Promise<LLMProvider> {
+  if (!routerEnabled()) {
+    return getOrCreateOllamaProvider();
+  }
+
+  const selected = selectProvider({ skill, contextTokens });
+  
+  // Use multi-provider fallback with timeout BY DEFAULT (activé sauf si explicitement désactivé)
+  const useMultiProviderFallback = process.env.LLM_MULTI_PROVIDER_FALLBACK !== 'false';
+  
+  if (useMultiProviderFallback) {
+    // Return a wrapped provider that uses the cascade fallback
+    return {
+      async generateContent(promptOrMessages: string | ProviderChatMessage[], options?: GenerateContentOptions) {
+        const prompt = typeof promptOrMessages === 'string' ? promptOrMessages : promptOrMessages.map((m) => m.content).join('\n');
+        const response = await routeLLM({ 
+          prompt, 
+          systemPrompt: typeof promptOrMessages === 'string' ? undefined : promptOrMessages.find((m) => m.role === 'system')?.content,
+          maxTokens: options?.maxTokens,
+          temperature: options?.temperature,
+        });
+        return { text: response.content, content: response.content, model: response.provider, usage: { latencyMs: response.latencyMs } };
+      },
+      async getEmbeddings(text: string) {
+        // Fallback to Mistral for embeddings
+        const mistral = MistralProvider.createForTier('small');
+        return mistral.getEmbeddings(text);
+      },
+    };
+  }
+
+  // Original behavior: try providers in order without timeout
+  const providers: { name: string; create: () => LLMProvider }[] = [
+    { name: 'Gemini', create: () => new GeminiProvider(process.env.GEMINI_API_KEY ?? '') },
+    { name: 'OpenAI', create: () => new OpenAIProvider(process.env.OPENAI_API_KEY ?? '') },
+    { name: 'Mistral', create: () => selected.provider },
+    { name: 'Ollama', create: () => getOrCreateOllamaProvider() }
+  ];
+
+  for (const { name, create } of providers) {
+    try {
+      // Skip if API key is missing
+      if (name === 'Gemini' && !process.env.GEMINI_API_KEY) continue;
+      if (name === 'OpenAI' && !process.env.OPENAI_API_KEY) continue;
+
+      const provider = create();
+      logger.info({ skill, providerName: name }, `[Router] Provider sélectionné : ${name}`);
+      return provider;
+    } catch (error) {
+      logger.warn({ skill, providerName: name, error }, `[Router] Échec du provider ${name}, passage au suivant...`);
+    }
+  }
+
+  logger.warn({ skill }, '[Router] Tous les providers distants ont échoué, fallback sur Ollama local.');
+  return getOrCreateOllamaProvider();
 }

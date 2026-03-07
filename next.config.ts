@@ -18,6 +18,10 @@ const SECURITY_HEADERS = [
 ]
 
 const nextConfig: NextConfig = {
+  // Skip static generation - use standalone server mode
+  output: 'standalone',
+  // Disable React strict mode to avoid context issues in error boundaries
+  reactStrictMode: false,
   turbopack: {
     root: projectRoot,
   },
@@ -52,10 +56,6 @@ const nextConfig: NextConfig = {
     remotePatterns: [],
   },
   // S'assurer que le dossier ressources est surveillé
-  experimental: {
-    // Optimisation pour les gros fichiers
-    optimizePackageImports: ['lucide-react', 'recharts'],
-  },
 }
 
 export default nextConfig

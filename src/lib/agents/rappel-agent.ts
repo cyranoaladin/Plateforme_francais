@@ -59,7 +59,7 @@ Contexte: ${first.example}
 Corrigé attendu: ${first.correction}
 Format JSON: {"prompt":"...","expected":"..."}`;
     const messages: ProviderChatMessage[] = [{ role: 'user', content: prompt }];
-    const provider = getRouterProvider('rappel_agent', estimateTokens(messages));
+    const provider = await getRouterProvider('rappel_agent', estimateTokens(messages));
     const completion = await provider.generateContent(messages, {
       responseMimeType: 'application/json',
       temperature: 0.2,

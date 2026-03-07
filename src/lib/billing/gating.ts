@@ -13,7 +13,7 @@ export const PLAN_LIMITS = {
     rapportHebdo: false,
     graphRag: false,
   },
-  MONTHLY: {
+  PRO: {
     epreuvesPerMonth: Number.POSITIVE_INFINITY,
     correctionsPerMonth: Number.POSITIVE_INFINITY,
     oralSessionsPerMonth: Number.POSITIVE_INFINITY,
@@ -25,7 +25,7 @@ export const PLAN_LIMITS = {
     rapportHebdo: true,
     graphRag: false,
   },
-  LIFETIME: {
+  MAX: {
     epreuvesPerMonth: Number.POSITIVE_INFINITY,
     correctionsPerMonth: Number.POSITIVE_INFINITY,
     oralSessionsPerMonth: Number.POSITIVE_INFINITY,
@@ -42,17 +42,25 @@ export const PLAN_LIMITS = {
 export type PlanFeature = keyof typeof PLAN_LIMITS.FREE;
 export type SubscriptionPlanName = keyof typeof PLAN_LIMITS;
 
+function normalizePlan(raw: string): SubscriptionPlanName {
+  const upper = raw.toUpperCase();
+  if (upper === 'MAX' || upper === 'LIFETIME') return 'MAX';
+  if (upper === 'PRO' || upper === 'MONTHLY') return 'PRO';
+  return 'FREE';
+}
+
 export async function getUserPlan(userId: string): Promise<SubscriptionPlanName> {
   try {
     const sub = (await prisma.subscription.findUnique({ where: { userId } })) as
-      | { plan?: SubscriptionPlanName; expiresAt?: Date | string | null }
+      | { plan?: string; expiresAt?: Date | string | null }
       | null;
     if (!sub || !sub.plan) {
       return 'FREE';
     }
-    // LIFETIME n'expire jamais
-    if (sub.plan === 'LIFETIME') {
-      return 'LIFETIME';
+    const plan = normalizePlan(sub.plan);
+    // MAX n'expire jamais
+    if (plan === 'MAX') {
+      return 'MAX';
     }
     // Vérifier l'expiration pour les plans temporaires
     if (sub.expiresAt) {
@@ -61,7 +69,7 @@ export async function getUserPlan(userId: string): Promise<SubscriptionPlanName>
         return 'FREE';
       }
     }
-    return sub.plan as SubscriptionPlanName;
+    return plan;
   } catch {
     return 'FREE';
   }

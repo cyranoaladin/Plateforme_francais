@@ -46,7 +46,7 @@ ${params.generatedCorrection}`,
       },
     ];
 
-    const provider = getRouterProvider('self_reflection', estimateTokens(messages));
+    const provider = await getRouterProvider('self_reflection', estimateTokens(messages));
     const timeoutPromise = new Promise<never>((_, reject) => {
       const timer = setTimeout(() => {
         clearTimeout(timer);

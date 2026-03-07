@@ -49,7 +49,7 @@ Contexte:
 - adherenceRate: ${Math.round(input.adherenceRate * 100)}%
 - erreurs récurrentes: ${input.topErrors.join(', ') || 'aucune'}`;
   const messages: ProviderChatMessage[] = [{ role: 'user', content: prompt }];
-  const provider = getRouterProvider('rapport_auto', estimateTokens(messages));
+  const provider = await getRouterProvider('rapport_auto', estimateTokens(messages));
 
   try {
     const response = await provider.generateContent(messages, {

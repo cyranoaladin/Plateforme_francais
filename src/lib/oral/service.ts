@@ -67,59 +67,58 @@ export async function pickOralExtrait(params: {
     throw new Error('Profil étudiant introuvable.');
   }
 
-  // Simulation: must have at least 20 texts in the descriptif
-  if (params.mode === 'SIMULATION' && profile.descriptifTextes.length < 20) {
-    throw new Error('Descriptif incomplet: 20 textes requis pour lancer une simulation.');
+  // Simulation: must have at least 3 texts in the descriptif (one per major work)
+  // Using corpus EXTRAITS_OEUVRES as fallback for works not in student's descriptif
+  const MIN_TEXTS_FOR_SIMULATION = 3;
+  if (params.mode === 'SIMULATION' && profile.descriptifTextes.length < MIN_TEXTS_FOR_SIMULATION) {
+    throw new Error(`Descriptif incomplet: ${MIN_TEXTS_FOR_SIMULATION} textes minimum requis pour lancer une simulation.`);
   }
 
   console.log(`[pickOralExtrait] User: ${params.userId}, Oeuvre: ${params.oeuvre}, Mode: ${params.mode}`);
   console.log(`[pickOralExtrait] Found ${profile.descriptifTextes.length} texts in descriptif.`);
 
-  const studentList = profile.descriptifTextes.filter((t) =>
-    params.oeuvre.toLowerCase().includes(t.oeuvre.toLowerCase())
+  // First, try to find a match in the student's descriptif
+  const studentMatch = profile.descriptifTextes.find((t) =>
+    params.oeuvre.toLowerCase().includes(t.oeuvre.toLowerCase()) ||
+    t.oeuvre.toLowerCase().includes(params.oeuvre.toLowerCase())
   );
-  console.log(`[pickOralExtrait] Filtered student list: ${studentList.length} matches for "${params.oeuvre}"`);
 
-  // If we found specific texts in the student's list for this oeuvre, use them
-  // Otherwise, fallback to the corpus for both modes (simulation and free practice)
-  let pool = studentList.length > 0 ? studentList : EXTRAITS_OEUVRES;
-  
-  // If still no texts found for this specific oeuvre, try to find any text from the corpus
-  if (pool.length === 0 || (studentList.length === 0 && pool === EXTRAITS_OEUVRES)) {
-    // Try to find a match in the corpus for the requested oeuvre
-    const corpusMatch = EXTRAITS_OEUVRES.find((item) =>
-      params.oeuvre.toLowerCase().includes(item.oeuvre.toLowerCase()) ||
-      item.oeuvre.toLowerCase().includes(params.oeuvre.toLowerCase())
-    );
-    
-    if (corpusMatch) {
-      pool = [corpusMatch];
-    } else {
-      // Last resort: use any available extract
-      pool = EXTRAITS_OEUVRES;
-    }
+  if (studentMatch) {
+    console.log(`[pickOralExtrait] Found match in student's descriptif: ${studentMatch.oeuvre}`);
   }
 
-  if (pool.length === 0) {
-    console.error(`[pickOralExtrait] ERROR: No texts found for "${params.oeuvre}" in simulation mode.`);
-    throw new Error(`Aucun texte trouvé dans votre descriptif pour l'œuvre "${params.oeuvre}".`);
-  }
-
-  const choice = pool[Math.floor(Math.random() * pool.length)];
-  console.log(`[pickOralExtrait] Picked: ${'titre' in choice ? choice.titre : choice.id}`);
-
-  // Resolve full content from corpus based on title/oeuvre if it's a student reference
+  // Always use EXTRAITS_OEUVRES as the primary source (more reliable and complete)
   const corpusMatch = EXTRAITS_OEUVRES.find((item) =>
-    item.oeuvre.toLowerCase().includes(params.oeuvre.toLowerCase()) ||
-    params.oeuvre.toLowerCase().includes(item.oeuvre.toLowerCase())
-  ) ?? EXTRAITS_OEUVRES[0];
+    params.oeuvre.toLowerCase().includes(item.oeuvre.toLowerCase()) ||
+    item.oeuvre.toLowerCase().includes(params.oeuvre.toLowerCase())
+  );
 
-  console.log(`[pickOralExtrait] Corpus match: ${corpusMatch?.oeuvre}`);
+  if (corpusMatch) {
+    console.log(`[pickOralExtrait] Using corpus extract: ${corpusMatch.oeuvre} - ${corpusMatch.id}`);
+    return {
+      texte: corpusMatch.extrait,
+      questionGrammaire: corpusMatch.questionGrammaire,
+      phraseGrammaire: corpusMatch.extrait.split('.').find((chunk) => chunk.trim().length > 20)?.trim() ?? 'Phrase cible indisponible.',
+    };
+  }
 
+  // Fallback: use any available extract from the corpus
+  if (EXTRAITS_OEUVRES.length > 0) {
+    const randomExtract = EXTRAITS_OEUVRES[Math.floor(Math.random() * EXTRAITS_OEUVRES.length)];
+    console.log(`[pickOralExtrait] Fallback to random extract: ${randomExtract.oeuvre}`);
+    return {
+      texte: randomExtract.extrait,
+      questionGrammaire: randomExtract.questionGrammaire,
+      phraseGrammaire: randomExtract.extrait.split('.').find((chunk) => chunk.trim().length > 20)?.trim() ?? 'Phrase cible indisponible.',
+    };
+  }
+
+  // Last resort: return default values
+  console.error(`[pickOralExtrait] ERROR: No texts found in corpus.`);
   return {
-    texte: corpusMatch?.extrait ?? 'Texte indisponible.',
-    questionGrammaire: corpusMatch?.questionGrammaire ?? 'Analysez la syntaxe de la phrase.',
-    phraseGrammaire: (corpusMatch?.extrait ?? '').split('.').find((chunk) => chunk.trim().length > 20)?.trim() ?? 'Phrase cible indisponible.',
+    texte: 'Texte indisponible.',
+    questionGrammaire: 'Analysez la syntaxe de la phrase.',
+    phraseGrammaire: 'Phrase cible indisponible.',
   };
 }
 

@@ -125,7 +125,7 @@ export async function analyzeAvocatDiable(input: AnalyzeInput): Promise<AvocatDi
   const messages: ProviderChatMessage[] = [{ role: 'user', content: prompt }];
 
   try {
-    const provider = getRouterProvider('avocat_diable', estimateTokens(messages));
+    const provider = await getRouterProvider('avocat_diable', estimateTokens(messages));
     const completion = await provider.generateContent(messages, {
       temperature: 0.2,
       responseMimeType: 'application/json',

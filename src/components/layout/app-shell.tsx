@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { Sidebar } from '@/components/layout/sidebar';
 import { TrackingProvider } from '@/components/tracking/tracking-provider';
+import { ThemeProvider } from '@/components/theme/theme-provider';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -21,17 +22,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (isStandalonePage) {
     return (
       <>
-        {shouldTrackLearningActivity && <TrackingProvider />}
-        <main className="flex-1 relative min-h-screen">{children}</main>
+        <ThemeProvider>
+          {shouldTrackLearningActivity && <TrackingProvider />}
+          <main className="flex-1 relative min-h-screen">{children}</main>
+        </ThemeProvider>
       </>
     );
   }
 
   return (
     <>
-      <TrackingProvider />
-      <Sidebar />
-      <main className="flex-1 md:ml-72 relative min-h-screen pb-20 md:pb-0">{children}</main>
+      <ThemeProvider>
+        <TrackingProvider />
+        <Sidebar />
+        <main className="flex-1 md:ml-72 relative min-h-screen pb-20 md:pb-0">{children}</main>
+      </ThemeProvider>
     </>
   );
 }

@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AppShell } from "@/components/layout/app-shell";
 import { WebVitalsReporter } from "@/components/monitoring/web-vitals-reporter";
-import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 
 export const metadata: Metadata = {
   title: "EAF Premium",
-  description: "Plateforme premium de préparation à l’EAF avec parcours personnalisé, corpus officiel et suivi de progression en Première voie générale",
+  description: "Plateforme premium de préparation à l'EAF avec parcours personnalisé, corpus officiel et suivi de progression en Première voie générale",
 };
+
+// Force dynamic rendering - required for ThemeProvider with Context
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 export default function RootLayout({
   children,
@@ -19,11 +22,9 @@ export default function RootLayout({
     <html lang="fr">
       <body className="antialiased min-h-screen bg-background text-foreground flex">
         <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
-        <ThemeProvider>
-          <WebVitalsReporter />
-          <AppShell><main id="main-content">{children}</main></AppShell>
-          <ConsentBanner />
-        </ThemeProvider>
+        <WebVitalsReporter />
+        <AppShell><main id="main-content">{children}</main></AppShell>
+        <ConsentBanner />
       </body>
     </html>
   );
