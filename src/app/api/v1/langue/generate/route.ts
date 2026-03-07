@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       context: `Thème: ${theme}. Nombre d'exercices: ${count}. Niveau: Première générale.`,
     }) as { exercises?: Array<{ sentence: string; question: string; correction: string; axe?: string }> };
 
-    if (result.exercises && result.exercises.length > 0) {
+    if (result.exercises && result.exercises.length >= count) {
       exercises = result.exercises.map((ex, idx) => ({
         id: `llm-${theme}-${idx}`,
         sentence: ex.sentence,
