@@ -44,6 +44,13 @@ FORMAT DE SORTIE (JSON strict) :
 Adaptez l'axe au thème demandé. Générez des exercices variés et progressifs.`,
   outputSchema: schema,
   fallback: {
-    exercises: [],
+    exercises: [
+      {
+        sentence: 'Je veux que vous sachiez combien cette œuvre m\'a touché.',
+        question: 'Analysez le mode verbal de la subordonnée et justifiez son emploi.',
+        correction: '« sachiez » est au subjonctif présent, imposé par le verbe de volonté « vouloir » dans la principale. Le subjonctif exprime ici le souhait du locuteur.',
+        axe: 'systeme_verbal',
+      },
+    ],
   },
 };
