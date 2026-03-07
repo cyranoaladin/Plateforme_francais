@@ -30,8 +30,21 @@ function toEventRecord(event: {
   };
 }
 
+async function hasPersistableUser(userId: string): Promise<boolean> {
+  if (!await isDatabaseAvailable()) {
+    return false;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true },
+  });
+
+  return Boolean(user);
+}
+
 export async function createMemoryEventRecord(event: MemoryEvent) {
-  if (await isDatabaseAvailable()) {
+  if (await hasPersistableUser(event.userId)) {
     await prisma.memoryEvent.create({
       data: {
         id: event.id,
@@ -53,7 +66,7 @@ export async function createMemoryEventRecord(event: MemoryEvent) {
 }
 
 export async function listMemoryEventsByUser(userId: string, limit?: number): Promise<MemoryEvent[]> {
-  if (await isDatabaseAvailable()) {
+  if (await hasPersistableUser(userId)) {
     const events = await prisma.memoryEvent.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },

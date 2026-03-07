@@ -271,11 +271,20 @@ async function resolveProfileId(studentId: string): Promise<string | null> {
     return null;
   }
 
+  const user = await prisma.user.findUnique({
+    where: { id: studentId },
+    select: { id: true },
+  });
+
+  if (!user) {
+    return null;
+  }
+
   const profile = await prisma.studentProfile.upsert({
     where: { userId: studentId },
     update: {},
     create: {
-      user: { connect: { id: studentId } },
+      userId: studentId,
       ...DEFAULT_PROFILE_DATA,
     },
     select: { id: true },
