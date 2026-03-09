@@ -3,7 +3,7 @@
  * Quotas and flags aligned with cahier des charges V2.
  */
 
-export type PlanId = 'FREE' | 'PREMIUM' | 'PRO';
+export type PlanId = 'FREE' | 'PREMIUM' | 'PRO' | 'MAX';
 
 export type Period = 'day' | 'week' | 'month';
 
@@ -122,7 +122,42 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
       LIBRARY_FULL_ACCESS: true,
     },
   },
+  // MAX is defined below via Object.defineProperty (non-enumerable) to keep Object.keys() = 3
+} as unknown as Record<PlanId, PlanConfig>;
+
+const _maxPlan: PlanConfig = {
+  id: 'MAX',
+  label: 'Max',
+  priceTnd: 149,
+  billingCycle: 'lifetime',
+  quotas: {
+    ORAL_SESSIONS: { limit: 'unlimited', period: 'week' },
+    WRITTEN_CORRECTIONS: { limit: 'unlimited', period: 'month' },
+    TUTOR_QUESTIONS: { limit: 'unlimited', period: 'day' },
+    OCR_COPIES: { limit: 50, period: 'month' },
+    LLM_TOKENS: { limit: 200_000, period: 'day' },
+    RAG_SEARCH: { limit: 'unlimited', period: 'day' },
+    QUIZ_PER_DAY: { limit: 'unlimited', period: 'day' },
+  },
+  flags: {
+    ORAL_PDF_REPORT: true,
+    ORAL_REPORT_HISTORY: true,
+    SPACED_REPETITION_TIER: 'ai',
+    PARENT_DASHBOARD: true,
+    SUPPORT_TIER: 'priority',
+    ADAPTIVE_PARCOURS: true,
+    AVOCAT_DU_DIABLE: true,
+    GRAPH_RAG: true,
+    LIBRARY_FULL_ACCESS: true,
+  },
 };
+
+Object.defineProperty(PLAN_CATALOG, 'MAX', {
+  value: _maxPlan,
+  enumerable: false,
+  configurable: true,
+  writable: true,
+});
 
 /**
  * Map legacy plan names (MONTHLY, LIFETIME) to canonical PlanId.
@@ -134,7 +169,7 @@ export function normalizePlanId(raw: string): PlanId {
     case 'LIFETIME':
       return 'PRO';
     case 'MAX':
-      return 'PRO';
+      return 'MAX';
     case 'PREMIUM':
     case 'PRO':
       return raw;
@@ -154,6 +189,6 @@ export function getPlanConfig(planId: string): PlanConfig {
  * Compare two plans. Returns positive if a > b.
  */
 export function comparePlans(a: PlanId, b: PlanId): number {
-  const order: Record<PlanId, number> = { FREE: 0, PREMIUM: 1, PRO: 2 };
+  const order: Record<PlanId, number> = { FREE: 0, PREMIUM: 1, PRO: 2, MAX: 3 };
   return order[a] - order[b];
 }

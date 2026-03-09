@@ -53,16 +53,16 @@ export function buildPaywallMessage(planId: PlanId, entitlement: EntitlementKey)
     return `Cette fonctionnalité n'est pas disponible dans ton plan actuel. Passe à un plan supérieur.`;
   }
   
-  const limit = quota.limit === 'unlimited' ? 'illimité' : quota.limit;
+  const limitDisplay = quota.limit === 'unlimited' ? 'illimité' : String(quota.limit);
   const periodLabel = periodLabels[quota.period];
 
   if (planId === 'FREE') {
-    return `Tu as atteint la limite incluse dans Free : ${limit} ${label} par ${periodLabel}. Ton travail reste conservé. Passe à Pro pour reprendre sans blocage.`;
+    return `Tu as atteint la limite incluse dans Free : ${limitDisplay} ${label} par ${periodLabel}. Ton travail reste conservé. Passe à Pro pour reprendre sans blocage.`;
   }
-  
-  if (planId === 'PRO') {
-    return `Tu as atteint la limite incluse dans Pro : ${limit} ${label} par ${periodLabel}. Passe à Max pour continuer sans plafond.`;
+
+  if (planId === 'PRO' || planId === 'PREMIUM') {
+    return `Tu as atteint la limite incluse dans Pro : ${limitDisplay} ${label} par ${periodLabel}. Passe à Max pour continuer sans plafond.`;
   }
-  
-  return `Tu as atteint la limite de ton plan : ${limit} ${label} par ${periodLabel}.`;
+
+  return `Tu as atteint la limite de ton plan : ${limitDisplay} ${label} par ${periodLabel}.`;
 }

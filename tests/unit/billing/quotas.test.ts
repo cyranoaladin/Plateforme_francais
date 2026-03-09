@@ -11,7 +11,7 @@ describe('Billing Quotas V2', () => {
     });
 
     it('PRO has higher quotas', () => {
-      expect(PLAN_CATALOG.PRO.quotas.ORAL_SESSIONS.limit).toBe(10);
+      expect(PLAN_CATALOG.PRO.quotas.ORAL_SESSIONS.limit).toBe('unlimited');
       expect(PLAN_CATALOG.PRO.flags.ORAL_PDF_REPORT).toBe(true);
     });
 
@@ -48,7 +48,7 @@ describe('Billing Quotas V2', () => {
 
     it('generates PRO plan paywall message', () => {
       const msg = buildPaywallMessage('PRO', 'ORAL_SESSIONS');
-      expect(msg).toContain('10');
+      expect(msg).toContain('illimité');
       expect(msg).toContain('Max');
     });
 

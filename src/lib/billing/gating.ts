@@ -34,7 +34,7 @@ const FEATURE_TO_ENTITLEMENT: Record<PlanFeature, EntitlementKey | null> = {
  * Get user plan using unified billing context.
  * @deprecated Use getBillingContext() directly for new code.
  */
-export async function getUserPlan(userId: string): Promise<'FREE' | 'PREMIUM' | 'PRO'> {
+export async function getUserPlan(userId: string): Promise<'FREE' | 'PREMIUM' | 'PRO' | 'MAX'> {
   const context = await getBillingContext(userId);
   return context.planId;
 }
@@ -104,7 +104,7 @@ export async function incrementUsage(userId: string, feature: PlanFeature): Prom
 export async function requirePlan(
   userId: string,
   feature: PlanFeature,
-): Promise<{ allowed: boolean; reason?: string; upgradeUrl?: string; plan?: 'FREE' | 'PREMIUM' | 'PRO' }> {
+): Promise<{ allowed: boolean; reason?: string; upgradeUrl?: string; plan?: 'FREE' | 'PREMIUM' | 'PRO' | 'MAX' }> {
   const context = await getBillingContext(userId);
   const entitlementKey = FEATURE_TO_ENTITLEMENT[feature];
 
@@ -130,14 +130,14 @@ export async function requirePlan(
         };
       }
     }
-    return { allowed: true, plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO' };
+    return { allowed: true, plan: context.planId };
   }
 
   // Handle quotas
   const quota = context.config.quotas[entitlementKey];
-  if (!quota) return { allowed: true, plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO' };
+  if (!quota) return { allowed: true, plan: context.planId };
 
-  if (quota.limit === 'unlimited') return { allowed: true, plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO' };
+  if (quota.limit === 'unlimited') return { allowed: true, plan: context.planId };
 
   const periodKey = currentPeriodKey(quota.period);
   const count = await readUsageCount(userId, feature, periodKey);
@@ -147,9 +147,9 @@ export async function requirePlan(
       allowed: false,
       reason: 'Feature disabled',
       upgradeUrl: '/pricing',
-      plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO',
+      plan: context.planId,
     };
   }
 
-  return { allowed: true, plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO' };
+  return { allowed: true, plan: context.planId };
 }

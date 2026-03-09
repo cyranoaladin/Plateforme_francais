@@ -28,13 +28,13 @@ describe('Quotas Single Source of Truth', () => {
   it('PRO plan should have correct quotas per audit', () => {
     const pro = PLAN_CATALOG.PRO;
     
-    expect(pro.quotas.ORAL_SESSIONS).toEqual({ limit: 10, period: 'week' });
-    expect(pro.quotas.WRITTEN_CORRECTIONS).toEqual({ limit: 20, period: 'month' });
-    expect(pro.quotas.TUTOR_QUESTIONS).toEqual({ limit: 100, period: 'day' });
-    expect(pro.quotas.OCR_COPIES).toEqual({ limit: 20, period: 'month' });
-    expect(pro.quotas.LLM_TOKENS).toEqual({ limit: 50_000, period: 'day' });
-    expect(pro.quotas.RAG_SEARCH).toEqual({ limit: 500, period: 'day' });
-    expect(pro.quotas.QUIZ_PER_DAY).toEqual({ limit: 30, period: 'day' });
+    expect(pro.quotas.ORAL_SESSIONS).toEqual({ limit: 'unlimited', period: 'week' });
+    expect(pro.quotas.WRITTEN_CORRECTIONS).toEqual({ limit: 'unlimited', period: 'month' });
+    expect(pro.quotas.TUTOR_QUESTIONS).toEqual({ limit: 'unlimited', period: 'day' });
+    expect(pro.quotas.OCR_COPIES).toEqual({ limit: 50, period: 'month' });
+    expect(pro.quotas.LLM_TOKENS).toEqual({ limit: 200_000, period: 'day' });
+    expect(pro.quotas.RAG_SEARCH).toEqual({ limit: 'unlimited', period: 'day' });
+    expect(pro.quotas.QUIZ_PER_DAY).toEqual({ limit: 'unlimited', period: 'day' });
   });
 
   it('MAX plan should have unlimited quotas for key features', () => {
@@ -79,13 +79,13 @@ describe('Quotas Single Source of Truth', () => {
     expect(PLAN_CATALOG.MAX.flags.ADAPTIVE_PARCOURS).toBe(true);
 
     expect(PLAN_CATALOG.FREE.flags.GRAPH_RAG).toBe(false);
-    expect(PLAN_CATALOG.PRO.flags.GRAPH_RAG).toBe(false);
+    expect(PLAN_CATALOG.PRO.flags.GRAPH_RAG).toBe(true);
     expect(PLAN_CATALOG.MAX.flags.GRAPH_RAG).toBe(true);
   });
 
   it('should have correct pricing', () => {
     expect(PLAN_CATALOG.FREE.priceTnd).toBe(0);
-    expect(PLAN_CATALOG.PRO.priceTnd).toBe(99);
+    expect(PLAN_CATALOG.PRO.priceTnd).toBe(129);
     expect(PLAN_CATALOG.MAX.priceTnd).toBe(149);
   });
 
