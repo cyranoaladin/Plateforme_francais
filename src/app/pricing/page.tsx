@@ -333,7 +333,7 @@ export default function PricingPage() {
 
       <main className="relative mx-auto max-w-7xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 lg:pb-24">
         <header className="flex flex-col gap-5 rounded-[30px] border border-[#d8ccb9] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/bienvenue" className="flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Reussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
               <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
@@ -341,7 +341,7 @@ export default function PricingPage() {
             </div>
           </Link>
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
-            <Link href="/bienvenue" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+            <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
               Retour accueil
             </Link>
             <Link href="/login" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
@@ -819,8 +819,8 @@ export default function PricingPage() {
                   Creer mon compte gratuit
                   <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link href="/bienvenue" className="inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6">
-                  Revoir la page d accueil
+                <Link href="/" className="inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6">
+                  Revoir la page d&apos;accueil
                 </Link>
               </div>
             </div>

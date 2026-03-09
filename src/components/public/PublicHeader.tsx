@@ -8,7 +8,7 @@ import { track } from '@/components/analytics/events';
 const NAV_LINKS = [
   { label: 'La méthode', href: '#comment-ca-marche' },
   { label: 'Ateliers', href: '#fonctionnalites' },
-  { label: 'Plans', href: '#tarifs' },
+  { label: 'Plans', href: '#plans' },
   { label: 'FAQ', href: '#faq' },
 ];
 
@@ -18,7 +18,7 @@ export function PublicHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-[#d8ccb9]/70 bg-[rgba(244,239,229,0.8)] backdrop-blur-xl supports-[backdrop-filter]:bg-[rgba(244,239,229,0.72)]">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/bienvenue" className="flex items-center gap-4 shrink-0">
+        <Link href="/" className="flex items-center gap-4 shrink-0">
           <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
           <div className="hidden xl:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
             <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
@@ -44,7 +44,7 @@ export function PublicHeader() {
           </Link>
           <Link
             href="/login?mode=register"
-            onClick={() => track({ name: 'cta_click', props: { cta: 'header_register', path: '/bienvenue' } })}
+            onClick={() => track({ name: 'cta_click', props: { cta: 'header_register', path: '/' } })}
             className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-sm font-bold text-[#f7f2ea] shadow-[0_18px_45px_rgba(23,50,77,0.16)] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
           >
             Créer mon espace
@@ -88,7 +88,7 @@ export function PublicHeader() {
                 href="/login?mode=register"
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  track({ name: 'cta_click', props: { cta: 'header_register_mobile', path: '/bienvenue' } });
+                  track({ name: 'cta_click', props: { cta: 'header_register_mobile', path: '/' } });
                 }}
                 className="rounded-2xl bg-[#17324d] px-4 py-3 text-center text-sm font-bold text-[#f7f2ea]"
               >

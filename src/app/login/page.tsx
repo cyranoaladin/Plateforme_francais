@@ -563,17 +563,17 @@ function AuthCard() {
         )}
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-4 border-t border-[#e6dbca] pt-5 text-xs font-semibold text-slate-500">
-          <Link href="/bienvenue" className="transition-colors hover:text-[#17324d]">
+          <Link href="/" className="transition-colors hover:text-[#17324d]">
             Accueil
           </Link>
           <span>·</span>
-          <Link href="/pricing" className="transition-colors hover:text-[#17324d]">
+          <a href="/#plans" className="transition-colors hover:text-[#17324d]">
             Tarifs
-          </Link>
+          </a>
           <span>·</span>
-          <Link href="/bienvenue#faq" className="transition-colors hover:text-[#17324d]">
+          <a href="/#faq" className="transition-colors hover:text-[#17324d]">
             FAQ
-          </Link>
+          </a>
         </div>
       </div>
     </div>
@@ -589,7 +589,7 @@ export default function LoginPage() {
 
       <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         <header className="flex flex-col gap-5 rounded-[30px] border border-[#d8ccb9] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/bienvenue" className="flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Reussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
               <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
@@ -597,12 +597,12 @@ export default function LoginPage() {
             </div>
           </Link>
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
-            <Link href="/bienvenue" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+            <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
               Retour accueil
             </Link>
-            <Link href="/pricing" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+            <a href="/#plans" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
               Voir les plans
-            </Link>
+            </a>
             <Link
               href="/login?mode=register"
               className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"

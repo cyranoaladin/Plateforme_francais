@@ -25,7 +25,7 @@ export function PublicFooter() {
             <ul className="mt-4 space-y-3 text-sm text-slate-700">
               <li><a href="#comment-ca-marche" className="transition-colors hover:text-[#17324d]">La méthode</a></li>
               <li><a href="#fonctionnalites" className="transition-colors hover:text-[#17324d]">Ateliers</a></li>
-              <li><a href="#tarifs" className="transition-colors hover:text-[#17324d]">Plans</a></li>
+              <li><a href="#plans" className="transition-colors hover:text-[#17324d]">Plans</a></li>
               <li><a href="#faq" className="transition-colors hover:text-[#17324d]">FAQ</a></li>
               <li><Link href="/mentions-legales" className="transition-colors hover:text-[#17324d]">Mentions legales</Link></li>
               <li><a href="mailto:contact@nexusreussite.academy" className="transition-colors hover:text-[#17324d]">Contact</a></li>
@@ -47,9 +47,9 @@ export function PublicFooter() {
             <ul className="mt-4 space-y-3 text-sm text-slate-700">
               <li>contact@nexusreussite.academy</li>
               <li>
-                <Link href="/pricing" className="transition-colors hover:text-[#17324d]">
-                  Voir les plans détaillés
-                </Link>
+                <a href="/#plans" className="transition-colors hover:text-[#17324d]">
+                  Voir les plans et tarifs
+                </a>
               </li>
               <li>
                 <Link href="/login?mode=register" className="transition-colors hover:text-[#17324d]">

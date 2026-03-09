@@ -19,7 +19,7 @@ export function PaywallBanner({ message, planLabel }: PaywallBannerProps) {
           </p>
           <p className="text-sm text-[#17324D]/80">{message}</p>
           <Link
-            href="/pricing"
+            href="/#plans"
             className="inline-flex items-center gap-2 rounded-full bg-[#0F766E] px-4 py-2 text-xs font-bold text-white hover:bg-[#0F766E]/90 transition-colors"
           >
             <Sparkles className="h-3.5 w-3.5" />

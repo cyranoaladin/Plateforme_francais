@@ -89,7 +89,7 @@ function PaiementRefusContent() {
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Actions utiles</p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link
-                  href="/pricing"
+                  href="/#plans"
                   className="inline-flex items-center gap-2 rounded-[18px] bg-[#17324d] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#22486b]"
                 >
                   Reessayer
