@@ -32,7 +32,7 @@ const PROPS: ValueProp[] = [
 
 export function ValueProps() {
   return (
-    <section className={styles.valueProps}>
+    <section className={styles.valueProps} id="features">
       <div className={styles.container}>
         <div className={styles.section__header}>
           <h2 className={styles.section__title}>Pourquoi choisir Nexus Réussite ?</h2>

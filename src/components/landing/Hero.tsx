@@ -27,11 +27,11 @@ export function Hero() {
         </p>
 
         <div className={styles.hero__ctas}>
-          <Link href="/signup" className={`${styles.btn} ${styles['btn--primary']}`}>
+          <Link href="/login?mode=register" className={`${styles.btn} ${styles['btn--primary']}`}>
             Essai gratuit 7 jours
           </Link>
-          <Link href="#demo" className={`${styles.btn} ${styles['btn--ghost']}`}>
-            ▶ Voir la démo
+          <Link href="#pricing" className={`${styles.btn} ${styles['btn--ghost']}`}>
+            ▶ Voir les tarifs
           </Link>
         </div>
 

@@ -46,7 +46,7 @@ export function LandingFooter() {
             <ul>
               <li><a href="mailto:contact@nexusreussite.academy">contact@nexusreussite.academy</a></li>
               <li><Link href="/pricing">Voir les plans</Link></li>
-              <li><Link href="/signup">Créer un compte</Link></li>
+              <li><Link href="/login?mode=register">Créer un compte</Link></li>
             </ul>
           </div>
         </div>

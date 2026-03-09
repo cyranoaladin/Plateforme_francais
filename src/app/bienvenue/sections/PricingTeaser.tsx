@@ -16,14 +16,14 @@ const PLANS = [
     bullets: ["Voir le vrai produit", "Onboarding et premiers ateliers", "Vérifier si le cadre te convient"],
   },
   {
-    name: 'Pro',
+    name: 'Premium',
     accent: 'border-[#17324d] bg-[#17324d] text-[#f7f2ea] shadow-[0_22px_60px_rgba(23,50,77,0.16)]',
     kicker: 'Rythme régulier',
     bullets: ["Soutenir une vraie routine hebdomadaire", "Moins de friction sur oral, écrit et tuteur", "Premium utile sans surpayer"],
     featured: true,
   },
   {
-    name: 'Max',
+    name: 'Pro',
     accent: 'border-[#d8ccb9] bg-[#efe7da] text-[#17324d]',
     kicker: 'Cadence soutenue',
     bullets: ["Volume élevé sans coupure", "Confort sur les semaines chargées", "Conçu pour un usage vraiment intensif"],

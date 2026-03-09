@@ -20,7 +20,7 @@ export function LandingHeader() {
   return (
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
       <nav className={styles.nav}>
-        <Link href="/" className={styles.nav__logo}>
+        <Link href="/bienvenue" className={styles.nav__logo}>
           <span className={styles.logo__icon}>🇫🇷</span>
           <span className={styles.logo__text}>Nexus Réussite</span>
         </Link>
@@ -46,7 +46,7 @@ export function LandingHeader() {
           <Link href="/login" className={styles['btn--ghost']}>
             Connexion
           </Link>
-          <Link href="/signup" className={styles['btn--primary']}>
+          <Link href="/login?mode=register" className={styles['btn--primary']}>
             Essai gratuit
           </Link>
         </div>

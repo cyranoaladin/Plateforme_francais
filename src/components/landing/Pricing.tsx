@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import styles from './styles/pricing.module.scss';
 
@@ -9,23 +8,20 @@ interface PricingTier {
   name: string;
   symbol: string;
   price: string;
-  priceAnnual: string;
   period: string;
   description: string;
   badge?: string;
   features: string[];
   cta: string;
   highlight?: boolean;
-  savings?: string;
 }
 
 const TIERS: PricingTier[] = [
   {
     id: 'apprenti',
-    name: 'Apprenti',
+    name: 'Free',
     symbol: '📚',
-    price: '0€',
-    priceAnnual: '0€',
+    price: '0 TND',
     period: 'pour toujours',
     description: "Débuter votre parcours",
     features: [
@@ -40,10 +36,9 @@ const TIERS: PricingTier[] = [
   },
   {
     id: 'developpement',
-    name: 'Développement',
+    name: 'Premium',
     symbol: '🚀',
-    price: '15€',
-    priceAnnual: '12€',
+    price: '99 TND',
     period: '/mois',
     description: "Progresser vers l'excellence",
     badge: "Le plus choisi par les élèves",
@@ -55,55 +50,36 @@ const TIERS: PricingTier[] = [
       "Accès bibliothèque complète (553 ressources)",
       'Support par email (24h)',
     ],
-    cta: 'Essayer 7 jours gratuit',
+    cta: 'Commencer en Premium',
     highlight: true,
-    savings: 'Économisez 36€/an',
   },
   {
     id: 'maitrise',
-    name: 'Maîtrise',
+    name: 'Pro',
     symbol: '👑',
-    price: '24€',
-    priceAnnual: '24€',
+    price: '129 TND',
     period: '/mois',
     description: "Atteindre la maîtrise",
     features: [
-      'Tout Développement +',
+      'Tout Premium +',
       'Coaching 1-on-1 (1h/mois)',
       'Simulation examen complète',
       "Révisions sur mesure IA",
       'Support prioritaire (chat 2h)',
       "Certificat de réussite",
     ],
-    cta: "Accéder à la maîtrise",
+    cta: "Passer en Pro",
     highlight: false,
   },
 ];
 
 export function Pricing() {
-  const [isAnnual, setIsAnnual] = useState(true);
-
   return (
     <section className={styles.pricing} id="pricing">
       <div className={styles.container}>
         <div className={styles.section__header}>
           <h2 className={styles.section__title}>Tarifs transparents, flexibles</h2>
           <p className={styles.section__subtitle}>Choisissez ce qui vous convient</p>
-          
-          <div className={styles.pricing__toggle}>
-            <span className={!isAnnual ? styles.active : ''}>Mensuel</span>
-            <button
-              type="button"
-              className={styles.toggle}
-              onClick={() => setIsAnnual(!isAnnual)}
-              aria-label="Toggle billing period"
-              role="switch"
-              aria-checked={isAnnual}
-            >
-              <span className={styles.toggle__slider} />
-            </button>
-            <span className={isAnnual ? styles.active : ''}>Annuel (-20%)</span>
-          </div>
         </div>
 
         <div className={styles.pricing__grid}>
@@ -121,18 +97,12 @@ export function Pricing() {
               <p className={styles.card__description}>{tier.description}</p>
               
               <div className={styles.card__price}>
-                <span className={styles.amount}>
-                  {isAnnual ? tier.priceAnnual : tier.price}
-                </span>
+                <span className={styles.amount}>{tier.price}</span>
                 <span className={styles.period}>{tier.period}</span>
               </div>
 
-              {tier.savings && isAnnual && (
-                <div className={styles.card__savings}>💰 {tier.savings}</div>
-              )}
-
               <Link 
-                href="/signup"
+                href="/login?mode=register"
                 className={`${styles.btn} ${tier.highlight ? styles['btn--primary'] : styles['btn--secondary']}`}
               >
                 {tier.cta}
