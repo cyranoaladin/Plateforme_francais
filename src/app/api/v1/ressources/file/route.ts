@@ -5,6 +5,9 @@ import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { getBillingContext } from '@/lib/billing/context';
+import { hasFullLibraryAccess, FREE_LIBRARY_LIMITS } from '@/lib/billing/library-gating';
+import { RESSOURCES } from '@/data/ressources';
 
 const MIME_TYPES: Record<string, string> = {
   '.mp4': 'video/mp4',
@@ -111,6 +114,38 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const ressourcesRoot = path.resolve(process.cwd(), 'ressources');
   const normalizedPath = requestedPath.replace(/^\/+/, '');
   const absolutePath = path.resolve(ressourcesRoot, normalizedPath);
+
+  // ── Gating freemium bibliothèque ──
+  const billing = await getBillingContext(auth.user.id);
+  if (!hasFullLibraryAccess(billing.planId)) {
+    // Trouver la ressource dans le catalogue
+    const matchedResource = RESSOURCES.find(r => {
+      const rPath = r.url.replace(/^\/ressources\//, '');
+      return rPath === normalizedPath;
+    });
+
+    if (matchedResource) {
+      // Calculer l'index de cette ressource dans sa catégorie
+      const categoryResources = RESSOURCES.filter(r => r.category === matchedResource.category);
+      const indexInCategory = categoryResources.findIndex(r => r.id === matchedResource.id);
+      const limit = FREE_LIBRARY_LIMITS[matchedResource.category] ?? 2;
+
+      if (indexInCategory >= limit) {
+        logger.info({
+          userId: auth.user.id,
+          plan: billing.planId,
+          resource: matchedResource.id,
+          category: matchedResource.category,
+        }, 'resource_file.freemium_blocked');
+
+        return NextResponse.json({
+          error: 'Ressource reservee aux abonnes Pro ou Max.',
+          code: 'LIBRARY_UPGRADE_REQUIRED',
+          upgradeUrl: '/pricing',
+        }, { status: 403 });
+      }
+    }
+  }
 
   if (!absolutePath.startsWith(`${ressourcesRoot}${path.sep}`)) {
     logger.warn({ route: 'api/v1/ressources/file', requestedPath, absolutePath }, 'resource_file.path_traversal_blocked');

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useSyncExternalStore } from 'react';
+import { useMemo, useSyncExternalStore, useEffect, useState } from 'react';
 import {
   AlertTriangle,
   ArrowRight,
@@ -309,6 +309,21 @@ export default function Dashboard() {
     () => false,
   );
 
+  const [examInfo, setExamInfo] = useState<{
+    daysUntilExam: number;
+    examDayLabel: string;
+    phaseLabel: string;
+    phaseAction: string;
+    coefficient: number;
+  } | null>(null);
+
+  useEffect(() => {
+    fetch('/api/v1/exam-info')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => data && setExamInfo(data))
+      .catch(() => null);
+  }, []);
+
   const weakestSkill = SKILL_META.reduce(
     (prev, curr) => (data.scores[curr.key] < data.scores[prev.key] ? curr : prev),
     SKILL_META[0],
@@ -416,6 +431,19 @@ export default function Dashboard() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
+      {examInfo && (
+        <div className="mb-6 rounded-2xl bg-gradient-to-r from-[#17324D] to-[#0F766E] p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">{examInfo.phaseLabel}</p>
+              <p className="mt-1 text-4xl font-bold" style={EDITORIAL_HEADING}>J-{examInfo.daysUntilExam}</p>
+              <p className="mt-1 text-sm text-white/70">{examInfo.examDayLabel} — Coefficient {examInfo.coefficient}</p>
+            </div>
+            <CalendarDays className="h-10 w-10 text-white/20" />
+          </div>
+          <p className="mt-3 text-xs text-white/60 leading-relaxed">{examInfo.phaseAction}</p>
+        </div>
+      )}
       <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[44%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_68%)] blur-2xl lg:block" />
         <div className="absolute left-[-8%] top-[-16%] h-48 w-48 rounded-full bg-[rgba(216,163,99,0.18)] blur-3xl" />

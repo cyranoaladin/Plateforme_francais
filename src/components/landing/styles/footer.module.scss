@@ -1,0 +1,112 @@
+@import './variables.scss';
+
+.footer {
+  background: $color-primary-dark;
+  color: $color-accent-cream;
+  padding: $space-4xl $space-lg $space-xl;
+}
+
+.container {
+  @include container;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $space-2xl;
+  margin-bottom: $space-2xl;
+}
+
+.footer__brand {
+  .brand__logo {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    font-family: $font-display;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    margin-bottom: $space-sm;
+  }
+
+  .logo__icon {
+    font-size: $font-size-2xl;
+  }
+
+  .brand__tagline {
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    color: $color-accent-gold;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $space-md;
+  }
+
+  .brand__description {
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    color: rgba($color-accent-cream, 0.8);
+    line-height: $line-height-relaxed;
+  }
+}
+
+.footer__links {
+  h4 {
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $color-accent-gold;
+    margin-bottom: $space-md;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: $space-sm;
+  }
+
+  a {
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    color: rgba($color-accent-cream, 0.8);
+    text-decoration: none;
+    transition: color $transition-base;
+    @include focus-visible;
+
+    &:hover {
+      color: $color-accent-gold;
+    }
+  }
+}
+
+.footer__bottom {
+  padding-top: $space-xl;
+  border-top: 1px solid rgba($color-accent-cream, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  text-align: center;
+
+  p {
+    font-family: $font-body;
+    font-size: $font-size-xs;
+    color: rgba($color-accent-cream, 0.6);
+    margin: 0;
+  }
+
+  @media (min-width: $bp-md) {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+@media (max-width: $bp-md) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+  }
+}

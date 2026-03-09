@@ -1,0 +1,168 @@
+// PLATEFORME FRANÇAIS — DESIGN TOKENS
+// Élégance française + Pédagogie
+
+// ═══════════════════════════════════════════════════════
+// COULEURS (Inspiration France)
+// ═══════════════════════════════════════════════════════
+
+// PRIMAIRE
+$color-primary-dark: #1a3a8a;    // Bleu Rois (Bourbon)
+$color-primary-light: #0f2a5e;   // Darker Bourbon
+$color-primary-hover: #2448a0;   // Hover state
+
+// ACCENT
+$color-accent-gold: #d4af37;     // Or Doré (Excellence)
+$color-accent-gold-light: #e5c158; // Gold lighter
+$color-accent-cream: #f9f7f4;    // Crème Ivoire
+$color-accent-green: #2d5e3f;    // Vert Sapin (Croissance)
+$color-accent-red: #a41f3e;      // Rouge Renaissance (Passion)
+
+// NEUTRAL
+$color-neutral-dark: #2a2a2a;    // Charcoal
+$color-neutral-gray: #7a7a7a;    // Gris Perle
+$color-neutral-light: #e5e5e5;   // Light gray
+$color-neutral-white: #ffffff;   // Blanc Pur
+
+// ═══════════════════════════════════════════════════════
+// TYPOGRAPHIE (Parisien Moderne)
+// ═══════════════════════════════════════════════════════
+
+$font-display: 'Playfair Display', Georgia, serif;
+$font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-code: 'JetBrains Mono', 'Courier New', monospace;
+
+// Font Sizes
+$font-size-xs: 0.75rem;      // 12px
+$font-size-sm: 0.875rem;     // 14px
+$font-size-base: 1rem;       // 16px
+$font-size-lg: 1.125rem;     // 18px
+$font-size-xl: 1.5rem;       // 24px
+$font-size-2xl: 2rem;        // 32px
+$font-size-3xl: 3rem;        // 48px
+$font-size-4xl: 4.5rem;      // 72px
+
+// Font Weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Line Heights
+$line-height-tight: 1.2;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.6;
+$line-height-loose: 1.8;
+
+// ═══════════════════════════════════════════════════════
+// SPACING (Système 4px)
+// ═══════════════════════════════════════════════════════
+
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 32px;
+$space-2xl: 48px;
+$space-3xl: 64px;
+$space-4xl: 80px;
+$space-5xl: 100px;
+
+// ═══════════════════════════════════════════════════════
+// BREAKPOINTS (Mobile-First)
+// ═══════════════════════════════════════════════════════
+
+$bp-sm: 640px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+$bp-2xl: 1536px;
+
+// ═══════════════════════════════════════════════════════
+// SHADOWS (Depth)
+// ═══════════════════════════════════════════════════════
+
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+$shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.15);
+$shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.2);
+$shadow-gold: 0 8px 24px rgba(212, 175, 55, 0.3);
+$shadow-gold-lg: 0 12px 32px rgba(212, 175, 55, 0.4);
+
+// ═══════════════════════════════════════════════════════
+// TRANSITIONS (Smooth)
+// ═══════════════════════════════════════════════════════
+
+$transition-fast: 0.15s ease-out;
+$transition-base: 0.3s ease;
+$transition-slow: 0.6s ease;
+
+// ═══════════════════════════════════════════════════════
+// BORDER RADIUS
+// ═══════════════════════════════════════════════════════
+
+$radius-sm: 6px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 16px;
+$radius-2xl: 20px;
+$radius-full: 9999px;
+
+// ═══════════════════════════════════════════════════════
+// Z-INDEX (Layering)
+// ═══════════════════════════════════════════════════════
+
+$z-base: 1;
+$z-dropdown: 100;
+$z-sticky: 200;
+$z-fixed: 300;
+$z-modal-backdrop: 400;
+$z-modal: 500;
+$z-popover: 600;
+$z-tooltip: 700;
+
+// ═══════════════════════════════════════════════════════
+// GRADIENTS
+// ═══════════════════════════════════════════════════════
+
+$gradient-primary: linear-gradient(135deg, $color-primary-dark 0%, $color-primary-light 100%);
+$gradient-gold: linear-gradient(135deg, $color-accent-gold 0%, $color-accent-gold-light 100%);
+$gradient-hero: linear-gradient(135deg, rgba($color-primary-dark, 0.95) 0%, rgba($color-primary-light, 0.98) 100%);
+
+// ═══════════════════════════════════════════════════════
+// MIXINS
+// ═══════════════════════════════════════════════════════
+
+@mixin container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 $space-lg;
+
+  @media (min-width: $bp-md) {
+    padding: 0 $space-xl;
+  }
+}
+
+@mixin section-spacing {
+  padding: $space-4xl $space-lg;
+
+  @media (min-width: $bp-md) {
+    padding: $space-5xl $space-xl;
+  }
+}
+
+@mixin card-hover {
+  transition: all $transition-base;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid $color-accent-gold;
+    outline-offset: 2px;
+  }
+}

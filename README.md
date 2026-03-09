@@ -1,8 +1,8 @@
 # Nexus EAF Platform [![CI/CD](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml)
 
-Dernière mise à jour: 5 mars 2026
+Dernière mise à jour: 8 mars 2026
 
-Plateforme Next.js de préparation EAF (atelier écrit, atelier oral, tuteur IA, parcours, espace enseignant) avec orchestration LLM, RAG hybride, sécurité applicative et pipeline CI/CD multi-gates.
+Plateforme Next.js de préparation EAF (atelier écrit, atelier oral, tuteur IA, parcours, espace enseignant) avec orchestration LLM, RAG hybride, sécurité applicative et pipeline CI/CD multi-gates. Production-ready avec audit exhaustif phases 1-8 complété.
 
 ## État actuel vérifié
 
@@ -20,6 +20,15 @@ Plateforme Next.js de préparation EAF (atelier écrit, atelier oral, tuteur IA,
 
 ## Correctifs critiques déjà appliqués
 
+### Phase 1 (P0) - Mars 2026
+- **Unification des quotas billing** (source unique `plan-catalog.ts`): `src/lib/billing/plan-catalog.ts`, `gating.ts`, `quotas.ts`, `usage.ts`.
+- **Middleware Next.js** de protection des routes avec CSP nonce: `middleware.ts`.
+- **Forgot/reset password** complet avec email transactionnel: `/api/v1/auth/forgot-password`, `/api/v1/auth/reset-password`.
+- **Fichier .env.example** documenté avec toutes les variables requises.
+- **Rôle unique élève** à l'inscription publique (admin via script séparé).
+- **Index composite Chunk** pour performance RAG: `@@index([oeuvre, parcours])`, `@@index([sourceType, authorityLevel])`.
+
+### Phases antérieures
 - Fin des scores hardcodés en atelier oral: `src/app/atelier-oral/page.tsx` utilise la finalisation réelle `/api/v1/oral/session/:id/end`.
 - Quotas LLM par skill et utilisateur: `src/lib/security/llm-rate-limiter.ts` (rpm + daily, fail-closed).
 - Validation upload par magic bytes + sanitation nom de fichier: `src/lib/security/file-validator.ts`.
@@ -30,8 +39,28 @@ Plateforme Next.js de préparation EAF (atelier écrit, atelier oral, tuteur IA,
 - Worker correction avec retry exponentiel et statut erreur final: `src/lib/epreuves/worker.ts`.
 - Sorties LLM validées par schémas + fallback: `src/lib/llm/orchestrator.ts`.
 
-## Fonctionnalités “niveau exhaustif” implémentées
+## Fonctionnalités "niveau exhaustif" implémentées
 
+### SaaS & Commercial (Phase 2)
+- **Email de bienvenue** automatique à l'inscription: `src/app/api/v1/auth/register/route.ts`.
+- **Paywall Banner** intégré dans tous les ateliers: `src/components/billing/PaywallBanner.tsx`.
+- **Hook useQuotaCheck** pour vérification quota temps réel: `src/hooks/useQuotaCheck.ts`.
+- **Route billing status** pour affichage abonnement: `/api/v1/billing/status`.
+- **Route check-quota** pour validation avant action: `/api/v1/billing/check-quota`.
+
+### Sécurité & Production (Phase 3, 5)
+- **Session cleanup cron** avec authentification Bearer: `/api/v1/cron/session-cleanup`.
+- **Health check enrichi** (DB + app status): `/api/v1/health`.
+- **Dockerfile multi-stage** pour déploiement conteneurisé.
+- **Rate limiting** sur routes critiques (tuteur, oral, quiz, billing).
+
+### UI/UX Commercial (Phase 7)
+- **Page 404** personnalisée: `src/app/not-found.tsx`.
+- **Loading skeletons** cohérents: `src/app/loading.tsx`.
+- **Mentions légales & CGU** complètes: `src/app/mentions-legales/page.tsx`.
+- **Métadonnées SEO** optimisées dans `src/app/layout.tsx`.
+
+### Fonctionnalités avancées
 - Annotation interactive de copie:
   - mapping annotation->zones: `src/lib/correction/annotation-mapper.ts`
   - endpoint fichier copie: `src/app/api/v1/epreuves/copies/[copieId]/file/route.ts`

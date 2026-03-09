@@ -13,20 +13,20 @@ const PLANS = [
     name: 'Free',
     accent: 'border-[#d8ccb9] bg-white/85 text-[#17324d]',
     kicker: 'Essai utile',
-    bullets: ['Voir le vrai produit', 'Onboarding et premiers ateliers', 'Verifier si le cadre te convient'],
+    bullets: ["Voir le vrai produit", "Onboarding et premiers ateliers", "Vérifier si le cadre te convient"],
   },
   {
     name: 'Pro',
     accent: 'border-[#17324d] bg-[#17324d] text-[#f7f2ea] shadow-[0_22px_60px_rgba(23,50,77,0.16)]',
-    kicker: 'Rythme regulier',
-    bullets: ['Soutenir une vraie routine hebdomadaire', 'Moins de friction sur oral, ecrit et tuteur', 'Premium utile sans surpayer'],
+    kicker: 'Rythme régulier',
+    bullets: ["Soutenir une vraie routine hebdomadaire", "Moins de friction sur oral, écrit et tuteur", "Premium utile sans surpayer"],
     featured: true,
   },
   {
     name: 'Max',
     accent: 'border-[#d8ccb9] bg-[#efe7da] text-[#17324d]',
     kicker: 'Cadence soutenue',
-    bullets: ['Volume eleve sans coupure', 'Confort sur les semaines chargees', 'Concu pour un usage vraiment intensif'],
+    bullets: ["Volume élevé sans coupure", "Confort sur les semaines chargées", "Conçu pour un usage vraiment intensif"],
   },
 ];
 
@@ -38,10 +38,10 @@ export function PricingTeaser() {
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Plans et valeur</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
-              Teste d abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme.
+              Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-              Ici, chaque plan correspond a une intensite de preparation differente. Le gratuit sert a juger le produit sur piece, le premium sert a enlever les plafonds quand le besoin devient reel.
+              Ici, chaque plan correspond à une intensité de préparation différente. Le gratuit sert à juger le produit sur pièce, le premium sert à enlever les plafonds quand le besoin devient réel.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -63,7 +63,7 @@ export function PricingTeaser() {
             </div>
 
             <p className="mt-4 max-w-lg text-sm leading-7 text-slate-500">
-              Le plan gratuit permet deja de lancer l onboarding, d ouvrir les premiers ateliers et de voir si le produit tient sa promesse avant toute depense.
+              Le plan gratuit permet déjà de lancer l’onboarding, d’ouvrir les premiers ateliers et de voir si le produit tient sa promesse avant toute dépense.
             </p>
           </div>
 

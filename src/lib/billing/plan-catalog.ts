@@ -3,7 +3,7 @@
  * Quotas and flags aligned with cahier des charges V2.
  */
 
-export type PlanId = 'FREE' | 'PRO' | 'MAX';
+export type PlanId = 'FREE' | 'PREMIUM' | 'PRO';
 
 export type Period = 'day' | 'week' | 'month';
 
@@ -24,7 +24,8 @@ export type FlagKey =
   | 'SUPPORT_TIER'
   | 'ADAPTIVE_PARCOURS'
   | 'AVOCAT_DU_DIABLE'
-  | 'GRAPH_RAG';
+  | 'GRAPH_RAG'
+  | 'LIBRARY_FULL_ACCESS';
 
 export type QuotaEntry = {
   limit: number | 'unlimited';
@@ -66,11 +67,12 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
       ADAPTIVE_PARCOURS: false,
       AVOCAT_DU_DIABLE: false,
       GRAPH_RAG: false,
+      LIBRARY_FULL_ACCESS: false,
     },
   },
-  PRO: {
-    id: 'PRO',
-    label: 'Pro',
+  PREMIUM: {
+    id: 'PREMIUM',
+    label: 'Premium',
     priceTnd: 99,
     billingCycle: 'monthly',
     quotas: {
@@ -91,13 +93,14 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
       ADAPTIVE_PARCOURS: true,
       AVOCAT_DU_DIABLE: true,
       GRAPH_RAG: false,
+      LIBRARY_FULL_ACCESS: true,
     },
   },
-  MAX: {
-    id: 'MAX',
-    label: 'Max',
-    priceTnd: 149,
-    billingCycle: 'lifetime',
+  PRO: {
+    id: 'PRO',
+    label: 'Pro',
+    priceTnd: 129,
+    billingCycle: 'monthly',
     quotas: {
       ORAL_SESSIONS: { limit: 'unlimited', period: 'week' },
       WRITTEN_CORRECTIONS: { limit: 'unlimited', period: 'month' },
@@ -116,6 +119,7 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
       ADAPTIVE_PARCOURS: true,
       AVOCAT_DU_DIABLE: true,
       GRAPH_RAG: true,
+      LIBRARY_FULL_ACCESS: true,
     },
   },
 };
@@ -126,11 +130,13 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
 export function normalizePlanId(raw: string): PlanId {
   switch (raw) {
     case 'MONTHLY':
-      return 'PRO';
+      return 'PREMIUM';
     case 'LIFETIME':
-      return 'MAX';
-    case 'PRO':
+      return 'PRO';
     case 'MAX':
+      return 'PRO';
+    case 'PREMIUM':
+    case 'PRO':
       return raw;
     default:
       return 'FREE';
@@ -148,6 +154,6 @@ export function getPlanConfig(planId: string): PlanConfig {
  * Compare two plans. Returns positive if a > b.
  */
 export function comparePlans(a: PlanId, b: PlanId): number {
-  const order: Record<PlanId, number> = { FREE: 0, PRO: 1, MAX: 2 };
+  const order: Record<PlanId, number> = { FREE: 0, PREMIUM: 1, PRO: 2 };
   return order[a] - order[b];
 }

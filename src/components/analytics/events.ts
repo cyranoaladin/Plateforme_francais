@@ -6,10 +6,10 @@
 export type EafEvent =
   | { name: 'page_view'; props: { path: string; ref?: string } }
   | { name: 'cta_click'; props: { cta: string; path: string } }
-  | { name: 'auth_submit'; props: { mode: 'login' | 'register' } }
-  | { name: 'auth_success'; props: { mode: 'login' | 'register' } }
-  | { name: 'auth_error'; props: { mode: 'login' | 'register'; status?: number; code?: string } }
-  | { name: 'rate_limited'; props: { mode: 'login' | 'register'; retryAfterSec?: number } }
+  | { name: 'auth_submit'; props: { mode: 'login' | 'register' | 'forgot' | 'reset' } }
+  | { name: 'auth_success'; props: { mode: 'login' | 'register' | 'forgot' | 'reset' } }
+  | { name: 'auth_error'; props: { mode: 'login' | 'register' | 'forgot' | 'reset'; status?: number; code?: string } }
+  | { name: 'rate_limited'; props: { mode: 'login' | 'register' | 'forgot' | 'reset'; retryAfterSec?: number } }
   | { name: 'onboarding_step_view'; props: { step: 1 | 2 | 3 } }
   | { name: 'onboarding_step_submit'; props: { step: 1 | 2 | 3 } }
   | { name: 'onboarding_complete'; props: Record<string, never> }

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { checkRateLimit } from '@/lib/security/rate-limit';
+import { validateCsrf } from '@/lib/security/csrf';
 import { getMediaForAgent, formatMediaContextForPrompt, type MediaEntry } from '@/data/media-catalog';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
@@ -7,7 +9,6 @@ import { orchestrate } from '@/lib/llm/orchestrator';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { getThemeConfig } from '@/lib/quiz/theme-mapping';
 import { searchOfficialReferences, type RagSearchResult } from '@/lib/rag/search';
-import { validateCsrf } from '@/lib/security/csrf';
 import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { quizGenerateBodySchema } from '@/lib/validation/schemas';
@@ -27,6 +28,14 @@ export async function POST(request: Request) {
   const { auth, errorResponse } = await requireAuthenticatedUser();
   if (!auth || errorResponse) {
     return errorResponse;
+  }
+
+  const limit = await checkRateLimit({ request, key: 'quiz:generate', limit: 20, windowMs: 3_600_000 });
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: 'Trop de quiz générés. Réessaie dans quelques minutes.' },
+      { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } }
+    );
   }
 
   const csrfError = await validateCsrf(request);

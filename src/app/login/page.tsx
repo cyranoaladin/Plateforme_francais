@@ -19,7 +19,7 @@ import {
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 
-type AuthMode = 'login' | 'register';
+type AuthMode = 'login' | 'register' | 'forgot' | 'reset';
 
 type ProfilePayload = {
   onboardingCompleted?: boolean;
@@ -191,6 +191,8 @@ function AuthCard() {
   const [parentEmail, setParentEmail] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [resetToken, setResetToken] = useState('');
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const [error, setError] = useState<string | null>(null);
   const [rateLimitSec, setRateLimitSec] = useState<number | null>(null);
@@ -198,8 +200,15 @@ function AuthCard() {
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    if (searchParams.get('mode') === 'register') {
+    const modeParam = searchParams.get('mode');
+    const tokenParam = searchParams.get('token');
+    if (modeParam === 'register') {
       setMode('register');
+    } else if (modeParam === 'forgot') {
+      setMode('forgot');
+    } else if (modeParam === 'reset' && tokenParam) {
+      setMode('reset');
+      setResetToken(tokenParam);
     }
   }, [searchParams]);
 
@@ -216,6 +225,7 @@ function AuthCard() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError(null);
+    setSuccessMessage(null);
     setRateLimitSec(null);
 
     if (mode === 'register') {
@@ -229,10 +239,36 @@ function AuthCard() {
       }
     }
 
+    if (mode === 'reset' && password !== confirmPassword) {
+      setError('Les mots de passe ne correspondent pas.');
+      return;
+    }
+
     setIsSubmitting(true);
     track({ name: 'auth_submit', props: { mode } });
 
     try {
+      if (mode === 'forgot') {
+        await apiFetch('/api/v1/auth/forgot-password', {
+          method: 'POST',
+          json: { email },
+        });
+        setSuccessMessage('Si un compte existe pour cet email, un lien de réinitialisation a été envoyé.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (mode === 'reset') {
+        await apiFetch('/api/v1/auth/reset-password', {
+          method: 'POST',
+          json: { token: resetToken, password },
+        });
+        setSuccessMessage('Mot de passe réinitialisé avec succès. Tu peux maintenant te connecter.');
+        setTimeout(() => router.push('/login'), 2000);
+        setIsSubmitting(false);
+        return;
+      }
+
       const endpoint = mode === 'login' ? '/api/v1/auth/login' : '/api/v1/auth/register';
       await apiFetch(endpoint, {
         method: 'POST',
@@ -259,15 +295,16 @@ function AuthCard() {
         return;
       }
 
+      const redirectTo = searchParams.get('redirect') || '/';
       try {
         const profile = await apiFetch<ProfilePayload>('/api/v1/student/profile');
         if (!profile.onboardingCompleted) {
           router.push('/onboarding');
         } else {
-          router.push('/');
+          router.push(redirectTo);
         }
       } catch {
-        router.push('/');
+        router.push(redirectTo);
       }
       router.refresh();
     } catch (err) {
@@ -293,11 +330,21 @@ function AuthCard() {
     }
   };
 
-  const title = mode === 'login' ? 'Connexion a ton espace EAF' : 'Creer ton espace EAF';
+  const title = mode === 'login' 
+    ? 'Connexion a ton espace EAF' 
+    : mode === 'register'
+    ? 'Creer ton espace EAF'
+    : mode === 'forgot'
+    ? 'Mot de passe oublie'
+    : 'Nouveau mot de passe';
   const subtitle =
     mode === 'login'
       ? 'Retrouve ton parcours, tes ateliers, tes priorites et ton historique sans repartir de zero.'
-      : 'Commence gratuitement. Le parcours se construit a partir de tes œuvres, de ton niveau et du travail deja realise.';
+      : mode === 'register'
+      ? 'Commence gratuitement. Le parcours se construit a partir de tes œuvres, de ton niveau et du travail deja realise.'
+      : mode === 'forgot'
+      ? 'Entre ton email pour recevoir un lien de reinitialisation.'
+      : 'Choisis un nouveau mot de passe securise.';
 
   return (
     <div className="w-full max-w-xl">
@@ -379,7 +426,9 @@ function AuthCard() {
             />
           </div>
 
-          <PasswordField id="password" value={password} onChange={setPassword} label="Mot de passe" testId="auth-password" />
+          {mode !== 'forgot' && <PasswordField id="password" value={password} onChange={setPassword} label="Mot de passe" testId="auth-password" />}
+
+          {mode === 'reset' && <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le mot de passe" />}
 
           {mode === 'register' ? (
             <>
@@ -433,6 +482,12 @@ function AuthCard() {
             </>
           ) : null}
 
+          {successMessage ? (
+            <p className="rounded-[22px] border border-[#0f766e]/25 bg-[#e6f7f5] p-4 text-sm text-[#0f766e]" role="status">
+              {successMessage}
+            </p>
+          ) : null}
+
           {error ? (
             <p className="rounded-[22px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="alert">
               {error}
@@ -448,10 +503,14 @@ function AuthCard() {
             {isSubmitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                {mode === 'login' ? 'Connexion...' : 'Creation...'}
+                {mode === 'login' ? 'Connexion...' : mode === 'forgot' ? 'Envoi...' : mode === 'reset' ? 'Reinitialisation...' : 'Creation...'}
               </>
             ) : mode === 'login' ? (
               'Se connecter'
+            ) : mode === 'forgot' ? (
+              'Envoyer le lien'
+            ) : mode === 'reset' ? (
+              'Reinitialiser le mot de passe'
             ) : (
               'Creer mon compte'
             )}
@@ -459,19 +518,38 @@ function AuthCard() {
         </form>
 
         {mode === 'login' ? (
-          <div className="mt-5 rounded-[24px] border border-[#d8ccb9] bg-[#fcfaf6] p-4">
+          <div className="mt-5 space-y-3">
             <button
               type="button"
-              onClick={() => setShowHelp((prev) => !prev)}
-              className="text-sm font-semibold text-[#17324d] underline-offset-4 transition-colors hover:underline"
+              onClick={() => router.push('/login?mode=forgot')}
+              className="w-full text-center text-sm text-[#0F766E] hover:underline"
             >
-              Probleme de connexion ?
+              Mot de passe oublie ?
             </button>
-            {showHelp ? (
-              <p className="mt-3 text-sm leading-7 text-slate-600">
-                Verifie ton email, ton mot de passe et rafraichis la page en cas d erreur de securite. Si le blocage persiste, repasse par la creation de compte ou compare les plans avant de reessayer.
-              </p>
-            ) : null}
+            <div className="rounded-[24px] border border-[#d8ccb9] bg-[#fcfaf6] p-4">
+              <button
+                type="button"
+                onClick={() => setShowHelp((prev) => !prev)}
+                className="text-sm font-semibold text-[#17324d] underline-offset-4 transition-colors hover:underline"
+              >
+                Probleme de connexion ?
+              </button>
+              {showHelp ? (
+                <p className="mt-3 text-sm leading-7 text-slate-600">
+                  Verifie ton email, ton mot de passe et rafraichis la page en cas d erreur de securite. Si le blocage persiste, repasse par la creation de compte ou compare les plans avant de reessayer.
+                </p>
+              ) : null}
+            </div>
+          </div>
+        ) : mode === 'forgot' || mode === 'reset' ? (
+          <div className="mt-5 text-center">
+            <button
+              type="button"
+              onClick={() => router.push('/login')}
+              className="text-sm text-[#0F766E] hover:underline"
+            >
+              Retour a la connexion
+            </button>
           </div>
         ) : (
           <div className="mt-5 rounded-[24px] border border-[#d8ccb9] bg-[#fcfaf6] p-4">

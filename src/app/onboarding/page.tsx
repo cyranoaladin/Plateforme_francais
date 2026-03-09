@@ -154,6 +154,7 @@ export default function OnboardingPage() {
   const [customOeuvre, setCustomOeuvre] = useState('');
   const [oeuvreSearch, setOeuvreSearch] = useState('');
   const [classCode, setClassCode] = useState('');
+  const [oeuvreEntretien, setOeuvreEntretien] = useState('');
   const [welcomeMessage, setWelcomeMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -265,6 +266,7 @@ export default function OnboardingPage() {
           selectedOeuvres: allSelectedOeuvres,
           weakSignals,
           classCode: classCode || undefined,
+          oeuvreChoisieEntretien: oeuvreEntretien || undefined,
         },
       });
 
@@ -572,6 +574,40 @@ export default function OnboardingPage() {
                       className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
                     />
                   </div>
+
+                  {allSelectedOeuvres.length > 0 && (
+                    <div className="rounded-[26px] border border-[#0f766e]/20 bg-[#0f766e]/5 p-5">
+                      <p className="text-sm font-semibold text-[#17324d]">Ton oeuvre d entretien oral</p>
+                      <p className="mt-1 text-xs text-slate-500">Oeuvre integrale pour la 2e partie de l oral (8 points sur 20).</p>
+                      <div className="mt-3 space-y-2">
+                        {allSelectedOeuvres.map((title) => {
+                          const found = OEUVRES.find((o) => o.title === title);
+                          const authorName = found?.author ?? '';
+                          return (
+                            <label
+                              key={'entretien-' + title}
+                              className={'flex items-center gap-3 rounded-2xl border px-4 py-3 cursor-pointer transition-colors ' + (
+                                oeuvreEntretien === title
+                                  ? 'border-[#0f766e] bg-[#0f766e]/10'
+                                  : 'border-[#d8ccb9] bg-white hover:border-[#0f766e]/40'
+                              )}
+                            >
+                              <input
+                                type="radio"
+                                name="oeuvreEntretien"
+                                value={title}
+                                checked={oeuvreEntretien === title}
+                                onChange={() => setOeuvreEntretien(title)}
+                                className="accent-[#0f766e]"
+                              />
+                              <span className="text-sm font-medium text-[#17324d]">{title}</span>
+                              {authorName && <span className="text-xs text-slate-400">{authorName}</span>}
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : null}
 

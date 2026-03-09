@@ -30,7 +30,7 @@ function parseArgs(): { plan: string; count: number; duration: number; batch: st
   }
 
   const plan = (map.get('plan') ?? '').toUpperCase();
-  if (plan !== 'PRO' && plan !== 'MAX') {
+  if (plan !== 'PREMIUM' && plan !== 'PRO') {
     console.error('❌ --plan must be PRO or MAX');
     process.exit(1);
   }

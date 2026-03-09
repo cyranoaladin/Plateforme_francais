@@ -1,0 +1,46 @@
+import { NextResponse } from 'next/server';
+import { getAuthenticatedUserId } from '@/lib/auth/session';
+import { getBillingContext } from '@/lib/billing/context';
+import { prisma } from '@/lib/db/client';
+
+export async function GET() {
+  const userId = await getAuthenticatedUserId();
+  if (!userId) {
+    return NextResponse.json({ error: 'Non authentifié.' }, { status: 401 });
+  }
+
+  const billing = await getBillingContext(userId);
+
+  const lastPayment = await prisma.paymentTransaction.findFirst({
+    where: { userId },
+    orderBy: { createdAt: 'desc' },
+    select: {
+      orderRef: true,
+      plan: true,
+      status: true,
+      amountMillimes: true,
+      currency: true,
+      createdAt: true,
+    },
+  });
+
+  return NextResponse.json({
+    subscription: {
+      plan: billing.planId,
+      label: billing.config.label,
+      priceTnd: billing.config.priceTnd,
+      isActive: billing.isActive,
+      endsAt: billing.endsAt?.toISOString() ?? null,
+    },
+    lastPayment: lastPayment
+      ? {
+          orderRef: lastPayment.orderRef,
+          plan: lastPayment.plan,
+          status: lastPayment.status,
+          amountMillimes: lastPayment.amountMillimes,
+          currency: lastPayment.currency,
+          createdAt: lastPayment.createdAt.toISOString(),
+        }
+      : null,
+  });
+}

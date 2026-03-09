@@ -12,6 +12,8 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { PaywallBanner } from '@/components/billing/PaywallBanner';
+import { useQuotaCheck } from '@/hooks/useQuotaCheck';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -52,6 +54,8 @@ function TuteurPageContent() {
   const searchParams = useSearchParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
+
+  const quotaCheck = useQuotaCheck('TUTOR_QUESTIONS');
   const [isSending, setIsSending] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);

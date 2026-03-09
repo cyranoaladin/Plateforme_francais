@@ -1,5 +1,12 @@
 import { z } from 'zod';
 
+export const passwordSchema = z.string()
+  .min(8, 'Le mot de passe doit contenir au moins 8 caractères.')
+  .max(128)
+  .regex(/[a-z]/, 'Au moins une minuscule.')
+  .regex(/[A-Z]/, 'Au moins une majuscule.')
+  .regex(/[0-9]/, 'Au moins un chiffre.');
+
 export const loginBodySchema = z.object({
   email: z.string().trim().email(),
   password: z.string().min(1),
@@ -7,7 +14,7 @@ export const loginBodySchema = z.object({
 
 export const registerBodySchema = z.object({
   email: z.string().trim().email(),
-  password: z.string().min(8),
+  password: passwordSchema,
   displayName: z.string().trim().min(1).max(120).optional(),
   acceptedCgu: z.boolean().refine((v) => v === true, { message: 'Vous devez accepter les CGU.' }),
   cguVersion: z.string().trim().min(1).max(20).default('2026-03'),
@@ -17,6 +24,15 @@ export const registerBodySchema = z.object({
   (data) => !data.isMinor || (data.parentEmail && data.parentEmail.length > 0),
   { message: 'Email parental requis pour les mineurs de moins de 15 ans.', path: ['parentEmail'] },
 );
+
+export const forgotPasswordBodySchema = z.object({
+  email: z.string().trim().email(),
+});
+
+export const resetPasswordBodySchema = z.object({
+  token: z.string().trim().min(1),
+  password: passwordSchema,
+});
 
 export const memoryEventTypes = z.enum([
   'navigation',

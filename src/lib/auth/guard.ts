@@ -29,3 +29,18 @@ export async function requireUserRole(role: 'enseignant' | 'parent' | 'admin') {
 
   return { auth, errorResponse: null };
 }
+
+export async function requireEleve() {
+  const { auth, errorResponse } = await requireAuthenticatedUser();
+  if (!auth || errorResponse) {
+    return { auth: null, errorResponse };
+  }
+  const role = auth.user.role as string;
+  if (role !== 'eleve' && role !== 'admin') {
+    return {
+      auth: null,
+      errorResponse: NextResponse.json({ error: 'Accès réservé aux élèves.' }, { status: 403 }),
+    };
+  }
+  return { auth, errorResponse: null };
+}

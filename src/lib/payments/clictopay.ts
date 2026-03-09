@@ -4,7 +4,7 @@ import { comparePlans, normalizePlanId, type PlanId } from '@/lib/billing/plan-c
 import { sendTransactionalEmail } from '@/lib/email/client';
 import { logger } from '@/lib/logger';
 
-export type ClicToPayPlan = 'PRO' | 'MAX';
+export type ClicToPayPlan = 'PREMIUM' | 'PRO';
 
 export type ClicToPayInitInput = {
   userId: string;
@@ -78,20 +78,14 @@ function failureUrl(): string {
 }
 
 function amountForPlanMillimes(plan: ClicToPayPlan): number {
-  if (plan === 'PRO') {
-    return 99_000;
-  }
-  return 149_000;
+  if (plan === 'PREMIUM') return 99_000;
+  return 129_000;
 }
 
 function computePeriodEndForPlan(plan: PlanId, base: Date): Date {
   const periodEnd = new Date(base);
-  if (plan === 'PRO') {
-    periodEnd.setUTCMonth(periodEnd.getUTCMonth() + 1);
-    return periodEnd;
-  }
-
-  periodEnd.setUTCFullYear(periodEnd.getUTCFullYear() + 100);
+  // Tous les plans payants (PREMIUM et PRO) sont mensuels
+  periodEnd.setUTCMonth(periodEnd.getUTCMonth() + 1);
   return periodEnd;
 }
 
@@ -193,7 +187,7 @@ export async function initiateClicToPayPayment(input: ClicToPayInitInput): Promi
   await prisma.paymentTransaction.create({
     data: {
       userId: input.userId,
-      plan: input.plan,
+      plan: input.plan as any,
       amountMillimes,
       currency: 'TND',
       orderRef,
@@ -318,7 +312,7 @@ export async function applyClicToPayStatusToTransaction(params: {
     await prisma.subscription.upsert({
       where: { userId: tx.userId },
       update: {
-        plan: finalPlan,
+        plan: finalPlan as any,
         status: 'ACTIVE',
         currentPeriodStart: periodStart,
         currentPeriodEnd: periodEnd,
@@ -326,7 +320,7 @@ export async function applyClicToPayStatusToTransaction(params: {
       },
       create: {
         userId: tx.userId,
-        plan: finalPlan,
+        plan: finalPlan as any,
         status: 'ACTIVE',
         currentPeriodStart: periodStart,
         currentPeriodEnd: periodEnd,

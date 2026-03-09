@@ -1,30 +1,29 @@
-import { NextResponse } from "next/server";
-import { isDatabaseAvailable } from "@/lib/db/client";
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/db/client';
+import { logger } from '@/lib/logger';
 
 export async function GET() {
-  const dbStatus = await isDatabaseAvailable();
-  let mcpStatus = "unknown";
-  const mcpUrl = process.env.MCP_SERVER_URL ?? 'http://localhost:3100';
-  
+  const checks: Record<string, 'ok' | 'down' | 'unknown'> = {
+    db: 'unknown',
+    app: 'ok',
+  };
+
   try {
-    const res = await fetch(`${mcpUrl}/health`, {
-       method: 'GET',
-       signal: AbortSignal.timeout(2000),
-       headers: { Authorization: `Bearer ${process.env.MCP_API_KEY ?? ''}` }
-    });
-    mcpStatus = res.ok ? "healthy" : "degraded";
+    await prisma.$queryRawUnsafe('SELECT 1');
+    checks.db = 'ok';
   } catch {
-    mcpStatus = "unreachable";
+    checks.db = 'down';
+  }
+
+  const allOk = Object.values(checks).every(v => v === 'ok');
+  const status = allOk ? 'ok' : checks.db === 'down' ? 'down' : 'degraded';
+
+  if (status !== 'ok') {
+    logger.warn({ checks, status }, 'health_check_not_ok');
   }
 
   return NextResponse.json(
-    {
-      status: dbStatus ? "ok" : "degraded",
-      service: "eaf-platform",
-      database: dbStatus ? "connected" : "unavailable",
-      mcpServer: mcpStatus,
-      checkedAt: new Date().toISOString(),
-    },
-    { status: dbStatus ? 200 : 503 },
+    { status, checks, timestamp: new Date().toISOString() },
+    { status: allOk ? 200 : 503 },
   );
 }

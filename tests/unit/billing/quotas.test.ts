@@ -1,91 +1,61 @@
 import { describe, it, expect } from 'vitest';
-import { checkQuota, getPeriodKey, buildPaywallMessage, PLAN_QUOTAS } from '@/lib/billing/quotas';
+import { getPeriodKey, buildPaywallMessage } from '@/lib/billing/quotas';
+import { PLAN_CATALOG } from '@/lib/billing/plan-catalog';
 
 describe('Billing Quotas V2', () => {
-  describe('PLAN_QUOTAS', () => {
+  describe('PLAN_CATALOG quotas', () => {
     it('FREE has limited quotas', () => {
-      expect(PLAN_QUOTAS.FREE.oral_sessions).toBe(3);
-      expect(PLAN_QUOTAS.FREE.ecrit_corrections).toBe(5);
-      expect(PLAN_QUOTAS.FREE.free_practice).toBe(false);
-      expect(PLAN_QUOTAS.FREE.export_pdf).toBe(false);
+      expect(PLAN_CATALOG.FREE.quotas.ORAL_SESSIONS.limit).toBe(2);
+      expect(PLAN_CATALOG.FREE.quotas.WRITTEN_CORRECTIONS.limit).toBe(3);
+      expect(PLAN_CATALOG.FREE.flags.ORAL_PDF_REPORT).toBe(false);
     });
 
     it('PRO has higher quotas', () => {
-      expect(PLAN_QUOTAS.PRO.oral_sessions).toBe(30);
-      expect(PLAN_QUOTAS.PRO.free_practice).toBe(true);
-      expect(PLAN_QUOTAS.PRO.export_pdf).toBe(true);
+      expect(PLAN_CATALOG.PRO.quotas.ORAL_SESSIONS.limit).toBe(10);
+      expect(PLAN_CATALOG.PRO.flags.ORAL_PDF_REPORT).toBe(true);
     });
 
-    it('MAX has unlimited quotas (-1)', () => {
-      expect(PLAN_QUOTAS.MAX.oral_sessions).toBe(-1);
-      expect(PLAN_QUOTAS.MAX.llm_requests_daily).toBe(-1);
-    });
-  });
-
-  describe('checkQuota', () => {
-    it('allows when under limit', () => {
-      const result = checkQuota('FREE', 'oral_sessions', 1);
-      expect(result.allowed).toBe(true);
-      expect(result.remaining).toBe(2);
-      expect(result.limit).toBe(3);
-    });
-
-    it('blocks when at limit', () => {
-      const result = checkQuota('FREE', 'oral_sessions', 3);
-      expect(result.allowed).toBe(false);
-      expect(result.remaining).toBe(0);
-    });
-
-    it('blocks when over limit', () => {
-      const result = checkQuota('FREE', 'oral_sessions', 10);
-      expect(result.allowed).toBe(false);
-      expect(result.remaining).toBe(0);
-    });
-
-    it('always allows for unlimited (-1) plans', () => {
-      const result = checkQuota('MAX', 'oral_sessions', 9999);
-      expect(result.allowed).toBe(true);
-      expect(result.remaining).toBe(-1);
-      expect(result.limit).toBe(-1);
-    });
-
-    it('falls back to FREE for unknown plan', () => {
-      const result = checkQuota('UNKNOWN' as never, 'oral_sessions', 0);
-      expect(result.limit).toBe(3);
+    it('MAX has unlimited quotas', () => {
+      expect(PLAN_CATALOG.MAX.quotas.ORAL_SESSIONS.limit).toBe('unlimited');
+      expect(PLAN_CATALOG.MAX.quotas.LLM_TOKENS.limit).toBe(200_000);
     });
   });
 
   describe('getPeriodKey', () => {
-    it('returns monthly key for non-daily features', () => {
-      const date = new Date('2025-06-15T10:00:00Z');
-      expect(getPeriodKey('oral_sessions', date)).toBe('2025-06');
-      expect(getPeriodKey('ecrit_corrections', date)).toBe('2025-06');
+    it('generates correct day key', () => {
+      const result = getPeriodKey('day', new Date('2026-03-08T10:00:00Z'));
+      expect(result).toBe('2026-03-08');
     });
 
-    it('returns daily key for daily features', () => {
-      const date = new Date('2025-06-15T10:00:00Z');
-      expect(getPeriodKey('llm_requests_daily', date)).toBe('2025-06-15');
-      expect(getPeriodKey('rag_queries_daily', date)).toBe('2025-06-15');
+    it('generates correct week key', () => {
+      const result = getPeriodKey('week', new Date('2026-03-15T10:00:00Z'));
+      expect(result).toMatch(/2026-03-W\d/);
+    });
+
+    it('generates correct month key', () => {
+      const result = getPeriodKey('month', new Date('2026-03-08T10:00:00Z'));
+      expect(result).toBe('2026-03');
     });
   });
 
   describe('buildPaywallMessage', () => {
     it('generates FREE plan paywall message', () => {
-      const msg = buildPaywallMessage('FREE', 'oral_sessions');
-      expect(msg).toContain('3');
+      const msg = buildPaywallMessage('FREE', 'ORAL_SESSIONS');
+      expect(msg).toContain('2');
       expect(msg).toContain('Pro');
+      expect(msg).toContain('semaine');
     });
 
     it('generates PRO plan paywall message', () => {
-      const msg = buildPaywallMessage('PRO', 'oral_sessions');
-      expect(msg).toContain('30');
+      const msg = buildPaywallMessage('PRO', 'ORAL_SESSIONS');
+      expect(msg).toContain('10');
       expect(msg).toContain('Max');
     });
 
-    it('includes daily/monthly period info', () => {
-      const daily = buildPaywallMessage('FREE', 'llm_requests_daily');
+    it('includes period info', () => {
+      const daily = buildPaywallMessage('FREE', 'LLM_TOKENS');
       expect(daily).toContain('jour');
-      const monthly = buildPaywallMessage('FREE', 'oral_sessions');
+      const monthly = buildPaywallMessage('FREE', 'WRITTEN_CORRECTIONS');
       expect(monthly).toContain('mois');
     });
   });

@@ -1,90 +1,55 @@
 import { prisma } from '@/lib/db/client';
+import { getBillingContext } from './context';
+import { type EntitlementKey, type Period, PLAN_CATALOG } from './plan-catalog';
 
-export const PLAN_LIMITS = {
-  FREE: {
-    epreuvesPerMonth: 3,
-    correctionsPerMonth: 1,
-    oralSessionsPerMonth: 2,
-    tuteurMessagesPerDay: 10,
-    quizPerDay: 3,
-    adaptiveParcours: false,
-    avocatDuDiable: false,
-    spacedRepetition: false,
-    rapportHebdo: false,
-    graphRag: false,
-  },
-  PRO: {
-    epreuvesPerMonth: Number.POSITIVE_INFINITY,
-    correctionsPerMonth: Number.POSITIVE_INFINITY,
-    oralSessionsPerMonth: Number.POSITIVE_INFINITY,
-    tuteurMessagesPerDay: Number.POSITIVE_INFINITY,
-    quizPerDay: Number.POSITIVE_INFINITY,
-    adaptiveParcours: true,
-    avocatDuDiable: true,
-    spacedRepetition: true,
-    rapportHebdo: true,
-    graphRag: false,
-  },
-  MAX: {
-    epreuvesPerMonth: Number.POSITIVE_INFINITY,
-    correctionsPerMonth: Number.POSITIVE_INFINITY,
-    oralSessionsPerMonth: Number.POSITIVE_INFINITY,
-    tuteurMessagesPerDay: Number.POSITIVE_INFINITY,
-    quizPerDay: Number.POSITIVE_INFINITY,
-    adaptiveParcours: true,
-    avocatDuDiable: true,
-    spacedRepetition: true,
-    rapportHebdo: true,
-    graphRag: true,
-  },
-} as const;
+/**
+ * Legacy feature names mapped to standardized EntitlementKey.
+ */
+export type PlanFeature =
+  | 'epreuvesPerMonth'
+  | 'correctionsPerMonth'
+  | 'oralSessionsPerMonth'
+  | 'tuteurMessagesPerDay'
+  | 'quizPerDay'
+  | 'adaptiveParcours'
+  | 'avocatDuDiable'
+  | 'spacedRepetition'
+  | 'rapportHebdo'
+  | 'graphRag';
 
-export type PlanFeature = keyof typeof PLAN_LIMITS.FREE;
-export type SubscriptionPlanName = keyof typeof PLAN_LIMITS;
+const FEATURE_TO_ENTITLEMENT: Record<PlanFeature, EntitlementKey | null> = {
+  epreuvesPerMonth: 'WRITTEN_CORRECTIONS',
+  correctionsPerMonth: 'WRITTEN_CORRECTIONS',
+  oralSessionsPerMonth: 'ORAL_SESSIONS',
+  tuteurMessagesPerDay: 'TUTOR_QUESTIONS',
+  quizPerDay: 'QUIZ_PER_DAY',
+  adaptiveParcours: null, // flag
+  avocatDuDiable: null, // flag
+  spacedRepetition: null, // flag
+  rapportHebdo: null, // flag
+  graphRag: null, // flag
+};
 
-function normalizePlan(raw: string): SubscriptionPlanName {
-  const upper = raw.toUpperCase();
-  if (upper === 'MAX' || upper === 'LIFETIME') return 'MAX';
-  if (upper === 'PRO' || upper === 'MONTHLY') return 'PRO';
-  return 'FREE';
+/**
+ * Get user plan using unified billing context.
+ * @deprecated Use getBillingContext() directly for new code.
+ */
+export async function getUserPlan(userId: string): Promise<'FREE' | 'PREMIUM' | 'PRO'> {
+  const context = await getBillingContext(userId);
+  return context.planId;
 }
 
-export async function getUserPlan(userId: string): Promise<SubscriptionPlanName> {
-  try {
-    const sub = (await prisma.subscription.findUnique({ where: { userId } })) as
-      | { plan?: string; expiresAt?: Date | string | null }
-      | null;
-    if (!sub || !sub.plan) {
-      return 'FREE';
-    }
-    const plan = normalizePlan(sub.plan);
-    // MAX n'expire jamais
-    if (plan === 'MAX') {
-      return 'MAX';
-    }
-    // Vérifier l'expiration pour les plans temporaires
-    if (sub.expiresAt) {
-      const expiry = new Date(sub.expiresAt).getTime();
-      if (expiry < Date.now()) {
-        return 'FREE';
-      }
-    }
-    return plan;
-  } catch {
-    return 'FREE';
-  }
-}
-
-function currentPeriodKey(feature: PlanFeature): string {
+function currentPeriodKey(period: Period): string {
   const now = new Date();
   const y = now.getUTCFullYear();
   const m = String(now.getUTCMonth() + 1).padStart(2, '0');
   const d = String(now.getUTCDate()).padStart(2, '0');
 
-  if (feature === 'tuteurMessagesPerDay' || feature === 'quizPerDay') {
-    return `${y}-${m}-${d}`;
+  if (period === 'day') return `${y}-${m}-${d}`;
+  if (period === 'week') {
+    const weekNum = Math.ceil(now.getUTCDate() / 7);
+    return `${y}-${m}-W${weekNum}`;
   }
-
   return `${y}-${m}`;
 }
 
@@ -107,7 +72,14 @@ async function readUsageCount(userId: string, feature: PlanFeature, periodKey: s
 }
 
 export async function incrementUsage(userId: string, feature: PlanFeature): Promise<void> {
-  const periodKey = currentPeriodKey(feature);
+  const entitlementKey = FEATURE_TO_ENTITLEMENT[feature];
+  if (!entitlementKey) return; // flags don't have usage tracking
+
+  const context = await getBillingContext(userId);
+  const quota = context.config.quotas[entitlementKey];
+  if (!quota) return;
+
+  const periodKey = currentPeriodKey(quota.period);
 
   await prisma.usageCounter.upsert({
     where: {
@@ -132,39 +104,52 @@ export async function incrementUsage(userId: string, feature: PlanFeature): Prom
 export async function requirePlan(
   userId: string,
   feature: PlanFeature,
-): Promise<{ allowed: boolean; reason?: string; upgradeUrl?: string; plan?: SubscriptionPlanName }> {
-  const plan = await getUserPlan(userId);
-  const limits = PLAN_LIMITS[plan];
-  const limit = limits[feature];
+): Promise<{ allowed: boolean; reason?: string; upgradeUrl?: string; plan?: 'FREE' | 'PREMIUM' | 'PRO' }> {
+  const context = await getBillingContext(userId);
+  const entitlementKey = FEATURE_TO_ENTITLEMENT[feature];
 
-  if (typeof limit === 'boolean') {
-    if (!limit) {
-      return {
-        allowed: false,
-        reason: 'feature_not_in_plan',
-        upgradeUrl: '/pricing',
-        plan,
-      };
+  // Handle flags (boolean features)
+  if (!entitlementKey) {
+    const flagMap: Record<string, keyof typeof context.config.flags> = {
+      adaptiveParcours: 'ADAPTIVE_PARCOURS',
+      avocatDuDiable: 'AVOCAT_DU_DIABLE',
+      spacedRepetition: 'SPACED_REPETITION_TIER',
+      rapportHebdo: 'ORAL_REPORT_HISTORY',
+      graphRag: 'GRAPH_RAG',
+    };
+    const flagKey = flagMap[feature];
+    if (flagKey) {
+      const flagValue = context.config.flags[flagKey];
+      const allowed = flagValue === true || (flagValue !== false && flagValue !== undefined);
+      if (!allowed) {
+        return {
+          allowed: false,
+          reason: 'feature_not_in_plan',
+          upgradeUrl: '/pricing',
+          plan: context.planId,
+        };
+      }
     }
-
-    return { allowed: true, plan };
+    return { allowed: true, plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO' };
   }
 
-  if (!Number.isFinite(limit)) {
-    return { allowed: true, plan };
-  }
+  // Handle quotas
+  const quota = context.config.quotas[entitlementKey];
+  if (!quota) return { allowed: true, plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO' };
 
-  const periodKey = currentPeriodKey(feature);
+  if (quota.limit === 'unlimited') return { allowed: true, plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO' };
+
+  const periodKey = currentPeriodKey(quota.period);
   const count = await readUsageCount(userId, feature, periodKey);
 
-  if (count >= limit) {
+  if (count >= quota.limit) {
     return {
       allowed: false,
-      reason: 'quota_exceeded',
+      reason: 'Feature disabled',
       upgradeUrl: '/pricing',
-      plan,
+      plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO',
     };
   }
 
-  return { allowed: true, plan };
+  return { allowed: true, plan: context.planId as 'FREE' | 'PREMIUM' | 'PRO' };
 }

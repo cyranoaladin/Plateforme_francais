@@ -17,6 +17,8 @@ import {
   Upload,
   UploadCloud,
 } from 'lucide-react';
+import { PaywallBanner } from '@/components/billing/PaywallBanner';
+import { useQuotaCheck } from '@/hooks/useQuotaCheck';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
@@ -102,6 +104,8 @@ function uploadCopieWithProgress(input: {
 export default function AtelierEcritPage() {
   const [type, setType] = useState<EpreuveType>('commentaire');
   const [oeuvre, setOeuvre] = useState('');
+
+  const quotaCheck = useQuotaCheck('WRITTEN_CORRECTIONS');
   const [theme, setTheme] = useState('');
   const [epreuve, setEpreuve] = useState<EpreuvePayload | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);

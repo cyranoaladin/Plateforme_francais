@@ -24,8 +24,8 @@ enum CopieStatus {
 
 enum SubscriptionPlan {
   FREE
+  PREMIUM
   PRO
-  MAX
   MONTHLY
   LIFETIME
 }
@@ -68,6 +68,7 @@ model User {
   pushSubscriptions PushSubscription[]
   complianceLogs    ComplianceLog[]
   activationCodes   ActivationCode[]
+  passwordResets PasswordResetToken[]
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
 }
@@ -457,6 +458,8 @@ model Chunk {
   @@index([docType])
   @@index([level])
   @@index([oeuvre])
+  @@index([oeuvre, parcours])
+  @@index([sourceType, authorityLevel])
 }
 
 model LlmCostLog {
@@ -815,4 +818,17 @@ model CarnetEntry {
   createdAt DateTime       @default(now())
 
   @@index([studentId, oeuvre])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
 }

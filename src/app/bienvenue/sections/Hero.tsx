@@ -63,13 +63,13 @@ export function Hero() {
               style={EDITORIAL_HEADING}
               className="mt-7 text-5xl leading-[0.96] tracking-[-0.04em] text-[#17324d] sm:text-6xl lg:text-7xl"
             >
-              La preparation EAF qui se laisse verifier avant d etre achetee,
+              La préparation EAF qui se laisse vérifier avant d’être achetée,
               <span className="block text-[#0f766e]">puis accompagne vraiment quand le rythme monte.</span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
-              Nexus Reussite rassemble ecrit, oral, langue, corpus officiel et historique de progression dans un meme flux de travail.
-              Tu vois le vrai produit en gratuit, tu mesures la qualite du cadre, puis tu montes en puissance seulement si le volume de travail le justifie.
+              Nexus Réussite rassemble écrit, oral, langue, corpus officiel et historique de progression dans un même flux de travail.
+              Tu vois le vrai produit en gratuit, tu mesures la qualité du cadre, puis tu montes en puissance seulement si le volume de travail le justifie.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">

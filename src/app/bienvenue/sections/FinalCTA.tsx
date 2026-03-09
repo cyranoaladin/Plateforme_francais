@@ -17,10 +17,10 @@ export function FinalCTA() {
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Passage à l’action</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
-                Verifie le produit, constate le cadre, puis decide si le premium vaut vraiment la peine.
+                Vérifie le produit, constate le cadre, puis décide si le premium vaut vraiment la peine.
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
-                Inscription gratuite, mise en route rapide, workflow lisible des la premiere seance. Le bon ordre est simple : voir d abord, choisir ensuite, payer seulement si l usage le justifie.
+                Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d’abord, choisir ensuite, payer seulement si l’usage le justifie.
               </p>
             </div>
 
@@ -28,9 +28,9 @@ export function FinalCTA() {
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Dès l’entrée</p>
               <div className="mt-4 space-y-3">
                 {[
-                  'Compte cree et onboarding lance en quelques minutes',
-                  'Aucun paiement avant d avoir vu le produit en situation',
-                  'Aucune redaction integrale generee a la place de l eleve',
+                  "Compte créé et onboarding lancé en quelques minutes",
+                  "Aucun paiement avant d’avoir vu le produit en situation",
+                  "Aucune rédaction intégrale générée à la place de l’élève",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />

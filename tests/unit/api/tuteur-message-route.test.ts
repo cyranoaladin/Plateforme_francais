@@ -1,10 +1,42 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+vi.mock('@/lib/db/client', () => ({
+  prisma: {
+    $queryRawUnsafe: vi.fn(),
+    user: { findUnique: vi.fn() },
+    session: { findUnique: vi.fn() },
+    studentProfile: { findUnique: vi.fn() },
+    memoryEvent: { create: vi.fn() },
+    usageCounter: { findUnique: vi.fn(), upsert: vi.fn() },
+    subscription: { findUnique: vi.fn() },
+    agentInteraction: { create: vi.fn() },
+  },
+}));
+
 vi.mock('@/lib/auth/guard', () => ({
   requireAuthenticatedUser: vi.fn(),
 }));
 vi.mock('@/lib/security/csrf', () => ({
   validateCsrf: vi.fn().mockResolvedValue(null),
+}));
+vi.mock('@/lib/billing/context', () => ({
+  getBillingContext: vi.fn().mockResolvedValue({
+    plan: 'FREE',
+    config: {
+      id: 'FREE',
+      quotas: {},
+      flags: {},
+    },
+  }),
+  BillingContextUnavailableError: class extends Error {},
+}));
+vi.mock('@/lib/billing/usage', () => ({
+  consumeQuota: vi.fn().mockResolvedValue(undefined),
+  QuotaExceededError: class extends Error {
+    constructor(public entitlement: string, public period: string, public limit: number) {
+      super();
+    }
+  },
 }));
 vi.mock('@/lib/billing/gating', () => ({
   requirePlan: vi.fn().mockResolvedValue({ allowed: true }),
@@ -39,9 +71,26 @@ describe('POST /api/v1/tuteur/message', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(requireAuthenticatedUser).mockResolvedValue({
-      auth: { user: { id: 'user-1', profile: { badges: [] } } },
+      auth: {
+        user: {
+          id: 'user-1',
+          email: 'test@example.com',
+          role: 'eleve',
+          profile: {
+            displayName: 'Test User',
+            classLevel: 'Première générale',
+            eafDate: '2026-06-11',
+            selectedOeuvres: [],
+            weakSkills: [],
+            onboardingCompleted: true,
+            badges: [],
+            descriptifTextes: [],
+          },
+        },
+        session: { id: 'session-1', userId: 'user-1', expiresAt: new Date() },
+      },
       errorResponse: null,
-    } as never);
+    } as any);
   });
 
   it('retourne 429 quand quota LLM tuteur depasse', async () => {

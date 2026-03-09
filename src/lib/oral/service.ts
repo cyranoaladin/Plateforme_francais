@@ -74,8 +74,6 @@ export async function pickOralExtrait(params: {
     throw new Error(`Descriptif incomplet: ${MIN_TEXTS_FOR_SIMULATION} textes minimum requis pour lancer une simulation.`);
   }
 
-  console.log(`[pickOralExtrait] User: ${params.userId}, Oeuvre: ${params.oeuvre}, Mode: ${params.mode}`);
-  console.log(`[pickOralExtrait] Found ${profile.descriptifTextes.length} texts in descriptif.`);
 
   // First, try to find a match in the student's descriptif
   const studentMatch = profile.descriptifTextes.find((t) =>
@@ -84,7 +82,6 @@ export async function pickOralExtrait(params: {
   );
 
   if (studentMatch) {
-    console.log(`[pickOralExtrait] Found match in student's descriptif: ${studentMatch.oeuvre}`);
   }
 
   // Always use EXTRAITS_OEUVRES as the primary source (more reliable and complete)
@@ -94,7 +91,6 @@ export async function pickOralExtrait(params: {
   );
 
   if (corpusMatch) {
-    console.log(`[pickOralExtrait] Using corpus extract: ${corpusMatch.oeuvre} - ${corpusMatch.id}`);
     return {
       texte: corpusMatch.extrait,
       questionGrammaire: corpusMatch.questionGrammaire,
@@ -105,7 +101,6 @@ export async function pickOralExtrait(params: {
   // Fallback: use any available extract from the corpus
   if (EXTRAITS_OEUVRES.length > 0) {
     const randomExtract = EXTRAITS_OEUVRES[Math.floor(Math.random() * EXTRAITS_OEUVRES.length)];
-    console.log(`[pickOralExtrait] Fallback to random extract: ${randomExtract.oeuvre}`);
     return {
       texte: randomExtract.extrait,
       questionGrammaire: randomExtract.questionGrammaire,

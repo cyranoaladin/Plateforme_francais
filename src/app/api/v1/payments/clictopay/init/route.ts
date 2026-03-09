@@ -9,11 +9,12 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
 
 const initBodySchema = z.object({
-  plan: z.enum(['PRO', 'MAX', 'MONTHLY', 'LIFETIME']),
+  plan: z.enum(['PREMIUM', 'PRO', 'MONTHLY', 'LIFETIME']),
 });
 
-function toCheckoutPlan(raw: z.infer<typeof initBodySchema>['plan']): 'PRO' | 'MAX' {
-  return raw === 'MAX' || raw === 'LIFETIME' ? 'MAX' : 'PRO';
+function toCheckoutPlan(raw: z.infer<typeof initBodySchema>['plan']): 'PREMIUM' | 'PRO' {
+  if (raw === 'PRO' || raw === 'LIFETIME') return 'PRO';
+  return 'PREMIUM';
 }
 
 /**

@@ -1,0 +1,288 @@
+@import './variables.scss';
+
+.pricing {
+  @include section-spacing;
+  background: $color-neutral-white;
+}
+
+.container {
+  @include container;
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: $space-4xl;
+}
+
+.section__title {
+  font-family: $font-display;
+  font-size: $font-size-3xl;
+  color: $color-primary-dark;
+  margin-bottom: $space-md;
+  font-weight: $font-weight-bold;
+}
+
+.section__subtitle {
+  font-family: $font-body;
+  font-size: $font-size-lg;
+  color: $color-neutral-gray;
+}
+
+.pricing__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-md;
+  margin-top: $space-2xl;
+  font-family: $font-body;
+  font-size: $font-size-base;
+
+  span {
+    color: $color-neutral-gray;
+    transition: color $transition-base;
+
+    &.active {
+      color: $color-accent-gold;
+      font-weight: $font-weight-semibold;
+    }
+  }
+}
+
+.toggle {
+  appearance: none;
+  width: 50px;
+  height: 28px;
+  background: $color-neutral-light;
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: background $transition-base;
+  border: none;
+  position: relative;
+  @include focus-visible;
+
+  &[aria-checked="true"] {
+    background: $color-accent-gold;
+
+    .toggle__slider {
+      left: 24px;
+    }
+  }
+}
+
+.toggle__slider {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: $color-neutral-white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: left $transition-base;
+  box-shadow: $shadow-sm;
+}
+
+.pricing__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: $space-xl;
+  margin-top: $space-4xl;
+}
+
+.pricing__card {
+  padding: $space-2xl;
+  border: 2px solid $color-neutral-light;
+  border-radius: $radius-lg;
+  background: $color-neutral-white;
+  position: relative;
+  transition: all $transition-base;
+  display: flex;
+  flex-direction: column;
+
+  &.highlight {
+    border: 2px solid $color-accent-gold;
+    box-shadow: 0 20px 60px rgba($color-accent-gold, 0.15);
+    transform: scale(1.05);
+    background: linear-gradient(135deg, rgba($color-accent-gold, 0.05), rgba($color-accent-green, 0.05));
+
+    .card__name {
+      color: $color-accent-red;
+    }
+  }
+
+  &:hover {
+    border-color: $color-accent-gold;
+    box-shadow: $shadow-lg;
+  }
+}
+
+.card__badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $gradient-gold;
+  color: $color-primary-dark;
+  padding: 6px 16px;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  font-family: $font-body;
+  white-space: nowrap;
+}
+
+.card__symbol {
+  font-size: 3rem;
+  margin-bottom: $space-md;
+  text-align: center;
+}
+
+.card__name {
+  font-family: $font-display;
+  font-size: $font-size-2xl;
+  color: $color-primary-dark;
+  margin-bottom: $space-sm;
+  text-align: center;
+  font-weight: $font-weight-bold;
+}
+
+.card__description {
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  color: $color-neutral-gray;
+  margin-bottom: $space-lg;
+  text-align: center;
+}
+
+.card__price {
+  display: flex;
+  align-items: baseline;
+  gap: $space-sm;
+  margin-bottom: $space-lg;
+  justify-content: center;
+
+  .amount {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $color-primary-dark;
+    font-family: $font-display;
+  }
+
+  .period {
+    font-family: $font-body;
+    color: $color-neutral-gray;
+    font-size: $font-size-sm;
+  }
+}
+
+.card__savings {
+  background: rgba($color-accent-green, 0.1);
+  color: $color-accent-green;
+  padding: $space-sm $space-md;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  margin-bottom: $space-lg;
+  font-family: $font-body;
+  text-align: center;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px 32px;
+  border-radius: $radius-md;
+  font-family: $font-body;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-base;
+  transition: all $transition-base;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  @include focus-visible;
+
+  &--primary {
+    background: $gradient-gold;
+    color: $color-primary-dark;
+    box-shadow: $shadow-gold;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-gold-lg;
+    }
+  }
+
+  &--secondary {
+    background: $color-neutral-light;
+    color: $color-primary-dark;
+    border: 2px solid transparent;
+
+    &:hover {
+      background: $color-primary-dark;
+      color: $color-neutral-white;
+    }
+  }
+}
+
+.card__divider {
+  height: 1px;
+  background: $color-neutral-light;
+  margin: $space-lg 0;
+}
+
+.card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+
+  li {
+    font-family: $font-body;
+    font-size: $font-size-sm;
+    color: $color-neutral-gray;
+    margin-bottom: $space-md;
+    display: flex;
+    align-items: flex-start;
+    gap: $space-sm;
+    line-height: $line-height-relaxed;
+
+    .check {
+      color: $color-accent-green;
+      font-weight: $font-weight-bold;
+      font-size: $font-size-lg;
+      flex-shrink: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.pricing__faq {
+  text-align: center;
+  margin-top: $space-4xl;
+  font-family: $font-body;
+  color: $color-neutral-gray;
+
+  a {
+    color: $color-accent-gold;
+    text-decoration: none;
+    font-weight: $font-weight-semibold;
+    transition: color $transition-base;
+
+    &:hover {
+      color: $color-accent-red;
+    }
+  }
+}
+
+@media (max-width: $bp-md) {
+  .pricing__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing__card.highlight {
+    transform: scale(1);
+  }
+}

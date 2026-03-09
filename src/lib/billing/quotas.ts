@@ -1,117 +1,25 @@
 /**
- * Billing quotas enforcement per cahier des charges V2 §Sprint 4.
- *
- * Plans: FREE / PRO / MAX
- * Features: oral_sessions, ecrit_corrections, llm_requests, rag_queries
+ * Quota utilities — unified with plan-catalog.ts as single source of truth.
+ * Use getBillingContext() and plan-catalog quotas for all quota checks.
  */
 
-export type PlanId = 'FREE' | 'PRO' | 'MAX' | 'MONTHLY' | 'LIFETIME';
-
-export interface PlanQuotas {
-  /** Max oral sessions per month */
-  oral_sessions: number;
-  /** Max écrit corrections per month */
-  ecrit_corrections: number;
-  /** Max LLM requests per day */
-  llm_requests_daily: number;
-  /** Max RAG queries per day */
-  rag_queries_daily: number;
-  /** Can use FREE_PRACTICE mode */
-  free_practice: boolean;
-  /** Can export PDF portfolio */
-  export_pdf: boolean;
-  /** Can access parent dashboard */
-  parent_dashboard: boolean;
-}
-
-export const PLAN_QUOTAS: Record<PlanId, PlanQuotas> = {
-  FREE: {
-    oral_sessions: 3,
-    ecrit_corrections: 5,
-    llm_requests_daily: 20,
-    rag_queries_daily: 10,
-    free_practice: false,
-    export_pdf: false,
-    parent_dashboard: false,
-  },
-  PRO: {
-    oral_sessions: 30,
-    ecrit_corrections: 50,
-    llm_requests_daily: 200,
-    rag_queries_daily: 100,
-    free_practice: true,
-    export_pdf: true,
-    parent_dashboard: true,
-  },
-  MAX: {
-    oral_sessions: -1, // unlimited
-    ecrit_corrections: -1,
-    llm_requests_daily: -1,
-    rag_queries_daily: -1,
-    free_practice: true,
-    export_pdf: true,
-    parent_dashboard: true,
-  },
-  // Legacy plans map to PRO quotas
-  MONTHLY: {
-    oral_sessions: 30,
-    ecrit_corrections: 50,
-    llm_requests_daily: 200,
-    rag_queries_daily: 100,
-    free_practice: true,
-    export_pdf: true,
-    parent_dashboard: true,
-  },
-  LIFETIME: {
-    oral_sessions: -1,
-    ecrit_corrections: -1,
-    llm_requests_daily: -1,
-    rag_queries_daily: -1,
-    free_practice: true,
-    export_pdf: true,
-    parent_dashboard: true,
-  },
-};
-
-export type QuotaFeature = 'oral_sessions' | 'ecrit_corrections' | 'llm_requests_daily' | 'rag_queries_daily';
-
-/**
- * Check if user has remaining quota for a given feature.
- * Returns { allowed: true, remaining } or { allowed: false, limit }.
- */
-export function checkQuota(
-  plan: PlanId,
-  feature: QuotaFeature,
-  currentCount: number,
-): { allowed: boolean; limit: number; remaining: number } {
-  const quotas = PLAN_QUOTAS[plan] ?? PLAN_QUOTAS.FREE;
-  const limit = quotas[feature];
-
-  // -1 = unlimited
-  if (limit === -1) {
-    return { allowed: true, limit: -1, remaining: -1 };
-  }
-
-  const remaining = Math.max(0, limit - currentCount);
-  return {
-    allowed: remaining > 0,
-    limit,
-    remaining,
-  };
-}
+import { type EntitlementKey, type Period, PLAN_CATALOG, type PlanId } from './plan-catalog';
 
 /**
  * Get the period key for quota tracking.
- * Monthly features: "2025-06"
- * Daily features: "2025-06-15"
+ * Day: "2026-03-08"
+ * Week: "2026-03-W2"
+ * Month: "2026-03"
  */
-export function getPeriodKey(feature: QuotaFeature, now: Date = new Date()): string {
+export function getPeriodKey(period: Period, now: Date = new Date()): string {
   const yyyy = now.getFullYear();
   const mm = String(now.getMonth() + 1).padStart(2, '0');
   const dd = String(now.getDate()).padStart(2, '0');
 
-  if (feature.includes('daily')) {
-    return `${yyyy}-${mm}-${dd}`;
+  if (period === 'day') return `${yyyy}-${mm}-${dd}`;
+  if (period === 'week') {
+    const weekNum = Math.ceil(now.getDate() / 7);
+    return `${yyyy}-${mm}-W${weekNum}`;
   }
   return `${yyyy}-${mm}`;
 }
@@ -119,20 +27,42 @@ export function getPeriodKey(feature: QuotaFeature, now: Date = new Date()): str
 /**
  * Build a user-friendly paywall message for a blocked feature.
  */
-export function buildPaywallMessage(plan: PlanId, feature: QuotaFeature): string {
-  const quotas = PLAN_QUOTAS[plan] ?? PLAN_QUOTAS.FREE;
-  const limit = quotas[feature];
-  const featureLabels: Record<QuotaFeature, string> = {
-    oral_sessions: 'simulations orales',
-    ecrit_corrections: 'corrections écrites',
-    llm_requests_daily: 'demandes d accompagnement',
-    rag_queries_daily: 'recherches documentaires',
+export function buildPaywallMessage(planId: PlanId, entitlement: EntitlementKey): string {
+  const config = PLAN_CATALOG[planId];
+  const quota = config.quotas[entitlement];
+  
+  const featureLabels: Record<EntitlementKey, string> = {
+    ORAL_SESSIONS: 'simulations orales',
+    WRITTEN_CORRECTIONS: 'corrections écrites',
+    TUTOR_QUESTIONS: 'questions au tuteur',
+    OCR_COPIES: 'copies numérisées',
+    LLM_TOKENS: 'tokens LLM',
+    RAG_SEARCH: 'recherches documentaires',
+    QUIZ_PER_DAY: 'quiz',
   };
-  const label = featureLabels[feature];
-  const periodLabel = feature.includes('daily') ? 'jour' : 'mois';
-
-  if (plan === 'FREE') {
-    return `Tu as atteint la limite incluse dans Free: ${limit} ${label} par ${periodLabel}. Ton travail reste conserve. Passe a Pro pour reprendre sans blocage.`;
+  
+  const periodLabels: Record<Period, string> = {
+    day: 'jour',
+    week: 'semaine',
+    month: 'mois',
+  };
+  
+  const label = featureLabels[entitlement] || entitlement;
+  
+  if (!quota) {
+    return `Cette fonctionnalité n'est pas disponible dans ton plan actuel. Passe à un plan supérieur.`;
   }
-  return `Tu as atteint la limite incluse dans ton plan actuel: ${limit} ${label} par ${periodLabel}. Passe a Max pour continuer sans plafond sur cette action.`;
+  
+  const limit = quota.limit === 'unlimited' ? 'illimité' : quota.limit;
+  const periodLabel = periodLabels[quota.period];
+
+  if (planId === 'FREE') {
+    return `Tu as atteint la limite incluse dans Free : ${limit} ${label} par ${periodLabel}. Ton travail reste conservé. Passe à Pro pour reprendre sans blocage.`;
+  }
+  
+  if (planId === 'PRO') {
+    return `Tu as atteint la limite incluse dans Pro : ${limit} ${label} par ${periodLabel}. Passe à Max pour continuer sans plafond.`;
+  }
+  
+  return `Tu as atteint la limite de ton plan : ${limit} ${label} par ${periodLabel}.`;
 }

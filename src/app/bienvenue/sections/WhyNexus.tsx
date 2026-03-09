@@ -11,13 +11,13 @@ const EDITORIAL_HEADING = {
 const AUDIENCE_CARDS = [
   {
     icon: GraduationCap,
-    title: 'Pour l’élève',
-    body: 'Le produit dit quoi faire maintenant, quoi reprendre ensuite et comment progresser sans se disperser.',
+    title: "Pour l’élève",
+    body: "Le produit dit quoi faire maintenant, quoi reprendre ensuite et comment progresser sans se disperser.",
   },
   {
     icon: UsersRound,
     title: 'Pour les parents',
-    body: 'La valeur perçue vient d’un cadre visible : workflow clair, garde-fous nets, progression compréhensible.',
+    body: "La valeur perçue vient d’un cadre visible : workflow clair, garde-fous nets, progression compréhensible.",
   },
   {
     icon: ShieldCheck,

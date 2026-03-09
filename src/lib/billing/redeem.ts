@@ -133,14 +133,14 @@ export async function redeemActivationCode(
     await tx.subscription.upsert({
       where: { userId },
       update: {
-        plan: finalPlan,
+        plan: finalPlan as any,
         status: 'ACTIVE',
         currentPeriodEnd: endsAt,
         currentPeriodStart: now,
       },
       create: {
         userId,
-        plan: finalPlan,
+        plan: finalPlan as any,
         status: 'ACTIVE',
         currentPeriodStart: now,
         currentPeriodEnd: endsAt,

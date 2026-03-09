@@ -20,9 +20,9 @@ import {
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 
-type SubscriptionPlan = 'FREE' | 'PRO' | 'MAX';
+type SubscriptionPlan = 'FREE' | 'PREMIUM' | 'PRO';
 type PaymentStatus = 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
-type CheckoutPlan = 'PRO' | 'MAX';
+type CheckoutPlan = 'PREMIUM' | 'PRO';
 
 type BillingStatusPayload = {
   subscription: {
@@ -59,8 +59,8 @@ const FLOUCI_INFO_URL = 'https://fr.flouci.com/feature/%20compte-professionnel';
 
 const PLAN_LABELS: Record<SubscriptionPlan, string> = {
   FREE: 'Free',
+  PREMIUM: 'Premium',
   PRO: 'Pro',
-  MAX: 'Max',
 };
 
 const BANK_TRANSFER_ROWS = [
@@ -95,8 +95,8 @@ const PLANS: PlanCard[] = [
     note: 'Ideal pour voir le vrai produit, lancer l onboarding et verifier si le workflow merite une montee en puissance.',
   },
   {
-    id: 'PRO',
-    title: 'Pro',
+    id: 'PREMIUM',
+    title: 'Premium',
     priceTND: '99 TND',
     period: '/ mois',
     bullets: [
@@ -106,46 +106,48 @@ const PLANS: PlanCard[] = [
       'OCR 20 copies / mois',
       'Parcours personnalise',
       'Rapport PDF oral',
+      'Bibliotheque complete',
     ],
-    cta: 'Passer a Pro',
+    cta: 'Passer a Premium',
     ctaDisabledLabel: 'Plan actuel',
-    checkoutPlan: 'PRO',
+    checkoutPlan: 'PREMIUM',
     highlighted: true,
     kicker: 'Rythme regulier',
     note: 'Le meilleur point d equilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
   },
   {
-    id: 'MAX',
-    title: 'Max',
-    priceTND: '149 TND',
-    period: 'paiement unique',
+    id: 'PRO',
+    title: 'Pro',
+    priceTND: '129 TND',
+    period: '/ mois',
     bullets: [
       'Oral illimite',
       'Corrections ecrites illimitees',
       'Accompagnement guide illimite',
       'OCR 50 copies / mois',
       'Capacite de traitement 200k / jour',
-      'Spaced repetition',
+      'Graph RAG avance',
+      'Historique oral complet',
       'Support prioritaire',
     ],
-    cta: 'Passer a Max',
+    cta: 'Passer a Pro',
     ctaDisabledLabel: 'Plan actuel',
-    checkoutPlan: 'MAX',
+    checkoutPlan: 'PRO',
     highlighted: false,
-    kicker: 'Paiement unique',
-    note: 'Concu pour les usages intensifs et les familles qui veulent regler une seule fois sans conserver un abonnement mensuel.',
+    kicker: 'Tout illimite',
+    note: 'Concu pour les usages intensifs et ceux qui veulent zero limite sur les quotas.',
   },
 ];
 
-const FEATURE_ROWS: Array<{ label: string; free: string; pro: string; max: string }> = [
-  { label: 'Sessions orales / semaine', free: '2', pro: '10', max: 'Illimite' },
-  { label: 'Corrections ecrites / mois', free: '3', pro: '20', max: 'Illimite' },
-  { label: 'Échanges guidés / jour', free: '10', pro: '100', max: 'Illimite' },
-  { label: 'OCR copies / mois', free: '—', pro: '20', max: '50' },
-  { label: 'Capacité de traitement / jour', free: '10k', pro: '50k', max: '200k' },
-  { label: 'Rapport PDF oral', free: '—', pro: 'Oui', max: 'Oui' },
-  { label: 'Spaced repetition', free: '—', pro: '—', max: 'Oui' },
-  { label: 'Support', free: 'FAQ', pro: 'Email', max: 'Prioritaire' },
+const FEATURE_ROWS: Array<{ label: string; free: string; premium: string; pro: string }> = [
+  { label: 'Sessions orales / semaine', free: '2', premium: '10', pro: 'Illimite' },
+  { label: 'Corrections ecrites / mois', free: '3', premium: '20', pro: 'Illimite' },
+  { label: 'Échanges guidés / jour', free: '10', premium: '100', pro: 'Illimite' },
+  { label: 'OCR copies / mois', free: '—', premium: '20', pro: '50' },
+  { label: 'Capacité de traitement / jour', free: '10k', premium: '50k', pro: '200k' },
+  { label: 'Rapport PDF oral', free: '—', premium: 'Oui', pro: 'Oui' },
+  { label: 'Graph RAG', free: '—', premium: '—', pro: 'Oui' },
+  { label: 'Support', free: 'FAQ', premium: 'Email', pro: 'Prioritaire' },
 ];
 
 const BILLING_FAQ = [
@@ -785,8 +787,8 @@ export default function PricingPage() {
                   <tr key={row.label} className={index % 2 === 0 ? 'bg-white' : 'bg-[#fbf8f2]'}>
                     <td className="px-5 py-3.5 font-medium text-[#17324d]">{row.label}</td>
                     <td className="px-5 py-3.5 text-center text-slate-600">{row.free}</td>
-                    <td className="px-5 py-3.5 text-center font-semibold text-[#17324d]">{row.pro}</td>
-                    <td className="px-5 py-3.5 text-center text-slate-600">{row.max}</td>
+                    <td className="px-5 py-3.5 text-center text-slate-600">{row.premium}</td>
+                    <td className="px-5 py-3.5 text-center text-slate-600">{row.pro}</td>
                   </tr>
                 ))}
               </tbody>
