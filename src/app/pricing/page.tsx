@@ -84,15 +84,15 @@ const PLANS: PlanCard[] = [
     period: '',
     bullets: [
       '2 sessions orales / semaine',
-      '3 corrections ecrites / mois',
-      '10 echanges guides / jour',
-      'Bibliotheque complete',
+      '3 corrections écrites / mois',
+      '10 échanges guidés / jour',
+      'Bibliothèque complète',
     ],
     cta: 'Rester sur Free',
     ctaDisabledLabel: 'Plan actuel',
     highlighted: false,
     kicker: 'Essai sans engagement',
-    note: 'Ideal pour voir le vrai produit, lancer l onboarding et verifier si le workflow merite une montee en puissance.',
+    note: 'Idéal pour voir le vrai produit, lancer l’onboarding et vérifier si le workflow mérite une montée en puissance.',
   },
   {
     id: 'PREMIUM',
@@ -101,19 +101,19 @@ const PLANS: PlanCard[] = [
     period: '/ mois',
     bullets: [
       '10 sessions orales / semaine',
-      '20 corrections ecrites / mois',
-      '100 echanges guides / jour',
+      '20 corrections écrites / mois',
+      '100 échanges guidés / jour',
       'OCR 20 copies / mois',
-      'Parcours personnalise',
+      'Parcours personnalisé',
       'Rapport PDF oral',
-      'Bibliotheque complete',
+      'Bibliothèque complète',
     ],
-    cta: 'Passer a Premium',
+    cta: 'Passer à Premium',
     ctaDisabledLabel: 'Plan actuel',
     checkoutPlan: 'PREMIUM',
     highlighted: true,
-    kicker: 'Rythme regulier',
-    note: 'Le meilleur point d equilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
+    kicker: 'Rythme régulier',
+    note: 'Le meilleur point d’équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
   },
   {
     id: 'PRO',
@@ -121,28 +121,28 @@ const PLANS: PlanCard[] = [
     priceTND: '129 TND',
     period: '/ mois',
     bullets: [
-      'Oral illimite',
-      'Corrections ecrites illimitees',
-      'Accompagnement guide illimite',
+      'Oral illimité',
+      'Corrections écrites illimitées',
+      'Accompagnement guidé illimité',
       'OCR 50 copies / mois',
-      'Capacite de traitement 200k / jour',
-      'Graph RAG avance',
+      'Capacité de traitement 200k / jour',
+      'Graph RAG avancé',
       'Historique oral complet',
       'Support prioritaire',
     ],
-    cta: 'Passer a Pro',
+    cta: 'Passer à Pro',
     ctaDisabledLabel: 'Plan actuel',
     checkoutPlan: 'PRO',
     highlighted: false,
-    kicker: 'Tout illimite',
-    note: 'Concu pour les usages intensifs et ceux qui veulent zero limite sur les quotas.',
+    kicker: 'Tout illimité',
+    note: 'Conçu pour les usages intensifs et ceux qui veulent zéro limite sur les quotas.',
   },
 ];
 
 const FEATURE_ROWS: Array<{ label: string; free: string; premium: string; pro: string }> = [
-  { label: 'Sessions orales / semaine', free: '2', premium: '10', pro: 'Illimite' },
-  { label: 'Corrections ecrites / mois', free: '3', premium: '20', pro: 'Illimite' },
-  { label: 'Échanges guidés / jour', free: '10', premium: '100', pro: 'Illimite' },
+  { label: 'Sessions orales / semaine', free: '2', premium: '10', pro: 'Illimité' },
+  { label: 'Corrections écrites / mois', free: '3', premium: '20', pro: 'Illimité' },
+  { label: 'Échanges guidés / jour', free: '10', premium: '100', pro: 'Illimité' },
   { label: 'OCR copies / mois', free: '—', premium: '20', pro: '50' },
   { label: 'Capacité de traitement / jour', free: '10k', premium: '50k', pro: '200k' },
   { label: 'Rapport PDF oral', free: '—', premium: 'Oui', pro: 'Oui' },
@@ -152,35 +152,35 @@ const FEATURE_ROWS: Array<{ label: string; free: string; premium: string; pro: s
 
 const BILLING_FAQ = [
   {
-    q: 'Que se passe-t-il si j atteins un quota ?',
-    a: 'La plateforme bloque l action concernee, conserve ton travail et t indique le plan utile pour reprendre sans repartir de zero.',
+    q: 'Que se passe-t-il si j’atteins un quota ?',
+    a: 'La plateforme bloque l’action concernée, conserve ton travail et t’indique le plan utile pour reprendre sans repartir de zéro.',
   },
   {
-    q: 'Puis-je changer de plan ?',
-    a: 'Oui. Cette page sert justement a comparer, monter en puissance au bon moment et relire ton statut de facturation.',
+    q: 'Puis-je changer de plan ?',
+    a: 'Oui. Cette page sert justement à comparer, monter en puissance au bon moment et relire ton statut de facturation.',
   },
   {
-    q: 'Comment fonctionne le paiement ?',
-    a: 'Le paiement carte est securise via ClicToPay. Si tu preferes un autre canal, la page propose aussi Flouci et le virement bancaire avec activation manuelle du plan.',
+    q: 'Comment fonctionne le paiement ?',
+    a: 'Le paiement carte est sécurisé via ClicToPay. Si tu préfères un autre canal, la page propose aussi Flouci et le virement bancaire avec activation manuelle du plan.',
   },
   {
-    q: 'Et si je n ai pas de carte bancaire ?',
-    a: 'Flouci et le virement bancaire couvrent ce cas. Ajoute l email du compte ou l identifiant utilisateur en reference pour accelerer l activation.',
+    q: 'Et si je n’ai pas de carte bancaire ?',
+    a: 'Flouci et le virement bancaire couvrent ce cas. Ajoute l’email du compte ou l’identifiant utilisateur en référence pour accélérer l’activation.',
   },
 ];
 
 const DECISION_GUIDES = [
   {
     title: 'Free',
-    body: 'Tu veux verifier la qualite du workflow, lancer l onboarding et juger le produit avant toute depense.',
+    body: 'Tu veux vérifier la qualité du workflow, lancer l’onboarding et juger le produit avant toute dépense.',
   },
   {
-    title: 'Pro',
+    title: 'Premium — 99 TND/mois',
     body: 'Tu travailles chaque semaine et tu veux une plateforme assez solide pour soutenir le rythme sans tomber vite sur les limites.',
   },
   {
-    title: 'Max',
-    body: 'Tu veux payer une seule fois, travailler sans plafond sur la duree et garder la marge maximale sur oral, ecrit et quiz.',
+    title: 'Pro — 129 TND/mois',
+    body: 'Tu veux travailler sans plafond sur la durée et garder la marge maximale sur l’oral, l’écrit et le quiz.',
   },
 ];
 
@@ -373,7 +373,7 @@ export default function PricingPage() {
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
-              Compare les plans, comprends les quotas, vois les alternatives de paiement et decide seulement apres avoir compris ce que chaque niveau debloque vraiment.
+              Compare les plans, comprends les quotas, vois les alternatives de paiement et décide seulement après avoir compris ce que chaque niveau débloque vraiment.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
@@ -388,12 +388,12 @@ export default function PricingPage() {
                 href="/login?mode=register"
                 className="inline-flex items-center justify-center rounded-full border border-[#cabaa5] bg-white/85 px-6 py-3.5 text-base font-semibold text-[#17324d] transition-colors hover:bg-white"
               >
-                Creer un compte gratuit
+                Créer un compte gratuit
               </Link>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2.5">
-              {['Aucun paiement avant essai', 'Paiement securise ClicToPay', 'Flouci et virement disponibles', 'Code activation possible'].map((item) => (
+              {['Aucun paiement avant essai', 'Paiement sécurisé ClicToPay', 'Flouci et virement disponibles', 'Code activation possible'].map((item) => (
                 <span key={item} className="rounded-full border border-[#d8ccb9] bg-white/75 px-3.5 py-1.5 text-xs font-semibold text-slate-700">
                   {item}
                 </span>
@@ -406,7 +406,7 @@ export default function PricingPage() {
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Ton statut</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
-                  Une facturation lisible, meme avant paiement.
+                  Une facturation lisible, même avant paiement.
                 </h2>
               </div>
               <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[#f7f2ea]">
@@ -424,10 +424,10 @@ export default function PricingPage() {
                   <div className="space-y-3 text-sm text-slate-200">
                     <div>
                       <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Mode visiteur</p>
-                      <p className="mt-1 text-lg font-bold text-white">Aucun compte connecte</p>
+                      <p className="mt-1 text-lg font-bold text-white">Aucun compte connecté</p>
                     </div>
                     <p className="leading-6 text-slate-200">
-                      Tu peux comparer les plans librement. Le compte gratuit n intervient qu au moment utile, pas avant.
+                      Tu peux comparer les plans librement. Le compte gratuit n’intervient qu’au moment utile, pas avant.
                     </p>
                   </div>
                 ) : (
@@ -442,7 +442,7 @@ export default function PricingPage() {
                     </div>
                     {currentPeriodEndLabel ? (
                       <div>
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Echeance</p>
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Échéance</p>
                         <p className="mt-1 font-semibold text-white">{currentPeriodEndLabel}</p>
                       </div>
                     ) : null}
@@ -455,7 +455,7 @@ export default function PricingPage() {
                 {!isAuthenticated ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-200">
                     <p className="font-semibold text-white">Aucun paiement requis pour commencer</p>
-                    <p>Le plan Free permet deja de tester l onboarding, les premiers ateliers et la logique du produit.</p>
+                    <p>Le plan Free permet déjà de tester l’onboarding, les premiers ateliers et la logique du produit.</p>
                   </div>
                 ) : billing?.lastPayment ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-200">
@@ -466,7 +466,7 @@ export default function PricingPage() {
                     </p>
                   </div>
                 ) : (
-                  <p className="mt-3 text-sm text-slate-200">Aucun paiement recent enregistre.</p>
+                  <p className="mt-3 text-sm text-slate-200">Aucun paiement récent enregistré.</p>
                 )}
               </div>
             </div>
@@ -501,7 +501,7 @@ export default function PricingPage() {
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
-              Le but n est pas de noyer l offre. Il est de rendre le choix simple, defensible et rapide pour l eleve comme pour le parent qui paie.
+              Le but n’est pas de noyer l’offre. Il est de rendre le choix simple, défendable et rapide pour l’élève comme pour le parent qui paie.
             </p>
           </div>
 
@@ -527,7 +527,7 @@ export default function PricingPage() {
                     {plan.highlighted ? (
                       <span className="inline-flex items-center gap-1 rounded-full bg-white/12 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white">
                         <Sparkles className="h-3.5 w-3.5" />
-                        Recommande
+                        Recommandé
                       </span>
                     ) : null}
                   </div>
@@ -579,7 +579,7 @@ export default function PricingPage() {
                         Redirection...
                       </>
                     ) : !isAuthenticated ? (
-                      plan.id === 'FREE' ? 'Creer mon compte gratuit' : 'Creer mon compte'
+                      plan.id === 'FREE' ? 'Créer mon compte gratuit' : 'Commencer — créer un compte'
                     ) : isCurrent ? (
                       plan.ctaDisabledLabel
                     ) : (
@@ -596,9 +596,9 @@ export default function PricingPage() {
           <div className="rounded-[34px] border border-[#d8ccb9] bg-white/80 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-8">
             <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Aide a la decision</p>
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Aide à la décision</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
-                  La bonne offre depend du rythme, pas d un argument marketing vide.
+                  La bonne offre dépend du rythme, pas d’un argument marketing vide.
                 </h2>
               </div>
               <div className="grid gap-3 md:grid-cols-3">
@@ -628,7 +628,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-slate-600">
-              Si un code d activation t a ete envoye, active ton plan ici sans repasser par le checkout ni ressaisir un paiement.
+              Si un code d’activation t’a été envoyé, active ton plan ici sans repasser par le checkout ni ressaisir un paiement.
             </p>
 
             {isAuthenticated ? (
@@ -653,7 +653,7 @@ export default function PricingPage() {
               </form>
             ) : (
               <div className="mt-6 rounded-[22px] border border-[#d8ccb9] bg-[#fcfaf6] p-4 text-sm leading-7 text-slate-600">
-                Connecte-toi d abord pour rattacher le code a ton compte, puis reviens ici pour l activer.
+                <Link href="/login" className="font-semibold text-[#17324d] underline">Connecte-toi d’abord</Link> pour rattacher le code à ton compte, puis reviens ici pour l’activer.
               </div>
             )}
 
@@ -685,7 +685,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-slate-200">
-              Si la carte bancaire n est pas le bon canal, la page propose un lien Flouci et un virement bancaire avec activation manuelle du plan.
+              Si la carte bancaire n’est pas le bon canal, la page propose un lien Flouci et un virement bancaire avec activation manuelle du plan.
             </p>
 
             <div className="mt-6 space-y-3">
@@ -695,7 +695,7 @@ export default function PricingPage() {
                   <div>
                     <p className="text-sm font-semibold text-white">Paiement Flouci</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">
-                      Wallet, carte ou e-Dinar via Flouci si ce canal correspond mieux a votre contexte. Le lien de paiement et la validation manuelle passent ensuite par l equipe Nexus.
+                      Wallet, carte ou e-Dinar via Flouci si ce canal correspond mieux à votre contexte. Le lien de paiement et la validation manuelle passent ensuite par l’équipe Nexus.
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
                       <a
@@ -715,7 +715,7 @@ export default function PricingPage() {
                       </a>
                     </div>
                     <p className="mt-3 text-xs leading-6 text-slate-300">
-                      Utilisez l email du compte ou votre identifiant utilisateur dans la demande pour accelerer l activation.
+                      Utilisez l’email du compte ou votre identifiant utilisateur dans la demande pour accélérer l’activation.
                     </p>
                   </div>
                 </div>
@@ -725,7 +725,7 @@ export default function PricingPage() {
                   <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-[#d7c4aa]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Virement bancaire</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-200">Ajoutez l email du compte ou l identifiant utilisateur en motif. Le plan est active apres verification du reglement.</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-200">Ajoutez l’email du compte ou l’identifiant utilisateur en motif. Le plan est activé après vérification du règlement.</p>
                     <div className="mt-4 grid gap-2 rounded-[20px] bg-[#0f2740] p-4 text-sm text-slate-100 sm:grid-cols-2">
                       {BANK_TRANSFER_ROWS.map((row) => (
                         <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
@@ -739,7 +739,7 @@ export default function PricingPage() {
                         href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Reussite')}&body=${encodeURIComponent('Bonjour,%0D%0AJe vous envoie la reference de mon virement pour activation.%0D%0AEmail du compte : %0D%0AIdentifiant utilisateur (si connu) : %0D%0APlan regle : Pro / Max%0D%0AReference du virement : ')}`}
                         className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]"
                       >
-                        Envoyer la reference
+                        Envoyer la référence
                       </a>
                     </div>
                   </div>
@@ -751,7 +751,7 @@ export default function PricingPage() {
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
                 <p className="text-sm leading-6 text-slate-200">
-                  Facturation en dinar tunisien. Pro = 99 TND par mois. Max = 149 TND en paiement unique. Le code d activation est envoye apres confirmation si vous utilisez Flouci ou le virement.
+                  Facturation en dinar tunisien. Premium = 99 TND/mois. Pro = 129 TND/mois. Le code d’activation est envoyé après confirmation si vous utilisez Flouci ou le virement.
                 </p>
               </div>
             </div>
@@ -761,9 +761,9 @@ export default function PricingPage() {
         <section className="pb-16">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Comparaison detaillee</p>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Comparaison détaillée</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
-                Les quotas sont visibles, donc la decision reste rationnelle.
+                Les quotas sont visibles, donc la décision reste rationnelle.
               </h2>
             </div>
             <div className="rounded-full border border-[#d8ccb9] bg-white/80 px-4 py-2 text-sm font-semibold text-slate-600">
@@ -776,10 +776,10 @@ export default function PricingPage() {
             <table className="w-full min-w-[760px] text-sm">
               <thead>
                 <tr className="bg-[#f8f4ec] text-left">
-                  <th className="px-5 py-4 font-bold text-[#17324d]">Fonctionnalite</th>
+                  <th className="px-5 py-4 font-bold text-[#17324d]">Fonctionnalité</th>
                   <th className="px-5 py-4 text-center font-bold text-[#17324d]">Free</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Pro</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Max</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Premium</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Pro</th>
                 </tr>
               </thead>
               <tbody>
@@ -800,27 +800,27 @@ export default function PricingPage() {
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">FAQ facturation</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
-              Les questions d argent doivent etre traitees aussi clairement que le reste.
+              Les questions d’argent doivent être traitées aussi clairement que le reste.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-              Si la page est bonne, elle coupe court aux hesitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon.
+              Si la page est bonne, elle coupe court aux hésitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon.
             </p>
 
             <div className="mt-8 rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Dernier pas</p>
               <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
-                Commence gratuitement si tu veux juger le produit sur piece.
+                Commence gratuitement si tu veux juger le produit sur pièce.
               </h3>
               <p className="mt-3 text-sm leading-7 text-slate-200">
-                Le plan gratuit suffit a tester le coeur du workflow. Le premium vient ensuite si la preparation devient assez intense pour justifier plus de volume.
+                Le plan gratuit suffit à tester le cœur du workflow. Le Premium vient ensuite si la préparation devient assez intense pour justifier plus de volume.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white">
-                  Creer mon compte gratuit
+                  Créer mon compte gratuit
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link href="/" className="inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6">
-                  Revoir la page d&apos;accueil
+                  Retour à l’accueil
                 </Link>
               </div>
             </div>

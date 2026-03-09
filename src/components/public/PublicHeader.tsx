@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { label: 'La méthode', href: '#comment-ca-marche' },
   { label: 'Ateliers', href: '#fonctionnalites' },
   { label: 'Plans', href: '#plans' },
+  { label: 'Tarifs détaillés', href: '/pricing' },
   { label: 'FAQ', href: '#faq' },
 ];
 
@@ -16,6 +17,7 @@ export function PublicHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
+    <>
     <header className="sticky top-0 z-50 border-b border-[#d8ccb9]/70 bg-[rgba(244,239,229,0.8)] backdrop-blur-xl supports-[backdrop-filter]:bg-[rgba(244,239,229,0.72)]">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-4 shrink-0">
@@ -27,15 +29,17 @@ export function PublicHeader() {
         </Link>
 
         <nav className="hidden lg:flex items-center gap-8" aria-label="Navigation principale">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-slate-600 transition-colors hover:text-[#17324d]"
-            >
-              {link.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) =>
+            link.href.startsWith('/') ? (
+              <Link key={link.href} href={link.href} className="text-sm font-medium text-slate-600 transition-colors hover:text-[#17324d]">
+                {link.label}
+              </Link>
+            ) : (
+              <a key={link.href} href={link.href} className="text-sm font-medium text-slate-600 transition-colors hover:text-[#17324d]">
+                {link.label}
+              </a>
+            )
+          )}
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
@@ -66,14 +70,25 @@ export function PublicHeader() {
         <nav className="lg:hidden border-t border-[#d8ccb9] bg-[#f8f4ec] px-4 py-4" aria-label="Navigation mobile">
           <div className="mx-auto flex max-w-7xl flex-col gap-2">
             {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-[#17324d]"
-              >
-                {link.label}
-              </a>
+              link.href.startsWith('/') ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-[#17324d]"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-[#17324d]"
+                >
+                  {link.label}
+                </a>
+              )
             ))}
 
             <div className="mt-2 grid gap-2">
@@ -92,12 +107,29 @@ export function PublicHeader() {
                 }}
                 className="rounded-2xl bg-[#17324d] px-4 py-3 text-center text-sm font-bold text-[#f7f2ea]"
               >
-                Créer mon espace
+                Créer mon espace gratuit
               </Link>
             </div>
           </div>
         </nav>
       )}
+
     </header>
+
+    {/* Bandeau sticky bas — mobile uniquement */}
+    <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden border-t border-[#d8ccb9] bg-[rgba(244,239,229,0.96)] backdrop-blur-xl px-4 py-3 flex items-center justify-between gap-3 shadow-[0_-8px_30px_rgba(23,50,77,0.12)]">
+      <div className="min-w-0">
+        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#0f766e]">Inscription gratuite</p>
+        <p className="truncate text-xs text-slate-600">3 min · aucun paiement requis</p>
+      </div>
+      <Link
+        href="/login?mode=register"
+        onClick={() => track({ name: 'cta_click', props: { cta: 'sticky_bottom_register', path: '/' } })}
+        className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-[#17324d] px-4 py-2.5 text-sm font-bold text-[#f7f2ea] shadow-[0_10px_30px_rgba(23,50,77,0.22)] transition-all hover:bg-[#0f2740]"
+      >
+        Commencer <ArrowRight className="h-3.5 w-3.5" />
+      </Link>
+    </div>
+    </>
   );
 }
