@@ -8,11 +8,13 @@ import { ThemeProvider } from '@/components/theme/theme-provider';
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const shouldTrackLearningActivity =
+    pathname !== '/' &&
     pathname !== '/login' &&
     pathname !== '/bienvenue' &&
     pathname !== '/pricing' &&
     !pathname.startsWith('/paiement/');
   const isStandalonePage =
+    pathname === '/' ||
     pathname === '/login' ||
     pathname === '/bienvenue' ||
     pathname === '/pricing' ||
