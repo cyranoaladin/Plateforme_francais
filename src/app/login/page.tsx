@@ -567,13 +567,13 @@ function AuthCard() {
             Accueil
           </Link>
           <span>·</span>
-          <a href="/#plans" className="transition-colors hover:text-[#17324d]">
+          <Link href="/#plans" className="transition-colors hover:text-[#17324d]">
             Tarifs
-          </a>
+          </Link>
           <span>·</span>
-          <a href="/#faq" className="transition-colors hover:text-[#17324d]">
+          <Link href="/#faq" className="transition-colors hover:text-[#17324d]">
             FAQ
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -600,9 +600,9 @@ export default function LoginPage() {
             <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
               Retour accueil
             </Link>
-            <a href="/#plans" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+            <Link href="/#plans" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
               Voir les plans
-            </a>
+            </Link>
             <Link
               href="/login?mode=register"
               className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"

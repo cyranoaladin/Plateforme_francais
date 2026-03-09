@@ -47,9 +47,9 @@ export function PublicFooter() {
             <ul className="mt-4 space-y-3 text-sm text-slate-700">
               <li>contact@nexusreussite.academy</li>
               <li>
-                <a href="/#plans" className="transition-colors hover:text-[#17324d]">
+                <Link href="/#plans" className="transition-colors hover:text-[#17324d]">
                   Voir les plans et tarifs
-                </a>
+                </Link>
               </li>
               <li>
                 <Link href="/login?mode=register" className="transition-colors hover:text-[#17324d]">
