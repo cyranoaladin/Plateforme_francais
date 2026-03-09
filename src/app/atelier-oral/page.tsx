@@ -18,8 +18,6 @@ import {
   Volume2,
   Zap,
 } from 'lucide-react';
-import { PaywallBanner } from '@/components/billing/PaywallBanner';
-import { useQuotaCheck } from '@/hooks/useQuotaCheck';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { createBrowserStt } from '@/lib/stt/browser';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
@@ -173,7 +171,6 @@ function timerTone(remaining: number): string {
 function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: string) {
   const [remaining, setRemaining] = useState(totalSeconds);
 
-  const quotaCheck = useQuotaCheck('ORAL_SESSIONS');
   const alertedRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {

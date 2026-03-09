@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { type SubscriptionPlan } from '@prisma/client';
 import { prisma } from '@/lib/db/client';
 import { comparePlans, normalizePlanId, type PlanId } from '@/lib/billing/plan-catalog';
 import { sendTransactionalEmail } from '@/lib/email/client';
@@ -187,7 +188,7 @@ export async function initiateClicToPayPayment(input: ClicToPayInitInput): Promi
   await prisma.paymentTransaction.create({
     data: {
       userId: input.userId,
-      plan: input.plan as any,
+      plan: input.plan as SubscriptionPlan,
       amountMillimes,
       currency: 'TND',
       orderRef,
@@ -312,7 +313,7 @@ export async function applyClicToPayStatusToTransaction(params: {
     await prisma.subscription.upsert({
       where: { userId: tx.userId },
       update: {
-        plan: finalPlan as any,
+        plan: finalPlan as SubscriptionPlan,
         status: 'ACTIVE',
         currentPeriodStart: periodStart,
         currentPeriodEnd: periodEnd,
@@ -320,7 +321,7 @@ export async function applyClicToPayStatusToTransaction(params: {
       },
       create: {
         userId: tx.userId,
-        plan: finalPlan as any,
+        plan: finalPlan as SubscriptionPlan,
         status: 'ACTIVE',
         currentPeriodStart: periodStart,
         currentPeriodEnd: periodEnd,

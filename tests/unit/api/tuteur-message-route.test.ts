@@ -90,7 +90,7 @@ describe('POST /api/v1/tuteur/message', () => {
         session: { id: 'session-1', userId: 'user-1', expiresAt: new Date() },
       },
       errorResponse: null,
-    } as any);
+    } as Awaited<ReturnType<typeof requireAuthenticatedUser>>);
   });
 
   it('retourne 429 quand quota LLM tuteur depasse', async () => {

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   BarChart3,
   BookOpen,
@@ -25,8 +25,6 @@ import {
   getCategoryLabel,
   getResourceIcon,
 } from '@/data/ressources';
-import { PaywallBanner } from '@/components/billing/PaywallBanner';
-import { FREE_LIBRARY_LIMITS } from '@/lib/billing/library-gating';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { PdfPreviewViewer } from '@/components/ui/pdf-preview-viewer';
@@ -68,13 +66,6 @@ const VIDEO_MIME_TYPES: Record<string, string> = {
   '.mov': 'video/quicktime',
 };
 
-function isResourceFree(resource: EafResource, allResources: EafResource[]): boolean {
-  const catResources = allResources.filter(r => r.category === resource.category);
-  const idx = catResources.findIndex(r => r.id === resource.id);
-  const limit = (FREE_LIBRARY_LIMITS as Record<string, number>)[resource.category] ?? 2;
-  return idx < limit;
-}
-
 function buildResourceDescription(resource: EafResource) {
   if (resource.description) return resource.description;
   if (resource.category === 'Annales_EAF') {
@@ -109,20 +100,10 @@ function getVideoMimeType(resource: EafResource): string | undefined {
 export default function BibliothequePage() {
   const [activeCategory, setActiveCategory] = useState<ResourceCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<'name' | 'size'>('name');
+  const [sortBy] = useState<'name' | 'size'>('name');
   const [ragResults, setRagResults] = useState<RagResult[]>([]);
   const [selectedResource, setSelectedResource] = useState<EafResource | null>(null);
   const [isSearching, setIsSearching] = useState(false);
-  const [userPlan, setUserPlan] = useState<string>('FREE');
-
-  useEffect(() => {
-    fetch('/api/v1/billing/status')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => data?.subscription?.plan && setUserPlan(data.subscription.plan))
-      .catch(() => null);
-  }, []);
-
-  const hasFullAccess = userPlan === 'PREMIUM' || userPlan === 'PRO';
   const [ragError, setRagError] = useState<string | null>(null);
 
   const filteredResources = useMemo(() => {

@@ -3,8 +3,6 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { BookOpen, Brain, GraduationCap, Loader2, Sparkles, Target } from 'lucide-react';
-import { PaywallBanner } from '@/components/billing/PaywallBanner';
-import { useQuotaCheck } from '@/hooks/useQuotaCheck';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
@@ -72,7 +70,6 @@ export default function QuizPage() {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [submitted, setSubmitted] = useState(false);
 
-  const quotaCheck = useQuotaCheck('QUIZ_PER_DAY');
   const [badgeToasts, setBadgeToasts] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);

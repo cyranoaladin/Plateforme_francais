@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/db/client';
 import { getBillingContext } from './context';
-import { type EntitlementKey, type Period, PLAN_CATALOG } from './plan-catalog';
+import { type EntitlementKey, type Period } from './plan-catalog';
 
 /**
  * Legacy feature names mapped to standardized EntitlementKey.

@@ -5,6 +5,7 @@
  */
 
 import crypto from 'crypto';
+import { type SubscriptionPlan } from '@prisma/client';
 import { prisma } from '@/lib/db/client';
 import { type PlanId, PLAN_CATALOG, comparePlans } from './plan-catalog';
 
@@ -133,14 +134,14 @@ export async function redeemActivationCode(
     await tx.subscription.upsert({
       where: { userId },
       update: {
-        plan: finalPlan as any,
+        plan: finalPlan as SubscriptionPlan,
         status: 'ACTIVE',
         currentPeriodEnd: endsAt,
         currentPeriodStart: now,
       },
       create: {
         userId,
-        plan: finalPlan as any,
+        plan: finalPlan as SubscriptionPlan,
         status: 'ACTIVE',
         currentPeriodStart: now,
         currentPeriodEnd: endsAt,
