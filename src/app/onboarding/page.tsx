@@ -273,7 +273,7 @@ export default function OnboardingPage() {
       track({ name: 'onboarding_complete', props: {} });
       setWelcomeMessage(payload.welcomeMessage ?? 'Ton parcours est prêt.');
       setTimeout(() => {
-        router.push('/');
+        router.push('/dashboard');
         router.refresh();
       }, 1200);
     } catch (err) {

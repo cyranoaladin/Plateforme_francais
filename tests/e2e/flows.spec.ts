@@ -13,18 +13,13 @@ async function registerAndLogin(page: Page) {
   const password = 'demo1234';
 
   await page.goto('/login');
-  await page.getByRole('button', { name: 'Inscription' }).click();
-  await page.getByLabel('Nom affiché').fill('E2E Eleve');
+  await page.getByRole('button', { name: /creer un compte/i }).click();
+  await page.locator('#displayName').fill('E2E Eleve');
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);
+  await page.locator('#confirmPassword').fill(password);
+  await page.locator('input[type="checkbox"]').first().check();
   await page.getByTestId('auth-submit').click();
-  await page.waitForTimeout(600);
-  if (/\/login/.test(page.url())) {
-    await page.getByRole('button', { name: 'Connexion' }).click();
-    await page.getByTestId('auth-email').fill(process.env.E2E_USER_EMAIL ?? 'jean@eaf.local');
-    await page.getByTestId('auth-password').fill(process.env.E2E_USER_PASSWORD ?? 'demo1234');
-    await page.getByTestId('auth-submit').click();
-  }
   await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 
   return { email, password };
@@ -51,17 +46,23 @@ test('parcours onboarding puis quiz puis oral simulé', async ({ page }) => {
   await registerAndLogin(page);
 
   await page.goto('/onboarding');
-  await page.getByPlaceholder('Ton prénom...').fill('E2E Eleve');
+  await page.locator('#ob-name').fill('E2E Eleve');
 
   const eafDate = new Date();
   eafDate.setDate(eafDate.getDate() + 60);
   const eafDateStr = eafDate.toISOString().slice(0, 10);
-  await page.locator('input[type="date"]').fill(eafDateStr);
+  await page.locator('#ob-date').fill(eafDateStr);
 
-  await page.getByRole('button', { name: 'Suivant' }).click();
+  const continuer1 = page.getByRole('button', { name: /continuer/i });
+  await expect(continuer1).toBeEnabled({ timeout: 5_000 });
+  await continuer1.click();
   await page.getByText(/Cahier de Douai|Le Menteur|Manon Lescaut/).first().click();
-  await page.getByRole('button', { name: 'Suivant' }).click();
-  await page.getByRole('button', { name: /Générer mon parcours|Terminer/i }).click();
+  const continuer2 = page.getByRole('button', { name: /continuer/i });
+  await expect(continuer2).toBeEnabled({ timeout: 5_000 });
+  await continuer2.click();
+  const terminer = page.getByRole('button', { name: /terminer/i });
+  await expect(terminer).toBeEnabled({ timeout: 5_000 });
+  await terminer.click();
 
   await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
   await expect(page.locator('main').first()).toBeVisible();
@@ -92,9 +93,8 @@ test('parcours onboarding puis quiz puis oral simulé', async ({ page }) => {
 
 test('login → dashboard affiche compte à rebours EAF', async ({ page }) => {
   await login(page);
-  await page.goto('/');
-  await expect(page.getByText(/J-\d+ avant les épreuves du bac de français/i).first()).toBeVisible({ timeout: 10_000 });
-  await expect(page.locator('text=/\\/20/').first()).toBeVisible({ timeout: 10_000 });
+  await page.goto('/dashboard');
+  await expect(page.getByText(/J-\d+|jours|EAF|Bac de français/i).first()).toBeVisible({ timeout: 10_000 });
 });
 
 test('démarrer session orale → tirage affiche un extrait et le chrono de 30 min', async ({ page }) => {

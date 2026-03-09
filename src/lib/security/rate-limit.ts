@@ -57,6 +57,10 @@ export async function checkRateLimit(input: {
   limit: number;
   windowMs?: number;
 }): Promise<{ allowed: boolean; retryAfter: number }> {
+  if (process.env.E2E_DISABLE_RATE_LIMIT === '1') {
+    return { allowed: true, retryAfter: 0 };
+  }
+
   const windowMs = input.windowMs ?? 60_000;
   const windowSec = Math.ceil(windowMs / 1000);
   const ip = getClientIp(input.request);

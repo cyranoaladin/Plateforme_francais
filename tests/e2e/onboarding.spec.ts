@@ -5,18 +5,13 @@ async function registerAndLogin(page: Page) {
   const password = 'demo1234';
 
   await page.goto('/login');
-  await page.getByRole('button', { name: 'Inscription' }).click();
-  await page.getByLabel('Nom affiché').fill('E2E Onboarding');
+  await page.getByRole('button', { name: /creer un compte/i }).click();
+  await page.locator('#displayName').fill('E2E Onboarding');
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);
+  await page.locator('#confirmPassword').fill(password);
+  await page.locator('input[type="checkbox"]').first().check();
   await page.getByTestId('auth-submit').click();
-  await page.waitForTimeout(600);
-  if (/\/login/.test(page.url())) {
-    await page.getByRole('button', { name: 'Connexion' }).click();
-    await page.getByTestId('auth-email').fill(process.env.E2E_USER_EMAIL ?? 'jean@eaf.local');
-    await page.getByTestId('auth-password').fill(process.env.E2E_USER_PASSWORD ?? 'demo1234');
-    await page.getByTestId('auth-submit').click();
-  }
   await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
 }
 
@@ -25,14 +20,20 @@ test('Inscription → onboarding wizard → dashboard personnalisé', async ({ p
   await registerAndLogin(page);
 
   await page.goto('/onboarding');
-  await page.getByPlaceholder('Ton prénom...').fill('E2E Élève');
-  await page.locator('input[type="date"]').fill('2026-06-11');
-  await page.getByRole('button', { name: /suivant/i }).click();
+  await page.locator('#ob-name').fill('E2E Élève');
+  await page.locator('#ob-date').fill('2026-06-11');
+  const btn1 = page.getByRole('button', { name: /continuer/i });
+  await expect(btn1).toBeEnabled({ timeout: 5_000 });
+  await btn1.click();
 
   await page.locator('text=Cahier de Douai').first().click();
-  await page.getByRole('button', { name: /suivant/i }).click();
+  const btn2 = page.getByRole('button', { name: /continuer/i });
+  await expect(btn2).toBeEnabled({ timeout: 5_000 });
+  await btn2.click();
 
-  await page.getByRole('button', { name: /générer mon parcours|terminer/i }).click();
-  await expect(page).not.toHaveURL(/\/login/, { timeout: 20_000 });
+  const finishBtn = page.getByRole('button', { name: /terminer/i });
+  await expect(finishBtn).toBeEnabled({ timeout: 5_000 });
+  await finishBtn.click();
+  await expect(page).toHaveURL(/\/dashboard/, { timeout: 30_000 });
   await expect(page.locator('main').first()).toBeVisible();
 });

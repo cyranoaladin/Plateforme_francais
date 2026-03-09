@@ -295,7 +295,7 @@ function AuthCard() {
         return;
       }
 
-      const redirectTo = searchParams.get('redirect') || '/';
+      const redirectTo = searchParams.get('redirect') || '/dashboard';
       try {
         const profile = await apiFetch<ProfilePayload>('/api/v1/student/profile');
         if (!profile.onboardingCompleted) {

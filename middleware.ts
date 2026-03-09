@@ -1,7 +1,13 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { randomBytes } from 'crypto';
+
+function edgeRandomBase64(byteCount: number): string {
+  const bytes = new Uint8Array(byteCount);
+  crypto.getRandomValues(bytes);
+  return btoa(String.fromCharCode(...bytes));
+}
 
 const PUBLIC_PATHS = new Set([
+  '/',
   '/login',
   '/bienvenue',
   '/pricing',
@@ -40,7 +46,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Add CSP nonce header
-  const nonce = randomBytes(16).toString('base64');
+  const nonce = edgeRandomBase64(16);
   const response = NextResponse.next();
   response.headers.set('x-nonce', nonce);
 
