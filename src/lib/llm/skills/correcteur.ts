@@ -1,13 +1,40 @@
 import { z } from 'zod';
 import { type SkillConfig } from '@/lib/llm/skills/types';
 
+/**
+ * Coerce an array that may contain objects into an array of strings.
+ * LLMs sometimes return [{extrait: "...", explication: "..."}] instead of ["..."].
+ */
+function coerceStringArray(val: unknown): string[] {
+  if (!Array.isArray(val)) return typeof val === 'string' ? [val] : [];
+  return val.map((item) => {
+    if (typeof item === 'string') return item;
+    if (item && typeof item === 'object') {
+      const parts = Object.values(item as Record<string, unknown>).filter(
+        (v): v is string => typeof v === 'string',
+      );
+      return parts.join(' — ');
+    }
+    return String(item);
+  });
+}
+
+/**
+ * Coerce a value that may be a single string into an array of strings.
+ * LLMs sometimes return "Un conseil" instead of ["Un conseil"].
+ */
+function coerceToArray(val: unknown): string[] {
+  if (typeof val === 'string') return [val];
+  return coerceStringArray(val);
+}
+
 const schema = z.object({
   note: z.number(),
   mention: z.string(),
   bilan: z.object({
     global: z.string(),
-    points_forts: z.array(z.string()),
-    axes_amelioration: z.array(z.string()),
+    points_forts: z.preprocess(coerceStringArray, z.array(z.string())),
+    axes_amelioration: z.preprocess(coerceStringArray, z.array(z.string())),
   }),
   rubriques: z.array(
     z.object({
@@ -15,7 +42,7 @@ const schema = z.object({
       note: z.number(),
       max: z.number(),
       appreciation: z.string(),
-      conseils: z.array(z.string()),
+      conseils: z.preprocess(coerceToArray, z.array(z.string())),
     }),
   ),
   annotations: z.array(
@@ -60,7 +87,7 @@ ANTI-TRICHE : Ne jamais rédiger un corrigé intégral. Le corrigé type est un 
 
 FORMAT DE SORTIE (JSON strict) :
 { note, mention, bilan: { global, points_forts, axes_amelioration }, rubriques: [{ titre, note, max, appreciation, conseils }], annotations: [{ extrait, commentaire, type }], corrige_type, conseil_final }`,
-  outputSchema: schema,
+  outputSchema: schema as z.ZodType<CorrecteurOutput>,
   fallback: {
     note: 0,
     mention: 'Non évalué',
