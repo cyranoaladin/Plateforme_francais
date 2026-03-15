@@ -12,11 +12,14 @@ export type OralCapability = {
   userMessage?: string;
 };
 
+export type OralVoiceMode = 'browser' | 'server' | 'auto';
+
 export type OralCapabilities = {
   stt: OralCapability;
   tts: OralCapability;
   rag: OralCapability;
   llm: OralCapability;
+  voiceMode: OralVoiceMode;
 };
 
 function getRagCapability(): OralCapability {
@@ -64,11 +67,27 @@ function getLlmCapability(): OralCapability {
   };
 }
 
+function resolveVoiceMode(): OralVoiceMode {
+  const envVal = (process.env.ORAL_VOICE_MODE ?? '').toLowerCase().trim();
+  if (envVal === 'browser') return 'browser';
+  if (envVal === 'server') return 'server';
+  if (envVal === 'auto') {
+    const stt = getSttCapability();
+    return stt.available ? 'server' : 'browser';
+  }
+  // ORAL_VOICE_MODE absent or unrecognized → safe default: browser
+  // This prevents silent activation of server voice mode in production
+  // just because OPENAI_API_KEY exists (it's shared with LLM routing).
+  // Operator must explicitly opt in via ORAL_VOICE_MODE=server or auto.
+  return 'browser';
+}
+
 export async function getOralCapabilities(): Promise<OralCapabilities> {
   return {
     stt: getSttCapability(),
     tts: getTtsCapability(),
     rag: getRagCapability(),
     llm: getLlmCapability(),
+    voiceMode: resolveVoiceMode(),
   };
 }

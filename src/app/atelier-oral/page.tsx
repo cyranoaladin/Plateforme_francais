@@ -19,8 +19,11 @@ import {
   Zap,
 } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
+import { createAudioRecorder, type BrowserAudioRecorder } from '@/lib/oral/audio-recorder';
 import { createBrowserStt } from '@/lib/stt/browser';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+
+type VoiceMode = 'browser' | 'server' | 'auto';
 
 type OralStep = 'LECTURE' | 'EXPLICATION' | 'GRAMMAIRE' | 'ENTRETIEN';
 type WizardPhase = 'TIRAGE' | 'PREP' | 'PASSAGE' | 'BILAN';
@@ -140,6 +143,24 @@ function speakText(text: string) {
   window.speechSynthesis.speak(utterance);
 }
 
+function playAudioBase64(base64: string, mimeType: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    try {
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      const blob = new Blob([bytes], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.onended = () => { URL.revokeObjectURL(url); resolve(); };
+      audio.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Lecture audio impossible.')); };
+      audio.play().catch(reject);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
 function playAlert() {
   try {
     const ctx = new AudioContext();
@@ -232,8 +253,11 @@ export default function AtelierOralPage() {
   const [juryTurns, setJuryTurns] = useState<JuryTurn[]>([]);
   const [isJuryLoading, setIsJuryLoading] = useState(false);
 
+  const [voiceMode, setVoiceMode] = useState<VoiceMode>('browser');
   const stepStartRef = useRef<number>(Date.now());
   const sttRef = useRef<ReturnType<typeof createBrowserStt> | null>(null);
+  const audioRecorderRef = useRef<BrowserAudioRecorder | null>(null);
+  const pendingAudioRef = useRef<{ blob: Blob; mimeType: string } | null>(null);
 
   const currentStep = STEPS[currentStepIndex] ?? null;
   const isSimulation = mode === 'SIMULATION';
@@ -248,8 +272,27 @@ export default function AtelierOralPage() {
   );
 
   useEffect(() => {
+    // Detect voice mode from capabilities endpoint (respects ORAL_VOICE_MODE env var)
+    fetch('/api/v1/oral/capabilities')
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (data?.voiceMode) {
+          setVoiceMode(data.voiceMode as VoiceMode);
+        }
+      })
+      .catch(() => { /* keep browser mode */ });
+
+    // Always set up browser STT as fallback
     sttRef.current = createBrowserStt();
     sttRef.current?.onResult((text: string) => setTranscript(text));
+
+    // Set up audio recorder for server mode
+    if (typeof window !== 'undefined' && typeof MediaRecorder !== 'undefined') {
+      audioRecorderRef.current = createAudioRecorder({
+        mediaDevices: navigator.mediaDevices,
+        MediaRecorderCtor: MediaRecorder,
+      });
+    }
   }, []);
 
   const aggregated = useMemo(() => {
@@ -322,32 +365,108 @@ export default function AtelierOralPage() {
     stepStartRef.current = Date.now();
   }, [session]);
 
-  const toggleMic = useCallback(() => {
-    if (!sttRef.current) return;
+  const useServerVoice = voiceMode === 'server' && audioRecorderRef.current !== null;
+
+  const toggleMic = useCallback(async () => {
     if (isMicOn) {
-      sttRef.current.stop();
+      // Stop recording
+      if (useServerVoice && audioRecorderRef.current) {
+        try {
+          const recorded = await audioRecorderRef.current.stop();
+          pendingAudioRef.current = recorded;
+        } catch {
+          pendingAudioRef.current = null;
+        }
+      } else {
+        sttRef.current?.stop();
+      }
       setIsMicOn(false);
       return;
     }
-    sttRef.current.start();
-    setIsMicOn(true);
-  }, [isMicOn]);
+
+    // Start recording
+    if (useServerVoice && audioRecorderRef.current) {
+      try {
+        await audioRecorderRef.current.start();
+        setIsMicOn(true);
+      } catch {
+        // Fallback to browser STT if recorder fails
+        sttRef.current?.start();
+        setIsMicOn(true);
+      }
+    } else {
+      sttRef.current?.start();
+      setIsMicOn(true);
+    }
+  }, [isMicOn, useServerVoice]);
 
   const submitStep = useCallback(async () => {
-    if (!session || !currentStep || transcript.trim().length === 0) return;
+    if (!session || !currentStep) return;
+
+    const audioData = pendingAudioRef.current;
+    const hasAudio = useServerVoice && audioData !== null;
+    const hasText = transcript.trim().length > 0;
+
+    if (!hasAudio && !hasText) return;
+
     setIsLoading(true);
     setError(null);
     try {
       const duration = Math.max(1, Math.floor((Date.now() - stepStartRef.current) / 1000));
-      const response = await fetch(`/api/v1/oral/session/${session.sessionId}/interact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
-        body: JSON.stringify({ step: currentStep, transcript, duration }),
-      });
-      if (!response.ok) throw new Error("Échec de l'analyse de la prestation.");
-      const payload = (await response.json()) as StepFeedback;
+
+      let payload: StepFeedback;
+
+      if (hasAudio) {
+        // ── Server voice mode: send audio to audio-turn endpoint ──
+        const formData = new FormData();
+        formData.append('audio', audioData.blob, 'recording.webm');
+        formData.append('step', currentStep);
+        formData.append('duration', String(duration));
+
+        const response = await fetch(`/api/v1/oral/session/${session.sessionId}/audio-turn`, {
+          method: 'POST',
+          headers: { 'X-CSRF-Token': getCsrfTokenFromDocument() },
+          body: formData,
+        });
+        if (!response.ok) throw new Error("Échec de l'analyse de la prestation.");
+
+        const result = await response.json();
+
+        if (result.fallbackToWebSpeech && !result.transcript) {
+          // STT failed — fallback: user must use browser speech
+          setError('Transcription serveur indisponible. Utilisez le micro pour dicter votre réponse.');
+          pendingAudioRef.current = null;
+          return;
+        }
+
+        // Update transcript from server STT
+        if (result.transcript) setTranscript(result.transcript);
+
+        payload = result.evaluation;
+
+        // Play jury audio if available, otherwise use browser TTS
+        if (result.juryAudioBase64 && result.juryAudioMimeType) {
+          playAudioBase64(result.juryAudioBase64, result.juryAudioMimeType).catch(() => {
+            if (payload.relance) speakText(payload.relance);
+            else if (payload.feedback) speakText(payload.feedback);
+          });
+        } else if (currentStep === 'ENTRETIEN' && payload.relance) {
+          speakText(payload.relance);
+        }
+      } else {
+        // ── Browser mode: send text to interact endpoint ──
+        const response = await fetch(`/api/v1/oral/session/${session.sessionId}/interact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
+          body: JSON.stringify({ step: currentStep, transcript, duration }),
+        });
+        if (!response.ok) throw new Error("Échec de l'analyse de la prestation.");
+        payload = (await response.json()) as StepFeedback;
+        if (currentStep === 'ENTRETIEN' && payload.relance) speakText(payload.relance);
+      }
+
+      pendingAudioRef.current = null;
       setFeedbacks((prev) => ({ ...prev, [currentStep]: payload }));
-      if (currentStep === 'ENTRETIEN' && payload.relance) speakText(payload.relance);
 
       if (currentStepIndex < STEPS.length - 1) {
         setCurrentStepIndex((prev) => prev + 1);
@@ -374,11 +493,15 @@ export default function AtelierOralPage() {
     } finally {
       setIsLoading(false);
       if (isMicOn) {
-        sttRef.current?.stop();
+        if (useServerVoice && audioRecorderRef.current) {
+          audioRecorderRef.current.stop().catch(() => {});
+        } else {
+          sttRef.current?.stop();
+        }
         setIsMicOn(false);
       }
     }
-  }, [currentStep, currentStepIndex, isMicOn, prepNotes, session, transcript]);
+  }, [currentStep, currentStepIndex, isMicOn, prepNotes, session, transcript, useServerVoice]);
 
   const askExaminerFollowUp = useCallback(async () => {
     if (!session || currentStep !== 'ENTRETIEN' || transcript.trim().length === 0) {
@@ -847,7 +970,7 @@ export default function AtelierOralPage() {
                   {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
                   Soumettre — {STEP_LABELS[currentStep]}
                 </button>
-                <p className="text-xs text-[#6d7e8d]">Votre voix est traitée localement. Aucun audio n est envoyé à nos serveurs.</p>
+                <p className="text-xs text-[#6d7e8d]">{useServerVoice ? 'Votre audio est envoyé pour transcription (OpenAI Whisper) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'Votre voix est traitée localement par votre navigateur. Aucun audio n est envoyé à nos serveurs.'}</p>
               </div>
             </div>
           </section>
