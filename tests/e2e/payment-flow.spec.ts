@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 /**
  * Tests E2E pour le flow de paiement
- * 
+ *
  * Scénarios:
  * - Page pricing affiche les plans
  * - Clic upgrade → redirection paiement
@@ -13,14 +13,14 @@ import { test, expect } from '@playwright/test';
 test.describe('Payment Flow E2E', () => {
   test('page pricing affiche les plans correctement', async ({ page }) => {
     await page.goto('/pricing');
-    
-    // Vérifier les 3 plans affichés
+
+    // Vérifier les 3 plans affichés (Free, Premium, Pro)
     await expect(page.getByText(/^Free$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Premium$/i).first()).toBeVisible();
     await expect(page.getByText(/^Pro$/i).first()).toBeVisible();
-    await expect(page.getByText(/^Max$/i).first()).toBeVisible();
-    
-    // Vérifier les features
-    await expect(page.getByText(/Paiement securise|Flouci|virement/i).first()).toBeVisible();
+
+    // Vérifier les informations de paiement
+    await expect(page.getByText(/virement|bientôt disponible/i).first()).toBeVisible();
     await expect(page.getByText(/Plan actif/i).first()).toBeVisible();
   });
 
@@ -34,12 +34,12 @@ test.describe('Payment Flow E2E', () => {
 
     // Navigate to pricing
     await page.goto('/pricing');
-    
-    // Click on upgrade button (adapter le selector selon l'UI réelle)
-    const upgradeButtons = await page.getByRole('button', { name: /passer a pro|passer a max|creer mon compte/i }).all();
+
+    // Click on upgrade button (plans: Premium, Pro)
+    const upgradeButtons = await page.getByRole('button', { name: /passer à premium|passer à pro|créer mon compte/i }).all();
     if (upgradeButtons.length > 0) {
       await upgradeButtons[0].click();
-      
+
       // In CI, payment provider can be mocked/unavailable: either redirect starts or inline error is shown.
       await expect(page.locator('main').first()).toBeVisible({ timeout: 10_000 });
     }
@@ -65,14 +65,14 @@ test.describe('Payment Flow E2E', () => {
 
     // Try to access a premium feature (should show paywall if FREE plan)
     await page.goto('/atelier-oral');
-    
+
     // Check if pricing link/button is visible
     await expect(page.locator('main').first()).toBeVisible();
   });
 
   test('affichage des quotas/usage sur la page pricing', async ({ page }) => {
     await page.goto('/pricing');
-    
+
     // Should show quota information
     const hasQuotaInfo = await page.getByText(/illimité|quota|limite|mois|jour/i).count() > 0;
     expect(hasQuotaInfo).toBe(true);
@@ -92,13 +92,13 @@ test.describe('Payment - User Journey', () => {
     await page.goto('/pricing');
     await expect(page).toHaveURL(/\/pricing/, { timeout: 5000 });
 
-    // Check plans are visible
+    // Check plans are visible (Free, Premium, Pro)
     await expect(page.getByText(/^Free$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Premium$/i).first()).toBeVisible();
     await expect(page.getByText(/^Pro$/i).first()).toBeVisible();
-    await expect(page.getByText(/^Max$/i).first()).toBeVisible();
 
     // Verify page has upgrade CTAs
-    const ctaCount = await page.getByRole('button', { name: /passer a pro|passer a max|creer mon compte/i }).count();
+    const ctaCount = await page.getByRole('button', { name: /passer à premium|passer à pro|créer mon compte/i }).count();
     expect(ctaCount).toBeGreaterThan(0);
   });
 });
