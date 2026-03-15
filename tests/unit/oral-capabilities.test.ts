@@ -19,7 +19,7 @@ vi.mock('@/lib/tts/generator', () => ({
 import { getSttCapability } from '@/lib/stt/transcriber';
 import { getOralCapabilities } from '@/lib/oral/capabilities';
 
-describe('resolveVoiceMode (via getOralCapabilities)', () => {
+describe('requestedVoiceMode / effectiveVoiceMode', () => {
   const originalEnv = process.env.ORAL_VOICE_MODE;
 
   beforeEach(() => {
@@ -39,25 +39,71 @@ describe('resolveVoiceMode (via getOralCapabilities)', () => {
     }
   });
 
-  it('retourne browser quand ORAL_VOICE_MODE est absent (safe default)', async () => {
+  /* ── Safe defaults ── */
+
+  it('env absent → requested=browser, effective=browser', async () => {
     delete process.env.ORAL_VOICE_MODE;
     const caps = await getOralCapabilities();
+    expect(caps.requestedVoiceMode).toBe('browser');
+    expect(caps.effectiveVoiceMode).toBe('browser');
     expect(caps.voiceMode).toBe('browser');
   });
 
-  it('retourne browser quand ORAL_VOICE_MODE=browser', async () => {
+  it('env empty → requested=browser, effective=browser', async () => {
+    process.env.ORAL_VOICE_MODE = '';
+    const caps = await getOralCapabilities();
+    expect(caps.requestedVoiceMode).toBe('browser');
+    expect(caps.effectiveVoiceMode).toBe('browser');
+  });
+
+  it('env unknown → requested=browser, effective=browser', async () => {
+    process.env.ORAL_VOICE_MODE = 'xyz_invalid';
+    const caps = await getOralCapabilities();
+    expect(caps.requestedVoiceMode).toBe('browser');
+    expect(caps.effectiveVoiceMode).toBe('browser');
+  });
+
+  /* ── Explicit browser ── */
+
+  it('env=browser → requested=browser, effective=browser', async () => {
     process.env.ORAL_VOICE_MODE = 'browser';
     const caps = await getOralCapabilities();
+    expect(caps.requestedVoiceMode).toBe('browser');
+    expect(caps.effectiveVoiceMode).toBe('browser');
+  });
+
+  /* ── Server mode with STT OK ── */
+
+  it('env=server + STT OK → requested=server, effective=server', async () => {
+    process.env.ORAL_VOICE_MODE = 'server';
+    vi.mocked(getSttCapability).mockReturnValue({
+      available: true,
+      mode: 'full',
+      provider: 'openai_whisper',
+    });
+    const caps = await getOralCapabilities();
+    expect(caps.requestedVoiceMode).toBe('server');
+    expect(caps.effectiveVoiceMode).toBe('server');
+  });
+
+  /* ── Server mode with STT KO — the critical safety case ── */
+
+  it('env=server + STT KO → requested=server, effective=browser (fallback)', async () => {
+    process.env.ORAL_VOICE_MODE = 'server';
+    vi.mocked(getSttCapability).mockReturnValue({
+      available: false,
+      mode: 'unavailable',
+      provider: null,
+    });
+    const caps = await getOralCapabilities();
+    expect(caps.requestedVoiceMode).toBe('server');
+    expect(caps.effectiveVoiceMode).toBe('browser');
     expect(caps.voiceMode).toBe('browser');
   });
 
-  it('retourne server quand ORAL_VOICE_MODE=server', async () => {
-    process.env.ORAL_VOICE_MODE = 'server';
-    const caps = await getOralCapabilities();
-    expect(caps.voiceMode).toBe('server');
-  });
+  /* ── Auto mode ── */
 
-  it('retourne server quand ORAL_VOICE_MODE=auto et STT disponible', async () => {
+  it('env=auto + STT OK → requested=auto, effective=server', async () => {
     process.env.ORAL_VOICE_MODE = 'auto';
     vi.mocked(getSttCapability).mockReturnValue({
       available: true,
@@ -65,10 +111,11 @@ describe('resolveVoiceMode (via getOralCapabilities)', () => {
       provider: 'openai_whisper',
     });
     const caps = await getOralCapabilities();
-    expect(caps.voiceMode).toBe('server');
+    expect(caps.requestedVoiceMode).toBe('auto');
+    expect(caps.effectiveVoiceMode).toBe('server');
   });
 
-  it('retourne browser quand ORAL_VOICE_MODE=auto et STT indisponible', async () => {
+  it('env=auto + STT KO → requested=auto, effective=browser', async () => {
     process.env.ORAL_VOICE_MODE = 'auto';
     vi.mocked(getSttCapability).mockReturnValue({
       available: false,
@@ -76,18 +123,7 @@ describe('resolveVoiceMode (via getOralCapabilities)', () => {
       provider: null,
     });
     const caps = await getOralCapabilities();
-    expect(caps.voiceMode).toBe('browser');
-  });
-
-  it('retourne browser quand ORAL_VOICE_MODE a une valeur inconnue', async () => {
-    process.env.ORAL_VOICE_MODE = 'xyz_invalid';
-    const caps = await getOralCapabilities();
-    expect(caps.voiceMode).toBe('browser');
-  });
-
-  it('retourne browser quand ORAL_VOICE_MODE est une chaîne vide', async () => {
-    process.env.ORAL_VOICE_MODE = '';
-    const caps = await getOralCapabilities();
-    expect(caps.voiceMode).toBe('browser');
+    expect(caps.requestedVoiceMode).toBe('auto');
+    expect(caps.effectiveVoiceMode).toBe('browser');
   });
 });

@@ -1,6 +1,19 @@
+import { execSync } from 'child_process'
 import type { NextConfig } from 'next'
 import path from 'path'
 import { fileURLToPath } from 'url'
+
+function getGitSha(): string {
+  // Prefer BUILD_GIT_SHA env var (injected by deploy.sh on server where .git is absent)
+  if (process.env.BUILD_GIT_SHA && process.env.BUILD_GIT_SHA !== 'unknown') {
+    return process.env.BUILD_GIT_SHA
+  }
+  try {
+    return execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim()
+  } catch {
+    return 'unknown'
+  }
+}
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url))
 
@@ -18,6 +31,11 @@ const SECURITY_HEADERS = [
 ]
 
 const nextConfig: NextConfig = {
+  // Inject build-time release metadata into server runtime
+  env: {
+    BUILD_GIT_SHA: getGitSha(),
+    BUILD_TIME: new Date().toISOString(),
+  },
   // Skip static generation - use standalone server mode
   output: 'standalone',
   // Disable React strict mode to avoid context issues in error boundaries
