@@ -2,10 +2,21 @@ import { z } from 'zod';
 import { citationSchema } from '@/lib/rag/citations';
 import { type SkillConfig } from '@/lib/llm/skills/types';
 
+const QUESTION_TYPES = ['oeuvre', 'parcours', 'culture_generale', 'comparaison', 'esprit_critique'] as const;
+
+/**
+ * Coerce LLM question types that don't match the enum.
+ * e.g. "analyse" → "oeuvre", "thematique" → "parcours"
+ */
+function coerceQuestionType(val: unknown): string {
+  if (typeof val === 'string' && (QUESTION_TYPES as readonly string[]).includes(val)) return val;
+  return 'oeuvre';
+}
+
 const schema = z.object({
   questions: z.array(z.object({
     question: z.string(),
-    type: z.enum(['oeuvre', 'parcours', 'culture_generale', 'comparaison', 'esprit_critique']),
+    type: z.preprocess(coerceQuestionType, z.enum(QUESTION_TYPES)),
     difficulte: z.number().int().min(1).max(3),
   })).min(1).max(5),
   consigne_examinateur: z.string(),
@@ -45,7 +56,7 @@ ANTI-TRICHE : Ne jamais fournir de réponse à la place de l'élève. Ne jamais 
 
 FORMAT DE SORTIE (JSON strict) :
 { questions: [{ question, type, difficulte }], consigne_examinateur }`,
-  outputSchema: schema,
+  outputSchema: schema as z.ZodType<ExaminateurVirtuelOutput>,
   fallback: {
     questions: [{ question: 'Que pouvez-vous nous dire sur l\'oeuvre étudiée ?', type: 'oeuvre', difficulte: 1 }],
     consigne_examinateur: 'L\'examinateur attend une réponse construite et argumentée.',
