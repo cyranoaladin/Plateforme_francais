@@ -40,17 +40,17 @@ const PROOF_CARDS = [
   {
     icon: BookOpen,
     title: 'Parcours vraiment guidé',
-    body: 'Le produit structure l effort, relance les priorites et fait travailler l eleve a partir de ses œuvres, de son historique et de ses competences actives.',
+    body: 'Le produit structure l\u2019effort, relance les priorités et fait travailler l\u2019élève à partir de ses œuvres, de son historique et de ses compétences actives.',
   },
   {
     icon: ShieldCheck,
-    title: 'Cadre defendable',
-    body: 'Corpus officiel, logique EAF, attentes visibles et securite d acces : le produit reste explicable a un parent comme a un enseignant.',
+    title: 'Cadre défendable',
+    body: 'Corpus officiel, logique EAF, attentes visibles et sécurité d\u2019accès : le produit reste explicable à un parent comme à un enseignant.',
   },
   {
     icon: Users,
-    title: 'Entree sans friction',
-    body: 'La page permet de commencer tout de suite, de verifier la qualite du parcours puis de choisir un plan seulement si le rythme le demande.',
+    title: 'Entrée sans friction',
+    body: 'La page permet de commencer tout de suite, de vérifier la qualité du parcours puis de choisir un plan seulement si le rythme le demande.',
   },
 ];
 
@@ -69,7 +69,7 @@ function RateLimitNotice({ retryAfterSec }: { retryAfterSec: number }) {
     <div className="flex items-start gap-3 rounded-[22px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="status">
       <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
       <span>
-        Trop de tentatives. Reessaie dans <strong>{remaining}s</strong>.
+        Trop de tentatives. Réessaie dans <strong>{remaining}s</strong>.
       </span>
     </div>
   );
@@ -126,19 +126,19 @@ function ProofPanel() {
       <div className="absolute -left-8 bottom-12 h-28 w-28 rounded-full bg-[#b87333]/18 blur-2xl" />
 
       <div className="relative z-10">
-        <img src="/images/logo_slogan_nexus.png" alt="Nexus Reussite" className="h-12 w-auto object-contain brightness-0 invert" />
+        <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-12 w-auto object-contain brightness-0 invert" />
 
         <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
           <BadgeCheck className="h-4 w-4" />
-          Espace eleve premium
+          Espace élève premium
         </div>
 
         <h2 style={EDITORIAL_HEADING} className="mt-6 max-w-xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
-          Entre dans un cadre de travail qui se laisse verifier avant de demander plus.
+          Entre dans un cadre de travail qui se laisse vérifier avant de demander plus.
         </h2>
 
         <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
-          Cette page ne doit pas juste connecter un utilisateur. Elle doit montrer qu on peut essayer le produit, comprendre le cadre pedagogique, voir les sources mobilisables et commencer sans devoir decider tout de suite pour un abonnement.
+          Cette page ne doit pas juste connecter un utilisateur. Elle doit montrer qu&apos;on peut essayer le produit, comprendre le cadre pédagogique, voir les sources mobilisables et commencer sans devoir décider tout de suite pour un abonnement.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2.5">
@@ -169,7 +169,7 @@ function ProofPanel() {
           <div className="flex items-start gap-3">
             <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
             <p className="text-sm leading-6 text-slate-200">
-              En inscription, l onboarding prend environ trois minutes. En connexion, tu recuperes ton espace sans refaire un tunnel inutile.
+              En inscription, l&apos;onboarding prend environ trois minutes. En connexion, tu récupères ton espace sans refaire un tunnel inutile.
             </p>
           </div>
         </div>
@@ -234,7 +234,7 @@ function AuthCard() {
         return;
       }
       if (!acceptTerms) {
-        setError('Tu dois accepter les conditions d utilisation.');
+        setError('Tu dois accepter les conditions d\u2019utilisation.');
         return;
       }
     }
@@ -318,40 +318,40 @@ function AuthCard() {
           return;
         }
         if (err.status === 403) {
-          setError('Securite : rafraichis la page puis reessaie.');
+          setError('Sécurité : rafraîchis la page puis réessaie.');
           return;
         }
         setError(err.message);
       } else {
-        setError('Erreur inattendue. Verifie ta connexion.');
+        setError('Erreur inattendue. Vérifie ta connexion.');
       }
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const title = mode === 'login' 
-    ? 'Connexion a ton espace EAF' 
+  const title = mode === 'login'
+    ? 'Connexion à ton espace EAF'
     : mode === 'register'
-    ? 'Creer ton espace EAF'
+    ? 'Créer ton espace EAF'
     : mode === 'forgot'
-    ? 'Mot de passe oublie'
+    ? 'Mot de passe oublié'
     : 'Nouveau mot de passe';
   const subtitle =
     mode === 'login'
-      ? 'Retrouve ton parcours, tes ateliers, tes priorites et ton historique sans repartir de zero.'
+      ? 'Retrouve ton parcours, tes ateliers, tes priorités et ton historique sans repartir de zéro.'
       : mode === 'register'
-      ? 'Commence gratuitement. Le parcours se construit a partir de tes œuvres, de ton niveau et du travail deja realise.'
+      ? 'Commence gratuitement. Le parcours se construit à partir de tes œuvres, de ton niveau et du travail déjà réalisé.'
       : mode === 'forgot'
-      ? 'Entre ton email pour recevoir un lien de reinitialisation. Si le mail ne fonctionne pas, nous sommes disponibles sur WhatsApp.'
-      : 'Choisis un nouveau mot de passe securise.';
+      ? 'Entre ton email pour recevoir un lien de réinitialisation. Si le mail ne fonctionne pas, nous sommes disponibles sur WhatsApp.'
+      : 'Choisis un nouveau mot de passe sécurisé.';
 
   return (
     <div className="w-full max-w-xl">
       <div className="rounded-[34px] border border-[#d8ccb9] bg-white/88 p-6 shadow-[0_24px_70px_rgba(23,50,77,0.08)] sm:p-8 lg:p-9">
         <div className="flex flex-col gap-4 border-b border-[#e6dbca] pb-5">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#17324d]">
-            {mode === 'login' ? 'Acces securise' : 'Inscription gratuite'}
+            {mode === 'login' ? 'Accès sécurisé' : 'Inscription gratuite'}
           </div>
           <div>
             <h1 style={EDITORIAL_HEADING} className="text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
@@ -362,7 +362,7 @@ function AuthCard() {
           <div className="flex flex-wrap gap-2.5">
             {(mode === 'register'
               ? ['Aucun paiement avant essai', 'Onboarding ~3 minutes', 'Free disponible tout de suite']
-              : ['Connexion securisee', 'Protection CSRF', 'Recuperation rapide de l espace']
+              : ['Connexion sécurisée', 'Protection CSRF', 'Récupération rapide de l\u2019espace']
             ).map((item) => (
               <span key={item} className="rounded-full border border-[#d8ccb9] bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700">
                 {item}
@@ -388,7 +388,7 @@ function AuthCard() {
               mode === 'register' ? 'bg-white text-[#17324d] shadow-sm' : 'text-slate-600 hover:text-[#17324d]'
             }`}
           >
-            Creer un compte
+            Créer un compte
           </button>
         </div>
 
@@ -398,14 +398,14 @@ function AuthCard() {
           {mode === 'register' ? (
             <div>
               <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="displayName">
-                Prenom ou nom affiche
+                Prénom ou nom affiché
               </label>
               <input
                 id="displayName"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
-                placeholder="Ton prenom"
+                placeholder="Ton prénom"
               />
             </div>
           ) : null}
@@ -443,7 +443,7 @@ function AuthCard() {
                     className="mt-1 accent-[#17324d]"
                   />
                   <span className="text-xs leading-6 text-slate-600">
-                    J accepte les Conditions d utilisation et la Politique de confidentialite.
+                    J&apos;accepte les Conditions d&apos;utilisation et la Politique de confidentialité.
                   </span>
                 </label>
 
@@ -455,7 +455,7 @@ function AuthCard() {
                     className="mt-1 accent-[#17324d]"
                   />
                   <span className="text-xs leading-6 text-slate-600">
-                    J ai moins de 15 ans. Un consentement parental est necessaire.
+                    J&apos;ai moins de 15 ans. Un consentement parental est nécessaire.
                   </span>
                 </label>
               </div>
@@ -463,7 +463,7 @@ function AuthCard() {
               {isMinor ? (
                 <div>
                   <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="parentEmail">
-                    Email du parent / responsable legal
+                    Email du parent / responsable légal
                   </label>
                   <input
                     id="parentEmail"
@@ -503,16 +503,16 @@ function AuthCard() {
             {isSubmitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                {mode === 'login' ? 'Connexion...' : mode === 'forgot' ? 'Envoi...' : mode === 'reset' ? 'Reinitialisation...' : 'Creation...'}
+                {mode === 'login' ? 'Connexion...' : mode === 'forgot' ? 'Envoi...' : mode === 'reset' ? 'Réinitialisation...' : 'Création...'}
               </>
             ) : mode === 'login' ? (
               'Se connecter'
             ) : mode === 'forgot' ? (
               'Envoyer le lien'
             ) : mode === 'reset' ? (
-              'Reinitialiser le mot de passe'
+              'Réinitialiser le mot de passe'
             ) : (
-              'Creer mon compte'
+              'Créer mon compte'
             )}
           </button>
         </form>
@@ -524,7 +524,7 @@ function AuthCard() {
               onClick={() => router.push('/login?mode=forgot')}
               className="w-full text-center text-sm text-[#0F766E] hover:underline"
             >
-              Mot de passe oublie ?
+              Mot de passe oublié ?
             </button>
             <div className="rounded-[24px] border border-[#d8ccb9] bg-[#fcfaf6] p-4">
               <button
@@ -532,11 +532,11 @@ function AuthCard() {
                 onClick={() => setShowHelp((prev) => !prev)}
                 className="text-sm font-semibold text-[#17324d] underline-offset-4 transition-colors hover:underline"
               >
-                Probleme de connexion ?
+                Problème de connexion ?
               </button>
               {showHelp ? (
                 <p className="mt-3 text-sm leading-7 text-slate-600">
-                  Verifie ton email, ton mot de passe et rafraichis la page en cas d erreur de securite. Si le blocage persiste, repasse par la creation de compte ou compare les plans avant de reessayer.
+                  Vérifie ton email, ton mot de passe et rafraîchis la page en cas d&apos;erreur de sécurité. Si le blocage persiste, repasse par la création de compte ou compare les plans avant de réessayer.
                 </p>
               ) : null}
             </div>
@@ -548,7 +548,7 @@ function AuthCard() {
               onClick={() => router.push('/login')}
               className="text-sm text-[#0F766E] hover:underline"
             >
-              Retour a la connexion
+              Retour à la connexion
             </button>
             <div className="rounded-[24px] border border-[#d8ccb9] bg-[#fcfaf6] p-4">
               <p className="text-sm leading-7 text-slate-600">
@@ -561,7 +561,7 @@ function AuthCard() {
                 >
                   Contactez-nous sur WhatsApp
                 </a>
-                {' '}pour une reinitialisation rapide.
+                {' '}pour une réinitialisation rapide.
               </p>
             </div>
           </div>
@@ -570,7 +570,7 @@ function AuthCard() {
             <div className="flex items-start gap-3">
               <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#0f766e]" />
               <p className="text-sm leading-7 text-slate-600">
-                Une fois le compte cree, tu arrives directement sur l onboarding pour cadrer tes oeuvres, ton rythme et ton point de depart, sans rien payer pour voir le produit.
+                Une fois le compte créé, tu arrives directement sur l&apos;onboarding pour cadrer tes œuvres, ton rythme et ton point de départ, sans rien payer pour voir le produit.
               </p>
             </div>
           </div>
@@ -604,7 +604,7 @@ export default function LoginPage() {
       <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         <header className="flex flex-col gap-5 rounded-[30px] border border-[#d8ccb9] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
           <Link href="/" className="flex items-center gap-4">
-            <img src="/images/logo_slogan_nexus.png" alt="Nexus Reussite" className="h-11 w-auto object-contain" />
+            <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
               <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
               Connexion 2026
@@ -621,7 +621,7 @@ export default function LoginPage() {
               href="/login?mode=register"
               className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
             >
-              Demarrer gratuitement
+              Démarrer gratuitement
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

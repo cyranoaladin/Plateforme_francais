@@ -42,9 +42,9 @@ function uniqueEmail() {
 
 async function registerNewUser(page: Page, email: string, password = 'TestInscr2026!') {
   await page.goto('/login');
-  // Le bouton dans l'UI s'appelle "Creer un compte" (sans accent, rendu sans accent dans le DOM)
-  await expect(page.getByRole('button', { name: /creer un compte/i })).toBeVisible({ timeout: 10_000 });
-  await page.getByRole('button', { name: /creer un compte/i }).click();
+  // Le bouton dans l'UI s'appelle "Créer un compte"
+  await expect(page.getByRole('button', { name: /cr[ée]er un compte/i })).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: /cr[ée]er un compte/i }).click();
   // Champ prénom : id="displayName"
   await page.locator('#displayName').fill('Eleve Test E2E');
   await page.getByTestId('auth-email').fill(email);

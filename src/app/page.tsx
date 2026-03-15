@@ -166,7 +166,7 @@ const FAQ_ITEMS = [
   { question: "Sur quelles sources s'appuie la plateforme ?", answer: "Le corpus mobilisable s'appuie sur les sources institutionnelles, les rapports de jury et les œuvres au programme. Quand une réponse utilise ce corpus, elle expose des références internes visibles et réutilisables." },
   { question: "Mes données sont-elles protégées ?", answer: "Oui. Session sécurisée, protection CSRF, contrôle d'accès, cadre RGPD et posture explicite sur les comptes mineurs : l'architecture de confiance fait partie du produit." },
   { question: "Que se passe-t-il si j'atteins un quota ?", answer: "La plateforme bloque l'action concernée, conserve ton travail et t'indique le plan utile pour reprendre sans repartir de zéro." },
-  { question: "Comment fonctionne le paiement ?", answer: "Le paiement carte est sécurisé via ClicToPay. La page propose aussi Flouci et le virement bancaire avec activation manuelle du plan." },
+  { question: "Comment fonctionne le paiement ?", answer: "Pour le moment, les abonnements payants sont activés par virement bancaire. Le paiement carte et Flouci seront disponibles prochainement." },
 ];
 
 const BANK_TRANSFER_ROWS = [
@@ -784,7 +784,7 @@ export default function HomePage() {
                   <h3 style={EDITORIAL_HEADING} className="mt-1 text-2xl leading-tight tracking-[-0.03em] text-white">Flouci & virement bancaire</h3>
                 </div>
               </div>
-              <p className="mt-4 text-sm leading-7 text-slate-200">Si la carte bancaire n&apos;est pas le bon canal, Flouci et le virement bancaire sont disponibles avec activation manuelle du plan.</p>
+              <p className="mt-4 text-sm leading-7 text-slate-200">Le virement bancaire est actif avec activation manuelle du plan. Flouci sera disponible prochainement.</p>
               <div className="mt-5 grid gap-2 rounded-[20px] bg-[#0f2740] p-4 text-sm text-slate-100 sm:grid-cols-2">
                 {BANK_TRANSFER_ROWS.map((row) => (
                   <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
@@ -794,9 +794,8 @@ export default function HomePage() {
                 ))}
               </div>
               <div className="mt-5 flex flex-wrap gap-3">
-                <a href={FLOUCI_INFO_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]">Voir Flouci</a>
-                <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Paiement Flouci Nexus Reussite')}`} className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-white/8">Demander un lien Flouci</a>
-                <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Reussite')}`} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-white/15">Envoyer la référence virement</a>
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/60 cursor-not-allowed">Flouci — bientôt disponible</span>
+                <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Réussite')}`} className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]">Envoyer la référence virement</a>
               </div>
             </article>
           </div>
