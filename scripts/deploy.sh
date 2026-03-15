@@ -66,7 +66,9 @@ ssh "$SSH_TARGET" "cd $APP_DIR && npx prisma generate && npx prisma migrate depl
 
 # --- 5. Build Next.js ---
 echo "[5/8] Build Next.js (production)..."
-ssh "$SSH_TARGET" "cd $APP_DIR && NODE_ENV=production npm run build"
+LOCAL_GIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+echo "  → Build SHA: $LOCAL_GIT_SHA"
+ssh "$SSH_TARGET" "cd $APP_DIR && BUILD_GIT_SHA=$LOCAL_GIT_SHA NODE_ENV=production npm run build"
 
 # --- 6. Build MCP server ---
 echo "[6/8] Build MCP server..."

@@ -19,7 +19,12 @@ export type OralCapabilities = {
   tts: OralCapability;
   rag: OralCapability;
   llm: OralCapability;
-  voiceMode: OralVoiceMode;
+  /** What the operator requested via ORAL_VOICE_MODE env var */
+  requestedVoiceMode: OralVoiceMode;
+  /** What the system can actually execute given provider availability */
+  effectiveVoiceMode: 'browser' | 'server';
+  /** @deprecated Use effectiveVoiceMode instead */
+  voiceMode: 'browser' | 'server';
 };
 
 function getRagCapability(): OralCapability {
@@ -67,27 +72,31 @@ function getLlmCapability(): OralCapability {
   };
 }
 
-function resolveVoiceMode(): OralVoiceMode {
+function getRequestedVoiceMode(): OralVoiceMode {
   const envVal = (process.env.ORAL_VOICE_MODE ?? '').toLowerCase().trim();
-  if (envVal === 'browser') return 'browser';
-  if (envVal === 'server') return 'server';
-  if (envVal === 'auto') {
-    const stt = getSttCapability();
-    return stt.available ? 'server' : 'browser';
-  }
-  // ORAL_VOICE_MODE absent or unrecognized → safe default: browser
-  // This prevents silent activation of server voice mode in production
-  // just because OPENAI_API_KEY exists (it's shared with LLM routing).
-  // Operator must explicitly opt in via ORAL_VOICE_MODE=server or auto.
+  if (envVal === 'browser' || envVal === 'server' || envVal === 'auto') return envVal;
+  return 'browser';
+}
+
+function resolveEffectiveVoiceMode(requested: OralVoiceMode, sttAvailable: boolean): 'browser' | 'server' {
+  if (requested === 'browser') return 'browser';
+  if (requested === 'server') return sttAvailable ? 'server' : 'browser';
+  if (requested === 'auto') return sttAvailable ? 'server' : 'browser';
   return 'browser';
 }
 
 export async function getOralCapabilities(): Promise<OralCapabilities> {
+  const stt = getSttCapability();
+  const requested = getRequestedVoiceMode();
+  const effective = resolveEffectiveVoiceMode(requested, stt.available);
+
   return {
-    stt: getSttCapability(),
+    stt,
     tts: getTtsCapability(),
     rag: getRagCapability(),
     llm: getLlmCapability(),
-    voiceMode: resolveVoiceMode(),
+    requestedVoiceMode: requested,
+    effectiveVoiceMode: effective,
+    voiceMode: effective,
   };
 }

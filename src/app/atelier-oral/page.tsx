@@ -272,11 +272,13 @@ export default function AtelierOralPage() {
   );
 
   useEffect(() => {
-    // Detect voice mode from capabilities endpoint (respects ORAL_VOICE_MODE env var)
+    // Detect effective voice mode from capabilities endpoint
     fetch('/api/v1/oral/capabilities')
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
-        if (data?.voiceMode) {
+        if (data?.effectiveVoiceMode) {
+          setVoiceMode(data.effectiveVoiceMode as VoiceMode);
+        } else if (data?.voiceMode) {
           setVoiceMode(data.voiceMode as VoiceMode);
         }
       })
@@ -970,7 +972,10 @@ export default function AtelierOralPage() {
                   {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
                   Soumettre — {STEP_LABELS[currentStep]}
                 </button>
-                <p className="text-xs text-[#6d7e8d]">{useServerVoice ? 'Votre audio est envoyé pour transcription (OpenAI Whisper) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'Votre voix est traitée localement par votre navigateur. Aucun audio n est envoyé à nos serveurs.'}</p>
+                <div className="flex flex-col gap-1">
+                  <p className="text-[10px] font-medium uppercase tracking-widest text-[#9ba8b4]">{useServerVoice ? 'Mode vocal serveur' : 'Mode vocal navigateur'}</p>
+                  <p className="text-xs text-[#6d7e8d]">{useServerVoice ? 'Votre audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par votre navigateur. Aucun audio n est envoyé à nos serveurs.'}</p>
+                </div>
               </div>
             </div>
           </section>
