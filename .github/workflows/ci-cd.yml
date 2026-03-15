@@ -219,7 +219,10 @@ jobs:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - run: npm ci
-      - run: npx prisma db push --force-reset --accept-data-loss
+      - name: Create pgvector extension and sync schema
+        run: |
+          PGPASSWORD=test psql -h localhost -U test -d eaf_test -c 'CREATE EXTENSION IF NOT EXISTS "pgcrypto"; CREATE EXTENSION IF NOT EXISTS "vector";'
+          npx prisma db push --force-reset --accept-data-loss
       - run: npm run db:seed
       - run: npx playwright install --with-deps chromium
       - run: npm run build:ci
