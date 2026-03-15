@@ -219,7 +219,7 @@ jobs:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - run: npm ci
-      - run: npx prisma db push --accept-data-loss
+      - run: npx prisma migrate deploy && npx prisma db push --accept-data-loss
       - run: npm run db:seed
       - run: npx playwright install --with-deps chromium
       - run: npm run build:ci
