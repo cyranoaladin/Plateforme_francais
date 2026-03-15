@@ -56,6 +56,7 @@ import { evaluateOralPhase } from '@/lib/oral/service';
 import { transcribeAudio } from '@/lib/stt/transcriber';
 import { generateTtsAudio } from '@/lib/tts/generator';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
+import { logger } from '@/lib/logger';
 import { POST } from '@/app/api/v1/oral/session/[sessionId]/audio-turn/route';
 
 const mockAuth = { user: { id: 'user-1' } };
@@ -355,6 +356,73 @@ describe('POST /api/v1/oral/session/:id/audio-turn', () => {
 
     expect(evaluateOralPhase).toHaveBeenCalledWith(
       expect.objectContaining({ duration: 1800 }),
+    );
+  });
+
+  /* ── Instrumentation logs ── */
+
+  it('émet un log audio-turn.completed avec métriques sur pipeline réussi', async () => {
+    vi.mocked(requireAuthenticatedUser).mockResolvedValue({
+      auth: mockAuth,
+      errorResponse: null,
+    } as never);
+    vi.mocked(findOralSessionById).mockResolvedValue(mockSession as never);
+
+    await POST(makeRequest(makeAudioFormData('LECTURE', 'audio-data', '60')), params);
+
+    expect(vi.mocked(logger.info)).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sessionId: 'session-1',
+        phase: 'LECTURE',
+        audioSizeBytes: expect.any(Number),
+        sttLatencyMs: expect.any(Number),
+        ttsLatencyMs: expect.any(Number),
+        totalLatencyMs: expect.any(Number),
+        sttOk: true,
+        fallback: false,
+      }),
+      'audio-turn.completed',
+    );
+  });
+
+  it('émet un log audio-turn.fallback quand STT échoue', async () => {
+    vi.mocked(requireAuthenticatedUser).mockResolvedValue({
+      auth: mockAuth,
+      errorResponse: null,
+    } as never);
+    vi.mocked(findOralSessionById).mockResolvedValue(mockSession as never);
+    vi.mocked(transcribeAudio).mockResolvedValue(null);
+
+    await POST(makeRequest(makeAudioFormData()), params);
+
+    expect(vi.mocked(logger.info)).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sessionId: 'session-1',
+        fallback: true,
+        audioSizeBytes: expect.any(Number),
+        sttLatencyMs: expect.any(Number),
+      }),
+      'audio-turn.fallback',
+    );
+  });
+
+  it('inclut audioSizeBytes et sttLatencyMs dans le log d erreur STT', async () => {
+    vi.mocked(requireAuthenticatedUser).mockResolvedValue({
+      auth: mockAuth,
+      errorResponse: null,
+    } as never);
+    vi.mocked(findOralSessionById).mockResolvedValue(mockSession as never);
+    vi.mocked(transcribeAudio).mockRejectedValue(new Error('Whisper down'));
+
+    await POST(makeRequest(makeAudioFormData()), params);
+
+    expect(vi.mocked(logger.error)).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sessionId: 'session-1',
+        audioSizeBytes: expect.any(Number),
+        sttLatencyMs: expect.any(Number),
+      }),
+      'audio-turn.stt.error',
     );
   });
 });
