@@ -1,3 +1,87 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const fs = require('fs');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const path = require('path');
+
+const repoRoot = __dirname;
+const appRoot = '/opt/eaf_platform';
+
+function parseEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return {};
+  }
+
+  const content = fs.readFileSync(filePath, 'utf8');
+  const values = {};
+
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) {
+      continue;
+    }
+
+    const separatorIndex = line.indexOf('=');
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const key = line.slice(0, separatorIndex).trim();
+    let value = line.slice(separatorIndex + 1).trim();
+
+    if (
+      (value.startsWith('"') && value.endsWith('"'))
+      || (value.startsWith('\'') && value.endsWith('\''))
+    ) {
+      value = value.slice(1, -1);
+    }
+
+    values[key] = value;
+  }
+
+  return values;
+}
+
+function loadEnvBundle(...relativePaths) {
+  return relativePaths.reduce((merged, relativePath) => ({
+    ...merged,
+    ...parseEnvFile(path.join(repoRoot, relativePath)),
+  }), {});
+}
+
+const appEnv = loadEnvBundle('.env', '.env.local');
+const mcpEnv = loadEnvBundle(path.join('packages', 'mcp-server', '.env'));
+
+function withProductionDefaults(defaults, fileEnv) {
+  return {
+    ...fileEnv,
+    ...defaults,
+    NODE_ENV: 'production',
+  };
+}
+
+const webEnv = withProductionDefaults(
+  {
+    APP_ROOT: appRoot,
+    PORT: 3000,
+  },
+  appEnv,
+);
+
+const workerEnv = withProductionDefaults(
+  {
+    APP_ROOT: appRoot,
+  },
+  appEnv,
+);
+
+const mcpRuntimeEnv = withProductionDefaults(
+  {
+    MCP_TRANSPORT: 'http',
+    MCP_PORT: 3100,
+  },
+  mcpEnv,
+);
+
 /**
  * PM2 Ecosystem configuration for Nexus Réussite EAF
  * @see https://pm2.keymetrics.io/docs/usage/application-declaration/
@@ -6,14 +90,10 @@ module.exports = {
   apps: [
     {
       name: 'eaf-nextjs',
-      script: 'node_modules/.bin/next',
-      args: 'start',
-      cwd: '/opt/eaf_platform',
-      env: {
-        NODE_ENV: 'production',
-        PORT: 3000,
-        HOSTNAME: '127.0.0.1',
-      },
+      script: '.next/standalone/server.js',
+      cwd: appRoot,
+      env: webEnv,
+      env_production: webEnv,
       instances: 1,
       exec_mode: 'fork',
       max_memory_restart: '512M',
@@ -30,12 +110,9 @@ module.exports = {
       name: 'eaf-mcp',
       script: 'node',
       args: 'dist/index.js',
-      cwd: '/opt/eaf_platform/packages/mcp-server',
-      env: {
-        NODE_ENV: 'production',
-        MCP_TRANSPORT: 'http',
-        MCP_PORT: 3100,
-      },
+      cwd: `${appRoot}/packages/mcp-server`,
+      env: mcpRuntimeEnv,
+      env_production: mcpRuntimeEnv,
       instances: 1,
       exec_mode: 'fork',
       max_memory_restart: '256M',
@@ -52,10 +129,9 @@ module.exports = {
       name: 'eaf-worker',
       script: 'node_modules/.bin/tsx',
       args: 'src/lib/queue/start-worker.ts',
-      cwd: '/opt/eaf_platform',
-      env: {
-        NODE_ENV: 'production',
-      },
+      cwd: appRoot,
+      env: workerEnv,
+      env_production: workerEnv,
       instances: 1,
       exec_mode: 'fork',
       max_memory_restart: '512M',
@@ -63,4 +139,6 @@ module.exports = {
       max_restarts: 10,
     },
   ],
+  parseEnvFile,
+  loadEnvBundle,
 };
