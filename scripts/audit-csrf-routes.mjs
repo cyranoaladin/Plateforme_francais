@@ -4,9 +4,12 @@ import path from 'path';
 
 const API_ROOT = path.resolve(process.cwd(), 'src/app/api');
 
+// Pre-authentication routes: no session cookie exists, CSRF not applicable
 const EXEMPT_POST_ROUTES = new Set([
   'src/app/api/v1/auth/login/route.ts',
   'src/app/api/v1/auth/register/route.ts',
+  'src/app/api/v1/auth/forgot-password/route.ts', // public, rate-limited, no session
+  'src/app/api/v1/auth/reset-password/route.ts', // token-based auth, no session
   'src/app/api/v1/cron/revision-reminders/route.ts',
   'src/app/api/v1/cron/weekly-reports/route.ts',
   'src/app/api/v1/metrics/vitals/route.ts',
