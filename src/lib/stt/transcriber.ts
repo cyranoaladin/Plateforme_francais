@@ -76,6 +76,34 @@ async function transcribeWithWhisper(
   return text.length > 0 ? text : null;
 }
 
+export function getSttCapability(): {
+  available: boolean;
+  mode: 'full' | 'degraded' | 'unavailable';
+  provider: string | null;
+  reason?: string;
+  userMessage?: string;
+} {
+  const openaiKey = process.env.OPENAI_API_KEY?.trim();
+  const mistralKey = process.env.MISTRAL_API_KEY?.trim();
+  const mistralEndpoint = process.env.MISTRAL_STT_ENDPOINT?.trim();
+
+  if (openaiKey) {
+    return { available: true, mode: 'full', provider: 'openai_whisper' };
+  }
+
+  if (mistralKey && mistralEndpoint) {
+    return { available: true, mode: 'full', provider: 'mistral_stt' };
+  }
+
+  return {
+    available: false,
+    mode: 'unavailable',
+    provider: null,
+    reason: 'STT_PROVIDER_MISSING',
+    userMessage: "Aucun service de transcription vocale n'est configuré.",
+  };
+}
+
 async function transcribeWithMistralSTT(
   audioBuffer: Buffer,
   mimeType: string,
