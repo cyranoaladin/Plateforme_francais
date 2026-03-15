@@ -263,7 +263,12 @@ jobs:
             echo "::warning::GitLeaks failed but no SARIF report found. Investigate manually."
           fi
       - name: Snyk vuln scan
-        run: npx snyk test --severity-threshold=high
+        run: |
+          if [ -z "$SNYK_TOKEN" ]; then
+            echo "::notice::SNYK_TOKEN not configured — skipping Snyk scan. Configure the secret to enable."
+            exit 0
+          fi
+          npx snyk test --severity-threshold=high
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: CodeQL init
