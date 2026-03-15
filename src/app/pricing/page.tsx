@@ -13,6 +13,7 @@ import {
   KeyRound,
   Landmark,
   Loader2,
+  MessageCircle,
   ShieldCheck,
   Sparkles,
 } from 'lucide-react';
@@ -55,6 +56,8 @@ type PlanCard = {
 };
 
 const CONTACT_EMAIL = 'contact@nexusreussite.academy';
+const WHATSAPP_NUMBER = '+216 99 19 28 29';
+const WHATSAPP_LINK = 'https://wa.me/21699192829';
 const PLAN_LABELS: Record<SubscriptionPlan, string> = {
   FREE: 'Free',
   PREMIUM: 'Premium',
@@ -159,11 +162,11 @@ const BILLING_FAQ = [
   },
   {
     q: 'Comment fonctionne le paiement ?',
-    a: 'Pour le moment, les abonnements payants sont activés par virement bancaire. Le paiement carte et Flouci seront réactivés dès que leur implémentation sera finalisée.',
+    a: 'Pour le moment, les abonnements payants sont activés par virement bancaire ou via WhatsApp (+216 99 19 28 29). Le paiement carte et Flouci seront réactivés dès que leur implémentation sera finalisée.',
   },
   {
     q: 'Et si je n’ai pas de carte bancaire ?',
-    a: 'Le virement bancaire couvre ce cas immédiatement. Ajoute l’email du compte ou l’identifiant utilisateur en référence pour accélérer l’activation.',
+    a: 'Le virement bancaire couvre ce cas immédiatement. Tu peux aussi souscrire via WhatsApp au +216 99 19 28 29. Ajoute l\u2019email du compte ou l\u2019identifiant utilisateur en référence pour accélérer l\u2019activation.',
   },
 ];
 
@@ -368,7 +371,7 @@ export default function PricingPage() {
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2.5">
-              {['Aucun paiement avant essai', 'Virement bancaire actif', 'Carte bientôt disponible', 'Flouci bientôt disponible'].map((item) => (
+              {['Aucun paiement avant essai', 'Virement bancaire actif', 'WhatsApp actif', 'Carte bientôt disponible', 'Flouci bientôt disponible'].map((item) => (
                 <span key={item} className="rounded-full border border-[#d8ccb9] bg-white/75 px-3.5 py-1.5 text-xs font-semibold text-slate-700">
                   {item}
                 </span>
@@ -450,7 +453,7 @@ export default function PricingPage() {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Devise et moyens de paiement</p>
-                  <p className="mt-1 text-sm font-semibold">Facturation en TND. Virement bancaire actif. Paiement carte et Flouci bientôt disponibles.</p>
+                  <p className="mt-1 text-sm font-semibold">Facturation en TND. Virement bancaire et WhatsApp actifs. Paiement carte et Flouci bientôt disponibles.</p>
                 </div>
                 <div className="rounded-full bg-[#17324d] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f2ea]">
                   TND
@@ -650,7 +653,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-slate-200">
-              Pour l’instant, les abonnements payants s’activent par virement bancaire. Flouci et le paiement carte reviendront dès que leurs intégrations seront finalisées.
+              Pour l’instant, les abonnements payants s’activent par virement bancaire ou via WhatsApp. Flouci et le paiement carte reviendront dès que leurs intégrations seront finalisées.
             </p>
 
             <div className="mt-6 space-y-3">
@@ -721,11 +724,76 @@ export default function PricingPage() {
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
                 <p className="text-sm leading-6 text-slate-200">
-                  Facturation en dinar tunisien. Premium = 99 TND/mois. Pro = 129 TND/mois. Le code d’activation est envoyé après confirmation du virement bancaire.
+                  Facturation en dinar tunisien. Premium = 99 TND/mois. Pro = 129 TND/mois. Le code d’activation est envoyé après confirmation du virement bancaire ou via WhatsApp.
                 </p>
               </div>
             </div>
           </article>
+        </section>
+
+        <section className="pb-16">
+          <div className="rounded-[34px] border-2 border-[#25d366] bg-white/90 p-6 shadow-[0_18px_45px_rgba(37,211,102,0.12)] md:p-8">
+            <div className="flex items-center gap-3">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#25d366] text-white">
+                <MessageCircle className="h-7 w-7" />
+              </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#25d366]">Canal actif</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                  Souscrire via WhatsApp
+                </h2>
+              </div>
+            </div>
+
+            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-700">
+              Tu préfères être accompagné directement ? Envoie-nous un message WhatsApp pour choisir ton plan, poser tes questions et recevoir ton code d'activation.
+            </p>
+
+            <div className="mt-6 grid gap-5 md:grid-cols-2">
+              <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-5">
+                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">Numéro WhatsApp</p>
+                <p className="mt-2 text-2xl font-bold tracking-wide text-[#17324d]">{WHATSAPP_NUMBER}</p>
+                <p className="mt-3 text-sm leading-7 text-slate-600">
+                  Disponible pour répondre à tes questions sur les plans, t'aider à choisir et finaliser ton abonnement.
+                </p>
+              </div>
+              <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-5">
+                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">Comment ça marche</p>
+                <ol className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">1</span>Envoie &quot;Bonjour&quot; sur WhatsApp</li>
+                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">2</span>Choisis ton plan (Premium ou Pro)</li>
+                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">3</span>Reçois ton code d'activation</li>
+                </ol>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25d366] px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#1fba59] hover:shadow-lg"
+              >
+                <MessageCircle className="h-5 w-5" />
+                Ouvrir WhatsApp
+              </a>
+              <a
+                href={`https://wa.me/21699192829?text=${encodeURIComponent('Bonjour, je souhaite souscrire à un abonnement Nexus Réussite.')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#25d366] bg-white px-7 py-3.5 text-base font-semibold text-[#25d366] transition-all hover:-translate-y-0.5 hover:bg-[#f0fdf4]"
+              >
+                Envoyer un message pré-rempli
+              </a>
+            </div>
+
+            <div className="mt-5 flex items-start gap-3 rounded-[20px] bg-[#f0fdf4] p-4">
+              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#25d366]" />
+              <p className="text-sm leading-6 text-slate-600">
+                Ce numéro est géré par l'équipe Nexus Réussite. Aucun paiement n'est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire.
+              </p>
+            </div>
+          </div>
         </section>
 
         <section className="pb-16">
