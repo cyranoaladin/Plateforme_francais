@@ -28,6 +28,22 @@ function coerceToArray(val: unknown): string[] {
   return coerceStringArray(val);
 }
 
+/**
+ * Coerce a value that may be an object/array into a string.
+ * LLMs sometimes return { plan: "...", amorces: [...] } instead of "...".
+ */
+function coerceToString(val: unknown): string {
+  if (typeof val === 'string') return val;
+  if (val && typeof val === 'object') {
+    try {
+      return JSON.stringify(val, null, 2);
+    } catch {
+      return String(val);
+    }
+  }
+  return val == null ? '' : String(val);
+}
+
 const schema = z.object({
   note: z.number(),
   mention: z.string(),
@@ -41,7 +57,7 @@ const schema = z.object({
       titre: z.string(),
       note: z.number(),
       max: z.number(),
-      appreciation: z.string(),
+      appreciation: z.preprocess(coerceToString, z.string()),
       conseils: z.preprocess(coerceToArray, z.array(z.string())),
     }),
   ),
@@ -52,8 +68,8 @@ const schema = z.object({
       type: z.enum(['erreur', 'remarque', 'bravo']),
     }),
   ),
-  corrige_type: z.string(),
-  conseil_final: z.string(),
+  corrige_type: z.preprocess(coerceToString, z.string()),
+  conseil_final: z.preprocess(coerceToString, z.string()),
 });
 
 export type CorrecteurOutput = z.infer<typeof schema>;
