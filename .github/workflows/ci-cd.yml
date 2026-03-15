@@ -334,6 +334,26 @@ jobs:
     environment: production
     runs-on: ubuntu-22.04
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: "Config sanity check (production)"
+        run: NODE_ENV=production npm run ci:config-sanity
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          REDIS_URL: ${{ secrets.PROD_REDIS_URL }}
+          SESSION_SECRET: ${{ secrets.PROD_SESSION_SECRET }}
+          CSRF_SECRET: ${{ secrets.PROD_CSRF_SECRET }}
+          MISTRAL_API_KEY: ${{ secrets.PROD_MISTRAL_API_KEY }}
+          CLICTOPAY_USERNAME: ${{ secrets.PROD_CLICTOPAY_USERNAME }}
+          CLICTOPAY_PASSWORD: ${{ secrets.PROD_CLICTOPAY_PASSWORD }}
+          BILLING_CODE_PEPPER: ${{ secrets.PROD_BILLING_CODE_PEPPER }}
+          RESEND_API_KEY: ${{ secrets.PROD_RESEND_API_KEY }}
+          STORAGE_PROVIDER: "s3"
+          NEXT_PUBLIC_APP_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}
       - name: Blue-Green Deploy
         uses: appleboy/ssh-action@v1
         with:
