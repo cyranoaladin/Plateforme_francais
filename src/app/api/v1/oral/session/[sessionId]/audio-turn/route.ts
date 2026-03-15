@@ -82,19 +82,29 @@ export async function POST(
   // ── 1. STT: Transcribe audio ──
   const mimeType = audio.type || 'audio/webm';
   const audioBuffer = Buffer.from(await audio.arrayBuffer());
+  const audioSizeBytes = audioBuffer.length;
+  const turnStartMs = Date.now();
 
   let transcript: string | null;
+  let sttLatencyMs = 0;
+  const sttStartMs = Date.now();
   try {
     transcript = await transcribeAudio(audioBuffer, mimeType, {
       language: 'fr',
       prompt: 'Oral EAF français, expression linéaire et vocabulaire littéraire.',
     });
+    sttLatencyMs = Date.now() - sttStartMs;
   } catch (err) {
-    logger.error({ err, sessionId, phase }, 'audio-turn.stt.error');
+    sttLatencyMs = Date.now() - sttStartMs;
+    logger.error({ err, sessionId, phase, audioSizeBytes, sttLatencyMs }, 'audio-turn.stt.error');
     transcript = null;
   }
 
   if (!transcript) {
+    logger.info(
+      { sessionId, phase, audioSizeBytes, sttLatencyMs, fallback: true },
+      'audio-turn.fallback',
+    );
     return NextResponse.json(
       { transcript: null, fallbackToWebSpeech: true },
       { status: 200 },
@@ -130,16 +140,20 @@ export async function POST(
   const feedbackText = evaluation.feedback ?? '';
   let juryAudioBase64: string | null = null;
   let juryAudioMimeType: string | null = null;
+  let ttsLatencyMs = 0;
 
   if (feedbackText.length > 0) {
+    const ttsStartMs = Date.now();
     try {
       const ttsResult = await generateTtsAudio(feedbackText);
+      ttsLatencyMs = Date.now() - ttsStartMs;
       if (ttsResult) {
         juryAudioBase64 = ttsResult.audioBuffer.toString('base64');
         juryAudioMimeType = ttsResult.mimeType;
       }
     } catch (err) {
-      logger.warn({ err, sessionId, phase }, 'audio-turn.tts.error');
+      ttsLatencyMs = Date.now() - ttsStartMs;
+      logger.warn({ err, sessionId, phase, ttsLatencyMs }, 'audio-turn.tts.error');
       // TTS failure is non-blocking — client falls back to browser speechSynthesis
     }
   }
@@ -173,7 +187,24 @@ export async function POST(
     }),
   ).catch(() => undefined);
 
-  // ── 6. Response ──
+  // ── 6. Instrumentation log ──
+  const totalLatencyMs = Date.now() - turnStartMs;
+  logger.info(
+    {
+      sessionId,
+      phase,
+      audioSizeBytes,
+      sttLatencyMs,
+      ttsLatencyMs,
+      totalLatencyMs,
+      sttOk: true,
+      ttsOk: juryAudioBase64 !== null,
+      fallback: false,
+    },
+    'audio-turn.completed',
+  );
+
+  // ── 7. Response ──
   return NextResponse.json(
     {
       transcript,

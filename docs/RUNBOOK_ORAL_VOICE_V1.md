@@ -49,7 +49,9 @@ Visible dans :
 
 Si mode server actif :
 5. **Coûts OpenAI** : vérifier le dashboard OpenAI pour Whisper/TTS
-6. **Fallback rate** : chercher `audio-turn.stt.error` dans les logs
+6. **Fallback rate** : `pm2 logs eaf-nextjs --nostream | grep 'audio-turn.fallback' | wc -l`
+7. **Latence** : `pm2 logs eaf-nextjs --nostream | grep 'audio-turn.completed'` → vérifier `totalLatencyMs`
+8. **Erreurs STT** : `pm2 logs eaf-nextjs --nostream | grep 'audio-turn.stt.error' | wc -l`
 
 ## Symptomes critiques et actions
 
@@ -70,38 +72,127 @@ Si mode server actif :
 - Taux de fallback STT > 20% : investigation
 - Coût OpenAI quotidien > seuil budgétaire : rollback vers browser
 
-## Procédure d'activation du mode serveur (opt-in)
+## Protocole d'activation du mode serveur vocal
+
+### Prérequis obligatoires (go/no-go)
+
+| # | Prérequis | Comment vérifier | Bloquant ? |
+|---|---|---|---|
+| 1 | `OPENAI_API_KEY` valide | `curl https://api.openai.com/v1/models -H "Authorization: Bearer $KEY"` → 200 | OUI |
+| 2 | Budget API Whisper/TTS validé par le product owner | Accord écrit (email/Slack) | OUI |
+| 3 | Seuil budgétaire quotidien défini | Montant convenu en euros/jour | OUI |
+| 4 | Personne responsable identifiée | Nom + moyen de contact d'urgence | OUI |
+| 5 | Logs accessibles pour monitoring | `pm2 logs eaf-nextjs --lines 5` fonctionne | OUI |
+| 6 | Health endpoint opérationnel | `/api/v1/health` → `status: "ok"` | OUI |
+
+### Variables d'environnement requises
+
+```env
+# Dans /opt/eaf_platform/.env
+OPENAI_API_KEY=sk-...            # Clé API OpenAI valide
+ORAL_VOICE_MODE=server           # Ou "auto" pour laisser le système décider
+OPENAI_TTS_MODEL=tts-1           # Optionnel (défaut: tts-1)
+OPENAI_TTS_VOICE=alloy           # Optionnel (défaut: alloy)
+```
+
+### Procédure d'activation pas à pas
 
 ```bash
-# Pré-requis OBLIGATOIRES :
-# 1. OPENAI_API_KEY valide et configurée dans /opt/eaf_platform/.env
-# 2. Budget API Whisper/TTS validé avec le product owner
-# 3. Monitoring des coûts en place
+# ═══════════════════════════════════════════════════
+# ACTIVATION MODE SERVEUR VOCAL — CHECKLIST OPÉRATEUR
+# ═══════════════════════════════════════════════════
 
-# Étape 1 — Ajouter les variables
-echo 'ORAL_VOICE_MODE=server' >> /opt/eaf_platform/.env
-# Si pas encore fait :
-# echo 'OPENAI_API_KEY=sk-...' >> /opt/eaf_platform/.env
+# 0. Vérifier l'état actuel
+curl -s https://eaf.nexusreussite.academy/api/v1/health | python3 -m json.tool
+# → doit afficher status:"ok", effectiveVoiceMode:"browser"
 
-# Étape 2 — Redémarrer (delete+start pour refresh env)
+# 1. Ajouter la clé OpenAI (si pas déjà fait)
+ssh root@88.99.254.59
 cd /opt/eaf_platform
+# ATTENTION : ne jamais copier la clé dans un terminal partagé ou un log
+echo 'OPENAI_API_KEY=sk-...' >> .env
+
+# 2. Activer le mode serveur
+echo 'ORAL_VOICE_MODE=server' >> .env
+
+# 3. Redémarrer le processus (delete+start OBLIGATOIRE, pas restart)
 pm2 delete eaf-nextjs
 pm2 start ecosystem.config.cjs --only eaf-nextjs --env production
 pm2 save
 
-# Étape 3 — Vérifier
-pm2 env $(pm2 id eaf-nextjs) | grep ORAL_VOICE_MODE
-# Doit afficher : ORAL_VOICE_MODE: server
+# 4. Attendre 5s que le processus démarre
+sleep 5
 
-# Étape 4 — Smoke test
-# Ouvrir /atelier-oral, démarrer une session, vérifier que :
-# - Le micro enregistre via MediaRecorder (pas Web Speech)
-# - Le transcript revient du serveur (pas de "fallbackToWebSpeech")
-# - L'audio jury est audible
-# - Le message de confidentialité mentionne "OpenAI Whisper"
+# 5. Vérifier que les env vars sont chargées
+pm2 env $(pm2 id eaf-nextjs) | grep ORAL_VOICE_MODE
+# → doit afficher : ORAL_VOICE_MODE: server
+
+# 6. Vérifier le health endpoint
+curl -s https://eaf.nexusreussite.academy/api/v1/health | python3 -m json.tool
+# → doit afficher :
+#   requestedVoiceMode: "server"
+#   effectiveVoiceMode: "server"
+#   sttAvailable: true
+#   ttsAvailable: true
+
+# Si effectiveVoiceMode reste "browser" alors que requestedVoiceMode est "server" :
+# → la clé OpenAI est absente, invalide, ou le provider STT est indisponible
+# → NE PAS continuer. Diagnostiquer d'abord.
 ```
 
-## Procédure de rollback vers browser
+### Vérification immédiate post-activation
+
+```bash
+# 7. Smoke test fonctionnel (depuis un navigateur)
+# a) Ouvrir https://eaf.nexusreussite.academy/atelier-oral
+# b) Démarrer une session orale
+# c) Vérifier que le label affiche "Mode vocal serveur"
+# d) Enregistrer un audio de 5-10 secondes via le micro
+# e) Soumettre : le transcript doit revenir du serveur (pas de fallback)
+# f) L'audio jury doit être audible (pas le speechSynthesis du navigateur)
+# g) Vérifier les logs : pm2 logs eaf-nextjs --lines 20 --nostream
+#    → chercher "audio-turn.completed" avec sttOk:true, ttsOk:true
+```
+
+### Canary : test sur périmètre réduit
+
+Avant d'annoncer publiquement le mode serveur :
+1. Tester avec 1-2 utilisateurs internes pendant 24h
+2. Surveiller les logs : `pm2 logs eaf-nextjs --nostream | grep audio-turn`
+3. Vérifier qu'aucun `audio-turn.fallback` n'apparaît
+4. Mesurer la latence via les logs (`totalLatencyMs`)
+5. Vérifier le coût OpenAI sur le dashboard après 24h
+
+### Indicateurs à mesurer pendant 24h
+
+| Indicateur | Log pattern | Seuil alerte | Seuil rollback |
+|---|---|---|---|
+| Latence STT | `audio-turn.completed` → `sttLatencyMs` | > 10s | > 30s |
+| Latence TTS | `audio-turn.completed` → `ttsLatencyMs` | > 8s | > 20s |
+| Latence totale | `audio-turn.completed` → `totalLatencyMs` | > 15s | > 30s |
+| Taux fallback | `audio-turn.fallback` vs `audio-turn.completed` | > 10% | > 30% |
+| Erreurs STT | `audio-turn.stt.error` count | > 5/h | > 20/h |
+| Erreurs TTS | `audio-turn.tts.error` count | > 5/h | > 20/h |
+| Coût quotidien | Dashboard OpenAI | > 50% budget | > budget |
+| Taille audio | `audio-turn.completed` → `audioSizeBytes` | > 10 MB | > 20 MB |
+
+### Conditions go / no-go pour maintien du mode serveur
+
+**GO** (maintenir le mode serveur) :
+- Latence totale p95 < 15s
+- Taux de fallback < 10%
+- Coût quotidien < budget validé
+- Aucune plainte utilisateur sur la qualité de transcription
+- Aucun incident de confidentialité
+
+**NO-GO** (rollback immédiat vers browser) :
+- Latence totale p95 > 30s pendant > 10 minutes
+- Taux de fallback > 30%
+- Coût quotidien dépassant le budget
+- Erreur 429 (rate limit OpenAI) récurrente
+- Incident de confidentialité suspecté
+
+### Procédure de rollback vers browser (< 2 minutes)
 
 ```bash
 # Étape 1 — Retirer la variable
@@ -117,15 +208,29 @@ pm2 save
 pm2 env $(pm2 id eaf-nextjs) | grep ORAL_VOICE_MODE
 # Ne doit rien afficher
 
-# Étape 4 — Smoke test
-curl -s https://eaf.nexusreussite.academy/api/v1/health
-# Doit retourner {"status":"ok"}
+# Étape 4 — Vérifier le health endpoint
+curl -s https://eaf.nexusreussite.academy/api/v1/health | python3 -m json.tool
+# → effectiveVoiceMode doit être "browser"
 ```
-
-Temps de rollback : < 2 minutes.
 
 **ATTENTION** : `pm2 restart` seul ne suffit PAS pour changer les env vars.
 Il faut `pm2 delete` + `pm2 start` pour que l'ecosystem config relise le `.env`.
+
+### Wording commercial autorisé après activation du mode serveur
+
+- "Simulation orale avec transcription automatique par intelligence artificielle"
+- "Votre audio est transcrit par un service IA, puis immédiatement supprimé"
+- "Feedback vocal du jury par synthèse vocale"
+- "Mode vocal serveur avec transcription IA (Whisper)"
+
+### Wording interdit même après activation
+
+- "Oral temps réel" → le système est tour par tour, pas temps réel
+- "Correction instantanée" → latence LLM 3-10s minimum
+- "Conversation naturelle avec le jury" → semi-duplex, pas duplex
+- "Voix humaine de l'examinateur" → synthèse vocale (TTS)
+- "Aucun audio envoyé à nos serveurs" → faux en mode serveur
+- "Premium vocal" si effectiveVoiceMode est browser → mensonger
 
 ## Traçabilité déploiement
 
@@ -137,10 +242,3 @@ Pour vérifier que le bon code est déployé :
 curl -s https://eaf.nexusreussite.academy/api/v1/health | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'SHA: {d[\"release\"][\"gitSha\"]}  Build: {d[\"release\"][\"buildTime\"]}')"
 ```
 
-## Ce qu'il ne faut JAMAIS promettre commercialement
-
-- "oral temps réel" → le système est tour par tour, pas temps réel
-- "correction instantanée" → latence LLM 3-10s minimum
-- "conversation naturelle avec le jury" → semi-duplex, pas duplex
-- "voix humaine de l'examinateur" → synthèse vocale (TTS)
-- "aucun audio envoyé à nos serveurs" quand mode server est actif → l'audio transite par OpenAI Whisper

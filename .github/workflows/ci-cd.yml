@@ -245,6 +245,8 @@ jobs:
         run: npm audit --audit-level=high
       - name: Secrets scan (GitLeaks)
         uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Snyk vuln scan
         run: npx snyk test --severity-threshold=high
         env:
