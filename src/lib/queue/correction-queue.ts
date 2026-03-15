@@ -75,7 +75,7 @@ function getConnection(): IORedis {
 }
 
 /**
- * Returns the shared Redis client.
+ * Returns the shared Redis client for queue operations (enqueue, getLength).
  * Throws immediately if the circuit breaker is open (Redis recently failed).
  */
 export function getRedisClient(): IORedis {
@@ -83,6 +83,32 @@ export function getRedisClient(): IORedis {
     throw new Error('Redis circuit breaker open — skipping connection attempt');
   }
   return getConnection();
+}
+
+/**
+ * Returns a dedicated Redis client for BullMQ Worker.
+ * BullMQ workers use blocking commands (BRPOPLPUSH) that require
+ * maxRetriesPerRequest to be null — otherwise the Worker constructor throws.
+ */
+let workerConnection: IORedis | null = null;
+
+export function getWorkerRedisClient(): IORedis {
+  if (workerConnection) {
+    return workerConnection;
+  }
+
+  workerConnection = new IORedis(redisUrl, {
+    lazyConnect: true,
+    connectTimeout: 5000,
+    maxRetriesPerRequest: null,
+    enableReadyCheck: false,
+  });
+
+  workerConnection.on('error', (err) => {
+    logger.warn({ err: err.message }, 'redis.worker_connection.error');
+  });
+
+  return workerConnection;
 }
 
 function getQueue(): Queue {

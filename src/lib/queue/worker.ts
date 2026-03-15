@@ -1,5 +1,5 @@
 import { Worker, Job } from 'bullmq';
-import { CORRECTION_QUEUE_NAME, getRedisClient, type CorrectionJobPayload } from './correction-queue';
+import { CORRECTION_QUEUE_NAME, getWorkerRedisClient, type CorrectionJobPayload } from './correction-queue';
 import { processCorrection } from '@/lib/epreuves/worker';
 import { logger } from '@/lib/logger';
 
@@ -20,7 +20,7 @@ export function startCorrectionWorker() {
             await job.updateProgress(100);
         },
         {
-            connection: getRedisClient(),
+            connection: getWorkerRedisClient(),
             concurrency: 3, // Control LLM costs/concurrency as suggested by audit
         }
     );
