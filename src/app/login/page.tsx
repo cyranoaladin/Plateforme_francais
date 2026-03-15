@@ -253,7 +253,7 @@ function AuthCard() {
           method: 'POST',
           json: { email },
         });
-        setSuccessMessage('Si un compte existe pour cet email, un lien de réinitialisation a été envoyé.');
+        setSuccessMessage('Si un compte existe pour cet email, un lien de réinitialisation a été envoyé. Si vous ne recevez rien sous 5 minutes, contactez-nous via WhatsApp au +216 99 19 28 29 pour une réinitialisation manuelle.');
         setIsSubmitting(false);
         return;
       }
@@ -343,7 +343,7 @@ function AuthCard() {
       : mode === 'register'
       ? 'Commence gratuitement. Le parcours se construit a partir de tes œuvres, de ton niveau et du travail deja realise.'
       : mode === 'forgot'
-      ? 'Entre ton email pour recevoir un lien de reinitialisation.'
+      ? 'Entre ton email pour recevoir un lien de reinitialisation. Si le mail ne fonctionne pas, nous sommes disponibles sur WhatsApp.'
       : 'Choisis un nouveau mot de passe securise.';
 
   return (
@@ -542,7 +542,7 @@ function AuthCard() {
             </div>
           </div>
         ) : mode === 'forgot' || mode === 'reset' ? (
-          <div className="mt-5 text-center">
+          <div className="mt-5 space-y-3 text-center">
             <button
               type="button"
               onClick={() => router.push('/login')}
@@ -550,6 +550,20 @@ function AuthCard() {
             >
               Retour a la connexion
             </button>
+            <div className="rounded-[24px] border border-[#d8ccb9] bg-[#fcfaf6] p-4">
+              <p className="text-sm leading-7 text-slate-600">
+                Besoin d&apos;aide ?{' '}
+                <a
+                  href="https://wa.me/21699192829?text=Bonjour%2C%20je%20souhaite%20r%C3%A9initialiser%20mon%20mot%20de%20passe%20Nexus%20EAF."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-[#0F766E] hover:underline"
+                >
+                  Contactez-nous sur WhatsApp
+                </a>
+                {' '}pour une reinitialisation rapide.
+              </p>
+            </div>
           </div>
         ) : (
           <div className="mt-5 rounded-[24px] border border-[#d8ccb9] bg-[#fcfaf6] p-4">
