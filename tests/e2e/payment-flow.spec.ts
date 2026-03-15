@@ -36,7 +36,7 @@ test.describe('Payment Flow E2E', () => {
     await page.goto('/pricing');
 
     // Click on upgrade button (plans: Premium, Pro)
-    const upgradeButtons = await page.getByRole('button', { name: /passer à premium|passer à pro|créer mon compte/i }).all();
+    const upgradeButtons = await page.getByRole('button', { name: /passer à premium|passer à pro|choisir ce plan|découvrir/i }).all();
     if (upgradeButtons.length > 0) {
       await upgradeButtons[0].click();
 
@@ -98,7 +98,7 @@ test.describe('Payment - User Journey', () => {
     await expect(page.getByText(/^Pro$/i).first()).toBeVisible();
 
     // Verify page has upgrade CTAs
-    const ctaCount = await page.getByRole('button', { name: /passer à premium|passer à pro|créer mon compte/i }).count();
+    const ctaCount = await page.getByRole('button', { name: /passer à premium|passer à pro|choisir ce plan|découvrir/i }).count();
     expect(ctaCount).toBeGreaterThan(0);
   });
 });

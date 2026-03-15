@@ -84,16 +84,16 @@ const PLANS: PlanCard[] = [
     priceTND: '0 TND',
     period: '',
     bullets: [
-      '2 sessions orales / semaine',
-      '3 corrections écrites / mois',
-      '10 échanges guidés / jour',
-      'Bibliothèque complète',
+      '1 session orale / mois',
+      '2 corrections écrites / mois',
+      '3 échanges guidés / jour',
+      'Échantillon de bibliothèque',
     ],
-    cta: 'Rester sur Free',
+    cta: 'Découvrir gratuitement',
     ctaDisabledLabel: 'Plan actuel',
     highlighted: false,
-    kicker: 'Essai sans engagement',
-    note: 'Idéal pour voir le vrai produit, lancer l’onboarding et vérifier si le workflow mérite une montée en puissance.',
+    kicker: 'Aperçu du produit',
+    note: 'Un accès limité pour juger la qualité du workflow avant de s\u2019engager.',
   },
   {
     id: 'PREMIUM',
@@ -141,11 +141,11 @@ const PLANS: PlanCard[] = [
 ];
 
 const FEATURE_ROWS: Array<{ label: string; free: string; premium: string; pro: string }> = [
-  { label: 'Sessions orales / semaine', free: '2', premium: '10', pro: 'Illimité' },
-  { label: 'Corrections écrites / mois', free: '3', premium: '20', pro: 'Illimité' },
-  { label: 'Échanges guidés / jour', free: '10', premium: '100', pro: 'Illimité' },
+  { label: 'Sessions orales / mois', free: '1', premium: '10 / semaine', pro: 'Illimité' },
+  { label: 'Corrections écrites / mois', free: '2', premium: '20', pro: 'Illimité' },
+  { label: 'Échanges guidés / jour', free: '3', premium: '100', pro: 'Illimité' },
   { label: 'OCR copies / mois', free: '—', premium: '20', pro: '50' },
-  { label: 'Capacité de traitement / jour', free: '10k', premium: '50k', pro: '200k' },
+  { label: 'Capacité de traitement / jour', free: '5k', premium: '50k', pro: '200k' },
   { label: 'Rapport PDF oral', free: '—', premium: 'Oui', pro: 'Oui' },
   { label: 'Graph RAG', free: '—', premium: '—', pro: 'Oui' },
   { label: 'Support', free: 'FAQ', premium: 'Email', pro: 'Prioritaire' },
@@ -173,15 +173,15 @@ const BILLING_FAQ = [
 const DECISION_GUIDES = [
   {
     title: 'Free',
-    body: 'Tu veux vérifier la qualité du workflow, lancer l’onboarding et juger le produit avant toute dépense.',
+    body: 'Un aperçu pour juger la qualité du produit avant de s\u2019engager. Les quotas restent volontairement limités.',
   },
   {
     title: 'Premium — 99 TND/mois',
-    body: 'Tu travailles chaque semaine et tu veux une plateforme assez solide pour soutenir le rythme sans tomber vite sur les limites.',
+    body: 'Le vrai rythme de travail : assez de volume pour progresser chaque semaine sans tomber sur les limites.',
   },
   {
     title: 'Pro — 129 TND/mois',
-    body: 'Tu veux travailler sans plafond sur la durée et garder la marge maximale sur l’oral, l’écrit et le quiz.',
+    body: 'Zéro plafond sur l\u2019oral, l\u2019écrit et le quiz. Conçu pour une préparation intensive sans compromis.',
   },
 ];
 
@@ -294,9 +294,9 @@ export default function PricingPage() {
       }
     } catch (err) {
       if (isApiError(err)) {
-        setCodeError(err.status === 429 ? `Trop de tentatives. Reessaie dans ${err.retryAfterSec ?? 60}s.` : err.message);
+        setCodeError(err.status === 429 ? `Trop de tentatives. Réessaie dans ${err.retryAfterSec ?? 60}s.` : err.message);
       } else {
-        setCodeError('Erreur inattendue. Verifie ta connexion.');
+        setCodeError('Erreur inattendue. Vérifie ta connexion.');
       }
     } finally {
       setCodeLoading(false);
@@ -329,7 +329,7 @@ export default function PricingPage() {
               href="/login?mode=register"
               className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
             >
-              Commencer gratuitement
+              Comparer les plans
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -359,14 +359,14 @@ export default function PricingPage() {
                 href="#plans"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#17324d] px-6 py-3.5 text-base font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
               >
-                Voir les plans
+                Choisir mon offre
                 <ArrowRight className="h-4 w-4" />
               </a>
               <Link
                 href="/login?mode=register"
                 className="inline-flex items-center justify-center rounded-full border border-[#cabaa5] bg-white/85 px-6 py-3.5 text-base font-semibold text-[#17324d] transition-colors hover:bg-white"
               >
-                Créer un compte gratuit
+                Découvrir gratuitement
               </Link>
             </div>
 
@@ -547,7 +547,7 @@ export default function PricingPage() {
                     }`}
                   >
                     {!isAuthenticated ? (
-                      plan.id === 'FREE' ? 'Créer mon compte gratuit' : 'Commencer — créer un compte'
+                      plan.id === 'FREE' ? 'Découvrir gratuitement' : 'Choisir ce plan'
                     ) : isCurrent ? (
                       plan.ctaDisabledLabel
                     ) : (
@@ -845,16 +845,16 @@ export default function PricingPage() {
             </p>
 
             <div className="mt-8 rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Dernier pas</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Prêt à passer à l&apos;action ?</p>
               <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
-                Commence gratuitement si tu veux juger le produit sur pièce.
+                La préparation sérieuse commence avec Premium.
               </h3>
               <p className="mt-3 text-sm leading-7 text-slate-200">
-                Le plan gratuit suffit à tester le cœur du workflow. Le Premium vient ensuite si la préparation devient assez intense pour justifier plus de volume.
+                Le plan gratuit donne un aperçu du workflow. Le Premium débloque le rythme de travail nécessaire pour progresser réellement avant l&apos;épreuve.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white">
-                  Créer mon compte gratuit
+                  Comparer les plans
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link href="/" className="inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6">

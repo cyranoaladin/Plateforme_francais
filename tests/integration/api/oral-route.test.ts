@@ -52,13 +52,13 @@ describe('Integration API /oral/session/start', () => {
     } as never);
     vi.mocked(getBillingContext).mockResolvedValue({
       planId: 'FREE',
-      config: { quotas: { ORAL_SESSIONS: { limit: 2, period: 'week' } } },
+      config: { quotas: { ORAL_SESSIONS: { limit: 1, period: 'month' } } },
       endsAt: null,
       isActive: true,
     } as never);
     vi.mocked(consumeQuota).mockResolvedValue({
-      current: 1,
-      limit: 2,
+      current: 0,
+      limit: 1,
       remaining: 1,
     } as never);
     vi.mocked(createOralSession).mockResolvedValue({
@@ -80,7 +80,7 @@ describe('Integration API /oral/session/start', () => {
 
   it('retourne 402 si quota plan depasse', async () => {
     vi.mocked(checkRateLimit).mockResolvedValue({ allowed: true, retryAfter: 0 } as never);
-    vi.mocked(consumeQuota).mockRejectedValue(new QuotaExceededError('ORAL_SESSIONS', 2, 0, 'week') as never);
+    vi.mocked(consumeQuota).mockRejectedValue(new QuotaExceededError('ORAL_SESSIONS', 1, 0, 'month') as never);
     const { POST } = await import('@/app/api/v1/oral/session/start/route');
     const req = new Request('http://localhost/api/v1/oral/session/start', {
       method: 'POST',

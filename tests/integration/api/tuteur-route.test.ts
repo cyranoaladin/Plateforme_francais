@@ -56,14 +56,14 @@ describe('Integration API /tuteur/message', () => {
     } as never);
     vi.mocked(getBillingContext).mockResolvedValue({
       planId: 'FREE',
-      config: { quotas: { TUTOR_QUESTIONS: { limit: 10, period: 'day' } } },
+      config: { quotas: { TUTOR_QUESTIONS: { limit: 3, period: 'day' } } },
       endsAt: null,
       isActive: true,
     } as never);
     vi.mocked(consumeQuota).mockResolvedValue({
       current: 1,
-      limit: 10,
-      remaining: 9,
+      limit: 3,
+      remaining: 2,
     } as never);
   });
 

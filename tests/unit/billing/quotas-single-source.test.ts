@@ -16,13 +16,13 @@ describe('Quotas Single Source of Truth', () => {
   it('FREE plan should have correct quotas per audit', () => {
     const free = PLAN_CATALOG.FREE;
     
-    expect(free.quotas.ORAL_SESSIONS).toEqual({ limit: 2, period: 'week' });
-    expect(free.quotas.WRITTEN_CORRECTIONS).toEqual({ limit: 3, period: 'month' });
-    expect(free.quotas.TUTOR_QUESTIONS).toEqual({ limit: 10, period: 'day' });
-    expect(free.quotas.OCR_COPIES).toEqual({ limit: 2, period: 'month' });
+    expect(free.quotas.ORAL_SESSIONS).toEqual({ limit: 1, period: 'month' });
+    expect(free.quotas.WRITTEN_CORRECTIONS).toEqual({ limit: 2, period: 'month' });
+    expect(free.quotas.TUTOR_QUESTIONS).toEqual({ limit: 3, period: 'day' });
+    expect(free.quotas.OCR_COPIES).toEqual({ limit: 0, period: 'month' });
     expect(free.quotas.LLM_TOKENS).toEqual({ limit: 5_000, period: 'day' });
     expect(free.quotas.RAG_SEARCH).toEqual({ limit: 50, period: 'day' });
-    expect(free.quotas.QUIZ_PER_DAY).toEqual({ limit: 3, period: 'day' });
+    expect(free.quotas.QUIZ_PER_DAY).toEqual({ limit: 1, period: 'day' });
   });
 
   it('PRO plan should have correct quotas per audit', () => {

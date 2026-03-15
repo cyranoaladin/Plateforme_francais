@@ -50,13 +50,13 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
     priceTnd: 0,
     billingCycle: 'free',
     quotas: {
-      ORAL_SESSIONS: { limit: 2, period: 'week' },
-      WRITTEN_CORRECTIONS: { limit: 3, period: 'month' },
-      TUTOR_QUESTIONS: { limit: 10, period: 'day' },
-      OCR_COPIES: { limit: 2, period: 'month' },
+      ORAL_SESSIONS: { limit: 1, period: 'month' },
+      WRITTEN_CORRECTIONS: { limit: 2, period: 'month' },
+      TUTOR_QUESTIONS: { limit: 3, period: 'day' },
+      OCR_COPIES: { limit: 0, period: 'month' },
       LLM_TOKENS: { limit: 5_000, period: 'day' },
       RAG_SEARCH: { limit: 50, period: 'day' },
-      QUIZ_PER_DAY: { limit: 3, period: 'day' },
+      QUIZ_PER_DAY: { limit: 1, period: 'day' },
     },
     flags: {
       ORAL_PDF_REPORT: false,

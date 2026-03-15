@@ -34,20 +34,20 @@ describe('plan-catalog — source unique de vérité', () => {
   describe('quotas FREE', () => {
     const free = PLAN_CATALOG.FREE.quotas;
 
-    it('ORAL_SESSIONS limité à 2/semaine', () => {
-      expect(free.ORAL_SESSIONS).toEqual({ limit: 2, period: 'week' });
+    it('ORAL_SESSIONS limité à 1/mois', () => {
+      expect(free.ORAL_SESSIONS).toEqual({ limit: 1, period: 'month' });
     });
 
-    it('WRITTEN_CORRECTIONS limité à 3/mois', () => {
-      expect(free.WRITTEN_CORRECTIONS).toEqual({ limit: 3, period: 'month' });
+    it('WRITTEN_CORRECTIONS limité à 2/mois', () => {
+      expect(free.WRITTEN_CORRECTIONS).toEqual({ limit: 2, period: 'month' });
     });
 
-    it('TUTOR_QUESTIONS limité à 10/jour', () => {
-      expect(free.TUTOR_QUESTIONS).toEqual({ limit: 10, period: 'day' });
+    it('TUTOR_QUESTIONS limité à 3/jour', () => {
+      expect(free.TUTOR_QUESTIONS).toEqual({ limit: 3, period: 'day' });
     });
 
-    it('QUIZ_PER_DAY limité à 3/jour', () => {
-      expect(free.QUIZ_PER_DAY).toEqual({ limit: 3, period: 'day' });
+    it('QUIZ_PER_DAY limité à 1/jour', () => {
+      expect(free.QUIZ_PER_DAY).toEqual({ limit: 1, period: 'day' });
     });
   });
 
