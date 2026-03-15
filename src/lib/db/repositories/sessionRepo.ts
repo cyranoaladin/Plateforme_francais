@@ -75,6 +75,45 @@ export async function touchSession(token: string) {
   }));
 }
 
+/**
+ * Enforce max concurrent sessions per user.
+ * Deletes the oldest sessions beyond the limit (FIFO eviction).
+ * Default: 3 active sessions max.
+ */
+export async function enforceMaxSessions(userId: string, maxSessions: number = 3) {
+  if (await isDatabaseAvailable()) {
+    const sessions = await prisma.session.findMany({
+      where: { userId },
+      orderBy: { lastSeenAt: 'desc' },
+    });
+
+    if (sessions.length >= maxSessions) {
+      const tokensToDelete = sessions.slice(maxSessions - 1).map((s) => s.token);
+      if (tokensToDelete.length > 0) {
+        await prisma.session.deleteMany({
+          where: { token: { in: tokensToDelete } },
+        });
+      }
+    }
+    return;
+  }
+
+  await writeFallbackStore((current) => {
+    const userSessions = current.sessions
+      .filter((s) => s.userId === userId)
+      .sort((a, b) => new Date(b.lastSeenAt).getTime() - new Date(a.lastSeenAt).getTime());
+
+    if (userSessions.length >= maxSessions) {
+      const tokensToKeep = new Set(userSessions.slice(0, maxSessions - 1).map((s) => s.token));
+      return {
+        ...current,
+        sessions: current.sessions.filter((s) => s.userId !== userId || tokensToKeep.has(s.token)),
+      };
+    }
+    return current;
+  });
+}
+
 export async function deleteSessionByToken(token: string) {
   if (await isDatabaseAvailable()) {
     await prisma.session.deleteMany({ where: { token } });
