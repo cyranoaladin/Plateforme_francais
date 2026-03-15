@@ -14,6 +14,8 @@ const PUBLIC_PATHS = new Set([
   '/paiement/confirmation',
   '/paiement/refus',
   '/mentions-legales',
+  '/cgu',
+  '/politique-de-confidentialite',
   '/api',
   '/_next',
   '/images',
