@@ -83,6 +83,11 @@ export async function GET(request: Request) {
         student.memoryEvents[0]?.createdAt.toISOString() ?? '',
       ].join(','));
     }
+  } else if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { error: 'Service temporairement indisponible. Veuillez réessayer dans quelques instants.' },
+      { status: 503 },
+    );
   } else {
     const store = await readFallbackStore();
     const students = store.users.filter((item) => (item.role ?? 'eleve') === 'eleve' && item.profile.classCode === classCode);

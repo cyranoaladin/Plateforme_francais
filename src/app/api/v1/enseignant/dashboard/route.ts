@@ -71,6 +71,12 @@ export async function GET() {
   }
 
   if (!(await isDatabaseAvailable())) {
+    if (process.env.NODE_ENV === 'production') {
+      return NextResponse.json(
+        { error: 'Service temporairement indisponible. Veuillez réessayer dans quelques instants.' },
+        { status: 503 },
+      );
+    }
     const store = await readFallbackStore();
     const students = store.users
       .filter((item) => (item.role ?? 'eleve') === 'eleve' && item.profile.classCode === classCode)

@@ -5,6 +5,18 @@ import { runCorrectionWorker } from '@/lib/epreuves/worker';
 
 export const CORRECTION_QUEUE_NAME = 'correction-jobs';
 
+export class CorrectionQueueUnavailableError extends Error {
+  readonly code = 'CORRECTION_QUEUE_UNAVAILABLE';
+
+  constructor(cause?: unknown) {
+    super('BullMQ unavailable in production — correction job rejected (fail-closed).');
+    this.name = 'CorrectionQueueUnavailableError';
+    if (cause instanceof Error) {
+      this.cause = cause;
+    }
+  }
+}
+
 export type CorrectionJobPayload = {
   copieId: string;
   userId: string;
@@ -95,14 +107,23 @@ function getQueue(): Queue {
 }
 
 export async function enqueueCorrectionJob(payload: CorrectionJobPayload): Promise<void> {
+  const isProduction = process.env.NODE_ENV === 'production';
   try {
     await getQueue().add('process-copie', payload, {
       attempts: 3,
+      jobId: payload.copieId,
     });
   } catch (error) {
+    if (isProduction) {
+      logger.error(
+        { route: 'queue/correction', error, copieId: payload.copieId },
+        'BullMQ unavailable in production — failing closed.',
+      );
+      throw new CorrectionQueueUnavailableError(error);
+    }
     logger.warn(
       { route: 'queue/correction', error, copieId: payload.copieId },
-      'BullMQ unavailable, fallback to in-process worker.',
+      'BullMQ unavailable, fallback to in-process worker (non-production).',
     );
     runCorrectionWorker(payload.copieId);
   }
