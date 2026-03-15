@@ -10,7 +10,6 @@ import {
   ChevronDown,
   ChevronUp,
   Clock3,
-  ExternalLink,
   KeyRound,
   Landmark,
   Loader2,
@@ -19,6 +18,7 @@ import {
 } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
+import { TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE } from '@/lib/payments/availability';
 
 type SubscriptionPlan = 'FREE' | 'PREMIUM' | 'PRO';
 type PaymentStatus = 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
@@ -55,8 +55,6 @@ type PlanCard = {
 };
 
 const CONTACT_EMAIL = 'contact@nexusreussite.academy';
-const FLOUCI_INFO_URL = 'https://fr.flouci.com/feature/%20compte-professionnel';
-
 const PLAN_LABELS: Record<SubscriptionPlan, string> = {
   FREE: 'Free',
   PREMIUM: 'Premium',
@@ -161,11 +159,11 @@ const BILLING_FAQ = [
   },
   {
     q: 'Comment fonctionne le paiement ?',
-    a: 'Le paiement carte est sécurisé via ClicToPay. Si tu préfères un autre canal, la page propose aussi Flouci et le virement bancaire avec activation manuelle du plan.',
+    a: 'Pour le moment, les abonnements payants sont activés par virement bancaire. Le paiement carte et Flouci seront réactivés dès que leur implémentation sera finalisée.',
   },
   {
     q: 'Et si je n’ai pas de carte bancaire ?',
-    a: 'Flouci et le virement bancaire couvrent ce cas. Ajoute l’email du compte ou l’identifiant utilisateur en référence pour accélérer l’activation.',
+    a: 'Le virement bancaire couvre ce cas immédiatement. Ajoute l’email du compte ou l’identifiant utilisateur en référence pour accélérer l’activation.',
   },
 ];
 
@@ -210,7 +208,6 @@ function BillingFaqItem({ q, a }: { q: string; a: string }) {
 export default function PricingPage() {
   const [billing, setBilling] = useState<BillingStatusPayload | null>(null);
   const [loading, setLoading] = useState(true);
-  const [pendingPlan, setPendingPlan] = useState<CheckoutPlan | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
@@ -258,36 +255,14 @@ export default function PricingPage() {
     return `${(billing.lastPayment.amountMillimes / 1000).toFixed(3)} ${billing.lastPayment.currency}`;
   }, [billing?.lastPayment]);
 
-  const startCheckout = async (plan: CheckoutPlan, planId: string) => {
-    if (!isAuthenticated) {
-      track({ name: 'pricing_checkout_click', props: { plan: `${planId}_guest_redirect` } });
-      window.location.assign('/login?mode=register');
-      return;
-    }
-
-    setError(null);
-    setPendingPlan(plan);
-    track({ name: 'pricing_checkout_click', props: { plan: planId } });
-
-    try {
-      const payload = await apiFetch<{ checkoutUrl?: string }>('/api/v1/payments/clictopay/init', {
-        method: 'POST',
-        json: { plan },
-      });
-
-      if (!payload.checkoutUrl) {
-        throw { status: 500, message: 'URL de paiement introuvable.' } as const;
-      }
-
-      window.location.assign(payload.checkoutUrl);
-    } catch (err) {
-      if (isApiError(err)) {
-        setError(err.message);
-      } else {
-        setError('Paiement indisponible. Reessaie dans quelques minutes.');
-      }
-      setPendingPlan(null);
-    }
+  const startCheckout = (_plan: CheckoutPlan, planId: string) => {
+    setError(TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE);
+    track({
+      name: 'pricing_checkout_click',
+      props: {
+        plan: isAuthenticated ? planId : `${planId}_guest`,
+      },
+    });
   };
 
   const redeemCode = async (event: React.FormEvent) => {
@@ -393,7 +368,7 @@ export default function PricingPage() {
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2.5">
-              {['Aucun paiement avant essai', 'Paiement sécurisé ClicToPay', 'Flouci et virement disponibles', 'Code activation possible'].map((item) => (
+              {['Aucun paiement avant essai', 'Virement bancaire actif', 'Carte bientôt disponible', 'Flouci bientôt disponible'].map((item) => (
                 <span key={item} className="rounded-full border border-[#d8ccb9] bg-white/75 px-3.5 py-1.5 text-xs font-semibold text-slate-700">
                   {item}
                 </span>
@@ -475,7 +450,7 @@ export default function PricingPage() {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Devise et moyens de paiement</p>
-                  <p className="mt-1 text-sm font-semibold">Facturation en TND. Carte via ClicToPay, alternatives via Flouci et virement.</p>
+                  <p className="mt-1 text-sm font-semibold">Facturation en TND. Virement bancaire actif. Paiement carte et Flouci bientôt disponibles.</p>
                 </div>
                 <div className="rounded-full bg-[#17324d] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f2ea]">
                   TND
@@ -508,7 +483,6 @@ export default function PricingPage() {
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {PLANS.map((plan) => {
               const isCurrent = isAuthenticated && plan.id === currentPlan;
-              const isLoadingPlan = pendingPlan !== null && plan.checkoutPlan === pendingPlan;
               const accent = plan.highlighted
                 ? 'border-[#17324d] bg-[#17324d] text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.18)]'
                 : isCurrent
@@ -552,20 +526,16 @@ export default function PricingPage() {
 
                   <button
                     type="button"
-                    disabled={(isAuthenticated && isCurrent) || (isAuthenticated && !plan.checkoutPlan) || pendingPlan !== null}
+                    disabled={(isAuthenticated && isCurrent) || (isAuthenticated && !plan.checkoutPlan)}
                     onClick={() => {
-                      if (!isAuthenticated) {
-                        if (plan.checkoutPlan) {
-                          void startCheckout(plan.checkoutPlan, plan.id);
-                        } else {
+                      if (!plan.checkoutPlan) {
+                        if (!isAuthenticated) {
                           window.location.assign('/login?mode=register');
                         }
                         return;
                       }
-                      if (plan.checkoutPlan) {
-                        track({ name: 'pricing_plan_select', props: { plan: plan.id } });
-                        void startCheckout(plan.checkoutPlan, plan.id);
-                      }
+                      track({ name: 'pricing_plan_select', props: { plan: plan.id } });
+                      startCheckout(plan.checkoutPlan, plan.id);
                     }}
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
                       plan.highlighted
@@ -573,12 +543,7 @@ export default function PricingPage() {
                         : 'bg-[#17324d] text-[#f7f2ea] hover:-translate-y-0.5 hover:bg-[#0f2740]'
                     }`}
                   >
-                    {isLoadingPlan ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        Redirection...
-                      </>
-                    ) : !isAuthenticated ? (
+                    {!isAuthenticated ? (
                       plan.id === 'FREE' ? 'Créer mon compte gratuit' : 'Commencer — créer un compte'
                     ) : isCurrent ? (
                       plan.ctaDisabledLabel
@@ -685,7 +650,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-slate-200">
-              Si la carte bancaire n’est pas le bon canal, la page propose un lien Flouci et un virement bancaire avec activation manuelle du plan.
+              Pour l’instant, les abonnements payants s’activent par virement bancaire. Flouci et le paiement carte reviendront dès que leurs intégrations seront finalisées.
             </p>
 
             <div className="mt-6 space-y-3">
@@ -695,28 +660,33 @@ export default function PricingPage() {
                   <div>
                     <p className="text-sm font-semibold text-white">Paiement Flouci</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">
-                      Wallet, carte ou e-Dinar via Flouci si ce canal correspond mieux à votre contexte. Le lien de paiement et la validation manuelle passent ensuite par l’équipe Nexus.
+                      Flouci est prévu mais pas encore actif en production. Si vous essayez ce canal maintenant, utilisez plutôt le virement bancaire ci-dessous pour activer le plan.
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
-                      <a
-                        href={FLOUCI_INFO_URL}
-                        target="_blank"
-                        rel="noreferrer"
+                      <button
+                        type="button"
+                        onClick={() => setError(TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE)}
                         className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]"
                       >
-                        Voir Flouci
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                      <a
-                        href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Paiement Flouci Nexus Reussite')}&body=${encodeURIComponent('Bonjour,%0D%0AJe souhaite regler mon abonnement Nexus via Flouci.%0D%0AMon email de compte : %0D%0AMon identifiant utilisateur (si connu) : %0D%0APlan souhaite : Pro / Max')}`}
+                        Flouci bientôt disponible
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setError(TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE)}
                         className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-white/8"
                       >
-                        Demander un lien Flouci
-                      </a>
+                        Payer avec Flouci
+                      </button>
                     </div>
                     <p className="mt-3 text-xs leading-6 text-slate-300">
-                      Utilisez l’email du compte ou votre identifiant utilisateur dans la demande pour accélérer l’activation.
+                      Pour activer le plan maintenant, utilisez le virement bancaire avec l’email du compte ou votre identifiant utilisateur en référence.
                     </p>
+                    {error ? (
+                      <div className="mt-4 flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/10 p-3 text-sm text-white" role="alert">
+                        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                        <span>{error}</span>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -736,7 +706,7 @@ export default function PricingPage() {
                     </div>
                     <div className="mt-4 flex flex-wrap gap-3">
                       <a
-                        href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Reussite')}&body=${encodeURIComponent('Bonjour,%0D%0AJe vous envoie la reference de mon virement pour activation.%0D%0AEmail du compte : %0D%0AIdentifiant utilisateur (si connu) : %0D%0APlan regle : Pro / Max%0D%0AReference du virement : ')}`}
+                        href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Reussite')}&body=${encodeURIComponent('Bonjour,%0D%0AJe vous envoie la reference de mon virement pour activation.%0D%0AEmail du compte : %0D%0AIdentifiant utilisateur (si connu) : %0D%0APlan regle : Premium / Pro%0D%0AReference du virement : ')}`}
                         className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]"
                       >
                         Envoyer la référence
@@ -751,7 +721,7 @@ export default function PricingPage() {
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
                 <p className="text-sm leading-6 text-slate-200">
-                  Facturation en dinar tunisien. Premium = 99 TND/mois. Pro = 129 TND/mois. Le code d’activation est envoyé après confirmation si vous utilisez Flouci ou le virement.
+                  Facturation en dinar tunisien. Premium = 99 TND/mois. Pro = 129 TND/mois. Le code d’activation est envoyé après confirmation du virement bancaire.
                 </p>
               </div>
             </div>

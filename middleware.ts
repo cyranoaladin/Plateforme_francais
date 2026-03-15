@@ -21,6 +21,8 @@ const PUBLIC_PATHS = new Set([
   '/ressources',
 ]);
 
+const CANONICAL_ALIAS_PATHS = new Set(['/bienvenue', '/landing']);
+
 function isPublicPath(pathname: string): boolean {
   if (PUBLIC_PATHS.has(pathname)) return true;
   for (const prefix of PUBLIC_PATHS) {
@@ -31,6 +33,12 @@ function isPublicPath(pathname: string): boolean {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (CANONICAL_ALIAS_PATHS.has(pathname)) {
+    const canonicalUrl = request.nextUrl.clone();
+    canonicalUrl.pathname = '/';
+    return NextResponse.redirect(canonicalUrl);
+  }
 
   // Skip public paths
   if (isPublicPath(pathname)) {
