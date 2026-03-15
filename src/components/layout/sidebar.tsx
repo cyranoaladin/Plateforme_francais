@@ -28,7 +28,7 @@ import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { useTheme } from '@/components/theme/theme-provider';
 
 const navItems = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard, section: 'Pilotage', hint: 'Vue d ensemble' },
+  { name: 'Dashboard', href: '/', icon: LayoutDashboard, section: 'Pilotage', hint: 'Vue d\u2019ensemble' },
   { name: 'Mon Parcours', href: '/mon-parcours', icon: Map, section: 'Pilotage', hint: 'Plan de progression' },
   { name: 'Profil', href: '/profil', icon: UserCircle2, section: 'Pilotage', hint: 'Cap et repères' },
   { name: 'Tuteur de parcours', href: '/tuteur', icon: MessagesSquare, section: 'Ateliers', hint: 'Question guidée' },
@@ -165,7 +165,7 @@ export function Sidebar() {
   const navSections = [
     {
       label: 'Pilotage',
-      description: 'Voir où vous en êtes et quoi lancer ensuite.',
+      description: 'Voir où tu en es et quoi lancer ensuite.',
       items: navItems.filter((item) => item.section === 'Pilotage'),
     },
     {

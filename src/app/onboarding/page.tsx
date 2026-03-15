@@ -577,8 +577,8 @@ export default function OnboardingPage() {
 
                   {allSelectedOeuvres.length > 0 && (
                     <div className="rounded-[26px] border border-[#0f766e]/20 bg-[#0f766e]/5 p-5">
-                      <p className="text-sm font-semibold text-[#17324d]">Ton oeuvre d entretien oral</p>
-                      <p className="mt-1 text-xs text-slate-500">Oeuvre integrale pour la 2e partie de l oral (8 points sur 20).</p>
+                      <p className="text-sm font-semibold text-[#17324d]">Ton œuvre d&apos;entretien oral</p>
+                      <p className="mt-1 text-xs text-slate-500">Œuvre intégrale pour la 2e partie de l&apos;oral (8 points sur 20).</p>
                       <div className="mt-3 space-y-2">
                         {allSelectedOeuvres.map((title) => {
                           const found = OEUVRES.find((o) => o.title === title);

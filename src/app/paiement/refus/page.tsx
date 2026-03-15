@@ -27,27 +27,27 @@ function PaiementRefusContent() {
             <div>
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
                 <AlertTriangle className="h-4 w-4" />
-                Paiement refuse
+                Paiement refusé
               </div>
               <h1 style={EDITORIAL_HEADING} className="mt-5 text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
                 Paiement non abouti
               </h1>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
-                La transaction n a pas ete validee. Aucun acces premium n est active pour le moment, mais vous pouvez reprendre proprement depuis les offres ou verifier la reference de retour.
+                La transaction n&apos;a pas été validée. Aucun accès premium n&apos;est activé pour le moment, mais tu peux reprendre proprement depuis les offres ou vérifier la référence de retour.
               </p>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
               <div className="rounded-[26px] border border-[#f1c8c0] bg-[#fff0ed] px-4 py-4 text-[#b24838]">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em]">Statut</p>
-                <p className="mt-2 text-xl font-semibold">Paiement refuse</p>
+                <p className="mt-2 text-xl font-semibold">Paiement refusé</p>
               </div>
               <div className="rounded-[26px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Montant</p>
-                <p className="mt-2 text-sm font-semibold text-white">Aucun debit confirme</p>
+                <p className="mt-2 text-sm font-semibold text-white">Aucun débit confirmé</p>
               </div>
               <div className="rounded-[26px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Reference</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Référence</p>
                 <p className="mt-2 truncate text-sm font-semibold text-white">{displayedRef ?? 'Non transmise'}</p>
               </div>
             </div>
@@ -64,21 +64,21 @@ function PaiementRefusContent() {
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Lecture du retour</p>
                   <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
-                    L abonnement n a pas ete active.
+                    L&apos;abonnement n&apos;a pas été activé.
                   </h2>
                 </div>
               </div>
               <p className="mt-5 text-sm leading-7 text-[#5c4650]">
-                Le prestataire a renvoye un refus ou un echec de transaction. Tant que le statut final n est pas accepte, la plateforme reste sur le plan actuel.
+                Le prestataire a renvoyé un refus ou un échec de transaction. Tant que le statut final n&apos;est pas accepté, la plateforme reste sur le plan actuel.
               </p>
               <div className="mt-6 grid gap-3 md:grid-cols-3">
                 {[
-                  'Verifier la carte ou le moyen de paiement utilise.',
+                  'Vérifier la carte ou le moyen de paiement utilisé.',
                   'Revenir sur la page tarifaire pour relancer une tentative propre.',
-                  'Contacter le support si la reference bloque a plusieurs reprises.',
+                  'Contacter le support si la référence bloque à plusieurs reprises.',
                 ].map((step, index) => (
                   <div key={step} className="rounded-[22px] border border-white/70 bg-white/75 p-4">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Etape {index + 1}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Étape {index + 1}</p>
                     <p className="mt-2 text-sm leading-6 text-[#17324d]">{step}</p>
                   </div>
                 ))}
@@ -92,7 +92,7 @@ function PaiementRefusContent() {
                   href="/#plans"
                   className="inline-flex items-center gap-2 rounded-[18px] bg-[#17324d] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#22486b]"
                 >
-                  Reessayer
+                  Réessayer
                   <RotateCcw className="h-4 w-4" />
                 </Link>
                 <Link
@@ -105,7 +105,7 @@ function PaiementRefusContent() {
                   href="/"
                   className="inline-flex items-center gap-2 rounded-[18px] border border-[#dfd1bc] bg-white px-5 py-3 text-sm font-semibold text-[#17324d] transition hover:border-[#17324d]/25"
                 >
-                  Retour a l accueil
+                  Retour à l&apos;accueil
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -114,15 +114,15 @@ function PaiementRefusContent() {
 
           <aside className="space-y-6">
             <section className="rounded-[30px] border border-[#e8dcc8] bg-[#f8f1e7] p-5 shadow-[0_18px_55px_rgba(122,75,36,0.08)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Reference de retour</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Référence de retour</p>
               <div className="mt-4 rounded-[20px] border border-[#eadbc5] bg-white/80 p-4 text-sm text-[#33536f]">
                 {displayedRef ? (
                   <>
-                    <p className="font-semibold text-[#17324d]">Reference transmise</p>
+                    <p className="font-semibold text-[#17324d]">Référence transmise</p>
                     <p className="mt-2 break-all">{displayedRef}</p>
                   </>
                 ) : (
-                  <p>Aucune reference n a ete transmise dans l URL de retour.</p>
+                  <p>Aucune référence n&apos;a été transmise dans l&apos;URL de retour.</p>
                 )}
               </div>
             </section>
@@ -133,9 +133,9 @@ function PaiementRefusContent() {
                   <ShieldCheck className="h-4 w-4" />
                 </div>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Reassurance</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Réassurance</p>
                   <p className="mt-2 text-sm leading-7 text-[#33536f]">
-                    Aucun montant n a ete debite tant que la transaction n est pas acceptee. En cas de doute, la page tarifaire et votre espace connecte restent les deux ecrans de verification utiles.
+                    Aucun montant n&apos;a été débité tant que la transaction n&apos;est pas acceptée. En cas de doute, la page tarifaire et ton espace connecté restent les deux écrans de vérification utiles.
                   </p>
                 </div>
               </div>
