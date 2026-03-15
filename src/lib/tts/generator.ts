@@ -1,3 +1,26 @@
+export function getTtsCapability(): {
+  available: boolean;
+  mode: 'full' | 'degraded' | 'unavailable';
+  provider: string | null;
+  reason?: string;
+  userMessage?: string;
+} {
+  const apiKey = process.env.TTS_API_KEY?.trim();
+  const apiUrl = process.env.TTS_API_URL?.trim();
+
+  if (apiKey && apiUrl) {
+    return { available: true, mode: 'full', provider: 'tts_api' };
+  }
+
+  return {
+    available: false,
+    mode: 'unavailable',
+    provider: null,
+    reason: 'TTS_PROVIDER_MISSING',
+    userMessage: "Aucun service de synthèse vocale n'est configuré.",
+  };
+}
+
 export async function generateTtsUrl(text: string): Promise<string | null> {
   const apiKey = process.env.TTS_API_KEY ?? '';
   const apiUrl = process.env.TTS_API_URL ?? '';
