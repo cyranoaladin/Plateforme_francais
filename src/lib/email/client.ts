@@ -17,7 +17,7 @@ function getTransporter() {
   const host = process.env.SMTP_HOST
   const port = parseInt(process.env.SMTP_PORT ?? '465', 10)
   const user = process.env.SMTP_USER
-  const pass = process.env.SMTP_PASS
+  const pass = process.env.SMTP_PASS ?? process.env.SMTP_PASSWORD
 
   if (!host || !user || !pass) {
     return null
