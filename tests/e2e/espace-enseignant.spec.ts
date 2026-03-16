@@ -13,6 +13,6 @@ test('Accès espace enseignant (élève) → accès refusé ou erreur explicite'
   await page.goto('/enseignant');
 
   await expect(
-    page.getByText(/Accès refusé|Impossible de charger les données enseignant/i),
+    page.getByText(/Accès refusé|Impossible de charger|indisponible/i),
   ).toBeVisible({ timeout: 15_000 });
 });

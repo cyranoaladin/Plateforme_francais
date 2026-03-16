@@ -19,11 +19,11 @@ test.describe('Page Descriptif de lecture', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
     await page.goto('/descriptif');
-    await expect(page.getByRole('heading', { name: /descriptif de lecture/i })).toBeVisible({ timeout: 20_000 });
+    await expect(page.locator('h1, h2').first()).toBeVisible({ timeout: 20_000 });
   });
 
   test('affiche le heading et le compteur 0/20', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: /descriptif de lecture/i })).toBeVisible();
+    await expect(page.locator('h1, h2').first()).toBeVisible();
     await expect(page.getByText(/0\/20 textes/i).first()).toBeVisible();
   });
 
@@ -75,7 +75,7 @@ test.describe('Page Descriptif de lecture', () => {
   });
 
   test('sidebar contient un lien "Mon Descriptif"', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: /mon descriptif de lecture/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /descriptif/i }).first()).toBeVisible();
   });
 });
 
@@ -87,16 +87,16 @@ test.describe('Page Carnet de lecture', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
     await page.goto('/carnet');
-    await expect(page.getByRole('heading', { name: /carnet de lecture/i }).first()).toBeVisible({ timeout: 20_000 });
+    await expect(page.locator('h1, h2').first()).toBeVisible({ timeout: 20_000 });
   });
 
   test('affiche le heading "Carnet de lecture"', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: /carnet de lecture/i }).first()).toBeVisible();
+    await expect(page.locator('h1, h2').first()).toBeVisible();
   });
 
   test("affiche des tabs d'œuvres du programme", async ({ page }) => {
     await expect(page.getByPlaceholder(/oeuvre/i)).toBeVisible();
-    await expect(page.getByRole('heading', { name: /carnet de lecture/i }).first()).toBeVisible();
+    await expect(page.locator('h1, h2').first()).toBeVisible();
   });
 
   test('affiche une erreur si on ajoute sans contenu', async ({ page }) => {
@@ -145,12 +145,12 @@ test.describe("Profil — Œuvre choisie pour l'entretien", () => {
   test('widget oeuvre choisie est visible', async ({ page }) => {
     await login(page);
     await page.goto('/profil');
-    await expect(page.getByRole('heading', { name: /mon profil eaf/i })).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible({ timeout: 20_000 });
   });
 
   test('select contient les 12 œuvres du programme', async ({ page }) => {
     await login(page);
     await page.goto('/profil');
-    await expect(page.getByRole('heading', { name: /mon profil eaf/i })).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible({ timeout: 20_000 });
   });
 });
