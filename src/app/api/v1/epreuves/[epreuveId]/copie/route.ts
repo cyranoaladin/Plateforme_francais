@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
+import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
 import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { createMemoryEventRecord, listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
@@ -83,7 +84,7 @@ export async function POST(
   } catch (error) {
     if (error instanceof BillingContextUnavailableError) {
       return NextResponse.json(
-        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { error: 'La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes.' },
         { status: 503 },
       );
     }
@@ -98,7 +99,7 @@ export async function POST(
       if (error instanceof BillingQuotaExceededError) {
         return NextResponse.json(
           {
-            error: `Tu as atteint la limite incluse pour les corrections ecrites (${error.limit} par mois, plan ${billing.planId}). Passe au plan superieur pour lancer une nouvelle correction.`,
+            error: `Tu as atteint la limite incluse pour les corrections écrites (${error.limit} par mois, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour lancer une nouvelle correction.`,
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
             plan: billing.planId,

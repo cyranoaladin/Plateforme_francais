@@ -54,7 +54,7 @@ export function isResourceAccessible(
  */
 export function getLibraryPaywallMessage(planId: PlanId): string {
   if (planId === 'FREE') {
-    return 'Tu as acces a un echantillon de ressources par categorie. Passe a Pro ou Max pour debloquer les 553 ressources de la bibliotheque complete.';
+    return 'Tu as accès à un échantillon de ressources par catégorie. Passe à Excellence pour débloquer les 553 ressources de la bibliothèque complète.';
   }
   return '';
 }

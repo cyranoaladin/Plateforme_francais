@@ -5,6 +5,7 @@ import { validateCsrf } from '@/lib/security/csrf';
 import { getMediaForAgent, formatMediaContextForPrompt, type MediaEntry } from '@/data/media-catalog';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
+import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { getThemeConfig } from '@/lib/quiz/theme-mapping';
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof BillingContextUnavailableError) {
       return NextResponse.json(
-        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { error: 'La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes.' },
         { status: 503 },
       );
     }
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
       if (error instanceof BillingQuotaExceededError) {
         return NextResponse.json(
           {
-            error: `Tu as atteint la limite incluse pour les quiz (${error.limit} par jour, plan ${billing.planId}). Passe au plan superieur pour continuer.`,
+            error: `Tu as atteint la limite incluse pour les quiz (${error.limit} par jour, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour continuer.`,
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
             plan: billing.planId,

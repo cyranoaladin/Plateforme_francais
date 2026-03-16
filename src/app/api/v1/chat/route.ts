@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
+import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { routeQuery } from '@/lib/agents/router';
 import { skillSchema } from '@/lib/llm/skills/types';
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof BillingContextUnavailableError) {
       return NextResponse.json(
-        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { error: 'La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes.' },
         { status: 503 },
       );
     }
@@ -74,7 +75,7 @@ export async function POST(request: Request) {
       if (error instanceof BillingQuotaExceededError) {
         return NextResponse.json(
           {
-            error: `Tu as atteint la limite incluse pour les echanges guides (${error.limit} par jour, plan ${billing.planId}). Passe au plan superieur pour continuer.`,
+            error: `Tu as atteint la limite incluse pour les échanges guidés (${error.limit} par jour, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour continuer.`,
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
             plan: billing.planId,

@@ -14,10 +14,10 @@ test.describe('Payment Flow E2E', () => {
   test('page pricing affiche les plans correctement', async ({ page }) => {
     await page.goto('/pricing');
 
-    // Vérifier les 3 plans affichés (Free, Premium, Pro)
-    await expect(page.getByText(/^Free$/i).first()).toBeVisible();
-    await expect(page.getByText(/^Premium$/i).first()).toBeVisible();
-    await expect(page.getByText(/^Pro$/i).first()).toBeVisible();
+    // Vérifier les 3 plans affichés (Découverte, Réussite, Excellence)
+    await expect(page.getByText(/^Découverte$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Réussite$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Excellence$/i).first()).toBeVisible();
 
     // Vérifier les informations de paiement
     await expect(page.getByText(/virement|bientôt disponible/i).first()).toBeVisible();
@@ -35,8 +35,8 @@ test.describe('Payment Flow E2E', () => {
     // Navigate to pricing
     await page.goto('/pricing');
 
-    // Click on upgrade button (plans: Premium, Pro)
-    const upgradeButtons = await page.getByRole('button', { name: /passer à premium|passer à pro|choisir ce plan|découvrir/i }).all();
+    // Click on upgrade button (plans: Réussite, Excellence)
+    const upgradeButtons = await page.getByRole('button', { name: /passer à réussite|passer à excellence|choisir ce plan|découvrir/i }).all();
     if (upgradeButtons.length > 0) {
       await upgradeButtons[0].click();
 
@@ -92,13 +92,13 @@ test.describe('Payment - User Journey', () => {
     await page.goto('/pricing');
     await expect(page).toHaveURL(/\/pricing/, { timeout: 5000 });
 
-    // Check plans are visible (Free, Premium, Pro)
-    await expect(page.getByText(/^Free$/i).first()).toBeVisible();
-    await expect(page.getByText(/^Premium$/i).first()).toBeVisible();
-    await expect(page.getByText(/^Pro$/i).first()).toBeVisible();
+    // Check plans are visible (Découverte, Réussite, Excellence)
+    await expect(page.getByText(/^Découverte$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Réussite$/i).first()).toBeVisible();
+    await expect(page.getByText(/^Excellence$/i).first()).toBeVisible();
 
     // Verify page has upgrade CTAs
-    const ctaCount = await page.getByRole('button', { name: /passer à premium|passer à pro|choisir ce plan|découvrir/i }).count();
+    const ctaCount = await page.getByRole('button', { name: /passer à réussite|passer à excellence|choisir ce plan|découvrir/i }).count();
     expect(ctaCount).toBeGreaterThan(0);
   });
 });

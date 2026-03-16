@@ -7,6 +7,7 @@ import { pickOralExtrait } from '@/lib/oral/service';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
+import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
 import { consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionStartBodySchema } from '@/lib/validation/schemas';
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
     } catch (error) {
       if (error instanceof BillingContextUnavailableError) {
         return NextResponse.json(
-          { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+          { error: 'La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes.' },
           { status: 503 },
         );
       }
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
         if (err instanceof QuotaExceededError) {
           return NextResponse.json(
             {
-              error: `Tu as atteint la limite incluse pour l oral (${err.limit} sessions par semaine, plan ${billing.planId}). Tes donnees restent en place. Passe au plan superieur pour relancer une simulation tout de suite.`,
+              error: `Tu as atteint la limite incluse pour l'oral (${err.limit} sessions par semaine, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Tes données restent en place. Passe au plan supérieur pour relancer une simulation tout de suite.`,
               code: 'QUOTA_EXCEEDED',
               upgradeUrl: '/pricing',
               plan: billing.planId,
@@ -136,7 +137,7 @@ export async function POST(request: Request) {
         phraseGrammaire,
         oeuvreChoisie,
         instructions:
-          'Suivez les 4 etapes officielles: lecture (2 min), explication (8 min), grammaire (2 min), entretien (8 min sur l oeuvre choisie).',
+          'Suivez les 4 étapes officielles : lecture (2 min), explication (8 min), grammaire (2 min), entretien (8 min sur l\'oeuvre choisie).',
       },
       { status: 200 },
     );

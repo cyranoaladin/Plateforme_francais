@@ -8,6 +8,7 @@ import { searchOfficialReferences } from '@/lib/rag/search';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
+import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
 import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { sanitizeString } from '@/lib/security/sanitize';
 import { checkLLMQuota, QuotaExceededError } from '@/lib/security/llm-rate-limiter';
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof BillingContextUnavailableError) {
       return NextResponse.json(
-        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { error: 'La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes.' },
         { status: 503 },
       );
     }
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
       if (err instanceof BillingQuotaExceededError) {
         return NextResponse.json(
           {
-            error: `Tu as atteint la limite incluse pour le tuteur (${err.limit} messages par jour, plan ${billing.planId}). La conversation n est pas perdue. Passe au plan superieur pour continuer maintenant.`,
+            error: `Tu as atteint la limite incluse pour le tuteur (${err.limit} messages par jour, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). La conversation n'est pas perdue. Passe au plan supérieur pour continuer maintenant.`,
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
             plan: billing.planId,
@@ -109,7 +110,7 @@ export async function POST(request: Request) {
     if (wantsStream) {
       const encoder = new TextEncoder();
       const text =
-        "Je ne peux pas rediger une copie complete a ta place. Je peux te guider etape par etape: problematique, plan, puis amelioration paragraphe par paragraphe.";
+        "Je ne peux pas rédiger une copie complète à ta place. Je peux te guider étape par étape\u00a0: problématique, plan, puis amélioration paragraphe par paragraphe.";
       const stream = new ReadableStream<Uint8Array>({
         start(controller) {
           for (const token of text.split(' ')) {
@@ -170,7 +171,7 @@ export async function POST(request: Request) {
     } catch (error) {
       if (error instanceof QuotaExceededError) {
         return NextResponse.json(
-          { error: `Limite atteinte pour ce type d accompagnement (${error.scope}). Réessayez plus tard.` },
+          { error: `Limite atteinte pour ce type d'accompagnement (${error.scope}). Réessayez plus tard.` },
           { status: 429 },
         );
       }
@@ -181,11 +182,11 @@ export async function POST(request: Request) {
       {
         role: 'system' as const,
         content:
-          'Tu es un tuteur EAF. Reponds en francais clair et structure, sans URL, avec methode concrete.',
+          'Tu es un tuteur EAF. Réponds en français clair et structuré, sans URL, avec méthode concrète.',
       },
       {
         role: 'user' as const,
-        content: [pedagogicalContext, `Historique:\n${historyText}`, `Sources RAG:\n${context}`, `Question eleve:\n${userMessage}`]
+        content: [pedagogicalContext, `Historique:\n${historyText}`, `Sources RAG:\n${context}`, `Question élève:\n${userMessage}`]
           .filter(Boolean)
           .join('\n\n'),
       },
@@ -241,7 +242,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof QuotaExceededError) {
       return NextResponse.json(
-        { error: `Limite atteinte pour ce type d accompagnement (${error.scope}). Réessayez plus tard.` },
+        { error: `Limite atteinte pour ce type d'accompagnement (${error.scope}). Réessayez plus tard.` },
         { status: 429 },
       );
     }

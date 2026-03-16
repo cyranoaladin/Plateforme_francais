@@ -46,7 +46,7 @@ export type PlanConfig = {
 export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   FREE: {
     id: 'FREE',
-    label: 'Free',
+    label: 'Découverte',
     priceTnd: 0,
     billingCycle: 'free',
     quotas: {
@@ -72,7 +72,7 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   },
   PREMIUM: {
     id: 'PREMIUM',
-    label: 'Premium',
+    label: 'Réussite',
     priceTnd: 99,
     billingCycle: 'monthly',
     quotas: {
@@ -98,7 +98,7 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   },
   PRO: {
     id: 'PRO',
-    label: 'Pro',
+    label: 'Excellence',
     priceTnd: 129,
     billingCycle: 'monthly',
     quotas: {
@@ -158,6 +158,18 @@ Object.defineProperty(PLAN_CATALOG, 'MAX', {
   configurable: true,
   writable: true,
 });
+
+/**
+ * User-facing display labels for plans.
+ * Technical IDs (FREE, PREMIUM, PRO, MAX) stay for backend compatibility.
+ * These labels are the ONLY names shown to users.
+ */
+export const PLAN_DISPLAY_LABELS: Record<PlanId, string> = {
+  FREE: 'Découverte',
+  PREMIUM: 'Réussite',
+  PRO: 'Excellence',
+  MAX: 'Excellence+',
+};
 
 /**
  * Map legacy plan names (MONTHLY, LIFETIME) to canonical PlanId.

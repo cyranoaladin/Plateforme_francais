@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { getAuthenticatedUserId } from '@/lib/auth/session';
 import { getBillingContext } from '@/lib/billing/context';
-import { type EntitlementKey } from '@/lib/billing/plan-catalog';
+import { type EntitlementKey, PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
 import { checkQuota } from '@/lib/billing/usage';
 
 const VALID_FEATURES: Set<string> = new Set([
@@ -35,8 +35,9 @@ export async function GET(request: NextRequest) {
     used: result.current,
     limit: result.limit,
     remaining: result.remaining,
+    planLabel: PLAN_DISPLAY_LABELS[billing.planId],
     message: result.allowed
       ? undefined
-      : `Tu as atteint ta limite de ${typeof result.limit === 'number' ? result.limit : '∞'} par ${quotaEntry.period === 'day' ? 'jour' : quotaEntry.period === 'week' ? 'semaine' : 'mois'}. Passe au plan supérieur pour continuer.`,
+      : `Tu as atteint ta limite de ${typeof result.limit === 'number' ? result.limit : '∞'} par ${quotaEntry.period === 'day' ? 'jour' : quotaEntry.period === 'week' ? 'semaine' : 'mois'} (plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour continuer.`,
   });
 }

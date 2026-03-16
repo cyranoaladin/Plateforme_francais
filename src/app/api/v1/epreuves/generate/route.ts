@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
+import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
 import { checkQuota as checkBillingQuota } from '@/lib/billing/usage';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createEpreuve } from '@/lib/epreuves/repository';
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof BillingContextUnavailableError) {
       return NextResponse.json(
-        { error: 'La verification de ton abonnement est momentanement indisponible. Reessaie dans quelques minutes.' },
+        { error: 'La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes.' },
         { status: 503 },
       );
     }
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
     if (!availability.allowed) {
       return NextResponse.json(
         {
-          error: `Tu as atteint la limite incluse pour les corrections ecrites (${writtenQuota.limit} par mois, plan ${billing.planId}). Passe au plan superieur pour generer et corriger une nouvelle epreuve.`,
+          error: `Tu as atteint la limite incluse pour les corrections écrites (${writtenQuota.limit} par mois, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour générer et corriger une nouvelle épreuve.`,
           code: 'QUOTA_EXCEEDED',
           upgradeUrl: '/pricing',
           plan: billing.planId,
@@ -85,7 +86,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof QuotaExceededError) {
       return NextResponse.json(
-        { error: `Limite atteinte pour cette generation de sujet (${error.scope}). Réessayez plus tard.` },
+        { error: `Limite atteinte pour cette génération de sujet (${error.scope}). Réessayez plus tard.` },
         { status: 429 },
       );
     }

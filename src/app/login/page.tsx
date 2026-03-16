@@ -366,7 +366,7 @@ function AuthCard() {
           </div>
           <div className="flex flex-wrap gap-2.5">
             {(mode === 'register'
-              ? ['Aucun paiement avant essai', 'Onboarding ~3 minutes', 'Free disponible tout de suite']
+              ? ['Aucun paiement avant essai', 'Onboarding ~3 minutes', 'Découverte disponible tout de suite']
               : ['Connexion sécurisée', 'Protection CSRF', 'Récupération rapide de l\u2019espace']
             ).map((item) => (
               <span key={item} className="rounded-full border border-[#d8ccb9] bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700">

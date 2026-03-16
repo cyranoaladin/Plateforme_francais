@@ -42,14 +42,14 @@ describe('Billing Quotas V2', () => {
     it('generates FREE plan paywall message', () => {
       const msg = buildPaywallMessage('FREE', 'ORAL_SESSIONS');
       expect(msg).toContain('1');
-      expect(msg).toContain('Pro');
+      expect(msg).toContain('Excellence');
       expect(msg).toContain('mois');
     });
 
     it('generates PRO plan paywall message', () => {
       const msg = buildPaywallMessage('PRO', 'ORAL_SESSIONS');
       expect(msg).toContain('illimité');
-      expect(msg).toContain('Max');
+      expect(msg).toContain('Excellence+');
     });
 
     it('includes period info', () => {
