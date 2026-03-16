@@ -139,7 +139,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         }, 'resource_file.freemium_blocked');
 
         return NextResponse.json({
-          error: 'Ressource réservée aux abonnés Réussite ou Excellence.',
+          error: 'Ressource réservée aux abonnés Premium ou Masterium.',
           code: 'LIBRARY_UPGRADE_REQUIRED',
           upgradeUrl: '/pricing',
         }, { status: 403 });

@@ -10,7 +10,7 @@ const CGU_ITEMS = [
   "L'utilisation doit respecter le cadre pédagogique et les règles de propriété intellectuelle.",
   'Les contenus générés par IA sont fournis à titre indicatif et ne remplacent pas un enseignement officiel.',
   "Nexus EAF se réserve le droit de suspendre un compte en cas d'usage abusif ou frauduleux.",
-  'Les tarifs des plans Réussite et Excellence sont affichés en TND et peuvent être modifiés avec préavis de 30 jours.',
+  'Les tarifs des plans Premium et Masterium sont affichés en TND et peuvent être modifiés avec préavis de 30 jours.',
 ];
 
 export default function CguPage() {

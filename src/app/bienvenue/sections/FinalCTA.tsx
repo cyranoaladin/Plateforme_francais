@@ -17,7 +17,7 @@ export function FinalCTA() {
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Passage à l’action</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
-                Vérifie le produit, constate le cadre, puis décide si Réussite vaut vraiment la peine.
+                Vérifie le produit, constate le cadre, puis décide si Premium vaut vraiment la peine.
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
                 Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d’abord, choisir ensuite, payer seulement si l’usage le justifie.

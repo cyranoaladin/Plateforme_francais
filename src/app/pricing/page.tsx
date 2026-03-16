@@ -59,9 +59,9 @@ const CONTACT_EMAIL = 'contact@nexusreussite.academy';
 const WHATSAPP_NUMBER = '+216 99 19 28 29';
 const WHATSAPP_LINK = 'https://wa.me/21699192829';
 const PLAN_LABELS: Record<SubscriptionPlan, string> = {
-  FREE: 'Découverte',
-  PREMIUM: 'Réussite',
-  PRO: 'Excellence',
+  FREE: 'Freemium',
+  PREMIUM: 'Premium',
+  PRO: 'Masterium',
 };
 
 const BANK_TRANSFER_ROWS = [
@@ -80,7 +80,7 @@ const EDITORIAL_HEADING = {
 const PLANS: PlanCard[] = [
   {
     id: 'FREE',
-    title: 'Découverte',
+    title: 'Freemium',
     priceTND: '0 TND',
     period: '',
     bullets: [
@@ -92,12 +92,12 @@ const PLANS: PlanCard[] = [
     cta: 'Découvrir gratuitement',
     ctaDisabledLabel: 'Plan actuel',
     highlighted: false,
-    kicker: 'Aperçu du produit',
+    kicker: 'Faites vos premiers pas vers le Bac.',
     note: 'Un accès limité pour juger la qualité du workflow avant de s\u2019engager.',
   },
   {
     id: 'PREMIUM',
-    title: 'Réussite',
+    title: 'Premium',
     priceTND: '99 TND',
     period: '/ mois',
     bullets: [
@@ -109,16 +109,16 @@ const PLANS: PlanCard[] = [
       'Rapport PDF oral',
       'Bibliothèque complète',
     ],
-    cta: 'Passer à Réussite',
+    cta: 'Passer à Premium',
     ctaDisabledLabel: 'Plan actuel',
     checkoutPlan: 'PREMIUM',
     highlighted: true,
-    kicker: 'Rythme régulier',
+    kicker: 'La méthode complète pour assurer votre réussite.',
     note: 'Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
   },
   {
     id: 'PRO',
-    title: 'Excellence',
+    title: 'Masterium',
     priceTND: '129 TND',
     period: '/ mois',
     bullets: [
@@ -131,11 +131,11 @@ const PLANS: PlanCard[] = [
       'Historique oral complet',
       'Support prioritaire',
     ],
-    cta: 'Passer à Excellence',
+    cta: 'Passer à Masterium',
     ctaDisabledLabel: 'Plan actuel',
     checkoutPlan: 'PRO',
     highlighted: false,
-    kicker: 'Tout illimité',
+    kicker: "L'excellence absolue pour décrocher la mention.",
     note: 'Conçu pour les usages intensifs et ceux qui veulent zéro limite sur les quotas.',
   },
 ];
@@ -172,15 +172,15 @@ const BILLING_FAQ = [
 
 const DECISION_GUIDES = [
   {
-    title: 'Découverte',
+    title: 'Freemium',
     body: 'Un aperçu pour juger la qualité du produit avant de s\u2019engager. Les quotas restent volontairement limités.',
   },
   {
-    title: 'Réussite — 99 TND/mois',
+    title: 'Premium — 99 TND/mois',
     body: 'Le vrai rythme de travail : assez de volume pour progresser chaque semaine sans tomber sur les limites.',
   },
   {
-    title: 'Excellence — 129 TND/mois',
+    title: 'Masterium — 129 TND/mois',
     body: 'Zéro plafond sur l\u2019oral, l\u2019écrit et le quiz. Conçu pour une préparation intensive sans compromis.',
   },
 ];
@@ -433,7 +433,7 @@ export default function PricingPage() {
                 {!isAuthenticated ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-200">
                     <p className="font-semibold text-white">Aucun paiement requis pour commencer</p>
-                    <p>Le plan Découverte permet déjà de tester l'onboarding, les premiers ateliers et la logique du produit.</p>
+                    <p>Le plan Freemium permet déjà de tester l'onboarding, les premiers ateliers et la logique du produit.</p>
                   </div>
                 ) : billing?.lastPayment ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-200">
@@ -709,7 +709,7 @@ export default function PricingPage() {
                     </div>
                     <div className="mt-4 flex flex-wrap gap-3">
                       <a
-                        href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Réussite')}&body=${encodeURIComponent('Bonjour,%0D%0AJe vous envoie la référence de mon virement pour activation.%0D%0AEmail du compte : %0D%0AIdentifiant utilisateur (si connu) : %0D%0APlan réglé : Réussite / Excellence%0D%0ARéférence du virement : ')}`}
+                        href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Réussite')}&body=${encodeURIComponent('Bonjour,%0D%0AJe vous envoie la référence de mon virement pour activation.%0D%0AEmail du compte : %0D%0AIdentifiant utilisateur (si connu) : %0D%0APlan réglé : Premium / Masterium%0D%0ARéférence du virement : ')}`}
                         className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]"
                       >
                         Envoyer la référence
@@ -724,7 +724,7 @@ export default function PricingPage() {
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
                 <p className="text-sm leading-6 text-slate-200">
-                  Facturation en dinar tunisien. Réussite = 99 TND/mois. Excellence = 129 TND/mois. Le code d'activation est envoyé après confirmation du virement bancaire ou via WhatsApp.
+                  Facturation en dinar tunisien. Premium = 99 TND/mois. Masterium = 129 TND/mois. Le code d'activation est envoyé après confirmation du virement bancaire ou via WhatsApp.
                 </p>
               </div>
             </div>
@@ -761,7 +761,7 @@ export default function PricingPage() {
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">Comment ça marche</p>
                 <ol className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
                   <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">1</span>Envoie &quot;Bonjour&quot; sur WhatsApp</li>
-                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">2</span>Choisis ton plan (Réussite ou Excellence)</li>
+                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">2</span>Choisis ton plan (Premium ou Masterium)</li>
                   <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">3</span>Reçois ton code d'activation</li>
                 </ol>
               </div>
@@ -815,9 +815,9 @@ export default function PricingPage() {
               <thead>
                 <tr className="bg-[#f8f4ec] text-left">
                   <th className="px-5 py-4 font-bold text-[#17324d]">Fonctionnalité</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Découverte</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Réussite</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Excellence</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Freemium</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Premium</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Masterium</th>
                 </tr>
               </thead>
               <tbody>
@@ -847,10 +847,10 @@ export default function PricingPage() {
             <div className="mt-8 rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Prêt à passer à l&apos;action ?</p>
               <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
-                La préparation sérieuse commence avec Réussite.
+                La préparation sérieuse commence avec Premium.
               </h3>
               <p className="mt-3 text-sm leading-7 text-slate-200">
-                Le plan Découverte donne un aperçu du workflow. Réussite débloque le rythme de travail nécessaire pour progresser réellement avant l&apos;épreuve.
+                Le plan Freemium donne un aperçu du workflow. Premium débloque le rythme de travail nécessaire pour progresser réellement avant l&apos;épreuve.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white">

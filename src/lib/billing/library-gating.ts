@@ -6,13 +6,23 @@
 
 import { type PlanId, PLAN_CATALOG } from '@/lib/billing/plan-catalog';
 
-/** Nombre de ressources visibles par catégorie pour le plan FREE. */
+/**
+ * Nombre de ressources accessibles par catégorie pour le plan FREE.
+ * Cible : ~5 % du catalogue total (553 ressources → 28 accessibles).
+ * Distribution proportionnelle au poids de chaque catégorie :
+ *   Annales_EAF (29)  → 2
+ *   Oeuvres (9)        → 1
+ *   Videos (322)       → 16
+ *   Documents_Extraits (163) → 8
+ *   eaf_rapport_jury (30)    → 1
+ *   Total : 28 (~5,06 %)
+ */
 export const FREE_LIBRARY_LIMITS: Record<string, number> = {
-  Annales_EAF: 3,
-  Oeuvres: 2,
-  Videos: 5,
-  Documents_Extraits: 3,
-  eaf_rapport_jury: 2,
+  Annales_EAF: 2,
+  Oeuvres: 1,
+  Videos: 16,
+  Documents_Extraits: 8,
+  eaf_rapport_jury: 1,
 };
 
 /** Nombre total de ressources accessibles en FREE. */
@@ -49,12 +59,29 @@ export function isResourceAccessible(
   return indexInCategory < limit;
 }
 
+/** Nombre total de ressources dans le catalogue. */
+export const LIBRARY_TOTAL_RESOURCES = 553;
+
+/** Pourcentage du catalogue accessible en FREE. */
+export const FREE_LIBRARY_PERCENT = Math.round((FREE_TOTAL_LIMIT / LIBRARY_TOTAL_RESOURCES) * 100);
+
 /**
  * Message paywall pour la bibliothèque.
  */
 export function getLibraryPaywallMessage(planId: PlanId): string {
   if (planId === 'FREE') {
-    return 'Tu as accès à un échantillon de ressources par catégorie. Passe à Excellence pour débloquer les 553 ressources de la bibliothèque complète.';
+    return `Tu as accès à ${FREE_TOTAL_LIMIT} ressources sur ${LIBRARY_TOTAL_RESOURCES} (${FREE_LIBRARY_PERCENT} % du catalogue). Passe à Premium pour débloquer la bibliothèque complète.`;
   }
   return '';
+}
+
+/**
+ * Construit l'index d'une ressource dans sa catégorie
+ * à partir de la liste complète triée.
+ */
+export function getResourceIndexInCategory(
+  resourceId: string,
+  categoryResources: Array<{ id: string }>,
+): number {
+  return categoryResources.findIndex((r) => r.id === resourceId);
 }

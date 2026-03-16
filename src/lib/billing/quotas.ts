@@ -59,11 +59,11 @@ export function buildPaywallMessage(planId: PlanId, entitlement: EntitlementKey)
   const displayName = PLAN_DISPLAY_LABELS[planId] ?? planId;
 
   if (planId === 'FREE') {
-    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Ton travail reste conservé. Passe à Excellence pour reprendre sans blocage.`;
+    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Ton travail reste conservé. Passe à Premium pour reprendre sans blocage.`;
   }
 
   if (planId === 'PRO' || planId === 'PREMIUM') {
-    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Passe à Excellence pour continuer sans plafond.`;
+    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Passe à Masterium pour continuer sans plafond.`;
   }
 
   return `Tu as atteint la limite de ton plan ${displayName} : ${limitDisplay} ${label} par ${periodLabel}.`;
