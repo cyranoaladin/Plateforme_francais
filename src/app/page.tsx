@@ -178,8 +178,6 @@ const BANK_TRANSFER_ROWS = [
   { label: 'BIC', value: 'BZITTNTT' },
 ] as const;
 
-const CONTACT_EMAIL = 'contact@nexusreussite.academy';
-const FLOUCI_INFO_URL = 'https://fr.flouci.com/feature/%20compte-professionnel';
 
 /* ─── Sous-composants ─── */
 function FaqItem({ question, answer, index, open, onToggle }: { question: string; answer: string; index: number; open: boolean; onToggle: () => void }) {

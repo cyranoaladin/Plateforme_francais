@@ -55,7 +55,6 @@ type PlanCard = {
   note: string;
 };
 
-const CONTACT_EMAIL = 'contact@nexusreussite.academy';
 const WHATSAPP_NUMBER = '+216 99 19 28 29';
 const WHATSAPP_LINK = 'https://wa.me/21699192829';
 const PLAN_LABELS: Record<SubscriptionPlan, string> = {
