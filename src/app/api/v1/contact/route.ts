@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { sendTransactionalEmail } from '@/lib/email/client';
 import { logger } from '@/lib/logger';
+import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
 
@@ -28,6 +29,11 @@ const CONTACT_RECIPIENT = process.env.CONTACT_EMAIL ?? 'contact@nexusreussite.ac
  * Si SMTP n'est pas configuré, le message est loggé mais pas envoyé.
  */
 export async function POST(request: Request) {
+  const csrfError = await validateCsrf(request);
+  if (csrfError) {
+    return csrfError;
+  }
+
   try {
     const limit = await checkRateLimit({
       request,
