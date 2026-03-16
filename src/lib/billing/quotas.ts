@@ -63,7 +63,7 @@ export function buildPaywallMessage(planId: PlanId, entitlement: EntitlementKey)
   }
 
   if (planId === 'PRO' || planId === 'PREMIUM') {
-    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Passe à Excellence+ pour continuer sans plafond.`;
+    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Passe à Excellence pour continuer sans plafond.`;
   }
 
   return `Tu as atteint la limite de ton plan ${displayName} : ${limitDisplay} ${label} par ${periodLabel}.`;

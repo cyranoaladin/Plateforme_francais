@@ -168,7 +168,7 @@ export const PLAN_DISPLAY_LABELS: Record<PlanId, string> = {
   FREE: 'Découverte',
   PREMIUM: 'Réussite',
   PRO: 'Excellence',
-  MAX: 'Excellence+',
+  MAX: 'Excellence',
 };
 
 /**
