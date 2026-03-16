@@ -567,7 +567,7 @@ export default function BibliothequePage() {
 
             <div className="mt-6 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
               <div className="rounded-[24px] border border-[#eadbc5] bg-white p-5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Pourquoi l ouvrir</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Pourquoi l'ouvrir</p>
                 <p className="mt-3 text-sm leading-7 text-[#33536f]">{buildResourceDescription(selectedResource)}</p>
 
                 <div className="mt-5 flex flex-wrap gap-2">

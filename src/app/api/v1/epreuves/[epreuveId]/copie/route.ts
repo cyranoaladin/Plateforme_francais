@@ -111,6 +111,27 @@ export async function POST(
     }
   }
 
+  // Enforcement OCR_COPIES (limite le nombre de copies OCR par mois)
+  const ocrQuota = billing.config.quotas.OCR_COPIES;
+  if (ocrQuota) {
+    try {
+      await consumeQuota(auth.user.id, 'OCR_COPIES', ocrQuota);
+    } catch (error) {
+      if (error instanceof BillingQuotaExceededError) {
+        return NextResponse.json(
+          {
+            error: `Tu as atteint la limite OCR (${error.limit} copies par mois, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour analyser davantage de copies.`,
+            code: 'QUOTA_EXCEEDED',
+            upgradeUrl: '/pricing',
+            plan: billing.planId,
+          },
+          { status: 402 },
+        );
+      }
+      throw error;
+    }
+  }
+
   const saved = await saveCopieFile({
     userId: auth.user.id,
     fileType: detected.mime,
