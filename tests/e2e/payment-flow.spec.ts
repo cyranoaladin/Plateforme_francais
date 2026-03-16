@@ -36,7 +36,7 @@ test.describe('Payment Flow E2E', () => {
     await page.goto('/pricing');
 
     // Click on upgrade button (plans: Premium, Masterium)
-    const upgradeButtons = await page.getByRole('button', { name: /passer à premium|passer à masterium|choisir ce plan|découvrir/i }).all();
+    const upgradeButtons = await page.getByRole('button', { name: /passer à premium|passer à masterium|choisir ce plan|essayer/i }).all();
     if (upgradeButtons.length > 0) {
       await upgradeButtons[0].click();
 
@@ -98,7 +98,7 @@ test.describe('Payment - User Journey', () => {
     await expect(page.getByText(/^Masterium$/i).first()).toBeVisible();
 
     // Verify page has upgrade CTAs
-    const ctaCount = await page.getByRole('button', { name: /passer à premium|passer à masterium|choisir ce plan|découvrir/i }).count();
+    const ctaCount = await page.getByRole('button', { name: /passer à premium|passer à masterium|choisir ce plan|essayer/i }).count();
     expect(ctaCount).toBeGreaterThan(0);
   });
 });

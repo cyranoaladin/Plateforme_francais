@@ -129,9 +129,9 @@ const PLANS = [
   {
     id: 'FREE' as SubscriptionPlan, title: 'Freemium', priceTND: '0 TND', period: '',
     bullets: ['1 session orale / mois', '2 corrections écrites / mois', '3 échanges guidés / jour', 'Échantillon de bibliothèque'],
-    cta: 'Découvrir gratuitement', ctaDisabledLabel: 'Plan actuel', highlighted: false,
+    cta: 'Essayer gratuitement', ctaDisabledLabel: 'Plan actuel', highlighted: false,
     kicker: 'Faites vos premiers pas vers le Bac.',
-    note: "Un accès limité pour juger la qualité du workflow avant de s\u2019engager.",
+    note: "Un aperçu limité pour juger la qualité du produit. Pour progresser réellement, passe à Premium.",
   },
   {
     id: 'PREMIUM' as SubscriptionPlan, title: 'Premium', priceTND: '99 TND', period: '/ mois',
@@ -716,7 +716,7 @@ export default function HomePage() {
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${plan.highlighted ? 'bg-[#f7f2ea] text-[#17324d] hover:-translate-y-0.5 hover:bg-white' : 'bg-[#17324d] text-[#f7f2ea] hover:-translate-y-0.5 hover:bg-[#0f2740]'}`}
                   >
                     {isLoadingPlan ? <><Loader2 className="h-4 w-4 animate-spin" /> Redirection...</>
-                      : !isAuthenticated ? (plan.id === 'FREE' ? 'Découvrir gratuitement' : 'Choisir ce plan')
+                      : !isAuthenticated ? (plan.id === 'FREE' ? 'Essayer gratuitement' : 'Choisir ce plan')
                       : isCurrent ? plan.ctaDisabledLabel
                       : plan.cta}
                   </button>
@@ -795,7 +795,7 @@ export default function HomePage() {
               </div>
               <div className="mt-5 flex flex-wrap gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/60 cursor-not-allowed">Flouci — bientôt disponible</span>
-                <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Réussite')}`} className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]">Envoyer la référence virement</a>
+                <Link href="/contact?subject=virement" className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]">Envoyer la référence virement</Link>
               </div>
             </article>
           </div>
@@ -808,7 +808,7 @@ export default function HomePage() {
           title="La préparation sérieuse commence avec Premium ou Masterium."
           subtitle="Premium à 99 TND/mois — Masterium à 129 TND/mois. Aucun engagement long terme. Résilie quand tu veux."
           primary={{ label: "Comparer les plans", href: "/pricing", track: "inter_cta_2_pricing" }}
-          secondary={{ label: "Découvrir gratuitement", href: "/login?mode=register" }}
+          secondary={{ label: "Essayer gratuitement", href: "/login?mode=register" }}
         />
       </div>
 

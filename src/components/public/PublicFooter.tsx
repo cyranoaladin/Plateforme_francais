@@ -28,7 +28,7 @@ export function PublicFooter() {
               <li><a href="#plans" className="transition-colors hover:text-[#17324d]">Plans</a></li>
               <li><a href="#faq" className="transition-colors hover:text-[#17324d]">FAQ</a></li>
               <li><Link href="/mentions-legales" className="transition-colors hover:text-[#17324d]">Mentions légales</Link></li>
-              <li><a href="mailto:contact@nexusreussite.academy" className="transition-colors hover:text-[#17324d]">Contact</a></li>
+              <li><Link href="/contact" className="transition-colors hover:text-[#17324d]">Contact</Link></li>
             </ul>
           </div>
 

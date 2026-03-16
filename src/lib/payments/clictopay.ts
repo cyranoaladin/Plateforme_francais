@@ -11,6 +11,7 @@ export type ClicToPayInitInput = {
   userId: string;
   plan: ClicToPayPlan;
   email: string;
+  months?: number; // 1 (default), 3, 6, 12
 };
 
 export type ClicToPayInitResult = {
@@ -78,15 +79,32 @@ function failureUrl(): string {
   return process.env.CLICTOPAY_FAILURE_URL ?? `${appBaseUrl()}/paiement/refus`;
 }
 
-function amountForPlanMillimes(plan: ClicToPayPlan): number {
-  if (plan === 'PREMIUM') return 99_000;
-  return 129_000;
+const PLAN_PRICE_MILLIMES: Record<ClicToPayPlan, number> = {
+  PREMIUM: 99_000,
+  PRO: 129_000,
+};
+
+function amountForPlanMillimes(plan: ClicToPayPlan, months = 1): number {
+  return PLAN_PRICE_MILLIMES[plan] * months;
 }
 
-function computePeriodEndForPlan(plan: PlanId, base: Date): Date {
+/**
+ * Calcul du montant pour un upgrade Premium → Masterium.
+ * Règle simple et honnête : on facture la différence de prix × nombre de mois.
+ * Pas de prorata au jour près — le plan est immédiatement basculé.
+ */
+export function amountForUpgradeMillimes(
+  fromPlan: ClicToPayPlan,
+  toPlan: ClicToPayPlan,
+  months = 1,
+): number {
+  const diff = PLAN_PRICE_MILLIMES[toPlan] - PLAN_PRICE_MILLIMES[fromPlan];
+  return Math.max(0, diff) * months;
+}
+
+function computePeriodEndForPlan(_plan: PlanId, base: Date, months = 1): Date {
   const periodEnd = new Date(base);
-  // Tous les plans payants (PREMIUM et PRO) sont mensuels
-  periodEnd.setUTCMonth(periodEnd.getUTCMonth() + 1);
+  periodEnd.setUTCMonth(periodEnd.getUTCMonth() + months);
   return periodEnd;
 }
 
@@ -183,7 +201,20 @@ export async function getOrderStatusByOrderNumber(orderNumber: string): Promise<
 
 export async function initiateClicToPayPayment(input: ClicToPayInitInput): Promise<ClicToPayInitResult> {
   const orderRef = `NEXUS-${Date.now()}-${randomUUID().slice(0, 8)}`;
-  const amountMillimes = amountForPlanMillimes(input.plan);
+  const months = input.months ?? 1;
+
+  // Detect upgrade: if user has active PREMIUM and is buying PRO, charge difference only
+  const currentSub = await prisma.subscription.findUnique({ where: { userId: input.userId } });
+  const isUpgrade =
+    currentSub?.status === 'ACTIVE' &&
+    currentSub.currentPeriodEnd &&
+    currentSub.currentPeriodEnd > new Date() &&
+    normalizePlanId(currentSub.plan) === 'PREMIUM' &&
+    input.plan === 'PRO';
+
+  const amountMillimes = isUpgrade
+    ? amountForUpgradeMillimes('PREMIUM', 'PRO', months)
+    : amountForPlanMillimes(input.plan, months);
 
   await prisma.paymentTransaction.create({
     data: {
@@ -194,6 +225,7 @@ export async function initiateClicToPayPayment(input: ClicToPayInitInput): Promi
       orderRef,
       status: 'PENDING',
       provider: 'CLICTOPAY',
+      callbackPayload: { initMeta: { months, isUpgrade } },
     },
   });
 
@@ -282,6 +314,12 @@ export async function applyClicToPayStatusToTransaction(params: {
   if (mappedStatus === 'ACCEPTED') {
     const now = new Date();
     const purchasedPlan = normalizePlanId(tx.plan);
+    const initMeta = (tx.callbackPayload as Record<string, unknown>)?.initMeta as
+      | { months?: number; isUpgrade?: boolean }
+      | undefined;
+    const months = initMeta?.months ?? 1;
+    const isUpgrade = initMeta?.isUpgrade === true;
+
     const currentSubscription = await prisma.subscription.findUnique({
       where: { userId: tx.userId },
     });
@@ -297,13 +335,20 @@ export async function applyClicToPayStatusToTransaction(params: {
 
     let finalPlan: PlanId = purchasedPlan;
     let periodStart = now;
-    let periodEnd = computePeriodEndForPlan(purchasedPlan, now);
+    let periodEnd = computePeriodEndForPlan(purchasedPlan, now, months);
 
     if (hasActiveCurrentPlan && currentEndsAt) {
-      if (purchasedIsStronger || purchasedMatchesCurrent) {
+      if (isUpgrade && purchasedIsStronger) {
+        // Upgrade immédiat : le plan bascule tout de suite, on garde la même date de fin
+        finalPlan = purchasedPlan;
+        periodStart = currentSubscription.currentPeriodStart ?? now;
+        periodEnd = currentEndsAt;
+      } else if (purchasedIsStronger || purchasedMatchesCurrent) {
+        // Renouvellement ou achat supérieur : prolonge depuis la fin actuelle
         periodStart = currentEndsAt > now ? currentEndsAt : now;
-        periodEnd = computePeriodEndForPlan(purchasedPlan, periodStart);
+        periodEnd = computePeriodEndForPlan(purchasedPlan, periodStart, months);
       } else {
+        // Le plan acheté est inférieur → on garde le plan courant
         finalPlan = currentPlan;
         periodStart = currentSubscription.currentPeriodStart ?? now;
         periodEnd = currentEndsAt;
@@ -328,6 +373,35 @@ export async function applyClicToPayStatusToTransaction(params: {
         cancelAtPeriodEnd: false,
       },
     });
+
+    // 20D.4 — Email de confirmation d'abonnement
+    const user = await prisma.user.findUnique({
+      where: { id: tx.userId },
+      include: { profile: true },
+    });
+    if (user) {
+      const displayName = user.profile?.displayName ?? 'Élève';
+      const planLabel = finalPlan === 'PRO' ? 'Masterium' : finalPlan === 'PREMIUM' ? 'Premium' : 'Freemium';
+      const amountTnd = (tx.amountMillimes / 1000).toFixed(3);
+      const endDate = periodEnd.toLocaleDateString('fr-FR');
+      void sendTransactionalEmail({
+        to: user.email,
+        subject: `Abonnement ${planLabel} activé — Nexus Réussite`,
+        html: [
+          `<p>Bonjour ${displayName},</p>`,
+          `<p>Ton abonnement <strong>${planLabel}</strong> est désormais actif.</p>`,
+          `<ul>`,
+          `<li><strong>Plan :</strong> ${planLabel}</li>`,
+          `<li><strong>Montant :</strong> ${amountTnd} TND</li>`,
+          `<li><strong>Valable jusqu'au :</strong> ${endDate}</li>`,
+          isUpgrade ? `<li><strong>Type :</strong> Upgrade (différence facturée)</li>` : '',
+          months > 1 ? `<li><strong>Durée :</strong> ${months} mois</li>` : '',
+          `</ul>`,
+          `<p>Tu peux consulter ton statut sur <a href="https://eaf.nexusreussite.academy/pricing">la page plans</a>.</p>`,
+          `<p>Bonne préparation,<br>L'équipe Nexus Réussite</p>`,
+        ].filter(Boolean).join('\n'),
+      }).catch(() => undefined);
+    }
   }
 
   const isFailure = mappedStatus === 'REFUSED' || mappedStatus === 'ERROR';
