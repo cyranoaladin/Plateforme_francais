@@ -58,7 +58,7 @@ export function Features() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Ateliers premium</p>
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Ateliers EAF</p>
             <h2
               style={EDITORIAL_HEADING}
               className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl"

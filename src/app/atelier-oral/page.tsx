@@ -708,7 +708,7 @@ export default function AtelierOralPage() {
             </section>
 
             <section className="rounded-[28px] border border-[#e7dac6] bg-[#f8f1e7] p-5 shadow-[0_18px_55px_rgba(122,75,36,0.08)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Usage premium</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Bon usage</p>
               <p className="mt-4 text-sm leading-7 text-[#5d7287]">
                 Une bonne simulation orale ne cherche pas à parler beaucoup. Elle cherche à rendre la parole plus nette, plus articulée et plus défendable étape après étape.
               </p>

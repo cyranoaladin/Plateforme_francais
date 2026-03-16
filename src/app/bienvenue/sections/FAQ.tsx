@@ -77,7 +77,7 @@ export function FAQ() {
             Les objections doivent être traitées avec autant de soin que les promesses.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-            Une page d&apos;accueil premium répond clairement aux questions sensibles : anti-triche, sources, sécurité, accessibilité, support.
+            Une page d&apos;accueil sérieuse répond clairement aux questions sensibles : anti-triche, sources, sécurité, accessibilité, support.
           </p>
 
           <div className="mt-8 rounded-[30px] border border-[#d8ccb9] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_18px_45px_rgba(23,50,77,0.15)]">

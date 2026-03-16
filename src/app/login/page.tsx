@@ -130,7 +130,7 @@ function ProofPanel() {
 
         <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
           <BadgeCheck className="h-4 w-4" />
-          Espace élève premium
+          Espace élève Nexus Réussite
         </div>
 
         <h2 style={EDITORIAL_HEADING} className="mt-6 max-w-xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">

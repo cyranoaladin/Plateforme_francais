@@ -33,7 +33,7 @@ function PaiementRefusContent() {
                 Paiement non abouti
               </h1>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
-                La transaction n&apos;a pas été validée. Aucun accès premium n&apos;est activé pour le moment, mais tu peux reprendre proprement depuis les offres ou vérifier la référence de retour.
+                La transaction n&apos;a pas été validée. Aucun abonnement n&apos;est activé pour le moment, mais tu peux reprendre proprement depuis les offres ou vérifier la référence de retour.
               </p>
             </div>
 

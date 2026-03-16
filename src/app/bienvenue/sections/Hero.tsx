@@ -56,7 +56,7 @@ export function Hero() {
           <div className="max-w-3xl [animation:bienvenueFadeUp_.8s_ease-out_both]">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#cabaa5] bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#17324d] shadow-sm">
               <BadgeCheck className="h-4 w-4 text-[#0f766e]" />
-              Parcours EAF premium
+              Parcours EAF complet
             </div>
 
             <h1

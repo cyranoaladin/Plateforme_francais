@@ -34,7 +34,7 @@ export function Trust() {
             </h2>
           </div>
           <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">
-            Le premium ici ne repose pas sur des effets de style. Il repose sur une architecture pédagogique nette,
+            La qualité ici ne repose pas sur des effets de style. Elle repose sur une architecture pédagogique nette,
             sur des limites explicites et sur une confiance qui se voit dans l&apos;interface.
           </p>
         </div>

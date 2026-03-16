@@ -312,7 +312,7 @@ export default function HomePage() {
             <div className="max-w-3xl [animation:fadeUp_.8s_ease-out_both]">
               <div className="inline-flex items-center gap-2 rounded-full border border-[#cabaa5] bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#17324d] shadow-sm">
                 <BadgeCheck className="h-4 w-4 text-[#0f766e]" />
-                Parcours EAF premium
+                Parcours EAF complet
               </div>
               <h1 style={EDITORIAL_HEADING} className="mt-7 text-5xl leading-[0.96] tracking-[-0.04em] text-[#17324d] sm:text-6xl lg:text-7xl">
                 La préparation EAF qui se laisse vérifier avant d&apos;être achetée,
@@ -494,7 +494,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Ateliers premium</p>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Ateliers EAF</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
                 Tout ce qu&apos;il faut pour réussir l&apos;EAF, organisé par usage réel.
               </h2>
@@ -616,7 +616,7 @@ export default function HomePage() {
                 Une plateforme commerciale crédible commence par ses garde-fous.
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">Le premium ici ne repose pas sur des effets de style. Il repose sur une architecture pédagogique nette et une confiance qui se voit dans l&apos;interface.</p>
+            <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">La qualité ici ne repose pas sur des effets de style. Elle repose sur une architecture pédagogique nette et une confiance qui se voit dans l&apos;interface.</p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="grid gap-5 md:grid-cols-3">
