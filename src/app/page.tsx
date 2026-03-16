@@ -127,24 +127,24 @@ const TRUST_BLOCKS = [
 /* ─── Données plans ─── */
 const PLANS = [
   {
-    id: 'FREE' as SubscriptionPlan, title: 'Découverte', priceTND: '0 TND', period: '',
+    id: 'FREE' as SubscriptionPlan, title: 'Freemium', priceTND: '0 TND', period: '',
     bullets: ['1 session orale / mois', '2 corrections écrites / mois', '3 échanges guidés / jour', 'Échantillon de bibliothèque'],
     cta: 'Découvrir gratuitement', ctaDisabledLabel: 'Plan actuel', highlighted: false,
-    kicker: 'Aperçu du produit',
+    kicker: 'Faites vos premiers pas vers le Bac.',
     note: "Un accès limité pour juger la qualité du workflow avant de s\u2019engager.",
   },
   {
-    id: 'PREMIUM' as SubscriptionPlan, title: 'Réussite', priceTND: '99 TND', period: '/ mois',
+    id: 'PREMIUM' as SubscriptionPlan, title: 'Premium', priceTND: '99 TND', period: '/ mois',
     bullets: ['10 sessions orales / semaine', '20 corrections écrites / mois', '100 échanges guidés / jour', 'OCR 20 copies / mois', 'Parcours personnalisé', 'Rapport PDF oral', 'Bibliothèque complète'],
-    cta: 'Passer à Réussite', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PREMIUM' as CheckoutPlan, highlighted: true,
-    kicker: 'Rythme régulier',
+    cta: 'Passer à Premium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PREMIUM' as CheckoutPlan, highlighted: true,
+    kicker: 'La méthode complète pour assurer votre réussite.',
     note: "Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.",
   },
   {
-    id: 'PRO' as SubscriptionPlan, title: 'Excellence', priceTND: '129 TND', period: '/ mois',
+    id: 'PRO' as SubscriptionPlan, title: 'Masterium', priceTND: '129 TND', period: '/ mois',
     bullets: ['Oral illimité', 'Corrections écrites illimitées', 'Accompagnement guidé illimité', 'OCR 50 copies / mois', 'Capacité 200k / jour', 'Graph RAG avancé', 'Historique oral complet', 'Support prioritaire'],
-    cta: 'Passer à Excellence', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PRO' as CheckoutPlan, highlighted: false,
-    kicker: 'Tout illimité',
+    cta: 'Passer à Masterium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PRO' as CheckoutPlan, highlighted: false,
+    kicker: "L'excellence absolue pour décrocher la mention.",
     note: "Conçu pour les usages intensifs et ceux qui veulent zéro limite sur les quotas.",
   },
 ];
@@ -731,9 +731,9 @@ export default function HomePage() {
               <thead>
                 <tr className="bg-[#f8f4ec] text-left">
                   <th className="px-5 py-4 font-bold text-[#17324d]">Fonctionnalité</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Découverte</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Réussite</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Excellence</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Freemium</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Premium</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Masterium</th>
                 </tr>
               </thead>
               <tbody>
@@ -805,8 +805,8 @@ export default function HomePage() {
       {/* ════════════════ CTA INTER-SECTION 2 ════════════════ */}
       <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <CtaBanner
-          title="La préparation sérieuse commence avec Réussite ou Excellence."
-          subtitle="Réussite à 99 TND/mois — Excellence à 129 TND/mois. Aucun engagement long terme. Résilie quand tu veux."
+          title="La préparation sérieuse commence avec Premium ou Masterium."
+          subtitle="Premium à 99 TND/mois — Masterium à 129 TND/mois. Aucun engagement long terme. Résilie quand tu veux."
           primary={{ label: "Comparer les plans", href: "/pricing", track: "inter_cta_2_pricing" }}
           secondary={{ label: "Découvrir gratuitement", href: "/login?mode=register" }}
         />
@@ -849,7 +849,7 @@ export default function HomePage() {
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Passage à l&apos;action</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
-                  Vérifie le produit, constate le cadre, puis décide si Réussite vaut vraiment la peine.
+                  Vérifie le produit, constate le cadre, puis décide si Premium vaut vraiment la peine.
                 </h2>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
                   Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d&apos;abord, choisir ensuite, payer seulement si l&apos;usage le justifie.
@@ -872,7 +872,7 @@ export default function HomePage() {
                 Créer mon espace gratuit <ArrowRight className="h-4 w-4" />
               </Link>
               <button type="button" onClick={() => { track({ name: 'cta_click', props: { cta: 'final_premium', path: '/' } }); void startCheckout('PREMIUM', 'PREMIUM'); }} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/16 px-6 py-3.5 text-base font-semibold text-[#f7f2ea] transition-colors hover:bg-white/8">
-                <Send className="h-4 w-4" /> Passer directement à Réussite
+                <Send className="h-4 w-4" /> Passer directement à Premium
               </button>
               <a href="#plans" className="inline-flex items-center justify-center rounded-full px-4 py-3 text-sm font-semibold text-slate-300 transition-colors hover:text-white">
                 Revoir les plans

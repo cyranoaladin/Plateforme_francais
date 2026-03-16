@@ -46,7 +46,7 @@ export type PlanConfig = {
 export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   FREE: {
     id: 'FREE',
-    label: 'Découverte',
+    label: 'Freemium',
     priceTnd: 0,
     billingCycle: 'free',
     quotas: {
@@ -72,7 +72,7 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   },
   PREMIUM: {
     id: 'PREMIUM',
-    label: 'Réussite',
+    label: 'Premium',
     priceTnd: 99,
     billingCycle: 'monthly',
     quotas: {
@@ -98,7 +98,7 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   },
   PRO: {
     id: 'PRO',
-    label: 'Excellence',
+    label: 'Masterium',
     priceTnd: 129,
     billingCycle: 'monthly',
     quotas: {
@@ -127,7 +127,7 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
 
 const _maxPlan: PlanConfig = {
   id: 'MAX',
-  label: 'Max',
+  label: 'Masterium',
   priceTnd: 149,
   billingCycle: 'lifetime',
   quotas: {
@@ -165,10 +165,20 @@ Object.defineProperty(PLAN_CATALOG, 'MAX', {
  * These labels are the ONLY names shown to users.
  */
 export const PLAN_DISPLAY_LABELS: Record<PlanId, string> = {
-  FREE: 'Découverte',
-  PREMIUM: 'Réussite',
-  PRO: 'Excellence',
-  MAX: 'Excellence',
+  FREE: 'Freemium',
+  PREMIUM: 'Premium',
+  PRO: 'Masterium',
+  MAX: 'Masterium',
+};
+
+/**
+ * Plan slogans — user-facing taglines for each plan.
+ */
+export const PLAN_SLOGANS: Record<PlanId, string> = {
+  FREE: 'Faites vos premiers pas vers le Bac.',
+  PREMIUM: 'La méthode complète pour assurer votre réussite.',
+  PRO: "L'excellence absolue pour décrocher la mention.",
+  MAX: "L'excellence absolue pour décrocher la mention.",
 };
 
 /**

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   BarChart3,
   BookOpen,
@@ -11,6 +11,7 @@ import {
   Filter,
   FolderOpen,
   GraduationCap,
+  Lock,
   Play,
   Search,
   Video,
@@ -24,10 +25,12 @@ import {
   formatResourceTitle,
   getCategoryLabel,
   getResourceIcon,
+  getRessourcesByCategory,
 } from '@/data/ressources';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { PdfPreviewViewer } from '@/components/ui/pdf-preview-viewer';
+import { FREE_LIBRARY_LIMITS, FREE_TOTAL_LIMIT, LIBRARY_TOTAL_RESOURCES } from '@/lib/billing/library-gating';
 
 const EDITORIAL_HEADING = {
   fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
@@ -97,6 +100,13 @@ function getVideoMimeType(resource: EafResource): string | undefined {
   return VIDEO_MIME_TYPES[resource.ext.toLowerCase()];
 }
 
+/** Pré-calcul des index par catégorie (stable, déterministe). */
+const CATEGORY_INDEXES: Map<string, number> = new Map();
+for (const cat of ['Annales_EAF', 'Oeuvres', 'Videos', 'Documents_Extraits', 'eaf_rapport_jury'] as const) {
+  const catResources = getRessourcesByCategory(cat);
+  catResources.forEach((r, idx) => CATEGORY_INDEXES.set(r.id, idx));
+}
+
 export default function BibliothequePage() {
   const [activeCategory, setActiveCategory] = useState<ResourceCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -105,6 +115,30 @@ export default function BibliothequePage() {
   const [selectedResource, setSelectedResource] = useState<EafResource | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [ragError, setRagError] = useState<string | null>(null);
+  const [hasFullAccess, setHasFullAccess] = useState(true); // true par défaut → pas de flash
+
+  useEffect(() => {
+    fetch('/api/v1/billing/status')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { subscription?: { plan?: string } } | null) => {
+        if (data?.subscription?.plan) {
+          const plan = data.subscription.plan;
+          setHasFullAccess(plan !== 'FREE');
+        }
+      })
+      .catch(() => {
+        // Non authentifié ou erreur → on considère FREE (verrouillé)
+        setHasFullAccess(false);
+      });
+  }, []);
+
+  /** Vérifie si une ressource est verrouillée pour le plan actuel. */
+  const isResourceLocked = (resource: EafResource): boolean => {
+    if (hasFullAccess) return false;
+    const idx = CATEGORY_INDEXES.get(resource.id) ?? 0;
+    const limit = FREE_LIBRARY_LIMITS[resource.category] ?? 2;
+    return idx >= limit;
+  };
 
   const filteredResources = useMemo(() => {
     let resources = RESSOURCES;
@@ -248,6 +282,30 @@ export default function BibliothequePage() {
           </div>
         </div>
       </section>
+
+      {!hasFullAccess && (
+        <section className="rounded-[28px] border border-[#e7dac6] bg-[linear-gradient(135deg,#fff8ef_0%,#f5eadb_100%)] px-6 py-5">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-start gap-3">
+              <Lock className="mt-0.5 h-5 w-5 shrink-0 text-[#9a6a37]" />
+              <div>
+                <p className="text-sm font-semibold text-[#17324d]">
+                  Tu accèdes à {FREE_TOTAL_LIMIT} ressources sur {LIBRARY_TOTAL_RESOURCES} avec le plan Freemium.
+                </p>
+                <p className="mt-1 text-sm leading-6 text-[#5d7287]">
+                  Les ressources verrouillées restent visibles. Passe à Premium pour toutes les débloquer.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/pricing"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#0f2740]"
+            >
+              Booster le plan
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_20px_70px_rgba(23,50,77,0.08)] md:p-6">
         <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr] xl:items-end">
@@ -400,50 +458,65 @@ export default function BibliothequePage() {
               </div>
 
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {resources.map((resource) => (
-                  <article
-                    key={resource.id}
-                    className="group cursor-pointer rounded-[26px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_16px_40px_rgba(23,50,77,0.06)] transition hover:-translate-y-1 hover:border-[#17324d]/16 hover:shadow-[0_24px_50px_rgba(23,50,77,0.10)]"
-                    onClick={() => setSelectedResource(resource)}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[20px] bg-white text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition group-hover:bg-[#17324d]/6">
-                        {getResourceIcon(resource.type)}
-                      </div>
+                {resources.map((resource) => {
+                  const locked = isResourceLocked(resource);
+                  return (
+                    <article
+                      key={resource.id}
+                      className={`group cursor-pointer rounded-[26px] border p-5 transition ${locked ? 'border-[#e0ddd8] bg-[linear-gradient(180deg,#f5f3ef_0%,#ece8e0_100%)] opacity-75' : 'border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] shadow-[0_16px_40px_rgba(23,50,77,0.06)] hover:-translate-y-1 hover:border-[#17324d]/16 hover:shadow-[0_24px_50px_rgba(23,50,77,0.10)]'}`}
+                      onClick={() => setSelectedResource(resource)}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[20px] text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition ${locked ? 'bg-[#e8e5e0] grayscale' : 'bg-white group-hover:bg-[#17324d]/6'}`}>
+                          {locked ? <Lock className="h-6 w-6 text-[#9a9590]" /> : getResourceIcon(resource.type)}
+                        </div>
 
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap gap-2">
-                          <span className="rounded-full bg-[#17324d]/8 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#17324d]">
-                            {resource.type.replace('_', ' ')}
-                          </span>
-                          {resource.year && (
-                            <span className="rounded-full bg-[#b87333]/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9a6a37]">
-                              {resource.year}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap gap-2">
+                            <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/12 text-[#9a9590]' : 'bg-[#17324d]/8 text-[#17324d]'}`}>
+                              {resource.type.replace('_', ' ')}
                             </span>
-                          )}
-                          {resource.ext && (
-                            <span className="rounded-full bg-[#0f766e]/8 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0f766e]">
-                              {resource.ext.replace('.', '')}
-                            </span>
-                          )}
-                        </div>
-                        <p className="mt-3 line-clamp-2 text-base font-semibold leading-7 text-[#17324d] transition group-hover:text-[#224a6e]">
-                          {formatResourceTitle(resource.title, resource.ext)}
-                        </p>
-                        <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#5d7287]">
-                          {buildResourceDescription(resource)}
-                        </p>
-                        <div className="mt-4 flex items-center justify-between text-xs text-[#7a6858]">
-                          <span>{formatFileSize(resource.size) || 'Taille non précisée'}</span>
-                          <span className="inline-flex items-center gap-1 font-semibold text-[#17324d]">
-                            Ouvrir la fiche
-                            <ExternalLink className="h-3.5 w-3.5" />
-                          </span>
+                            {resource.year && (
+                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/8 text-[#9a9590]' : 'bg-[#b87333]/10 text-[#9a6a37]'}`}>
+                                {resource.year}
+                              </span>
+                            )}
+                            {resource.ext && (
+                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/8 text-[#9a9590]' : 'bg-[#0f766e]/8 text-[#0f766e]'}`}>
+                                {resource.ext.replace('.', '')}
+                              </span>
+                            )}
+                            {locked && (
+                              <span className="rounded-full bg-[#17324d]/8 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#17324d]">
+                                Disponible avec Premium
+                              </span>
+                            )}
+                          </div>
+                          <p className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${locked ? 'text-[#8a8580]' : 'text-[#17324d] group-hover:text-[#224a6e]'}`}>
+                            {formatResourceTitle(resource.title, resource.ext)}
+                          </p>
+                          <p className={`mt-2 line-clamp-3 text-sm leading-6 ${locked ? 'text-[#a09a94]' : 'text-[#5d7287]'}`}>
+                            {buildResourceDescription(resource)}
+                          </p>
+                          <div className={`mt-4 flex items-center justify-between text-xs ${locked ? 'text-[#a09a94]' : 'text-[#7a6858]'}`}>
+                            <span>{formatFileSize(resource.size) || 'Taille non précisée'}</span>
+                            {locked ? (
+                              <span className="inline-flex items-center gap-1 font-semibold text-[#9a9590]">
+                                <Lock className="h-3 w-3" />
+                                Verrouillée
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 font-semibold text-[#17324d]">
+                                Ouvrir la fiche
+                                <ExternalLink className="h-3.5 w-3.5" />
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </article>
-                ))}
+                    </article>
+                  );
+                })}
               </div>
             </section>
           );
@@ -518,32 +591,55 @@ export default function BibliothequePage() {
               </div>
 
               <div className="rounded-[24px] border border-[#d8e8e3] bg-[#edf7f3] p-5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Actions</p>
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <a
-                    href={selectedResourceDownloadHref ?? selectedResource.url}
-                    download={selectedResource.originalTitle ?? selectedResource.title}
-                    className="inline-flex items-center justify-center gap-2 rounded-[20px] bg-[#17324d] px-4 py-4 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
-                  >
-                    <Download className="h-4 w-4" />
-                    Télécharger
-                  </a>
-                  <a
-                    href={selectedResourceOpenHref ?? selectedResource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-[20px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[#17324d] transition hover:border-[#17324d]/18"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    Ouvrir
-                  </a>
-                </div>
-                <Link
-                  href={selectedResourceTutorHref}
-                  className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[20px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[#17324d] transition hover:border-[#0f766e] hover:text-[#0f766e]"
-                >
-                  Reprendre cette ressource avec le guidage
-                </Link>
+                {selectedResource && isResourceLocked(selectedResource) ? (
+                  <>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Ressource verrouillée</p>
+                    <div className="mt-4 rounded-[20px] border border-[#e7dac6] bg-white p-5 text-center">
+                      <Lock className="mx-auto h-8 w-8 text-[#9a9590]" />
+                      <p className="mt-3 text-sm font-semibold text-[#17324d]">
+                        Cette ressource fait partie des {LIBRARY_TOTAL_RESOURCES - FREE_TOTAL_LIMIT} contenus réservés aux abonnés.
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-[#5d7287]">
+                        Passe à Premium pour débloquer les {LIBRARY_TOTAL_RESOURCES} ressources de la bibliothèque complète.
+                      </p>
+                      <Link
+                        href="/pricing"
+                        className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#17324d] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0f2740]"
+                      >
+                        Booster le plan
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Actions</p>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <a
+                        href={selectedResourceDownloadHref ?? selectedResource.url}
+                        download={selectedResource.originalTitle ?? selectedResource.title}
+                        className="inline-flex items-center justify-center gap-2 rounded-[20px] bg-[#17324d] px-4 py-4 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
+                      >
+                        <Download className="h-4 w-4" />
+                        Télécharger
+                      </a>
+                      <a
+                        href={selectedResourceOpenHref ?? selectedResource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 rounded-[20px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[#17324d] transition hover:border-[#17324d]/18"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        Ouvrir
+                      </a>
+                    </div>
+                    <Link
+                      href={selectedResourceTutorHref}
+                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[20px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[#17324d] transition hover:border-[#0f766e] hover:text-[#0f766e]"
+                    >
+                      Reprendre cette ressource avec le guidage
+                    </Link>
+                  </>
+                )}
 
                 {(selectedResource.ext === '.webm' || selectedResource.ext === '.mkv' || selectedResource.ext === '.mp4') && (
                   <div className="mt-5 space-y-3">

@@ -10,22 +10,22 @@ const EDITORIAL_HEADING = {
 
 const PLANS = [
   {
-    name: 'Découverte',
+    name: 'Freemium',
     accent: 'border-[#d8ccb9] bg-white/85 text-[#17324d]',
-    kicker: 'Essai utile',
+    kicker: 'Faites vos premiers pas vers le Bac.',
     bullets: ["Voir le vrai produit", "Onboarding et premiers ateliers", "Vérifier si le cadre te convient"],
   },
   {
-    name: 'Réussite',
+    name: 'Premium',
     accent: 'border-[#17324d] bg-[#17324d] text-[#f7f2ea] shadow-[0_22px_60px_rgba(23,50,77,0.16)]',
-    kicker: 'Rythme régulier',
+    kicker: 'La méthode complète pour assurer votre réussite.',
     bullets: ["Soutenir une vraie routine hebdomadaire", "Moins de friction sur oral, écrit et tuteur", "Le bon rythme sans surpayer"],
     featured: true,
   },
   {
-    name: 'Excellence',
+    name: 'Masterium',
     accent: 'border-[#d8ccb9] bg-[#efe7da] text-[#17324d]',
-    kicker: 'Cadence soutenue',
+    kicker: "L'excellence absolue pour décrocher la mention.",
     bullets: ["Volume élevé sans coupure", "Confort sur les semaines chargées", "Conçu pour un usage vraiment intensif"],
   },
 ];
@@ -41,7 +41,7 @@ export function PricingTeaser() {
               Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-              Chaque plan correspond à une intensité de préparation différente. Découverte sert à juger le produit sur pièce, Réussite enlève les plafonds quand le besoin devient réel.
+              Chaque plan correspond à une intensité de préparation différente. Freemium sert à juger le produit sur pièce, Premium enlève les plafonds quand le besoin devient réel.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
