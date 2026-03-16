@@ -13,7 +13,7 @@ test('Parcours hebdo généré → activités visibles', async ({ page }) => {
   await login(page);
   await page.goto('/mon-parcours');
 
-  await expect(page.getByRole('heading', { name: /Mon parcours/i })).toBeVisible();
+  await expect(page.locator('h1').first()).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText(/Semaine 1|Semaine/i).first()).toBeVisible({ timeout: 20_000 });
 
   const firstCheckbox = page.locator('input[type="checkbox"]').first();

@@ -5,7 +5,7 @@ async function registerAndLogin(page: Page) {
   const password = 'demo1234';
 
   await page.goto('/login');
-  await page.getByRole('button', { name: /creer un compte/i }).click();
+  await page.getByRole('button', { name: /cr[eé]+er un compte/i }).click();
   await page.locator('#displayName').fill('E2E Onboarding');
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);

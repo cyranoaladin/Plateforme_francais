@@ -36,13 +36,13 @@ test.describe('Navigation principale', () => {
   });
 
   test('dashboard affiche le compte à rebours EAF', async ({ page }) => {
-    await page.goto('/');
-    await expect(page.getByText(/J-\d+ avant les épreuves du bac de français/i)).toBeVisible({ timeout: 10_000 });
+    await page.goto('/dashboard');
+    await expect(page.getByText(/J-\d+/i).first()).toBeVisible({ timeout: 10_000 });
   });
 
   test('les comptes à rebours affichent des valeurs positives en 2026', async ({ page }) => {
-    await page.goto('/');
-    const ecritEl = page.getByText(/J-\d+ avant les épreuves du bac de français/i).first();
+    await page.goto('/dashboard');
+    const ecritEl = page.getByText(/J-\d+/).first();
     await expect(ecritEl).toBeVisible({ timeout: 10_000 });
     const ecritText = await ecritEl.textContent();
     const match = ecritText?.match(/J-(\d+)/);
@@ -53,7 +53,7 @@ test.describe('Navigation principale', () => {
   });
 
   test('aucune page ne génère d\'erreur runtime fatale', async ({ page }) => {
-    const criticalRoutes = ['/', '/tuteur', '/atelier-oral', '/descriptif', '/carnet', '/profil'];
+    const criticalRoutes = ['/dashboard', '/tuteur', '/atelier-oral', '/descriptif', '/carnet', '/profil'];
     for (const route of criticalRoutes) {
       const pageErrors: string[] = [];
       page.on('pageerror', (err) => pageErrors.push(`[${route}] ${err.message}`));

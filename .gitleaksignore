@@ -7,3 +7,7 @@ f1e76e674b7b050245dcd1a87d0f652b0f9fb421:docs/GUIDE_DEPLOIEMENT_PREPROD.md:curl-
 f1e76e674b7b050245dcd1a87d0f652b0f9fb421:docs/RAPPORT_FINAL_PRODUCTION_LOCALE.md:generic-api-key:43
 f1e76e674b7b050245dcd1a87d0f652b0f9fb421:docs/RAPPORT_FINAL_PRODUCTION_LOCALE.md:generic-api-key:44
 f82870f756ac104a81cff06c253a04b010c9d2de:tests/unit/security/csrf.test.ts:generic-api-key:44
+3ac33ed8bb5bd57c8fe0797e03aa22a297099f35:docs/GUIDE_DEPLOIEMENT_PREPROD.md:curl-auth-header:306
+3ac33ed8bb5bd57c8fe0797e03aa22a297099f35:docs/GUIDE_DEPLOIEMENT_PREPROD.md:curl-auth-header:321
+3ac33ed8bb5bd57c8fe0797e03aa22a297099f35:tests/unit/auth/reset-password-schema.test.ts:generic-api-key:24
+3ac33ed8bb5bd57c8fe0797e03aa22a297099f35:tests/unit/security/csrf.test.ts:generic-api-key:44
