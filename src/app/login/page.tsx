@@ -202,6 +202,7 @@ function AuthCard() {
   useEffect(() => {
     const modeParam = searchParams.get('mode');
     const tokenParam = searchParams.get('token');
+    const reason = searchParams.get('reason');
     if (modeParam === 'register') {
       setMode('register');
     } else if (modeParam === 'forgot') {
@@ -209,6 +210,10 @@ function AuthCard() {
     } else if (modeParam === 'reset' && tokenParam) {
       setMode('reset');
       setResetToken(tokenParam);
+    }
+    // 18C: Show message when session was evicted (anti-sharing).
+    if (reason === 'session_expired') {
+      setError('Ta session a expiré ou a été fermée car ton compte a été utilisé sur un autre appareil. Reconnecte-toi pour continuer.');
     }
   }, [searchParams]);
 
@@ -253,7 +258,7 @@ function AuthCard() {
           method: 'POST',
           json: { email },
         });
-        setSuccessMessage('Si un compte existe pour cet email, un lien de réinitialisation a été envoyé. Si vous ne recevez rien sous 5 minutes, contactez-nous via WhatsApp au +216 99 19 28 29 pour une réinitialisation manuelle.');
+        setSuccessMessage('Si un compte existe pour cet email, un lien de réinitialisation a été envoyé. Si tu ne reçois rien sous 5 minutes, contacte-nous via WhatsApp au +216 99 19 28 29 pour une réinitialisation manuelle.');
         setIsSubmitting(false);
         return;
       }
@@ -361,7 +366,7 @@ function AuthCard() {
           </div>
           <div className="flex flex-wrap gap-2.5">
             {(mode === 'register'
-              ? ['Aucun paiement avant essai', 'Onboarding ~3 minutes', 'Free disponible tout de suite']
+              ? ['Aucun paiement avant essai', 'Onboarding ~3 minutes', 'Découverte disponible tout de suite']
               : ['Connexion sécurisée', 'Protection CSRF', 'Récupération rapide de l\u2019espace']
             ).map((item) => (
               <span key={item} className="rounded-full border border-[#d8ccb9] bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700">

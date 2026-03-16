@@ -21,19 +21,34 @@ export class BillingContextUnavailableError extends Error {
 }
 
 /**
+ * 17F: Anti-abuse cooldown for free accounts.
+ * New accounts must wait before consuming quotas.
+ */
+const FREE_ACCOUNT_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes
+
+/**
  * Get the billing context for a user.
  * Falls back to FREE if no subscription or subscription expired.
+ * 17F: FREE accounts created < 10 minutes ago have isActive=false (cooldown).
  */
 export async function getBillingContext(userId: string): Promise<BillingContext> {
   try {
     const sub = await prisma.subscription.findUnique({ where: { userId } });
 
     if (!sub) {
+      // 17F: Check account age for free-tier cooldown
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { createdAt: true },
+      });
+      const accountAge = user ? Date.now() - new Date(user.createdAt).getTime() : Infinity;
+      const isCoolingDown = accountAge < FREE_ACCOUNT_COOLDOWN_MS;
+
       return {
         planId: 'FREE',
         config: PLAN_CATALOG.FREE,
         endsAt: null,
-        isActive: true,
+        isActive: !isCoolingDown,
       };
     }
 

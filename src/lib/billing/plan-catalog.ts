@@ -46,17 +46,17 @@ export type PlanConfig = {
 export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   FREE: {
     id: 'FREE',
-    label: 'Free',
+    label: 'Découverte',
     priceTnd: 0,
     billingCycle: 'free',
     quotas: {
-      ORAL_SESSIONS: { limit: 2, period: 'week' },
-      WRITTEN_CORRECTIONS: { limit: 3, period: 'month' },
-      TUTOR_QUESTIONS: { limit: 10, period: 'day' },
-      OCR_COPIES: { limit: 2, period: 'month' },
+      ORAL_SESSIONS: { limit: 1, period: 'month' },
+      WRITTEN_CORRECTIONS: { limit: 2, period: 'month' },
+      TUTOR_QUESTIONS: { limit: 3, period: 'day' },
+      OCR_COPIES: { limit: 0, period: 'month' },
       LLM_TOKENS: { limit: 5_000, period: 'day' },
       RAG_SEARCH: { limit: 50, period: 'day' },
-      QUIZ_PER_DAY: { limit: 3, period: 'day' },
+      QUIZ_PER_DAY: { limit: 1, period: 'day' },
     },
     flags: {
       ORAL_PDF_REPORT: false,
@@ -72,7 +72,7 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   },
   PREMIUM: {
     id: 'PREMIUM',
-    label: 'Premium',
+    label: 'Réussite',
     priceTnd: 99,
     billingCycle: 'monthly',
     quotas: {
@@ -98,7 +98,7 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
   },
   PRO: {
     id: 'PRO',
-    label: 'Pro',
+    label: 'Excellence',
     priceTnd: 129,
     billingCycle: 'monthly',
     quotas: {
@@ -158,6 +158,18 @@ Object.defineProperty(PLAN_CATALOG, 'MAX', {
   configurable: true,
   writable: true,
 });
+
+/**
+ * User-facing display labels for plans.
+ * Technical IDs (FREE, PREMIUM, PRO, MAX) stay for backend compatibility.
+ * These labels are the ONLY names shown to users.
+ */
+export const PLAN_DISPLAY_LABELS: Record<PlanId, string> = {
+  FREE: 'Découverte',
+  PREMIUM: 'Réussite',
+  PRO: 'Excellence',
+  MAX: 'Excellence',
+};
 
 /**
  * Map legacy plan names (MONTHLY, LIFETIME) to canonical PlanId.

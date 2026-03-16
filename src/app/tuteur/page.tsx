@@ -265,7 +265,7 @@ function TuteurPageContent() {
                         className={`mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border ${message.role === 'user' ? 'border-[#17324d]/18 bg-[#17324d] text-white' : 'border-[#d9e7e1] bg-[#edf7f3] text-[#0f766e]'}`}
                       >
                         {message.role === 'user' ? (
-                          <span className="text-sm font-semibold">Vous</span>
+                          <span className="text-sm font-semibold">Toi</span>
                         ) : (
                           <img src="/images/logo.png" alt="" className="h-6 w-6 object-contain" />
                         )}

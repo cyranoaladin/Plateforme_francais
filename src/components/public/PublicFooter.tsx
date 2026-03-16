@@ -15,7 +15,7 @@ export function PublicFooter() {
               Une préparation EAF exigeante, lisible et commercialement honnête.
             </h3>
             <p className="mt-4 max-w-md text-sm leading-7 text-slate-600">
-              Nexus Réussite rassemble écrit, oral, langue et corpus documentaire dans un parcours premium cohérent avec le programme officiel, conçu
+              Nexus Réussite rassemble écrit, oral, langue et corpus documentaire dans un parcours structuré cohérent avec le programme officiel, conçu
               pour faire produire l&apos;élève, pas pour le remplacer.
             </p>
           </div>

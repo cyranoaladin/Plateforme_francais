@@ -5,7 +5,7 @@ import { WebVitalsReporter } from "@/components/monitoring/web-vitals-reporter";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 
 export const metadata: Metadata = {
-  title: "EAF Premium",
+  title: "Nexus Réussite — Préparation EAF",
   description: "Plateforme premium de préparation à l'EAF avec parcours personnalisé, corpus officiel et suivi de progression en Première voie générale",
 };
 

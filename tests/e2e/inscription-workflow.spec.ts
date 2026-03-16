@@ -73,8 +73,8 @@ test.describe('Page accueil publique', () => {
 
   test('section pricing visible sur la page d accueil (#plans)', async ({ page }) => {
     await page.goto('/#plans');
-    await expect(page.getByText(/Free/i).first()).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByText(/Pro/i).first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText(/Découverte/i).first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText(/Excellence/i).first()).toBeVisible({ timeout: 10_000 });
   });
 });
 
@@ -219,24 +219,23 @@ test.describe('Page pricing et souscription', () => {
   test('page /pricing affiche les 3 plans', async ({ page }) => {
     await loginFree(page);
     await page.goto('/pricing');
-    await expect(page.getByText(/^Free$/i).first()).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByText(/^Pro$/i).or(page.getByText(/premium/i)).first()).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByText(/^Max$/i).first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText(/^Découverte$/i).first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText(/^Réussite$/i).or(page.getByText(/excellence/i)).first()).toBeVisible({ timeout: 10_000 });
   });
 
   test('page /pricing affiche le plan actuel de l utilisateur', async ({ page }) => {
     await loginFree(page);
     await page.goto('/pricing');
-    await expect(page.getByText(/plan actuel|plan actif|votre plan|free/i).first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText(/plan actuel|plan actif|votre plan|découverte/i).first()).toBeVisible({ timeout: 10_000 });
   });
 
-  test('clic sur "Passer à Pro" initie le paiement (redirection ou erreur gateway attendue)', async ({ page }) => {
+  test('clic sur "Passer à Excellence" initie le paiement (redirection ou erreur gateway attendue)', async ({ page }) => {
     test.setTimeout(30_000);
     await loginFree(page);
     await page.goto('/pricing');
 
     // Chercher un bouton d'upgrade
-    const upgradeBtn = page.getByRole('button', { name: /passer à pro|passer au pro|s'abonner|acheter/i }).first();
+    const upgradeBtn = page.getByRole('button', { name: /passer à excellence|passer à réussite|s'abonner|acheter/i }).first();
     if (await upgradeBtn.isVisible({ timeout: 5_000 }).catch(() => false)) {
       await upgradeBtn.click();
       // En local sans gateway réelle : soit redirection vers ClicToPay, soit message d'erreur
@@ -249,7 +248,7 @@ test.describe('Page pricing et souscription', () => {
 
   test('page homepage #plans visible et CTAs d upgrade présents', async ({ page }) => {
     await page.goto('/#plans');
-    await expect(page.getByText(/Free/i).first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText(/Découverte/i).first()).toBeVisible({ timeout: 10_000 });
     const ctaCount = await page.getByRole('link', { name: /s'inscrire|commencer|créer mon compte|démarrer/i }).count();
     expect(ctaCount).toBeGreaterThan(0);
   });
@@ -369,7 +368,7 @@ test.describe('Protection paywall', () => {
   test('utilisateur FREE voit un message de quota sur /pricing', async ({ page }) => {
     await loginFree(page);
     await page.goto('/pricing');
-    await expect(page.getByText(/quota|limite|session|gratuit|free/i).first()).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText(/quota|limite|session|gratuit|découverte/i).first()).toBeVisible({ timeout: 10_000 });
   });
 });
 

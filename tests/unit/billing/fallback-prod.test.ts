@@ -54,7 +54,7 @@ describe('Billing Quotas - Fallback prod fail-closed', () => {
       const { consumeQuota } = await import('@/lib/billing/usage');
 
       await expect(
-        consumeQuota('user-1', 'WRITTEN_CORRECTIONS', { limit: 3, period: 'month' }),
+        consumeQuota('user-1', 'WRITTEN_CORRECTIONS', { limit: 2, period: 'month' }),
       ).rejects.toThrow(QuotaExceededError);
     });
 

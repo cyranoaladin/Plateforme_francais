@@ -51,7 +51,7 @@ export default function MentionsLegalesPage() {
               <li>L'utilisation doit respecter le cadre pédagogique et les règles de propriété intellectuelle.</li>
               <li>Les contenus générés par IA sont fournis à titre indicatif et ne remplacent pas un enseignement officiel.</li>
               <li>Nexus EAF se réserve le droit de suspendre un compte en cas d'usage abusif ou frauduleux.</li>
-              <li>Les tarifs des plans PRO et MAX sont affichés en TND et peuvent être modifiés avec préavis de 30 jours.</li>
+              <li>Les tarifs des plans Réussite et Excellence sont affichés en TND et peuvent être modifiés avec préavis de 30 jours.</li>
             </ul>
           </div>
 

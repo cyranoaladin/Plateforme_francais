@@ -5,8 +5,8 @@ import { PLAN_CATALOG } from '@/lib/billing/plan-catalog';
 describe('Billing Quotas V2', () => {
   describe('PLAN_CATALOG quotas', () => {
     it('FREE has limited quotas', () => {
-      expect(PLAN_CATALOG.FREE.quotas.ORAL_SESSIONS.limit).toBe(2);
-      expect(PLAN_CATALOG.FREE.quotas.WRITTEN_CORRECTIONS.limit).toBe(3);
+      expect(PLAN_CATALOG.FREE.quotas.ORAL_SESSIONS.limit).toBe(1);
+      expect(PLAN_CATALOG.FREE.quotas.WRITTEN_CORRECTIONS.limit).toBe(2);
       expect(PLAN_CATALOG.FREE.flags.ORAL_PDF_REPORT).toBe(false);
     });
 
@@ -41,15 +41,15 @@ describe('Billing Quotas V2', () => {
   describe('buildPaywallMessage', () => {
     it('generates FREE plan paywall message', () => {
       const msg = buildPaywallMessage('FREE', 'ORAL_SESSIONS');
-      expect(msg).toContain('2');
-      expect(msg).toContain('Pro');
-      expect(msg).toContain('semaine');
+      expect(msg).toContain('1');
+      expect(msg).toContain('Excellence');
+      expect(msg).toContain('mois');
     });
 
     it('generates PRO plan paywall message', () => {
       const msg = buildPaywallMessage('PRO', 'ORAL_SESSIONS');
       expect(msg).toContain('illimité');
-      expect(msg).toContain('Max');
+      expect(msg).toContain('Excellence');
     });
 
     it('includes period info', () => {

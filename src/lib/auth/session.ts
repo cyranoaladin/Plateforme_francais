@@ -5,6 +5,7 @@ import {
 } from '@/lib/db/repositories/memoryRepo';
 import {
   createSessionRecord,
+  enforceMaxSessions,
   findSessionByToken,
   touchSession,
 } from '@/lib/db/repositories/sessionRepo';
@@ -111,6 +112,10 @@ export async function getAuthenticatedUserId(): Promise<string | null> {
 }
 
 export async function createUserSession(userId: string) {
+  // 18C: Enforce max 2 concurrent sessions per user (FIFO eviction).
+  // Oldest sessions beyond the limit are deleted before creating a new one.
+  // 2 is the sweet spot: allows phone + laptop but blocks casual sharing.
+  await enforceMaxSessions(userId, 2);
   const session = createSession(userId);
   await createSessionRecord(session);
   await createMemoryEventRecord(

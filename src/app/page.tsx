@@ -127,34 +127,34 @@ const TRUST_BLOCKS = [
 /* ─── Données plans ─── */
 const PLANS = [
   {
-    id: 'FREE' as SubscriptionPlan, title: 'Free', priceTND: '0 TND', period: '',
-    bullets: ['2 sessions orales / semaine', '3 corrections écrites / mois', '10 échanges guidés / jour', 'Bibliothèque complète'],
-    cta: 'Créer mon compte gratuit', ctaDisabledLabel: 'Plan actuel', highlighted: false,
-    kicker: 'Essai sans engagement',
-    note: "Idéal pour voir le vrai produit, lancer l'onboarding et vérifier si le workflow mérite une montée en puissance.",
+    id: 'FREE' as SubscriptionPlan, title: 'Découverte', priceTND: '0 TND', period: '',
+    bullets: ['1 session orale / mois', '2 corrections écrites / mois', '3 échanges guidés / jour', 'Échantillon de bibliothèque'],
+    cta: 'Découvrir gratuitement', ctaDisabledLabel: 'Plan actuel', highlighted: false,
+    kicker: 'Aperçu du produit',
+    note: "Un accès limité pour juger la qualité du workflow avant de s\u2019engager.",
   },
   {
-    id: 'PREMIUM' as SubscriptionPlan, title: 'Premium', priceTND: '99 TND', period: '/ mois',
+    id: 'PREMIUM' as SubscriptionPlan, title: 'Réussite', priceTND: '99 TND', period: '/ mois',
     bullets: ['10 sessions orales / semaine', '20 corrections écrites / mois', '100 échanges guidés / jour', 'OCR 20 copies / mois', 'Parcours personnalisé', 'Rapport PDF oral', 'Bibliothèque complète'],
-    cta: 'Passer à Premium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PREMIUM' as CheckoutPlan, highlighted: true,
+    cta: 'Passer à Réussite', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PREMIUM' as CheckoutPlan, highlighted: true,
     kicker: 'Rythme régulier',
-    note: "Le meilleur point d'équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.",
+    note: "Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.",
   },
   {
-    id: 'PRO' as SubscriptionPlan, title: 'Pro', priceTND: '129 TND', period: '/ mois',
+    id: 'PRO' as SubscriptionPlan, title: 'Excellence', priceTND: '129 TND', period: '/ mois',
     bullets: ['Oral illimité', 'Corrections écrites illimitées', 'Accompagnement guidé illimité', 'OCR 50 copies / mois', 'Capacité 200k / jour', 'Graph RAG avancé', 'Historique oral complet', 'Support prioritaire'],
-    cta: 'Passer à Pro', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PRO' as CheckoutPlan, highlighted: false,
+    cta: 'Passer à Excellence', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PRO' as CheckoutPlan, highlighted: false,
     kicker: 'Tout illimité',
     note: "Conçu pour les usages intensifs et ceux qui veulent zéro limite sur les quotas.",
   },
 ];
 
 const FEATURE_ROWS = [
-  { label: 'Sessions orales / semaine', free: '2', premium: '10', pro: 'Illimité' },
-  { label: 'Corrections écrites / mois', free: '3', premium: '20', pro: 'Illimité' },
-  { label: 'Échanges guidés / jour', free: '10', premium: '100', pro: 'Illimité' },
+  { label: 'Sessions orales / mois', free: '1', premium: '10 / semaine', pro: 'Illimité' },
+  { label: 'Corrections écrites / mois', free: '2', premium: '20', pro: 'Illimité' },
+  { label: 'Échanges guidés / jour', free: '3', premium: '100', pro: 'Illimité' },
   { label: 'OCR copies / mois', free: '—', premium: '20', pro: '50' },
-  { label: 'Capacité de traitement / jour', free: '10k', premium: '50k', pro: '200k' },
+  { label: 'Capacité de traitement / jour', free: '5k', premium: '50k', pro: '200k' },
   { label: 'Rapport PDF oral', free: '—', premium: 'Oui', pro: 'Oui' },
   { label: 'Graph RAG', free: '—', premium: '—', pro: 'Oui' },
   { label: 'Support', free: 'FAQ', premium: 'Email', pro: 'Prioritaire' },
@@ -322,8 +322,8 @@ export default function HomePage() {
                 Nexus Réussite rassemble écrit, oral, langue, corpus officiel et historique de progression dans un même flux de travail. Tu vois le vrai produit en gratuit, puis tu montes en puissance seulement si le volume de travail le justifie.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#17324d] px-6 py-3.5 text-base font-bold text-[#f7f2ea] shadow-[0_22px_60px_rgba(23,50,77,0.22)] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]">
-                  Créer mon espace gratuit <ArrowRight className="h-4 w-4" />
+                <Link href="/pricing" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#17324d] px-6 py-3.5 text-base font-bold text-[#f7f2ea] shadow-[0_22px_60px_rgba(23,50,77,0.22)] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]">
+                  Choisir mon offre <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a href="#comment-ca-marche" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full border border-[#cabaa5] bg-white/85 px-6 py-3.5 text-base font-semibold text-[#17324d] transition-colors hover:bg-white">
                   Voir la méthode
@@ -484,7 +484,7 @@ export default function HomePage() {
         <CtaBanner
           title="Prêt à voir le workflow en situation ?"
           subtitle="L'inscription gratuite prend moins de 3 minutes. Aucun paiement requis pour lancer l'onboarding et ouvrir les premiers ateliers."
-          primary={{ label: "Créer mon espace gratuit", href: "/login?mode=register", track: "inter_cta_1_register" }}
+          primary={{ label: "Comparer les plans", href: "/pricing", track: "inter_cta_1_pricing" }}
           secondary={{ label: "Comparer les plans", href: "#plans" }}
         />
       </div>
@@ -716,7 +716,7 @@ export default function HomePage() {
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${plan.highlighted ? 'bg-[#f7f2ea] text-[#17324d] hover:-translate-y-0.5 hover:bg-white' : 'bg-[#17324d] text-[#f7f2ea] hover:-translate-y-0.5 hover:bg-[#0f2740]'}`}
                   >
                     {isLoadingPlan ? <><Loader2 className="h-4 w-4 animate-spin" /> Redirection...</>
-                      : !isAuthenticated ? (plan.id === 'FREE' ? 'Créer mon compte gratuit' : 'Commencer — créer un compte')
+                      : !isAuthenticated ? (plan.id === 'FREE' ? 'Découvrir gratuitement' : 'Choisir ce plan')
                       : isCurrent ? plan.ctaDisabledLabel
                       : plan.cta}
                   </button>
@@ -731,9 +731,9 @@ export default function HomePage() {
               <thead>
                 <tr className="bg-[#f8f4ec] text-left">
                   <th className="px-5 py-4 font-bold text-[#17324d]">Fonctionnalité</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Free</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Premium</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Pro</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Découverte</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Réussite</th>
+                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Excellence</th>
                 </tr>
               </thead>
               <tbody>
@@ -805,10 +805,10 @@ export default function HomePage() {
       {/* ════════════════ CTA INTER-SECTION 2 ════════════════ */}
       <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <CtaBanner
-          title="Commence en gratuit, monte en puissance quand le rythme le justifie."
-          subtitle="Premium à 99 TND/mois — Pro à 129 TND/mois. Aucun engagement long terme. Résilie quand tu veux."
-          primary={{ label: "Créer mon compte gratuit", href: "/login?mode=register", track: "inter_cta_2_register" }}
-          secondary={{ label: "Voir le tableau comparatif", href: "#plans" }}
+          title="La préparation sérieuse commence avec Réussite ou Excellence."
+          subtitle="Réussite à 99 TND/mois — Excellence à 129 TND/mois. Aucun engagement long terme. Résilie quand tu veux."
+          primary={{ label: "Comparer les plans", href: "/pricing", track: "inter_cta_2_pricing" }}
+          secondary={{ label: "Découvrir gratuitement", href: "/login?mode=register" }}
         />
       </div>
 
@@ -824,10 +824,10 @@ export default function HomePage() {
             <div className="mt-8 rounded-[30px] border border-[#d8ccb9] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_18px_45px_rgba(23,50,77,0.15)]">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]"><MessageSquareText className="h-5 w-5" /></div>
               <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">Besoin d&apos;aller plus loin ?</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-200">Le compte gratuit permet de tester le workflow réel avant toute décision de paiement.</p>
+              <p className="mt-3 text-sm leading-7 text-slate-200">Compare les plans, choisis l&apos;offre adaptée à ton rythme de travail et commence à progresser.</p>
               <div className="mt-6 flex flex-col gap-3">
-                <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'faq_register', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white">
-                  Créer un compte gratuit <ArrowRight className="h-4 w-4" />
+                <Link href="/pricing" onClick={() => track({ name: 'cta_click', props: { cta: 'faq_pricing', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white">
+                  Voir les offres <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a href="#plans" className="text-sm font-semibold text-[#d7c4aa] transition-colors hover:text-white">Revoir les plans et tarifs</a>
               </div>
@@ -849,7 +849,7 @@ export default function HomePage() {
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Passage à l&apos;action</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
-                  Vérifie le produit, constate le cadre, puis décide si le premium vaut vraiment la peine.
+                  Vérifie le produit, constate le cadre, puis décide si Réussite vaut vraiment la peine.
                 </h2>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
                   Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d&apos;abord, choisir ensuite, payer seulement si l&apos;usage le justifie.
@@ -872,7 +872,7 @@ export default function HomePage() {
                 Créer mon espace gratuit <ArrowRight className="h-4 w-4" />
               </Link>
               <button type="button" onClick={() => { track({ name: 'cta_click', props: { cta: 'final_premium', path: '/' } }); void startCheckout('PREMIUM', 'PREMIUM'); }} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/16 px-6 py-3.5 text-base font-semibold text-[#f7f2ea] transition-colors hover:bg-white/8">
-                <Send className="h-4 w-4" /> Passer directement en Premium
+                <Send className="h-4 w-4" /> Passer directement à Réussite
               </button>
               <a href="#plans" className="inline-flex items-center justify-center rounded-full px-4 py-3 text-sm font-semibold text-slate-300 transition-colors hover:text-white">
                 Revoir les plans

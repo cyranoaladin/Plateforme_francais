@@ -46,31 +46,31 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
 
   const statusMap = {
     ACCEPTED: {
-      label: 'Paiement accepte',
+      label: 'Paiement accepté',
       icon: CheckCircle2,
       chip: 'border-[#d6e8df] bg-[#edf7f3] text-[#0f766e]',
       panel: 'border-[#d6e8df] bg-[#edf7f3]',
-      title: 'Le plan est en cours d activation sur votre espace.',
-      body: 'Votre paiement a ete valide. Vous pouvez retourner dans le produit et poursuivre l onboarding ou reprendre votre travail la ou vous l avez laisse.',
-      steps: ['Verifier votre tableau de bord', 'Relancer l atelier premium voulu', 'Controler le plan actif dans la page tarifaire'],
+      title: 'Le plan est en cours d\u2019activation sur ton espace.',
+      body: 'Ton paiement a été validé. Tu peux retourner dans le produit et poursuivre l\u2019onboarding ou reprendre ton travail là où tu l\u2019avais laissé.',
+      steps: ['Vérifier ton tableau de bord', 'Relancer l\u2019atelier premium voulu', 'Contrôler le plan actif dans la page tarifaire'],
     },
     PENDING: {
       label: 'Paiement en cours de confirmation',
       icon: Clock3,
       chip: 'border-[#efd9b4] bg-[#fff7ea] text-[#af7a20]',
       panel: 'border-[#efd9b4] bg-[#fff7ea]',
-      title: 'La transaction est revenue, mais l activation n est pas encore fermee.',
-      body: 'Le prestataire de paiement traite encore la confirmation finale. Ce cas est normal quand la redirection revient plus vite que la mise a jour interne.',
-      steps: ['Rafraichir cette page dans quelques secondes', 'Verifier ensuite la page tarifaire', 'Revenir au dashboard si l activation apparait'],
+      title: 'La transaction est revenue, mais l\u2019activation n\u2019est pas encore fermée.',
+      body: 'Le prestataire de paiement traite encore la confirmation finale. Ce cas est normal quand la redirection revient plus vite que la mise à jour interne.',
+      steps: ['Rafraîchir cette page dans quelques secondes', 'Vérifier ensuite la page tarifaire', 'Revenir au dashboard si l\u2019activation apparaît'],
     },
     REFUSED: {
-      label: 'Paiement refuse',
+      label: 'Paiement refusé',
       icon: XCircle,
       chip: 'border-[#f1c8c0] bg-[#fff0ed] text-[#b24838]',
       panel: 'border-[#f1c8c0] bg-[#fff0ed]',
-      title: 'La transaction n a pas ete validee.',
-      body: 'Aucun abonnement n est active pour le moment. Vous pouvez relancer un essai depuis la page tarifaire ou revenir sur une offre existante.',
-      steps: ['Verifier les informations de paiement', 'Relancer la souscription depuis la page tarifaire', 'Contacter le support si le refus se repete'],
+      title: 'La transaction n\u2019a pas été validée.',
+      body: 'Aucun abonnement n\u2019est activé pour le moment. Tu peux relancer un essai depuis la page tarifaire ou revenir sur une offre existante.',
+      steps: ['Vérifier les informations de paiement', 'Relancer la souscription depuis la page tarifaire', 'Contacter le support si le refus se répète'],
     },
     ERROR: {
       label: 'Erreur de paiement',
@@ -78,17 +78,17 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
       chip: 'border-[#f1c8c0] bg-[#fff0ed] text-[#b24838]',
       panel: 'border-[#f1c8c0] bg-[#fff0ed]',
       title: 'Le retour du paiement est incomplet ou contradictoire.',
-      body: 'La redirection a bien atteint la plateforme, mais le statut final reste incoherent. Mieux vaut verifier avant toute nouvelle tentative.',
-      steps: ['Recharger cette page une fois', 'Verifier la page tarifaire', 'Contacter le support avec la reference de commande'],
+      body: 'La redirection a bien atteint la plateforme, mais le statut final reste incohérent. Mieux vaut vérifier avant toute nouvelle tentative.',
+      steps: ['Recharger cette page une fois', 'Vérifier la page tarifaire', 'Contacter le support avec la référence de commande'],
     },
     UNKNOWN: {
-      label: 'Verification en cours',
+      label: 'Vérification en cours',
       icon: Sparkles,
       chip: 'border-[#dfd1bc] bg-[#fffaf4] text-[#7a6858]',
       panel: 'border-[#dfd1bc] bg-[#fffaf4]',
-      title: 'Le retour est bien recu, mais le statut definitif n est pas encore expose.',
-      body: 'Si vous avez deja regle la transaction, il suffit souvent de rafraichir puis de verifier votre espace quelques secondes plus tard.',
-      steps: ['Rafraichir cette page', 'Verifier la page tarifaire', 'Se connecter puis controler le dashboard'],
+      title: 'Le retour est bien reçu, mais le statut définitif n\u2019est pas encore exposé.',
+      body: 'Si tu as déjà réglé la transaction, il suffit souvent de rafraîchir puis de vérifier ton espace quelques secondes plus tard.',
+      steps: ['Rafraîchir cette page', 'Vérifier la page tarifaire', 'Se connecter puis contrôler le dashboard'],
     },
   } as const;
 
@@ -109,10 +109,10 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                 Retour paiement ClicToPay
               </div>
               <h1 style={EDITORIAL_HEADING} className="mt-5 text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-                Paiement confirme
+                Paiement confirmé
               </h1>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
-                La transaction est revenue sur la plateforme. Cet ecran vous dit immediatement si le plan premium est actif, en attente, ou s il faut relancer proprement.
+                La transaction est revenue sur la plateforme. Cet écran t&apos;indique immédiatement si le plan premium est actif, en attente, ou s&apos;il faut relancer proprement.
               </p>
             </div>
 
@@ -122,12 +122,12 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                 <p className="mt-2 text-xl font-semibold">{current.label}</p>
               </div>
               <div className="rounded-[26px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Reference</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Référence</p>
                 <p className="mt-2 truncate text-sm font-semibold text-white">{orderRef ?? orderId ?? 'Non transmise'}</p>
               </div>
               <div className="rounded-[26px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">API publique</p>
-                <p className="mt-2 text-sm font-semibold text-white">{statusUrl ? 'Disponible' : 'Aucune reference'}</p>
+                <p className="mt-2 text-sm font-semibold text-white">{statusUrl ? 'Disponible' : 'Aucune référence'}</p>
               </div>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
               <div className="mt-6 grid gap-3 md:grid-cols-3">
                 {current.steps.map((step, index) => (
                   <div key={step} className="rounded-[22px] border border-white/60 bg-white/70 p-4">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Etape {index + 1}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Étape {index + 1}</p>
                     <p className="mt-2 text-sm leading-6 text-[#17324d]">{step}</p>
                   </div>
                 ))}
@@ -165,14 +165,14 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                   href={status === 'ACCEPTED' ? '/' : '/pricing'}
                   className="inline-flex items-center gap-2 rounded-[18px] bg-[#17324d] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#22486b]"
                 >
-                  {status === 'ACCEPTED' ? 'Acceder au dashboard' : 'Retourner aux offres'}
+                  {status === 'ACCEPTED' ? 'Accéder au dashboard' : 'Retourner aux offres'}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   href={refreshHref}
                   className="inline-flex items-center gap-2 rounded-[18px] border border-[#dfd1bc] bg-[#fffaf4] px-5 py-3 text-sm font-semibold text-[#17324d] transition hover:border-[#17324d]/25 hover:bg-white"
                 >
-                  Rafraichir le statut
+                  Rafraîchir le statut
                 </Link>
                 <Link
                   href="/login"
@@ -189,12 +189,12 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Trace technique</p>
               <div className="mt-4 space-y-3 text-sm text-[#33536f]">
                 <div className="rounded-[20px] border border-[#eadbc5] bg-white/80 p-4">
-                  <p className="font-semibold text-[#17324d]">Reference de commande</p>
-                  <p className="mt-2 break-all">{orderRef ?? orderId ?? 'Aucune reference transmise dans l URL.'}</p>
+                  <p className="font-semibold text-[#17324d]">Référence de commande</p>
+                  <p className="mt-2 break-all">{orderRef ?? orderId ?? 'Aucune référence transmise dans l\u2019URL.'}</p>
                 </div>
                 {statusUrl && (
                   <div className="rounded-[20px] border border-[#eadbc5] bg-white/80 p-4">
-                    <p className="font-semibold text-[#17324d]">Endpoint de verification</p>
+                    <p className="font-semibold text-[#17324d]">Endpoint de vérification</p>
                     <p className="mt-2 break-all font-mono text-xs text-[#5b6f82]">{statusUrl}</p>
                   </div>
                 )}
@@ -204,9 +204,9 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
             <section className="rounded-[30px] border border-[#d7e6e1] bg-[#edf7f3] p-5 shadow-[0_18px_55px_rgba(15,118,110,0.08)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Ce qui suit</p>
               <ul className="mt-4 space-y-3 text-sm leading-7 text-[#33536f]">
-                <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#0f766e]" /> Le dashboard et la page tarifaire restent la source de verite cote produit.</li>
-                <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#0f766e]" /> En cas de statut en attente, la situation se debloque en general sans nouvelle action bancaire.</li>
-                <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#0f766e]" /> Si le statut reste incoherent, conservez la reference et passez par le support.</li>
+                <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#0f766e]" /> Le dashboard et la page tarifaire restent la source de vérité côté produit.</li>
+                <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#0f766e]" /> En cas de statut en attente, la situation se débloque en général sans nouvelle action bancaire.</li>
+                <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#0f766e]" /> Si le statut reste incohérent, conserve la référence et passe par le support.</li>
               </ul>
             </section>
           </aside>

@@ -34,7 +34,7 @@ export function buildWelcomeEmail(
     body: [
       `Bonjour ${displayName},`,
       '',
-      'Ton compte EAF Premium est prêt. Tu peux dès maintenant :',
+      'Ton compte Nexus Réussite est prêt. Tu peux dès maintenant :',
       '• Lancer une simulation orale complète (30\' prépa + 20\' passage)',
       '• Soumettre une copie écrite pour correction détaillée',
       '• Réviser avec des quiz adaptatifs et des fiches',

@@ -3,7 +3,7 @@
  * Use getBillingContext() and plan-catalog quotas for all quota checks.
  */
 
-import { type EntitlementKey, type Period, PLAN_CATALOG, type PlanId } from './plan-catalog';
+import { type EntitlementKey, type Period, PLAN_CATALOG, PLAN_DISPLAY_LABELS, type PlanId } from './plan-catalog';
 
 /**
  * Get the period key for quota tracking.
@@ -56,13 +56,15 @@ export function buildPaywallMessage(planId: PlanId, entitlement: EntitlementKey)
   const limitDisplay = quota.limit === 'unlimited' ? 'illimité' : String(quota.limit);
   const periodLabel = periodLabels[quota.period];
 
+  const displayName = PLAN_DISPLAY_LABELS[planId] ?? planId;
+
   if (planId === 'FREE') {
-    return `Tu as atteint la limite incluse dans Free : ${limitDisplay} ${label} par ${periodLabel}. Ton travail reste conservé. Passe à Pro pour reprendre sans blocage.`;
+    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Ton travail reste conservé. Passe à Excellence pour reprendre sans blocage.`;
   }
 
   if (planId === 'PRO' || planId === 'PREMIUM') {
-    return `Tu as atteint la limite incluse dans Pro : ${limitDisplay} ${label} par ${periodLabel}. Passe à Max pour continuer sans plafond.`;
+    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Passe à Excellence pour continuer sans plafond.`;
   }
 
-  return `Tu as atteint la limite de ton plan : ${limitDisplay} ${label} par ${periodLabel}.`;
+  return `Tu as atteint la limite de ton plan ${displayName} : ${limitDisplay} ${label} par ${periodLabel}.`;
 }
