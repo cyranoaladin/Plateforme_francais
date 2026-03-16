@@ -89,11 +89,11 @@ const PLANS: PlanCard[] = [
       '3 échanges guidés / jour',
       'Échantillon de bibliothèque',
     ],
-    cta: 'Découvrir gratuitement',
+    cta: 'Essayer gratuitement',
     ctaDisabledLabel: 'Plan actuel',
     highlighted: false,
     kicker: 'Faites vos premiers pas vers le Bac.',
-    note: 'Un accès limité pour juger la qualité du workflow avant de s\u2019engager.',
+    note: 'Un aperçu limité pour juger la qualité du produit. Pour progresser réellement, passe à Premium.',
   },
   {
     id: 'PREMIUM',
@@ -366,7 +366,7 @@ export default function PricingPage() {
                 href="/login?mode=register"
                 className="inline-flex items-center justify-center rounded-full border border-[#cabaa5] bg-white/85 px-6 py-3.5 text-base font-semibold text-[#17324d] transition-colors hover:bg-white"
               >
-                Découvrir gratuitement
+                Essayer gratuitement
               </Link>
             </div>
 
@@ -547,7 +547,7 @@ export default function PricingPage() {
                     }`}
                   >
                     {!isAuthenticated ? (
-                      plan.id === 'FREE' ? 'Découvrir gratuitement' : 'Choisir ce plan'
+                      plan.id === 'FREE' ? 'Essayer gratuitement' : 'Choisir ce plan'
                     ) : isCurrent ? (
                       plan.ctaDisabledLabel
                     ) : (
@@ -708,12 +708,12 @@ export default function PricingPage() {
                       ))}
                     </div>
                     <div className="mt-4 flex flex-wrap gap-3">
-                      <a
-                        href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Confirmation de virement Nexus Réussite')}&body=${encodeURIComponent('Bonjour,%0D%0AJe vous envoie la référence de mon virement pour activation.%0D%0AEmail du compte : %0D%0AIdentifiant utilisateur (si connu) : %0D%0APlan réglé : Premium / Masterium%0D%0ARéférence du virement : ')}`}
+                      <Link
+                        href="/contact?subject=virement"
                         className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]"
                       >
                         Envoyer la référence
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

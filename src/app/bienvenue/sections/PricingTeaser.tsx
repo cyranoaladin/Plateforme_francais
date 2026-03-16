@@ -58,7 +58,7 @@ export function PricingTeaser() {
                 onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_register', path: '/bienvenue' } })}
                 className="inline-flex items-center justify-center rounded-full border border-[#cabaa5] bg-white/85 px-6 py-3.5 text-sm font-semibold text-[#17324d] transition-colors hover:bg-white"
               >
-                Commencer en gratuit
+                Essayer gratuitement
               </Link>
             </div>
 

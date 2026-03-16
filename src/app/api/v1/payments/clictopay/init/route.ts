@@ -8,8 +8,11 @@ import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
 
+const ALLOWED_MONTHS = [1, 3, 6, 12] as const;
+
 const initBodySchema = z.object({
   plan: z.enum(['PREMIUM', 'PRO', 'MONTHLY', 'LIFETIME']),
+  months: z.number().int().refine((v) => (ALLOWED_MONTHS as readonly number[]).includes(v)).optional().default(1),
 });
 
 function toCheckoutPlan(raw: z.infer<typeof initBodySchema>['plan']): 'PREMIUM' | 'PRO' {
@@ -56,6 +59,7 @@ export async function POST(request: Request) {
       userId,
       plan: toCheckoutPlan(parsed.data.plan),
       email: user.email,
+      months: parsed.data.months,
     });
 
     return NextResponse.json({
