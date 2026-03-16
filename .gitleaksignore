@@ -1,0 +1,9 @@
+579cdb60311061fc048bb1fb8af4b291260fb8db:tests/unit/auth/reset-password-schema.test.ts:generic-api-key:24
+5f65262497a5a9b5447a8483bc46021b348d128b:AUDIT_REPORT_2026-03-05.md:generic-api-key:69
+5f65262497a5a9b5447a8483bc46021b348d128b:AUDIT_REPORT_2026-03-05.md:generic-api-key:104
+5f65262497a5a9b5447a8483bc46021b348d128b:AUDIT_REPORT_2026-03-05.md:generic-api-key:105
+f1e76e674b7b050245dcd1a87d0f652b0f9fb421:docs/GUIDE_DEPLOIEMENT_PREPROD.md:curl-auth-header:306
+f1e76e674b7b050245dcd1a87d0f652b0f9fb421:docs/GUIDE_DEPLOIEMENT_PREPROD.md:curl-auth-header:321
+f1e76e674b7b050245dcd1a87d0f652b0f9fb421:docs/RAPPORT_FINAL_PRODUCTION_LOCALE.md:generic-api-key:43
+f1e76e674b7b050245dcd1a87d0f652b0f9fb421:docs/RAPPORT_FINAL_PRODUCTION_LOCALE.md:generic-api-key:44
+f82870f756ac104a81cff06c253a04b010c9d2de:tests/unit/security/csrf.test.ts:generic-api-key:44

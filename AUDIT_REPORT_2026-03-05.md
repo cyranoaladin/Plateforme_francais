@@ -66,7 +66,7 @@ CREATE TABLE "UsageCounter" (
 **Status:** 🟢 FONCTIONNEL
 
 **Vérifications:**
-- ✅ API Key: `ZuobH4R...W5xVWKsYQebLW`
+- ✅ API Key: `[REDACTED]`
 - ✅ 56 modèles disponibles
 - ✅ Modèles configurés par tier:
   - Tier 1 (Reasoning): `magistral-medium-latest`
@@ -101,8 +101,8 @@ LLM: Mistral AI (4 tiers)
 NODE_ENV=production
 DATABASE_URL=postgresql://eaf_user:...@localhost:5433/eaf_production
 RAG_API_URL=http://127.0.0.1:18001
-RAG_API_TOKEN=59e3c4746755272bd168b23d7abc2079821b9ec3ee89394dc783ca1ccf430cb0
-MISTRAL_API_KEY=ZuobH4RVOWfEfJJTtdlH5xVWKsYQebLW
+RAG_API_TOKEN=[REDACTED]
+MISTRAL_API_KEY=[REDACTED]
 LLM_ROUTER_ENABLED=true
 ```
 
