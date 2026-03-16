@@ -48,6 +48,17 @@ export async function apiFetch<T>(
   });
 
   if (!res.ok) {
+    // 18C: On 401, redirect to login with session_expired reason.
+    // This handles evicted sessions (anti-sharing FIFO eviction).
+    if (res.status === 401 && typeof window !== 'undefined') {
+      const current = window.location.pathname;
+      if (current !== '/login') {
+        window.location.href = `/login?reason=session_expired&redirect=${encodeURIComponent(current)}`;
+        // Return a never-resolving promise so callers don't process stale data.
+        return new Promise<T>(() => {});
+      }
+    }
+
     const retryAfter = res.headers.get('Retry-After');
     let msg = 'Une erreur est survenue.';
     let code: string | undefined;
