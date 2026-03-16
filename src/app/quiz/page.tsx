@@ -123,7 +123,7 @@ export default function QuizPage() {
       setQuestions(payload.questions);
       setActiveThemeLabel(payload.theme ?? null);
     } catch {
-      setError('Erreur réseau. Vérifiez votre connexion et réessayez.');
+      setError('Erreur réseau. Vérifie ta connexion et réessaie.');
     } finally {
       setIsGenerating(false);
     }

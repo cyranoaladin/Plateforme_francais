@@ -559,7 +559,7 @@ export default function BibliothequePage() {
                     <div className="aspect-video overflow-hidden rounded-[24px] bg-black shadow-[0_16px_36px_rgba(0,0,0,0.22)]">
                       <video controls className="h-full w-full" src={selectedResourceOpenHref ?? selectedResource.url} poster="/images/logo_nexus_reussite.png" preload="metadata" playsInline>
                         <source src={selectedResourceOpenHref ?? selectedResource.url} type={getVideoMimeType(selectedResource)} />
-                        Votre navigateur ne supporte pas la lecture vidéo.
+                        Ton navigateur ne supporte pas la lecture vidéo.
                       </video>
                     </div>
                   </div>

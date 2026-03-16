@@ -47,17 +47,17 @@ const STUDIO_STEPS = [
   {
     index: '01',
     title: 'Générer un sujet crédible',
-    body: 'Choisis le format, précise l œuvre ou le thème si besoin, puis lance un sujet blanc exploitable immédiatement.',
+    body: 'Choisis le format, précise l\u2019œuvre ou le thème si besoin, puis lance un sujet blanc exploitable immédiatement.',
   },
   {
     index: '02',
     title: 'Déposer la copie',
-    body: 'Ajoute un PDF ou des photos propres. La plateforme suit l upload puis enclenche une lecture detaillee de la copie.',
+    body: 'Ajoute un PDF ou des photos propres. La plateforme suit l\u2019upload puis enclenche une lecture détaillée de la copie.',
   },
   {
     index: '03',
     title: 'Récupérer le rapport',
-    body: 'Une fois l analyse terminée, tu ouvres le rapport détaillé pour travailler le prochain axe utile.',
+    body: 'Une fois l\u2019analyse terminée, tu ouvres le rapport détaillé pour travailler le prochain axe utile.',
   },
 ];
 
@@ -199,7 +199,7 @@ export default function AtelierEcritPage() {
       if (payload.status === 'error') {
         clearInterval(polling);
         clearInterval(stepTimer);
-        setError('La correction detaillee a echoue. Vous pouvez relancer avec une nouvelle copie.');
+        setError('La correction détaillée a échoué. Tu peux relancer avec une nouvelle copie.');
       }
     }, 3000);
   };

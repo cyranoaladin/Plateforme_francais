@@ -235,7 +235,7 @@ export default function PricingPage() {
         } else if (isApiError(err)) {
           setError(err.message);
         } else {
-          setError('Impossible de charger votre statut de facturation.');
+          setError('Impossible de charger ton statut de facturation.');
         }
       } finally {
         setLoading(false);
@@ -663,7 +663,7 @@ export default function PricingPage() {
                   <div>
                     <p className="text-sm font-semibold text-white">Paiement Flouci</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">
-                      Flouci est prévu mais pas encore actif en production. Si vous essayez ce canal maintenant, utilisez plutôt le virement bancaire ci-dessous pour activer le plan.
+                      Flouci est prévu mais pas encore actif en production. Si tu veux activer ton plan maintenant, utilise plutôt le virement bancaire ci-dessous.
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
                       <button
@@ -675,14 +675,14 @@ export default function PricingPage() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => setError(TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE)}
-                        className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-white/8"
+                        disabled
+                        className="inline-flex cursor-not-allowed items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/40"
                       >
-                        Payer avec Flouci
+                        Paiement Flouci — bientôt
                       </button>
                     </div>
                     <p className="mt-3 text-xs leading-6 text-slate-300">
-                      Pour activer le plan maintenant, utilisez le virement bancaire avec l’email du compte ou votre identifiant utilisateur en référence.
+                      Pour activer le plan maintenant, utilise le virement bancaire avec l’email du compte ou ton identifiant utilisateur en référence.
                     </p>
                     {error ? (
                       <div className="mt-4 flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/10 p-3 text-sm text-white" role="alert">

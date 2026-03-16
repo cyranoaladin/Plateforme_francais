@@ -185,7 +185,7 @@ export default function AtelierLangue() {
         max: 2,
         status: 'error',
         message:
-          'Impossible d evaluer votre reponse pour le moment. Reessayez dans quelques secondes.',
+          'Impossible d\u2019évaluer ta réponse pour le moment. Réessaie dans quelques secondes.',
         missing: [],
       });
     } finally {
@@ -216,10 +216,10 @@ export default function AtelierLangue() {
               Atelier langue
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Un entrainement court pour verrouiller les 2 points de grammaire qui font basculer une prestation orale.
+              Un entraînement court pour verrouiller les 2 points de grammaire qui font basculer une prestation orale.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
-              Nexus compose des phrases-cibles a partir de la banque interne, recentre la terminologie du programme et vous oblige a nommer le fait de langue avant de commenter son effet.
+              Nexus compose des phrases-cibles à partir de la banque interne, recentre la terminologie du programme et t&apos;oblige à nommer le fait de langue avant de commenter son effet.
             </p>
           </div>
 
@@ -378,16 +378,16 @@ export default function AtelierLangue() {
               <section className="rounded-[28px] border border-[#e7dac6] bg-white/85 p-5 shadow-[0_10px_24px_rgba(23,50,77,0.05)] md:p-6">
                 <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Votre analyse</p>
-                    <h3 className="mt-2 text-lg font-semibold text-[#17324d]">Restez court, exact, exploitable a l oral</h3>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Ton analyse</p>
+                    <h3 className="mt-2 text-lg font-semibold text-[#17324d]">Reste court, exact, exploitable à l&apos;oral</h3>
                   </div>
-                  <p className="text-sm text-[#5b6f82]">Formule : identification, denomination, interpretation.</p>
+                  <p className="text-sm text-[#5b6f82]">Formule : identification, dénomination, interprétation.</p>
                 </div>
 
                 <textarea
                   data-testid="langue-answer"
                   className="mt-5 min-h-[180px] w-full rounded-[24px] border border-[#dfd1bc] bg-[#fffaf4] px-4 py-4 text-sm leading-7 text-[#17324d] outline-none transition placeholder:text-[#8d8173] focus:border-[#17324d]/30"
-                  placeholder="Redigez votre analyse grammaticale complete ici..."
+                  placeholder="Rédige ton analyse grammaticale complète ici..."
                   value={userAnswer}
                   onChange={(event) => setUserAnswer(event.target.value)}
                   disabled={feedback !== null}

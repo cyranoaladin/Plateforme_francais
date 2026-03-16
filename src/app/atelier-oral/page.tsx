@@ -96,7 +96,7 @@ const STEP_GUIDANCE: Record<OralStep, { title: string; body: string }> = {
   },
   ENTRETIEN: {
     title: 'Entretien examinateur',
-    body: 'Réponds nettement, repars de l œuvre choisie et garde une logique de dialogue plutôt qu une mini dissertation flottante.',
+    body: 'Réponds nettement, repars de l\u2019œuvre choisie et garde une logique de dialogue plutôt qu\u2019une mini dissertation flottante.',
   },
 };
 
@@ -436,7 +436,7 @@ export default function AtelierOralPage() {
 
         if (result.fallbackToWebSpeech && !result.transcript) {
           // STT failed — fallback: user must use browser speech
-          setError('Transcription serveur indisponible. Utilisez le micro pour dicter votre réponse.');
+          setError('Transcription serveur indisponible. Utilise le micro pour dicter ta réponse.');
           pendingAudioRef.current = null;
           return;
         }
@@ -921,7 +921,7 @@ export default function AtelierOralPage() {
                   value={transcript}
                   onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setTranscript(event.target.value)}
                   className="min-h-40 w-full rounded-[24px] border border-[#dfd1bc] bg-white px-4 py-4 text-sm leading-7 text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/20 focus:ring-2 focus:ring-[#17324d]/8"
-                  placeholder="Le transcript micro apparaît ici, vous pouvez le corriger avant envoi..."
+                  placeholder="Le transcript micro apparaît ici, tu peux le corriger avant envoi..."
                 />
               </div>
 
@@ -955,7 +955,7 @@ export default function AtelierOralPage() {
                     <div className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[20px] border border-[#d3e7e1] bg-white p-4">
                       {juryTurns.slice(-6).map((turn, idx) => (
                         <p key={`${turn.role}-${idx}`} className="text-sm leading-7 text-[#33536f]">
-                          <span className="font-semibold text-[#17324d]">{turn.role === 'jury' ? 'Examinateur' : 'Vous'} :</span> {turn.content}
+                          <span className="font-semibold text-[#17324d]">{turn.role === 'jury' ? 'Examinateur' : 'Toi'} :</span> {turn.content}
                         </p>
                       ))}
                     </div>
@@ -974,7 +974,7 @@ export default function AtelierOralPage() {
                 </button>
                 <div className="flex flex-col gap-1">
                   <p className="text-[10px] font-medium uppercase tracking-widest text-[#9ba8b4]">{useServerVoice ? 'Mode vocal serveur' : 'Mode vocal navigateur'}</p>
-                  <p className="text-xs text-[#6d7e8d]">{useServerVoice ? 'Votre audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par votre navigateur. Aucun audio n est envoyé à nos serveurs.'}</p>
+                  <p className="text-xs text-[#6d7e8d]">{useServerVoice ? 'Ton audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par ton navigateur. Aucun audio n\u2019est envoyé à nos serveurs.'}</p>
                 </div>
               </div>
             </div>
