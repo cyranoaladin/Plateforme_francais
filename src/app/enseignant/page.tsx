@@ -198,7 +198,7 @@ export default function EnseignantPage() {
               La vue enseignant doit permettre de piloter la classe, pas de fouiller les données une par une.
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
-              Code classe, niveau moyen, élèves à surveiller, repères de progression, copies corrigées et commentaires: tout doit rester lisible et
+              Code classe, niveau moyen, élèves à surveiller, repères de progression, copies corrigées et commentaires&nbsp;: tout doit rester lisible et
               actionnable depuis un seul écran.
             </p>
 

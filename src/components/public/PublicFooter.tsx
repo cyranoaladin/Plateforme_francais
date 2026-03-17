@@ -14,15 +14,15 @@ export function PublicFooter() {
             <h3 style={editorialHeading} className="max-w-sm text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
               Une préparation EAF exigeante, lisible et commercialement honnête.
             </h3>
-            <p className="mt-4 max-w-md text-sm leading-7 text-slate-600">
+            <p className="mt-4 max-w-md text-sm leading-7 text-[var(--text-secondary)]">
               Nexus Réussite rassemble écrit, oral, langue et corpus documentaire dans un parcours structuré cohérent avec le programme officiel, conçu
-              pour faire produire l&apos;élève, pas pour le remplacer.
+              pour faire produire l&#x2019;élève, pas pour le remplacer.
             </p>
           </div>
 
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Navigation</h4>
-            <ul className="mt-4 space-y-3 text-sm text-slate-700">
+            <h4 className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Navigation</h4>
+            <ul className="mt-4 space-y-3 text-sm text-[var(--text-body)]">
               <li><a href="#comment-ca-marche" className="transition-colors hover:text-[var(--navy)]">La méthode</a></li>
               <li><a href="#fonctionnalites" className="transition-colors hover:text-[var(--navy)]">Ateliers</a></li>
               <li><a href="#plans" className="transition-colors hover:text-[var(--navy)]">Plans</a></li>
@@ -33,8 +33,8 @@ export function PublicFooter() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Engagements</h4>
-            <ul className="mt-4 space-y-3 text-sm text-slate-700">
+            <h4 className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Engagements</h4>
+            <ul className="mt-4 space-y-3 text-sm text-[var(--text-body)]">
               <li>Anti-copie par design</li>
               <li>Sources internes visibles</li>
               <li>RGPD et comptes mineurs protégés</li>
@@ -43,8 +43,8 @@ export function PublicFooter() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Contact</h4>
-            <ul className="mt-4 space-y-3 text-sm text-slate-700">
+            <h4 className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Contact</h4>
+            <ul className="mt-4 space-y-3 text-sm text-[var(--text-body)]">
               <li>contact@nexusreussite.academy</li>
               <li>
                 <Link href="/#plans" className="transition-colors hover:text-[var(--navy)]">
@@ -60,7 +60,7 @@ export function PublicFooter() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-[var(--border-strong)] pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-3 border-t border-[var(--border-strong)] pt-6 text-xs text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {new Date().getFullYear()} Nexus Réussite. Tous droits réservés.</p>
           <p>Produit pédagogique commercial, sans publicité ciblée sur les comptes mineurs.</p>
         </div>

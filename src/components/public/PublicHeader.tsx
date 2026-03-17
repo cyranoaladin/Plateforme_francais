@@ -22,7 +22,7 @@ export function PublicHeader() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-4 shrink-0">
           <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
-          <div className="hidden xl:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--navy)]">
+          <div className="hidden xl:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--card)]/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--navy)]">
             <span className="h-2 w-2 rounded-full bg-[var(--teal)]" />
             Session 2026
           </div>
@@ -31,11 +31,11 @@ export function PublicHeader() {
         <nav className="hidden lg:flex items-center gap-8" aria-label="Navigation principale">
           {NAV_LINKS.map((link) =>
             link.href.startsWith('/') ? (
-              <Link key={link.href} href={link.href} className="text-sm font-medium text-slate-600 transition-colors hover:text-[var(--navy)]">
+              <Link key={link.href} href={link.href} className="text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
                 {link.label}
               </Link>
             ) : (
-              <a key={link.href} href={link.href} className="text-sm font-medium text-slate-600 transition-colors hover:text-[var(--navy)]">
+              <a key={link.href} href={link.href} className="text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
                 {link.label}
               </a>
             )
@@ -43,7 +43,7 @@ export function PublicHeader() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
-          <Link href="/login" className="rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:text-[var(--navy)]">
+          <Link href="/login" className="rounded-full px-4 py-2 text-sm font-semibold text-[var(--text-body)] transition-colors hover:text-[var(--navy)]">
             Se connecter
           </Link>
           <Link
@@ -59,7 +59,7 @@ export function PublicHeader() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen((prev) => !prev)}
-          className="lg:hidden rounded-full border border-[var(--border-strong)] bg-white/80 p-2 text-[var(--navy)]"
+          className="lg:hidden rounded-full border border-[var(--border-strong)] bg-[var(--card)]/80 p-2 text-[var(--navy)]"
           aria-label="Menu"
         >
           {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -75,7 +75,7 @@ export function PublicHeader() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-[var(--navy)]"
+                  className="rounded-2xl px-4 py-3 text-sm font-medium text-[var(--text-body)] transition-colors hover:bg-[var(--card)] hover:text-[var(--navy)]"
                 >
                   {link.label}
                 </Link>
@@ -84,7 +84,7 @@ export function PublicHeader() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-[var(--navy)]"
+                  className="rounded-2xl px-4 py-3 text-sm font-medium text-[var(--text-body)] transition-colors hover:bg-[var(--card)] hover:text-[var(--navy)]"
                 >
                   {link.label}
                 </a>
@@ -95,7 +95,7 @@ export function PublicHeader() {
               <Link
                 href="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="rounded-2xl border border-[var(--border-strong)] bg-white px-4 py-3 text-center text-sm font-semibold text-[var(--navy)]"
+                className="rounded-2xl border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3 text-center text-sm font-semibold text-[var(--navy)]"
               >
                 Se connecter
               </Link>
@@ -120,7 +120,7 @@ export function PublicHeader() {
     <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden border-t border-[var(--border-strong)] bg-[rgba(244,239,229,0.96)] backdrop-blur-xl px-4 py-3 flex items-center justify-between gap-3 shadow-[0_-8px_30px_rgba(23,50,77,0.12)]">
       <div className="min-w-0">
         <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--teal)]">Inscription gratuite</p>
-        <p className="truncate text-xs text-slate-600">3 min · aucun paiement requis</p>
+        <p className="truncate text-xs text-[var(--text-secondary)]">3 min · aucun paiement requis</p>
       </div>
       <Link
         href="/login?mode=register"

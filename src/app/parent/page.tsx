@@ -132,13 +132,13 @@ export default function ParentDashboard() {
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Moyenne actuelle: <strong>{averageScore} / 20</strong>
+                Moyenne actuelle&nbsp;: <strong>{averageScore} / 20</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Point fort: <strong>{strongestSkill.label}</strong>
+                Point fort&nbsp;: <strong>{strongestSkill.label}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Focus semaine: <strong>{weakestSkill.label}</strong>
+                Focus semaine&nbsp;: <strong>{weakestSkill.label}</strong>
               </span>
             </div>
 
@@ -259,7 +259,7 @@ export default function ParentDashboard() {
                 </h2>
               </div>
               <div className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-[var(--text-secondary)]">
-                Objectif de repère: 12 / 20
+                Objectif de repère&nbsp;: 12 / 20
               </div>
             </div>
 

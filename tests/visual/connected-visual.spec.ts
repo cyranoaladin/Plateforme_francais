@@ -3,16 +3,9 @@ import { test, expect } from '@playwright/test';
 /**
  * Visual regression tests for authenticated (connected) pages.
  *
- * These tests are currently skipped because they require an authenticated
- * session. Once auth fixtures are available (e.g. via storageState or a
- * login helper), remove the `test.skip` calls to enable them.
- *
- * To add auth support later:
- *   1. Create a `tests/visual/auth.setup.ts` that logs in and saves
- *      storageState to a file.
- *   2. Add a `setup` project in playwright.visual.config.ts that runs
- *      auth.setup.ts before this file.
- *   3. Use `test.use({ storageState: '...' })` in this file.
+ * These tests run after auth.setup.ts authenticates and saves storageState.
+ * The `connected-visual` project in playwright.visual.config.ts injects the
+ * saved cookies/localStorage automatically.
  *
  * Usage:
  *   npx playwright test --config=playwright.visual.config.ts
@@ -30,6 +23,7 @@ const connectedPages = [
   { name: 'quiz', path: '/quiz' },
   { name: 'profil', path: '/profil' },
   { name: 'carnet', path: '/carnet' },
+  { name: 'atelier-ecrit', path: '/atelier-ecrit' },
 ] as const;
 
 async function dismissConsent(page: import('@playwright/test').Page) {
@@ -40,26 +34,45 @@ async function dismissConsent(page: import('@playwright/test').Page) {
   }
 }
 
+/**
+ * Wait for the page to be fully loaded: network idle + main content visible.
+ */
+async function waitForPageReady(page: import('@playwright/test').Page) {
+  // Wait for at least one <main> or primary content container to appear
+  await page
+    .locator('main, [role="main"], [data-testid="page-content"]')
+    .first()
+    .waitFor({ state: 'visible', timeout: 15000 })
+    .catch(() => {
+      // Fallback: some pages may not have <main>, just wait for body content
+    });
+  // Extra stabilisation for lazy-loaded components / animations
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(500);
+}
+
 // ── Connected page tests (light mode) ────────────────────────────────
-// Skipped: requires authenticated session (storageState / auth fixture).
 for (const { name, path } of connectedPages) {
-  test.skip(`visual: connected/${name} page`, async ({ page }) => {
+  test(`visual: connected/${name} page`, async ({ page }) => {
     await page.goto(path, { waitUntil: 'networkidle' });
     await dismissConsent(page);
+    await waitForPageReady(page);
     await expect(page).toHaveScreenshot(`connected-${name}.png`, SCREENSHOT_OPTS);
   });
 }
 
 // ── Connected page tests (dark mode) ─────────────────────────────────
-// Skipped: requires authenticated session (storageState / auth fixture).
 for (const { name, path } of connectedPages) {
-  test.skip(`visual: connected/${name}-dark page`, async ({ page }) => {
+  test(`visual: connected/${name}-dark page`, async ({ page }) => {
     await page.goto(path, { waitUntil: 'networkidle' });
     await dismissConsent(page);
+    await waitForPageReady(page);
 
+    // Activate dark mode via the .dark class on <html>
     await page.evaluate(() => {
       document.documentElement.classList.add('dark');
     });
+    // Allow CSS custom properties to propagate
     await page.waitForTimeout(300);
 
     await expect(page).toHaveScreenshot(`connected-${name}-dark.png`, SCREENSHOT_OPTS);

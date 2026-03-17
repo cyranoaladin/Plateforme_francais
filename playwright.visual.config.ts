@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as path from 'path';
 
 /**
  * Playwright configuration for visual regression tests only.
@@ -6,6 +7,11 @@ import { defineConfig, devices } from '@playwright/test';
  * Separated from the main e2e config to allow independent runs:
  *   npm run test:visual
  *   npm run test:visual:update
+ *
+ * Projects:
+ *   - setup: authenticates and saves storageState for connected tests
+ *   - public-visual: public pages (no auth needed)
+ *   - connected-visual: authenticated pages (depends on setup)
  */
 
 const port = Number(process.env.E2E_PORT ?? '3110');
@@ -43,8 +49,23 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'visual-chromium',
+      name: 'setup',
+      testMatch: /auth\.setup\.ts/,
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'public-visual',
+      testMatch: /visual-regression\.spec\.ts/,
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'connected-visual',
+      testMatch: /connected-visual\.spec\.ts/,
+      dependencies: ['setup'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: path.join(__dirname, 'tests', '.auth', 'visual-user.json'),
+      },
     },
   ],
 });
