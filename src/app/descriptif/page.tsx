@@ -333,7 +333,7 @@ export default function DescriptifPage() {
                   ) : (
                     <div className="mt-4 space-y-3">
                       {items.map((texte) => (
-                        <article key={texte.id} className="rounded-[22px] border border-[var(--surface-sand)] bg-white p-4 shadow-[var(--shadow-sm)]">
+                        <article key={texte.id} className="rounded-[22px] border border-[var(--surface-sand)] bg-[var(--card)] p-4 shadow-[var(--shadow-sm)]">
                           <div className="flex items-start gap-3">
                             <div className="flex-1 min-w-0">
                               <p className="text-xs font-semibold text-[var(--navy)] truncate">{texte.oeuvre} — {texte.auteur}</p>

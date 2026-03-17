@@ -22,11 +22,11 @@ const EDITORIAL_HEADING = {
 
 function PaymentPageHeader() {
   return (
-    <header className="mb-6 flex flex-col gap-4 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
+    <header className="mb-6 flex flex-col gap-4 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)] px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
       <Link href="/" className="flex items-center gap-4">
         <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
       </Link>
-      <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
+      <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">
         <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
           Retour accueil
         </Link>
@@ -134,7 +134,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
               <h1 style={EDITORIAL_HEADING} className="mt-5 text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
                 {current.label}
               </h1>
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-200 md:text-base">
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
                 La transaction est revenue sur la plateforme. Cet écran t’indique immédiatement si ton plan est actif, en attente, ou s’il faut relancer proprement.
               </p>
             </div>
@@ -199,7 +199,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                 </Link>
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--navy)]/25"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--navy)]/25"
                 >
                   Se connecter
                 </Link>

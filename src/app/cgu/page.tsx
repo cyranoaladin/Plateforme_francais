@@ -20,13 +20,13 @@ const CGU_ITEMS = [
 
 export default function CguPage() {
   return (
-    <div className="min-h-screen bg-[var(--surface-cream)] text-slate-900 [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-screen bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <main className="relative mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[var(--shadow-md)]">
+        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)] px-5 py-4 shadow-[var(--shadow-md)]">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
           </Link>
-          <Link href="/" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-[var(--navy)]">
+          <Link href="/" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
             <ArrowLeft className="h-4 w-4" />
             Retour accueil
           </Link>
@@ -40,13 +40,13 @@ export default function CguPage() {
           >
             Conditions Générales d{'\u2019'}Utilisation
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
+          <p className="mt-4 max-w-2xl text-base leading-8 text-[var(--text-secondary)]">
             Ces conditions encadrent l{'\u2019'}utilisation du service Nexus Réussite EAF. En vous inscrivant, vous acceptez les termes ci-dessous.
           </p>
         </section>
 
         <div className="mt-10 space-y-6">
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Scale className="h-5 w-5" />
@@ -55,8 +55,8 @@ export default function CguPage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Conditions d{'\u2019'}utilisation du service
                 </h2>
-                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Version 2026-03</p>
-                <p className="mt-3 text-sm leading-7 text-slate-700">
+                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">Version 2026-03</p>
+                <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">
                   En utilisant Nexus EAF, vous acceptez les conditions suivantes :
                 </p>
                 <div className="mt-4 space-y-3">
@@ -65,7 +65,7 @@ export default function CguPage() {
                       <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--navy)] text-[10px] font-bold text-[var(--surface-parchment)]">
                         {index + 1}
                       </span>
-                      <p className="text-sm leading-6 text-slate-700">{item}</p>
+                      <p className="text-sm leading-6 text-[var(--text-body)]">{item}</p>
                     </div>
                   ))}
                 </div>
@@ -73,7 +73,7 @@ export default function CguPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <FileText className="h-5 w-5" />
@@ -82,7 +82,7 @@ export default function CguPage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Propriété intellectuelle
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-slate-700">
+                <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
                   Tous les contenus du site (textes, images, logos, structure) sont protégés par le droit d{'\u2019'}auteur.
                   Toute reproduction sans autorisation est interdite.
                 </p>
@@ -90,7 +90,7 @@ export default function CguPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Scale className="h-5 w-5" />
@@ -99,7 +99,7 @@ export default function CguPage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Contact
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-slate-700">
+                <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
                   Pour toute question concernant ces conditions, contactez-nous :
                 </p>
                 <a
@@ -113,16 +113,16 @@ export default function CguPage() {
           </article>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-6 py-5 shadow-[var(--shadow-md)]">
+        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] px-6 py-5 shadow-[var(--shadow-md)]">
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:text-[var(--teal)]">
             <ArrowLeft className="h-4 w-4" />
             Retour à l{'\u2019'}accueil
           </Link>
-          <span className="text-slate-400">·</span>
+          <span className="text-[var(--text-placeholder)]">·</span>
           <Link href="/mentions-legales" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
             Mentions légales
           </Link>
-          <span className="text-slate-400">·</span>
+          <span className="text-[var(--text-placeholder)]">·</span>
           <Link href="/politique-de-confidentialite" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
             Politique de confidentialité
           </Link>

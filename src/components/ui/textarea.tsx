@@ -93,7 +93,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
               'focus:outline-none focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20',
               'disabled:opacity-60 disabled:cursor-not-allowed',
               error
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+                ? 'border-[var(--error)] focus:border-[var(--error)] focus:ring-[var(--error)]/20'
                 : 'border-[var(--border-strong)]',
               sizeStyles[size],
               icon && 'pl-10',
@@ -111,7 +111,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         </div>
 
         {error && (
-          <p id={`${textareaId}-error`} className="text-sm text-red-600" role="alert">
+          <p id={`${textareaId}-error`} className="text-sm text-[var(--error)]" role="alert">
             {error}
           </p>
         )}

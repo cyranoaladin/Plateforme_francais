@@ -171,7 +171,7 @@ function TuteurPageContent() {
                   key={prompt}
                   type="button"
                   onClick={() => void sendMessage(prompt)}
-                  className="flex w-full items-start justify-between gap-3 rounded-[16px] border border-[var(--surface-sand)] bg-white/80 px-4 py-3 text-left text-sm leading-6 text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/22 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]"
+                  className="flex w-full items-start justify-between gap-3 rounded-[16px] border border-[var(--surface-sand)] bg-[var(--card)]/80 px-4 py-3 text-left text-sm leading-6 text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/22 hover:bg-[var(--card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]"
                 >
                   <span>{prompt}</span>
                   <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[var(--accent-bronze)]" />
@@ -186,7 +186,7 @@ function TuteurPageContent() {
               {OPERATING_RULES.map((rule) => {
                 const Icon = rule.icon;
                 return (
-                  <div key={rule.title} className="rounded-[16px] border border-[var(--border-success-vivid)] bg-white/85 p-4">
+                  <div key={rule.title} className="rounded-[16px] border border-[var(--border-success-vivid)] bg-[var(--card)]/85 p-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--teal)]/10 text-[var(--teal)]">
                         <Icon className="h-4 w-4" />
@@ -202,7 +202,7 @@ function TuteurPageContent() {
         </aside>
 
         <section className="overflow-hidden rounded-[24px] border border-[var(--border-warm-mid)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] shadow-[var(--shadow-lg)]">
-          <div className="border-b border-[var(--border-warm-soft)] bg-white/85 px-5 py-4 md:px-6">
+          <div className="border-b border-[var(--border-warm-soft)] bg-[var(--card)]/85 px-5 py-4 md:px-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--navy)]/10">
@@ -220,7 +220,7 @@ function TuteurPageContent() {
                     key={suggestion}
                     type="button"
                     onClick={() => void sendMessage(suggestion)}
-                    className="rounded-full border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-3 py-1.5 text-xs font-medium text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/22 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[var(--teal)]"
+                    className="rounded-full border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-3 py-1.5 text-xs font-medium text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/22 hover:bg-[var(--card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[var(--teal)]"
                   >
                     {suggestion}
                   </button>
@@ -249,7 +249,7 @@ function TuteurPageContent() {
                         key={prompt}
                         type="button"
                         onClick={() => void sendMessage(prompt)}
-                        className="rounded-[16px] border border-[var(--border-light)] bg-white px-4 py-4 text-left text-sm leading-6 text-[var(--navy)] shadow-[var(--shadow-sm)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/22 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]"
+                        className="rounded-[16px] border border-[var(--border-light)] bg-[var(--card)] px-4 py-4 text-left text-sm leading-6 text-[var(--navy)] shadow-[var(--shadow-sm)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/22 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]"
                       >
                         {prompt}
                       </button>
@@ -274,7 +274,7 @@ function TuteurPageContent() {
                       </div>
 
                       <div
-                        className={`rounded-[24px] px-4 py-4 shadow-[var(--shadow-sm)] md:px-5 ${message.role === 'user' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-light)] bg-white text-[var(--navy)]'}`}
+                        className={`rounded-[24px] px-4 py-4 shadow-[var(--shadow-sm)] md:px-5 ${message.role === 'user' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-light)] bg-[var(--card)] text-[var(--navy)]'}`}
                         role={message.role === 'assistant' ? 'status' : undefined}
                         aria-live={message.role === 'assistant' ? 'polite' : undefined}
                       >
@@ -302,7 +302,7 @@ function TuteurPageContent() {
                       <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--teal)]">
                         <img src="/images/logo.png" alt="" className="h-6 w-6 object-contain" />
                       </div>
-                      <div className="rounded-[24px] border border-[var(--border-light)] bg-white px-5 py-4 shadow-[var(--shadow-sm)]">
+                      <div className="rounded-[24px] border border-[var(--border-light)] bg-[var(--card)] px-5 py-4 shadow-[var(--shadow-sm)]">
                         <p className="mb-2 text-xs font-medium text-[var(--text-caption)]">Le tuteur rédige sa réponse...</p>
                         <div className="flex items-center gap-1.5">
                           <span className="h-2 w-2 rounded-full bg-[var(--teal)] animate-bounce opacity-60" />
@@ -317,7 +317,7 @@ function TuteurPageContent() {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="border-t border-[var(--border-warm-soft)] bg-white/90 px-4 py-4 md:px-6 md:py-5">
+            <div className="border-t border-[var(--border-warm-soft)] bg-[var(--card)]/90 px-4 py-4 md:px-6 md:py-5">
               <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[var(--text-caption)]">
                 <Badge variant="navy" size="sm" className="bg-[var(--navy)]/7 text-[var(--navy)]">Méthode</Badge>
                 <Badge variant="success" size="sm" className="bg-[var(--teal)]/7">Œuvres</Badge>
@@ -335,7 +335,7 @@ function TuteurPageContent() {
                 <label htmlFor="tuteur-input" className="sr-only">Message au tuteur de parcours</label>
                 <input
                   id="tuteur-input"
-                  className="w-full rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-5 py-4 pr-16 text-sm text-[var(--navy)] shadow-[var(--shadow-sm)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--teal)] focus:bg-white focus:ring-2 focus:ring-[var(--teal)]/20"
+                  className="w-full rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-5 py-4 pr-16 text-sm text-[var(--navy)] shadow-[var(--shadow-sm)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--teal)] focus:bg-[var(--card)] focus:ring-2 focus:ring-[var(--teal)]/20"
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
                   onKeyDown={handleKeyDown}

@@ -17,7 +17,7 @@ const variantStyles = {
   primary:
     'bg-[var(--navy)] text-white hover:bg-[var(--navy-dark)] hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
   secondary:
-    'bg-white text-[var(--navy)] border border-[var(--navy)] hover:bg-[var(--surface-cream)]',
+    'bg-[var(--card)] text-[var(--navy)] border border-[var(--navy)] hover:bg-[var(--surface-cream)]',
   ghost:
     'bg-transparent text-[var(--navy)] hover:bg-[var(--surface-cream)]',
   danger:

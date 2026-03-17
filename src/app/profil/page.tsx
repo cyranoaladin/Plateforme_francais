@@ -233,22 +233,22 @@ export default function ProfilPage() {
             <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               {displayName}, ton profil doit te dire où appuyer, pas seulement où tu en es.
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
+            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--text-on-navy-muted)] sm:text-lg">
               Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges
               déjà acquis.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--text-on-navy-muted)]">
                 Niveau moyen{'\u00a0'}: <strong>{averageScore} / 20</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--text-on-navy-muted)]">
                 Point fort{'\u00a0'}: <strong>{strongestSkill.label}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--text-on-navy-muted)]">
                 Axe à retendre{'\u00a0'}: <strong>{weakestSkill.label}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--text-on-navy-muted)]">
                 Mise à jour{'\u00a0'}: <strong>{formatShortDate(resolvedProfile.skillMap.lastUpdated)}</strong>
               </span>
             </div>
@@ -283,7 +283,7 @@ export default function ProfilPage() {
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-400">{item.label}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-placeholder)]">{item.label}</p>
                     <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                   </div>
                 </div>
@@ -293,7 +293,7 @@ export default function ProfilPage() {
             <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Signal global</p>
               <p className="mt-3 text-2xl font-semibold text-white">{profileSignal.label}</p>
-              <p className="mt-2 text-sm leading-7 text-slate-200">{profileSignal.detail}</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--text-on-navy-muted)]">{profileSignal.detail}</p>
             </div>
           </div>
         </div>
@@ -308,7 +308,7 @@ export default function ProfilPage() {
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <Card variant="default" className="rounded-[24px] bg-white/90 shadow-[var(--shadow-md)]" padding="md">
+        <Card variant="default" className="rounded-[24px] bg-[var(--card)]/90 shadow-[var(--shadow-md)]" padding="md">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cartographie actuelle</p>
           <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
             Quatre axes lisibles, pour éviter une lecture floue de tes progrès.
@@ -326,10 +326,10 @@ export default function ProfilPage() {
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-[var(--navy)]">{skill.label}</p>
-                        <p className="mt-1 text-xs leading-5 text-slate-500">{skill.copy}</p>
+                        <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{skill.copy}</p>
                       </div>
                     </div>
-                    <span className="shrink-0 text-sm font-semibold text-slate-500">{skill.score.toFixed(1)} / 20</span>
+                    <span className="shrink-0 text-sm font-semibold text-[var(--text-muted)]">{skill.score.toFixed(1)} / 20</span>
                   </div>
                   <div className="h-2.5 rounded-full bg-[var(--surface-sand)]">
                     <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(skill.score / 20) * 100}%` }} />
@@ -341,20 +341,20 @@ export default function ProfilPage() {
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Axe fort</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe fort</p>
               <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{strongestSkill.label}</p>
-              <p className="mt-2 text-sm leading-6 text-slate-600">C’est là que le niveau est le plus naturellement stable aujourd’hui.</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">C’est là que le niveau est le plus naturellement stable aujourd’hui.</p>
             </Card>
             <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Axe prioritaire</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe prioritaire</p>
               <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{weakestSkill.label}</p>
-              <p className="mt-2 text-sm leading-6 text-slate-600">C’est l’endroit où une séance bien choisie rapportera le plus vite.</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">C’est l’endroit où une séance bien choisie rapportera le plus vite.</p>
             </Card>
           </div>
         </Card>
 
         <div className="space-y-6">
-          <Card variant="default" className="rounded-[24px] bg-white/90 shadow-[var(--shadow-md)]" padding="md">
+          <Card variant="default" className="rounded-[24px] bg-[var(--card)]/90 shadow-[var(--shadow-md)]" padding="md">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Points de vigilance</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               Les erreurs récurrentes doivent rester visibles, pas seulement ressenties.
@@ -385,7 +385,7 @@ export default function ProfilPage() {
                             {entry.count} occurrences
                           </Badge>
                         </div>
-                        <p className="mt-2 text-sm leading-6 text-slate-600">{entry.description}</p>
+                        <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{entry.description}</p>
                       </div>
                     </div>
                   </article>
@@ -408,7 +408,7 @@ export default function ProfilPage() {
                       <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${PRIORITY_STYLE[task.priority]}`}>
                         {task.priority}
                       </Badge>
-                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-300">
+                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--text-on-navy-muted)]">
                         {task.estimatedMinutes} min · {formatShortDate(task.dueDate)}
                       </span>
                     </div>
@@ -418,10 +418,10 @@ export default function ProfilPage() {
               ) : (
                 <div className="flex flex-col items-center gap-3 rounded-[24px] border border-white/10 bg-white/8 p-6 text-center backdrop-blur-sm">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                    <Target className="h-5 w-5 text-slate-300" />
+                    <Target className="h-5 w-5 text-[var(--text-on-navy-muted)]" />
                   </div>
                   <p className="text-sm font-semibold text-white">Pas encore de tâches planifiées</p>
-                  <p className="max-w-sm text-sm leading-7 text-slate-300">
+                  <p className="max-w-sm text-sm leading-7 text-[var(--text-on-navy-muted)]">
                     Ouvre ton parcours ou lance un atelier pour que les prochaines actions concrètes apparaissent ici.
                   </p>
                 </div>
@@ -447,7 +447,7 @@ export default function ProfilPage() {
         </div>
       </section>
 
-      <Card variant="default" className="rounded-[24px] bg-white/90 shadow-[var(--shadow-md)]" padding="md">
+      <Card variant="default" className="rounded-[24px] bg-[var(--card)]/90 shadow-[var(--shadow-md)]" padding="md">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Badges et traces positives</p>
@@ -455,7 +455,7 @@ export default function ProfilPage() {
               Les marqueurs de progression comptent aussi pour soutenir la constance.
             </h2>
           </div>
-          <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--surface-warm)] font-semibold text-slate-600">
+          <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--surface-warm)] font-semibold text-[var(--text-secondary)]">
             {resolvedProfile.badges.length} badges actifs
           </Badge>
         </div>
@@ -471,7 +471,7 @@ export default function ProfilPage() {
               action={
                 <Link
                   href="/atelier-ecrit"
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
                 >
                   Lancer un atelier
                   <ArrowRight className="h-4 w-4" />

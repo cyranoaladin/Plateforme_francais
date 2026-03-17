@@ -640,7 +640,7 @@ export default function AtelierOralPage() {
               <button
                 onClick={() => setMode('SIMULATION')}
                 data-testid="mode-simulation-btn"
-                className={`inline-flex items-center gap-2 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-semibold transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${mode === 'SIMULATION' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-default)] bg-white text-[var(--navy)]'}`}
+                className={`inline-flex items-center gap-2 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-semibold transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${mode === 'SIMULATION' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-default)] bg-[var(--card)] text-[var(--navy)]'}`}
                 aria-pressed={mode === 'SIMULATION'}
               >
                 <Shield className="h-4 w-4" />
@@ -649,7 +649,7 @@ export default function AtelierOralPage() {
               <button
                 onClick={() => setMode('FREE_PRACTICE')}
                 data-testid="mode-practice-btn"
-                className={`inline-flex items-center gap-2 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-semibold transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${mode === 'FREE_PRACTICE' ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-default)] bg-white text-[var(--navy)]'}`}
+                className={`inline-flex items-center gap-2 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-semibold transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${mode === 'FREE_PRACTICE' ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-default)] bg-[var(--card)] text-[var(--navy)]'}`}
                 aria-pressed={mode === 'FREE_PRACTICE'}
               >
                 <Zap className="h-4 w-4" />
@@ -705,7 +705,7 @@ export default function AtelierOralPage() {
                   'Passage en quatre temps : lecture, explication, grammaire, entretien.',
                   'Bilan final /20 avec conseil concret pour la prochaine séance.',
                 ].map((item, index) => (
-                  <div key={item} className="rounded-[16px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
+                  <div key={item} className="rounded-[16px] border border-[var(--border-success-soft)] bg-[var(--card)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
                     <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--teal)]/10 text-xs font-semibold text-[var(--teal)]">{index + 1}</span>
                     {item}
                   </div>
@@ -755,7 +755,7 @@ export default function AtelierOralPage() {
               )}
             </div>
 
-            <div className="mt-6 rounded-[24px] border border-[var(--surface-sand)] bg-white p-5 shadow-[var(--shadow-md)]">
+            <div className="mt-6 rounded-[24px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Extrait tiré</p>
               <p data-testid="extrait-texte" className="mt-4 font-serif text-base leading-8 text-[var(--navy)]">{session.texte}</p>
               <div className="mt-5 space-y-2 text-sm leading-7 text-[var(--text-body)]">
@@ -798,7 +798,7 @@ export default function AtelierOralPage() {
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Checklist de préparation</p>
               <div className="mt-4 space-y-3">
                 {PREP_CHECKLIST.map((item) => (
-                  <label key={item.id} className="flex cursor-pointer items-start gap-3 rounded-[16px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
+                  <label key={item.id} className="flex cursor-pointer items-start gap-3 rounded-[16px] border border-[var(--border-success-soft)] bg-[var(--card)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
                     <input
                       type="checkbox"
                       checked={prepChecklist.has(item.id)}
@@ -857,7 +857,7 @@ export default function AtelierOralPage() {
                   </span>
                 )}
                 {isSimulation && (
-                  <span className="rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-2 text-xs font-mono text-[var(--text-caption)]">
+                  <span className="rounded-[16px] border border-[var(--border-default)] bg-[var(--card)] px-3 py-2 text-xs font-mono text-[var(--text-caption)]">
                     {formatTimer(phaseRemaining)} phase
                   </span>
                 )}
@@ -877,9 +877,9 @@ export default function AtelierOralPage() {
                 return (
                   <div
                     key={stepName}
-                    className={`rounded-[22px] border px-4 py-4 text-center ${active ? 'border-[var(--navy)]/18 bg-white shadow-[var(--shadow-sm)]' : complete ? 'border-[var(--border-success)] bg-[var(--success-bg)]' : 'border-[var(--border-light)] bg-[var(--surface-warm-card)]'}`}
+                    className={`rounded-[22px] border px-4 py-4 text-center ${active ? 'border-[var(--navy)]/18 bg-[var(--card)] shadow-[var(--shadow-sm)]' : complete ? 'border-[var(--border-success)] bg-[var(--success-bg)]' : 'border-[var(--border-light)] bg-[var(--surface-warm-card)]'}`}
                   >
-                    <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${active ? 'bg-[var(--navy)] text-white' : complete ? 'bg-[var(--teal)]/10 text-[var(--teal)]' : 'bg-white text-[var(--text-caption)]'}`}>
+                    <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${active ? 'bg-[var(--navy)] text-white' : complete ? 'bg-[var(--teal)]/10 text-[var(--teal)]' : 'bg-[var(--card)] text-[var(--text-caption)]'}`}>
                       {complete ? <CheckCircle2 className="h-5 w-5" /> : index + 1}
                     </div>
                     <p className={`mt-3 text-xs font-semibold uppercase tracking-[0.14em] ${active ? 'text-[var(--navy)]' : 'text-[var(--text-warm)]'}`}>{STEP_LABELS[stepName]}</p>
@@ -888,7 +888,7 @@ export default function AtelierOralPage() {
               })}
             </div>
 
-            <details className="mt-6 rounded-[24px] border border-[var(--surface-sand)] bg-white p-5 shadow-[var(--shadow-md)]">
+            <details className="mt-6 rounded-[24px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 shadow-[var(--shadow-md)]">
               <summary className="cursor-pointer text-sm font-semibold text-[var(--navy)]">Extrait & question de grammaire</summary>
               <p className="mt-3 font-serif text-sm leading-7 text-[var(--navy)]">{session.texte}</p>
               <div className="mt-3 space-y-2 text-sm leading-7 text-[var(--text-body)]">
@@ -942,7 +942,7 @@ export default function AtelierOralPage() {
                         key={profile}
                         type="button"
                         onClick={() => setExaminerProfile(profile)}
-                        className={`rounded-[var(--radius-lg)] border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${examinerProfile === profile ? 'border-[var(--navy)] bg-[var(--navy)] text-white' : 'border-[var(--border-success-pale)] bg-white text-[var(--navy)]'}`}
+                        className={`rounded-[var(--radius-lg)] border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${examinerProfile === profile ? 'border-[var(--navy)] bg-[var(--navy)] text-white' : 'border-[var(--border-success-pale)] bg-[var(--card)] text-[var(--navy)]'}`}
                       >
                         {profile}
                       </button>
@@ -953,14 +953,14 @@ export default function AtelierOralPage() {
                     type="button"
                     onClick={askExaminerFollowUp}
                     disabled={isJuryLoading || transcript.trim().length === 0}
-                    className="mt-4 inline-flex items-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border-success-pale)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] disabled:opacity-50"
+                    className="mt-4 inline-flex items-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border-success-pale)] bg-[var(--card)] px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] disabled:opacity-50"
                   >
                     {isJuryLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Headphones className="h-4 w-4" />}
                     Obtenir une relance examinateur
                   </button>
 
                   {juryTurns.length > 0 && (
-                    <div className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[16px] border border-[var(--border-success-soft)] bg-white p-4">
+                    <div className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[16px] border border-[var(--border-success-soft)] bg-[var(--card)] p-4">
                       {juryTurns.slice(-6).map((turn, idx) => (
                         <p key={`${turn.role}-${idx}`} className="text-sm leading-7 text-[var(--text-body)]">
                           <span className="font-semibold text-[var(--navy)]">{turn.role === 'jury' ? 'Examinateur' : 'Toi'} :</span> {turn.content}
@@ -994,7 +994,7 @@ export default function AtelierOralPage() {
             <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
               <div className="flex items-center justify-between">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Feedbacks intermédiaires</p>
-                <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[var(--teal)]">
+                <span className="rounded-full bg-[var(--card)] px-3 py-1 text-xs font-semibold text-[var(--teal)]">
                   {aggregated.totalScore.toFixed(1)} / {aggregated.totalMax.toFixed(1) || 20}
                 </span>
               </div>
@@ -1004,7 +1004,7 @@ export default function AtelierOralPage() {
                   const item = feedbacks[step];
                   if (!item) return null;
                   return (
-                    <div key={step} className="rounded-[22px] border border-[var(--border-success-soft)] bg-white p-4 shadow-[var(--shadow-sm)]">
+                    <div key={step} className="rounded-[22px] border border-[var(--border-success-soft)] bg-[var(--card)] p-4 shadow-[var(--shadow-sm)]">
                       <div className="flex items-center justify-between gap-3">
                         <p className="text-sm font-semibold text-[var(--navy)]">{STEP_LABELS[step]}</p>
                         <span className="rounded-full bg-[var(--navy)]/8 px-3 py-1 text-sm font-semibold text-[var(--navy)]">
@@ -1086,7 +1086,7 @@ export default function AtelierOralPage() {
               { key: 'grammaire', label: 'Grammaire', data: bilan.phases.grammaire },
               { key: 'entretien', label: 'Entretien', data: bilan.phases.entretien },
             ] as const).map(({ key, label, data }) => (
-              <div key={key} className="rounded-[24px] border border-[var(--surface-sand)] bg-white p-4 text-center shadow-[var(--shadow-sm)]">
+              <div key={key} className="rounded-[24px] border border-[var(--surface-sand)] bg-[var(--card)] p-4 text-center shadow-[var(--shadow-sm)]">
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text-warm)]">{label}</p>
                 <p className="mt-3 text-3xl font-semibold text-[var(--navy)]">
                   {data.note}
@@ -1118,7 +1118,7 @@ export default function AtelierOralPage() {
             </Button>
             <Link
               href={oralTutorHref}
-              className="inline-flex items-center justify-center rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-white px-6 py-3 text-sm font-semibold text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--teal)] hover:text-[var(--teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]"
+              className="inline-flex items-center justify-center rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--card)] px-6 py-3 text-sm font-semibold text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--teal)] hover:text-[var(--teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]"
             >
               Débriefer cette simulation
             </Link>

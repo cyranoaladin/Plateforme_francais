@@ -326,7 +326,7 @@ export default function BibliothequePage() {
             {highlightedCategories.slice(0, 3).map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.category} className="rounded-[22px] border border-[var(--surface-sand)] bg-white/80 px-4 py-4">
+                <div key={item.category} className="rounded-[22px] border border-[var(--surface-sand)] bg-[var(--card)]/80 px-4 py-4">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                       <Icon className="h-4 w-4" />
@@ -375,7 +375,7 @@ export default function BibliothequePage() {
           </span>
           <button
             onClick={() => setActiveCategory('all')}
-            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${activeCategory === 'all' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
+            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${activeCategory === 'all' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-sand)] bg-[var(--card)] text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
           >
             Toutes les ressources
           </button>
@@ -386,7 +386,7 @@ export default function BibliothequePage() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${activeCategory === category ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
+                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${activeCategory === category ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-sand)] bg-[var(--card)] text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
               >
                 <Icon className="h-4 w-4" />
                 {getCategoryLabel(category)}
@@ -420,7 +420,7 @@ export default function BibliothequePage() {
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             {ragResults.map((item) => (
-              <article key={`${item.id}-${item.sourceRef}`} className="rounded-[24px] border border-[var(--border-success-vivid)] bg-white/90 p-4 shadow-[var(--shadow-md)]">
+              <article key={`${item.id}-${item.sourceRef}`} className="rounded-[24px] border border-[var(--border-success-vivid)] bg-[var(--card)]/90 p-4 shadow-[var(--shadow-md)]">
                 <div className="flex items-start gap-3">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/10 text-[var(--teal)]">
                     <FileText className="h-5 w-5" />
@@ -474,7 +474,7 @@ export default function BibliothequePage() {
                       onClick={() => setSelectedResource(resource)}
                     >
                       <div className="flex items-start gap-4">
-                        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[16px] text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition ${locked ? 'bg-[var(--border-disabled)] grayscale' : 'bg-white group-hover:bg-[var(--navy)]/6'}`}>
+                        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[16px] text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition ${locked ? 'bg-[var(--border-disabled)] grayscale' : 'bg-[var(--card)] group-hover:bg-[var(--navy)]/6'}`}>
                           {locked ? <Lock className="h-6 w-6 text-[var(--text-disabled)]" /> : getResourceIcon(resource.type)}
                         </div>
 
@@ -563,7 +563,7 @@ export default function BibliothequePage() {
           >
             <div className="flex items-start justify-between gap-4">
               <div className="flex min-w-0 gap-4">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[24px] bg-white text-4xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.08)]">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[24px] bg-[var(--card)] text-4xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.08)]">
                   {getResourceIcon(selectedResource.type)}
                 </div>
                 <div className="min-w-0">
@@ -588,7 +588,7 @@ export default function BibliothequePage() {
             </div>
 
             <div className="mt-6 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-              <div className="rounded-[24px] border border-[var(--surface-sand)] bg-white p-5">
+              <div className="rounded-[24px] border border-[var(--surface-sand)] bg-[var(--card)] p-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Pourquoi l’ouvrir</p>
                 <p className="mt-3 text-sm leading-7 text-[var(--navy-mid)]">{buildResourceDescription(selectedResource)}</p>
 
@@ -616,7 +616,7 @@ export default function BibliothequePage() {
                 {selectedResource && isResourceLocked(selectedResource) ? (
                   <>
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Ressource verrouillée</p>
-                    <div className="mt-4 rounded-[16px] border border-[var(--border-light)] bg-white p-5 text-center">
+                    <div className="mt-4 rounded-[16px] border border-[var(--border-light)] bg-[var(--card)] p-5 text-center">
                       <Lock className="mx-auto h-8 w-8 text-[var(--text-disabled)]" />
                       <p className="mt-3 text-sm font-semibold text-[var(--navy)]">
                         Cette ressource fait partie des {LIBRARY_TOTAL_RESOURCES - FREE_TOTAL_LIMIT} contenus réservés aux abonnés.
@@ -648,7 +648,7 @@ export default function BibliothequePage() {
                         href={selectedResourceOpenHref ?? selectedResource.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success-pale)] bg-white px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18"
+                        className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success-pale)] bg-[var(--card)] px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18"
                       >
                         <ExternalLink className="h-4 w-4" />
                         Ouvrir
@@ -656,7 +656,7 @@ export default function BibliothequePage() {
                     </div>
                     <Link
                       href={selectedResourceTutorHref}
-                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success-pale)] bg-white px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success-pale)] bg-[var(--card)] px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
                     >
                       Reprendre cette ressource avec le guidage
                     </Link>

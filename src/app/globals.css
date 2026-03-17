@@ -160,23 +160,150 @@
 }
 
 .dark {
-  --background: var(--dark-900);
-  --foreground: #f1f5f9;
-  --muted: var(--dark-800);
+  /* ─── Semantic aliases ─────────────────────────────── */
+  --background: #0f172a;
+  --foreground: #e2e8f0;
+  --muted: #1e293b;
   --muted-foreground: #94a3b8;
-  --card: #334155;
-  --card-foreground: #f1f5f9;
-  --primary: var(--teal-light);
+  --card: #1e293b;
+  --card-foreground: #e2e8f0;
+  --primary: #14b8a6;
   --primary-foreground: #ffffff;
-  --secondary: var(--teal);
+  --secondary: #0f766e;
   --secondary-foreground: #f8fafc;
   --accent: #f59e0b;
-  --accent-foreground: var(--dark-900);
+  --accent-foreground: #0f172a;
   --border: #334155;
-  --input: var(--dark-800);
+  --input: #1e293b;
+
+  /* ─── Brand Colors — lighter for dark backgrounds ── */
+  --navy: #93b4d4;
+  --navy-dark: #7da3c8;
+  --navy-light: #a8c4de;
+  --navy-mid: #8fb0cf;
+  --navy-muted: #7a9bb8;
+  --teal: #14b8a6;
+  --teal-light: #2dd4bf;
+  --gold: #ecc94b;
+  --gold-deep: #d69e2e;
+  --gold-muted: #c8874e;
+  --gold-contrast: #d4b896;
+
+  /* ─── Pedagogical Accents ──────────────────────────── */
+  --accent-bronze: #c89b6e;
+  --accent-violet: #a78bbd;
+  --accent-earth: #b07d4f;
+
+  /* ─── Hover variants ───────────────────────────────── */
+  --navy-hover: #a8c4de;
+  --teal-hover: #2dd4bf;
+  --error-hover: #f87171;
+
+  /* ─── Icon tones ───────────────────────────────────── */
+  --icon-muted: #8b7a65;
+  --badge-gold: #d4a017;
+
+  /* ─── Surfaces — dark equivalents ──────────────────── */
+  --surface-cream: #1a2332;
+  --surface-ivory: #1e293b;
+  --surface-warm: #1c2736;
+  --surface-paper: #1e293b;
+  --surface-parchment: #1a2535;
+  --surface-sand: #2a3444;
+  --surface-navy-light: #1a2840;
+  --surface-premium: #1f2a38;
+  --surface-warm-input: #1e2a3a;
+  --surface-warm-section: #1a2535;
+  --surface-warm-accent: #23303f;
+  --surface-warm-card: #1c2838;
+  --surface-warm-card-top: #1e2c3d;
+  --surface-warm-empty: #1c2736;
+  --surface-teal-light: #0f2a28;
+  --surface-violet-light: #1f1a2e;
+  --surface-info-box: #172030;
+
+  /* ─── Borders — lighter for dark backgrounds ───────── */
+  --border-light: #334155;
+  --border-default: #3b4a5c;
+  --border-strong: #475569;
+  --border-warm: #3d4d5f;
+  --border-sand: #3b4a5c;
+  --border-success: #1a4a3e;
+  --border-success-soft: #1a4a3e;
+  --border-success-vivid: #1f5545;
+  --border-success-pale: #1a4a3e;
+  --border-warning-soft: #4a3520;
+  --border-warm-mid: #3d4d5f;
+  --border-warm-soft: #334155;
+  --border-disabled: #2d3a48;
+  --border-info-box: #2a3a4d;
+
+  /* ─── Text — brighter for dark backgrounds ─────────── */
+  --text-heading: #f1f5f9;
+  --text-body: #cbd5e1;
+  --text-secondary: #94a3b8;
+  --text-muted: #7a8fa5;
+  --text-caption: #8494a7;
+  --text-placeholder: #64748b;
+  --text-placeholder-warm: #6b7a8a;
+  --text-warm: #b8a48e;
+  --text-on-navy-muted: #94a3b8;
+  --text-on-navy-soft: #b8a48e;
+  --text-disabled: #4a5568;
+  --text-icon: #8494a7;
+  --text-chart: #94a3b8;
+  --text-chart-muted: #7a8fa5;
+  --text-strikethrough: #64748b;
+  --text-locked: #64748b;
+
+  /* ─── Status ───────────────────────────────────────── */
   --success: #10b981;
-  --warning: #d97706;
+  --success-bg: #0f2a28;
+  --success-text: #6ee7b7;
+  --warning: #f59e0b;
+  --warning-bg: #2d1f0a;
+  --warning-text: #fbbf24;
+  --warning-border: #4a3520;
+  --warning-bg-soft: #2d1f0a;
   --error: #ef4444;
+  --error-bg: #2d1010;
+  --error-dark: #fca5a5;
+  --error-muted: #f87171;
+  --error-text: #fca5a5;
+  --error-text-bright: #f87171;
+  --error-border: #4a1515;
+  --success-border-accent: #1a4a3e;
+  --success-text-dark: #6ee7b7;
+  --success-bg-soft: #0f2a28;
+  --success-bg-pale: #0f2a28;
+  --info: #60a5fa;
+  --info-bg: #172040;
+
+  /* ─── Dark surfaces ────────────────────────────────── */
+  --dark-900: #0f172a;
+  --dark-800: #1e293b;
+
+  /* ─── Shadows — stronger for dark mode ─────────────── */
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.4);
+  --shadow-gold: 0 8px 24px rgba(212, 175, 55, 0.15);
+}
+
+/* ─── Dark mode body gradient ──────────────────────── */
+.dark body {
+  background-image:
+    radial-gradient(circle at top right, rgba(20, 184, 166, 0.06), transparent 34%),
+    radial-gradient(circle at top left, rgba(185, 120, 50, 0.04), transparent 28%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+}
+
+/* ─── Dark mode surface-dark override ─────────────── */
+.dark .surface-dark {
+  background: var(--dark-800);
+  color: #e2e8f0;
 }
 
 @theme inline {
@@ -197,6 +324,7 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+  --color-info: var(--info);
   --font-sans: var(--font-sans);
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);

@@ -59,7 +59,7 @@ export function WhyNexus() {
   return (
     <section id="pourquoi-nexus" className="scroll-mt-24 py-8 md:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/80 p-6 shadow-[var(--shadow-md)] md:p-8 lg:p-10">
+        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Pourquoi cette page convertit</p>
@@ -69,7 +69,7 @@ export function WhyNexus() {
               >
                 Un bon produit EAF doit convaincre trois personnes en même temps.
               </h2>
-              <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+              <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
                 L’élève veut une aide actionnable. Le parent veut un cadre crédible. L’enseignant doit reconnaître
                 une logique scolaire sérieuse. La landing doit rendre ce triangle évident dès les premiers scrolls.
               </p>
@@ -83,7 +83,7 @@ export function WhyNexus() {
                       </div>
                       <div>
                         <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--navy)]">{card.title}</h3>
-                        <p className="mt-2 text-sm leading-6 text-slate-600">{card.body}</p>
+                        <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{card.body}</p>
                       </div>
                     </div>
                   </article>
@@ -102,7 +102,7 @@ export function WhyNexus() {
                 <Link
                   href="/pricing"
                   onClick={() => track({ name: 'cta_click', props: { cta: 'why_nexus_pricing', path: '/bienvenue' } })}
-                  className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-white px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--surface-paper)]"
+                  className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--card)] px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--surface-paper)]"
                 >
                   Voir les plans
                 </Link>
@@ -112,7 +112,7 @@ export function WhyNexus() {
                 {FRICTION_POINTS.map((point) => (
                   <span
                     key={point}
-                    className="rounded-full border border-[var(--border-strong)] bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700"
+                    className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)]"
                   >
                     {point}
                   </span>
@@ -143,8 +143,8 @@ export function WhyNexus() {
                         <p className="mt-2 text-sm leading-6 text-slate-200">{row.generic}</p>
                       </div>
                       <div className="rounded-[22px] bg-[var(--surface-cream)] p-4 text-[var(--navy)]">
-                        <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Nexus Réussite</p>
-                        <p className="mt-2 text-sm leading-6 text-slate-700">{row.nexus}</p>
+                        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Nexus Réussite</p>
+                        <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{row.nexus}</p>
                       </div>
                     </div>
                   </div>

@@ -47,14 +47,14 @@ export function HowItWorks() {
           >
             Une mécanique de progression, pas une accumulation d{'\u2019'}outils.
           </h2>
-          <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+          <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
             La différence n{'\u2019'}est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic,
             la production, la correction et la relance. Tout est pensé pour réduire la dispersion.
           </p>
 
-          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Ce que la page promet</p>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-700">
+          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Ce que la page promet</p>
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
               {[
                 'Un onboarding réellement utile, pas décoratif.',
                 'Des ateliers qui débouchent sur une production concrète.',
@@ -84,7 +84,7 @@ export function HowItWorks() {
           {STEPS.map((step, index) => (
             <article
               key={step.number}
-              className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
+              className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
               style={{ animationDelay: `${0.1 + index * 0.08}s` }}
             >
               <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
@@ -101,13 +101,13 @@ export function HowItWorks() {
                   <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
                     {step.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">{step.description}</p>
+                  <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{step.description}</p>
                 </div>
 
                 <div className="grid gap-3 md:w-[21rem]">
                   <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Côté élève</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">{step.student}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Côté élève</p>
+                    <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{step.student}</p>
                   </div>
                   <div className="rounded-[24px] bg-[var(--navy)] p-4 text-[var(--surface-parchment)]">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Côté Nexus</p>

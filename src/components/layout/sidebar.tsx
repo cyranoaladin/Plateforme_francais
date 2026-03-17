@@ -190,7 +190,7 @@ export function Sidebar() {
               <img
                 src="/images/logo_nexus_reussite.png"
                 alt="Nexus Réussite"
-                className="h-14 w-14 object-contain rounded-full border border-[var(--border-light)] bg-white p-1.5"
+                className="h-14 w-14 object-contain rounded-full border border-[var(--border-light)] bg-[var(--card)] p-1.5"
               />
               <div className="min-w-0">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Nexus Réussite</p>
@@ -200,17 +200,17 @@ export function Sidebar() {
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-2">
-              <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-white/85 p-2.5 text-center">
+              <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--card)]/85 p-2.5 text-center">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">J-EAF</p>
                 <p className="mt-1 text-base font-bold text-[var(--navy)]">{joursAvantEAF !== null ? joursAvantEAF : '--'}</p>
               </div>
-              <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-white/85 p-2.5 text-center">
+              <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--card)]/85 p-2.5 text-center">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">Streak</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--navy)]">
                   <Flame className="h-3.5 w-3.5 text-[var(--accent)]" /> {streak}
                 </p>
               </div>
-              <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-white/85 p-2.5 text-center">
+              <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--card)]/85 p-2.5 text-center">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">Badges</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--navy)]">
                   <Award className="h-3.5 w-3.5 text-[var(--badge-gold)]" /> {badgeCount}
@@ -263,7 +263,7 @@ export function Sidebar() {
                       className={`group flex items-center gap-3 rounded-[20px] border px-4 py-3 text-sm transition-all ${
                         isActive
                           ? 'border-[var(--navy)]/10 bg-[var(--navy)] text-white shadow-[var(--shadow-md)]'
-                          : 'border-transparent bg-white/55 text-[var(--navy-muted)] hover:border-[var(--border-default)] hover:bg-white hover:text-[var(--navy)]'
+                          : 'border-transparent bg-[var(--card)]/55 text-[var(--navy-muted)] hover:border-[var(--border-default)] hover:bg-[var(--card)] hover:text-[var(--navy)]'
                       }`}
                     >
                       <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-lg)] ${
@@ -288,14 +288,14 @@ export function Sidebar() {
             <button
               aria-label="Basculer le thème"
               onClick={toggleTheme}
-              className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-white/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-white"
+              className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--card)]/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
               aria-label="Paramètres"
               onClick={() => router.push('/profil')}
-              className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-white/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-white"
+              className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--card)]/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
             >
               <Settings className="w-4 h-4" />
             </button>
@@ -303,7 +303,7 @@ export function Sidebar() {
             <button
               aria-label="Se déconnecter"
               onClick={handleLogout}
-              className="ml-auto min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-white/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-white"
+              className="ml-auto min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--card)]/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -336,7 +336,7 @@ export function Sidebar() {
                 className={`flex min-h-[48px] min-w-[48px] flex-1 flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
                   active
                     ? 'bg-[var(--navy)] text-white shadow-[var(--shadow-md)]'
-                    : 'text-[var(--navy-muted)] active:bg-white active:text-[var(--navy)]'
+                    : 'text-[var(--navy-muted)] active:bg-[var(--card)] active:text-[var(--navy)]'
                 }`}
               >
                 <item.icon className="h-5 w-5" />

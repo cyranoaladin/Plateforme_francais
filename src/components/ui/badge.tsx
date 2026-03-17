@@ -26,7 +26,7 @@ const variantStyles = {
   navy:
     'bg-[var(--navy)] text-white',
   outline:
-    'bg-white text-[var(--text-body)] border border-[var(--border-default)]',
+    'bg-[var(--card)] text-[var(--text-body)] border border-[var(--border-default)]',
 } as const;
 
 const sizeStyles = {

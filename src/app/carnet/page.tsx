@@ -279,7 +279,7 @@ export default function CarnetPage() {
                 </div>
                 <div className="mt-4 space-y-3">
                   {oeuvreEntries.map((entry) => (
-                    <article key={entry.id} className="rounded-[16px] border border-[var(--surface-sand)] bg-white p-4 shadow-[var(--shadow-sm)]">
+                    <article key={entry.id} className="rounded-[16px] border border-[var(--surface-sand)] bg-[var(--card)] p-4 shadow-[var(--shadow-sm)]">
                       <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--text-warm)]">
                         <Badge variant="navy" size="sm" className="bg-[var(--navy)]/8 text-[var(--navy)]">{TYPE_LABELS[entry.type]}</Badge>
                         <span>{new Date(entry.createdAt).toLocaleDateString('fr-FR')}</span>

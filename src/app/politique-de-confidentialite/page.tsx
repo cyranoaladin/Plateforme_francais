@@ -40,13 +40,13 @@ const DATA_PROTECTION_ITEMS = [
 
 export default function PolitiqueDeConfidentialitePage() {
   return (
-    <div className="min-h-screen bg-[var(--surface-cream)] text-slate-900 [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-screen bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <main className="relative mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[var(--shadow-md)]">
+        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)] px-5 py-4 shadow-[var(--shadow-md)]">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
           </Link>
-          <Link href="/" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-[var(--navy)]">
+          <Link href="/" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
             <ArrowLeft className="h-4 w-4" />
             Retour accueil
           </Link>
@@ -60,13 +60,13 @@ export default function PolitiqueDeConfidentialitePage() {
           >
             Politique de confidentialité
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
+          <p className="mt-4 max-w-2xl text-base leading-8 text-[var(--text-secondary)]">
             Nexus Réussite s{'\u2019'}engage à protéger vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD).
           </p>
         </section>
 
         <div className="mt-10 space-y-6">
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/10 text-[var(--teal)]">
                 <Lock className="h-5 w-5" />
@@ -75,7 +75,7 @@ export default function PolitiqueDeConfidentialitePage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Protection des données (RGPD)
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-slate-700">
+                <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
                   Notre politique de protection des données repose sur cinq engagements concrets :
                 </p>
               </div>
@@ -85,12 +85,12 @@ export default function PolitiqueDeConfidentialitePage() {
               {DATA_PROTECTION_ITEMS.map((item) => (
                 <div key={item.label} className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-[var(--navy)] shadow-sm">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--card)] text-[var(--navy)] shadow-sm">
                       <item.icon className="h-4 w-4" />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-[var(--navy)]">{item.label}</p>
-                      <p className="mt-2 text-sm leading-7 text-slate-600">{item.body}</p>
+                      <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{item.body}</p>
                     </div>
                   </div>
                 </div>
@@ -98,11 +98,11 @@ export default function PolitiqueDeConfidentialitePage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
               Contact
             </h2>
-            <p className="mt-4 text-sm leading-7 text-slate-700">
+            <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
               Pour toute question concernant cette politique de confidentialité ou pour exercer vos droits, contactez-nous :
             </p>
             <a
@@ -114,16 +114,16 @@ export default function PolitiqueDeConfidentialitePage() {
           </article>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-6 py-5 shadow-[var(--shadow-md)]">
+        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] px-6 py-5 shadow-[var(--shadow-md)]">
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:text-[var(--teal)]">
             <ArrowLeft className="h-4 w-4" />
             Retour à l{'\u2019'}accueil
           </Link>
-          <span className="text-slate-400">·</span>
+          <span className="text-[var(--text-placeholder)]">·</span>
           <Link href="/mentions-legales" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
             Mentions légales
           </Link>
-          <span className="text-slate-400">·</span>
+          <span className="text-[var(--text-placeholder)]">·</span>
           <Link href="/cgu" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
             CGU
           </Link>

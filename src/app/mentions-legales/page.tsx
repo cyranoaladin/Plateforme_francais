@@ -12,13 +12,13 @@ const EDITORIAL_HEADING = {
 
 export default function MentionsLegalesPage() {
   return (
-    <div className="min-h-screen bg-[var(--surface-cream)] text-slate-900 [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-screen bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <main className="relative mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[var(--shadow-md)]">
+        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)] px-5 py-4 shadow-[var(--shadow-md)]">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
           </Link>
-          <Link href="/" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-[var(--navy)]">
+          <Link href="/" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
             <ArrowLeft className="h-4 w-4" />
             Retour accueil
           </Link>
@@ -32,14 +32,14 @@ export default function MentionsLegalesPage() {
           >
             Mentions légales & Conditions Générales d{'\u2019'}Utilisation
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
+          <p className="mt-4 max-w-2xl text-base leading-8 text-[var(--text-secondary)]">
             Ce document rassemble les informations légales obligatoires, les conditions d{'\u2019'}utilisation du service
             et les engagements de Nexus Réussite en matière de protection des données.
           </p>
         </section>
 
         <div className="mt-10 space-y-6">
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Building2 className="h-5 w-5" />
@@ -48,7 +48,7 @@ export default function MentionsLegalesPage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Éditeur du site
                 </h2>
-                <div className="mt-4 space-y-2 text-sm leading-7 text-slate-700">
+                <div className="mt-4 space-y-2 text-sm leading-7 text-[var(--text-body)]">
                   <p><span className="font-semibold text-[var(--navy)]">Raison sociale :</span> STE M&M ACADEMY SUARL</p>
                   <p><span className="font-semibold text-[var(--navy)]">Email de contact :</span>{' '}
                     <a href="mailto:contact@nexusreussite.academy" className="text-[var(--teal)] hover:underline">contact@nexusreussite.academy</a>
@@ -61,7 +61,7 @@ export default function MentionsLegalesPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Globe className="h-5 w-5" />
@@ -70,24 +70,24 @@ export default function MentionsLegalesPage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Hébergement
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-slate-700">Le site est hébergé par :</p>
+                <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">Le site est hébergé par :</p>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
                   <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Infrastructure</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Infrastructure</p>
                     <p className="mt-2 text-sm font-semibold text-[var(--navy)]">OVH SAS</p>
-                    <p className="mt-1 text-sm text-slate-600">2 rue Kellermann, 59100 Roubaix, France</p>
+                    <p className="mt-1 text-sm text-[var(--text-secondary)]">2 rue Kellermann, 59100 Roubaix, France</p>
                   </div>
                   <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Déploiement</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Déploiement</p>
                     <p className="mt-2 text-sm font-semibold text-[var(--navy)]">Vercel Inc.</p>
-                    <p className="mt-1 text-sm text-slate-600">440 N Barranca Ave #4133, Covina, CA 91723, USA</p>
+                    <p className="mt-1 text-sm text-[var(--text-secondary)]">440 N Barranca Ave #4133, Covina, CA 91723, USA</p>
                   </div>
                 </div>
               </div>
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/10 text-[var(--teal)]">
                 <Lock className="h-5 w-5" />
@@ -96,7 +96,7 @@ export default function MentionsLegalesPage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Protection des données (RGPD)
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-slate-700">
+                <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
                   Nexus EAF s{'\u2019'}engage à protéger vos données personnelles conformément au Règlement Général sur la Protection des Données :
                 </p>
                 <div className="mt-4 space-y-3">
@@ -109,7 +109,7 @@ export default function MentionsLegalesPage() {
                   ].map((item) => (
                     <div key={item.label} className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-3">
                       <p className="text-sm font-semibold text-[var(--navy)]">{item.label}</p>
-                      <p className="mt-1 text-sm leading-6 text-slate-600">{item.body}</p>
+                      <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">{item.body}</p>
                     </div>
                   ))}
                 </div>
@@ -117,7 +117,7 @@ export default function MentionsLegalesPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Scale className="h-5 w-5" />
@@ -126,8 +126,8 @@ export default function MentionsLegalesPage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Conditions Générales d{'\u2019'}Utilisation
                 </h2>
-                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Version 2026-03</p>
-                <p className="mt-3 text-sm leading-7 text-slate-700">
+                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">Version 2026-03</p>
+                <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">
                   En utilisant Nexus EAF, vous acceptez les conditions suivantes :
                 </p>
                 <div className="mt-4 space-y-3">
@@ -140,7 +140,7 @@ export default function MentionsLegalesPage() {
                   ].map((item) => (
                     <div key={item} className="flex items-start gap-3 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--navy)]" />
-                      <p className="text-sm leading-6 text-slate-700">{item}</p>
+                      <p className="text-sm leading-6 text-[var(--text-body)]">{item}</p>
                     </div>
                   ))}
                 </div>
@@ -148,7 +148,7 @@ export default function MentionsLegalesPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <FileText className="h-5 w-5" />
@@ -157,7 +157,7 @@ export default function MentionsLegalesPage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Propriété intellectuelle
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-slate-700">
+                <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
                   Tous les contenus du site (textes, images, logos, structure) sont protégés par le droit d{'\u2019'}auteur.
                   Toute reproduction sans autorisation est interdite.
                 </p>
@@ -165,7 +165,7 @@ export default function MentionsLegalesPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Mail className="h-5 w-5" />
@@ -174,7 +174,7 @@ export default function MentionsLegalesPage() {
                 <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Contact
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-slate-700">
+                <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
                   Pour toute question concernant ces mentions légales ou les CGU, contactez-nous :
                 </p>
                 <a
@@ -188,16 +188,16 @@ export default function MentionsLegalesPage() {
           </article>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-6 py-5 shadow-[var(--shadow-md)]">
+        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] px-6 py-5 shadow-[var(--shadow-md)]">
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:text-[var(--teal)]">
             <ArrowLeft className="h-4 w-4" />
             Retour à l{'\u2019'}accueil
           </Link>
-          <span className="text-slate-400">·</span>
+          <span className="text-[var(--text-placeholder)]">·</span>
           <Link href="/cgu" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
             CGU détaillées
           </Link>
-          <span className="text-slate-400">·</span>
+          <span className="text-[var(--text-placeholder)]">·</span>
           <Link href="/politique-de-confidentialite" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
             Politique de confidentialité
           </Link>

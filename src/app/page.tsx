@@ -98,10 +98,10 @@ const STEPS = [
 /* ─── Données ateliers ─── */
 const FEATURE_GROUPS = [
   { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose une copie PDF ou image, récupère une lecture OCR, une correction par rubriques et un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'OCR + correction structurée', 'Rapport PDF exploitable'] },
-  { title: 'Oral officiel', icon: Mic, tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Format EAF', span: 'lg:col-span-5', body: "Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.", bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'] },
-  { title: 'Corpus et citations', icon: ScanSearch, tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Sources visibles', span: 'lg:col-span-4', body: "Le guidage mobilise BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles.", bullets: ['Citations internes', 'Recherche RAG documentée', 'Corpus 2025-2026'] },
+  { title: 'Oral officiel', icon: Mic, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Format EAF', span: 'lg:col-span-5', body: "Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.", bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'] },
+  { title: 'Corpus et citations', icon: ScanSearch, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Sources visibles', span: 'lg:col-span-4', body: "Le guidage mobilise BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles.", bullets: ['Citations internes', 'Recherche RAG documentée', 'Corpus 2025-2026'] },
   { title: 'Langue et quiz adaptatif', icon: BrainCircuit, tone: 'bg-[var(--surface-warm-accent)] text-[var(--navy)] border-[var(--border-strong)]', badge: 'Relance ciblée', span: 'lg:col-span-4', body: "Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.", bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'] },
-  { title: 'Guidage personnalisé et mémoire de progression', icon: MessageCircleMore, tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Coaching actif', span: 'lg:col-span-4', body: "Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance.", bullets: ['Relances contextuelles', 'Signaux faibles', 'Séances suivantes cohérentes'] },
+  { title: 'Guidage personnalisé et mémoire de progression', icon: MessageCircleMore, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Coaching actif', span: 'lg:col-span-4', body: "Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance.", bullets: ['Relances contextuelles', 'Signaux faibles', 'Séances suivantes cohérentes'] },
 ];
 
 /* ─── Données audiences ─── */
@@ -182,15 +182,15 @@ const BANK_TRANSFER_ROWS = [
 /* ─── Sous-composants ─── */
 function FaqItem({ question, answer, index, open, onToggle }: { question: string; answer: string; index: number; open: boolean; onToggle: () => void }) {
   return (
-    <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[var(--shadow-md)]">
+    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/85 shadow-[var(--shadow-md)]">
       <button type="button" onClick={onToggle} className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left" aria-expanded={open}>
         <div className="flex items-start gap-4">
           <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--surface-warm-accent)] text-xs font-bold text-[var(--navy)]">{String(index + 1).padStart(2, '0')}</span>
           <span className="pt-1 text-sm font-semibold text-[var(--navy)] md:text-base">{question}</span>
         </div>
-        {open ? <ChevronUp className="h-5 w-5 shrink-0 text-slate-500" /> : <ChevronDown className="h-5 w-5 shrink-0 text-slate-500" />}
+        {open ? <ChevronUp className="h-5 w-5 shrink-0 text-[var(--text-muted)]" /> : <ChevronDown className="h-5 w-5 shrink-0 text-[var(--text-muted)]" />}
       </button>
-      {open ? <div className="px-5 pb-5 text-sm leading-7 text-slate-600 sm:pl-[4.75rem]">{answer}</div> : null}
+      {open ? <div className="px-5 pb-5 text-sm leading-7 text-[var(--text-secondary)] sm:pl-[4.75rem]">{answer}</div> : null}
     </div>
   );
 }
@@ -291,7 +291,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="relative isolate min-h-screen overflow-x-clip bg-[var(--surface-cream)] text-slate-900 [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.18),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.18),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.72),rgba(244,239,229,1))]">
+    <div className="relative isolate min-h-screen overflow-x-clip bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.18),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.18),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.72),rgba(244,239,229,1))]">
       <style jsx global>{`
         @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes floatY { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
@@ -308,7 +308,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 md:pt-20 lg:px-8 lg:pb-20">
           <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
             <div className="max-w-3xl [animation:fadeUp_.8s_ease-out_both]">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--navy)] shadow-sm">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)]/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--navy)] shadow-sm">
                 <BadgeCheck className="h-4 w-4 text-[var(--teal)]" />
                 Parcours EAF complet
               </div>
@@ -316,21 +316,21 @@ export default function HomePage() {
                 La préparation EAF qui se laisse vérifier avant d’être achetée,
                 <span className="block text-[var(--teal)]">puis accompagne vraiment quand le rythme monte.</span>
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-body)] sm:text-xl">
                 Nexus Réussite rassemble écrit, oral, langue, corpus officiel et historique de progression dans un même flux de travail. Tu vois le vrai produit en gratuit, puis tu montes en puissance seulement si le volume de travail le justifie.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <Link href="/pricing" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
                   Choisir mon offre <ArrowRight className="h-4 w-4" />
                 </Link>
-                <a href="#comment-ca-marche" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-white/85 px-6 py-3.5 text-base font-semibold text-[var(--navy)] transition-colors hover:bg-white">
+                <a href="#comment-ca-marche" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)]/85 px-6 py-3.5 text-base font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--card)]">
                   Voir la méthode
                 </a>
-                <a href="#plans" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-slate-600 transition-colors hover:text-[var(--navy)]">
+                <a href="#plans" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
                   Comparer les plans
                 </a>
               </div>
-              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-600">
+              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--text-secondary)]">
                 {FRICTION_REMOVERS.map((item) => (
                   <span key={item} className="inline-flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />{item}
@@ -339,7 +339,7 @@ export default function HomePage() {
               </div>
               <div className="mt-6 flex flex-wrap gap-2.5">
                 {MICRO_PROOFS.map((item) => (
-                  <span key={item} className="rounded-full border border-[var(--border-strong)] bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-sm">{item}</span>
+                  <span key={item} className="rounded-full border border-[var(--border-strong)] bg-[var(--card)]/70 px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)] shadow-sm">{item}</span>
                 ))}
               </div>
             </div>
@@ -407,9 +407,9 @@ export default function HomePage() {
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {HERO_STATS.map((stat, index) => (
-              <div key={stat.label} className="rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-5 py-5 shadow-[var(--shadow-md)] [animation:fadeUp_.8s_ease-out_both]" style={{ animationDelay: `${0.18 + index * 0.08}s` }}>
+              <div key={stat.label} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/80 px-5 py-5 shadow-[var(--shadow-md)] [animation:fadeUp_.8s_ease-out_both]" style={{ animationDelay: `${0.18 + index * 0.08}s` }}>
                 <p style={EDITORIAL_HEADING} className="text-3xl tracking-[-0.03em] text-[var(--navy)]">{stat.value}</p>
-                <p className="mt-1 text-sm leading-6 text-slate-600">{stat.label}</p>
+                <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -424,12 +424,12 @@ export default function HomePage() {
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               Une mécanique de progression, pas une accumulation d’outils.
             </h2>
-            <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
               La différence n’est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic, la production, la correction et la relance.
             </p>
-            <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Ce que la plateforme garantit</p>
-              <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-700">
+            <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/85 p-6 shadow-[var(--shadow-md)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Ce que la plateforme garantit</p>
+              <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
                 {['Un onboarding réellement utile, pas décoratif.', 'Des ateliers qui débouchent sur une production concrète.', 'Un feedback transformé en prochaine action.'].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--teal)]" /><span>{item}</span>
@@ -441,14 +441,14 @@ export default function HomePage() {
               <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'method_register', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
                 Démarrer l’onboarding <ArrowRight className="h-4 w-4" />
               </Link>
-              <a href="#plans" className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-white/85 px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-white">
+              <a href="#plans" className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)]/85 px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--card)]">
                 Voir les plans
               </a>
             </div>
           </div>
           <div className="space-y-5">
             {STEPS.map((step, index) => (
-              <article key={step.number} className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)]" style={{ animationDelay: `${0.1 + index * 0.08}s` }}>
+              <article key={step.number} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/85 p-6 shadow-[var(--shadow-md)]" style={{ animationDelay: `${0.1 + index * 0.08}s` }}>
                 <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
                   <div className="max-w-2xl">
                     <div className="flex items-center gap-3">
@@ -458,12 +458,12 @@ export default function HomePage() {
                       </div>
                     </div>
                     <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">{step.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">{step.description}</p>
+                    <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{step.description}</p>
                   </div>
                   <div className="grid gap-3 md:w-[21rem]">
                     <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
-                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Côté élève</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-700">{step.student}</p>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Côté élève</p>
+                      <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{step.student}</p>
                     </div>
                     <div className="rounded-[24px] bg-[var(--navy)] p-4 text-[var(--surface-parchment)]">
                       <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Côté Nexus</p>
@@ -497,7 +497,7 @@ export default function HomePage() {
                 Tout ce qu’il faut pour réussir l’EAF, organisé par usage réel.
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">Produire, corriger, citer, relancer, piloter — quatre ateliers qui couvrent l’ensemble du parcours EAF.</p>
+            <p className="max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">Produire, corriger, citer, relancer, piloter — quatre ateliers qui couvrent l’ensemble du parcours EAF.</p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-12">
             {FEATURE_GROUPS.map((feature, index) => (
@@ -518,7 +518,7 @@ export default function HomePage() {
               </article>
             ))}
           </div>
-          <div className="mt-10 rounded-[24px] border border-[var(--border-strong)] bg-white/80 p-6 shadow-[var(--shadow-md)] md:p-7">
+          <div className="mt-10 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/80 p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Fil directeur</p>
@@ -529,7 +529,7 @@ export default function HomePage() {
                   <div key={item.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                     <item.icon className="h-5 w-5 text-[var(--teal)]" />
                     <p className="mt-3 text-sm font-bold text-[var(--navy)]">{item.title}</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
+                    <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.text}</p>
                   </div>
                 ))}
               </div>
@@ -541,14 +541,14 @@ export default function HomePage() {
       {/* ════════════════ POURQUOI NEXUS ════════════════ */}
       <section id="pourquoi-nexus" className="scroll-mt-24 py-8 md:py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/80 p-6 shadow-[var(--shadow-md)] md:p-8 lg:p-10">
+          <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/80 p-6 shadow-[var(--shadow-md)] md:p-8 lg:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Pourquoi Nexus Réussite</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                   Un bon produit EAF doit convaincre trois personnes en même temps.
                 </h2>
-                <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+                <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
                   L’élève veut une aide actionnable. Le parent veut un cadre crédible. L’enseignant doit reconnaître une logique scolaire sérieuse.
                 </p>
                 <div className="mt-8 grid gap-3">
@@ -558,7 +558,7 @@ export default function HomePage() {
                         <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]"><card.icon className="h-5 w-5" /></div>
                         <div>
                           <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--navy)]">{card.title}</h3>
-                          <p className="mt-2 text-sm leading-6 text-slate-600">{card.body}</p>
+                          <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{card.body}</p>
                         </div>
                       </div>
                     </article>
@@ -568,7 +568,7 @@ export default function HomePage() {
                   <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'why_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
                     Essayer gratuitement <ArrowRight className="h-4 w-4" />
                   </Link>
-                  <a href="#plans" className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-white px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--surface-paper)]">Voir les plans</a>
+                  <a href="#plans" className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--card)] px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--surface-paper)]">Voir les plans</a>
                 </div>
               </div>
               <div className="rounded-[24px] bg-[var(--navy)] p-5 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-6">
@@ -591,8 +591,8 @@ export default function HomePage() {
                           <p className="mt-2 text-sm leading-6 text-slate-200">{row.generic}</p>
                         </div>
                         <div className="rounded-[22px] bg-[var(--surface-cream)] p-4 text-[var(--navy)]">
-                          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Nexus Réussite</p>
-                          <p className="mt-2 text-sm leading-6 text-slate-700">{row.nexus}</p>
+                          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Nexus Réussite</p>
+                          <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{row.nexus}</p>
                         </div>
                       </div>
                     </div>
@@ -659,7 +659,7 @@ export default function HomePage() {
                 Trois rythmes, trois plafonds, une seule logique de valeur.
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
+            <p className="max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">
               Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme. Chaque niveau correspond à une intensité de préparation différente.
             </p>
           </div>
@@ -677,7 +677,7 @@ export default function HomePage() {
               const accent = plan.highlighted
                 ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-xl)]'
                 : isCurrent ? 'border-[var(--teal)] bg-[var(--surface-warm)] text-[var(--navy)]'
-                : 'border-[var(--border-strong)] bg-white/85 text-[var(--navy)]';
+                : 'border-[var(--border-strong)] bg-[var(--card)]/85 text-[var(--navy)]';
               return (
                 <article key={plan.id} className={`${accent} rounded-[24px] border p-6`}>
                   <div className="flex items-start justify-between gap-4">
@@ -695,7 +695,7 @@ export default function HomePage() {
                     <span className="text-4xl font-bold">{plan.priceTND}</span>
                     {plan.period ? <span className="pb-1 text-sm opacity-75">{plan.period}</span> : null}
                   </div>
-                  <p className={`mt-3 text-sm leading-7 ${plan.highlighted ? 'text-slate-200' : 'text-slate-600'}`}>{plan.note}</p>
+                  <p className={`mt-3 text-sm leading-7 ${plan.highlighted ? 'text-slate-200' : 'text-[var(--text-secondary)]'}`}>{plan.note}</p>
                   <ul className="mt-6 space-y-3 text-sm leading-6">
                     {plan.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-start gap-3">
@@ -724,7 +724,7 @@ export default function HomePage() {
           </div>
 
           {/* Tableau comparatif */}
-          <div className="mt-12 overflow-x-auto rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[var(--shadow-md)]">
+          <div className="mt-12 overflow-x-auto rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/85 shadow-[var(--shadow-md)]">
             <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="bg-[var(--surface-warm)] text-left">
@@ -736,11 +736,11 @@ export default function HomePage() {
               </thead>
               <tbody>
                 {FEATURE_ROWS.map((row, index) => (
-                  <tr key={row.label} className={index % 2 === 0 ? 'bg-white' : 'bg-[var(--surface-warm)]'}>
+                  <tr key={row.label} className={index % 2 === 0 ? 'bg-[var(--card)]' : 'bg-[var(--surface-warm)]'}>
                     <td className="px-5 py-3.5 font-medium text-[var(--navy)]">{row.label}</td>
-                    <td className="px-5 py-3.5 text-center text-slate-600">{row.free}</td>
-                    <td className="px-5 py-3.5 text-center text-slate-600">{row.premium}</td>
-                    <td className="px-5 py-3.5 text-center text-slate-600">{row.pro}</td>
+                    <td className="px-5 py-3.5 text-center text-[var(--text-secondary)]">{row.free}</td>
+                    <td className="px-5 py-3.5 text-center text-[var(--text-secondary)]">{row.premium}</td>
+                    <td className="px-5 py-3.5 text-center text-[var(--text-secondary)]">{row.pro}</td>
                   </tr>
                 ))}
               </tbody>
@@ -749,15 +749,15 @@ export default function HomePage() {
 
           {/* Paiement alternatif */}
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
-            <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-7">
+            <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/85 p-6 shadow-[var(--shadow-md)] md:p-7">
               <div className="flex items-center gap-3">
                 <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]"><KeyRound className="h-5 w-5" /></div>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Activation</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Activation</p>
                   <h3 style={EDITORIAL_HEADING} className="mt-1 text-2xl leading-tight tracking-[-0.03em] text-[var(--navy)]">Activer avec un code</h3>
                 </div>
               </div>
-              <p className="mt-4 text-sm leading-7 text-slate-600">Si un code d’activation t’a été envoyé, active ton plan ici sans repasser par le checkout.</p>
+              <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">Si un code d’activation t’a été envoyé, active ton plan ici sans repasser par le checkout.</p>
               {isAuthenticated ? (
                 <form onSubmit={redeemCode} className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <input type="text" value={codeInput} onChange={(e) => setCodeInput(e.target.value.toUpperCase())} placeholder="NEXUS-PRO-XXXX-XXXX" className="flex-1 rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm font-mono tracking-wider text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20" maxLength={25} disabled={codeLoading} />
@@ -766,7 +766,7 @@ export default function HomePage() {
                   </button>
                 </form>
               ) : (
-                <div className="mt-6 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4 text-sm leading-7 text-slate-600">
+                <div className="mt-6 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                   <Link href="/login" className="font-semibold text-[var(--navy)] underline">Connecte-toi d’abord</Link> pour rattacher le code à ton compte.
                 </div>
               )}
@@ -818,7 +818,7 @@ export default function HomePage() {
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               Les objections doivent être traitées avec autant de soin que les promesses.
             </h2>
-            <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">Anti-triche, sources, sécurité, accessibilité, paiement — les réponses honnêtes sont ici.</p>
+            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">Anti-triche, sources, sécurité, accessibilité, paiement — les réponses honnêtes sont ici.</p>
             <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]"><MessageSquareText className="h-5 w-5" /></div>
               <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">Besoin d’aller plus loin ?</h3>

@@ -11,11 +11,11 @@ const EDITORIAL_HEADING = {
 
 function PaymentPageHeader() {
   return (
-    <header className="mb-6 flex flex-col gap-4 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
+    <header className="mb-6 flex flex-col gap-4 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)] px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
       <Link href="/" className="flex items-center gap-4">
         <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
       </Link>
-      <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
+      <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">
         <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
           Retour accueil
         </Link>
@@ -126,7 +126,7 @@ function PaiementRefusContent() {
                 </Link>
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--navy)]/25"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--navy)]/25"
                 >
                   Retour à l’accueil
                   <ArrowRight className="h-4 w-4" />

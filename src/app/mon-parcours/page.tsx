@@ -295,7 +295,7 @@ export default function MonParcoursPage() {
             <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               Ton parcours doit rendre la semaine lisible avant de la rendre ambitieuse.
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
+            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--text-on-navy-muted)] sm:text-lg">
               {profile?.displayName ? `${profile.displayName}, ` : ''}ici, le plan transforme le profil, l’historique de travail et les attendus
               officiels en blocs concrets: quoi lancer, dans quel ordre, et comment reprendre sans perdre le fil.
             </p>
@@ -330,7 +330,7 @@ export default function MonParcoursPage() {
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-400">{item.label}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-placeholder)]">{item.label}</p>
                     <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                   </div>
                 </div>
@@ -359,7 +359,7 @@ export default function MonParcoursPage() {
       <div className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
         <div className="space-y-6">
           {priorityTasks.length > 0 ? (
-            <Card variant="default" padding="md" className="bg-white/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7" role="region" aria-label="Priorités immédiates">
+            <Card variant="default" padding="md" className="bg-[var(--card)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7" role="region" aria-label="Priorités immédiates">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Priorités immédiates</p>
@@ -367,7 +367,7 @@ export default function MonParcoursPage() {
                     Les trois prochains blocs qui méritent d’ouvrir la semaine.
                   </h2>
                 </div>
-                <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--surface-warm)] font-semibold text-slate-600">
+                <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--surface-warm)] font-semibold text-[var(--text-secondary)]">
                   Plan nourri par le travail réel
                 </Badge>
               </div>
@@ -379,7 +379,7 @@ export default function MonParcoursPage() {
                       {task.priority}
                     </Badge>
                     <p className="mt-4 text-sm font-semibold leading-6 text-[var(--navy)]">{task.description}</p>
-                    <p className="mt-3 text-sm text-slate-500">
+                    <p className="mt-3 text-sm text-[var(--text-muted)]">
                       {task.estimatedMinutes} min · {formatDueDate(task.dueDate)}
                     </p>
                   </Card>
@@ -397,7 +397,7 @@ export default function MonParcoursPage() {
             const weekProgress = progressRatio(completedWeek, weekEntries.length);
 
             return (
-              <Card key={week.numero} variant="default" padding="md" className="bg-white/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7" role="region" aria-label={`Semaine ${week.numero}`}>
+              <Card key={week.numero} variant="default" padding="md" className="bg-[var(--card)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7" role="region" aria-label={`Semaine ${week.numero}`}>
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Semaine {week.numero}</p>
@@ -405,7 +405,7 @@ export default function MonParcoursPage() {
                       {week.objectif}
                     </h2>
                   </div>
-                  <Card variant="default" padding="sm" className="min-w-[180px] rounded-[22px] border-[var(--border-strong)] bg-[var(--surface-warm)] text-sm text-slate-600">
+                  <Card variant="default" padding="sm" className="min-w-[180px] rounded-[22px] border-[var(--border-strong)] bg-[var(--surface-warm)] text-sm text-[var(--text-secondary)]">
                     <div className="flex items-center justify-between gap-3">
                       <span className="font-semibold text-[var(--navy)]">Avancement</span>
                       <span>{weekProgress}%</span>
@@ -413,7 +413,7 @@ export default function MonParcoursPage() {
                     <div className="mt-3 h-2.5 rounded-full bg-[var(--surface-sand)]">
                       <div className="h-2.5 rounded-full bg-[var(--navy)]" style={{ width: `${weekProgress}%` }} />
                     </div>
-                    <p className="mt-3 text-xs text-slate-500">
+                    <p className="mt-3 text-xs text-[var(--text-muted)]">
                       {completedWeek} / {weekEntries.length} activités cochées
                     </p>
                   </Card>
@@ -449,7 +449,7 @@ export default function MonParcoursPage() {
                                 <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${meta.tone}`}>
                                   {meta.label}
                                 </Badge>
-                                <Badge variant="outline" size="sm" className="border-[var(--border-strong)] font-semibold text-slate-500">
+                                <Badge variant="outline" size="sm" className="border-[var(--border-strong)] font-semibold text-[var(--text-muted)]">
                                   <Icon className="h-3.5 w-3.5" />
                                   {activity.duree}
                                 </Badge>
@@ -460,7 +460,7 @@ export default function MonParcoursPage() {
 
                           <Link
                             href={normalizeHref(activity.lien)}
-                            className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-white px-4 py-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                            className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-4 py-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
                           >
                             Ouvrir
                           </Link>
@@ -491,7 +491,7 @@ export default function MonParcoursPage() {
                   </Link>
                   <Link
                     href={tutorHref}
-                    className="inline-flex items-center justify-center rounded-full border border-[var(--border-strong)] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                    className="inline-flex items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
                   >
                     Ouvrir le guidage
                   </Link>
@@ -502,7 +502,7 @@ export default function MonParcoursPage() {
         </div>
 
         <aside className="space-y-6 xl:sticky xl:top-8 xl:self-start">
-          <Card variant="default" padding="md" className="bg-white/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
+          <Card variant="default" padding="md" className="bg-[var(--card)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cap du moment</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
               Une vue compacte pour reprendre le plan sans inertie.
@@ -511,12 +511,12 @@ export default function MonParcoursPage() {
             <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-sm font-semibold text-[var(--navy)]">Progression globale</span>
-                <span className="text-sm font-bold text-slate-600">{completionPercent}%</span>
+                <span className="text-sm font-bold text-[var(--text-secondary)]">{completionPercent}%</span>
               </div>
               <div className="mt-3 h-2.5 rounded-full bg-[var(--surface-sand)]">
                 <div className="h-2.5 rounded-full bg-[var(--navy)]" style={{ width: `${completionPercent}%` }} />
               </div>
-              <p className="mt-3 text-xs leading-5 text-slate-500">
+              <p className="mt-3 text-xs leading-5 text-[var(--text-muted)]">
                 {completedActivities} blocs validés sur {totalActivities || 0}. L’objectif est de garder une cadence tenable, pas de cocher pour cocher.
               </p>
             </div>
@@ -529,7 +529,7 @@ export default function MonParcoursPage() {
               <p className="mt-3 text-sm font-semibold leading-6 text-[var(--navy)]">
                 {nextPendingTask ? nextPendingTask.titre : 'Aucun bloc en attente pour le moment.'}
               </p>
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-sm text-[var(--text-secondary)]">
                 {nextPendingTask
                   ? `${nextPendingTask.duree} · semaine ${nextPendingTask.semaine}`
                   : 'Le plan courant est entièrement coché ou pas encore généré.'}
@@ -561,20 +561,20 @@ export default function MonParcoursPage() {
                 <Link
                   key={item.title}
                   href={item.href}
-                  className="rounded-[22px] border border-[var(--border-strong)] bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-[var(--teal)]"
+                  className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] p-4 transition-all hover:-translate-y-0.5 hover:border-[var(--teal)]"
                 >
                   <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]">
                     <item.icon className="h-4 w-4" />
                   </div>
                   <p className="mt-4 text-sm font-semibold text-[var(--navy)]">{item.title}</p>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.detail}</p>
+                  <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.detail}</p>
                 </Link>
               ))}
             </div>
           </Card>
 
           {skillSummary.length > 0 ? (
-            <Card variant="default" padding="md" className="bg-white/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
+            <Card variant="default" padding="md" className="bg-[var(--card)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Niveau de départ</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
                 Le parcours doit rester cohérent avec le profil mesuré.
@@ -584,7 +584,7 @@ export default function MonParcoursPage() {
                   <div key={skill.label}>
                     <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
                       <span className="text-[var(--navy)]">{skill.label}</span>
-                      <span className="text-slate-500">{skill.score.toFixed(1)} / 20</span>
+                      <span className="text-[var(--text-muted)]">{skill.score.toFixed(1)} / 20</span>
                     </div>
                     <div className="h-2.5 rounded-full bg-[var(--surface-sand)]">
                       <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(skill.score / 20) * 100}%` }} />

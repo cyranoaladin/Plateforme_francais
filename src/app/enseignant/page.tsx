@@ -263,7 +263,7 @@ export default function EnseignantPage() {
       ) : null}
 
       {isLoading ? (
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 text-sm text-slate-500 shadow-[var(--shadow-md)]" role="status">
+        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 text-sm text-[var(--text-muted)] shadow-[var(--shadow-md)]" role="status">
           Chargement du cockpit enseignant...
         </div>
       ) : null}
@@ -271,7 +271,7 @@ export default function EnseignantPage() {
       {!isLoading && payload ? (
         <>
           <section className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-7">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Roster classe</p>
@@ -289,37 +289,37 @@ export default function EnseignantPage() {
               </div>
 
               <div className="mt-8 overflow-hidden rounded-[24px] border border-[var(--border-strong)]">
-                <div className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 bg-[var(--surface-warm)] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                <div className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 bg-[var(--surface-warm)] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">
                   <span>Élève</span>
                   <span>Email</span>
                   <span>Score</span>
                   <span>Dernière activité</span>
                   <span>Prochaine échéance</span>
                 </div>
-                <div className="divide-y divide-[var(--border-strong)] bg-white">
+                <div className="divide-y divide-[var(--border-strong)] bg-[var(--card)]">
                   {payload.students.length > 0 ? (
                     payload.students.map((student) => (
-                      <div key={student.id} className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 px-4 py-4 text-sm text-slate-700">
+                      <div key={student.id} className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 px-4 py-4 text-sm text-[var(--text-body)]">
                         <div>
                           <p className="font-semibold text-[var(--navy)]">{student.displayName}</p>
                         </div>
-                        <p className="truncate text-slate-500">{student.email}</p>
+                        <p className="truncate text-[var(--text-muted)]">{student.email}</p>
                         <p className={`font-semibold ${student.averageScore < 10 ? 'text-[var(--error-dark)]' : 'text-[var(--navy)]'}`}>
                           {student.averageScore} / 20
                         </p>
-                        <p className="text-slate-500">{formatDateTime(student.lastActivity)}</p>
-                        <p className="text-slate-500">{formatDay(student.nextMockExam)}</p>
+                        <p className="text-[var(--text-muted)]">{formatDateTime(student.lastActivity)}</p>
+                        <p className="text-[var(--text-muted)]">{formatDay(student.nextMockExam)}</p>
                       </div>
                     ))
                   ) : (
-                    <div className="px-4 py-6 text-sm text-slate-500">Aucun élève rattaché à cette classe pour le moment.</div>
+                    <div className="px-4 py-6 text-sm text-[var(--text-muted)]">Aucun élève rattaché à cette classe pour le moment.</div>
                   )}
                 </div>
               </div>
             </div>
 
             <div className="space-y-6">
-              <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+              <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-7">
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Distribution des notes</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                   Une lecture directe de la répartition suffit souvent à orienter la prochaine séquence.
@@ -331,7 +331,7 @@ export default function EnseignantPage() {
                       <div key={item.label}>
                         <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
                           <span className="text-[var(--navy)]">{item.label}</span>
-                          <span className="text-slate-500">{item.count} élève{item.count > 1 ? 's' : ''}</span>
+                          <span className="text-[var(--text-muted)]">{item.count} élève{item.count > 1 ? 's' : ''}</span>
                         </div>
                         <div className="h-3 rounded-full bg-[var(--border-warm-mid)]">
                           <div
@@ -342,7 +342,7 @@ export default function EnseignantPage() {
                       </div>
                     ))
                   ) : (
-                    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
+                    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                       Aucune distribution disponible tant que les copies corrigées restent absentes.
                     </div>
                   )}
@@ -392,7 +392,7 @@ export default function EnseignantPage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+          <section className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Copies corrigées</p>
@@ -400,7 +400,7 @@ export default function EnseignantPage() {
                   Les retours enseignants doivent rester rapides à écrire et simples à relire.
                 </h2>
               </div>
-              <div className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-slate-600">
+              <div className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-[var(--text-secondary)]">
                 {payload.copies.length} copie{payload.copies.length > 1 ? 's' : ''}
               </div>
             </div>
@@ -417,11 +417,11 @@ export default function EnseignantPage() {
                             {statusLabel(copy.status)}
                           </span>
                         </div>
-                        <p className="mt-2 text-sm text-slate-500">
+                        <p className="mt-2 text-sm text-[var(--text-muted)]">
                           {copy.epreuveType} · {formatDateTime(copy.createdAt)}
                         </p>
                       </div>
-                      <div className="rounded-[16px] border border-[var(--border-strong)] bg-white px-4 py-3 text-sm text-slate-600">
+                      <div className="rounded-[16px] border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3 text-sm text-[var(--text-secondary)]">
                         <p className="font-semibold text-[var(--navy)]">Note</p>
                         <p className="mt-1 text-lg font-bold text-[var(--navy)]">{copy.note ?? '—'} / 20</p>
                       </div>
@@ -436,13 +436,13 @@ export default function EnseignantPage() {
                             [copy.copieId]: event.target.value,
                           }))
                         }
-                        className="min-h-24 w-full rounded-[16px] border border-[var(--border-strong)] bg-white p-4 text-sm text-[var(--navy)] outline-none transition-colors focus:border-[var(--teal)]"
+                        className="min-h-24 w-full rounded-[16px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4 text-sm text-[var(--navy)] outline-none transition-colors focus:border-[var(--teal)]"
                         placeholder="Ajouter un commentaire enseignant..."
                       />
                     </div>
 
                     <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-                      <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3 py-1.5 text-xs font-semibold text-[var(--text-muted)]">
                         <BookMarked className="h-3.5 w-3.5" />
                         Retour ciblé et lisible par l’élève
                       </div>
@@ -457,7 +457,7 @@ export default function EnseignantPage() {
                   </article>
                 ))
               ) : (
-                <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
+                <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                   Aucune copie corrigée n’est encore disponible dans ce tableau.
                 </div>
               )}

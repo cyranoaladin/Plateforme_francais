@@ -45,7 +45,7 @@ function FaqItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[var(--shadow-sm)]">
+    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] shadow-[var(--shadow-sm)]">
       <button
         type="button"
         onClick={onToggle}
@@ -58,9 +58,9 @@ function FaqItem({
           </span>
           <span className="pt-1 text-sm font-semibold text-[var(--navy)] md:text-base">{question}</span>
         </div>
-        {open ? <ChevronUp className="h-5 w-5 shrink-0 text-slate-500" /> : <ChevronDown className="h-5 w-5 shrink-0 text-slate-500" />}
+        {open ? <ChevronUp className="h-5 w-5 shrink-0 text-[var(--text-muted)]" /> : <ChevronDown className="h-5 w-5 shrink-0 text-[var(--text-muted)]" />}
       </button>
-      {open ? <div className="px-5 pb-5 pl-[4.75rem] text-sm leading-7 text-slate-600">{answer}</div> : null}
+      {open ? <div className="px-5 pb-5 pl-[4.75rem] text-sm leading-7 text-[var(--text-secondary)]">{answer}</div> : null}
     </div>
   );
 }
@@ -76,7 +76,7 @@ export function FAQ() {
           <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
             Les objections doivent être traitées avec autant de soin que les promesses.
           </h2>
-          <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+          <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
             Une page d{'\u2019'}accueil sérieuse répond clairement aux questions sensibles : anti-triche, sources, sécurité, accessibilité, support.
           </p>
 

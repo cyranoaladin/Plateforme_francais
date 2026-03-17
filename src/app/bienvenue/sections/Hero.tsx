@@ -54,7 +54,7 @@ export function Hero() {
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 md:pt-20 lg:px-8 lg:pb-20">
         <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
           <div className="max-w-3xl [animation:bienvenueFadeUp_.8s_ease-out_both]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--navy)] shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--navy)] shadow-sm">
               <BadgeCheck className="h-4 w-4 text-[var(--teal)]" />
               Parcours EAF complet
             </div>
@@ -67,7 +67,7 @@ export function Hero() {
               <span className="block text-[var(--teal)]">puis accompagne vraiment quand le rythme monte.</span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-body)] sm:text-xl">
               Nexus Réussite rassemble écrit, oral, langue, corpus officiel et historique de progression dans un même flux de travail.
               Tu vois le vrai produit en gratuit, tu mesures la qualité du cadre, puis tu montes en puissance seulement si le volume de travail le justifie.
             </p>
@@ -84,20 +84,20 @@ export function Hero() {
               <a
                 href="#comment-ca-marche"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-white/85 px-6 py-3.5 text-base font-semibold text-[var(--navy)] transition-colors hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)] px-6 py-3.5 text-base font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
               >
                 Voir la méthode
               </a>
               <Link
                 href="/pricing"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-slate-600 transition-colors hover:text-[var(--navy)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]"
               >
                 Comparer les plans
               </Link>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-600">
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--text-secondary)]">
               {FRICTION_REMOVERS.map((item) => (
                 <span key={item} className="inline-flex items-center gap-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
@@ -110,7 +110,7 @@ export function Hero() {
               {MICRO_PROOFS.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-[var(--border-strong)] bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-sm"
+                  className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)] shadow-sm"
                 >
                   {item}
                 </span>
@@ -192,7 +192,7 @@ export function Hero() {
               <div className="mt-4 rounded-[24px] bg-[var(--surface-cream)] p-4 text-[var(--navy)] shadow-inner">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Chaîne de valeur</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Chaîne de valeur</p>
                     <p className="mt-1 text-base font-semibold">Copie déposée → correction structurée → rapport PDF → relance ciblée</p>
                   </div>
                   <div className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-3 py-1.5 text-xs font-bold text-[var(--surface-parchment)]">
@@ -209,13 +209,13 @@ export function Hero() {
           {HERO_STATS.map((stat, index) => (
             <div
               key={stat.label}
-              className="rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
+              className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
               style={{ animationDelay: `${0.18 + index * 0.08}s` }}
             >
               <p style={EDITORIAL_HEADING} className="text-3xl tracking-[-0.03em] text-[var(--navy)]">
                 {stat.value}
               </p>
-              <p className="mt-1 text-sm leading-6 text-slate-600">{stat.label}</p>
+              <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">{stat.label}</p>
             </div>
           ))}
         </div>

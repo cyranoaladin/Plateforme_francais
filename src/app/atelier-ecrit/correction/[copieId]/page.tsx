@@ -165,7 +165,7 @@ export default function CorrectionCopiePage() {
             {PROCESSING_STEPS.map((step, index) => (
               <div
                 key={step}
-                className={`rounded-[16px] border px-4 py-4 text-sm transition ${index === stepIndex ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)] shadow-[var(--shadow-sm)]' : 'border-[var(--surface-sand)] bg-[var(--surface-warm-card)] text-[var(--text-caption)]'}`}
+                className={`rounded-[16px] border px-4 py-4 text-sm transition ${index === stepIndex ? 'border-[var(--navy)]/18 bg-[var(--card)] text-[var(--navy)] shadow-[var(--shadow-sm)]' : 'border-[var(--surface-sand)] bg-[var(--surface-warm-card)] text-[var(--text-caption)]'}`}
               >
                 {index + 1}. {step}
               </div>
@@ -187,7 +187,7 @@ export default function CorrectionCopiePage() {
           action={
             <a
               href="/atelier-ecrit"
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
             >
               Retour à l’atelier écrit
             </a>
@@ -286,7 +286,7 @@ export default function CorrectionCopiePage() {
               {correction.rubriques.map((item) => {
                 const width = Math.max(0, Math.min(100, Math.round((item.note / item.max) * 100)));
                 return (
-                  <article key={`${item.titre}-${item.max}`} className="rounded-[22px] border border-[var(--surface-sand)] bg-white p-4 shadow-[var(--shadow-sm)]">
+                  <article key={`${item.titre}-${item.max}`} className="rounded-[22px] border border-[var(--surface-sand)] bg-[var(--card)] p-4 shadow-[var(--shadow-sm)]">
                     <div className="flex items-center justify-between gap-3 text-sm">
                       <span className="font-semibold text-[var(--navy)]">{item.titre}</span>
                       <span className="font-semibold text-[var(--navy)]">{item.note}/{item.max}</span>
@@ -317,7 +317,7 @@ export default function CorrectionCopiePage() {
                 <span className="flex-1">Voir le corrigé type</span>
                 <span className="text-sm font-normal text-[var(--text-caption)] transition-transform group-open:rotate-90">&#9654;</span>
               </summary>
-              <p className="mt-4 whitespace-pre-line rounded-[16px] border border-[var(--surface-sand)] bg-white p-5 text-sm leading-7 text-[var(--navy-mid)]">{correction.corrige_type}</p>
+              <p className="mt-4 whitespace-pre-line rounded-[16px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 text-sm leading-7 text-[var(--navy-mid)]">{correction.corrige_type}</p>
             </details>
           </section>
         </section>
@@ -340,7 +340,7 @@ export default function CorrectionCopiePage() {
                       key={`${item.extrait}-${index}`}
                       type="button"
                       onClick={() => setActiveAnnotation(index)}
-                      className={`w-full rounded-[16px] border px-4 py-4 text-left text-sm transition ${selected ? 'border-[var(--navy)]/18 bg-white shadow-[var(--shadow-sm)]' : 'border-[var(--border-success-soft)] bg-white/80'} `}
+                      className={`w-full rounded-[16px] border px-4 py-4 text-left text-sm transition ${selected ? 'border-[var(--navy)]/18 bg-[var(--card)] shadow-[var(--shadow-sm)]' : 'border-[var(--border-success-soft)] bg-[var(--card)]/80'} `}
                     >
                       <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${tone}`}>
                         {item.type}
@@ -352,7 +352,7 @@ export default function CorrectionCopiePage() {
                 })}
               </div>
 
-              <div className="rounded-[24px] border border-[var(--border-success-soft)] bg-white p-4 shadow-[var(--shadow-sm)]">
+              <div className="rounded-[24px] border border-[var(--border-success-soft)] bg-[var(--card)] p-4 shadow-[var(--shadow-sm)]">
                 {isImageCopy && imageUrl ? (
                   <div className="relative overflow-hidden rounded-[16px] border border-[var(--surface-sand)] bg-[var(--surface-warm-card)]">
                     <img src={imageUrl} alt="Copie manuscrite" className="w-full" />
@@ -397,7 +397,7 @@ export default function CorrectionCopiePage() {
             <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--gold-contrast)]">{correction.conseil_final}</p>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-white p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--card)] p-5 shadow-[var(--shadow-md)]">
             <div className="flex items-start gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Quote className="h-5 w-5" />

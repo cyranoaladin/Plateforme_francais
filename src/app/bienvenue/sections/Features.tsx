@@ -17,7 +17,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Oral officiel',
     icon: Mic,
-    tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--card)] text-[var(--navy)] border-[var(--border-strong)]',
     badge: 'Format EAF',
     span: 'lg:col-span-5',
     body: 'Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.',
@@ -26,7 +26,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Corpus et citations',
     icon: ScanSearch,
-    tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--card)] text-[var(--navy)] border-[var(--border-strong)]',
     badge: 'Sources visibles',
     span: 'lg:col-span-4',
     body: 'Le guidage et les ateliers mobilisent BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles et réutilisables.',
@@ -44,7 +44,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Guidage personnalisé et mémoire de progression',
     icon: MessageCircleMore,
-    tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--card)] text-[var(--navy)] border-[var(--border-strong)]',
     badge: 'Coaching actif',
     span: 'lg:col-span-4',
     body: 'Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance au lieu de repartir de zéro.',
@@ -66,7 +66,7 @@ export function Features() {
               Tout ce qu{'\u2019'}il faut pour réussir l{'\u2019'}EAF, organisé par usage réel.
             </h2>
           </div>
-          <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
+          <p className="max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">
             La page ne vend pas des “features” abstraites. Elle expose des situations concrètes de travail : produire,
             corriger, citer, relancer, piloter.
           </p>
@@ -108,7 +108,7 @@ export function Features() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-[24px] border border-[var(--border-strong)] bg-white/80 p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div className="mt-10 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Fil directeur</p>
@@ -125,7 +125,7 @@ export function Features() {
                 <div key={item.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                   <item.icon className="h-5 w-5 text-[var(--teal)]" />
                   <p className="mt-3 text-sm font-bold text-[var(--navy)]">{item.title}</p>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
+                  <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.text}</p>
                 </div>
               ))}
             </div>

@@ -11,7 +11,7 @@ const EDITORIAL_HEADING = {
 const PLANS = [
   {
     name: 'Freemium',
-    accent: 'border-[var(--border-strong)] bg-white/85 text-[var(--navy)]',
+    accent: 'border-[var(--border-strong)] bg-[var(--card)] text-[var(--navy)]',
     kicker: 'Fais tes premiers pas vers le Bac.',
     bullets: ["Voir le vrai produit", "Onboarding et premiers ateliers", "Vérifier si le cadre te convient"],
   },
@@ -40,7 +40,7 @@ export function PricingTeaser() {
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme.
             </h2>
-            <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
               Chaque plan correspond à une intensité de préparation différente. Freemium sert à juger le produit sur pièce, Premium enlève les plafonds quand le besoin devient réel.
             </p>
 
@@ -56,13 +56,13 @@ export function PricingTeaser() {
               <Link
                 href="/login?mode=register"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_register', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-white/85 px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-white"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--card)] px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
               >
                 Essayer gratuitement
               </Link>
             </div>
 
-            <p className="mt-4 max-w-lg text-sm leading-7 text-slate-500">
+            <p className="mt-4 max-w-lg text-sm leading-7 text-[var(--text-muted)]">
               Le plan gratuit permet déjà de lancer l’onboarding, d’ouvrir les premiers ateliers et de voir si le produit tient sa promesse avant toute dépense.
             </p>
           </div>

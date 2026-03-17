@@ -109,7 +109,7 @@ function PasswordField({
         <button
           type="button"
           onClick={() => setShow((prev) => !prev)}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-1 text-slate-500 transition-colors hover:text-[var(--navy)]"
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-1 text-[var(--text-muted)] transition-colors hover:text-[var(--navy)]"
           aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
         >
           {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -353,7 +353,7 @@ function AuthCard() {
 
   return (
     <div className="w-full max-w-xl">
-      <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/88 p-6 shadow-[var(--shadow-xl)] sm:p-8 lg:p-9">
+      <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)]/88 p-6 shadow-[var(--shadow-xl)] sm:p-8 lg:p-9">
         <div className="flex flex-col gap-4 border-b border-[var(--border-light)] pb-5">
           <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--navy)]">
             {mode === 'login' ? 'Accès sécurisé' : 'Inscription gratuite'}
@@ -362,14 +362,14 @@ function AuthCard() {
             <h1 style={EDITORIAL_HEADING} className="text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               {title}
             </h1>
-            <p className="mt-3 max-w-xl text-sm leading-7 text-slate-600 sm:text-base">{subtitle}</p>
+            <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{subtitle}</p>
           </div>
           <div className="flex flex-wrap gap-2.5">
             {(mode === 'register'
               ? ['Aucun paiement avant essai', 'Onboarding ~3 minutes', 'Freemium disponible tout de suite']
               : ['Connexion sécurisée', 'Session protégée', 'Récupération rapide de l\u2019espace']
             ).map((item) => (
-              <span key={item} className="rounded-full border border-[var(--border-strong)] bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700">
+              <span key={item} className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)]">
                 {item}
               </span>
             ))}
@@ -381,7 +381,7 @@ function AuthCard() {
             type="button"
             onClick={() => switchMode('login')}
             className={`min-h-[44px] flex-1 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-bold transition-colors ${
-              mode === 'login' ? 'bg-white text-[var(--navy)] shadow-sm' : 'text-slate-600 hover:text-[var(--navy)]'
+              mode === 'login' ? 'bg-[var(--card)] text-[var(--navy)] shadow-sm' : 'text-[var(--text-secondary)] hover:text-[var(--navy)]'
             }`}
           >
             Se connecter
@@ -390,7 +390,7 @@ function AuthCard() {
             type="button"
             onClick={() => switchMode('register')}
             className={`min-h-[44px] flex-1 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-bold transition-colors ${
-              mode === 'register' ? 'bg-white text-[var(--navy)] shadow-sm' : 'text-slate-600 hover:text-[var(--navy)]'
+              mode === 'register' ? 'bg-[var(--card)] text-[var(--navy)] shadow-sm' : 'text-[var(--text-secondary)] hover:text-[var(--navy)]'
             }`}
           >
             Créer un compte
@@ -447,7 +447,7 @@ function AuthCard() {
                     onChange={(e) => setAcceptTerms(e.target.checked)}
                     className="mt-1 accent-[var(--navy)]"
                   />
-                  <span className="text-xs leading-6 text-slate-600">
+                  <span className="text-xs leading-6 text-[var(--text-secondary)]">
                     J’accepte les <Link href="/cgu" target="_blank" className="font-semibold text-[var(--teal)] underline-offset-2 hover:underline">Conditions d’utilisation</Link> et la <Link href="/politique-de-confidentialite" target="_blank" className="font-semibold text-[var(--teal)] underline-offset-2 hover:underline">Politique de confidentialité</Link>.
                   </span>
                 </label>
@@ -459,7 +459,7 @@ function AuthCard() {
                     onChange={(e) => setIsMinor(e.target.checked)}
                     className="mt-1 accent-[var(--navy)]"
                   />
-                  <span className="text-xs leading-6 text-slate-600">
+                  <span className="text-xs leading-6 text-[var(--text-secondary)]">
                     J{'’'}ai moins de 15 ans. Un consentement parental est nécessaire.
                   </span>
                 </label>
@@ -479,7 +479,7 @@ function AuthCard() {
                     placeholder="parent@email.com"
                     required={isMinor}
                   />
-                  <p className="mt-2 text-xs leading-6 text-slate-500">
+                  <p className="mt-2 text-xs leading-6 text-[var(--text-muted)]">
                     Ce champ est requis pour les moins de 15 ans dans le cadre RGPD.
                   </p>
                 </div>
@@ -540,7 +540,7 @@ function AuthCard() {
                 Problème de connexion ?
               </button>
               {showHelp ? (
-                <p className="mt-3 text-sm leading-7 text-slate-600">
+                <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                   Vérifie ton email, ton mot de passe et rafraîchis la page en cas d{'’'}erreur de sécurité. Si le blocage persiste, repasse par la création de compte ou compare les plans avant de réessayer.
                 </p>
               ) : null}
@@ -556,7 +556,7 @@ function AuthCard() {
               Retour à la connexion
             </button>
             <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4">
-              <p className="text-sm leading-7 text-slate-600">
+              <p className="text-sm leading-7 text-[var(--text-secondary)]">
                 Besoin d{'’'}aide ?{' '}
                 <a
                   href="https://wa.me/21699192829?text=Bonjour%2C%20je%20souhaite%20r%C3%A9initialiser%20mon%20mot%20de%20passe%20Nexus%20EAF."
@@ -574,14 +574,14 @@ function AuthCard() {
           <div className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4">
             <div className="flex items-start gap-3">
               <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--teal)]" />
-              <p className="text-sm leading-7 text-slate-600">
+              <p className="text-sm leading-7 text-[var(--text-secondary)]">
                 Une fois le compte créé, tu arrives directement sur l{'’'}onboarding pour cadrer tes œuvres, ton rythme et ton point de départ, sans rien payer pour voir le produit.
               </p>
             </div>
           </div>
         )}
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 border-t border-[var(--border-light)] pt-5 text-xs font-semibold text-slate-500">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 border-t border-[var(--border-light)] pt-5 text-xs font-semibold text-[var(--text-muted)]">
           <Link href="/" className="transition-colors hover:text-[var(--navy)]">
             Accueil
           </Link>
@@ -605,13 +605,13 @@ function AuthCard() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-dvh overflow-x-clip bg-[var(--surface-cream)] text-slate-900 [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-dvh overflow-x-clip bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[30rem] bg-[radial-gradient(circle_at_center_top,rgba(255,255,255,0.9),transparent_65%)]" />
       <div className="pointer-events-none absolute right-0 top-24 h-72 w-72 rounded-full bg-[var(--teal)]/10 blur-3xl" />
       <div className="pointer-events-none absolute left-0 top-[32rem] h-72 w-72 rounded-full bg-[var(--gold-muted)]/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        <header className="flex flex-col gap-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)]/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--navy)]">
@@ -619,7 +619,7 @@ export default function LoginPage() {
               Connexion 2026
             </div>
           </Link>
-          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
+          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">
             <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
               Retour accueil
             </Link>
@@ -641,8 +641,8 @@ export default function LoginPage() {
           <div className="flex items-center justify-center">
             <Suspense
               fallback={
-                <div className="flex w-full max-w-xl items-center justify-center rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/88 p-8 shadow-[var(--shadow-xl)] min-h-[420px]">
-                  <Loader2 className="h-6 w-6 animate-spin text-slate-500" />
+                <div className="flex w-full max-w-xl items-center justify-center rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)]/88 p-8 shadow-[var(--shadow-xl)] min-h-[420px]">
+                  <Loader2 className="h-6 w-6 animate-spin text-[var(--text-muted)]" />
                 </div>
               }
             >

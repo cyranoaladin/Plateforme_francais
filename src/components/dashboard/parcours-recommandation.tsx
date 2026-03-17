@@ -122,12 +122,12 @@ export function ParcoursRecommandation({ weakSignals, weakSkills = [], className
       </div>
 
       <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-6 text-slate-600">
+        <p className="text-sm leading-6 text-[var(--text-secondary)]">
           L’idée n’est pas d’en faire plus, mais de relancer le bon atelier au bon moment.
         </p>
         <Link
           href={recommended.href}
-          className="inline-flex items-center gap-2 rounded-full border border-[var(--navy)]/14 bg-white px-4 py-2 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--teal)] hover:text-[var(--teal)]"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--navy)]/14 bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--teal)] hover:text-[var(--teal)]"
         >
           Ouvrir l’atelier
           <ArrowRight className="h-4 w-4" />

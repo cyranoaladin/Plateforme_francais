@@ -317,7 +317,7 @@ export default function QuizPage() {
 
         <section className="space-y-5">
           {activeThemeLabel && questions.length > 0 && (
-            <div className="rounded-[24px] border border-[var(--border-light)] bg-white px-5 py-4 shadow-[var(--shadow-md)] text-sm text-[var(--text-secondary)]">
+            <div className="rounded-[24px] border border-[var(--border-light)] bg-[var(--card)] px-5 py-4 shadow-[var(--shadow-md)] text-sm text-[var(--text-secondary)]">
               Quiz : <span className="font-semibold text-[var(--navy)]">{activeThemeLabel}</span> — {questions.length} question{questions.length > 1 ? 's' : ''}
             </div>
           )}
@@ -350,7 +350,7 @@ export default function QuizPage() {
                           return (
                             <label
                               key={`${question.id}-${optionIndex}`}
-                              className={`cursor-pointer rounded-[20px] border p-4 text-sm leading-7 transition-all duration-[var(--transition-base)] focus-within:ring-2 focus-within:ring-[var(--teal)]/20 ${isGood ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)] text-[var(--teal)] font-semibold' : isBad ? 'border-[var(--error-border)] bg-[var(--error-bg)] text-[var(--error-text)]' : checked ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)]' : 'border-[var(--surface-sand)] bg-white text-[var(--navy-mid)] hover:border-[var(--navy)]/18'}`}
+                              className={`cursor-pointer rounded-[20px] border p-4 text-sm leading-7 transition-all duration-[var(--transition-base)] focus-within:ring-2 focus-within:ring-[var(--teal)]/20 ${isGood ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)] text-[var(--teal)] font-semibold' : isBad ? 'border-[var(--error-border)] bg-[var(--error-bg)] text-[var(--error-text)]' : checked ? 'border-[var(--navy)]/18 bg-[var(--card)] text-[var(--navy)]' : 'border-[var(--surface-sand)] bg-[var(--card)] text-[var(--navy-mid)] hover:border-[var(--navy)]/18'}`}
                             >
                               <input
                                 type="radio"
@@ -414,7 +414,7 @@ export default function QuizPage() {
                     </Button>
                     <Link
                       href={tutorHref}
-                      className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                      className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
                     >
                       Reprendre ce thème avec le guidage
                     </Link>

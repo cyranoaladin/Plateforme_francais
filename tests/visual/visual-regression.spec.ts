@@ -27,17 +27,37 @@ const pages = [
   { name: 'cgu', path: '/cgu' },
 ] as const;
 
+async function dismissConsent(page: import('@playwright/test').Page) {
+  const consentBtn = page.locator('[data-testid="consent-accept"], button:has-text("Accepter")');
+  if (await consentBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
+    await consentBtn.click();
+    await page.waitForTimeout(500);
+  }
+}
+
+// ── Light mode tests ─────────────────────────────────────────────────
 for (const { name, path } of pages) {
   test(`visual: ${name} page`, async ({ page }) => {
     await page.goto(path, { waitUntil: 'networkidle' });
-
-    // Dismiss any consent banner so it does not flicker between runs
-    const consentBtn = page.locator('[data-testid="consent-accept"], button:has-text("Accepter")');
-    if (await consentBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await consentBtn.click();
-      await page.waitForTimeout(500);
-    }
-
+    await dismissConsent(page);
     await expect(page).toHaveScreenshot(`${name}.png`, SCREENSHOT_OPTS);
+  });
+}
+
+// ── Dark mode tests ──────────────────────────────────────────────────
+// Each test injects the `.dark` class on `<html>` before capturing.
+for (const { name, path } of pages) {
+  test(`visual: ${name}-dark page`, async ({ page }) => {
+    await page.goto(path, { waitUntil: 'networkidle' });
+    await dismissConsent(page);
+
+    // Activate dark mode via the .dark class on <html>
+    await page.evaluate(() => {
+      document.documentElement.classList.add('dark');
+    });
+    // Allow CSS custom properties to propagate
+    await page.waitForTimeout(300);
+
+    await expect(page).toHaveScreenshot(`${name}-dark.png`, SCREENSHOT_OPTS);
   });
 }
