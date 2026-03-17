@@ -56,7 +56,7 @@ function PaiementRefusContent() {
                 Paiement non abouti
               </h1>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
-                La transaction n’a pas été validée. Aucun abonnement n’est activé pour le moment, mais tu peux reprendre proprement depuis les offres ou vérifier la référence de retour.
+                La transaction n\u2019a pas été validée. Aucun abonnement n\u2019est activé pour le moment, mais tu peux reprendre proprement depuis les offres ou vérifier la référence de retour.
               </p>
             </div>
 
@@ -87,12 +87,12 @@ function PaiementRefusContent() {
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Lecture du retour</p>
                   <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
-                    L’abonnement n’a pas été activé.
+                    L\u2019abonnement n\u2019a pas été activé.
                   </h2>
                 </div>
               </div>
               <p className="mt-5 text-sm leading-7 text-[var(--navy-mid)]">
-                Le prestataire a renvoyé un refus ou un échec de transaction. Tant que le statut final n’est pas accepté, la plateforme reste sur le plan actuel.
+                Le prestataire a renvoyé un refus ou un échec de transaction. Tant que le statut final n\u2019est pas accepté, la plateforme reste sur le plan actuel.
               </p>
               <div className="mt-6 grid gap-3 md:grid-cols-3">
                 {[
@@ -128,7 +128,7 @@ function PaiementRefusContent() {
                   href="/"
                   className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--navy)]/25"
                 >
-                  Retour à l’accueil
+                  Retour à l&#x2019;accueil
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -145,7 +145,7 @@ function PaiementRefusContent() {
                     <p className="mt-2 break-all">{displayedRef}</p>
                   </>
                 ) : (
-                  <p>Aucune référence n’a été transmise dans l’URL de retour.</p>
+                  <p>Aucune référence n&#x2019;a été transmise dans l&#x2019;URL de retour.</p>
                 )}
               </div>
             </section>
@@ -158,7 +158,7 @@ function PaiementRefusContent() {
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Réassurance</p>
                   <p className="mt-2 text-sm leading-7 text-[var(--navy-mid)]">
-                    Aucun montant n’a été débité tant que la transaction n’est pas acceptée. En cas de doute, la page tarifaire et ton espace connecté restent les deux écrans de vérification utiles.
+                    Aucun montant n&#x2019;a été débité tant que la transaction n&#x2019;est pas acceptée. En cas de doute, la page tarifaire et ton espace connecté restent les deux écrans de vérification utiles.
                   </p>
                 </div>
               </div>

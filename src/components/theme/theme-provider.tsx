@@ -58,6 +58,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
+  // Mark theme as ready after initial paint to enable CSS transitions
+  useEffect(() => {
+    // Use rAF + setTimeout to ensure the initial theme is painted without animation
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document.documentElement.classList.add('theme-ready');
+      }, 50);
+    });
+  }, []);
+
   // Listen for system preference changes
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');

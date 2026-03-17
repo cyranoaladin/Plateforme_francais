@@ -18,7 +18,7 @@ export function PublicHeader() {
 
   return (
     <>
-    <header className="sticky top-0 z-50 border-b border-[var(--border-strong)]/70 bg-[rgba(244,239,229,0.8)] backdrop-blur-xl supports-[backdrop-filter]:bg-[rgba(244,239,229,0.72)]">
+    <header className="sticky top-0 z-50 border-b border-[var(--border-strong)]/70 bg-[var(--surface-parchment)]/80 backdrop-blur-xl supports-[backdrop-filter]:bg-[var(--surface-parchment)]/[0.72]">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-4 shrink-0">
           <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
@@ -117,7 +117,7 @@ export function PublicHeader() {
     </header>
 
     {/* Bandeau sticky bas — mobile uniquement */}
-    <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden border-t border-[var(--border-strong)] bg-[rgba(244,239,229,0.96)] backdrop-blur-xl px-4 py-3 flex items-center justify-between gap-3 shadow-[0_-8px_30px_rgba(23,50,77,0.12)]">
+    <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden border-t border-[var(--border-strong)] bg-[var(--surface-parchment)]/[0.96] backdrop-blur-xl px-4 py-3 flex items-center justify-between gap-3 shadow-[0_-8px_30px_rgba(23,50,77,0.12)]">
       <div className="min-w-0">
         <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--teal)]">Inscription gratuite</p>
         <p className="truncate text-xs text-[var(--text-secondary)]">3 min · aucun paiement requis</p>

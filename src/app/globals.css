@@ -334,6 +334,19 @@
    Base styles
    ═══════════════════════════════════════════════════════════ */
 
+/* ─── Smooth theme transitions (only after initial paint) ── */
+html:not(.theme-ready) * {
+  transition: none !important;
+}
+
+html.theme-ready {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.theme-ready body {
+  transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);

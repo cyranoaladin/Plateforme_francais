@@ -17,13 +17,14 @@ import {
   UserCircle2,
   Sun,
   Moon,
+  Monitor,
   Flame,
   Award,
   Settings,
   Quote,
   Type,
 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { useTheme } from '@/components/theme/theme-provider';
 
@@ -99,12 +100,27 @@ function computeStreak(dates: string[]): number {
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, toggleTheme } = useTheme();
+  const { preference, setTheme } = useTheme();
 
   const [me, setMe] = useState<AuthMe | null>(null);
   const [globalScore, setGlobalScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [badgeCount, setBadgeCount] = useState(0);
+  const [mobileThemeOpen, setMobileThemeOpen] = useState(false);
+  const mobileThemeRef = useRef<HTMLDivElement>(null);
+
+  // Close mobile theme popover on outside click
+  useEffect(() => {
+    if (!mobileThemeOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (mobileThemeRef.current && !mobileThemeRef.current.contains(e.target as Node)) {
+        setMobileThemeOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [mobileThemeOpen]);
+
   const joursAvantEAF = useMemo(() => {
     const EAF_DATE = new Date('2026-06-11T08:00:00');
     const now = new Date();
@@ -284,14 +300,32 @@ export function Sidebar() {
         </nav>
 
         <div className="border-t border-[var(--border-light)] p-4 space-y-3">
+          {/* ─── Theme Selector (3-state pill) ─── */}
+          <div className="flex items-center justify-center rounded-full border border-[var(--border-light)] bg-[var(--surface-cream)] p-1 shadow-[var(--shadow-xs)]">
+            {([
+              { pref: 'system' as const, icon: Monitor, label: 'Système' },
+              { pref: 'light' as const, icon: Sun, label: 'Clair' },
+              { pref: 'dark' as const, icon: Moon, label: 'Sombre' },
+            ]).map(({ pref, icon: Icon, label }) => (
+              <button
+                key={pref}
+                onClick={() => setTheme(pref)}
+                className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium transition-all duration-[var(--transition-base)] ${
+                  preference === pref
+                    ? 'bg-[var(--card)] text-[var(--text-heading)] shadow-[var(--shadow-sm)]'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-body)]'
+                }`}
+                title={label}
+                aria-label={`Thème : ${label}`}
+                aria-pressed={preference === pref}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                <span>{label}</span>
+              </button>
+            ))}
+          </div>
+
           <div className="flex items-center gap-3">
-            <button
-              aria-label="Basculer le thème"
-              onClick={toggleTheme}
-              className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--card)]/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
-            >
-              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
             <button
               aria-label="Paramètres"
               onClick={() => router.push('/profil')}
@@ -344,6 +378,47 @@ export function Sidebar() {
               </Link>
             );
           })}
+          {/* ─── Mobile Theme Toggle ─── */}
+          <div ref={mobileThemeRef} className="relative flex-1">
+            <button
+              aria-label="Changer le thème"
+              onClick={() => setMobileThemeOpen((prev) => !prev)}
+              className={`flex min-h-[48px] min-w-[48px] w-full flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
+                mobileThemeOpen
+                  ? 'bg-[var(--navy)] text-white shadow-[var(--shadow-md)]'
+                  : 'text-[var(--navy-muted)] active:bg-[var(--card)] active:text-[var(--navy)]'
+              }`}
+            >
+              {preference === 'dark' ? <Moon className="h-5 w-5" /> : preference === 'light' ? <Sun className="h-5 w-5" /> : <Monitor className="h-5 w-5" />}
+              <span className="mt-0.5 text-[10px] font-bold leading-tight">Thème</span>
+            </button>
+            {mobileThemeOpen && (
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--card)] p-1.5 shadow-[var(--shadow-lg)] min-w-[180px]">
+                {([
+                  { pref: 'system' as const, icon: Monitor, label: 'Système' },
+                  { pref: 'light' as const, icon: Sun, label: 'Clair' },
+                  { pref: 'dark' as const, icon: Moon, label: 'Sombre' },
+                ]).map(({ pref, icon: Icon, label }) => (
+                  <button
+                    key={pref}
+                    onClick={() => { setTheme(pref); setMobileThemeOpen(false); }}
+                    className={`flex w-full items-center gap-2.5 rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium transition-all duration-[var(--transition-base)] ${
+                      preference === pref
+                        ? 'bg-[var(--surface-cream)] text-[var(--text-heading)]'
+                        : 'text-[var(--text-muted)] hover:bg-[var(--surface-warm)] hover:text-[var(--text-body)]'
+                    }`}
+                    aria-pressed={preference === pref}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span>{label}</span>
+                    {preference === pref && (
+                      <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[var(--primary)]" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </nav>
     </>

@@ -135,7 +135,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                 {current.label}
               </h1>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
-                La transaction est revenue sur la plateforme. Cet écran t’indique immédiatement si ton plan est actif, en attente, ou s’il faut relancer proprement.
+                La transaction est revenue sur la plateforme. Cet écran t&#x2019;indique immédiatement si ton plan est actif, en attente, ou s&#x2019;il faut relancer proprement.
               </p>
             </div>
 
