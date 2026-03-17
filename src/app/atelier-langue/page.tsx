@@ -72,7 +72,7 @@ const THEME_OPTIONS: ThemeOption[] = [
 ];
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 const METHOD_MARKERS = [
@@ -205,7 +205,7 @@ export default function AtelierLangue() {
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#17324d] px-6 py-7 text-[#f6efe4] shadow-[0_28px_90px_rgba(23,50,77,0.22)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[#f6efe4] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-8%] hidden w-[38%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-4%] top-[-22%] h-40 w-40 rounded-full bg-[rgba(216,163,99,0.15)] blur-3xl" />
 
@@ -229,7 +229,7 @@ export default function AtelierLangue() {
               { label: 'Axe actif', value: activeTheme.eyebrow },
               { label: 'Derniere note', value: scoreLabel },
             ].map((item) => (
-              <div key={item.label} className="rounded-[26px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
+              <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
@@ -244,14 +244,14 @@ export default function AtelierLangue() {
 
       <div className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_20px_70px_rgba(23,50,77,0.08)]">
+          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-lg)]">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#17324d]/8 text-[#17324d]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Serie de travail</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Regler la seance
                 </h2>
               </div>
@@ -263,7 +263,7 @@ export default function AtelierLangue() {
             <select
               value={theme}
               onChange={(event) => setTheme(event.target.value as ThemeKey)}
-              className="mt-2 w-full rounded-[18px] border border-[#dfd1bc] bg-white px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#17324d]/30"
+              className="mt-2 w-full rounded-[16px] border border-[#dfd1bc] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/30"
               disabled={isLoading}
             >
               {THEME_OPTIONS.map((option) => (
@@ -275,34 +275,34 @@ export default function AtelierLangue() {
 
             <div className="mt-4 rounded-[22px] border border-[#dfd1bc] bg-white/80 p-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">{activeTheme.eyebrow}</p>
-              <p className="mt-2 text-sm font-semibold text-[#17324d]">{activeTheme.label}</p>
+              <p className="mt-2 text-sm font-semibold text-[var(--navy)]">{activeTheme.label}</p>
               <p className="mt-2 text-sm leading-6 text-[#33536f]">{activeTheme.description}</p>
             </div>
 
             <button
               onClick={() => void loadExercises(theme)}
               disabled={isLoading}
-              className="mt-5 flex w-full items-center justify-center gap-2 rounded-[18px] bg-[#17324d] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#22486b] disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-5 flex w-full items-center justify-center gap-2 rounded-[16px] bg-[var(--navy)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#22486b] disabled:cursor-not-allowed disabled:opacity-60"
             >
               <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
               {isLoading ? 'Generation...' : 'Composer une nouvelle serie'}
             </button>
           </section>
 
-          <section className="rounded-[30px] border border-[#d7e6e1] bg-[#edf7f3] p-5 shadow-[0_20px_70px_rgba(15,118,110,0.08)]">
+          <section className="rounded-[24px] border border-[#d7e6e1] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#0f766e]/10 text-[#0f766e]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/10 text-[var(--teal)]">
                 <Target className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Methode attendue</p>
-                <h2 className="mt-2 text-lg font-semibold text-[#17324d]">Ce que l examinateur veut entendre</h2>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Methode attendue</p>
+                <h2 className="mt-2 text-lg font-semibold text-[var(--navy)]">Ce que l examinateur veut entendre</h2>
               </div>
             </div>
             <div className="mt-4 space-y-3">
               {METHOD_MARKERS.map((marker, index) => (
                 <div key={marker} className="rounded-[20px] border border-[#d0e8df] bg-white/85 px-4 py-3 text-sm text-[#33536f]">
-                  <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#0f766e]/10 text-xs font-bold text-[#0f766e]">
+                  <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--teal)]/10 text-xs font-bold text-[var(--teal)]">
                     {index + 1}
                   </span>
                   {marker}
@@ -311,11 +311,11 @@ export default function AtelierLangue() {
             </div>
           </section>
 
-          <section className="rounded-[28px] border border-[#e8dcc8] bg-[#f8f1e7] p-5 shadow-[0_18px_55px_rgba(122,75,36,0.08)]">
+          <section className="rounded-[24px] border border-[#e8dcc8] bg-[#f8f1e7] p-5 shadow-[var(--shadow-lg)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Progression</p>
             <div className="mt-4 rounded-full bg-white/75 p-1">
               <div className="h-3 overflow-hidden rounded-full bg-[#efe3d2]">
-                <div className="h-3 rounded-full bg-[#17324d] transition-all duration-500" style={{ width: `${progressPercent}%` }} />
+                <div className="h-3 rounded-full bg-[var(--navy)] transition-all duration-500" style={{ width: `${progressPercent}%` }} />
               </div>
             </div>
             <div className="mt-3 flex items-center justify-between text-sm text-[#5b6f82]">
@@ -325,21 +325,21 @@ export default function AtelierLangue() {
           </section>
         </aside>
 
-        <section className="overflow-hidden rounded-[30px] border border-[#e6dccb] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] shadow-[0_20px_70px_rgba(23,50,77,0.10)]">
+        <section className="overflow-hidden rounded-[24px] border border-[#e6dccb] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] shadow-[var(--shadow-lg)]">
           <div className="border-b border-[#efe3d2] bg-white/85 px-5 py-4 md:px-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#17324d]/10 text-[#17324d]">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--navy)]/10 text-[var(--navy)]">
                   <BookOpen className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Phrase cible</p>
-                  <h2 className="text-lg font-semibold text-[#17324d]">
+                  <h2 className="text-lg font-semibold text-[var(--navy)]">
                     {currentExercise ? `Exercice ${currentIndex + 1}/${exercises.length}` : 'Atelier en attente'}
                   </h2>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#dfd1bc] bg-[#fffaf4] px-3 py-1.5 text-xs font-medium text-[#17324d]">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#dfd1bc] bg-[#fffaf4] px-3 py-1.5 text-xs font-medium text-[var(--navy)]">
                 <Activity className="h-3.5 w-3.5 text-[#9a6a37]" />
                 Terminologie EAF premiere
               </div>
@@ -364,9 +364,9 @@ export default function AtelierLangue() {
             </div>
           ) : (
             <div className="space-y-6 p-5 md:p-8">
-              <section className="rounded-[28px] border border-[#e7dac6] bg-white/85 p-5 shadow-[0_10px_24px_rgba(23,50,77,0.05)] md:p-6">
+              <section className="rounded-[24px] border border-[var(--border-light)] bg-white/85 p-5 shadow-[var(--shadow-sm)] md:p-6">
                 <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Phrase a analyser</p>
-                <p style={EDITORIAL_HEADING} className="mt-4 text-2xl leading-10 tracking-[-0.02em] text-[#17324d] md:text-3xl">
+                <p style={EDITORIAL_HEADING} className="mt-4 text-2xl leading-10 tracking-[-0.02em] text-[var(--navy)] md:text-3xl">
                   « {currentExercise.sentence} »
                 </p>
                 <div className="mt-5 rounded-[22px] border border-[#dfe7ef] bg-[#f4f8fb] p-4">
@@ -375,18 +375,18 @@ export default function AtelierLangue() {
                 </div>
               </section>
 
-              <section className="rounded-[28px] border border-[#e7dac6] bg-white/85 p-5 shadow-[0_10px_24px_rgba(23,50,77,0.05)] md:p-6">
+              <section className="rounded-[24px] border border-[var(--border-light)] bg-white/85 p-5 shadow-[var(--shadow-sm)] md:p-6">
                 <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Ton analyse</p>
-                    <h3 className="mt-2 text-lg font-semibold text-[#17324d]">Reste court, exact, exploitable à l&apos;oral</h3>
+                    <h3 className="mt-2 text-lg font-semibold text-[var(--navy)]">Reste court, exact, exploitable à l&apos;oral</h3>
                   </div>
                   <p className="text-sm text-[#5b6f82]">Formule : identification, dénomination, interprétation.</p>
                 </div>
 
                 <textarea
                   data-testid="langue-answer"
-                  className="mt-5 min-h-[180px] w-full rounded-[24px] border border-[#dfd1bc] bg-[#fffaf4] px-4 py-4 text-sm leading-7 text-[#17324d] outline-none transition placeholder:text-[#8d8173] focus:border-[#17324d]/30"
+                  className="mt-5 min-h-[180px] w-full rounded-[24px] border border-[#dfd1bc] bg-[#fffaf4] px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8d8173] focus:border-[var(--navy)]/30"
                   placeholder="Rédige ton analyse grammaticale complète ici..."
                   value={userAnswer}
                   onChange={(event) => setUserAnswer(event.target.value)}
@@ -399,7 +399,7 @@ export default function AtelierLangue() {
                       data-testid="langue-submit"
                       onClick={handleSubmit}
                       disabled={userAnswer.length === 0 || isSubmitting}
-                      className="inline-flex items-center gap-2 rounded-[18px] bg-[#17324d] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#22486b] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#22486b] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
                       {isSubmitting ? 'Evaluation...' : 'Soumettre la reponse'}
@@ -411,23 +411,23 @@ export default function AtelierLangue() {
                       data-testid="langue-feedback"
                       className={`rounded-[24px] border p-6 ${
                         feedback.status === 'success'
-                          ? 'border-[#d6e8df] bg-[#edf7f3]'
+                          ? 'border-[#d6e8df] bg-[var(--success-bg)]'
                           : feedback.status === 'warning'
-                            ? 'border-[#efd9b4] bg-[#fff7ea]'
-                            : 'border-[#f1c8c0] bg-[#fff0ed]'
+                            ? 'border-[#efd9b4] bg-[var(--warning-bg)]'
+                            : 'border-[#f1c8c0] bg-[var(--error-bg)]'
                       }`}
                     >
                       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
                           <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Retour de seance</p>
-                          <h4 className="mt-2 flex items-center gap-2 text-base font-semibold text-[#17324d]">
-                            {feedback.status === 'success' && <CheckCircle2 className="h-5 w-5 text-[#0f766e]" />}
+                          <h4 className="mt-2 flex items-center gap-2 text-base font-semibold text-[var(--navy)]">
+                            {feedback.status === 'success' && <CheckCircle2 className="h-5 w-5 text-[var(--teal)]" />}
                             {feedback.status === 'warning' && <RefreshCw className="h-5 w-5 text-[#af7a20]" />}
                             {feedback.status === 'error' && <Type className="h-5 w-5 text-[#b24838]" />}
                             Retour sur la reponse
                           </h4>
                         </div>
-                        <span className="inline-flex rounded-full border border-white/70 bg-white/80 px-3 py-1 text-sm font-semibold text-[#17324d]">
+                        <span className="inline-flex rounded-full border border-white/70 bg-white/80 px-3 py-1 text-sm font-semibold text-[var(--navy)]">
                           {feedback.score}/{feedback.max}
                         </span>
                       </div>
@@ -435,7 +435,7 @@ export default function AtelierLangue() {
                     </div>
 
                     {feedback.missing.length > 0 && (
-                      <div className="rounded-[24px] border border-[#efd9b4] bg-[#fff7ea] p-5">
+                      <div className="rounded-[24px] border border-[#efd9b4] bg-[var(--warning-bg)] p-5">
                         <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[#af7a20]">
                           <AlertCircle className="h-4 w-4" />
                           Axes a reprendre
@@ -451,8 +451,8 @@ export default function AtelierLangue() {
                       </div>
                     )}
 
-                    <div className="rounded-[24px] border border-[#d7e6e1] bg-[#edf7f3] p-5">
-                      <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[#0f766e]">
+                    <div className="rounded-[24px] border border-[#d7e6e1] bg-[var(--success-bg)] p-5">
+                      <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--teal)]">
                         <Star className="h-4 w-4" />
                         Correction attendue
                       </p>
@@ -462,7 +462,7 @@ export default function AtelierLangue() {
                     <div className="flex justify-end">
                       <button
                         onClick={handleNext}
-                        className="inline-flex items-center gap-2 rounded-[18px] border border-[#dfd1bc] bg-[#fffaf4] px-6 py-3 text-sm font-semibold text-[#17324d] transition hover:border-[#17324d]/25 hover:bg-white"
+                        className="inline-flex items-center gap-2 rounded-[16px] border border-[#dfd1bc] bg-[#fffaf4] px-6 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25 hover:bg-white"
                       >
                         Exercice suivant
                         <ArrowRight className="h-4 w-4" />

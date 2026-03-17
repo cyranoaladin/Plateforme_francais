@@ -41,7 +41,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
 
   if (!isReady) {
     return (
-      <div className="flex h-64 w-full items-center justify-center rounded-[24px] bg-[#f8f4ec] text-sm text-slate-500">
+      <div className="flex h-64 w-full items-center justify-center rounded-[24px] bg-[var(--surface-warm)] text-sm text-slate-500">
         Préparation du graphique...
       </div>
     );

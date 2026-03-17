@@ -73,7 +73,7 @@ const BANK_TRANSFER_ROWS = [
 ] as const;
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 const PLANS: PlanCard[] = [
@@ -188,14 +188,14 @@ function BillingFaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="rounded-[24px] border border-[#d8ccb9] bg-white/85 shadow-[0_14px_35px_rgba(23,50,77,0.05)]">
+    <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[0_14px_35px_rgba(23,50,77,0.05)]">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
         aria-expanded={open}
       >
-        <span className="text-sm font-semibold text-[#17324d] md:text-base">{q}</span>
+        <span className="text-sm font-semibold text-[var(--navy)] md:text-base">{q}</span>
         {open ? (
           <ChevronUp className="h-5 w-5 shrink-0 text-slate-500" />
         ) : (
@@ -303,30 +303,30 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-[#f4efe5] text-slate-900 [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-screen overflow-x-clip bg-[var(--surface-cream)] text-slate-900 [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[radial-gradient(circle_at_center_top,rgba(255,255,255,0.9),transparent_65%)]" />
-      <div className="pointer-events-none absolute right-0 top-32 h-72 w-72 rounded-full bg-[#0f766e]/10 blur-3xl" />
-      <div className="pointer-events-none absolute left-0 top-[38rem] h-72 w-72 rounded-full bg-[#b87333]/10 blur-3xl" />
+      <div className="pointer-events-none absolute right-0 top-32 h-72 w-72 rounded-full bg-[var(--teal)]/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-0 top-[38rem] h-72 w-72 rounded-full bg-[var(--gold-muted)]/10 blur-3xl" />
 
       <main className="relative mx-auto max-w-7xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 lg:pb-24">
-        <header className="flex flex-col gap-5 rounded-[30px] border border-[#d8ccb9] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-5 rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
-            <div className="hidden md:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
-              <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
+            <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--navy)]">
+              <span className="h-2 w-2 rounded-full bg-[var(--teal)]" />
               Plans 2026
             </div>
           </Link>
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
-            <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+            <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
               Retour accueil
             </Link>
-            <Link href="/login" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
+            <Link href="/login" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
               Se connecter
             </Link>
             <Link
               href="/login?mode=register"
-              className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
             >
               Comparer les plans
               <ArrowRight className="h-4 w-4" />
@@ -336,17 +336,17 @@ export default function PricingPage() {
 
         <section className="grid gap-8 pb-12 pt-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#cabaa5] bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#17324d] shadow-sm">
-              <BadgeCheck className="h-4 w-4 text-[#0f766e]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--navy)] shadow-sm">
+              <BadgeCheck className="h-4 w-4 text-[var(--teal)]" />
               Tarification claire, sans promesse floue
             </div>
 
             <h1
               style={EDITORIAL_HEADING}
-              className="mt-7 max-w-4xl text-5xl leading-[0.96] tracking-[-0.04em] text-[#17324d] sm:text-6xl lg:text-7xl"
+              className="mt-7 max-w-4xl text-5xl leading-[0.96] tracking-[-0.04em] text-[var(--navy)] sm:text-6xl lg:text-7xl"
             >
               Choisis le bon rythme de travail,
-              <span className="block text-[#0f766e]">puis laisse le produit faire le reste.</span>
+              <span className="block text-[var(--teal)]">puis laisse le produit faire le reste.</span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
@@ -356,14 +356,14 @@ export default function PricingPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <a
                 href="#plans"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#17324d] px-6 py-3.5 text-base font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
               >
                 Choisir mon offre
                 <ArrowRight className="h-4 w-4" />
               </a>
               <Link
                 href="/login?mode=register"
-                className="inline-flex items-center justify-center rounded-full border border-[#cabaa5] bg-white/85 px-6 py-3.5 text-base font-semibold text-[#17324d] transition-colors hover:bg-white"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-white/85 px-6 py-3.5 text-base font-semibold text-[var(--navy)] transition-colors hover:bg-white"
               >
                 Essayer gratuitement
               </Link>
@@ -371,14 +371,14 @@ export default function PricingPage() {
 
             <div className="mt-5 flex flex-wrap gap-2.5">
               {['Aucun paiement avant essai', 'Virement bancaire actif', 'WhatsApp actif', 'Carte bientôt disponible', 'Flouci bientôt disponible'].map((item) => (
-                <span key={item} className="rounded-full border border-[#d8ccb9] bg-white/75 px-3.5 py-1.5 text-xs font-semibold text-slate-700">
+                <span key={item} className="rounded-full border border-[var(--border-strong)] bg-white/75 px-3.5 py-1.5 text-xs font-semibold text-slate-700">
                   {item}
                 </span>
               ))}
             </div>
           </div>
 
-          <aside className="rounded-[34px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8">
+          <aside className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Ton statut</p>
@@ -448,13 +448,13 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <div className="mt-4 rounded-[24px] bg-[#f4efe5] p-4 text-[#17324d]">
+            <div className="mt-4 rounded-[24px] bg-[var(--surface-cream)] p-4 text-[var(--navy)]">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Devise et moyens de paiement</p>
                   <p className="mt-1 text-sm font-semibold">Facturation en TND. Virement bancaire et WhatsApp actifs. Paiement carte et Flouci bientôt disponibles.</p>
                 </div>
-                <div className="rounded-full bg-[#17324d] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f2ea]">
+                <div className="rounded-full bg-[var(--navy)] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f2ea]">
                   TND
                 </div>
               </div>
@@ -463,7 +463,7 @@ export default function PricingPage() {
         </section>
 
         {error ? (
-          <div className="mb-8 flex items-start gap-3 rounded-[24px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="alert">
+          <div className="mb-8 flex items-start gap-3 rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d]" role="alert">
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
             <span>{error}</span>
           </div>
@@ -472,8 +472,8 @@ export default function PricingPage() {
         <section id="plans" className="scroll-mt-24 pb-16">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Plans</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Plans</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                 Trois rythmes, trois plafonds, une seule logique de valeur.
               </h2>
             </div>
@@ -486,13 +486,13 @@ export default function PricingPage() {
             {PLANS.map((plan) => {
               const isCurrent = isAuthenticated && plan.id === currentPlan;
               const accent = plan.highlighted
-                ? 'border-[#17324d] bg-[#17324d] text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.18)]'
+                ? 'border-[var(--navy)] bg-[var(--navy)] text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.18)]'
                 : isCurrent
-                  ? 'border-[#0f766e] bg-[#f8f4ec] text-[#17324d]'
-                  : 'border-[#d8ccb9] bg-white/85 text-[#17324d]';
+                  ? 'border-[var(--teal)] bg-[var(--surface-warm)] text-[var(--navy)]'
+                  : 'border-[var(--border-strong)] bg-white/85 text-[var(--navy)]';
 
               return (
-                <article key={plan.id} className={`${accent} rounded-[32px] border p-6`}>
+                <article key={plan.id} className={`${accent} rounded-[24px] border p-6`}>
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-[11px] font-bold uppercase tracking-[0.26em] opacity-70">{plan.kicker}</p>
@@ -520,7 +520,7 @@ export default function PricingPage() {
                   <ul className="mt-6 space-y-3 text-sm leading-6">
                     {plan.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-start gap-3">
-                        <CheckCircle2 className={`mt-1 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-[#d7c4aa]' : 'text-[#0f766e]'}`} />
+                        <CheckCircle2 className={`mt-1 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-[#d7c4aa]' : 'text-[var(--teal)]'}`} />
                         <span>{bullet}</span>
                       </li>
                     ))}
@@ -541,8 +541,8 @@ export default function PricingPage() {
                     }}
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
                       plan.highlighted
-                        ? 'bg-[#f7f2ea] text-[#17324d] hover:-translate-y-0.5 hover:bg-white'
-                        : 'bg-[#17324d] text-[#f7f2ea] hover:-translate-y-0.5 hover:bg-[#0f2740]'
+                        ? 'bg-[#f7f2ea] text-[var(--navy)] hover:-translate-y-0.5 hover:bg-white'
+                        : 'bg-[var(--navy)] text-[#f7f2ea] hover:-translate-y-0.5 hover:bg-[#0f2740]'
                     }`}
                   >
                     {!isAuthenticated ? (
@@ -560,18 +560,18 @@ export default function PricingPage() {
         </section>
 
         <section className="pb-16">
-          <div className="rounded-[34px] border border-[#d8ccb9] bg-white/80 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-8">
+          <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/80 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-8">
             <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Aide à la décision</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Aide à la décision</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                   La bonne offre dépend du rythme, pas d'un argument marketing vide.
                 </h2>
               </div>
               <div className="grid gap-3 md:grid-cols-3">
                 {DECISION_GUIDES.map((guide) => (
-                  <article key={guide.title} className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
-                    <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#17324d]">{guide.title}</p>
+                  <article key={guide.title} className="rounded-[26px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+                    <p className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--navy)]">{guide.title}</p>
                     <p className="mt-3 text-sm leading-6 text-slate-600">{guide.body}</p>
                   </article>
                 ))}
@@ -581,14 +581,14 @@ export default function PricingPage() {
         </section>
 
         <section className="grid gap-5 pb-16 lg:grid-cols-2">
-          <article className="rounded-[32px] border border-[#d8ccb9] bg-white/85 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
             <div className="flex items-center gap-2">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#17324d] text-[#f7f2ea]">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--navy)] text-[#f7f2ea]">
                 <KeyRound className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Activation</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
                   Activer avec un code
                 </h2>
               </div>
@@ -605,40 +605,40 @@ export default function PricingPage() {
                   value={codeInput}
                   onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
                   placeholder="NEXUS-XXXX-XXXX-XXXX"
-                  className="flex-1 rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm font-mono tracking-wider text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
+                  className="flex-1 rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm font-mono tracking-wider text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
                   maxLength={25}
                   disabled={codeLoading}
                 />
                 <button
                   type="submit"
                   disabled={codeLoading || !codeInput.trim()}
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#17324d] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-colors hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-colors hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {codeLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                   {codeLoading ? 'Activation...' : 'Activer'}
                 </button>
               </form>
             ) : (
-              <div className="mt-6 rounded-[22px] border border-[#d8ccb9] bg-[#fcfaf6] p-4 text-sm leading-7 text-slate-600">
-                <Link href="/login" className="font-semibold text-[#17324d] underline">Connecte-toi d'abord</Link> pour rattacher le code à ton compte, puis reviens ici pour l'activer.
+              <div className="mt-6 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4 text-sm leading-7 text-slate-600">
+                <Link href="/login" className="font-semibold text-[var(--navy)] underline">Connecte-toi d'abord</Link> pour rattacher le code à ton compte, puis reviens ici pour l'activer.
               </div>
             )}
 
             {codeSuccess ? (
-              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#9cccaf] bg-[#eef8f0] p-4 text-sm text-[#25543d]" role="status">
+              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#9cccaf] bg-[var(--success-bg)] p-4 text-sm text-[#25543d]" role="status">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{codeSuccess.message}</span>
               </div>
             ) : null}
             {codeError ? (
-              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="alert">
+              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d]" role="alert">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{codeError}</span>
               </div>
             ) : null}
           </article>
 
-          <article className="rounded-[32px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
+          <article className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
             <div className="flex items-center gap-2">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]">
                 <Landmark className="h-5 w-5" />
@@ -668,7 +668,7 @@ export default function PricingPage() {
                       <button
                         type="button"
                         onClick={() => setError(TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE)}
-                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]"
+                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[#f8f1e7]"
                       >
                         Flouci bientôt disponible
                       </button>
@@ -684,7 +684,7 @@ export default function PricingPage() {
                       Pour activer le plan maintenant, utilise le virement bancaire avec l'email du compte ou ton identifiant utilisateur en référence.
                     </p>
                     {error ? (
-                      <div className="mt-4 flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/10 p-3 text-sm text-white" role="alert">
+                      <div className="mt-4 flex items-start gap-3 rounded-[16px] border border-white/10 bg-white/10 p-3 text-sm text-white" role="alert">
                         <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
                         <span>{error}</span>
                       </div>
@@ -698,7 +698,7 @@ export default function PricingPage() {
                   <div>
                     <p className="text-sm font-semibold text-white">Virement bancaire</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">Ajoutez l'email du compte ou l'identifiant utilisateur en motif. Le plan est activé après vérification du règlement.</p>
-                    <div className="mt-4 grid gap-2 rounded-[20px] bg-[#0f2740] p-4 text-sm text-slate-100 sm:grid-cols-2">
+                    <div className="mt-4 grid gap-2 rounded-[16px] bg-[#0f2740] p-4 text-sm text-slate-100 sm:grid-cols-2">
                       {BANK_TRANSFER_ROWS.map((row) => (
                         <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
                           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#d7c4aa]">{row.label}</p>
@@ -709,7 +709,7 @@ export default function PricingPage() {
                     <div className="mt-4 flex flex-wrap gap-3">
                       <Link
                         href="/contact?subject=virement"
-                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#17324d] transition hover:bg-[#f8f1e7]"
+                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[#f8f1e7]"
                       >
                         Envoyer la référence
                       </Link>
@@ -731,14 +731,14 @@ export default function PricingPage() {
         </section>
 
         <section className="pb-16">
-          <div className="rounded-[34px] border-2 border-[#25d366] bg-white/90 p-6 shadow-[0_18px_45px_rgba(37,211,102,0.12)] md:p-8">
+          <div className="rounded-[24px] border-2 border-[#25d366] bg-white/90 p-6 shadow-[0_18px_45px_rgba(37,211,102,0.12)] md:p-8">
             <div className="flex items-center gap-3">
               <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#25d366] text-white">
                 <MessageCircle className="h-7 w-7" />
               </div>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#25d366]">Canal actif</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
                   Souscrire via WhatsApp
                 </h2>
               </div>
@@ -749,14 +749,14 @@ export default function PricingPage() {
             </p>
 
             <div className="mt-6 grid gap-5 md:grid-cols-2">
-              <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-5">
+              <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">Numéro WhatsApp</p>
-                <p className="mt-2 text-2xl font-bold tracking-wide text-[#17324d]">{WHATSAPP_NUMBER}</p>
+                <p className="mt-2 text-2xl font-bold tracking-wide text-[var(--navy)]">{WHATSAPP_NUMBER}</p>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   Disponible pour répondre à tes questions sur les plans, t'aider à choisir et finaliser ton abonnement.
                 </p>
               </div>
-              <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-5">
+              <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">Comment ça marche</p>
                 <ol className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
                   <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">1</span>Envoie &quot;Bonjour&quot; sur WhatsApp</li>
@@ -786,7 +786,7 @@ export default function PricingPage() {
               </a>
             </div>
 
-            <div className="mt-5 flex items-start gap-3 rounded-[20px] bg-[#f0fdf4] p-4">
+            <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[#f0fdf4] p-4">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#25d366]" />
               <p className="text-sm leading-6 text-slate-600">
                 Ce numéro est géré par l'équipe Nexus Réussite. Aucun paiement n'est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire.
@@ -798,31 +798,31 @@ export default function PricingPage() {
         <section className="pb-16">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Comparaison détaillée</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Comparaison détaillée</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                 Les quotas sont visibles, donc la décision reste rationnelle.
               </h2>
             </div>
-            <div className="rounded-full border border-[#d8ccb9] bg-white/80 px-4 py-2 text-sm font-semibold text-slate-600">
-              <Clock3 className="mr-2 inline h-4 w-4 text-[#0f766e]" />
+            <div className="rounded-full border border-[var(--border-strong)] bg-white/80 px-4 py-2 text-sm font-semibold text-slate-600">
+              <Clock3 className="mr-2 inline h-4 w-4 text-[var(--teal)]" />
               Compare en 30 secondes
             </div>
           </div>
 
-          <div className="mt-10 overflow-x-auto rounded-[30px] border border-[#d8ccb9] bg-white/85 shadow-[0_18px_45px_rgba(23,50,77,0.05)]">
+          <div className="mt-10 overflow-x-auto rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[0_18px_45px_rgba(23,50,77,0.05)]">
             <table className="w-full min-w-[760px] text-sm">
               <thead>
-                <tr className="bg-[#f8f4ec] text-left">
-                  <th className="px-5 py-4 font-bold text-[#17324d]">Fonctionnalité</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Freemium</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#0f766e]">Premium</th>
-                  <th className="px-5 py-4 text-center font-bold text-[#17324d]">Masterium</th>
+                <tr className="bg-[var(--surface-warm)] text-left">
+                  <th className="px-5 py-4 font-bold text-[var(--navy)]">Fonctionnalité</th>
+                  <th className="px-5 py-4 text-center font-bold text-[var(--navy)]">Freemium</th>
+                  <th className="px-5 py-4 text-center font-bold text-[var(--teal)]">Premium</th>
+                  <th className="px-5 py-4 text-center font-bold text-[var(--navy)]">Masterium</th>
                 </tr>
               </thead>
               <tbody>
                 {FEATURE_ROWS.map((row, index) => (
-                  <tr key={row.label} className={index % 2 === 0 ? 'bg-white' : 'bg-[#fbf8f2]'}>
-                    <td className="px-5 py-3.5 font-medium text-[#17324d]">{row.label}</td>
+                  <tr key={row.label} className={index % 2 === 0 ? 'bg-white' : 'bg-[var(--surface-warm)]'}>
+                    <td className="px-5 py-3.5 font-medium text-[var(--navy)]">{row.label}</td>
                     <td className="px-5 py-3.5 text-center text-slate-600">{row.free}</td>
                     <td className="px-5 py-3.5 text-center text-slate-600">{row.premium}</td>
                     <td className="px-5 py-3.5 text-center text-slate-600">{row.pro}</td>
@@ -835,15 +835,15 @@ export default function PricingPage() {
 
         <section className="grid gap-6 pb-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">FAQ facturation</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">FAQ facturation</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               Les questions d'argent doivent être traitées aussi clairement que le reste.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
               Si la page est bonne, elle coupe court aux hésitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon.
             </p>
 
-            <div className="mt-8 rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
+            <div className="mt-8 rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Prêt à passer à l&apos;action ?</p>
               <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                 La préparation sérieuse commence avec Premium.
@@ -852,7 +852,7 @@ export default function PricingPage() {
                 Le plan Freemium donne un aperçu du workflow. Premium débloque le rythme de travail nécessaire pour progresser réellement avant l&apos;épreuve.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white">
+                <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
                   Comparer les plans
                   <ArrowRight className="h-4 w-4" />
                 </Link>

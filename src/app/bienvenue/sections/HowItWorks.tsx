@@ -5,7 +5,7 @@ import { ArrowRight, CheckCircle2, Compass, PenSquare, RefreshCcw } from 'lucide
 import { track } from '@/components/analytics/events';
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 const STEPS = [
@@ -40,10 +40,10 @@ export function HowItWorks() {
     <section id="comment-ca-marche" className="scroll-mt-24 py-20 md:py-24">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">La méthode</p>
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">La méthode</p>
           <h2
             style={EDITORIAL_HEADING}
-            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl"
+            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl"
           >
             Une mécanique de progression, pas une accumulation d&apos;outils.
           </h2>
@@ -52,7 +52,7 @@ export function HowItWorks() {
             la production, la correction et la relance. Tout est pensé pour réduire la dispersion.
           </p>
 
-          <div className="mt-8 rounded-[30px] border border-[#d8ccb9] bg-white/85 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.08)]">
+          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Ce que la page promet</p>
             <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-700">
               {[
@@ -61,7 +61,7 @@ export function HowItWorks() {
                 'Un feedback transformé en prochaine action.',
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#0f766e]" />
+                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--teal)]" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -72,7 +72,7 @@ export function HowItWorks() {
             <Link
               href="/login?mode=register"
               onClick={() => track({ name: 'cta_click', props: { cta: 'how_it_works_register', path: '/bienvenue' } })}
-              className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
             >
               Démarrer l&apos;onboarding
               <ArrowRight className="h-4 w-4" />
@@ -84,32 +84,32 @@ export function HowItWorks() {
           {STEPS.map((step, index) => (
             <article
               key={step.number}
-              className="rounded-[30px] border border-[#d8ccb9] bg-white/85 p-6 shadow-[0_18px_40px_rgba(23,50,77,0.06)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
+              className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
               style={{ animationDelay: `${0.1 + index * 0.08}s` }}
             >
               <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
                 <div className="max-w-2xl">
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#17324d] text-sm font-bold text-[#f7f2ea]">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--navy)] text-sm font-bold text-[#f7f2ea]">
                       {step.number}
                     </span>
-                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[#d8ccb9] bg-[#efe7da] text-[#0f766e]">
+                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--border-strong)] bg-[#efe7da] text-[var(--teal)]">
                       <step.icon className="h-5 w-5" />
                     </div>
                   </div>
 
-                  <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+                  <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
                     {step.title}
                   </h3>
                   <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">{step.description}</p>
                 </div>
 
                 <div className="grid gap-3 md:w-[21rem]">
-                  <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+                  <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Côté élève</p>
                     <p className="mt-2 text-sm leading-6 text-slate-700">{step.student}</p>
                   </div>
-                  <div className="rounded-[24px] bg-[#17324d] p-4 text-[#f7f2ea]">
+                  <div className="rounded-[24px] bg-[var(--navy)] p-4 text-[#f7f2ea]">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Côté Nexus</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">{step.platform}</p>
                   </div>

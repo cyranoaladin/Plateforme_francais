@@ -1,40 +1,108 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════
+   NEXUS RÉUSSITE — Design System CSS Foundation
+   Single source of truth for CSS custom properties.
+   ═══════════════════════════════════════════════════════════ */
+
 :root {
-  --background: #f4eee3;
-  --foreground: #0f172a;
+  /* ─── Typography ──────────────────────────────────── */
+  --font-sans: var(--font-inter), "Inter", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-display: var(--font-playfair), "Playfair Display", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
+
+  /* ─── Brand Colors ────────────────────────────────── */
+  --navy: #17324d;
+  --navy-light: #274d73;
+  --navy-muted: #5f7388;
+  --teal: #0f766e;
+  --teal-light: #14b8a6;
+  --gold: #d4af37;
+  --gold-muted: #b87333;
+
+  /* ─── Surfaces ────────────────────────────────────── */
+  --surface-cream: #f4eee3;
+  --surface-ivory: #fffdf9;
+  --surface-warm: #fbf7ef;
+  --surface-paper: #fcfaf6;
+
+  /* ─── Borders ─────────────────────────────────────── */
+  --border-light: #e7dac6;
+  --border-default: #dfd2bf;
+  --border-strong: #d8ccb9;
+
+  /* ─── Text ────────────────────────────────────────── */
+  --text-heading: #0f172a;
+  --text-body: #334155;
+  --text-muted: #5f7388;
+  --text-placeholder: #94a3b8;
+
+  /* ─── Status ──────────────────────────────────────── */
+  --success: #0f766e;
+  --success-bg: #edf7f3;
+  --warning: #b45309;
+  --warning-bg: #fff7ea;
+  --error: #b91c1c;
+  --error-bg: #fff0ed;
+  --info: #1d4ed8;
+  --info-bg: #eff6ff;
+
+  /* ─── Dark surfaces ──────────────────────────────── */
+  --dark-900: #0f172a;
+  --dark-800: #1e293b;
+
+  /* ─── Semantic aliases (Tailwind compat) ──────────── */
+  --background: var(--surface-cream);
+  --foreground: var(--text-heading);
   --muted: #ece2d3;
-  --muted-foreground: #475569;
-  --card: #fffdf9;
-  --card-foreground: #0f172a;
-  --primary: #0f766e;
+  --muted-foreground: var(--text-muted);
+  --card: var(--surface-ivory);
+  --card-foreground: var(--text-heading);
+  --primary: var(--teal);
   --primary-foreground: #ffffff;
-  --secondary: #334155;
+  --secondary: var(--text-body);
   --secondary-foreground: #ffffff;
   --accent: #d97706;
   --accent-foreground: #ffffff;
-  --border: #dfd2bf;
+  --border: var(--border-default);
   --input: #efe5d8;
-  --success: #15803d;
-  --warning: #b45309;
-  --error: #b91c1c;
+
+  /* ─── Radii ───────────────────────────────────────── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ─── Shadows ─────────────────────────────────────── */
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.16);
+  --shadow-gold: 0 8px 24px rgba(212, 175, 55, 0.2);
+
+  /* ─── Transitions ─────────────────────────────────── */
+  --transition-fast: 150ms ease-out;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease-in-out;
 }
 
 .dark {
-  --background: #0f172a;
+  --background: var(--dark-900);
   --foreground: #f1f5f9;
-  --muted: #1e293b;
+  --muted: var(--dark-800);
   --muted-foreground: #94a3b8;
   --card: #334155;
   --card-foreground: #f1f5f9;
-  --primary: #14b8a6;
+  --primary: var(--teal-light);
   --primary-foreground: #ffffff;
-  --secondary: #0f766e;
+  --secondary: var(--teal);
   --secondary-foreground: #f8fafc;
   --accent: #f59e0b;
-  --accent-foreground: #0f172a;
+  --accent-foreground: var(--dark-900);
   --border: #334155;
-  --input: #1e293b;
+  --input: var(--dark-800);
   --success: #10b981;
   --warning: #d97706;
   --error: #ef4444;
@@ -58,17 +126,23 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
 }
+
+/* ═══════════════════════════════════════════════════════════
+   Base styles
+   ═══════════════════════════════════════════════════════════ */
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "Avenir Next", "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+  font-family: var(--font-sans);
   background-image:
-    radial-gradient(circle at top right, rgba(15, 118, 110, 0.11), transparent 34%),
-    radial-gradient(circle at top left, rgba(185, 120, 50, 0.1), transparent 28%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0)),
-    repeating-linear-gradient(90deg, rgba(23, 50, 77, 0.02) 0 1px, transparent 1px 64px);
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 34%),
+    radial-gradient(circle at top left, rgba(185, 120, 50, 0.06), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
 }
 
 ::selection {
@@ -76,14 +150,48 @@ body {
   color: var(--foreground);
 }
 
-/* ─── WCAG 2.1 AA: Focus visible ring ──────────────── */
+/* ─── Editorial display headings ─────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ─── Utility: card surface ──────────────────────────── */
+.surface-card {
+  background: var(--card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+
+.surface-elevated {
+  background: var(--card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.surface-elevated:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.surface-dark {
+  background: var(--navy);
+  color: #f7f2ea;
+  border-radius: var(--radius-xl);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Accessibility (WCAG 2.1 AA)
+   ═══════════════════════════════════════════════════════════ */
+
 *:focus-visible {
   outline: 3px solid var(--primary);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* ─── WCAG 2.1 AA: Skip-to-content link ───────────── */
 .skip-to-content {
   position: absolute;
   left: -9999px;
@@ -99,7 +207,6 @@ body {
   left: 0;
 }
 
-/* ─── WCAG 2.1 AA: Reduced motion ─────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -108,7 +215,6 @@ body {
   }
 }
 
-/* ─── WCAG 2.1 AA: Dyslexia mode ──────────────────── */
 .dyslexia-mode {
   font-family: "OpenDyslexic", "Comic Sans MS", "Trebuchet MS", sans-serif;
   letter-spacing: 0.08em;

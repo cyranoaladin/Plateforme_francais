@@ -52,7 +52,7 @@ type StudentProfile = {
 };
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 const FALLBACK_PROFILE: StudentProfile = {
@@ -79,21 +79,21 @@ const SKILL_META = [
   {
     key: 'ecrit' as const,
     label: 'Écrit',
-    accent: 'bg-[#17324d]',
+    accent: 'bg-[var(--navy)]',
     copy: 'Construire plus vite une réponse solide, sans perdre la tension du sujet.',
     icon: PenTool,
   },
   {
     key: 'oral' as const,
     label: 'Oral',
-    accent: 'bg-[#0f766e]',
+    accent: 'bg-[var(--teal)]',
     copy: 'Tenir la lecture, l’explication et la relance avec plus de fluidité.',
     icon: Mic,
   },
   {
     key: 'grammaire' as const,
     label: 'Grammaire',
-    accent: 'bg-[#b87333]',
+    accent: 'bg-[var(--gold-muted)]',
     copy: 'Stabiliser les notions qui font perdre des points trop vite.',
     icon: BrainCircuit,
   },
@@ -107,16 +107,16 @@ const SKILL_META = [
 ];
 
 const BADGE_STYLES = [
-  'from-[#17324d] to-[#315f88]',
-  'from-[#0f766e] to-[#43b9aa]',
+  'from-[var(--navy)] to-[#315f88]',
+  'from-[var(--teal)] to-[#43b9aa]',
   'from-[#7a4b24] to-[#d6a15d]',
   'from-[#503a64] to-[#9a88b0]',
 ];
 
 const PRIORITY_STYLE = {
-  high: 'border-[#b87333]/18 bg-[#fdf4e9] text-[#9a5f25]',
-  medium: 'border-[#17324d]/14 bg-[#eef3f8] text-[#17324d]',
-  low: 'border-[#0f766e]/14 bg-[#eef9f6] text-[#0f766e]',
+  high: 'border-[var(--gold-muted)]/18 bg-[#fdf4e9] text-[#9a5f25]',
+  medium: 'border-[var(--navy)]/14 bg-[#eef3f8] text-[var(--navy)]',
+  low: 'border-[var(--teal)]/14 bg-[#eef9f6] text-[var(--teal)]',
 };
 
 function formatShortDate(date: string) {
@@ -205,14 +205,14 @@ export default function ProfilPage() {
   if (loading) {
     return (
       <div className="mx-auto flex min-h-64 max-w-6xl items-center justify-center p-8">
-        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[#17324d] border-t-transparent" />
+        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[var(--navy)] border-t-transparent" />
       </div>
     );
   }
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -248,7 +248,7 @@ export default function ProfilPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 Ouvrir mon parcours
                 <ArrowRight className="h-4 w-4" />
@@ -282,7 +282,7 @@ export default function ProfilPage() {
               </div>
             ))}
 
-            <div className="sm:col-span-2 rounded-[26px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
+            <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Signal global</p>
               <p className="mt-3 text-2xl font-semibold text-white">{profileSignal.label}</p>
               <p className="mt-2 text-sm leading-7 text-slate-200">{profileSignal.detail}</p>
@@ -292,16 +292,16 @@ export default function ProfilPage() {
       </section>
 
       {error ? (
-        <div className="rounded-[24px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d] shadow-[0_12px_28px_rgba(182,80,80,0.08)]">
+        <div className="rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d] shadow-[var(--shadow-sm)]">
           <AlertTriangle className="mr-2 inline h-4 w-4" />
           {error}
         </div>
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Cartographie actuelle</p>
-          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+        <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cartographie actuelle</p>
+          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
             Quatre axes lisibles, pour éviter une lecture floue de tes progrès.
           </h2>
 
@@ -312,11 +312,11 @@ export default function ProfilPage() {
                 <div key={skill.key}>
                   <div className="mb-2 flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3">
-                      <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[#f8f4ec] text-[#17324d]">
+                      <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--surface-warm)] text-[var(--navy)]">
                         <Icon className="h-4 w-4" />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-[#17324d]">{skill.label}</p>
+                        <p className="text-sm font-semibold text-[var(--navy)]">{skill.label}</p>
                         <p className="mt-1 text-xs leading-5 text-slate-500">{skill.copy}</p>
                       </div>
                     </div>
@@ -331,42 +331,42 @@ export default function ProfilPage() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Axe fort</p>
-              <p className="mt-3 text-lg font-semibold text-[#17324d]">{strongestSkill.label}</p>
+              <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{strongestSkill.label}</p>
               <p className="mt-2 text-sm leading-6 text-slate-600">C’est là que le niveau est le plus naturellement stable aujourd’hui.</p>
             </div>
-            <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Axe prioritaire</p>
-              <p className="mt-3 text-lg font-semibold text-[#17324d]">{weakestSkill.label}</p>
+              <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{weakestSkill.label}</p>
               <p className="mt-2 text-sm leading-6 text-slate-600">C’est l’endroit où une séance bien choisie rapportera le plus vite.</p>
             </div>
           </div>
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Points de vigilance</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+          <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Points de vigilance</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               Les erreurs récurrentes doivent rester visibles, pas seulement ressenties.
             </h2>
 
             {topErrors.length === 0 ? (
-              <div className="mt-8 rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4 text-sm leading-7 text-slate-600">
+              <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
                 Aucune erreur récurrente forte n’est remontée pour l’instant. Continue à alimenter le profil avec des ateliers et des évaluations réelles.
               </div>
             ) : (
               <div className="mt-8 space-y-3">
                 {topErrors.map((entry) => (
-                  <article key={`${entry.type}-${entry.firstSeen}`} className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
+                  <article key={`${entry.type}-${entry.firstSeen}`} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                     <div className="flex items-start gap-4">
-                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#fff3e4] text-[#b87333]">
+                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#fff3e4] text-[var(--gold-muted)]">
                         <AlertTriangle className="h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <p className="text-sm font-semibold text-[#17324d]">{entry.type}</p>
-                          <span className="rounded-full border border-[#b87333]/18 bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#9a5f25]">
+                          <p className="text-sm font-semibold text-[var(--navy)]">{entry.type}</p>
+                          <span className="rounded-full border border-[var(--gold-muted)]/18 bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#9a5f25]">
                             {entry.count} occurrences
                           </span>
                         </div>
@@ -379,7 +379,7 @@ export default function ProfilPage() {
             )}
           </div>
 
-          <div className="rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
+          <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-lg)] md:p-7">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">72 prochaines heures</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
               Les prochaines tâches doivent être courtes, claires et immédiatement lançables.
@@ -411,7 +411,7 @@ export default function ProfilPage() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 Voir tout le plan
                 <ArrowRight className="h-4 w-4" />
@@ -427,21 +427,21 @@ export default function ProfilPage() {
         </div>
       </section>
 
-      <section className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+      <section className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Badges et traces positives</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Badges et traces positives</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               Les marqueurs de progression comptent aussi pour soutenir la constance.
             </h2>
           </div>
-          <div className="rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-2 text-sm font-semibold text-slate-600">
+          <div className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-slate-600">
             {resolvedProfile.badges.length} badges actifs
           </div>
         </div>
 
         {!resolvedProfile.badges.length ? (
-          <div className="mt-8 rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4 text-sm leading-7 text-slate-600">
+          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
             Aucun badge n’est encore enregistré. Les premiers arrivent vite dès que la régularité et les ateliers commencent à se cumuler.
           </div>
         ) : (
@@ -449,7 +449,7 @@ export default function ProfilPage() {
             {resolvedProfile.badges.map((badge, index) => (
               <article
                 key={badge}
-                className={`rounded-[24px] border border-white/10 bg-gradient-to-br ${BADGE_STYLES[index % BADGE_STYLES.length]} p-5 text-white shadow-[0_18px_35px_rgba(23,50,77,0.12)]`}
+                className={`rounded-[24px] border border-white/10 bg-gradient-to-br ${BADGE_STYLES[index % BADGE_STYLES.length]} p-5 text-white shadow-[var(--shadow-md)]`}
               >
                 <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12">
                   <Sparkles className="h-5 w-5" />

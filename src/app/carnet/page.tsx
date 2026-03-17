@@ -26,7 +26,7 @@ const TYPE_LABELS: Record<CarnetEntry['type'], string> = {
 };
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 export default function CarnetPage() {
@@ -121,7 +121,7 @@ export default function CarnetPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#17324d] px-6 py-7 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.22)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -163,14 +163,14 @@ export default function CarnetPage() {
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_20px_70px_rgba(23,50,77,0.08)]">
+          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-lg)]">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#17324d]/8 text-[#17324d]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Nouvelle entrée</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Noter pendant que c est encore vivant
                 </h2>
               </div>
@@ -181,12 +181,12 @@ export default function CarnetPage() {
                 value={oeuvre}
                 onChange={(event) => setOeuvre(event.target.value)}
                 placeholder="Oeuvre"
-                className="w-full rounded-[18px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8"
+                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               />
               <select
                 value={type}
                 onChange={(event) => setType(event.target.value as CarnetEntry['type'])}
-                className="w-full rounded-[18px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8"
+                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               >
                 {TYPES.map((entryType) => (
                   <option key={entryType} value={entryType}>{TYPE_LABELS[entryType]}</option>
@@ -196,37 +196,37 @@ export default function CarnetPage() {
                 value={page}
                 onChange={(event) => setPage(event.target.value)}
                 placeholder="Page (optionnel)"
-                className="w-full rounded-[18px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8"
+                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               />
               <input
                 value={tags}
                 onChange={(event) => setTags(event.target.value)}
                 placeholder="Tags separes par virgules"
-                className="w-full rounded-[18px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8"
+                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               />
               <textarea
                 value={contenu}
                 onChange={(event) => setContenu(event.target.value)}
                 placeholder="Contenu"
-                className="min-h-36 w-full rounded-[18px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm leading-7 text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8"
+                className="min-h-36 w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               />
               <button
                 onClick={() => void submit()}
                 disabled={saving}
-                className="inline-flex items-center gap-2 rounded-[20px] bg-[#17324d] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-60"
               >
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />} Ajouter
               </button>
             </div>
           </section>
 
-          <section className="rounded-[28px] border border-[#d8e8e3] bg-[#edf7f3] p-5 shadow-[0_18px_55px_rgba(15,118,110,0.08)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Répartition des notes</p>
+          <section className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Répartition des notes</p>
             <div className="mt-4 space-y-3">
               {typeStats.map((item) => (
-                <div key={item.key} className="flex items-center justify-between rounded-[18px] border border-[#d3e7e1] bg-white/88 px-4 py-3 text-sm text-[#33536f]">
+                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[#d3e7e1] bg-white/88 px-4 py-3 text-sm text-[#33536f]">
                   <span>{item.label}</span>
-                  <span className="font-semibold text-[#17324d]">{item.count}</span>
+                  <span className="font-semibold text-[var(--navy)]">{item.count}</span>
                 </div>
               ))}
             </div>
@@ -252,18 +252,18 @@ export default function CarnetPage() {
             />
           ) : (
             grouped.map(([oeuvreName, oeuvreEntries]) => (
-              <section key={oeuvreName} className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_16px_40px_rgba(23,50,77,0.06)] md:p-6">
+              <section key={oeuvreName} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
                 <div className="flex items-center justify-between gap-3">
-                  <h2 className="text-xl font-semibold text-[#17324d]">{oeuvreName}</h2>
-                  <span className="rounded-full bg-[#17324d]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#17324d]">
+                  <h2 className="text-xl font-semibold text-[var(--navy)]">{oeuvreName}</h2>
+                  <span className="rounded-full bg-[var(--navy)]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--navy)]">
                     {oeuvreEntries.length} entrée{oeuvreEntries.length > 1 ? 's' : ''}
                   </span>
                 </div>
                 <div className="mt-4 space-y-3">
                   {oeuvreEntries.map((entry) => (
-                    <article key={entry.id} className="rounded-[22px] border border-[#eadbc5] bg-white p-4 shadow-[0_10px_24px_rgba(23,50,77,0.05)]">
+                    <article key={entry.id} className="rounded-[16px] border border-[#eadbc5] bg-white p-4 shadow-[var(--shadow-sm)]">
                       <div className="flex flex-wrap items-center gap-2 text-xs text-[#7a6858]">
-                        <span className="rounded-full bg-[#17324d]/8 px-2.5 py-1 font-semibold text-[#17324d]">{TYPE_LABELS[entry.type]}</span>
+                        <span className="rounded-full bg-[var(--navy)]/8 px-2.5 py-1 font-semibold text-[var(--navy)]">{TYPE_LABELS[entry.type]}</span>
                         <span>{new Date(entry.createdAt).toLocaleDateString('fr-FR')}</span>
                         {entry.page ? <span>p.{entry.page}</span> : null}
                       </div>

@@ -1,8 +1,22 @@
 import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/app-shell";
 import { WebVitalsReporter } from "@/components/monitoring/web-vitals-reporter";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Nexus Réussite — Préparation EAF",
@@ -19,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className="antialiased min-h-screen bg-background text-foreground flex">
+    <html lang="fr" className={`${inter.variable} ${playfair.variable}`}>
+      <body className="font-sans antialiased min-h-screen bg-background text-foreground flex">
         <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
         <WebVitalsReporter />
         <AppShell><main id="main-content">{children}</main></AppShell>

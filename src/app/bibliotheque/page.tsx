@@ -33,7 +33,7 @@ import { PdfPreviewViewer } from '@/components/ui/pdf-preview-viewer';
 import { FREE_LIBRARY_LIMITS, FREE_TOTAL_LIMIT, LIBRARY_TOTAL_RESOURCES } from '@/lib/billing/library-gating';
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 const CATEGORY_ICONS: Record<ResourceCategory, typeof FolderOpen> = {
@@ -249,7 +249,7 @@ export default function BibliothequePage() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#17324d] px-6 py-7 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.22)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -284,12 +284,12 @@ export default function BibliothequePage() {
       </section>
 
       {!hasFullAccess && (
-        <section className="rounded-[28px] border border-[#e7dac6] bg-[linear-gradient(135deg,#fff8ef_0%,#f5eadb_100%)] px-6 py-5">
+        <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(135deg,#fff8ef_0%,#f5eadb_100%)] px-6 py-5">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-3">
               <Lock className="mt-0.5 h-5 w-5 shrink-0 text-[#9a6a37]" />
               <div>
-                <p className="text-sm font-semibold text-[#17324d]">
+                <p className="text-sm font-semibold text-[var(--navy)]">
                   Tu accèdes à {FREE_TOTAL_LIMIT} ressources sur {LIBRARY_TOTAL_RESOURCES} avec le plan Freemium.
                 </p>
                 <p className="mt-1 text-sm leading-6 text-[#5d7287]">
@@ -299,7 +299,7 @@ export default function BibliothequePage() {
             </div>
             <Link
               href="/pricing"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#17324d] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#0f2740]"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#0f2740]"
             >
               Booster le plan
             </Link>
@@ -307,11 +307,11 @@ export default function BibliothequePage() {
         </section>
       )}
 
-      <section className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_20px_70px_rgba(23,50,77,0.08)] md:p-6">
+      <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-lg)] md:p-6">
         <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr] xl:items-end">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Recherche assistée</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+            <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
               Cherche par besoin réel : œuvre, auteur, méthode, rapport ou question précise.
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5d7287]">
@@ -326,11 +326,11 @@ export default function BibliothequePage() {
               return (
                 <div key={item.category} className="rounded-[22px] border border-[#eadbc5] bg-white/80 px-4 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#17324d]/8 text-[#17324d]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                       <Icon className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-[#17324d]">{item.label}</p>
+                      <p className="text-sm font-semibold text-[var(--navy)]">{item.label}</p>
                       <p className="text-xs text-[#6d7e8d]">{item.count} ressources</p>
                     </div>
                   </div>
@@ -351,13 +351,13 @@ export default function BibliothequePage() {
               onChange={(event) => setSearchQuery(event.target.value)}
               onKeyDown={handleSearchKeyDown}
               placeholder="Exemple : explication linéaire, problématique dissertation, Rimbaud, rapport jury..."
-              className="w-full rounded-[24px] border border-[#dfd1bc] bg-white px-11 py-4 text-sm text-[#17324d] outline-none transition placeholder:text-[#8c95a1] focus:border-[#17324d]/22 focus:ring-2 focus:ring-[#17324d]/8"
+              className="w-full rounded-[24px] border border-[#dfd1bc] bg-white px-11 py-4 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8c95a1] focus:border-[var(--navy)]/22 focus:ring-2 focus:ring-[var(--navy)]/8"
             />
           </div>
           <button
             data-testid="rag-submit"
             onClick={() => void runRagSearch()}
-            className="inline-flex items-center justify-center gap-2 rounded-[22px] bg-[#17324d] px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
+            className="inline-flex items-center justify-center gap-2 rounded-[22px] bg-[var(--navy)] px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
           >
             <Search className="h-4 w-4" />
             {isSearching ? 'Recherche…' : 'Recherche RAG'}
@@ -371,7 +371,7 @@ export default function BibliothequePage() {
           </span>
           <button
             onClick={() => setActiveCategory('all')}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === 'all' ? 'bg-[#17324d] text-white' : 'border border-[#dfd1bc] bg-white text-[#17324d] hover:border-[#17324d]/18'}`}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === 'all' ? 'bg-[var(--navy)] text-white' : 'border border-[#dfd1bc] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
           >
             Toutes les ressources
           </button>
@@ -382,7 +382,7 @@ export default function BibliothequePage() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === category ? 'bg-[#0f766e] text-white' : 'border border-[#dfd1bc] bg-white text-[#17324d] hover:border-[#17324d]/18'}`}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === category ? 'bg-[var(--teal)] text-white' : 'border border-[#dfd1bc] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
               >
                 <Icon className="h-4 w-4" />
                 {getCategoryLabel(category)}
@@ -400,11 +400,11 @@ export default function BibliothequePage() {
       )}
 
       {ragResults.length > 0 && (
-        <section data-testid="rag-results" className="rounded-[30px] border border-[#d8e8e3] bg-[#edf7f3] p-5 shadow-[0_18px_55px_rgba(15,118,110,0.08)] md:p-6">
+        <section data-testid="rag-results" className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)] md:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Résultats RAG</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Résultats RAG</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                 Passages remontés pour “{searchQuery}”.
               </h2>
             </div>
@@ -413,15 +413,15 @@ export default function BibliothequePage() {
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             {ragResults.map((item) => (
-              <article key={`${item.id}-${item.sourceRef}`} className="rounded-[24px] border border-[#d4e8e0] bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,118,110,0.06)]">
+              <article key={`${item.id}-${item.sourceRef}`} className="rounded-[24px] border border-[#d4e8e0] bg-white/90 p-4 shadow-[var(--shadow-md)]">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#0f766e]/10 text-[#0f766e]">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/10 text-[var(--teal)]">
                     <FileText className="h-5 w-5" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="text-sm font-semibold leading-6 text-[#17324d]">{item.title}</p>
-                      <span className="rounded-full bg-[#0f766e]/8 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0f766e]">
+                      <p className="text-sm font-semibold leading-6 text-[var(--navy)]">{item.title}</p>
+                      <span className="rounded-full bg-[var(--teal)]/8 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--teal)]">
                         score {item.score.toFixed(2)}
                       </span>
                     </div>
@@ -447,8 +447,8 @@ export default function BibliothequePage() {
               <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Catalogue vivant</p>
-                  <h2 className="mt-2 flex items-center gap-3 text-2xl font-semibold text-[#17324d]">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#17324d]/8 text-[#17324d]">
+                  <h2 className="mt-2 flex items-center gap-3 text-2xl font-semibold text-[var(--navy)]">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                       <Icon className="h-5 w-5" />
                     </span>
                     {getCategoryLabel(category)}
@@ -463,36 +463,36 @@ export default function BibliothequePage() {
                   return (
                     <article
                       key={resource.id}
-                      className={`group cursor-pointer rounded-[26px] border p-5 transition ${locked ? 'border-[#e0ddd8] bg-[linear-gradient(180deg,#f5f3ef_0%,#ece8e0_100%)] opacity-75' : 'border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] shadow-[0_16px_40px_rgba(23,50,77,0.06)] hover:-translate-y-1 hover:border-[#17324d]/16 hover:shadow-[0_24px_50px_rgba(23,50,77,0.10)]'}`}
+                      className={`group cursor-pointer rounded-[24px] border p-5 transition ${locked ? 'border-[#e0ddd8] bg-[linear-gradient(180deg,#f5f3ef_0%,#ece8e0_100%)] opacity-75' : 'border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] shadow-[var(--shadow-md)] hover:-translate-y-1 hover:border-[var(--navy)]/16 hover:shadow-[var(--shadow-lg)]'}`}
                       onClick={() => setSelectedResource(resource)}
                     >
                       <div className="flex items-start gap-4">
-                        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[20px] text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition ${locked ? 'bg-[#e8e5e0] grayscale' : 'bg-white group-hover:bg-[#17324d]/6'}`}>
+                        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[16px] text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition ${locked ? 'bg-[#e8e5e0] grayscale' : 'bg-white group-hover:bg-[var(--navy)]/6'}`}>
                           {locked ? <Lock className="h-6 w-6 text-[#9a9590]" /> : getResourceIcon(resource.type)}
                         </div>
 
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap gap-2">
-                            <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/12 text-[#9a9590]' : 'bg-[#17324d]/8 text-[#17324d]'}`}>
+                            <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/12 text-[#9a9590]' : 'bg-[var(--navy)]/8 text-[var(--navy)]'}`}>
                               {resource.type.replace('_', ' ')}
                             </span>
                             {resource.year && (
-                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/8 text-[#9a9590]' : 'bg-[#b87333]/10 text-[#9a6a37]'}`}>
+                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/8 text-[#9a9590]' : 'bg-[var(--gold-muted)]/10 text-[#9a6a37]'}`}>
                                 {resource.year}
                               </span>
                             )}
                             {resource.ext && (
-                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/8 text-[#9a9590]' : 'bg-[#0f766e]/8 text-[#0f766e]'}`}>
+                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/8 text-[#9a9590]' : 'bg-[var(--teal)]/8 text-[var(--teal)]'}`}>
                                 {resource.ext.replace('.', '')}
                               </span>
                             )}
                             {locked && (
-                              <span className="rounded-full bg-[#17324d]/8 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#17324d]">
+                              <span className="rounded-full bg-[var(--navy)]/8 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--navy)]">
                                 Disponible avec Premium
                               </span>
                             )}
                           </div>
-                          <p className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${locked ? 'text-[#8a8580]' : 'text-[#17324d] group-hover:text-[#224a6e]'}`}>
+                          <p className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${locked ? 'text-[#8a8580]' : 'text-[var(--navy)] group-hover:text-[#224a6e]'}`}>
                             {formatResourceTitle(resource.title, resource.ext)}
                           </p>
                           <p className={`mt-2 line-clamp-3 text-sm leading-6 ${locked ? 'text-[#a09a94]' : 'text-[#5d7287]'}`}>
@@ -506,7 +506,7 @@ export default function BibliothequePage() {
                                 Verrouillée
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1 font-semibold text-[#17324d]">
+                              <span className="inline-flex items-center gap-1 font-semibold text-[var(--navy)]">
                                 Ouvrir la fiche
                                 <ExternalLink className="h-3.5 w-3.5" />
                               </span>
@@ -524,9 +524,9 @@ export default function BibliothequePage() {
       </div>
 
       {filteredResources.length === 0 && (
-        <div className="rounded-[28px] border border-dashed border-[#dbcdb7] bg-[#fffaf2] px-6 py-12 text-center">
+        <div className="rounded-[24px] border border-dashed border-[#dbcdb7] bg-[#fffaf2] px-6 py-12 text-center">
           <FolderOpen className="mx-auto h-14 w-14 text-[#c0af96]" />
-          <p className="mt-4 text-lg font-semibold text-[#17324d]">Aucune ressource visible avec ces filtres.</p>
+          <p className="mt-4 text-lg font-semibold text-[var(--navy)]">Aucune ressource visible avec ces filtres.</p>
           <p className="mt-2 text-sm text-[#6d7e8d]">Élargis la recherche ou reviens à “Toutes les ressources”.</p>
         </div>
       )}
@@ -539,7 +539,7 @@ export default function BibliothequePage() {
           <div
             role="dialog"
             aria-modal="true"
-            className="h-screen w-full overflow-auto rounded-none border-0 bg-[#fcf8f1] p-6 shadow-2xl md:h-auto md:max-h-[88vh] md:max-w-3xl md:rounded-[34px] md:border md:border-[#e7dac6] md:p-8"
+            className="h-screen w-full overflow-auto rounded-none border-0 bg-[#fcf8f1] p-6 shadow-2xl md:h-auto md:max-h-[88vh] md:max-w-3xl md:rounded-[24px] md:border md:border-[var(--border-light)] md:p-8"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4">
@@ -549,7 +549,7 @@ export default function BibliothequePage() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Fiche ressource</p>
-                  <h3 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+                  <h3 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                     {formatResourceTitle(selectedResource.title, selectedResource.ext)}
                   </h3>
                   <p className="mt-2 text-sm text-[#5d7287]">
@@ -559,7 +559,7 @@ export default function BibliothequePage() {
               </div>
               <button
                 onClick={() => setSelectedResource(null)}
-                className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#dfd1bc] bg-white text-[#17324d] transition hover:border-[#17324d]/18"
+                className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#dfd1bc] bg-white text-[var(--navy)] transition hover:border-[var(--navy)]/18"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -571,14 +571,14 @@ export default function BibliothequePage() {
                 <p className="mt-3 text-sm leading-7 text-[#33536f]">{buildResourceDescription(selectedResource)}</p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
-                  <span className="rounded-full bg-[#17324d]/8 px-3 py-1.5 text-xs font-semibold text-[#17324d]">
+                  <span className="rounded-full bg-[var(--navy)]/8 px-3 py-1.5 text-xs font-semibold text-[var(--navy)]">
                     Type: {selectedResource.type.replace('_', ' ')}
                   </span>
-                  <span className="rounded-full bg-[#0f766e]/8 px-3 py-1.5 text-xs font-semibold text-[#0f766e]">
+                  <span className="rounded-full bg-[var(--teal)]/8 px-3 py-1.5 text-xs font-semibold text-[var(--teal)]">
                     Format: {selectedResource.ext?.toUpperCase() || 'N/A'}
                   </span>
                   {selectedResource.year && (
-                    <span className="rounded-full bg-[#b87333]/10 px-3 py-1.5 text-xs font-semibold text-[#9a6a37]">
+                    <span className="rounded-full bg-[var(--gold-muted)]/10 px-3 py-1.5 text-xs font-semibold text-[#9a6a37]">
                       Année: {selectedResource.year}
                     </span>
                   )}
@@ -590,13 +590,13 @@ export default function BibliothequePage() {
                 </div>
               </div>
 
-              <div className="rounded-[24px] border border-[#d8e8e3] bg-[#edf7f3] p-5">
+              <div className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5">
                 {selectedResource && isResourceLocked(selectedResource) ? (
                   <>
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Ressource verrouillée</p>
-                    <div className="mt-4 rounded-[20px] border border-[#e7dac6] bg-white p-5 text-center">
+                    <div className="mt-4 rounded-[16px] border border-[var(--border-light)] bg-white p-5 text-center">
                       <Lock className="mx-auto h-8 w-8 text-[#9a9590]" />
-                      <p className="mt-3 text-sm font-semibold text-[#17324d]">
+                      <p className="mt-3 text-sm font-semibold text-[var(--navy)]">
                         Cette ressource fait partie des {LIBRARY_TOTAL_RESOURCES - FREE_TOTAL_LIMIT} contenus réservés aux abonnés.
                       </p>
                       <p className="mt-2 text-sm leading-6 text-[#5d7287]">
@@ -604,7 +604,7 @@ export default function BibliothequePage() {
                       </p>
                       <Link
                         href="/pricing"
-                        className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#17324d] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0f2740]"
+                        className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0f2740]"
                       >
                         Booster le plan
                       </Link>
@@ -612,12 +612,12 @@ export default function BibliothequePage() {
                   </>
                 ) : (
                   <>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#0f766e]">Actions</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Actions</p>
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       <a
                         href={selectedResourceDownloadHref ?? selectedResource.url}
                         download={selectedResource.originalTitle ?? selectedResource.title}
-                        className="inline-flex items-center justify-center gap-2 rounded-[20px] bg-[#17324d] px-4 py-4 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
+                        className="inline-flex items-center justify-center gap-2 rounded-[16px] bg-[var(--navy)] px-4 py-4 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
                       >
                         <Download className="h-4 w-4" />
                         Télécharger
@@ -626,7 +626,7 @@ export default function BibliothequePage() {
                         href={selectedResourceOpenHref ?? selectedResource.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-[20px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[#17324d] transition hover:border-[#17324d]/18"
+                        className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18"
                       >
                         <ExternalLink className="h-4 w-4" />
                         Ouvrir
@@ -634,7 +634,7 @@ export default function BibliothequePage() {
                     </div>
                     <Link
                       href={selectedResourceTutorHref}
-                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[20px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[#17324d] transition hover:border-[#0f766e] hover:text-[#0f766e]"
+                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[16px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
                     >
                       Reprendre cette ressource avec le guidage
                     </Link>
@@ -644,15 +644,15 @@ export default function BibliothequePage() {
                 {(selectedResource.ext === '.webm' || selectedResource.ext === '.mkv' || selectedResource.ext === '.mp4') && (
                   <div className="mt-5 space-y-3">
                     <div className="flex items-center justify-between">
-                      <p className="inline-flex items-center gap-2 text-sm font-semibold text-[#17324d]">
-                        <Play className="h-4 w-4 text-[#0f766e]" />
+                      <p className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--navy)]">
+                        <Play className="h-4 w-4 text-[var(--teal)]" />
                         Lecteur vidéo
                       </p>
-                      <span className="rounded-full bg-[#0f766e]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0f766e]">
+                      <span className="rounded-full bg-[var(--teal)]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--teal)]">
                         {selectedResource.ext?.replace('.', '')}
                       </span>
                     </div>
-                    <div className="aspect-video overflow-hidden rounded-[24px] bg-black shadow-[0_16px_36px_rgba(0,0,0,0.22)]">
+                    <div className="aspect-video overflow-hidden rounded-[24px] bg-black shadow-[var(--shadow-md)]">
                       <video controls className="h-full w-full" src={selectedResourceOpenHref ?? selectedResource.url} poster="/images/logo_nexus_reussite.png" preload="metadata" playsInline>
                         <source src={selectedResourceOpenHref ?? selectedResource.url} type={getVideoMimeType(selectedResource)} />
                         Ton navigateur ne supporte pas la lecture vidéo.
@@ -664,11 +664,11 @@ export default function BibliothequePage() {
                 {selectedResource.ext === '.pdf' && (
                   <div className="mt-5 space-y-3">
                     <div className="flex items-center justify-between">
-                      <p className="inline-flex items-center gap-2 text-sm font-semibold text-[#17324d]">
-                        <FileText className="h-4 w-4 text-[#0f766e]" />
+                      <p className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--navy)]">
+                        <FileText className="h-4 w-4 text-[var(--teal)]" />
                         Aperçu PDF
                       </p>
-                      <span className="rounded-full bg-[#0f766e]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0f766e]">
+                      <span className="rounded-full bg-[var(--teal)]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--teal)]">
                         PDF
                       </span>
                     </div>

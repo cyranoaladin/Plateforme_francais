@@ -1,14 +1,14 @@
 import { BookOpenText, BrainCircuit, FileStack, MessageCircleMore, Mic, ScanSearch, Sparkles } from 'lucide-react';
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 const FEATURE_GROUPS = [
   {
     title: 'Atelier écrit',
     icon: FileStack,
-    tone: 'bg-[#17324d] text-[#f7f2ea] border-white/10',
+    tone: 'bg-[var(--navy)] text-[#f7f2ea] border-white/10',
     badge: 'Production longue',
     span: 'lg:col-span-7',
     body: 'Dépose une copie PDF ou image, récupère une lecture OCR, une correction par rubriques et un rapport clair à reprendre.',
@@ -17,7 +17,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Oral officiel',
     icon: Mic,
-    tone: 'bg-white/90 text-[#17324d] border-[#d8ccb9]',
+    tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]',
     badge: 'Format EAF',
     span: 'lg:col-span-5',
     body: 'Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.',
@@ -26,7 +26,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Corpus et citations',
     icon: ScanSearch,
-    tone: 'bg-white/90 text-[#17324d] border-[#d8ccb9]',
+    tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]',
     badge: 'Sources visibles',
     span: 'lg:col-span-4',
     body: 'Le guidage et les ateliers mobilisent BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles et réutilisables.',
@@ -35,7 +35,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Langue et quiz adaptatif',
     icon: BrainCircuit,
-    tone: 'bg-[#efe7da] text-[#17324d] border-[#d8ccb9]',
+    tone: 'bg-[#efe7da] text-[var(--navy)] border-[var(--border-strong)]',
     badge: 'Relance ciblée',
     span: 'lg:col-span-4',
     body: 'Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.',
@@ -44,7 +44,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Guidage personnalisé et mémoire de progression',
     icon: MessageCircleMore,
-    tone: 'bg-white/90 text-[#17324d] border-[#d8ccb9]',
+    tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]',
     badge: 'Coaching actif',
     span: 'lg:col-span-4',
     body: 'Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance au lieu de repartir de zéro.',
@@ -58,10 +58,10 @@ export function Features() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Ateliers EAF</p>
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Ateliers EAF</p>
             <h2
               style={EDITORIAL_HEADING}
-              className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl"
+              className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl"
             >
               Tout ce qu&apos;il faut pour réussir l&apos;EAF, organisé par usage réel.
             </h2>
@@ -76,7 +76,7 @@ export function Features() {
           {FEATURE_GROUPS.map((feature, index) => (
             <article
               key={feature.title}
-              className={`${feature.span} ${feature.tone} rounded-[32px] border p-6 shadow-[0_18px_45px_rgba(23,50,77,0.08)] [animation:bienvenueFadeUp_.82s_ease-out_both] md:p-7`}
+              className={`${feature.span} ${feature.tone} rounded-[24px] border p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.82s_ease-out_both] md:p-7`}
               style={{ animationDelay: `${0.08 + index * 0.06}s` }}
             >
               <div className="flex items-center justify-between gap-4">
@@ -108,11 +108,11 @@ export function Features() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-[32px] border border-[#d8ccb9] bg-white/80 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+        <div className="mt-10 rounded-[24px] border border-[var(--border-strong)] bg-white/80 p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Fil directeur</p>
-              <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Fil directeur</p>
+              <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
                 De la copie à la relance, le même système garde le cap.
               </h3>
             </div>
@@ -122,9 +122,9 @@ export function Features() {
                 { icon: ScanSearch, title: 'Justifier', text: 'Les réponses exploitables gardent la trace des sources et des attentes.' },
                 { icon: BrainCircuit, title: 'Réactiver', text: 'Le feedback alimente ensuite le parcours au lieu de se perdre.' },
               ].map((item) => (
-                <div key={item.title} className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
-                  <item.icon className="h-5 w-5 text-[#0f766e]" />
-                  <p className="mt-3 text-sm font-bold text-[#17324d]">{item.title}</p>
+                <div key={item.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+                  <item.icon className="h-5 w-5 text-[var(--teal)]" />
+                  <p className="mt-3 text-sm font-bold text-[var(--navy)]">{item.title}</p>
                   <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
                 </div>
               ))}

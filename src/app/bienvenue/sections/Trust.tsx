@@ -1,7 +1,7 @@
 import { CheckCheck, LockKeyhole, Quote, ShieldCheck, UserRoundCheck } from 'lucide-react';
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 const TRUST_BLOCKS = [
@@ -24,7 +24,7 @@ const TRUST_BLOCKS = [
 
 export function Trust() {
   return (
-    <section id="securite" className="scroll-mt-24 bg-[#17324d] py-20 text-[#f7f2ea] md:py-24">
+    <section id="securite" className="scroll-mt-24 bg-[var(--navy)] py-20 text-[#f7f2ea] md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
@@ -42,8 +42,8 @@ export function Trust() {
         <div className="mt-10 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="grid gap-5 md:grid-cols-3">
             {TRUST_BLOCKS.map((block) => (
-              <article key={block.title} className="rounded-[30px] border border-white/10 bg-white/8 p-6 backdrop-blur-sm">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f4efe5] text-[#17324d]">
+              <article key={block.title} className="rounded-[24px] border border-white/10 bg-white/8 p-6 backdrop-blur-sm">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--surface-cream)] text-[var(--navy)]">
                   <block.icon className="h-5 w-5" />
                 </div>
                 <h3 style={EDITORIAL_HEADING} className="mt-5 text-2xl leading-tight tracking-[-0.03em] text-white">
@@ -54,7 +54,7 @@ export function Trust() {
             ))}
           </div>
 
-          <aside className="rounded-[32px] border border-white/10 bg-[#0f2740] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.18)] md:p-7">
+          <aside className="rounded-[24px] border border-white/10 bg-[#0f2740] p-6 shadow-[var(--shadow-lg)] md:p-7">
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">
               <ShieldCheck className="h-3.5 w-3.5" />
               Garantie Nexus

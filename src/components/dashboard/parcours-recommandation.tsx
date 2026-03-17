@@ -104,7 +104,7 @@ export function ParcoursRecommandation({ weakSignals, weakSkills = [], className
   const Icon = recommended.icon;
 
   return (
-    <div className={`mt-6 overflow-hidden rounded-[28px] border border-[#d8ccb9] bg-[#f8f4ec] ${className}`.trim()}>
+    <div className={`mt-6 overflow-hidden rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] ${className}`.trim()}>
       <div className={`bg-gradient-to-r ${recommended.accent} px-5 py-4 text-white`}>
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-white/80">
           <Sparkles className="h-4 w-4" />
@@ -127,7 +127,7 @@ export function ParcoursRecommandation({ weakSignals, weakSkills = [], className
         </p>
         <Link
           href={recommended.href}
-          className="inline-flex items-center gap-2 rounded-full border border-[#17324d]/14 bg-white px-4 py-2 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:border-[#0f766e] hover:text-[#0f766e]"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--navy)]/14 bg-white px-4 py-2 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--teal)] hover:text-[var(--teal)]"
         >
           Ouvrir l’atelier
           <ArrowRight className="h-4 w-4" />

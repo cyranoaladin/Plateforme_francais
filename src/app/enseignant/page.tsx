@@ -50,7 +50,7 @@ type DashboardPayload = {
 };
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 function formatDateTime(value: string | null) {
@@ -80,10 +80,10 @@ function statusLabel(status: string) {
 }
 
 function statusStyle(status: string) {
-  if (status === 'done') return 'border-[#0f766e]/16 bg-[#eef9f6] text-[#0f766e]';
-  if (status === 'error') return 'border-[#b65050]/18 bg-[#fff0ef] text-[#8f2d2d]';
-  if (status === 'processing') return 'border-[#17324d]/14 bg-[#eef3f8] text-[#17324d]';
-  return 'border-[#b87333]/18 bg-[#fdf4e9] text-[#9a5f25]';
+  if (status === 'done') return 'border-[var(--teal)]/16 bg-[#eef9f6] text-[var(--teal)]';
+  if (status === 'error') return 'border-[#b65050]/18 bg-[var(--error-bg)] text-[#8f2d2d]';
+  if (status === 'processing') return 'border-[var(--navy)]/14 bg-[#eef3f8] text-[var(--navy)]';
+  return 'border-[var(--gold-muted)]/18 bg-[#fdf4e9] text-[#9a5f25]';
 }
 
 export default function EnseignantPage() {
@@ -184,7 +184,7 @@ export default function EnseignantPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -205,7 +205,7 @@ export default function EnseignantPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <button
                 onClick={() => void generateClassCode()}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 Générer un code classe
                 <Sparkles className="h-4 w-4" />
@@ -240,7 +240,7 @@ export default function EnseignantPage() {
               </div>
             ))}
 
-            <div className="sm:col-span-2 rounded-[26px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
+            <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Lecture rapide</p>
               <p className="mt-3 text-2xl font-semibold text-white">
                 {atRiskCount > 0 ? `${atRiskCount} élève${atRiskCount > 1 ? 's' : ''} à resserrer` : 'Aucun signal critique immédiat'}
@@ -256,14 +256,14 @@ export default function EnseignantPage() {
       </section>
 
       {error ? (
-        <div className="rounded-[24px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d] shadow-[0_12px_28px_rgba(182,80,80,0.08)]" role="alert">
+        <div className="rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d] shadow-[var(--shadow-sm)]" role="alert">
           <AlertTriangle className="mr-2 inline h-4 w-4" />
           {error}
         </div>
       ) : null}
 
       {isLoading ? (
-        <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 text-sm text-slate-500 shadow-[0_18px_45px_rgba(23,50,77,0.06)]" role="status">
+        <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 text-sm text-slate-500 shadow-[var(--shadow-md)]" role="status">
           Chargement du cockpit enseignant...
         </div>
       ) : null}
@@ -271,40 +271,40 @@ export default function EnseignantPage() {
       {!isLoading && payload ? (
         <>
           <section className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
-            <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+            <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Roster classe</p>
-                  <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Roster classe</p>
+                  <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                     Les élèves doivent être lisibles sans perdre la vue d’ensemble.
                   </h2>
                 </div>
                 <button
                   onClick={() => void load()}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-2 text-sm font-semibold text-[#17324d] transition-colors hover:border-[#0f766e] hover:text-[#0f766e]"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
                 >
                   <RefreshCw className="h-4 w-4" />
                   Actualiser
                 </button>
               </div>
 
-              <div className="mt-8 overflow-hidden rounded-[24px] border border-[#d8ccb9]">
-                <div className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 bg-[#f8f4ec] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
+              <div className="mt-8 overflow-hidden rounded-[24px] border border-[var(--border-strong)]">
+                <div className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 bg-[var(--surface-warm)] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
                   <span>Élève</span>
                   <span>Email</span>
                   <span>Score</span>
                   <span>Dernière activité</span>
                   <span>Prochaine échéance</span>
                 </div>
-                <div className="divide-y divide-[#d8ccb9] bg-white">
+                <div className="divide-y divide-[var(--border-strong)] bg-white">
                   {payload.students.length > 0 ? (
                     payload.students.map((student) => (
                       <div key={student.id} className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 px-4 py-4 text-sm text-slate-700">
                         <div>
-                          <p className="font-semibold text-[#17324d]">{student.displayName}</p>
+                          <p className="font-semibold text-[var(--navy)]">{student.displayName}</p>
                         </div>
                         <p className="truncate text-slate-500">{student.email}</p>
-                        <p className={`font-semibold ${student.averageScore < 10 ? 'text-[#8f2d2d]' : 'text-[#17324d]'}`}>
+                        <p className={`font-semibold ${student.averageScore < 10 ? 'text-[#8f2d2d]' : 'text-[var(--navy)]'}`}>
                           {student.averageScore} / 20
                         </p>
                         <p className="text-slate-500">{formatDateTime(student.lastActivity)}</p>
@@ -319,9 +319,9 @@ export default function EnseignantPage() {
             </div>
 
             <div className="space-y-6">
-              <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Distribution des notes</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+              <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Distribution des notes</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                   Une lecture directe de la répartition suffit souvent à orienter la prochaine séquence.
                 </h2>
 
@@ -330,26 +330,26 @@ export default function EnseignantPage() {
                     payload.distribution.map((item) => (
                       <div key={item.label}>
                         <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
-                          <span className="text-[#17324d]">{item.label}</span>
+                          <span className="text-[var(--navy)]">{item.label}</span>
                           <span className="text-slate-500">{item.count} élève{item.count > 1 ? 's' : ''}</span>
                         </div>
                         <div className="h-3 rounded-full bg-[#e7ddcf]">
                           <div
-                            className="h-3 rounded-full bg-[#17324d]"
+                            className="h-3 rounded-full bg-[var(--navy)]"
                             style={{ width: `${(item.count / distributionMax) * 100}%` }}
                           />
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4 text-sm leading-7 text-slate-600">
+                    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
                       Aucune distribution disponible tant que les copies corrigées restent absentes.
                     </div>
                   )}
                 </div>
               </div>
 
-              <div className="rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
+              <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-lg)] md:p-7">
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Pilotage rapide</p>
                 <div className="mt-6 grid gap-4 md:grid-cols-2">
                   {[
@@ -392,15 +392,15 @@ export default function EnseignantPage() {
             </div>
           </section>
 
-          <section className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+          <section className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Copies corrigées</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Copies corrigées</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                   Les retours enseignants doivent rester rapides à écrire et simples à relire.
                 </h2>
               </div>
-              <div className="rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-2 text-sm font-semibold text-slate-600">
+              <div className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-slate-600">
                 {payload.copies.length} copie{payload.copies.length > 1 ? 's' : ''}
               </div>
             </div>
@@ -408,11 +408,11 @@ export default function EnseignantPage() {
             <div className="mt-8 space-y-4">
               {payload.copies.length > 0 ? (
                 payload.copies.map((copy) => (
-                  <article key={copy.copieId} className="rounded-[26px] border border-[#d8ccb9] bg-[#fcfaf6] p-5 shadow-[0_14px_28px_rgba(23,50,77,0.04)]">
+                  <article key={copy.copieId} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-5 shadow-[var(--shadow-sm)]">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div>
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="text-base font-semibold text-[#17324d]">{copy.studentName}</span>
+                          <span className="text-base font-semibold text-[var(--navy)]">{copy.studentName}</span>
                           <span className={`rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] ${statusStyle(copy.status)}`}>
                             {statusLabel(copy.status)}
                           </span>
@@ -421,9 +421,9 @@ export default function EnseignantPage() {
                           {copy.epreuveType} · {formatDateTime(copy.createdAt)}
                         </p>
                       </div>
-                      <div className="rounded-[20px] border border-[#d8ccb9] bg-white px-4 py-3 text-sm text-slate-600">
-                        <p className="font-semibold text-[#17324d]">Note</p>
-                        <p className="mt-1 text-lg font-bold text-[#17324d]">{copy.note ?? '—'} / 20</p>
+                      <div className="rounded-[16px] border border-[var(--border-strong)] bg-white px-4 py-3 text-sm text-slate-600">
+                        <p className="font-semibold text-[var(--navy)]">Note</p>
+                        <p className="mt-1 text-lg font-bold text-[var(--navy)]">{copy.note ?? '—'} / 20</p>
                       </div>
                     </div>
 
@@ -436,19 +436,19 @@ export default function EnseignantPage() {
                             [copy.copieId]: event.target.value,
                           }))
                         }
-                        className="min-h-24 w-full rounded-[20px] border border-[#d8ccb9] bg-white p-4 text-sm text-[#17324d] outline-none transition-colors focus:border-[#0f766e]"
+                        className="min-h-24 w-full rounded-[16px] border border-[var(--border-strong)] bg-white p-4 text-sm text-[var(--navy)] outline-none transition-colors focus:border-[var(--teal)]"
                         placeholder="Ajouter un commentaire enseignant..."
                       />
                     </div>
 
                     <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-                      <div className="inline-flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
                         <BookMarked className="h-3.5 w-3.5" />
                         Retour ciblé et lisible par l’élève
                       </div>
                       <button
                         onClick={() => void saveComment(copy.copieId)}
-                        className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-4 py-2 text-sm font-semibold text-[#f7f2ea] transition-all hover:-translate-y-0.5"
+                        className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-4 py-2 text-sm font-semibold text-[#f7f2ea] transition-all hover:-translate-y-0.5"
                       >
                         Enregistrer
                         <ArrowRight className="h-4 w-4" />
@@ -457,7 +457,7 @@ export default function EnseignantPage() {
                   </article>
                 ))
               ) : (
-                <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4 text-sm leading-7 text-slate-600">
+                <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
                   Aucune copie corrigée n’est encore disponible dans ce tableau.
                 </div>
               )}

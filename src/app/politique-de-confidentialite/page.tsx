@@ -30,15 +30,15 @@ const DATA_PROTECTION_ITEMS = [
 
 export default function PolitiqueDeConfidentialitePage() {
   return (
-    <div className="min-h-screen bg-[#F4EFE5] px-4 py-12">
-      <div className="mx-auto max-w-4xl rounded-3xl border border-[#d8ccb9] bg-white p-8 shadow-lg">
-        <h1 className="mb-8 text-4xl font-bold text-[#17324D]" style={{ fontFamily: "'Georgia', serif" }}>
+    <div className="min-h-screen bg-[var(--surface-cream)] px-4 py-12">
+      <div className="mx-auto max-w-4xl rounded-3xl border border-[var(--border-strong)] bg-white p-8 shadow-lg">
+        <h1 className="mb-8 text-4xl font-bold text-[var(--navy)]" style={{ fontFamily: "var(--font-display)" }}>
           Politique de confidentialité
         </h1>
 
-        <section className="space-y-6 text-[#17324D]/80">
+        <section className="space-y-6 text-[var(--navy)]/80">
           <div>
-            <h2 className="mb-3 text-2xl font-semibold text-[#17324D]">Protection des données (RGPD)</h2>
+            <h2 className="mb-3 text-2xl font-semibold text-[var(--navy)]">Protection des données (RGPD)</h2>
             <p className="mb-2">{"Nexus EAF s'engage à protéger vos données personnelles conformément au RGPD :"}</p>
             <ul className="ml-4 list-disc list-inside space-y-2">
               {DATA_PROTECTION_ITEMS.map((item) => (
@@ -50,17 +50,17 @@ export default function PolitiqueDeConfidentialitePage() {
           </div>
 
           <div>
-            <h2 className="mb-3 text-2xl font-semibold text-[#17324D]">Contact</h2>
+            <h2 className="mb-3 text-2xl font-semibold text-[var(--navy)]">Contact</h2>
             <p>Pour toute question concernant ces mentions légales ou les CGU, contactez-nous à :</p>
             <p className="mt-2 font-semibold">contact@nexusreussite.academy</p>
           </div>
         </section>
 
-        <div className="mt-12 flex flex-wrap gap-4 border-t border-[#d8ccb9] pt-6">
-          <Link href="/mentions-legales" className="font-semibold text-[#0F766E] hover:underline">
+        <div className="mt-12 flex flex-wrap gap-4 border-t border-[var(--border-strong)] pt-6">
+          <Link href="/mentions-legales" className="font-semibold text-[var(--teal)] hover:underline">
             {"Mentions légales & Conditions Générales d'Utilisation"}
           </Link>
-          <Link href="/" className="font-semibold text-[#0F766E] hover:underline">
+          <Link href="/" className="font-semibold text-[var(--teal)] hover:underline">
             {"← Retour à l'accueil"}
           </Link>
         </div>
