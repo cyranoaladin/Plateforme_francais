@@ -49,12 +49,12 @@ const THEME_OPTIONS: ThemeOption[] = [
   {
     value: 'mixte',
     label: 'Mixte',
-    eyebrow: 'Rotation complete',
-    description: 'Alterne syntaxe, relations logiques et systeme verbal pour reviser les trois axes du programme.',
+    eyebrow: 'Rotation compl\u00E8te',
+    description: 'Alterne syntaxe, relations logiques et syst\u00E8me verbal pour r\u00E9viser les trois axes du programme.',
   },
   {
     value: 'subordonnees',
-    label: 'Subordonnees',
+    label: 'Subordonn\u00E9es',
     eyebrow: 'Axe 1',
     description: 'Travaille les relatives, conjonctives, interrogatives indirectes et les fonctions dans la phrase complexe.',
   },
@@ -62,13 +62,13 @@ const THEME_OPTIONS: ThemeOption[] = [
     value: 'relations_logiques',
     label: 'Relations logiques',
     eyebrow: 'Axe 2',
-    description: 'Cause, consequence, opposition, concession, but et condition dans des phrases courtes d oral EAF.',
+    description: 'Cause, cons\u00E9quence, opposition, concession, but et condition dans des phrases courtes d\u2019oral EAF.',
   },
   {
     value: 'systeme_verbal',
-    label: 'Systeme verbal',
+    label: 'Syst\u00E8me verbal',
     eyebrow: 'Axe 3',
-    description: 'Valeurs des temps, subjonctif, conditionnel et concordance pour securiser la reponse de grammaire.',
+    description: 'Valeurs des temps, subjonctif, conditionnel et concordance pour s\u00E9curiser la r\u00E9ponse de grammaire.',
   },
 ];
 
@@ -79,7 +79,7 @@ const EDITORIAL_HEADING = {
 const METHOD_MARKERS = [
   'Identifier le fait de langue exact',
   'Nommer avec la terminologie du programme',
-  'Interpreter l effet dans le contexte',
+  'Interpr\u00E9ter l\u2019effet dans le contexte',
 ];
 
 export default function AtelierLangue() {
@@ -114,7 +114,7 @@ export default function AtelierLangue() {
 
       if (!response.ok) {
         const body = (await response.json().catch(() => ({}))) as { error?: string };
-        throw new Error(body.error ?? 'Erreur de generation');
+        throw new Error(body.error ?? 'Erreur de g\u00E9n\u00E9ration');
       }
 
       const payload = (await response.json()) as { exercises: Exercise[] };
@@ -122,11 +122,11 @@ export default function AtelierLangue() {
         setExercises(payload.exercises);
       } else {
         setExercises(buildLangueExerciseSeries(selectedTheme, 5));
-        setLoadError('Serie locale chargee. Une nouvelle selection a ete composee depuis la banque interne.');
+        setLoadError('S\u00E9rie locale charg\u00E9e. Une nouvelle s\u00E9lection a \u00E9t\u00E9 compos\u00E9e depuis la banque interne.');
       }
     } catch {
       setExercises(buildLangueExerciseSeries(selectedTheme, 5));
-      setLoadError('Serie locale chargee. Une nouvelle selection a ete composee depuis la banque interne.');
+      setLoadError('S\u00E9rie locale charg\u00E9e. Une nouvelle s\u00E9lection a \u00E9t\u00E9 compos\u00E9e depuis la banque interne.');
     } finally {
       setIsLoading(false);
     }
@@ -219,16 +219,16 @@ export default function AtelierLangue() {
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Un entraînement court pour verrouiller les 2 points de grammaire qui font basculer une prestation orale.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
               Nexus compose des phrases-cibles à partir de la banque interne, recentre la terminologie du programme et t&apos;oblige à nommer le fait de langue avant de commenter son effet.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
             {[
-              { label: 'Serie', value: `${safeCompletedCount}/${exercises.length || 5}` },
+              { label: 'Série', value: `${safeCompletedCount}/${exercises.length || 5}` },
               { label: 'Axe actif', value: activeTheme.eyebrow },
-              { label: 'Derniere note', value: scoreLabel },
+              { label: 'Dernière note', value: scoreLabel },
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">{item.label}</p>
@@ -240,20 +240,20 @@ export default function AtelierLangue() {
       </section>
 
       {loadError && (
-        <StateNotice title="Serie locale chargee" description={loadError} variant="warning" />
+        <StateNotice title="Série locale chargée" description={loadError} variant="warning" />
       )}
 
       <div className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-lg)]">
+          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-lg)]">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Serie de travail</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Série de travail</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
-                  Regler la seance
+                  Régler la séance
                 </h2>
               </div>
             </div>
@@ -289,7 +289,7 @@ export default function AtelierLangue() {
               icon={<RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />}
               className="mt-5"
             >
-              {isLoading ? 'Generation...' : 'Composer une nouvelle serie'}
+              {isLoading ? 'Génération...' : 'Composer une nouvelle série'}
             </Button>
           </section>
 
@@ -299,8 +299,8 @@ export default function AtelierLangue() {
                 <Target className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Methode attendue</p>
-                <h2 className="mt-2 text-lg font-semibold text-[var(--navy)]">Ce que l examinateur veut entendre</h2>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Méthode attendue</p>
+                <h2 className="mt-2 text-lg font-semibold text-[var(--navy)]">Ce que l'examinateur veut entendre</h2>
               </div>
             </div>
             <div className="mt-4 space-y-3">
@@ -315,22 +315,22 @@ export default function AtelierLangue() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[#e8dcc8] bg-[#f8f1e7] p-5 shadow-[var(--shadow-lg)]">
+          <section className="rounded-[24px] border border-[var(--border-warm-mid)] bg-[var(--surface-warm-section)] p-5 shadow-[var(--shadow-lg)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Progression</p>
             <div className="mt-4 rounded-full bg-white/75 p-1">
-              <div className="h-3 overflow-hidden rounded-full bg-[#efe3d2]">
+              <div className="h-3 overflow-hidden rounded-full bg-[var(--border-warm-soft)]">
                 <div className="h-3 rounded-full bg-[var(--navy)] transition-all duration-500" style={{ width: `${progressPercent}%` }} />
               </div>
             </div>
             <div className="mt-3 flex items-center justify-between text-sm text-[#5b6f82]">
-              <span>{safeCompletedCount} exercice(s) valides</span>
+              <span>{safeCompletedCount} exercice(s) validés</span>
               <span>{progressPercent}%</span>
             </div>
           </section>
         </aside>
 
-        <section className="overflow-hidden rounded-[24px] border border-[#e6dccb] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] shadow-[var(--shadow-lg)]">
-          <div className="border-b border-[#efe3d2] bg-white/85 px-5 py-4 md:px-6">
+        <section className="overflow-hidden rounded-[24px] border border-[#e6dccb] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] shadow-[var(--shadow-lg)]">
+          <div className="border-b border-[var(--border-warm-soft)] bg-white/85 px-5 py-4 md:px-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--navy)]/10 text-[var(--navy)]">
@@ -343,9 +343,9 @@ export default function AtelierLangue() {
                   </h2>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-sand)] bg-[#fffaf4] px-3 py-1.5 text-xs font-medium text-[var(--navy)]">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-sand)] bg-[var(--surface-warm-input)] px-3 py-1.5 text-xs font-medium text-[var(--navy)]">
                 <Activity className="h-3.5 w-3.5 text-[var(--accent-bronze)]" />
-                Terminologie EAF premiere
+                Terminologie EAF première
               </div>
             </div>
           </div>
@@ -353,8 +353,8 @@ export default function AtelierLangue() {
           {isLoading ? (
             <div className="p-6 md:p-8">
               <StateNotice
-                title="Generation de la serie en cours"
-                description="Nexus compose une petite suite d exercices sur le theme choisi pour garder un rythme court et exploitable."
+                title="Génération de la série en cours"
+                description="Nexus compose une petite suite d'exercices sur le thème choisi pour garder un rythme court et exploitable."
                 variant="loading"
               />
             </div>
@@ -362,19 +362,19 @@ export default function AtelierLangue() {
             <div className="p-6 md:p-8">
               <StateNotice
                 title="Aucun exercice disponible"
-                description="Utilisez le composeur de serie pour relancer une session sur un axe du programme."
+                description="Utilisez le composeur de série pour relancer une session sur un axe du programme."
                 variant="info"
               />
             </div>
           ) : (
             <div className="space-y-6 p-5 md:p-8">
               <section className="rounded-[24px] border border-[var(--border-light)] bg-white/85 p-5 shadow-[var(--shadow-sm)] md:p-6">
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Phrase a analyser</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Phrase à analyser</p>
                 <p style={EDITORIAL_HEADING} className="mt-4 text-2xl leading-10 tracking-[-0.02em] text-[var(--navy)] md:text-3xl">
                   « {currentExercise.sentence} »
                 </p>
                 <div className="mt-5 rounded-[22px] border border-[#dfe7ef] bg-[#f4f8fb] p-4">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#6d7f90]">Question d oral</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#6d7f90]">Question d'oral</p>
                   <p className="mt-2 text-sm leading-7 text-[var(--navy-mid)]">{currentExercise.question}</p>
                 </div>
               </section>
@@ -390,7 +390,7 @@ export default function AtelierLangue() {
 
                 <textarea
                   data-testid="langue-answer"
-                  className="mt-5 min-h-[180px] w-full rounded-[24px] border border-[var(--border-sand)] bg-[#fffaf4] px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8d8173] focus:border-[var(--navy)]/30"
+                  className="mt-5 min-h-[180px] w-full rounded-[24px] border border-[var(--border-sand)] bg-[var(--surface-warm-input)] px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8d8173] focus:border-[var(--navy)]/30"
                   placeholder="Rédige ton analyse grammaticale complète ici..."
                   value={userAnswer}
                   onChange={(event) => setUserAnswer(event.target.value)}
@@ -408,7 +408,7 @@ export default function AtelierLangue() {
                       loading={isSubmitting}
                       icon={!isSubmitting ? <CheckCircle2 className="h-4 w-4" /> : undefined}
                     >
-                      {isSubmitting ? 'Evaluation...' : 'Soumettre la reponse'}
+                      {isSubmitting ? 'Évaluation...' : 'Soumettre la réponse'}
                     </Button>
                   </div>
                 ) : (
@@ -417,20 +417,20 @@ export default function AtelierLangue() {
                       data-testid="langue-feedback"
                       className={`rounded-[24px] border p-6 ${
                         feedback.status === 'success'
-                          ? 'border-[#d6e8df] bg-[var(--success-bg)]'
+                          ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)]'
                           : feedback.status === 'warning'
-                            ? 'border-[#efd9b4] bg-[var(--warning-bg)]'
-                            : 'border-[#f1c8c0] bg-[var(--error-bg)]'
+                            ? 'border-[var(--border-warning-soft)] bg-[var(--warning-bg)]'
+                            : 'border-[var(--error-border)] bg-[var(--error-bg)]'
                       }`}
                     >
                       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
-                          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Retour de seance</p>
+                          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Retour de séance</p>
                           <h4 className="mt-2 flex items-center gap-2 text-base font-semibold text-[var(--navy)]">
                             {feedback.status === 'success' && <CheckCircle2 className="h-5 w-5 text-[var(--teal)]" />}
                             {feedback.status === 'warning' && <RefreshCw className="h-5 w-5 text-[var(--gold-deep)]" />}
-                            {feedback.status === 'error' && <Type className="h-5 w-5 text-[#b24838]" />}
-                            Retour sur la reponse
+                            {feedback.status === 'error' && <Type className="h-5 w-5 text-[var(--error-text)]" />}
+                            Retour sur la réponse
                           </h4>
                         </div>
                         <span className="inline-flex rounded-full border border-white/70 bg-white/80 px-3 py-1 text-sm font-semibold text-[var(--navy)]">
@@ -441,10 +441,10 @@ export default function AtelierLangue() {
                     </div>
 
                     {feedback.missing.length > 0 && (
-                      <div className="rounded-[24px] border border-[#efd9b4] bg-[var(--warning-bg)] p-5">
+                      <div className="rounded-[24px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-5">
                         <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--gold-deep)]">
                           <AlertCircle className="h-4 w-4" />
-                          Axes a reprendre
+                          Axes à reprendre
                         </p>
                         <ul className="mt-3 space-y-2 text-sm leading-7 text-[var(--gold-contrast)]">
                           {feedback.missing.map((item) => (

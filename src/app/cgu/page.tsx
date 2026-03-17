@@ -2,14 +2,14 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'CGU',
-  description: "Conditions générales d'utilisation de Nexus EAF",
+  description: "Conditions générales d’utilisation de Nexus EAF",
 };
 
 const CGU_ITEMS = [
-  "Le service est destiné aux élèves de Première préparant l'EAF.",
-  "L'utilisation doit respecter le cadre pédagogique et les règles de propriété intellectuelle.",
+  "Le service est destiné aux élèves de Première préparant l’EAF.",
+  "L’utilisation doit respecter le cadre pédagogique et les règles de propriété intellectuelle.",
   'Les contenus générés par IA sont fournis à titre indicatif et ne remplacent pas un enseignement officiel.',
-  "Nexus EAF se réserve le droit de suspendre un compte en cas d'usage abusif ou frauduleux.",
+  "Nexus EAF se réserve le droit de suspendre un compte en cas d’usage abusif ou frauduleux.",
   'Les tarifs des plans Premium et Masterium sont affichés en TND et peuvent être modifiés avec préavis de 30 jours.',
 ];
 
@@ -18,12 +18,12 @@ export default function CguPage() {
     <div className="min-h-screen bg-[var(--surface-cream)] px-4 py-12">
       <div className="mx-auto max-w-4xl rounded-3xl border border-[var(--border-strong)] bg-white p-8 shadow-lg">
         <h1 className="mb-8 text-4xl font-bold text-[var(--navy)]" style={{ fontFamily: "var(--font-display)" }}>
-          {"Conditions Générales d'Utilisation"}
+          {"Conditions Générales d’Utilisation"}
         </h1>
 
         <section className="space-y-6 text-[var(--navy)]/80">
           <div>
-            <h2 className="mb-3 text-2xl font-semibold text-[var(--navy)]">{"Conditions Générales d'Utilisation"}</h2>
+            <h2 className="mb-3 text-2xl font-semibold text-[var(--navy)]">{"Conditions Générales d’Utilisation"}</h2>
             <p className="mb-2"><strong>Version :</strong> 2026-03</p>
             <p className="mb-2">En utilisant Nexus EAF, vous acceptez les conditions suivantes :</p>
             <ul className="ml-4 list-disc list-inside space-y-2">
@@ -36,7 +36,7 @@ export default function CguPage() {
           <div>
             <h2 className="mb-3 text-2xl font-semibold text-[var(--navy)]">Propriété intellectuelle</h2>
             <p>
-              {"Tous les contenus du site (textes, images, logos, structure) sont protégés par le droit d'auteur. Toute reproduction sans autorisation est interdite."}
+              {"Tous les contenus du site (textes, images, logos, structure) sont protégés par le droit d’auteur. Toute reproduction sans autorisation est interdite."}
             </p>
           </div>
 
@@ -49,10 +49,10 @@ export default function CguPage() {
 
         <div className="mt-12 flex flex-wrap gap-4 border-t border-[var(--border-strong)] pt-6">
           <Link href="/mentions-legales" className="font-semibold text-[var(--teal)] hover:underline">
-            {"Mentions légales & Conditions Générales d'Utilisation"}
+            {"Mentions légales & Conditions Générales d’Utilisation"}
           </Link>
           <Link href="/" className="font-semibold text-[var(--teal)] hover:underline">
-            {"← Retour à l'accueil"}
+            {"← Retour à l’accueil"}
           </Link>
         </div>
       </div>

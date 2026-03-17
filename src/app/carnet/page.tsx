@@ -48,7 +48,7 @@ export default function CarnetPage() {
     try {
       const response = await fetch('/api/v1/carnet/entry');
       if (!response.ok) {
-        throw new Error('Chargement du carnet impossible.');
+        throw new Error('Le chargement du carnet a rencontré un problème.');
       }
       const payload = (await response.json()) as { entries: CarnetEntry[] };
       setEntries(payload.entries ?? []);
@@ -65,7 +65,7 @@ export default function CarnetPage() {
 
   const submit = async () => {
     if (!oeuvre.trim() || !contenu.trim()) {
-      setError('Oeuvre et contenu sont obligatoires.');
+      setError('\u0152uvre et contenu sont obligatoires.');
       return;
     }
     setSaving(true);
@@ -89,14 +89,14 @@ export default function CarnetPage() {
         }),
       });
       if (!response.ok) {
-        throw new Error('Enregistrement impossible.');
+        throw new Error('L\'enregistrement n\'a pas abouti. Vérifie ta connexion et réessaie.');
       }
       setContenu('');
       setPage('');
       setTags('');
       await load();
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Erreur enregistrement.');
+      setError(cause instanceof Error ? cause.message : 'L\'enregistrement a rencontré un problème.');
     } finally {
       setSaving(false);
     }
@@ -135,8 +135,8 @@ export default function CarnetPage() {
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Un lieu pour garder les œuvres vivantes, pas seulement les résumer.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
-              Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l entretien et à retrouver vite une matière personnelle quand il faut reparler d une œuvre.
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
+              Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l\u2019entretien et à retrouver vite une matière personnelle quand il faut reparler d\u2019une œuvre.
             </p>
           </div>
 
@@ -159,12 +159,12 @@ export default function CarnetPage() {
       </section>
 
       {error && (
-        <StateNotice title="Carnet indisponible pour l instant" description={error} variant="error" />
+        <StateNotice title="Le carnet n'a pas pu être chargé" description={`${error} Rafraîchis la page ou réessaie dans quelques instants.`} variant="error" />
       )}
 
-      <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
+      <div className="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-lg)]">
+          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-lg)]">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Sparkles className="h-5 w-5" />
@@ -172,7 +172,7 @@ export default function CarnetPage() {
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Nouvelle entrée</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
-                  Noter pendant que c est encore vivant
+                  Noter pendant que c\u2019est encore vivant
                 </h2>
               </div>
             </div>
@@ -181,8 +181,8 @@ export default function CarnetPage() {
               <input
                 value={oeuvre}
                 onChange={(event) => setOeuvre(event.target.value)}
-                placeholder="Oeuvre"
-                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                placeholder="\u0152uvre"
+                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               />
               <select
                 value={type}
@@ -197,19 +197,19 @@ export default function CarnetPage() {
                 value={page}
                 onChange={(event) => setPage(event.target.value)}
                 placeholder="Page (optionnel)"
-                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               />
               <input
                 value={tags}
                 onChange={(event) => setTags(event.target.value)}
-                placeholder="Tags separes par virgules"
-                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                placeholder="Tags séparés par virgules"
+                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               />
               <textarea
                 value={contenu}
                 onChange={(event) => setContenu(event.target.value)}
                 placeholder="Contenu"
-                className="min-h-36 w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                className="min-h-36 w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               />
               <Button
                 onClick={() => void submit()}
@@ -225,7 +225,7 @@ export default function CarnetPage() {
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Répartition des notes</p>
             <div className="mt-4 space-y-3">
               {typeStats.map((item) => (
-                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[#d3e7e1] bg-white/88 px-4 py-3 text-sm text-[var(--navy-mid)]">
+                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-3 text-sm text-[var(--navy-mid)]">
                   <span>{item.label}</span>
                   <span className="font-semibold text-[var(--navy)]">{item.count}</span>
                 </div>
@@ -237,15 +237,15 @@ export default function CarnetPage() {
         <section className="space-y-4">
           {loading ? (
             <StateNotice
-              title="Chargement du carnet"
-              description="Les entrees, les regroupements par oeuvre et les statistiques de notes sont en cours de preparation."
+              title="Préparation de ton carnet de lecture"
+              description="Tes notes, citations et réactions sont en cours de chargement. Cela ne prend que quelques secondes."
               variant="loading"
               className="max-w-2xl"
             />
           ) : grouped.length === 0 ? (
             <StateNotice
-              title="Aucune entrée pour le moment."
-              description="Commence par une citation, une reaction ou un lien culturel. Le carnet prend de la valeur quand il reste personnel et precis."
+              title="Ton carnet de lecture est prêt"
+              description="Note une citation marquante, une réaction personnelle ou un lien culturel. Plus tes notes sont précises et sincères, plus elles te seront utiles le jour de l'entretien."
               variant="info"
               icon={Quote}
               center
@@ -253,7 +253,7 @@ export default function CarnetPage() {
             />
           ) : (
             grouped.map(([oeuvreName, oeuvreEntries]) => (
-              <section key={oeuvreName} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
+              <section key={oeuvreName} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
                 <div className="flex items-center justify-between gap-3">
                   <h2 className="text-xl font-semibold text-[var(--navy)]">{oeuvreName}</h2>
                   <span className="rounded-full bg-[var(--navy)]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--navy)]">
@@ -269,7 +269,7 @@ export default function CarnetPage() {
                         {entry.page ? <span>p.{entry.page}</span> : null}
                       </div>
                       <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-[var(--navy-mid)]">{entry.contenu}</p>
-                      {entry.tags.length > 0 && <p className="mt-3 text-xs text-[#6d7e8d]">#{entry.tags.join(' #')}</p>}
+                      {entry.tags.length > 0 && <p className="mt-3 text-xs text-[var(--text-caption)]">#{entry.tags.join(' #')}</p>}
                     </article>
                   ))}
                 </div>

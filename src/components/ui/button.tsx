@@ -24,6 +24,8 @@ const variantStyles = {
     'bg-[var(--error)] text-white hover:brightness-90',
   gold:
     'bg-gradient-to-r from-[var(--gold)] to-[var(--gold-muted)] text-[var(--gold-contrast)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-gold)]',
+  teal:
+    'bg-[var(--teal)] text-white hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
 } as const;
 
 const sizeStyles = {

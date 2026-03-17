@@ -91,7 +91,7 @@ const PLANS: PlanCard[] = [
     cta: 'Essayer gratuitement',
     ctaDisabledLabel: 'Plan actuel',
     highlighted: false,
-    kicker: 'Faites vos premiers pas vers le Bac.',
+    kicker: 'Fais tes premiers pas vers le Bac.',
     note: 'Un aperçu limité pour juger la qualité du produit. Pour progresser réellement, passe à Premium.',
   },
   {
@@ -112,7 +112,7 @@ const PLANS: PlanCard[] = [
     ctaDisabledLabel: 'Plan actuel',
     checkoutPlan: 'PREMIUM',
     highlighted: true,
-    kicker: 'La méthode complète pour assurer votre réussite.',
+    kicker: 'La méthode complète pour assurer ta réussite.',
     note: 'Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
   },
   {
@@ -134,7 +134,7 @@ const PLANS: PlanCard[] = [
     ctaDisabledLabel: 'Plan actuel',
     checkoutPlan: 'PRO',
     highlighted: false,
-    kicker: "L'excellence absolue pour décrocher la mention.",
+    kicker: "L’excellence absolue pour décrocher la mention.",
     note: 'Conçu pour les usages intensifs et ceux qui veulent zéro limite sur les quotas.',
   },
 ];
@@ -152,8 +152,8 @@ const FEATURE_ROWS: Array<{ label: string; free: string; premium: string; pro: s
 
 const BILLING_FAQ = [
   {
-    q: "Que se passe-t-il si j'atteins un quota\u00A0?",
-    a: "La plateforme bloque l'action concernée, conserve ton travail et t'indique le plan utile pour reprendre sans repartir de zéro.",
+    q: "Que se passe-t-il si j’atteins un quota\u00A0?",
+    a: "La plateforme bloque l’action concernée, conserve ton travail et t’indique le plan utile pour reprendre sans repartir de zéro.",
   },
   {
     q: 'Puis-je changer de plan ?',
@@ -164,7 +164,7 @@ const BILLING_FAQ = [
     a: 'Pour le moment, les abonnements payants sont activés par virement bancaire ou via WhatsApp (+216 99 19 28 29). Le paiement carte et Flouci seront réactivés dès que leur implémentation sera finalisée.',
   },
   {
-    q: "Et si je n'ai pas de carte bancaire\u00A0?",
+    q: "Et si je n’ai pas de carte bancaire\u00A0?",
     a: 'Le virement bancaire couvre ce cas immédiatement. Tu peux aussi souscrire via WhatsApp au +216 99 19 28 29. Ajoute l\u2019email du compte ou l\u2019identifiant utilisateur en référence pour accélérer l\u2019activation.',
   },
 ];
@@ -343,7 +343,7 @@ export default function PricingPage() {
 
             <h1
               style={EDITORIAL_HEADING}
-              className="mt-7 max-w-4xl text-5xl leading-[0.96] tracking-[-0.04em] text-[var(--navy)] sm:text-6xl lg:text-7xl"
+              className="mt-7 max-w-4xl text-4xl leading-[0.96] tracking-[-0.04em] text-[var(--navy)] sm:text-5xl md:text-6xl lg:text-7xl"
             >
               Choisis le bon rythme de travail,
               <span className="block text-[var(--teal)]">puis laisse le produit faire le reste.</span>
@@ -404,7 +404,7 @@ export default function PricingPage() {
                       <p className="mt-1 text-lg font-bold text-white">Aucun compte connecté</p>
                     </div>
                     <p className="leading-6 text-slate-200">
-                      Tu peux comparer les plans librement. Le compte gratuit n'intervient qu'au moment utile, pas avant.
+                      Tu peux comparer les plans librement. Le compte gratuit n’intervient qu'au moment utile, pas avant.
                     </p>
                   </div>
                 ) : (
@@ -432,7 +432,7 @@ export default function PricingPage() {
                 {!isAuthenticated ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-200">
                     <p className="font-semibold text-white">Aucun paiement requis pour commencer</p>
-                    <p>Le plan Freemium permet déjà de tester l'onboarding, les premiers ateliers et la logique du produit.</p>
+                    <p>Le plan Freemium permet déjà de tester l’onboarding, les premiers ateliers et la logique du produit.</p>
                   </div>
                 ) : billing?.lastPayment ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-200">
@@ -478,7 +478,7 @@ export default function PricingPage() {
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
-              Le but n'est pas de noyer l'offre. Il est de rendre le choix simple, défendable et rapide pour l'élève comme pour le parent qui paie.
+              Le but n’est pas de noyer l’offre. Il est de rendre le choix simple, défendable et rapide pour l’élève comme pour le parent qui paie.
             </p>
           </div>
 
@@ -565,7 +565,7 @@ export default function PricingPage() {
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Aide à la décision</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
-                  La bonne offre dépend du rythme, pas d'un argument marketing vide.
+                  La bonne offre dépend du rythme, pas d’un argument marketing vide.
                 </h2>
               </div>
               <div className="grid gap-3 md:grid-cols-3">
@@ -595,7 +595,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-slate-600">
-              Si un code d'activation t'a été envoyé, active ton plan ici sans repasser par le checkout ni ressaisir un paiement.
+              Si un code d’activation t’a été envoyé, active ton plan ici sans repasser par le checkout ni ressaisir un paiement.
             </p>
 
             {isAuthenticated ? (
@@ -620,7 +620,7 @@ export default function PricingPage() {
               </form>
             ) : (
               <div className="mt-6 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4 text-sm leading-7 text-slate-600">
-                <Link href="/login" className="font-semibold text-[var(--navy)] underline">Connecte-toi d'abord</Link> pour rattacher le code à ton compte, puis reviens ici pour l'activer.
+                <Link href="/login" className="font-semibold text-[var(--navy)] underline">Connecte-toi d’abord</Link> pour rattacher le code à ton compte, puis reviens ici pour l’activer.
               </div>
             )}
 
@@ -640,7 +640,7 @@ export default function PricingPage() {
 
           <article className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
             <div className="flex items-center gap-2">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]">
                 <Landmark className="h-5 w-5" />
               </div>
               <div>
@@ -652,7 +652,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-slate-200">
-              Pour l'instant, les abonnements payants s'activent par virement bancaire ou via WhatsApp. Flouci et le paiement carte reviendront dès que leurs intégrations seront finalisées.
+              Pour l’instant, les abonnements payants s’activent par virement bancaire ou via WhatsApp. Flouci et le paiement carte reviendront dès que leurs intégrations seront finalisées.
             </p>
 
             <div className="mt-6 space-y-3">
@@ -668,7 +668,7 @@ export default function PricingPage() {
                       <button
                         type="button"
                         onClick={() => setError(TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE)}
-                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[#f8f1e7]"
+                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[var(--surface-warm-section)]"
                       >
                         Flouci bientôt disponible
                       </button>
@@ -681,7 +681,7 @@ export default function PricingPage() {
                       </button>
                     </div>
                     <p className="mt-3 text-xs leading-6 text-slate-300">
-                      Pour activer le plan maintenant, utilise le virement bancaire avec l'email du compte ou ton identifiant utilisateur en référence.
+                      Pour activer le plan maintenant, utilise le virement bancaire avec l’email du compte ou ton identifiant utilisateur en référence.
                     </p>
                     {error ? (
                       <div className="mt-4 flex items-start gap-3 rounded-[16px] border border-white/10 bg-white/10 p-3 text-sm text-white" role="alert">
@@ -697,7 +697,7 @@ export default function PricingPage() {
                   <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Virement bancaire</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-200">Ajoutez l'email du compte ou l'identifiant utilisateur en motif. Le plan est activé après vérification du règlement.</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-200">Ajoute l’email du compte ou l’identifiant utilisateur en motif. Le plan est activé après vérification du règlement.</p>
                     <div className="mt-4 grid gap-2 rounded-[16px] bg-[var(--navy-dark)] p-4 text-sm text-slate-100 sm:grid-cols-2">
                       {BANK_TRANSFER_ROWS.map((row) => (
                         <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
@@ -709,7 +709,7 @@ export default function PricingPage() {
                     <div className="mt-4 flex flex-wrap gap-3">
                       <Link
                         href="/contact?subject=virement"
-                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[#f8f1e7]"
+                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[var(--surface-warm-section)]"
                       >
                         Envoyer la référence
                       </Link>
@@ -723,7 +723,7 @@ export default function PricingPage() {
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                 <p className="text-sm leading-6 text-slate-200">
-                  Facturation en dinar tunisien. Premium = 99 TND/mois. Masterium = 129 TND/mois. Le code d'activation est envoyé après confirmation du virement bancaire ou via WhatsApp.
+                  Facturation en dinar tunisien. Premium = 99 TND/mois. Masterium = 129 TND/mois. Le code d’activation est envoyé après confirmation du virement bancaire ou via WhatsApp.
                 </p>
               </div>
             </div>
@@ -745,7 +745,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-5 max-w-3xl text-base leading-8 text-slate-700">
-              Tu préfères être accompagné directement ? Envoie-nous un message WhatsApp pour choisir ton plan, poser tes questions et recevoir ton code d'activation.
+              Tu préfères être accompagné directement ? Envoie-nous un message WhatsApp pour choisir ton plan, poser tes questions et recevoir ton code d’activation.
             </p>
 
             <div className="mt-6 grid gap-5 md:grid-cols-2">
@@ -753,7 +753,7 @@ export default function PricingPage() {
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">Numéro WhatsApp</p>
                 <p className="mt-2 text-2xl font-bold tracking-wide text-[var(--navy)]">{WHATSAPP_NUMBER}</p>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
-                  Disponible pour répondre à tes questions sur les plans, t'aider à choisir et finaliser ton abonnement.
+                  Disponible pour répondre à tes questions sur les plans, t’aider à choisir et finaliser ton abonnement.
                 </p>
               </div>
               <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5">
@@ -761,7 +761,7 @@ export default function PricingPage() {
                 <ol className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
                   <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">1</span>Envoie &quot;Bonjour&quot; sur WhatsApp</li>
                   <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">2</span>Choisis ton plan (Premium ou Masterium)</li>
-                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">3</span>Reçois ton code d'activation</li>
+                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">3</span>Reçois ton code d’activation</li>
                 </ol>
               </div>
             </div>
@@ -789,7 +789,7 @@ export default function PricingPage() {
             <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[#f0fdf4] p-4">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#25d366]" />
               <p className="text-sm leading-6 text-slate-600">
-                Ce numéro est géré par l'équipe Nexus Réussite. Aucun paiement n'est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire.
+                Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire.
               </p>
             </div>
           </div>
@@ -837,19 +837,19 @@ export default function PricingPage() {
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">FAQ facturation</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
-              Les questions d'argent doivent être traitées aussi clairement que le reste.
+              Les questions d’argent doivent être traitées aussi clairement que le reste.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
               Si la page est bonne, elle coupe court aux hésitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon.
             </p>
 
             <div className="mt-8 rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Prêt à passer à l&apos;action ?</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Prêt à passer à l’action ?</p>
               <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                 La préparation sérieuse commence avec Premium.
               </h3>
               <p className="mt-3 text-sm leading-7 text-slate-200">
-                Le plan Freemium donne un aperçu du workflow. Premium débloque le rythme de travail nécessaire pour progresser réellement avant l&apos;épreuve.
+                Le plan Freemium donne un aperçu du workflow. Premium débloque le rythme de travail nécessaire pour progresser réellement avant l’épreuve.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
@@ -857,7 +857,7 @@ export default function PricingPage() {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link href="/" className="inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6">
-                  Retour à l'accueil
+                  Retour à l’accueil
                 </Link>
               </div>
             </div>

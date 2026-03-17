@@ -117,14 +117,14 @@ export default function QuizPage() {
 
       if (!response.ok) {
         const body = (await response.json().catch(() => ({}))) as { error?: string };
-        setError(body.error ?? 'Impossible de générer le quiz. Réessayez.');
+        setError(body.error ?? 'La génération du quiz n\'a pas abouti. Réessaie dans un instant.');
         return;
       }
       const payload = (await response.json()) as { questions: QuizQuestion[]; theme?: string };
       setQuestions(payload.questions);
       setActiveThemeLabel(payload.theme ?? null);
     } catch {
-      setError('Erreur réseau. Vérifie ta connexion et réessaie.');
+      setError('La connexion a été interrompue. Vérifie ta connexion et réessaie.');
     } finally {
       setIsGenerating(false);
     }
@@ -190,9 +190,9 @@ export default function QuizPage() {
               Quiz adaptatif
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Des QCM courts pour fixer les repères utiles avant qu ils ne glissent hors du radar.
+              Des QCM courts pour fixer les repères utiles avant qu'ils ne glissent hors du radar.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
               Choisis un thème, ajuste la difficulté, génère un bloc de questions et transforme le résultat en signal utile pour la suite de ton parcours.
             </p>
           </div>
@@ -213,14 +213,22 @@ export default function QuizPage() {
       </section>
 
       {error && (
-        <div className="rounded-[24px] border border-[#f1c8c0] bg-[var(--error-bg)] p-4 text-sm text-[#b24838]">
-          {error}
+        <div className="rounded-[24px] border border-[var(--error-border)] bg-[var(--error-bg)] p-5">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#b24838]/10 text-[#b24838]">
+              <Brain className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-[var(--navy)]">Le quiz n&apos;a pas pu être généré</p>
+              <p className="mt-1 text-sm leading-7 text-[var(--error-text)]">{error}</p>
+            </div>
+          </div>
         </div>
       )}
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-lg)]">
+          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-lg)]">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Sparkles className="h-5 w-5" />
@@ -304,9 +312,9 @@ export default function QuizPage() {
           <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Usage conseillé</p>
             <div className="mt-4 space-y-3 text-sm leading-7 text-[var(--navy-mid)]">
-              <p className="rounded-[20px] border border-[#d3e7e1] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
-              <p className="rounded-[20px] border border-[#d3e7e1] bg-white/88 px-4 py-4">Lis l explication après validation : c est elle qui transforme le score en progrès réel.</p>
-              <p className="rounded-[20px] border border-[#d3e7e1] bg-white/88 px-4 py-4">Un score faible n est pas un échec : c est un signal pour cibler la prochaine révision.</p>
+              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
+              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Lis l'explication après validation : c'est elle qui transforme le score en progrès réel.</p>
+              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Un score faible n'est pas un échec : c'est un signal pour cibler la prochaine révision.</p>
             </div>
           </section>
         </aside>
@@ -324,14 +332,14 @@ export default function QuizPage() {
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                 Le bloc de questions apparaîtra ici.
               </h2>
-              <p className="mt-3 text-sm leading-7 text-[#6d7e8d]">
-                Configure la séance puis génère un quiz pour passer d une intuition vague à un test rapide et exploitable.
+              <p className="mt-3 text-sm leading-7 text-[var(--text-caption)]">
+                Configure la séance puis génère un quiz pour passer d'une intuition vague à un test rapide et exploitable.
               </p>
             </section>
           ) : (
             <div className="space-y-4">
               {questions.map((question, index) => (
-                <section key={question.id} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
+                <section key={question.id} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
                   <div className="flex items-start gap-4">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-sm font-semibold text-[var(--navy)]">
                       {index + 1}
@@ -347,7 +355,7 @@ export default function QuizPage() {
                           return (
                             <label
                               key={`${question.id}-${optionIndex}`}
-                              className={`rounded-[20px] border p-4 text-sm leading-7 transition ${isGood ? 'border-[#d6e8df] bg-[var(--success-bg)] text-[var(--teal)] font-semibold' : isBad ? 'border-[#f1c8c0] bg-[var(--error-bg)] text-[#b24838]' : checked ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)]' : 'border-[var(--surface-sand)] bg-white text-[var(--navy-mid)] hover:border-[var(--navy)]/18'}`}
+                              className={`rounded-[20px] border p-4 text-sm leading-7 transition ${isGood ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)] text-[var(--teal)] font-semibold' : isBad ? 'border-[var(--error-border)] bg-[var(--error-bg)] text-[var(--error-text)]' : checked ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)]' : 'border-[var(--surface-sand)] bg-white text-[var(--navy-mid)] hover:border-[var(--navy)]/18'}`}
                             >
                               <input
                                 type="radio"
@@ -412,7 +420,7 @@ export default function QuizPage() {
 
       <div className="fixed bottom-24 right-6 z-50 space-y-2 md:bottom-6">
         {badgeToasts.map((badge) => (
-          <div key={badge} className="rounded-[16px] border border-[#d6e8df] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)] shadow-[var(--shadow-md)]" role="status" aria-live="polite">
+          <div key={badge} className="rounded-[16px] border border-[var(--border-success-vivid)] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)] shadow-[var(--shadow-md)]" role="status" aria-live="polite">
             Badge débloqué : {badge}
           </div>
         ))}

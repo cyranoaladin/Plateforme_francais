@@ -288,14 +288,14 @@ export function Sidebar() {
             <button
               aria-label="Basculer le thème"
               onClick={toggleTheme}
-              className="rounded-[var(--radius-md)] border border-[var(--border-default)] bg-white/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-white"
+              className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-white/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-white"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
               aria-label="Paramètres"
               onClick={() => router.push('/profil')}
-              className="rounded-[var(--radius-md)] border border-[var(--border-default)] bg-white/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-white"
+              className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-white/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-white"
             >
               <Settings className="w-4 h-4" />
             </button>
@@ -303,7 +303,7 @@ export function Sidebar() {
             <button
               aria-label="Se déconnecter"
               onClick={handleLogout}
-              className="ml-auto rounded-[var(--radius-md)] border border-[var(--border-default)] bg-white/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-white"
+              className="ml-auto min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-white/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-white"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -333,14 +333,14 @@ export function Sidebar() {
                 key={item.name}
                 href={item.href}
                 aria-label={item.name}
-                className={`min-w-[72px] flex-1 flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
+                className={`min-w-[48px] min-h-[44px] flex-1 flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
                   active
                     ? 'scale-[1.03] bg-[var(--navy)] text-white shadow-[var(--shadow-md)]'
                     : 'text-[var(--navy-muted)] hover:bg-white hover:text-[var(--navy)]'
                 } flex`}
               >
                 <item.icon className="w-5 h-5" />
-                <span className="mt-0.5 text-[9px] font-bold">{item.name}</span>
+                <span className="mt-0.5 text-[10px] font-bold">{item.name}</span>
               </Link>
             );
           })}

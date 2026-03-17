@@ -73,10 +73,10 @@ const VIDEO_MIME_TYPES: Record<string, string> = {
 function buildResourceDescription(resource: EafResource) {
   if (resource.description) return resource.description;
   if (resource.category === 'Annales_EAF') {
-    return 'Sujet blanc, annale ou document de cadrage pour travailler dans un format d épreuve crédible.';
+    return 'Sujet blanc, annale ou document de cadrage pour travailler dans un format d\u2019épreuve crédible.';
   }
   if (resource.category === 'Oeuvres') {
-    return 'Texte d œuvre au programme pour relire, annoter et réactiver les repères utiles à l oral comme à l écrit.';
+    return 'Texte d\u2019œuvre au programme pour relire, annoter et réactiver les repères utiles à l\u2019oral comme à l\u2019écrit.';
   }
   if (resource.category === 'Videos') {
     return 'Capsule vidéo à consulter quand il faut relancer un point de méthode sans repartir de zéro.';
@@ -263,7 +263,7 @@ export default function BibliothequePage() {
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Un fonds de travail EAF qui aide à avancer, pas un simple stock de fichiers.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
               Annales, œuvres, rapports de jury, documents et vidéos sont réunis dans un espace conçu pour réactiver
               vite une méthode, une œuvre ou un repère utile juste avant un atelier, un oral ou une révision ciblée.
             </p>
@@ -308,7 +308,7 @@ export default function BibliothequePage() {
         </section>
       )}
 
-      <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-lg)] md:p-6">
+      <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-lg)] md:p-6">
         <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr] xl:items-end">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Recherche assistée</p>
@@ -332,7 +332,7 @@ export default function BibliothequePage() {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-[var(--navy)]">{item.label}</p>
-                      <p className="text-xs text-[#6d7e8d]">{item.count} ressources</p>
+                      <p className="text-xs text-[var(--text-caption)]">{item.count} ressources</p>
                     </div>
                   </div>
                 </div>
@@ -352,7 +352,7 @@ export default function BibliothequePage() {
               onChange={(event) => setSearchQuery(event.target.value)}
               onKeyDown={handleSearchKeyDown}
               placeholder="Exemple : explication linéaire, problématique dissertation, Rimbaud, rapport jury..."
-              className="w-full rounded-[24px] border border-[var(--border-sand)] bg-white px-11 py-4 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8c95a1] focus:border-[var(--navy)]/22 focus:ring-2 focus:ring-[var(--navy)]/8"
+              className="w-full rounded-[24px] border border-[var(--border-sand)] bg-white px-11 py-4 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/22 focus:ring-2 focus:ring-[var(--navy)]/8"
             />
           </div>
           <Button
@@ -374,7 +374,7 @@ export default function BibliothequePage() {
           </span>
           <button
             onClick={() => setActiveCategory('all')}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === 'all' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
+            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === 'all' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
           >
             Toutes les ressources
           </button>
@@ -385,7 +385,7 @@ export default function BibliothequePage() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === category ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
+                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === category ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
               >
                 <Icon className="h-4 w-4" />
                 {getCategoryLabel(category)}
@@ -397,8 +397,17 @@ export default function BibliothequePage() {
       </section>
 
       {ragError && (
-        <div className="rounded-[24px] border border-[#d9b98f] bg-[#fff5e9] px-5 py-4 text-sm text-[#9a5f25]" role="alert">
-          {ragError}
+        <div className="rounded-[24px] border border-[var(--warning-border)] bg-[var(--warning-bg-soft)] px-5 py-4" role="alert">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--warning-text)]/10 text-[var(--warning-text)]">
+              <Search className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-[var(--navy)]">La recherche intelligente est momentanément indisponible</p>
+              <p className="mt-1 text-sm leading-7 text-[var(--warning-text)]">{ragError}</p>
+              <p className="mt-1 text-xs text-[#b08a5a]">Tu peux toujours parcourir le catalogue et filtrer par catégorie en attendant.</p>
+            </div>
+          </div>
         </div>
       )}
 
@@ -411,7 +420,7 @@ export default function BibliothequePage() {
                 Passages remontés pour “{searchQuery}”.
               </h2>
             </div>
-            <p className="text-sm text-[#52716d]">{ragResults.length} résultats priorisés</p>
+            <p className="text-sm text-[var(--success-text)]">{ragResults.length} résultats priorisés</p>
           </div>
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
@@ -428,7 +437,7 @@ export default function BibliothequePage() {
                         score {item.score.toFixed(2)}
                       </Badge>
                     </div>
-                    <p className="mt-1 text-xs text-[#6d7e8d]">{item.sourceRef} · {item.type} · {item.level}</p>
+                    <p className="mt-1 text-xs text-[var(--text-caption)]">{item.sourceRef} · {item.type} · {item.level}</p>
                     <p className="mt-3 text-sm leading-7 text-[var(--navy-mid)]">{item.excerpt}</p>
                   </div>
                 </div>
@@ -457,7 +466,7 @@ export default function BibliothequePage() {
                     {getCategoryLabel(category)}
                   </h2>
                 </div>
-                <p className="text-sm text-[#6d7e8d]">{resources.length} ressources visibles</p>
+                <p className="text-sm text-[var(--text-caption)]">{resources.length} ressources visibles</p>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -466,26 +475,26 @@ export default function BibliothequePage() {
                   return (
                     <article
                       key={resource.id}
-                      className={`group cursor-pointer rounded-[24px] border p-5 transition ${locked ? 'border-[#e0ddd8] bg-[linear-gradient(180deg,#f5f3ef_0%,#ece8e0_100%)] opacity-75' : 'border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] shadow-[var(--shadow-md)] hover:-translate-y-1 hover:border-[var(--navy)]/16 hover:shadow-[var(--shadow-lg)]'}`}
+                      className={`group cursor-pointer rounded-[24px] border p-5 transition ${locked ? 'border-[var(--border-disabled)] bg-[linear-gradient(180deg,#f5f3ef_0%,#ece8e0_100%)] opacity-75' : 'border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] shadow-[var(--shadow-md)] hover:-translate-y-1 hover:border-[var(--navy)]/16 hover:shadow-[var(--shadow-lg)]'}`}
                       onClick={() => setSelectedResource(resource)}
                     >
                       <div className="flex items-start gap-4">
                         <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[16px] text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition ${locked ? 'bg-[#e8e5e0] grayscale' : 'bg-white group-hover:bg-[var(--navy)]/6'}`}>
-                          {locked ? <Lock className="h-6 w-6 text-[#9a9590]" /> : getResourceIcon(resource.type)}
+                          {locked ? <Lock className="h-6 w-6 text-[var(--text-disabled)]" /> : getResourceIcon(resource.type)}
                         </div>
 
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap gap-2">
-                            <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/12 text-[#9a9590]' : 'bg-[var(--navy)]/8 text-[var(--navy)]'}`}>
+                            <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[var(--text-disabled)]/12 text-[var(--text-disabled)]' : 'bg-[var(--navy)]/8 text-[var(--navy)]'}`}>
                               {resource.type.replace('_', ' ')}
                             </span>
                             {resource.year && (
-                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/8 text-[#9a9590]' : 'bg-[var(--gold-muted)]/10 text-[var(--accent-bronze)]'}`}>
+                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[var(--text-disabled)]/8 text-[var(--text-disabled)]' : 'bg-[var(--gold-muted)]/10 text-[var(--accent-bronze)]'}`}>
                                 {resource.year}
                               </span>
                             )}
                             {resource.ext && (
-                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[#9a9590]/8 text-[#9a9590]' : 'bg-[var(--teal)]/8 text-[var(--teal)]'}`}>
+                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[var(--text-disabled)]/8 text-[var(--text-disabled)]' : 'bg-[var(--teal)]/8 text-[var(--teal)]'}`}>
                                 {resource.ext.replace('.', '')}
                               </span>
                             )}
@@ -504,7 +513,7 @@ export default function BibliothequePage() {
                           <div className={`mt-4 flex items-center justify-between text-xs ${locked ? 'text-[#a09a94]' : 'text-[var(--text-warm)]'}`}>
                             <span>{formatFileSize(resource.size) || 'Taille non précisée'}</span>
                             {locked ? (
-                              <span className="inline-flex items-center gap-1 font-semibold text-[#9a9590]">
+                              <span className="inline-flex items-center gap-1 font-semibold text-[var(--text-disabled)]">
                                 <Lock className="h-3 w-3" />
                                 Verrouillée
                               </span>
@@ -529,8 +538,8 @@ export default function BibliothequePage() {
       {filteredResources.length === 0 && (
         <div className="rounded-[24px] border border-dashed border-[#dbcdb7] bg-[#fffaf2] px-6 py-12 text-center">
           <FolderOpen className="mx-auto h-14 w-14 text-[#c0af96]" />
-          <p className="mt-4 text-lg font-semibold text-[var(--navy)]">Aucune ressource visible avec ces filtres.</p>
-          <p className="mt-2 text-sm text-[#6d7e8d]">Élargis la recherche ou reviens à “Toutes les ressources”.</p>
+          <p className="mt-4 text-lg font-semibold text-[var(--navy)]">Aucune ressource ne correspond à ces critères</p>
+          <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-[var(--text-caption)]">Essaie d'élargir ta recherche ou de revenir sur « Toutes les ressources » pour retrouver l'ensemble du catalogue.</p>
         </div>
       )}
 
@@ -601,7 +610,7 @@ export default function BibliothequePage() {
                   <>
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Ressource verrouillée</p>
                     <div className="mt-4 rounded-[16px] border border-[var(--border-light)] bg-white p-5 text-center">
-                      <Lock className="mx-auto h-8 w-8 text-[#9a9590]" />
+                      <Lock className="mx-auto h-8 w-8 text-[var(--text-disabled)]" />
                       <p className="mt-3 text-sm font-semibold text-[var(--navy)]">
                         Cette ressource fait partie des {LIBRARY_TOTAL_RESOURCES - FREE_TOTAL_LIMIT} contenus réservés aux abonnés.
                       </p>
@@ -682,7 +691,7 @@ export default function BibliothequePage() {
                       src={selectedResourceOpenHref ?? selectedResource.url}
                       title={formatResourceTitle(selectedResource.title, selectedResource.ext)}
                     />
-                    <p className="text-xs leading-6 text-[#6d7e8d]">
+                    <p className="text-xs leading-6 text-[var(--text-caption)]">
                       Aperçu rendu dans la plateforme via PDF.js. Si un document résiste au rendu, les boutons ci-dessus restent la sortie fiable.
                     </p>
                   </div>

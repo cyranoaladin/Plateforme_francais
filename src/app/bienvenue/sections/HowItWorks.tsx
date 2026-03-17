@@ -93,7 +93,7 @@ export function HowItWorks() {
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--navy)] text-sm font-bold text-[var(--surface-parchment)]">
                       {step.number}
                     </span>
-                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--border-strong)] bg-[#efe7da] text-[var(--teal)]">
+                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-warm-accent)] text-[var(--teal)]">
                       <step.icon className="h-5 w-5" />
                     </div>
                   </div>

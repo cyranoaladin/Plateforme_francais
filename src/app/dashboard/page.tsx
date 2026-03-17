@@ -256,8 +256,8 @@ function formatCountdown(value: number | null, label: string) {
 function describeMomentum(current: number | null, previous: number | null) {
   if (current === null || previous === null) {
     return {
-      label: 'Lecture encore incomplète',
-      detail: 'Le tableau de bord a besoin de davantage de sessions pour dégager une tendance propre.',
+      label: 'Tendance en construction',
+      detail: 'Quelques sessions supplémentaires permettront de dégager une trajectoire claire et fiable.',
     };
   }
 
@@ -433,19 +433,19 @@ export default function Dashboard() {
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
       {examInfo && (
-        <div className="mb-6 rounded-2xl bg-gradient-to-r from-[var(--navy)] to-[var(--teal)] p-6 text-white">
-          <div className="flex items-center justify-between">
+        <div className="mb-6 rounded-2xl bg-gradient-to-r from-[var(--navy)] to-[var(--teal)] p-4 text-white md:p-6">
+          <div className="flex items-start justify-between gap-3 sm:items-center">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">{examInfo.phaseLabel}</p>
-              <p className="mt-1 text-4xl font-bold" style={EDITORIAL_HEADING}>J-{examInfo.daysUntilExam}</p>
+              <p className="mt-1 text-3xl font-bold sm:text-4xl" style={EDITORIAL_HEADING}>J-{examInfo.daysUntilExam}</p>
               <p className="mt-1 text-sm text-white/70">{examInfo.examDayLabel} — Coefficient {examInfo.coefficient}</p>
             </div>
-            <CalendarDays className="h-10 w-10 text-white/20" />
+            <CalendarDays className="h-8 w-8 shrink-0 text-white/20 sm:h-10 sm:w-10" />
           </div>
-          <p className="mt-3 text-xs text-white/60 leading-relaxed">{examInfo.phaseAction}</p>
+          <p className="mt-3 text-xs leading-relaxed text-white/60 sm:text-sm">{examInfo.phaseAction}</p>
         </div>
       )}
-      <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-4 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] sm:rounded-[38px] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[44%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_68%)] blur-2xl lg:block" />
         <div className="absolute left-[-8%] top-[-16%] h-48 w-48 rounded-full bg-[rgba(216,163,99,0.18)] blur-3xl" />
 
@@ -619,22 +619,30 @@ export default function Dashboard() {
       </section>
 
       {data.error ? (
-        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)] shadow-[var(--shadow-md)]">
-          <AlertTriangle className="mr-2 inline h-4 w-4" />
-          {data.error}
+        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-5 text-sm text-[var(--error-dark)] shadow-[var(--shadow-md)]">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--error-text)]/10 text-[var(--error-text)]">
+              <AlertTriangle className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="font-semibold text-[var(--navy)]">Un souci temporaire nous empêche d&apos;afficher toutes les données</p>
+              <p className="mt-1 text-sm leading-7">{data.error}</p>
+              <p className="mt-1 text-xs text-slate-500">Rafraîchis la page dans quelques instants ou poursuis ta session normalement.</p>
+            </div>
+          </div>
         </div>
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[0.94fr_1.06fr]">
         <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Boussole</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
+              <h2 style={EDITORIAL_HEADING} className="mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-3xl">
                 Une lecture visuelle rapide de tes quatre grands axes.
               </h2>
             </div>
-            <div className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+            <div className="shrink-0 self-start rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
               Moyenne {averageScore} / 20
             </div>
           </div>
@@ -650,8 +658,9 @@ export default function Dashboard() {
                 </RadarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex h-full items-center justify-center rounded-[24px] bg-[var(--surface-warm)] text-sm text-slate-500">
-                Préparation du graphique...
+              <div className="flex h-full flex-col items-center justify-center gap-2 rounded-[24px] bg-[var(--surface-warm)] text-sm text-slate-500">
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--navy)]/20 border-t-[var(--navy)]" />
+                Préparation de la boussole...
               </div>
             )}
           </div>
@@ -683,28 +692,29 @@ export default function Dashboard() {
             {chartsReady ? (
               <ProgressionChart data={progressionData} target={12} />
             ) : (
-              <div className="flex h-64 items-center justify-center rounded-[24px] bg-[var(--surface-warm)] text-sm text-slate-500">
-                Préparation du graphique...
+              <div className="flex h-64 flex-col items-center justify-center gap-2 rounded-[24px] bg-[var(--surface-warm)] text-sm text-slate-500">
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--navy)]/20 border-t-[var(--navy)]" />
+                Préparation de la trajectoire...
               </div>
             )}
           </div>
 
-          {data.isLoading ? <p className="mt-3 text-xs text-slate-500">Chargement de la progression...</p> : null}
+          {data.isLoading ? <p className="mt-3 text-xs text-slate-500">Actualisation des données de progression en cours...</p> : null}
         </div>
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[0.98fr_1.02fr]">
         <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cartographie fine</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
+              <h2 style={EDITORIAL_HEADING} className="mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-3xl">
                 Ce que tu tiens bien, et ce qu’il faut remettre sous tension.
               </h2>
             </div>
             <Link
               href="/mon-parcours"
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+              className="inline-flex min-h-[44px] shrink-0 items-center gap-2 self-start rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
             >
               Voir le parcours
               <MapIcon className="h-4 w-4" />
@@ -742,7 +752,7 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : (
-              <p className="mt-3 text-sm leading-7 text-slate-600">Aucun signal faible fort n’est remonté sur la fenêtre récente.</p>
+              <p className="mt-3 text-sm leading-7 text-slate-600">Aucun point de vigilance particulier sur la période récente. Continue sur ta lancée.</p>
             )}
           </div>
 
@@ -766,8 +776,12 @@ export default function Dashboard() {
                   </div>
                 ))
               ) : (
-                <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
-                  Pas encore d’activité exploitable. Lance un premier atelier pour transformer ce cockpit en vrai tableau de pilotage.
+                <div className="flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)] p-6 text-center">
+                  <Clock3 className="h-10 w-10 text-[#c0af96]" />
+                  <p className="text-sm font-semibold text-[var(--navy)]">Ton fil d&apos;activité est encore vierge</p>
+                  <p className="max-w-sm text-sm leading-7 text-slate-600">
+                    Dès que tu lanceras un premier atelier ou un quiz, tes sessions apparaîtront ici pour suivre ta progression au fil des jours.
+                  </p>
                 </div>
               )}
             </div>

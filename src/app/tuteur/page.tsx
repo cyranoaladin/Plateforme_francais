@@ -25,7 +25,7 @@ const EDITORIAL_HEADING = {
 };
 
 const STARTER_PROMPTS = [
-  'Donne-moi une méthode courte pour l introduction de dissertation.',
+  'Donne-moi une m\u00E9thode courte pour l\u2019introduction de dissertation.',
   'Comment analyser une métaphore dans un poème de Rimbaud ?',
   'Aide-moi à formuler une problématique sur Manon Lescaut.',
   'Je bloque sur la question de grammaire : comment repartir ?',
@@ -34,17 +34,17 @@ const STARTER_PROMPTS = [
 const OPERATING_RULES = [
   {
     title: 'Réponse cadrée EAF',
-    body: 'Le tuteur reste sur la méthode, les œuvres, la grammaire et les attendus réels de l épreuve.',
+    body: 'Le tuteur reste sur la m\u00E9thode, les \u0153uvres, la grammaire et les attendus r\u00E9els de l\u2019\u00E9preuve.',
     icon: Compass,
   },
   {
     title: 'Sources internes',
-    body: 'Les réponses s appuient sur les références internes mobilisées par la plateforme, pas sur un web ouvert flou.',
+    body: 'Les r\u00E9ponses s\u2019appuient sur les r\u00E9f\u00E9rences internes mobilis\u00E9es par la plateforme, pas sur un web ouvert flou.',
     icon: BookOpen,
   },
   {
     title: 'Anti-copie',
-    body: 'Le guidage aide à produire mieux. Il ne remplace jamais le travail de l élève par une copie livrée clé en main.',
+    body: 'Le guidage aide \u00E0 produire mieux. Il ne remplace jamais le travail de l\u2019\u00E9l\u00E8ve par une copie livr\u00E9e cl\u00E9 en main.',
     icon: ShieldCheck,
   },
 ];
@@ -139,9 +139,9 @@ function TuteurPageContent() {
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl">
               Un espace pour débloquer une vraie difficulté EAF, pas pour récupérer une réponse générique.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
-              Pose une question de méthode, d œuvre, de grammaire ou d oral. Nexus reformule, recentre, s appuie sur ton historique utile
-              et propose la prochaine action sans sortir du cadre pedagogique de la plateforme.
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
+              Pose une question de méthode, d'œuvre, de grammaire ou d'oral. Nexus reformule, recentre, s'appuie sur ton historique utile
+              et propose la prochaine action sans sortir du cadre pédagogique de la plateforme.
             </p>
           </div>
 
@@ -162,7 +162,7 @@ function TuteurPageContent() {
 
       <div className="grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
         <aside className="space-y-4">
-          <section className="rounded-[24px] border border-[#e8dcc8] bg-[#f8f1e7] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[24px] border border-[var(--border-warm-mid)] bg-[var(--surface-warm-section)] p-5 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Questions qui marchent</p>
             <div className="mt-4 space-y-2.5">
               {STARTER_PROMPTS.map((prompt) => (
@@ -200,8 +200,8 @@ function TuteurPageContent() {
           </section>
         </aside>
 
-        <section className="overflow-hidden rounded-[24px] border border-[#e6dccb] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] shadow-[var(--shadow-lg)]">
-          <div className="border-b border-[#efe3d2] bg-white/85 px-5 py-4 md:px-6">
+        <section className="overflow-hidden rounded-[24px] border border-[#e6dccb] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] shadow-[var(--shadow-lg)]">
+          <div className="border-b border-[var(--border-warm-soft)] bg-white/85 px-5 py-4 md:px-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--navy)]/10">
@@ -219,7 +219,7 @@ function TuteurPageContent() {
                     key={suggestion}
                     type="button"
                     onClick={() => void sendMessage(suggestion)}
-                    className="rounded-full border border-[var(--border-default)] bg-[#fffaf4] px-3 py-1.5 text-xs font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/22 hover:bg-white"
+                    className="rounded-full border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-3 py-1.5 text-xs font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/22 hover:bg-white"
                   >
                     {suggestion}
                   </button>
@@ -281,10 +281,10 @@ function TuteurPageContent() {
 
                         {message.role === 'assistant' && message.citations && message.citations.length > 0 && (
                           <div className="mt-4 space-y-2 border-t border-[#efe4d4] pt-4">
-                            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Citations et points d appui</p>
+                            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Citations et points d'appui</p>
                             <div className="grid gap-2">
                               {message.citations.map((citation) => (
-                                <div key={`${citation.index}-${citation.title}`} className="rounded-[16px] border border-[#efe3d2] bg-[#fbf5ec] px-3 py-3 text-xs leading-6 text-[var(--navy-mid)]">
+                                <div key={`${citation.index}-${citation.title}`} className="rounded-[16px] border border-[var(--border-warm-soft)] bg-[var(--surface-warm-card)] px-3 py-3 text-xs leading-6 text-[var(--navy-mid)]">
                                   <span className="font-semibold text-[var(--navy)]">[{citation.index}] {citation.title}</span>
                                   <span className="block text-[var(--text-warm)]">{citation.source}</span>
                                 </div>
@@ -315,7 +315,7 @@ function TuteurPageContent() {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="border-t border-[#efe3d2] bg-white/90 px-4 py-4 md:px-6 md:py-5">
+            <div className="border-t border-[var(--border-warm-soft)] bg-white/90 px-4 py-4 md:px-6 md:py-5">
               <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[#6f7f8f]">
                 <Badge variant="navy" size="sm" className="bg-[var(--navy)]/7 text-[var(--navy)]">Méthode</Badge>
                 <Badge variant="success" size="sm" className="bg-[var(--teal)]/7">Œuvres</Badge>
@@ -333,7 +333,7 @@ function TuteurPageContent() {
                 <label htmlFor="tuteur-input" className="sr-only">Message au tuteur de parcours</label>
                 <input
                   id="tuteur-input"
-                  className="w-full rounded-[24px] border border-[var(--border-default)] bg-[#fffaf4] px-5 py-4 pr-16 text-sm text-[var(--navy)] shadow-[var(--shadow-sm)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/24 focus:bg-white focus:ring-2 focus:ring-[var(--navy)]/10"
+                  className="w-full rounded-[24px] border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-5 py-4 pr-16 text-sm text-[var(--navy)] shadow-[var(--shadow-sm)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/24 focus:bg-white focus:ring-2 focus:ring-[var(--navy)]/10"
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
                   onKeyDown={handleKeyDown}

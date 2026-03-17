@@ -376,11 +376,11 @@ function AuthCard() {
           </div>
         </div>
 
-        <div className="mt-5 flex gap-1.5 rounded-[var(--radius-lg)] bg-[#efe7da] p-1">
+        <div className="mt-5 flex gap-1.5 rounded-[var(--radius-lg)] bg-[var(--surface-warm-accent)] p-1">
           <button
             type="button"
             onClick={() => switchMode('login')}
-            className={`flex-1 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-bold transition-colors ${
+            className={`min-h-[44px] flex-1 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-bold transition-colors ${
               mode === 'login' ? 'bg-white text-[var(--navy)] shadow-sm' : 'text-slate-600 hover:text-[var(--navy)]'
             }`}
           >
@@ -389,7 +389,7 @@ function AuthCard() {
           <button
             type="button"
             onClick={() => switchMode('register')}
-            className={`flex-1 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-bold transition-colors ${
+            className={`min-h-[44px] flex-1 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-bold transition-colors ${
               mode === 'register' ? 'bg-white text-[var(--navy)] shadow-sm' : 'text-slate-600 hover:text-[var(--navy)]'
             }`}
           >
@@ -527,7 +527,7 @@ function AuthCard() {
             <button
               type="button"
               onClick={() => router.push('/login?mode=forgot')}
-              className="w-full text-center text-sm text-[var(--teal)] hover:underline"
+              className="w-full min-h-[44px] text-center text-sm text-[var(--teal)] hover:underline"
             >
               Mot de passe oublié ?
             </button>

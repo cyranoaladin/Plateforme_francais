@@ -17,7 +17,7 @@ import {
   Target,
 } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
-import { Card } from '@/components/ui/card';
+import { Card, Badge } from '@/components/ui';
 
 type StudentProfile = {
   skillMap: {
@@ -115,8 +115,8 @@ const BADGE_STYLES = [
 ];
 
 const PRIORITY_STYLE = {
-  high: 'border-[var(--gold-muted)]/18 bg-[#fdf4e9] text-[#9a5f25]',
-  medium: 'border-[var(--navy)]/14 bg-[#eef3f8] text-[var(--navy)]',
+  high: 'border-[var(--gold-muted)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]',
+  medium: 'border-[var(--navy)]/14 bg-[var(--surface-navy-light)] text-[var(--navy)]',
   low: 'border-[var(--teal)]/14 bg-[#eef9f6] text-[var(--teal)]',
 };
 
@@ -145,12 +145,12 @@ export default function ProfilPage() {
           return;
         }
         if (!response.ok) {
-          throw new Error('Chargement profil impossible.');
+          throw new Error('Le chargement du profil a rencontré un problème. Réessaie dans un instant.');
         }
 
         setProfile((await response.json()) as StudentProfile);
       } catch (cause) {
-        setError(cause instanceof Error ? cause.message : 'Erreur de chargement.');
+        setError(cause instanceof Error ? cause.message : 'Un problème temporaire empêche le chargement du profil.');
       } finally {
         setLoading(false);
       }
@@ -205,8 +205,9 @@ export default function ProfilPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto flex min-h-64 max-w-6xl items-center justify-center p-8">
+      <div className="mx-auto flex min-h-64 max-w-6xl flex-col items-center justify-center gap-4 p-8">
         <div className="h-9 w-9 animate-spin rounded-full border-2 border-[var(--navy)] border-t-transparent" />
+        <p className="text-sm text-slate-500">Chargement de ton profil de progression...</p>
       </div>
     );
   }
@@ -293,9 +294,16 @@ export default function ProfilPage() {
       </section>
 
       {error ? (
-        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)] shadow-[var(--shadow-sm)]">
-          <AlertTriangle className="mr-2 inline h-4 w-4" />
-          {error}
+        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-5 text-sm text-[var(--error-dark)] shadow-[var(--shadow-sm)]">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#b24838]/10 text-[#b24838]">
+              <AlertTriangle className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="font-semibold text-[var(--navy)]">Impossible de charger certaines données du profil</p>
+              <p className="mt-1 text-sm leading-7">{error}</p>
+            </div>
+          </div>
         </div>
       ) : null}
 
@@ -353,8 +361,12 @@ export default function ProfilPage() {
             </h2>
 
             {topErrors.length === 0 ? (
-              <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
-                Aucune erreur récurrente forte n'est remontée pour l’instant. Continue à alimenter le profil avec des ateliers et des évaluations réelles.
+              <div className="mt-8 flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)] p-6 text-center">
+                <CheckCircle2 className="h-10 w-10 text-[var(--teal)]/50" />
+                <p className="text-sm font-semibold text-[var(--navy)]">Aucune erreur récurrente identifiée</p>
+                <p className="max-w-sm text-sm leading-7 text-slate-600">
+                  Au fil de tes ateliers et évaluations, les points de vigilance récurrents apparaîtront ici pour t&apos;aider à cibler tes prochaines révisions.
+                </p>
               </div>
             ) : (
               <div className="mt-8 space-y-3">
@@ -367,9 +379,9 @@ export default function ProfilPage() {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <p className="text-sm font-semibold text-[var(--navy)]">{entry.type}</p>
-                          <span className="rounded-full border border-[var(--gold-muted)]/18 bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#9a5f25]">
+                          <Badge variant="outline" size="sm" className="border-[var(--gold-muted)]/18 font-bold uppercase tracking-[0.16em] text-[var(--warning-text)]">
                             {entry.count} occurrences
-                          </span>
+                          </Badge>
                         </div>
                         <p className="mt-2 text-sm leading-6 text-slate-600">{entry.description}</p>
                       </div>
@@ -391,9 +403,9 @@ export default function ProfilPage() {
                 upcomingTasks.map((task) => (
                   <article key={task.id} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                     <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className={`rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] ${PRIORITY_STYLE[task.priority]}`}>
+                      <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${PRIORITY_STYLE[task.priority]}`}>
                         {task.priority}
-                      </span>
+                      </Badge>
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-300">
                         {task.estimatedMinutes} min · {formatShortDate(task.dueDate)}
                       </span>
@@ -402,9 +414,12 @@ export default function ProfilPage() {
                   </article>
                 ))
               ) : (
-                <div className="rounded-[24px] border border-white/10 bg-white/8 p-4 text-sm leading-7 text-slate-200">
-                  Le plan court n'est pas encore suffisamment renseigné. Passe par le parcours ou le guidage de parcours pour faire émerger les
-                  prochaines actions utiles.
+                <div className="flex flex-col items-center gap-3 rounded-[24px] border border-white/10 bg-white/8 p-6 text-center backdrop-blur-sm">
+                  <Target className="h-10 w-10 text-slate-400" />
+                  <p className="text-sm font-semibold text-white">Pas encore de tâches planifiées</p>
+                  <p className="max-w-sm text-sm leading-7 text-slate-300">
+                    Ouvre ton parcours ou lance un atelier pour que les prochaines actions concrètes apparaissent ici.
+                  </p>
                 </div>
               )}
             </div>
@@ -436,14 +451,18 @@ export default function ProfilPage() {
               Les marqueurs de progression comptent aussi pour soutenir la constance.
             </h2>
           </div>
-          <div className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-slate-600">
+          <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--surface-warm)] font-semibold text-slate-600">
             {resolvedProfile.badges.length} badges actifs
-          </div>
+          </Badge>
         </div>
 
         {!resolvedProfile.badges.length ? (
-          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
-            Aucun badge n'est encore enregistré. Les premiers arrivent vite dès que la régularité et les ateliers commencent à se cumuler.
+          <div className="mt-8 flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)] p-6 text-center">
+            <Award className="h-10 w-10 text-[#c0af96]" />
+            <p className="text-sm font-semibold text-[var(--navy)]">Tes premiers badges arrivent bientôt</p>
+            <p className="max-w-sm text-sm leading-7 text-slate-600">
+              Chaque atelier terminé, chaque série de jours actifs et chaque seuil franchi te rapprochent d&apos;un nouveau badge. Continue sur ta lancée !
+            </p>
           </div>
         ) : (
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">

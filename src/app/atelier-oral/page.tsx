@@ -114,24 +114,24 @@ const PASSAGE_DURATION_S = 20 * 60;
 const PREP_CHECKLIST = [
   { id: 'contexte', label: "Identifier le contexte de l'extrait (auteur, œuvre, mouvement)" },
   { id: 'mouvement', label: "Repérer les mouvements du texte et l'articulation des parties" },
-  { id: 'problematique', label: 'Formuler une problématique d analyse' },
+  { id: 'problematique', label: 'Formuler une problématique d\u2019analyse' },
   { id: 'procedes', label: 'Relever les procédés clés + citations à commenter' },
   { id: 'grammaire', label: 'Anticiper la question de grammaire (nature, fonction, analyse)' },
 ];
 
 const OEUVRES_PROGRAMME_2025_2026 = [
-  'Cahier de Douai — Arthur Rimbaud',
-  'La rage de l expression — Francis Ponge',
-  'Mes forets — Helene Dorion',
-  'Discours de la servitude volontaire — Etienne de La Boetie',
-  'Entretiens sur la pluralite des mondes — Fontenelle',
-  'Lettres d une Peruvienne — Francoise de Graffigny',
-  'Le Menteur — Pierre Corneille',
-  'On ne badine pas avec l amour — Alfred de Musset',
-  'Pour un oui ou pour un non — Nathalie Sarraute',
-  'Manon Lescaut — Abbe Prevost',
-  'La Peau de chagrin — Honore de Balzac',
-  'Sido suivi de Les Vrilles de la vigne — Colette',
+  'Cahier de Douai \u2014 Arthur Rimbaud',
+  'La rage de l\u2019expression \u2014 Francis Ponge',
+  'Mes for\u00EAts \u2014 H\u00E9l\u00E8ne Dorion',
+  'Discours de la servitude volontaire \u2014 \u00C9tienne de La Bo\u00E9tie',
+  'Entretiens sur la pluralit\u00E9 des mondes \u2014 Fontenelle',
+  'Lettres d\u2019une P\u00E9ruvienne \u2014 Fran\u00E7oise de Graffigny',
+  'Le Menteur \u2014 Pierre Corneille',
+  'On ne badine pas avec l\u2019amour \u2014 Alfred de Musset',
+  'Pour un oui ou pour un non \u2014 Nathalie Sarraute',
+  'Manon Lescaut \u2014 Abb\u00E9 Pr\u00E9vost',
+  'La Peau de chagrin \u2014 Honor\u00E9 de Balzac',
+  'Sido suivi de Les Vrilles de la vigne \u2014 Colette',
 ];
 
 function speakText(text: string) {
@@ -185,8 +185,8 @@ function formatTimer(seconds: number): string {
 }
 
 function timerTone(remaining: number): string {
-  if (remaining <= 120) return 'border-[#f2c7bf] bg-[var(--error-bg)] text-[#c44f3c]';
-  if (remaining <= 600) return 'border-[#efd9b4] bg-[var(--warning-bg)] text-[var(--gold-deep)]';
+  if (remaining <= 120) return 'border-[#f2c7bf] bg-[var(--error-bg)] text-[var(--error-text-bright)]';
+  if (remaining <= 600) return 'border-[var(--border-warning-soft)] bg-[var(--warning-bg)] text-[var(--gold-deep)]';
   return 'border-[#cde5de] bg-[var(--success-bg)] text-[var(--teal)]';
 }
 
@@ -570,10 +570,10 @@ export default function AtelierOralPage() {
               Oral EAF
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Une simulation officielle pensée comme un cockpit d entraînement, pas comme un outil brut.
+              Une simulation officielle pensée comme un cockpit d'entraînement, pas comme un outil brut.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
-              Tirage, préparation, passage puis bilan. Tout est réuni dans un seul espace pour te garder concentré sur la qualité de ta prise de parole, la precision des attendus officiels et les points a retravailler la seance suivante.
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
+              Tirage, préparation, passage puis bilan. Tout est réuni dans un seul espace pour te garder concentré sur la qualité de ta prise de parole, la précision des attendus officiels et les points à retravailler la séance suivante.
             </p>
           </div>
 
@@ -593,13 +593,13 @@ export default function AtelierOralPage() {
       </section>
 
       {error && (
-        <div data-testid="error-alert" className="rounded-[24px] border border-[#f0c7bf] bg-[var(--error-bg)] px-5 py-4 text-sm text-[#c44f3c]" role="alert">
+        <div data-testid="error-alert" className="rounded-[24px] border border-[#f0c7bf] bg-[var(--error-bg)] px-5 py-4 text-sm text-[var(--error-text-bright)]" role="alert">
           {error}
         </div>
       )}
 
       {session && (
-        <section className="rounded-[24px] border border-[var(--border-light)] bg-[#fffaf4] px-5 py-4 shadow-[var(--shadow-md)]">
+        <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--surface-warm-input)] px-5 py-4 shadow-[var(--shadow-md)]">
           <div className="flex flex-wrap items-center gap-3">
             {(['TIRAGE', 'PREP', 'PASSAGE', 'BILAN'] as WizardPhase[]).map((phase) => {
               const active = wizardPhase === phase;
@@ -628,10 +628,10 @@ export default function AtelierOralPage() {
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Démarrage</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
-                  Tirage au sort de l extrait
+                  Tirage au sort de l'extrait
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--navy-muted)]">
-                  Choisis ton œuvre et le niveau de contrainte. La plateforme tire l extrait, la question de grammaire puis t installe directement dans le rythme de l épreuve.
+                  Choisis ton œuvre et le niveau de contrainte. La plateforme tire l'extrait, la question de grammaire puis t'installe directement dans le rythme de l'épreuve.
                 </p>
               </div>
             </div>
@@ -705,7 +705,7 @@ export default function AtelierOralPage() {
                   'Passage en quatre temps : lecture, explication, grammaire, entretien.',
                   'Bilan final /20 avec conseil concret pour la prochaine séance.',
                 ].map((item, index) => (
-                  <div key={item} className="rounded-[16px] border border-[#d3e7e1] bg-white/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
+                  <div key={item} className="rounded-[16px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
                     <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--teal)]/10 text-xs font-semibold text-[var(--teal)]">{index + 1}</span>
                     {item}
                   </div>
@@ -713,7 +713,7 @@ export default function AtelierOralPage() {
               </div>
             </section>
 
-            <section className="rounded-[24px] border border-[var(--border-light)] bg-[#f8f1e7] p-5 shadow-[var(--shadow-lg)]">
+            <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--surface-warm-section)] p-5 shadow-[var(--shadow-lg)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Bon usage</p>
               <p className="mt-4 text-sm leading-7 text-[var(--navy-muted)]">
                 Une bonne simulation orale ne cherche pas à parler beaucoup. Elle cherche à rendre la parole plus nette, plus articulée et plus défendable étape après étape.
@@ -777,7 +777,7 @@ export default function AtelierOralPage() {
                 id="prep-notes"
                 value={prepNotes}
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setPrepNotes(event.target.value)}
-                className="min-h-60 w-full rounded-[24px] border border-[var(--border-default)] bg-white px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
+                className="min-h-60 w-full rounded-[24px] border border-[var(--border-default)] bg-white px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
                 placeholder="Structure ton explication linéaire, prépare tes axes, note les procédés..."
               />
             </div>
@@ -798,7 +798,7 @@ export default function AtelierOralPage() {
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Checklist de préparation</p>
               <div className="mt-4 space-y-3">
                 {PREP_CHECKLIST.map((item) => (
-                  <label key={item.id} className="flex cursor-pointer items-start gap-3 rounded-[16px] border border-[#d3e7e1] bg-white/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
+                  <label key={item.id} className="flex cursor-pointer items-start gap-3 rounded-[16px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
                     <input
                       type="checkbox"
                       checked={prepChecklist.has(item.id)}
@@ -822,7 +822,7 @@ export default function AtelierOralPage() {
               <p className="mt-4 text-sm font-medium text-[var(--teal)]">{prepChecklist.size}/{PREP_CHECKLIST.length} étapes complétées</p>
             </section>
 
-            <section className="rounded-[24px] border border-[var(--border-light)] bg-[#f8f1e7] p-5 shadow-[var(--shadow-lg)]">
+            <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--surface-warm-section)] p-5 shadow-[var(--shadow-lg)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Rappel</p>
               <p className="mt-4 text-sm leading-7 text-[var(--navy-muted)]">
                 La préparation utile ne cherche pas à tout écrire. Elle cherche à sécuriser les mouvements du texte, deux ou trois procédés décisifs et une réponse propre à la grammaire.
@@ -857,7 +857,7 @@ export default function AtelierOralPage() {
                   </span>
                 )}
                 {isSimulation && (
-                  <span className="rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-2 text-xs font-mono text-[#6d7e8d]">
+                  <span className="rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-2 text-xs font-mono text-[var(--text-caption)]">
                     {formatTimer(phaseRemaining)} phase
                   </span>
                 )}
@@ -877,9 +877,9 @@ export default function AtelierOralPage() {
                 return (
                   <div
                     key={stepName}
-                    className={`rounded-[22px] border px-4 py-4 text-center ${active ? 'border-[var(--navy)]/18 bg-white shadow-[var(--shadow-sm)]' : complete ? 'border-[var(--border-success)] bg-[var(--success-bg)]' : 'border-[var(--border-light)] bg-[#fbf5ec]'}`}
+                    className={`rounded-[22px] border px-4 py-4 text-center ${active ? 'border-[var(--navy)]/18 bg-white shadow-[var(--shadow-sm)]' : complete ? 'border-[var(--border-success)] bg-[var(--success-bg)]' : 'border-[var(--border-light)] bg-[var(--surface-warm-card)]'}`}
                   >
-                    <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${active ? 'bg-[var(--navy)] text-white' : complete ? 'bg-[var(--teal)]/10 text-[var(--teal)]' : 'bg-white text-[#6d7e8d]'}`}>
+                    <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${active ? 'bg-[var(--navy)] text-white' : complete ? 'bg-[var(--teal)]/10 text-[var(--teal)]' : 'bg-white text-[var(--text-caption)]'}`}>
                       {complete ? <CheckCircle2 className="h-5 w-5" /> : index + 1}
                     </div>
                     <p className={`mt-3 text-xs font-semibold uppercase tracking-[0.14em] ${active ? 'text-[var(--navy)]' : 'text-[var(--text-warm)]'}`}>{STEP_LABELS[stepName]}</p>
@@ -910,12 +910,12 @@ export default function AtelierOralPage() {
                 ) : (
                   <>
                     <div className="relative flex h-24 w-24 items-center justify-center">
-                      <div className="absolute inset-0 animate-ping rounded-full bg-[#c44f3c] opacity-20" />
-                      <button onClick={toggleMic} className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-[#c44f3c] text-white shadow-[var(--shadow-md)] transition hover:bg-[#b33f30]">
+                      <div className="absolute inset-0 animate-ping rounded-full bg-[var(--error-text-bright)] opacity-20" />
+                      <button onClick={toggleMic} className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--error-text-bright)] text-white shadow-[var(--shadow-md)] transition hover:bg-[#b33f30]">
                         <Square className="h-8 w-8" fill="currentColor" />
                       </button>
                     </div>
-                    <p className="mt-4 text-sm font-bold text-[#c44f3c]">Enregistrement en cours...</p>
+                    <p className="mt-4 text-sm font-bold text-[var(--error-text-bright)]">Enregistrement en cours...</p>
                   </>
                 )}
               </div>
@@ -928,7 +928,7 @@ export default function AtelierOralPage() {
                   id="oral-transcript"
                   value={transcript}
                   onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setTranscript(event.target.value)}
-                  className="min-h-40 w-full rounded-[24px] border border-[var(--border-default)] bg-white px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
+                  className="min-h-40 w-full rounded-[24px] border border-[var(--border-default)] bg-white px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
                   placeholder="Le transcript micro apparaît ici, tu peux le corriger avant envoi..."
                 />
               </div>
@@ -960,7 +960,7 @@ export default function AtelierOralPage() {
                   </button>
 
                   {juryTurns.length > 0 && (
-                    <div className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[16px] border border-[#d3e7e1] bg-white p-4">
+                    <div className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[16px] border border-[var(--border-success-soft)] bg-white p-4">
                       {juryTurns.slice(-6).map((turn, idx) => (
                         <p key={`${turn.role}-${idx}`} className="text-sm leading-7 text-[var(--text-body)]">
                           <span className="font-semibold text-[var(--navy)]">{turn.role === 'jury' ? 'Examinateur' : 'Toi'} :</span> {turn.content}
@@ -984,7 +984,7 @@ export default function AtelierOralPage() {
                 </Button>
                 <div className="flex flex-col gap-1">
                   <p className="text-[10px] font-medium uppercase tracking-widest text-[#9ba8b4]">{useServerVoice ? 'Mode vocal serveur' : 'Mode vocal navigateur'}</p>
-                  <p className="text-xs text-[#6d7e8d]">{useServerVoice ? 'Ton audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par ton navigateur. Aucun audio n\u2019est envoyé à nos serveurs.'}</p>
+                  <p className="text-xs text-[var(--text-caption)]">{useServerVoice ? 'Ton audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par ton navigateur. Aucun audio n\u2019est envoyé à nos serveurs.'}</p>
                 </div>
               </div>
             </div>
@@ -1004,7 +1004,7 @@ export default function AtelierOralPage() {
                   const item = feedbacks[step];
                   if (!item) return null;
                   return (
-                    <div key={step} className="rounded-[22px] border border-[#d3e7e1] bg-white p-4 shadow-[var(--shadow-sm)]">
+                    <div key={step} className="rounded-[22px] border border-[var(--border-success-soft)] bg-white p-4 shadow-[var(--shadow-sm)]">
                       <div className="flex items-center justify-between gap-3">
                         <p className="text-sm font-semibold text-[var(--navy)]">{STEP_LABELS[step]}</p>
                         <span className="rounded-full bg-[var(--navy)]/8 px-3 py-1 text-sm font-semibold text-[var(--navy)]">
@@ -1014,7 +1014,7 @@ export default function AtelierOralPage() {
                       <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{item.feedback}</p>
 
                       {item.points_forts.length > 0 && (
-                        <div className="mt-4 rounded-[16px] border border-[#d3e7e1] bg-[var(--success-bg)] p-3">
+                        <div className="mt-4 rounded-[16px] border border-[var(--border-success-soft)] bg-[var(--success-bg)] p-3">
                           <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--teal)]">Points forts</p>
                           <ul className="space-y-1 text-xs leading-6 text-[var(--text-body)]">
                             {item.points_forts.map((point) => (
@@ -1025,8 +1025,8 @@ export default function AtelierOralPage() {
                       )}
 
                       {item.axes.length > 0 && (
-                        <div className="mt-4 rounded-[16px] border border-[#efd9b4] bg-[var(--warning-bg)] p-3">
-                          <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--gold-deep)]">Axes d amélioration</p>
+                        <div className="mt-4 rounded-[16px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-3">
+                          <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--gold-deep)]">Axes d'amélioration</p>
                           <ul className="space-y-1 text-xs leading-6 text-[var(--gold-contrast)]">
                             {item.axes.map((axis) => (
                               <li key={axis} className="flex gap-2"><AlertCircle className="mt-1 h-3.5 w-3.5 shrink-0 text-[var(--gold-deep)]" /> <span>{axis}</span></li>
@@ -1036,11 +1036,11 @@ export default function AtelierOralPage() {
                       )}
 
                       <div className="mt-4 flex flex-wrap items-center gap-3">
-                        <button onClick={() => speakText(item.feedback)} className="inline-flex items-center gap-1.5 rounded-[16px] border border-[var(--border-default)] bg-[#fffaf4] px-3 py-2 text-xs font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18">
+                        <button onClick={() => speakText(item.feedback)} className="inline-flex items-center gap-1.5 rounded-[16px] border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-3 py-2 text-xs font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18">
                           <Volume2 className="h-3.5 w-3.5" />
                           Écouter
                         </button>
-                        {item.relance && <span className="text-xs font-medium text-[var(--teal)]">Relance de l examinateur : {item.relance}</span>}
+                        {item.relance && <span className="text-xs font-medium text-[var(--teal)]">Relance de l'examinateur : {item.relance}</span>}
                       </div>
                     </div>
                   );
@@ -1048,10 +1048,10 @@ export default function AtelierOralPage() {
               </div>
             </section>
 
-            <section className="rounded-[24px] border border-[var(--border-light)] bg-[#f8f1e7] p-5 shadow-[var(--shadow-lg)]">
+            <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--surface-warm-section)] p-5 shadow-[var(--shadow-lg)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Principe de séance</p>
               <p className="mt-4 text-sm leading-7 text-[var(--navy-muted)]">
-                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu une longue réponse confuse. Le cockpit est conçu pour rendre cette discipline plus facile.
+                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu'une longue réponse confuse. Le cockpit est conçu pour rendre cette discipline plus facile.
               </p>
               <Link
                 href={oralTutorHref}
@@ -1074,7 +1074,7 @@ export default function AtelierOralPage() {
             <h2 style={EDITORIAL_HEADING} className="mt-2 text-4xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
               {bilan.note}/{bilan.maxNote}
             </h2>
-            <span className={`mt-4 inline-flex rounded-full px-4 py-2 text-sm font-semibold ${bilan.note >= 16 ? 'bg-[var(--success-bg)] text-[var(--teal)]' : bilan.note >= 12 ? 'bg-[#eef3f8] text-[var(--navy)]' : bilan.note >= 10 ? 'bg-[var(--warning-bg)] text-[var(--gold-deep)]' : 'bg-[var(--error-bg)] text-[#c44f3c]'}`}>
+            <span className={`mt-4 inline-flex rounded-full px-4 py-2 text-sm font-semibold ${bilan.note >= 16 ? 'bg-[var(--success-bg)] text-[var(--teal)]' : bilan.note >= 12 ? 'bg-[var(--surface-navy-light)] text-[var(--navy)]' : bilan.note >= 10 ? 'bg-[var(--warning-bg)] text-[var(--gold-deep)]' : 'bg-[var(--error-bg)] text-[var(--error-text-bright)]'}`}>
               {bilan.mention}
             </span>
           </div>
@@ -1102,7 +1102,7 @@ export default function AtelierOralPage() {
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Bilan global</p>
               <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{bilan.bilan_global}</p>
             </div>
-            <div className="rounded-[24px] border border-[#efd9b4] bg-[var(--warning-bg)] p-5">
+            <div className="rounded-[24px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-5">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--gold-deep)]">Conseil final</p>
               <p className="mt-3 text-sm leading-7 text-[var(--gold-contrast)]">{bilan.conseil_final}</p>
             </div>

@@ -21,7 +21,7 @@ type DescriptifTexte = {
 
 const OBJETS_ETUDE: { key: ObjetEtude; label: string }[] = [
   { key: 'poesie', label: 'Poésie' },
-  { key: 'litterature_idees', label: "Littérature d'idées" },
+  { key: 'litterature_idees', label: "Littérature d’idées" },
   { key: 'theatre', label: 'Théâtre' },
   { key: 'roman', label: 'Roman' },
 ];
@@ -29,17 +29,17 @@ const OBJETS_ETUDE: { key: ObjetEtude; label: string }[] = [
 const OEUVRES_PAR_OBJET: Record<ObjetEtude, { oeuvre: string; auteur: string }[]> = {
   poesie: [
     { oeuvre: 'Cahier de Douai', auteur: 'Arthur Rimbaud' },
-    { oeuvre: "La rage de l'expression", auteur: 'Francis Ponge' },
+    { oeuvre: "La rage de l’expression", auteur: 'Francis Ponge' },
     { oeuvre: 'Mes forêts', auteur: 'Hélène Dorion' },
   ],
   litterature_idees: [
     { oeuvre: 'Discours de la servitude volontaire', auteur: 'Étienne de La Boétie' },
     { oeuvre: 'Entretiens sur la pluralité des mondes', auteur: 'Bernard Le Bouyer de Fontenelle' },
-    { oeuvre: "Lettres d'une Péruvienne", auteur: 'Françoise de Graffigny' },
+    { oeuvre: "Lettres d’une Péruvienne", auteur: 'Françoise de Graffigny' },
   ],
   theatre: [
     { oeuvre: 'Le Menteur', auteur: 'Pierre Corneille' },
-    { oeuvre: "On ne badine pas avec l'amour", auteur: 'Alfred de Musset' },
+    { oeuvre: "On ne badine pas avec l’amour", auteur: 'Alfred de Musset' },
     { oeuvre: 'Pour un oui ou pour un non', auteur: 'Nathalie Sarraute' },
   ],
   roman: [
@@ -180,7 +180,7 @@ export default function DescriptifPage() {
       <div className="mx-auto flex min-h-64 max-w-6xl items-center justify-center p-8">
         <StateNotice
           title="Chargement du descriptif"
-          description="Les textes deja saisis, les controles de repartition et les regles de couverture sont en cours de lecture."
+          description="Les textes déjà saisis, les contrôles de répartition et les règles de couverture sont en cours de lecture."
           variant="loading"
           className="w-full max-w-2xl"
         />
@@ -201,16 +201,16 @@ export default function DescriptifPage() {
               Mon Descriptif de lecture
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Le descriptif doit devenir une carte de passage crédible pour l oral, pas une simple liste remplie à la hâte.
+              Le descriptif doit devenir une carte de passage crédible pour l’oral, pas une simple liste remplie à la hâte.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
-              Répartis les textes par objet d étude, équilibre œuvres et parcours, puis sauvegarde un descriptif cohérent avec le programme officiel et
-              réellement pilotable pour l oral.
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
+              Répartis les textes par objet d’étude, équilibre œuvres et parcours, puis sauvegarde un descriptif cohérent avec le programme officiel et
+              réellement pilotable pour l’oral.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-            <div className={`rounded-[24px] border px-4 py-4 backdrop-blur-sm ${textes.length >= 20 ? 'border-[#d6e8df] bg-[var(--success-bg)] text-[var(--teal)]' : 'border-white/12 bg-white/10 text-white'}`}>
+            <div className={`rounded-[24px] border px-4 py-4 backdrop-blur-sm ${textes.length >= 20 ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)] text-[var(--teal)]' : 'border-white/12 bg-white/10 text-white'}`}>
               <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${textes.length >= 20 ? 'text-[var(--teal)]' : 'text-[var(--border-warm)]'}`}>Textes</p>
               <p className="mt-2 text-3xl font-semibold">{textes.length}/20</p>
             </div>
@@ -227,7 +227,7 @@ export default function DescriptifPage() {
       </section>
 
       {clientWarnings.length > 0 && (
-        <div className="rounded-[24px] border border-[#efd9b4] bg-[var(--warning-bg)] p-4">
+        <div className="rounded-[24px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-4">
           <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-[var(--gold-deep)]">
             <AlertTriangle className="h-4 w-4" /> Règles non satisfaites
           </h3>
@@ -238,13 +238,13 @@ export default function DescriptifPage() {
       )}
 
       {successMsg && (
-        <div className="rounded-[24px] border border-[#d6e8df] bg-[var(--success-bg)] p-4 text-sm text-[var(--teal)] flex items-center gap-2">
+        <div className="rounded-[24px] border border-[var(--border-success-vivid)] bg-[var(--success-bg)] p-4 text-sm text-[var(--teal)] flex items-center gap-2">
           <CheckCircle2 className="h-4 w-4" /> {successMsg}
         </div>
       )}
 
       {serverWarnings.length > 0 && (
-        <div className="rounded-[24px] border border-[#efd9b4] bg-[var(--warning-bg)] p-4">
+        <div className="rounded-[24px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-4">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[var(--gold-deep)]">Avertissements serveur</p>
           <ul className="space-y-1 text-xs leading-6 text-[var(--gold-contrast)]">
             {serverWarnings.map((warning, index) => <li key={index}>• {warning}</li>)}
@@ -254,7 +254,7 @@ export default function DescriptifPage() {
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-lg)]">
+          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-lg)]">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Plus className="h-5 w-5" />
@@ -281,8 +281,8 @@ export default function DescriptifPage() {
               <Button onClick={addTexte} disabled={!formTitre.trim()} icon={<Plus className="h-4 w-4" />} size="md">
                 Ajouter
               </Button>
-              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex: Acte I, scène 1)" className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8" />
-              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premières lignes (optionnel)" className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8" />
+              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex: Acte I, scène 1)" className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8" />
+              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premières lignes (optionnel)" className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8" />
             </div>
           </section>
 
@@ -290,10 +290,10 @@ export default function DescriptifPage() {
             <div className="flex items-start gap-3">
               <ShieldCheck className="mt-1 h-5 w-5 text-[var(--teal)]" />
               <div>
-                <p className="text-sm font-semibold text-[var(--navy)]">Règle d équilibre</p>
+                <p className="text-sm font-semibold text-[var(--navy)]">Règle d’équilibre</p>
                 <p className="mt-2 text-sm leading-7 text-[var(--navy-mid)]">
-                  Un bon descriptif répartit les textes par objet d étude, couvre les attendus officiels et évite les trous. Le but n est pas de
-                  remplir une contrainte administrative, mais de rendre l oral réellement défendable.
+                  Un bon descriptif répartit les textes par objet d’étude, couvre les attendus officiels et évite les trous. Le but n’est pas de
+                  remplir une contrainte administrative, mais de rendre l’oral réellement défendable.
                 </p>
               </div>
             </div>
@@ -305,7 +305,7 @@ export default function DescriptifPage() {
             {OBJETS_ETUDE.map((objet) => {
               const count = textesParObjet[objet.key].length;
               return (
-                <div key={objet.key} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-md)]">
+                <div key={objet.key} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)]">
                   <p className="text-sm font-semibold text-[var(--navy)]">{objet.label}</p>
                   <p className="mt-3 text-3xl font-semibold text-[var(--navy)]">{count}</p>
                   <Badge variant={count >= 5 ? 'success' : 'warning'} size="sm" className="mt-3">
@@ -321,7 +321,7 @@ export default function DescriptifPage() {
               const items = textesParObjet[objet.key];
               const count = items.length;
               return (
-                <section key={objet.key} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[var(--shadow-md)]">
+                <section key={objet.key} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)]">
                   <div className="flex items-center justify-between gap-3">
                     <h2 className="text-xl font-semibold text-[var(--navy)]">{objet.label}</h2>
                     <Badge variant={count >= 5 ? 'success' : 'warning'} size="sm">
@@ -329,7 +329,7 @@ export default function DescriptifPage() {
                     </Badge>
                   </div>
                   {count === 0 ? (
-                    <p className="mt-4 text-sm text-[#6d7e8d]">Aucun texte ajouté.</p>
+                    <p className="mt-4 text-sm text-[var(--text-caption)]">Aucun texte ajouté.</p>
                   ) : (
                     <div className="mt-4 space-y-3">
                       {items.map((texte) => (
@@ -342,7 +342,7 @@ export default function DescriptifPage() {
                                 {texte.typeExtrait === 'extrait_oeuvre' ? 'Œuvre' : 'Parcours'}
                               </Badge>
                               {texte.premieresLignes ? (
-                                <p className="mt-3 text-xs leading-6 text-[#6d7e8d]">{texte.premieresLignes}</p>
+                                <p className="mt-3 text-xs leading-6 text-[var(--text-caption)]">{texte.premieresLignes}</p>
                               ) : null}
                             </div>
                             <Button onClick={() => removeTexte(texte.id)} variant="ghost" size="sm" className="p-2 text-[var(--error-muted)] hover:text-[var(--error-dark)] hover:bg-transparent" aria-label="Supprimer">

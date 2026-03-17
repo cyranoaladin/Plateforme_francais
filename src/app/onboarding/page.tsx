@@ -408,7 +408,7 @@ export default function OnboardingPage() {
           <section className="rounded-[24px] border border-[var(--border-strong)] bg-white/88 p-6 shadow-[var(--shadow-lg)] sm:p-8 lg:p-9">
             {error ? <OnboardingErrorBanner message={error} /> : null}
             {welcomeMessage ? (
-              <div className="mb-6 flex items-center gap-2 rounded-[22px] border border-[#9cccaf] bg-[#eef8f0] p-4 text-sm text-[#25543d]" role="status">
+              <div className="mb-6 flex items-center gap-2 rounded-[var(--radius-xl)] border border-[var(--teal)]/25 bg-[var(--success-bg)] p-4 text-sm text-[var(--teal)]" role="status">
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
                 {welcomeMessage}
               </div>
@@ -624,7 +624,7 @@ export default function OnboardingPage() {
                             className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[var(--surface-sand)] accent-[var(--navy)]"
                             aria-label={`${skill.label} : ${value} sur 5`}
                           />
-                          <div className="mt-2 flex justify-between text-[10px] font-medium uppercase tracking-[0.12em] text-slate-500">
+                          <div className="mt-2 flex justify-between text-[11px] font-medium uppercase tracking-[0.12em] text-slate-500">
                             <span>Fragile</span>
                             <span>Solide</span>
                           </div>

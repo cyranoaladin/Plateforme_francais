@@ -33,8 +33,8 @@ const VARIANT_STYLES: Record<NoticeVariant, { shell: string; iconBox: string; te
     defaultIcon: AlertTriangle,
   },
   error: {
-    shell: 'border-[#f1c8c0] bg-[var(--error-bg)]',
-    iconBox: 'bg-[#b24838]/10 text-[#b24838]',
+    shell: 'border-[var(--error-border)] bg-[var(--error-bg)]',
+    iconBox: 'bg-[var(--error-text)]/10 text-[var(--error-text)]',
     text: 'text-[#6a4a46]',
     defaultIcon: AlertTriangle,
   },
@@ -68,7 +68,7 @@ export function StateNotice({
         </div>
         <div className={`min-w-0 flex-1 ${visual.text}`}>
           <h3 className="text-base font-semibold text-[var(--navy)]">{title}</h3>
-          {description ? <p className="mt-2 text-sm leading-7">{description}</p> : null}
+          {description ? <p className="mt-1.5 text-sm leading-7">{description}</p> : null}
           {action ? <div className="mt-4">{action}</div> : null}
         </div>
       </div>

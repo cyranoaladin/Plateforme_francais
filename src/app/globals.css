@@ -35,6 +35,13 @@
   --surface-paper: #fcfaf6;
   --surface-parchment: #f7f2ea;
   --surface-sand: #eadbc5;
+  --surface-navy-light: #eef3f8;
+  --surface-premium: #fdf4e9;
+  --surface-warm-input: #fffaf4;
+  --surface-warm-section: #f8f1e7;
+  --surface-warm-accent: #efe7da;
+  --surface-warm-card: #fbf5ec;
+  --surface-warm-card-top: #fffdfa;
 
   /* ─── Borders ─────────────────────────────────────── */
   --border-light: #e7dac6;
@@ -43,24 +50,42 @@
   --border-warm: #d7c4aa;
   --border-sand: #dfd1bc;
   --border-success: #d8e8e3;
+  --border-success-soft: #d3e7e1;
+  --border-success-vivid: #d6e8df;
+  --border-warning-soft: #efd9b4;
+  --border-warm-mid: #e8dcc8;
+  --border-warm-soft: #efe3d2;
+  --border-disabled: #e0ddd8;
 
   /* ─── Text ────────────────────────────────────────── */
   --text-heading: #0f172a;
   --text-body: #334155;
   --text-secondary: #5d7287;
   --text-muted: #5f7388;
+  --text-caption: #6d7e8d;
   --text-placeholder: #94a3b8;
+  --text-placeholder-warm: #8b95a1;
   --text-warm: #7a6858;
+  --text-on-navy-muted: #dfe8f0;
+  --text-on-navy-soft: #e4d4bd;
+  --text-disabled: #9a9590;
 
   /* ─── Status ──────────────────────────────────────── */
   --success: #0f766e;
   --success-bg: #edf7f3;
+  --success-text: #52716d;
   --warning: #b45309;
   --warning-bg: #fff7ea;
+  --warning-text: #9a5f25;
+  --warning-border: #d9b98f;
+  --warning-bg-soft: #fff5e9;
   --error: #b91c1c;
   --error-bg: #fff0ed;
   --error-dark: #8f2d2d;
   --error-muted: #b65050;
+  --error-text: #b24838;
+  --error-text-bright: #c44f3c;
+  --error-border: #f1c8c0;
   --info: #1d4ed8;
   --info-bg: #eff6ff;
 

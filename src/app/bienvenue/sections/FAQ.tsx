@@ -53,7 +53,7 @@ function FaqItem({
         aria-expanded={open}
       >
         <div className="flex items-start gap-4">
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#efe7da] text-xs font-bold text-[var(--navy)]">
+          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--surface-warm-accent)] text-xs font-bold text-[var(--navy)]">
             {String(index + 1).padStart(2, '0')}
           </span>
           <span className="pt-1 text-sm font-semibold text-[var(--navy)] md:text-base">{question}</span>
@@ -81,7 +81,7 @@ export function FAQ() {
           </p>
 
           <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-md)]">
-            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]">
+            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]">
               <MessageSquareText className="h-5 w-5" />
             </div>
             <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">

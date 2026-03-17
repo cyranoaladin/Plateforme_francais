@@ -15,8 +15,8 @@ const DATA_PROTECTION_ITEMS = [
     body: 'Pour les utilisateurs de moins de 15 ans, un consentement parental est requis (email parent).',
   },
   {
-    label: "Droit d'accès et de suppression :",
-    body: "Vous pouvez à tout moment demander l'accès, la modification ou la suppression de vos données via contact@nexusreussite.academy.",
+    label: "Droit d’accès et de suppression :",
+    body: "Vous pouvez à tout moment demander l’accès, la modification ou la suppression de vos données via contact@nexusreussite.academy.",
   },
   {
     label: 'Pas de revente :',
@@ -39,7 +39,7 @@ export default function PolitiqueDeConfidentialitePage() {
         <section className="space-y-6 text-[var(--navy)]/80">
           <div>
             <h2 className="mb-3 text-2xl font-semibold text-[var(--navy)]">Protection des données (RGPD)</h2>
-            <p className="mb-2">{"Nexus EAF s'engage à protéger vos données personnelles conformément au RGPD :"}</p>
+            <p className="mb-2">{"Nexus EAF s’engage à protéger vos données personnelles conformément au RGPD :"}</p>
             <ul className="ml-4 list-disc list-inside space-y-2">
               {DATA_PROTECTION_ITEMS.map((item) => (
                 <li key={item.label}>
@@ -58,10 +58,10 @@ export default function PolitiqueDeConfidentialitePage() {
 
         <div className="mt-12 flex flex-wrap gap-4 border-t border-[var(--border-strong)] pt-6">
           <Link href="/mentions-legales" className="font-semibold text-[var(--teal)] hover:underline">
-            {"Mentions légales & Conditions Générales d'Utilisation"}
+            {"Mentions légales & Conditions Générales d’Utilisation"}
           </Link>
           <Link href="/" className="font-semibold text-[var(--teal)] hover:underline">
-            {"← Retour à l'accueil"}
+            {"← Retour à l’accueil"}
           </Link>
         </div>
       </div>

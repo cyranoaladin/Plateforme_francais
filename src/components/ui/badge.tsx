@@ -25,6 +25,8 @@ const variantStyles = {
     'bg-gradient-to-r from-[var(--gold)]/10 to-[var(--gold-muted)]/10 text-[var(--gold-contrast)] border border-[var(--gold)]/30',
   navy:
     'bg-[var(--navy)] text-white',
+  outline:
+    'bg-white text-[var(--text-body)] border border-[var(--border-default)]',
 } as const;
 
 const sizeStyles = {

@@ -24,7 +24,7 @@ const PLANS = [
   },
   {
     name: 'Masterium',
-    accent: 'border-[var(--border-strong)] bg-[#efe7da] text-[var(--navy)]',
+    accent: 'border-[var(--border-strong)] bg-[var(--surface-warm-accent)] text-[var(--navy)]',
     kicker: "L'excellence absolue pour décrocher la mention.",
     bullets: ["Volume élevé sans coupure", "Confort sur les semaines chargées", "Conçu pour un usage vraiment intensif"],
   },

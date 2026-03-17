@@ -68,7 +68,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-[var(--surface-cream)] text-slate-900 [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.12),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <main className="relative mx-auto max-w-3xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[var(--shadow-md)]">
+        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[var(--shadow-md)]">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
           </Link>
@@ -86,11 +86,11 @@ export default function ContactPage() {
             Une question, un virement à confirmer, un bug à signaler ?
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
-            Remplis le formulaire ci-dessous. Ton message sera traité par l'équipe Nexus Réussite dans les meilleurs délais.
+            Remplis le formulaire ci-dessous. Ton message sera traité par l’équipe Nexus Réussite dans les meilleurs délais.
           </p>
         </section>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label htmlFor="contact-name" className="block text-sm font-semibold text-[var(--navy)]">Nom</label>
@@ -102,7 +102,7 @@ export default function ContactPage() {
                 maxLength={100}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="mt-2 w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
+                className="mt-2 w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
                 placeholder="Ton nom"
               />
             </div>
@@ -114,7 +114,7 @@ export default function ContactPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
+                className="mt-2 w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
                 placeholder="ton.email@example.com"
               />
             </div>
@@ -126,7 +126,7 @@ export default function ContactPage() {
               id="contact-subject"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="mt-2 w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
+              className="mt-2 w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
             >
               {SUBJECTS.map((s) => (
                 <option key={s.value} value={s.value}>{s.label}</option>
@@ -144,7 +144,7 @@ export default function ContactPage() {
               rows={5}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="mt-2 w-full resize-y rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
+              className="mt-2 w-full resize-y rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
               placeholder="Décris ta demande ici..."
             />
           </div>
@@ -152,27 +152,27 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--navy)] px-5 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {loading ? 'Envoi en cours...' : 'Envoyer le message'}
           </button>
 
           {success ? (
-            <div className="flex items-start gap-3 rounded-[22px] border border-[#9cccaf] bg-[#eef8f0] p-4 text-sm text-[#25543d]" role="status">
+            <div className="flex items-start gap-3 rounded-[var(--radius-xl)] border border-[var(--teal)]/25 bg-[var(--success-bg)] p-4 text-sm text-[var(--teal)]" role="status">
               <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{success}</span>
             </div>
           ) : null}
           {error ? (
-            <div className="flex items-start gap-3 rounded-[22px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
+            <div className="flex items-start gap-3 rounded-[var(--radius-xl)] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{error}</span>
             </div>
           ) : null}
         </form>
 
-        <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5 text-sm leading-7 text-slate-600">
+        <div className="mt-8 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5 text-sm leading-7 text-slate-600">
           <p className="font-semibold text-[var(--navy)]">Autres moyens de contact</p>
           <ul className="mt-2 space-y-1">
             <li>WhatsApp : <a href="https://wa.me/21699192829" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#25d366] underline">+216 99 19 28 29</a></li>

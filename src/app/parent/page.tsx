@@ -240,7 +240,7 @@ export default function ParentDashboard() {
             </div>
           </div>
 
-          <div className="mt-8 rounded-[24px] border border-[var(--navy)]/14 bg-[#eef3f8] p-4">
+          <div className="mt-8 rounded-[24px] border border-[var(--navy)]/14 bg-[var(--surface-navy-light)] p-4">
             <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--navy)]">
               <Target className="h-4 w-4" />
               Action concrète cette semaine

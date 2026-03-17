@@ -82,8 +82,8 @@ function statusLabel(status: string) {
 function statusStyle(status: string) {
   if (status === 'done') return 'border-[var(--teal)]/16 bg-[#eef9f6] text-[var(--teal)]';
   if (status === 'error') return 'border-[var(--error-muted)]/18 bg-[var(--error-bg)] text-[var(--error-dark)]';
-  if (status === 'processing') return 'border-[var(--navy)]/14 bg-[#eef3f8] text-[var(--navy)]';
-  return 'border-[var(--gold-muted)]/18 bg-[#fdf4e9] text-[#9a5f25]';
+  if (status === 'processing') return 'border-[var(--navy)]/14 bg-[var(--surface-navy-light)] text-[var(--navy)]';
+  return 'border-[var(--gold-muted)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]';
 }
 
 export default function EnseignantPage() {

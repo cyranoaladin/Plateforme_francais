@@ -77,20 +77,20 @@ const SIGNALS = [
 const STEPS = [
   {
     number: '01', title: 'Cadrer le point de départ', icon: Compass,
-    description: "Œuvres choisies, objectifs, niveau perçu, contraintes de rythme : la plateforme comprend d'abord le terrain de jeu.",
-    student: "L'élève renseigne son profil, ses œuvres et son niveau de départ.",
+    description: "Œuvres choisies, objectifs, niveau perçu, contraintes de rythme : la plateforme comprend d’abord le terrain de jeu.",
+    student: "L’élève renseigne son profil, ses œuvres et son niveau de départ.",
     platform: 'Nexus construit une base de progression cohérente et prépare les premiers ateliers.',
   },
   {
     number: '02', title: 'Produire dans un format exigeant', icon: PenSquare,
     description: 'Chaque atelier force une production concrète : réponse orale, analyse, correction de langue, copie déposée.',
-    student: "L'élève écrit, parle, justifie, reprend et corrige.",
+    student: "L’élève écrit, parle, justifie, reprend et corrige.",
     platform: 'La plateforme balise la méthode, cite les références utiles et refuse les demandes de copie intégrale.',
   },
   {
     number: '03', title: 'Réinjecter le feedback au bon endroit', icon: RefreshCcw,
-    description: "Le retour n'est pas décoratif : il alimente les signaux faibles, le parcours et les prochaines relances.",
-    student: "L'élève sait précisément quoi retravailler et dans quel ordre.",
+    description: "Le retour n’est pas décoratif : il alimente les signaux faibles, le parcours et les prochaines relances.",
+    student: "L’élève sait précisément quoi retravailler et dans quel ordre.",
     platform: 'Nexus priorise les lacunes, propose la séance suivante et garde une mémoire utile.',
   },
 ];
@@ -100,26 +100,26 @@ const FEATURE_GROUPS = [
   { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose une copie PDF ou image, récupère une lecture OCR, une correction par rubriques et un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'OCR + correction structurée', 'Rapport PDF exploitable'] },
   { title: 'Oral officiel', icon: Mic, tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Format EAF', span: 'lg:col-span-5', body: "Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.", bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'] },
   { title: 'Corpus et citations', icon: ScanSearch, tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Sources visibles', span: 'lg:col-span-4', body: "Le guidage mobilise BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles.", bullets: ['Citations internes', 'Recherche RAG documentée', 'Corpus 2025-2026'] },
-  { title: 'Langue et quiz adaptatif', icon: BrainCircuit, tone: 'bg-[#efe7da] text-[var(--navy)] border-[var(--border-strong)]', badge: 'Relance ciblée', span: 'lg:col-span-4', body: "Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.", bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'] },
+  { title: 'Langue et quiz adaptatif', icon: BrainCircuit, tone: 'bg-[var(--surface-warm-accent)] text-[var(--navy)] border-[var(--border-strong)]', badge: 'Relance ciblée', span: 'lg:col-span-4', body: "Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.", bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'] },
   { title: 'Guidage personnalisé et mémoire de progression', icon: MessageCircleMore, tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Coaching actif', span: 'lg:col-span-4', body: "Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance.", bullets: ['Relances contextuelles', 'Signaux faibles', 'Séances suivantes cohérentes'] },
 ];
 
 /* ─── Données audiences ─── */
 const AUDIENCE_CARDS = [
-  { icon: GraduationCap, title: "Pour l'élève", body: "Le produit dit quoi faire maintenant, quoi reprendre ensuite et comment progresser sans se disperser." },
-  { icon: UsersRound, title: 'Pour les parents', body: "La valeur perçue vient d'un cadre visible : workflow clair, garde-fous nets, progression compréhensible." },
+  { icon: GraduationCap, title: "Pour l’élève", body: "Le produit dit quoi faire maintenant, quoi reprendre ensuite et comment progresser sans se disperser." },
+  { icon: UsersRound, title: 'Pour les parents', body: "La valeur perçue vient d’un cadre visible : workflow clair, garde-fous nets, progression compréhensible." },
   { icon: ShieldCheck, title: 'Pour les enseignants', body: "Le langage et les formats restent compatibles avec les attendus EAF, pas avec un outil généraliste déconnecté du programme." },
 ];
 const COMPARISON_ROWS = [
   { label: 'Structure du travail', generic: 'Une réponse isolée à chaque prompt, sans mémoire réelle du parcours.', nexus: 'Un flux continu : produire, corriger, relancer, puis prioriser la suite.' },
   { label: 'Anti-triche', generic: 'Risque de dérive vers la copie complète ou le corrigé prêt à rendre.', nexus: "Refus de la copie intégrale et redirection vers une aide exploitable et méthodique." },
   { label: 'Références', generic: 'Sources peu lisibles ou réponses déconnectées du cadre EAF.', nexus: "Citations internes, corpus mobilisable et références rendues visibles quand elles comptent." },
-  { label: 'Format EAF', generic: "Pas de structure native pour l'oral, les barèmes officiels ou les ateliers vraiment scolaires.", nexus: "Oral cadré en /2 /8 /2 /8, ateliers dédiés et retour réutilisable séance après séance." },
+  { label: 'Format EAF', generic: "Pas de structure native pour l’oral, les barèmes officiels ou les ateliers vraiment scolaires.", nexus: "Oral cadré en /2 /8 /2 /8, ateliers dédiés et retour réutilisable séance après séance." },
 ];
 
 /* ─── Données confiance ─── */
 const TRUST_BLOCKS = [
-  { icon: Quote, title: 'Sources visibles, jamais opaques', description: "Quand le corpus intervient, l'élève voit ce qui fonde la réponse : BO, Eduscol, rapports de jury, œuvres au programme." },
+  { icon: Quote, title: 'Sources visibles, jamais opaques', description: "Quand le corpus intervient, l’élève voit ce qui fonde la réponse : BO, Eduscol, rapports de jury, œuvres au programme." },
   { icon: UserRoundCheck, title: 'Anti-copie intégré dans le produit', description: "La plateforme refuse la dissertation ou le commentaire complets et bascule vers une alternative guidée, constructive et traçable." },
   { icon: LockKeyhole, title: 'Protection des comptes et des mineurs', description: "Sessions sécurisées, protection CSRF, accès contrôlé, posture RGPD et refus de la publicité ciblée sur les comptes mineurs." },
 ];
@@ -130,21 +130,21 @@ const PLANS = [
     id: 'FREE' as SubscriptionPlan, title: 'Freemium', priceTND: '0 TND', period: '',
     bullets: ['1 session orale / mois', '2 corrections écrites / mois', '3 échanges guidés / jour', 'Échantillon de bibliothèque'],
     cta: 'Essayer gratuitement', ctaDisabledLabel: 'Plan actuel', highlighted: false,
-    kicker: 'Faites vos premiers pas vers le Bac.',
+    kicker: 'Fais tes premiers pas vers le Bac.',
     note: "Un aperçu limité pour juger la qualité du produit. Pour progresser réellement, passe à Premium.",
   },
   {
     id: 'PREMIUM' as SubscriptionPlan, title: 'Premium', priceTND: '99 TND', period: '/ mois',
     bullets: ['10 sessions orales / semaine', '20 corrections écrites / mois', '100 échanges guidés / jour', 'OCR 20 copies / mois', 'Parcours personnalisé', 'Rapport PDF oral', 'Bibliothèque complète'],
     cta: 'Passer à Premium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PREMIUM' as CheckoutPlan, highlighted: true,
-    kicker: 'La méthode complète pour assurer votre réussite.',
+    kicker: 'La méthode complète pour assurer ta réussite.',
     note: "Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.",
   },
   {
     id: 'PRO' as SubscriptionPlan, title: 'Masterium', priceTND: '129 TND', period: '/ mois',
     bullets: ['Oral illimité', 'Corrections écrites illimitées', 'Accompagnement guidé illimité', 'OCR 50 copies / mois', 'Capacité 200k / jour', 'Graph RAG avancé', 'Historique oral complet', 'Support prioritaire'],
     cta: 'Passer à Masterium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PRO' as CheckoutPlan, highlighted: false,
-    kicker: "L'excellence absolue pour décrocher la mention.",
+    kicker: "L’excellence absolue pour décrocher la mention.",
     note: "Conçu pour les usages intensifs et ceux qui veulent zéro limite sur les quotas.",
   },
 ];
@@ -163,9 +163,9 @@ const FEATURE_ROWS = [
 /* ─── Données FAQ ─── */
 const FAQ_ITEMS = [
   { question: "La plateforme peut-elle écrire à ma place ?", answer: "Non. Le produit est conçu pour guider, structurer et corriger. Les demandes de commentaire ou de dissertation complets sont refusées et remplacées par une aide méthodologique exploitable." },
-  { question: "Sur quelles sources s'appuie la plateforme ?", answer: "Le corpus mobilisable s'appuie sur les sources institutionnelles, les rapports de jury et les œuvres au programme. Quand une réponse utilise ce corpus, elle expose des références internes visibles et réutilisables." },
-  { question: "Mes données sont-elles protégées ?", answer: "Oui. Session sécurisée, protection CSRF, contrôle d'accès, cadre RGPD et posture explicite sur les comptes mineurs : l'architecture de confiance fait partie du produit." },
-  { question: "Que se passe-t-il si j'atteins un quota ?", answer: "La plateforme bloque l'action concernée, conserve ton travail et t'indique le plan utile pour reprendre sans repartir de zéro." },
+  { question: "Sur quelles sources s’appuie la plateforme ?", answer: "Le corpus mobilisable s’appuie sur les sources institutionnelles, les rapports de jury et les œuvres au programme. Quand une réponse utilise ce corpus, elle expose des références internes visibles et réutilisables." },
+  { question: "Mes données sont-elles protégées ?", answer: "Oui. Session sécurisée, protection CSRF, contrôle d’accès, cadre RGPD et posture explicite sur les comptes mineurs : l’architecture de confiance fait partie du produit." },
+  { question: "Que se passe-t-il si j’atteins un quota ?", answer: "La plateforme bloque l’action concernée, conserve ton travail et t’indique le plan utile pour reprendre sans repartir de zéro." },
   { question: "Comment fonctionne le paiement ?", answer: "Pour le moment, les abonnements payants sont activés par virement bancaire. Le paiement carte et Flouci seront disponibles prochainement." },
 ];
 
@@ -185,12 +185,12 @@ function FaqItem({ question, answer, index, open, onToggle }: { question: string
     <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[var(--shadow-md)]">
       <button type="button" onClick={onToggle} className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left" aria-expanded={open}>
         <div className="flex items-start gap-4">
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#efe7da] text-xs font-bold text-[var(--navy)]">{String(index + 1).padStart(2, '0')}</span>
+          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--surface-warm-accent)] text-xs font-bold text-[var(--navy)]">{String(index + 1).padStart(2, '0')}</span>
           <span className="pt-1 text-sm font-semibold text-[var(--navy)] md:text-base">{question}</span>
         </div>
         {open ? <ChevronUp className="h-5 w-5 shrink-0 text-slate-500" /> : <ChevronDown className="h-5 w-5 shrink-0 text-slate-500" />}
       </button>
-      {open ? <div className="px-5 pb-5 pl-[4.75rem] text-sm leading-7 text-slate-600">{answer}</div> : null}
+      {open ? <div className="px-5 pb-5 text-sm leading-7 text-slate-600 sm:pl-[4.75rem]">{answer}</div> : null}
     </div>
   );
 }
@@ -312,8 +312,8 @@ export default function HomePage() {
                 <BadgeCheck className="h-4 w-4 text-[var(--teal)]" />
                 Parcours EAF complet
               </div>
-              <h1 style={EDITORIAL_HEADING} className="mt-7 text-5xl leading-[0.96] tracking-[-0.04em] text-[var(--navy)] sm:text-6xl lg:text-7xl">
-                La préparation EAF qui se laisse vérifier avant d&apos;être achetée,
+              <h1 style={EDITORIAL_HEADING} className="mt-7 text-4xl leading-[0.96] tracking-[-0.04em] text-[var(--navy)] sm:text-5xl md:text-6xl lg:text-7xl">
+                La préparation EAF qui se laisse vérifier avant d’être achetée,
                 <span className="block text-[var(--teal)]">puis accompagne vraiment quand le rythme monte.</span>
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
@@ -348,11 +348,11 @@ export default function HomePage() {
               <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_32px_90px_rgba(23,50,77,0.28)] md:p-8">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#e4d4bd]">Cockpit élève</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--text-on-navy-soft)]">Cockpit élève</p>
                     <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">Une séance, des retours immédiatement exploitables.</h2>
                   </div>
                   <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--surface-parchment)]">
-                    <Clock3 className="h-3.5 w-3.5 text-[#e4d4bd]" /> Session 2026
+                    <Clock3 className="h-3.5 w-3.5 text-[var(--text-on-navy-soft)]" /> Session 2026
                   </div>
                 </div>
                 <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
@@ -375,17 +375,17 @@ export default function HomePage() {
                 <div className="mt-4 grid gap-4 md:grid-cols-2">
                   <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
                     <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                      <LibraryBig className="h-4 w-4 text-[#e4d4bd]" /> Citations internes mobilisées
+                      <LibraryBig className="h-4 w-4 text-[var(--text-on-navy-soft)]" /> Citations internes mobilisées
                     </div>
                     <ul className="mt-4 space-y-3 text-sm text-slate-200">
-                      <li className="rounded-2xl bg-black/10 px-3 py-2">BO 2025, annexe 3 — attendus de l&apos;explication</li>
-                      <li className="rounded-2xl bg-black/10 px-3 py-2">Rapport jury EAF 2024 — erreurs fréquentes à l&apos;oral</li>
+                      <li className="rounded-2xl bg-black/10 px-3 py-2">BO 2025, annexe 3 — attendus de l’explication</li>
+                      <li className="rounded-2xl bg-black/10 px-3 py-2">Rapport jury EAF 2024 — erreurs fréquentes à l’oral</li>
                       <li className="rounded-2xl bg-black/10 px-3 py-2">Œuvre au programme — extrait contextualisé</li>
                     </ul>
                   </div>
                   <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
                     <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                      <ChartColumn className="h-4 w-4 text-[#e4d4bd]" /> Axes prioritaires de relance
+                      <ChartColumn className="h-4 w-4 text-[var(--text-on-navy-soft)]" /> Axes prioritaires de relance
                     </div>
                     <div className="mt-4 space-y-4">
                       {SIGNALS.map((signal) => (
@@ -422,10 +422,10 @@ export default function HomePage() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">La méthode</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
-              Une mécanique de progression, pas une accumulation d&apos;outils.
+              Une mécanique de progression, pas une accumulation d’outils.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-              La différence n&apos;est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic, la production, la correction et la relance.
+              La différence n’est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic, la production, la correction et la relance.
             </p>
             <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Ce que la plateforme garantit</p>
@@ -439,7 +439,7 @@ export default function HomePage() {
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'method_register', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
-                Démarrer l&apos;onboarding <ArrowRight className="h-4 w-4" />
+                Démarrer l’onboarding <ArrowRight className="h-4 w-4" />
               </Link>
               <a href="#plans" className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-white/85 px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-white">
                 Voir les plans
@@ -453,7 +453,7 @@ export default function HomePage() {
                   <div className="max-w-2xl">
                     <div className="flex items-center gap-3">
                       <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--navy)] text-sm font-bold text-[var(--surface-parchment)]">{step.number}</span>
-                      <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--border-strong)] bg-[#efe7da] text-[var(--teal)]">
+                      <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-warm-accent)] text-[var(--teal)]">
                         <step.icon className="h-5 w-5" />
                       </div>
                     </div>
@@ -481,7 +481,7 @@ export default function HomePage() {
       <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <CtaBanner
           title="Prêt à voir le workflow en situation ?"
-          subtitle="L'inscription gratuite prend moins de 3 minutes. Aucun paiement requis pour lancer l'onboarding et ouvrir les premiers ateliers."
+          subtitle="L’inscription gratuite prend moins de 3 minutes. Aucun paiement requis pour lancer l’onboarding et ouvrir les premiers ateliers."
           primary={{ label: "Comparer les plans", href: "/pricing", track: "inter_cta_1_pricing" }}
           secondary={{ label: "Comparer les plans", href: "#plans" }}
         />
@@ -494,10 +494,10 @@ export default function HomePage() {
             <div className="max-w-3xl">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Ateliers EAF</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
-                Tout ce qu&apos;il faut pour réussir l&apos;EAF, organisé par usage réel.
+                Tout ce qu’il faut pour réussir l’EAF, organisé par usage réel.
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">Produire, corriger, citer, relancer, piloter — quatre ateliers qui couvrent l&apos;ensemble du parcours EAF.</p>
+            <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">Produire, corriger, citer, relancer, piloter — quatre ateliers qui couvrent l’ensemble du parcours EAF.</p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-12">
             {FEATURE_GROUPS.map((feature, index) => (
@@ -549,7 +549,7 @@ export default function HomePage() {
                   Un bon produit EAF doit convaincre trois personnes en même temps.
                 </h2>
                 <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-                  L&apos;élève veut une aide actionnable. Le parent veut un cadre crédible. L&apos;enseignant doit reconnaître une logique scolaire sérieuse.
+                  L’élève veut une aide actionnable. Le parent veut un cadre crédible. L’enseignant doit reconnaître une logique scolaire sérieuse.
                 </p>
                 <div className="mt-8 grid gap-3">
                   {AUDIENCE_CARDS.map((card) => (
@@ -576,7 +576,7 @@ export default function HomePage() {
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Différenciation utile</p>
                     <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
-                      Là où un outil généraliste s&apos;arrête à une réponse, Nexus construit une continuité de travail.
+                      Là où un outil généraliste s’arrête à une réponse, Nexus construit une continuité de travail.
                     </h3>
                   </div>
                   <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#e7dbc9]">comparaison</div>
@@ -614,7 +614,7 @@ export default function HomePage() {
                 Une plateforme commerciale crédible commence par ses garde-fous.
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">La qualité ici ne repose pas sur des effets de style. Elle repose sur une architecture pédagogique nette et une confiance qui se voit dans l&apos;interface.</p>
+            <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">La qualité ici ne repose pas sur des effets de style. Elle repose sur une architecture pédagogique nette et une confiance qui se voit dans l’interface.</p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="grid gap-5 md:grid-cols-3">
@@ -630,9 +630,9 @@ export default function HomePage() {
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">
                 <ShieldCheck className="h-3.5 w-3.5" /> Garantie Nexus
               </div>
-              <h3 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">Ce que l&apos;interface rend explicite dès la page d&apos;accueil.</h3>
+              <h3 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">Ce que l’interface rend explicite dès la page d’accueil.</h3>
               <div className="mt-6 space-y-3">
-                {["Pas de rédaction intégrale de copie à la place de l'élève.", "Citations internes affichables quand le corpus est mobilisé.", "Parcours aligné sur les œuvres officielles et les attendus EAF.", "Sécurité d'accès et respect des comptes mineurs assumés dans le produit."].map((item) => (
+                {["Pas de rédaction intégrale de copie à la place de l’élève.", "Citations internes affichables quand le corpus est mobilisé.", "Parcours aligné sur les œuvres officielles et les attendus EAF.", "Sécurité d’accès et respect des comptes mineurs assumés dans le produit."].map((item) => (
                   <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
                     <CheckCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                     <p className="text-sm leading-6 text-slate-200">{item}</p>
@@ -660,7 +660,7 @@ export default function HomePage() {
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
-              Teste d&apos;abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme. Chaque niveau correspond à une intensité de préparation différente.
+              Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme. Chaque niveau correspond à une intensité de préparation différente.
             </p>
           </div>
 
@@ -757,7 +757,7 @@ export default function HomePage() {
                   <h3 style={EDITORIAL_HEADING} className="mt-1 text-2xl leading-tight tracking-[-0.03em] text-[var(--navy)]">Activer avec un code</h3>
                 </div>
               </div>
-              <p className="mt-4 text-sm leading-7 text-slate-600">Si un code d&apos;activation t&apos;a été envoyé, active ton plan ici sans repasser par le checkout.</p>
+              <p className="mt-4 text-sm leading-7 text-slate-600">Si un code d’activation t’a été envoyé, active ton plan ici sans repasser par le checkout.</p>
               {isAuthenticated ? (
                 <form onSubmit={redeemCode} className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <input type="text" value={codeInput} onChange={(e) => setCodeInput(e.target.value.toUpperCase())} placeholder="NEXUS-PRO-XXXX-XXXX" className="flex-1 rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm font-mono tracking-wider text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20" maxLength={25} disabled={codeLoading} />
@@ -767,7 +767,7 @@ export default function HomePage() {
                 </form>
               ) : (
                 <div className="mt-6 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4 text-sm leading-7 text-slate-600">
-                  <Link href="/login" className="font-semibold text-[var(--navy)] underline">Connecte-toi d&apos;abord</Link> pour rattacher le code à ton compte.
+                  <Link href="/login" className="font-semibold text-[var(--navy)] underline">Connecte-toi d’abord</Link> pour rattacher le code à ton compte.
                 </div>
               )}
               {codeSuccess ? <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#9cccaf] bg-[#eef8f0] p-4 text-sm text-[#25543d]" role="status"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /><span>{codeSuccess.message}</span></div> : null}
@@ -776,7 +776,7 @@ export default function HomePage() {
 
             <article className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-7">
               <div className="flex items-center gap-3">
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]"><Landmark className="h-5 w-5" /></div>
+                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]"><Landmark className="h-5 w-5" /></div>
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Paiement alternatif</p>
                   <h3 style={EDITORIAL_HEADING} className="mt-1 text-2xl leading-tight tracking-[-0.03em] text-white">Flouci & virement bancaire</h3>
@@ -793,7 +793,7 @@ export default function HomePage() {
               </div>
               <div className="mt-5 flex flex-wrap gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/60 cursor-not-allowed">Flouci — bientôt disponible</span>
-                <Link href="/contact?subject=virement" className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[#f8f1e7]">Envoyer la référence virement</Link>
+                <Link href="/contact?subject=virement" className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[var(--surface-warm-section)]">Envoyer la référence virement</Link>
               </div>
             </article>
           </div>
@@ -820,9 +820,9 @@ export default function HomePage() {
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">Anti-triche, sources, sécurité, accessibilité, paiement — les réponses honnêtes sont ici.</p>
             <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]"><MessageSquareText className="h-5 w-5" /></div>
-              <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">Besoin d&apos;aller plus loin ?</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-200">Compare les plans, choisis l&apos;offre adaptée à ton rythme de travail et commence à progresser.</p>
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]"><MessageSquareText className="h-5 w-5" /></div>
+              <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">Besoin d’aller plus loin ?</h3>
+              <p className="mt-3 text-sm leading-7 text-slate-200">Compare les plans, choisis l’offre adaptée à ton rythme de travail et commence à progresser.</p>
               <div className="mt-6 flex flex-col gap-3">
                 <Link href="/pricing" onClick={() => track({ name: 'cta_click', props: { cta: 'faq_pricing', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[var(--surface-parchment)] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
                   Voir les offres <ArrowRight className="h-4 w-4" />
@@ -845,18 +845,18 @@ export default function HomePage() {
           <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] px-6 py-10 text-[var(--surface-parchment)] shadow-[0_30px_90px_rgba(23,50,77,0.28)] md:px-10 md:py-12">
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Passage à l&apos;action</p>
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Passage à l’action</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
                   Vérifie le produit, constate le cadre, puis décide si Premium vaut vraiment la peine.
                 </h2>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
-                  Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d&apos;abord, choisir ensuite, payer seulement si l&apos;usage le justifie.
+                  Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d’abord, choisir ensuite, payer seulement si l’usage le justifie.
                 </p>
               </div>
               <div className="rounded-[24px] bg-[var(--navy-dark)] p-6">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Dès l&apos;entrée</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Dès l’entrée</p>
                 <div className="mt-4 space-y-3">
-                  {["Compte créé et onboarding lancé en quelques minutes", "Aucun paiement avant d'avoir vu le produit en situation", "Aucune rédaction intégrale générée à la place de l'élève"].map((item) => (
+                  {["Compte créé et onboarding lancé en quelques minutes", "Aucun paiement avant d’avoir vu le produit en situation", "Aucune rédaction intégrale générée à la place de l’élève"].map((item) => (
                     <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                       <p className="text-sm leading-6 text-slate-200">{item}</p>

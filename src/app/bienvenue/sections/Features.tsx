@@ -35,7 +35,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Langue et quiz adaptatif',
     icon: BrainCircuit,
-    tone: 'bg-[#efe7da] text-[var(--navy)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--surface-warm-accent)] text-[var(--navy)] border-[var(--border-strong)]',
     badge: 'Relance ciblée',
     span: 'lg:col-span-4',
     body: 'Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.',
