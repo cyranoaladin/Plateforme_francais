@@ -63,7 +63,7 @@ export function Features() {
               style={EDITORIAL_HEADING}
               className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl"
             >
-              Tout ce qu&apos;il faut pour réussir l&apos;EAF, organisé par usage réel.
+              Tout ce qu{'\u2019'}il faut pour réussir l{'\u2019'}EAF, organisé par usage réel.
             </h2>
           </div>
           <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">

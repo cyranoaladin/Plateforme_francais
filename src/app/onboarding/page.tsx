@@ -322,7 +322,7 @@ export default function OnboardingPage() {
           </div>
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
             <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
-              Revoir l&apos;accueil
+              Revoir l{'’'}accueil
             </Link>
             <div className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-4 py-2 text-[var(--surface-parchment)]">
               <Clock3 className="h-4 w-4" />
@@ -344,8 +344,8 @@ export default function OnboardingPage() {
               </h1>
 
               <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
-                L'objectif n'est pas de remplir un profil pour la forme. L'objectif est de caler les premiers ateliers sur tes œuvres, ton rythme,
-                tes points d'appui et les attendus officiels dès la première connexion.
+                L’objectif n’est pas de remplir un profil pour la forme. L’objectif est de caler les premiers ateliers sur tes œuvres, ton rythme,
+                tes points d’appui et les attendus officiels dès la première connexion.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2.5">
@@ -498,7 +498,7 @@ export default function OnboardingPage() {
                   <Input
                     value={oeuvreSearch}
                     onChange={(e) => setOeuvreSearch(e.target.value)}
-                    placeholder="Rechercher une œuvre, un auteur, un objet d'étude..."
+                    placeholder="Rechercher une œuvre, un auteur, un objet d’étude..."
                     icon={<Search className="h-4 w-4" />}
                     size="lg"
                   />
@@ -552,14 +552,14 @@ export default function OnboardingPage() {
                     label="Œuvre absente de la liste"
                     value={customOeuvre}
                     onChange={(e) => setCustomOeuvre(e.target.value)}
-                    placeholder="Saisis exactement l'œuvre donnée par ton professeur"
+                    placeholder={"Saisis exactement l\u2019œuvre donnée par ton professeur"}
                     size="lg"
                   />
 
                   {allSelectedOeuvres.length > 0 && (
                     <div className="rounded-[24px] border border-[var(--teal)]/20 bg-[var(--teal)]/5 p-5">
-                      <p className="text-sm font-semibold text-[var(--navy)]">Ton œuvre d&apos;entretien oral</p>
-                      <p className="mt-1 text-xs text-slate-500">Œuvre intégrale pour la 2e partie de l&apos;oral (8 points sur 20).</p>
+                      <p className="text-sm font-semibold text-[var(--navy)]">Ton œuvre d{'’'}entretien oral</p>
+                      <p className="mt-1 text-xs text-slate-500">Œuvre intégrale pour la 2e partie de l{'’'}oral (8 points sur 20).</p>
                       <div className="mt-3 space-y-2">
                         {allSelectedOeuvres.map((title) => {
                           const found = OEUVRES.find((o) => o.title === title);

@@ -12,20 +12,20 @@ const PLANS = [
   {
     name: 'Freemium',
     accent: 'border-[var(--border-strong)] bg-white/85 text-[var(--navy)]',
-    kicker: 'Faites vos premiers pas vers le Bac.',
+    kicker: 'Fais tes premiers pas vers le Bac.',
     bullets: ["Voir le vrai produit", "Onboarding et premiers ateliers", "Vérifier si le cadre te convient"],
   },
   {
     name: 'Premium',
     accent: 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]',
-    kicker: 'La méthode complète pour assurer votre réussite.',
+    kicker: 'La méthode complète pour assurer ta réussite.',
     bullets: ["Soutenir une vraie routine hebdomadaire", "Moins de friction sur oral, écrit et tuteur", "Le bon rythme sans surpayer"],
     featured: true,
   },
   {
     name: 'Masterium',
     accent: 'border-[var(--border-strong)] bg-[var(--surface-warm-accent)] text-[var(--navy)]',
-    kicker: "L'excellence absolue pour décrocher la mention.",
+    kicker: "L\u2019excellence absolue pour décrocher la mention.",
     bullets: ["Volume élevé sans coupure", "Confort sur les semaines chargées", "Conçu pour un usage vraiment intensif"],
   },
 ];

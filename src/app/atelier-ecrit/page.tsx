@@ -20,6 +20,7 @@ import {
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Badge, Button } from '@/components/ui';
+import { StateNotice } from '@/components/ui/state-notice';
 
 type EpreuveType = 'commentaire' | 'dissertation' | 'contraction_essai';
 
@@ -276,17 +277,12 @@ export default function AtelierEcritPage() {
       </section>
 
       {error && (
-        <div className="rounded-[24px] border border-[var(--warning-border)] bg-[var(--warning-bg-soft)] px-5 py-4" role="alert">
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#9a5f25]/10 text-[#9a5f25]">
-              <PenTool className="h-4 w-4" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-[var(--navy)]">Un souci est survenu</p>
-              <p className="mt-1 text-sm leading-7 text-[var(--warning-text)]">{error}</p>
-            </div>
-          </div>
-        </div>
+        <StateNotice
+          title="Un souci est survenu"
+          description={error}
+          variant="warning"
+          icon={PenTool}
+        />
       )}
 
       <section className="grid gap-4 md:grid-cols-3">
@@ -315,7 +311,7 @@ export default function AtelierEcritPage() {
               <div className="flex-1">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Étape 1</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
-                  Générez un sujet d\u2019épreuve blanche.
+                  Génère un sujet d{'\u2019'}épreuve blanche.
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
                   Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l\u2019œuvre ou au thème que tu veux réactiver.
@@ -419,10 +415,12 @@ export default function AtelierEcritPage() {
 
             {pollingStatus && pollingStatus !== 'done' && !copieLink ? (
               <div className="mt-6 rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] px-6 py-10 text-center">
-                <Loader2 className="mx-auto mb-4 h-12 w-12 animate-spin text-[var(--teal)]" />
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[var(--shadow-sm)]">
+                  <Loader2 className="h-8 w-8 animate-spin text-[var(--teal)]" />
+                </div>
                 <h3 className="text-lg font-semibold text-[var(--navy)]">Ta copie est entre de bonnes mains</h3>
-                <p className="mt-2 text-sm text-[var(--success-text)]">{PROCESSING_STEPS[processingStepIndex]}</p>
-                <p className="mt-3 text-xs text-[#8aa09a]">Cela prend généralement entre 30 secondes et 2 minutes.</p>
+                <p className="mt-2 text-sm font-medium text-[var(--success-text)]">{PROCESSING_STEPS[processingStepIndex]}</p>
+                <p className="mt-3 text-xs text-[var(--text-caption)]">Cela prend généralement entre 30 secondes et 2 minutes.</p>
               </div>
             ) : (
               <div className="mt-6 space-y-5">
@@ -433,10 +431,10 @@ export default function AtelierEcritPage() {
                     const file = event.dataTransfer.files?.[0];
                     if (file) setSelectedFile(file);
                   }}
-                  className={`rounded-[24px] border-2 border-dashed p-8 text-center transition ${epreuve ? 'cursor-pointer border-[#d7e6e1] bg-[var(--success-bg)]/45 hover:border-[var(--teal)]/35 hover:bg-[var(--success-bg)]' : 'pointer-events-none border-[#eadfce] bg-[#faf4eb] opacity-60'}`}
+                  className={`rounded-[24px] border-2 border-dashed p-8 text-center transition ${epreuve ? 'cursor-pointer border-[var(--border-success)] bg-[var(--success-bg)]/45 hover:border-[var(--teal)]/35 hover:bg-[var(--success-bg)]' : 'pointer-events-none border-[var(--border-warm-mid)] bg-[var(--surface-warm-card)] opacity-60'}`}
                   onClick={() => epreuve && fileInputRef.current?.click()}
                 >
-                  <UploadCloud className="mx-auto h-12 w-12 text-[#7c8792]" />
+                  <UploadCloud className="mx-auto h-12 w-12 text-[var(--text-icon)]" />
                   <h3 className="mt-4 text-lg font-semibold text-[var(--navy)]">Dépose ta copie ici</h3>
                   <p className="mt-2 text-sm text-[var(--text-secondary)]">PDF, JPG, PNG ou WEBP (Max 20MB)</p>
                   <div className="mt-5 flex flex-wrap justify-center gap-3">
@@ -532,20 +530,22 @@ export default function AtelierEcritPage() {
                   <FileText className="h-8 w-8" />
                 </div>
                 <h3 className="text-lg font-semibold text-[var(--navy)]">Ton rapport de correction est prêt</h3>
-                <p className="mt-2 text-sm text-[var(--success-text)]">Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire.</p>
-                <Link
-                  href={`/atelier-ecrit/correction/${copieLink.copieId}?epreuveId=${copieLink.epreuveId}`}
-                  className="mt-5 inline-flex items-center gap-2 rounded-[16px] border border-[var(--teal)]/18 bg-white px-5 py-3 text-sm font-semibold text-[var(--teal)] transition hover:border-[var(--teal)]/30 hover:bg-[#f7fffc]"
-                >
-                  Voir mon rapport
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href={tutorHref}
-                  className="mt-3 inline-flex items-center justify-center rounded-[16px] border border-[var(--border-strong)] bg-[var(--surface-warm-card-top)] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
-                >
-                  Préparer le retravail avec le guidage
-                </Link>
+                <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-[var(--success-text)]">Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire.</p>
+                <div className="mt-6 flex flex-col items-center gap-3">
+                  <Link
+                    href={`/atelier-ecrit/correction/${copieLink.copieId}?epreuveId=${copieLink.epreuveId}`}
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[var(--teal)] px-6 py-3 text-sm font-bold text-white transition hover:bg-[var(--teal-light)]"
+                  >
+                    Voir mon rapport
+                    <ChevronRight className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    href={tutorHref}
+                    className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                  >
+                    Préparer le retravail avec le guidage
+                  </Link>
+                </div>
               </div>
             )}
           </section>

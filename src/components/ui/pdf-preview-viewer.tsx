@@ -594,7 +594,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
       tabIndex={0}
       onKeyDown={handleKeyDown}
       data-testid="pdf-preview-viewer"
-      className="space-y-3 rounded-[24px] outline-none focus-visible:ring-2 focus-visible:ring-[#0f766e]/35"
+      className="space-y-3 rounded-[24px] outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)]/35"
       aria-label={`Visionneuse PDF de ${title}`}
     >
       <div className="space-y-3 rounded-[20px] border border-[var(--border-success)] bg-white px-4 py-3">
@@ -616,7 +616,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               {fitLabel}
             </span>
             {currentSearchResult && (
-              <span className="rounded-full bg-[#9a6a37]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--accent-bronze)]">
+              <span className="rounded-full bg-[var(--accent-bronze)]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--accent-bronze)]">
                 Résultat {activeSearchResultIndex + 1}/{searchResults.length}
               </span>
             )}
@@ -723,7 +723,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
                 onChange={(event) => setSearchQuery(event.target.value)}
                 type="search"
                 placeholder="Rechercher un auteur, une notion, une citation..."
-                className="w-full rounded-[18px] border border-[var(--border-success)] bg-[var(--success-bg)] py-3 pl-11 pr-4 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8a97a3] focus:border-[var(--teal)] focus:bg-white"
+                className="w-full rounded-[18px] border border-[var(--border-success)] bg-[var(--success-bg)] py-3 pl-11 pr-4 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder)] focus:border-[var(--teal)] focus:bg-white"
               />
             </label>
             <button

@@ -27,6 +27,14 @@
   /* ─── Pedagogical Accents ─────────────────────────── */
   --accent-bronze: #9a6a37;
   --accent-violet: #6b587d;
+  --accent-earth: #7a4b24;
+
+  /* ─── Third-party ───────────────────────────────── */
+  --whatsapp: #25d366;
+  --whatsapp-hover: #1fba59;
+
+  /* ─── Icon tones ────────────────────────────────── */
+  --icon-muted: #c0af96;
 
   /* ─── Surfaces ────────────────────────────────────── */
   --surface-cream: #f4eee3;
@@ -42,6 +50,9 @@
   --surface-warm-accent: #efe7da;
   --surface-warm-card: #fbf5ec;
   --surface-warm-card-top: #fffdfa;
+  --surface-warm-empty: #fffaf2;
+  --surface-teal-light: #eef9f6;
+  --surface-violet-light: #f4eff8;
 
   /* ─── Borders ─────────────────────────────────────── */
   --border-light: #e7dac6;
@@ -52,6 +63,7 @@
   --border-success: #d8e8e3;
   --border-success-soft: #d3e7e1;
   --border-success-vivid: #d6e8df;
+  --border-success-pale: #cfe2dc;
   --border-warning-soft: #efd9b4;
   --border-warm-mid: #e8dcc8;
   --border-warm-soft: #efe3d2;
@@ -69,6 +81,7 @@
   --text-on-navy-muted: #dfe8f0;
   --text-on-navy-soft: #e4d4bd;
   --text-disabled: #9a9590;
+  --text-icon: #7c8792;
 
   /* ─── Status ──────────────────────────────────────── */
   --success: #0f766e;

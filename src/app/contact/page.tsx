@@ -172,12 +172,22 @@ export default function ContactPage() {
           ) : null}
         </form>
 
-        <div className="mt-8 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5 text-sm leading-7 text-slate-600">
-          <p className="font-semibold text-[var(--navy)]">Autres moyens de contact</p>
-          <ul className="mt-2 space-y-1">
-            <li>WhatsApp : <a href="https://wa.me/21699192829" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#25d366] underline">+216 99 19 28 29</a></li>
-            <li>Email direct : contact@nexusreussite.academy</li>
-          </ul>
+        <div className="mt-8 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Autres moyens de contact</p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-[22px] border border-[var(--border-strong)] bg-white px-4 py-3">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">WhatsApp</p>
+              <a href="https://wa.me/21699192829" target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
+                +216 99 19 28 29
+              </a>
+            </div>
+            <div className="rounded-[22px] border border-[var(--border-strong)] bg-white px-4 py-3">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Email direct</p>
+              <a href="mailto:contact@nexusreussite.academy" className="mt-2 block text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
+                contact@nexusreussite.academy
+              </a>
+            </div>
+          </div>
         </div>
       </main>
     </div>

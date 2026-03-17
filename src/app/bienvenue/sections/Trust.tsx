@@ -35,7 +35,7 @@ export function Trust() {
           </div>
           <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">
             La qualité ici ne repose pas sur des effets de style. Elle repose sur une architecture pédagogique nette,
-            sur des limites explicites et sur une confiance qui se voit dans l&apos;interface.
+            sur des limites explicites et sur une confiance qui se voit dans l{'\u2019'}interface.
           </p>
         </div>
 
@@ -60,7 +60,7 @@ export function Trust() {
               Garantie Nexus
             </div>
             <h3 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">
-              Ce que l&apos;interface rend explicite dès la page d&apos;accueil.
+              Ce que l{'\u2019'}interface rend explicite dès la page d{'\u2019'}accueil.
             </h3>
             <div className="mt-6 space-y-3">
               {[

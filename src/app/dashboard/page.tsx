@@ -189,14 +189,14 @@ const LAUNCHPAD = [
     detail: 'Lecture, explication, entretien: repartir sur une séquence complète.',
     href: '/atelier-oral',
     icon: Mic,
-    tone: 'from-[var(--navy)] via-[#274d73] to-[var(--teal)]',
+    tone: 'from-[var(--navy)] via-[var(--navy-light)] to-[var(--teal)]',
   },
   {
     title: 'Atelier écrit',
     detail: 'Commentaire, dissertation ou sujet blanc selon le besoin réel.',
     href: '/atelier-ecrit',
     icon: PenTool,
-    tone: 'from-[#7a4b24] via-[var(--gold-muted)] to-[#d8a363]',
+    tone: 'from-[var(--accent-earth)] via-[var(--gold-muted)] to-[#d8a363]',
   },
   {
     title: 'Bibliothèque',
@@ -625,7 +625,7 @@ export default function Dashboard() {
               <AlertTriangle className="h-4 w-4" />
             </div>
             <div>
-              <p className="font-semibold text-[var(--navy)]">Un souci temporaire nous empêche d&apos;afficher toutes les données</p>
+              <p className="font-semibold text-[var(--navy)]">Un souci temporaire nous empêche d{'’'}afficher toutes les données</p>
               <p className="mt-1 text-sm leading-7">{data.error}</p>
               <p className="mt-1 text-xs text-slate-500">Rafraîchis la page dans quelques instants ou poursuis ta session normalement.</p>
             </div>
@@ -777,8 +777,8 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)] p-6 text-center">
-                  <Clock3 className="h-10 w-10 text-[#c0af96]" />
-                  <p className="text-sm font-semibold text-[var(--navy)]">Ton fil d&apos;activité est encore vierge</p>
+                  <Clock3 className="h-10 w-10 text-[var(--icon-muted)]" />
+                  <p className="text-sm font-semibold text-[var(--navy)]">Ton fil d{'’'}activité est encore vierge</p>
                   <p className="max-w-sm text-sm leading-7 text-slate-600">
                     Dès que tu lanceras un premier atelier ou un quiz, tes sessions apparaîtront ici pour suivre ta progression au fil des jours.
                   </p>

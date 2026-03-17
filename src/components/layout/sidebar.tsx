@@ -207,7 +207,7 @@ export function Sidebar() {
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-white/85 p-2.5 text-center">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">Streak</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--navy)]">
-                  <Flame className="h-3.5 w-3.5 text-[#d97706]" /> {streak}
+                  <Flame className="h-3.5 w-3.5 text-[var(--accent)]" /> {streak}
                 </p>
               </div>
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-white/85 p-2.5 text-center">
@@ -324,8 +324,8 @@ export function Sidebar() {
       </aside>
 
       {/* ─── Mobile Bottom Navigation ─── */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-[var(--border-default)] bg-[var(--surface-ivory)]/96 px-2 py-2 backdrop-blur-md shadow-[var(--shadow-md)]">
-        <div className="flex gap-1 overflow-x-auto pb-0.5">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-[var(--border-default)] bg-[var(--surface-ivory)]/96 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-md shadow-[var(--shadow-md)]">
+        <div className="flex gap-1.5 overflow-x-auto">
           {mobileNavItems.map((item) => {
             const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
             return (
@@ -333,14 +333,14 @@ export function Sidebar() {
                 key={item.name}
                 href={item.href}
                 aria-label={item.name}
-                className={`min-w-[48px] min-h-[44px] flex-1 flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
+                className={`flex min-h-[48px] min-w-[48px] flex-1 flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
                   active
-                    ? 'scale-[1.03] bg-[var(--navy)] text-white shadow-[var(--shadow-md)]'
-                    : 'text-[var(--navy-muted)] hover:bg-white hover:text-[var(--navy)]'
-                } flex`}
+                    ? 'bg-[var(--navy)] text-white shadow-[var(--shadow-md)]'
+                    : 'text-[var(--navy-muted)] active:bg-white active:text-[var(--navy)]'
+                }`}
               >
-                <item.icon className="w-5 h-5" />
-                <span className="mt-0.5 text-[10px] font-bold">{item.name}</span>
+                <item.icon className="h-5 w-5" />
+                <span className="mt-0.5 text-[10px] font-bold leading-tight">{item.name}</span>
               </Link>
             );
           })}

@@ -159,7 +159,7 @@ export default function CarnetPage() {
       </section>
 
       {error && (
-        <StateNotice title="Le carnet n'a pas pu être chargé" description={`${error} Rafraîchis la page ou réessaie dans quelques instants.`} variant="error" />
+        <StateNotice title="Le carnet n’a pas pu être chargé" description={`${error} Rafraîchis la page ou réessaie dans quelques instants.`} variant="error" />
       )}
 
       <div className="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
@@ -177,40 +177,70 @@ export default function CarnetPage() {
               </div>
             </div>
 
-            <div className="mt-6 space-y-3">
-              <input
-                value={oeuvre}
-                onChange={(event) => setOeuvre(event.target.value)}
-                placeholder="\u0152uvre"
-                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
-              />
-              <select
-                value={type}
-                onChange={(event) => setType(event.target.value as CarnetEntry['type'])}
-                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
-              >
-                {TYPES.map((entryType) => (
-                  <option key={entryType} value={entryType}>{TYPE_LABELS[entryType]}</option>
-                ))}
-              </select>
-              <input
-                value={page}
-                onChange={(event) => setPage(event.target.value)}
-                placeholder="Page (optionnel)"
-                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
-              />
-              <input
-                value={tags}
-                onChange={(event) => setTags(event.target.value)}
-                placeholder="Tags séparés par virgules"
-                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
-              />
-              <textarea
-                value={contenu}
-                onChange={(event) => setContenu(event.target.value)}
-                placeholder="Contenu"
-                className="min-h-36 w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
-              />
+            <div className="mt-6 space-y-4">
+              <div>
+                <label htmlFor="carnet-oeuvre" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
+                  \u0152uvre
+                </label>
+                <input
+                  id="carnet-oeuvre"
+                  value={oeuvre}
+                  onChange={(event) => setOeuvre(event.target.value)}
+                  placeholder="Ex : Sido, Manon Lescaut, Les Fleurs du mal..."
+                  className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                />
+              </div>
+              <div>
+                <label htmlFor="carnet-type" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
+                  Type de note
+                </label>
+                <select
+                  id="carnet-type"
+                  value={type}
+                  onChange={(event) => setType(event.target.value as CarnetEntry['type'])}
+                  className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                >
+                  {TYPES.map((entryType) => (
+                    <option key={entryType} value={entryType}>{TYPE_LABELS[entryType]}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="carnet-page" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
+                  Page <span className="font-normal normal-case text-[var(--text-caption)]">(optionnel)</span>
+                </label>
+                <input
+                  id="carnet-page"
+                  value={page}
+                  onChange={(event) => setPage(event.target.value)}
+                  placeholder="Ex : 42"
+                  className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                />
+              </div>
+              <div>
+                <label htmlFor="carnet-tags" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
+                  Tags <span className="font-normal normal-case text-[var(--text-caption)]">(séparés par virgules)</span>
+                </label>
+                <input
+                  id="carnet-tags"
+                  value={tags}
+                  onChange={(event) => setTags(event.target.value)}
+                  placeholder="Ex : mémoire, enfance, nature"
+                  className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                />
+              </div>
+              <div>
+                <label htmlFor="carnet-contenu" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
+                  Contenu
+                </label>
+                <textarea
+                  id="carnet-contenu"
+                  value={contenu}
+                  onChange={(event) => setContenu(event.target.value)}
+                  placeholder="Note ta citation, réaction ou observation ici..."
+                  className="min-h-36 w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                />
+              </div>
               <Button
                 onClick={() => void submit()}
                 loading={saving}
@@ -245,11 +275,11 @@ export default function CarnetPage() {
           ) : grouped.length === 0 ? (
             <StateNotice
               title="Ton carnet de lecture est prêt"
-              description="Note une citation marquante, une réaction personnelle ou un lien culturel. Plus tes notes sont précises et sincères, plus elles te seront utiles le jour de l'entretien."
+              description="Note une citation marquante, une réaction personnelle ou un lien culturel. Plus tes notes sont précises et sincères, plus elles te seront utiles le jour de l’entretien."
               variant="info"
               icon={Quote}
               center
-              className="border-dashed bg-[#fffaf2] px-6 py-12"
+              className="border-dashed bg-[var(--surface-warm-empty)] px-6 py-12"
             />
           ) : (
             grouped.map(([oeuvreName, oeuvreEntries]) => (

@@ -79,8 +79,8 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
     PENDING: {
       label: 'Paiement en cours de confirmation',
       icon: Clock3,
-      chip: 'border-[var(--border-warning-soft)] bg-[#fff7ea] text-[var(--gold-deep)]',
-      panel: 'border-[var(--border-warning-soft)] bg-[#fff7ea]',
+      chip: 'border-[var(--border-warning-soft)] bg-[var(--warning-bg)] text-[var(--gold-deep)]',
+      panel: 'border-[var(--border-warning-soft)] bg-[var(--warning-bg)]',
       title: 'La transaction est revenue, mais l\u2019activation n\u2019est pas encore fermée.',
       body: 'Le prestataire de paiement traite encore la confirmation finale. Ce cas est normal quand la redirection revient plus vite que la mise à jour interne.',
       steps: ['Rafraîchir cette page dans quelques secondes', 'Vérifier ensuite la page tarifaire', 'Revenir au dashboard si l\u2019activation apparaît'],
@@ -118,7 +118,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
   const StatusIcon = current.icon;
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#f6efe4_0%,#fbf7f0_46%,var(--surface-warm-card-top)_100%)] px-4 py-8 md:px-6 md:py-12">
+    <main className="min-h-screen bg-[linear-gradient(180deg,var(--surface-parchment)_0%,var(--surface-warm)_46%,var(--surface-warm-card-top)_100%)] px-4 py-8 md:px-6 md:py-12">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <PaymentPageHeader />
         <section className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/10 bg-[var(--navy)] px-6 py-8 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-10 lg:px-10">
@@ -132,10 +132,10 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                 Retour paiement ClicToPay
               </div>
               <h1 style={EDITORIAL_HEADING} className="mt-5 text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-                Paiement confirmé
+                {current.label}
               </h1>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-200 md:text-base">
-                La transaction est revenue sur la plateforme. Cet écran t’indique immédiatement si ton plan est actif, en attente, ou s’il faut relancer proprement.
+                La transaction est revenue sur la plateforme. Cet écran t&rsquo;indique immédiatement si ton plan est actif, en attente, ou s&rsquo;il faut relancer proprement.
               </p>
             </div>
 

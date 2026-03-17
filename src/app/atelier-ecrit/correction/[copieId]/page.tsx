@@ -2,9 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
-import { Download, Flame, Loader2, Quote, Sparkles, Target } from 'lucide-react';
+import { AlertTriangle, Download, Flame, Loader2, Quote, Sparkles, Target } from 'lucide-react';
 import { mapAnnotationsToRegions } from '@/lib/correction/annotation-mapper';
 import { Button } from '@/components/ui';
+import { StateNotice } from '@/components/ui/state-notice';
 
 type CorrectionPayload = {
   copieId: string;
@@ -123,7 +124,16 @@ export default function CorrectionCopiePage() {
   }, [note]);
 
   if (error) {
-    return <div className="mx-auto max-w-5xl p-8 text-sm text-[var(--error-muted)]">{error}</div>;
+    return (
+      <div className="mx-auto max-w-5xl p-4 md:p-8">
+        <StateNotice
+          title="Impossible de charger la correction"
+          description={`${error} Rafraîchis la page ou réessaie dans quelques instants.`}
+          variant="error"
+          icon={AlertTriangle}
+        />
+      </div>
+    );
   }
 
   if (!payload || payload.status === 'pending' || payload.status === 'processing') {
@@ -167,7 +177,24 @@ export default function CorrectionCopiePage() {
   }
 
   if (payload.status === 'error' || !correction) {
-    return <div className="mx-auto max-w-5xl p-8 text-sm text-[var(--error-muted)]">La correction n'a pas pu être générée.</div>;
+    return (
+      <div className="mx-auto max-w-5xl p-4 md:p-8">
+        <StateNotice
+          title="La correction n'a pas pu être générée"
+          description="L'analyse de ta copie a rencontré un problème. Tu peux retourner à l'atelier écrit pour déposer à nouveau ta copie."
+          variant="error"
+          icon={AlertTriangle}
+          action={
+            <a
+              href="/atelier-ecrit"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+            >
+              Retour à l'atelier écrit
+            </a>
+          }
+        />
+      </div>
+    );
   }
 
   const activeAnnotationItem = correction.annotations[activeAnnotation];
@@ -246,7 +273,15 @@ export default function CorrectionCopiePage() {
           </section>
 
           <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-6 shadow-[var(--shadow-lg)] md:p-7">
-            <h2 className="text-lg font-semibold text-[var(--navy)]">Rubriques</h2>
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Détail par rubrique</p>
+                <h2 className="text-lg font-semibold text-[var(--navy)]">Rubriques</h2>
+              </div>
+            </div>
             <div className="mt-5 space-y-4">
               {correction.rubriques.map((item) => {
                 const width = Math.max(0, Math.min(100, Math.round((item.note / item.max) * 100)));
@@ -256,7 +291,7 @@ export default function CorrectionCopiePage() {
                       <span className="font-semibold text-[var(--navy)]">{item.titre}</span>
                       <span className="font-semibold text-[var(--navy)]">{item.note}/{item.max}</span>
                     </div>
-                    <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#f0e6d8]">
+                    <div className="mt-3 h-2 overflow-hidden rounded-full bg-[var(--surface-warm-accent)]">
                       <div className="h-2 rounded-full bg-[var(--navy)]" style={{ width: `${width}%` }} />
                     </div>
                     <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{item.appreciation}</p>
@@ -274,16 +309,27 @@ export default function CorrectionCopiePage() {
           </section>
 
           <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-6 shadow-[var(--shadow-lg)] md:p-7">
-            <details>
-              <summary className="cursor-pointer text-lg font-semibold text-[var(--navy)]">Voir le corrigé type</summary>
-              <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--navy-mid)]">{correction.corrige_type}</p>
+            <details className="group">
+              <summary className="flex min-h-[44px] cursor-pointer items-center gap-3 text-lg font-semibold text-[var(--navy)]">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/8 text-[var(--teal)]">
+                  <Quote className="h-5 w-5" />
+                </div>
+                <span className="flex-1">Voir le corrigé type</span>
+                <span className="text-sm font-normal text-[var(--text-caption)] transition-transform group-open:rotate-90">&#9654;</span>
+              </summary>
+              <p className="mt-4 whitespace-pre-line rounded-[16px] border border-[var(--surface-sand)] bg-white p-5 text-sm leading-7 text-[var(--navy-mid)]">{correction.corrige_type}</p>
             </details>
           </section>
         </section>
 
         <aside className="space-y-6">
           <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-6 shadow-[var(--shadow-md)] md:p-7">
-            <h2 className="text-lg font-semibold text-[var(--navy)]">Annotations ciblées</h2>
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-lg font-semibold text-[var(--navy)]">Annotations ciblées</h2>
+              <span className="rounded-full bg-[var(--teal)]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--teal)]">
+                {correction.annotations.length} annotation{correction.annotations.length > 1 ? 's' : ''}
+              </span>
+            </div>
             <div className="mt-5 grid gap-4 xl:grid-cols-[0.95fr_1.05fr] xl:items-start">
               <div className="space-y-3">
                 {correction.annotations.map((item, index) => {

@@ -45,10 +45,10 @@ export function HowItWorks() {
             style={EDITORIAL_HEADING}
             className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl"
           >
-            Une mécanique de progression, pas une accumulation d&apos;outils.
+            Une mécanique de progression, pas une accumulation d{'\u2019'}outils.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-            La différence n&apos;est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic,
+            La différence n{'\u2019'}est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic,
             la production, la correction et la relance. Tout est pensé pour réduire la dispersion.
           </p>
 
@@ -74,7 +74,7 @@ export function HowItWorks() {
               onClick={() => track({ name: 'cta_click', props: { cta: 'how_it_works_register', path: '/bienvenue' } })}
               className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
             >
-              Démarrer l&apos;onboarding
+              Démarrer l{'\u2019'}onboarding
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

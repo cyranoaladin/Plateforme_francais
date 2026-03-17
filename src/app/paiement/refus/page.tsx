@@ -39,7 +39,7 @@ function PaiementRefusContent() {
   const displayedRef = ref ?? orderRef ?? orderId;
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#f6efe4_0%,#fbf7f0_46%,var(--surface-warm-card-top)_100%)] px-4 py-8 md:px-6 md:py-12">
+    <main className="min-h-screen bg-[linear-gradient(180deg,var(--surface-parchment)_0%,var(--surface-warm)_46%,var(--surface-warm-card-top)_100%)] px-4 py-8 md:px-6 md:py-12">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <PaymentPageHeader />
         <section className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/10 bg-[var(--navy)] px-6 py-8 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-10 lg:px-10">

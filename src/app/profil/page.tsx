@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { Card, Badge } from '@/components/ui';
+import { StateNotice } from '@/components/ui/state-notice';
 
 type StudentProfile = {
   skillMap: {
@@ -110,14 +111,14 @@ const SKILL_META = [
 const BADGE_STYLES = [
   'from-[var(--navy)] to-[#315f88]',
   'from-[var(--teal)] to-[#43b9aa]',
-  'from-[#7a4b24] to-[#d6a15d]',
+  'from-[var(--accent-earth)] to-[#d6a15d]',
   'from-[#503a64] to-[#9a88b0]',
 ];
 
 const PRIORITY_STYLE = {
   high: 'border-[var(--gold-muted)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]',
   medium: 'border-[var(--navy)]/14 bg-[var(--surface-navy-light)] text-[var(--navy)]',
-  low: 'border-[var(--teal)]/14 bg-[#eef9f6] text-[var(--teal)]',
+  low: 'border-[var(--teal)]/14 bg-[var(--surface-teal-light)] text-[var(--teal)]',
 };
 
 function formatShortDate(date: string) {
@@ -205,9 +206,14 @@ export default function ProfilPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto flex min-h-64 max-w-6xl flex-col items-center justify-center gap-4 p-8">
-        <div className="h-9 w-9 animate-spin rounded-full border-2 border-[var(--navy)] border-t-transparent" />
-        <p className="text-sm text-slate-500">Chargement de ton profil de progression...</p>
+      <div className="mx-auto max-w-6xl p-4 md:p-8">
+        <StateNotice
+          title="Chargement de ton profil de progression"
+          description="Tes compétences, erreurs récurrentes et badges sont en cours de chargement. Cela ne prend que quelques secondes."
+          variant="loading"
+          center
+          className="mx-auto max-w-xl"
+        />
       </div>
     );
   }
@@ -294,17 +300,11 @@ export default function ProfilPage() {
       </section>
 
       {error ? (
-        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-5 text-sm text-[var(--error-dark)] shadow-[var(--shadow-sm)]">
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#b24838]/10 text-[#b24838]">
-              <AlertTriangle className="h-4 w-4" />
-            </div>
-            <div>
-              <p className="font-semibold text-[var(--navy)]">Impossible de charger certaines données du profil</p>
-              <p className="mt-1 text-sm leading-7">{error}</p>
-            </div>
-          </div>
-        </div>
+        <StateNotice
+          title="Impossible de charger certaines données du profil"
+          description={`${error} Rafraîchis la page ou réessaie dans quelques instants.`}
+          variant="error"
+        />
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
@@ -343,7 +343,7 @@ export default function ProfilPage() {
             <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Axe fort</p>
               <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{strongestSkill.label}</p>
-              <p className="mt-2 text-sm leading-6 text-slate-600">C'est là que le niveau est le plus naturellement stable aujourd'hui.</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">C’est là que le niveau est le plus naturellement stable aujourd’hui.</p>
             </Card>
             <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Axe prioritaire</p>
@@ -361,19 +361,21 @@ export default function ProfilPage() {
             </h2>
 
             {topErrors.length === 0 ? (
-              <div className="mt-8 flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)] p-6 text-center">
-                <CheckCircle2 className="h-10 w-10 text-[var(--teal)]/50" />
-                <p className="text-sm font-semibold text-[var(--navy)]">Aucune erreur récurrente identifiée</p>
-                <p className="max-w-sm text-sm leading-7 text-slate-600">
-                  Au fil de tes ateliers et évaluations, les points de vigilance récurrents apparaîtront ici pour t&apos;aider à cibler tes prochaines révisions.
-                </p>
+              <div className="mt-8">
+                <StateNotice
+                  title="Aucune erreur récurrente identifiée"
+                  description="Au fil de tes ateliers et évaluations, les points de vigilance récurrents apparaîtront ici pour t’aider à cibler tes prochaines révisions."
+                  variant="empty"
+                  icon={CheckCircle2}
+                  center
+                />
               </div>
             ) : (
               <div className="mt-8 space-y-3">
                 {topErrors.map((entry) => (
                   <article key={`${entry.type}-${entry.firstSeen}`} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                     <div className="flex items-start gap-4">
-                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#fff3e4] text-[var(--gold-muted)]">
+                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--surface-premium)] text-[var(--gold-muted)]">
                         <AlertTriangle className="h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
@@ -415,7 +417,9 @@ export default function ProfilPage() {
                 ))
               ) : (
                 <div className="flex flex-col items-center gap-3 rounded-[24px] border border-white/10 bg-white/8 p-6 text-center backdrop-blur-sm">
-                  <Target className="h-10 w-10 text-slate-400" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
+                    <Target className="h-5 w-5 text-slate-300" />
+                  </div>
                   <p className="text-sm font-semibold text-white">Pas encore de tâches planifiées</p>
                   <p className="max-w-sm text-sm leading-7 text-slate-300">
                     Ouvre ton parcours ou lance un atelier pour que les prochaines actions concrètes apparaissent ici.
@@ -457,12 +461,23 @@ export default function ProfilPage() {
         </div>
 
         {!resolvedProfile.badges.length ? (
-          <div className="mt-8 flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)] p-6 text-center">
-            <Award className="h-10 w-10 text-[#c0af96]" />
-            <p className="text-sm font-semibold text-[var(--navy)]">Tes premiers badges arrivent bientôt</p>
-            <p className="max-w-sm text-sm leading-7 text-slate-600">
-              Chaque atelier terminé, chaque série de jours actifs et chaque seuil franchi te rapprochent d&apos;un nouveau badge. Continue sur ta lancée !
-            </p>
+          <div className="mt-8">
+            <StateNotice
+              title="Tes premiers badges arrivent bientôt"
+              description="Chaque atelier terminé, chaque série de jours actifs et chaque seuil franchi te rapprochent d’un nouveau badge. Continue sur ta lancée !"
+              variant="empty"
+              icon={Award}
+              center
+              action={
+                <Link
+                  href="/atelier-ecrit"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                >
+                  Lancer un atelier
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              }
+            />
           </div>
         ) : (
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">

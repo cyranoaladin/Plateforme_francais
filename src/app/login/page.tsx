@@ -138,7 +138,7 @@ function ProofPanel() {
         </h2>
 
         <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
-          Cette page ne doit pas juste connecter un utilisateur. Elle doit montrer qu&apos;on peut essayer le produit, comprendre le cadre pédagogique, voir les sources mobilisables et commencer sans devoir décider tout de suite pour un abonnement.
+          Cette page ne doit pas juste connecter un utilisateur. Elle doit montrer qu{'’'}on peut essayer le produit, comprendre le cadre pédagogique, voir les sources mobilisables et commencer sans devoir décider tout de suite pour un abonnement.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2.5">
@@ -169,7 +169,7 @@ function ProofPanel() {
           <div className="flex items-start gap-3">
             <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
             <p className="text-sm leading-6 text-slate-200">
-              En inscription, l&apos;onboarding prend environ trois minutes. En connexion, tu récupères ton espace sans refaire un tunnel inutile.
+              En inscription, l{'’'}onboarding prend environ trois minutes. En connexion, tu récupères ton espace sans refaire un tunnel inutile.
             </p>
           </div>
         </div>
@@ -367,7 +367,7 @@ function AuthCard() {
           <div className="flex flex-wrap gap-2.5">
             {(mode === 'register'
               ? ['Aucun paiement avant essai', 'Onboarding ~3 minutes', 'Freemium disponible tout de suite']
-              : ['Connexion sécurisée', 'Protection CSRF', 'Récupération rapide de l\u2019espace']
+              : ['Connexion sécurisée', 'Session protégée', 'Récupération rapide de l\u2019espace']
             ).map((item) => (
               <span key={item} className="rounded-full border border-[var(--border-strong)] bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700">
                 {item}
@@ -448,7 +448,7 @@ function AuthCard() {
                     className="mt-1 accent-[var(--navy)]"
                   />
                   <span className="text-xs leading-6 text-slate-600">
-                    J&apos;accepte les Conditions d&apos;utilisation et la Politique de confidentialité.
+                    J&apos;accepte les <Link href="/cgu" target="_blank" className="font-semibold text-[var(--teal)] underline-offset-2 hover:underline">Conditions d&apos;utilisation</Link> et la <Link href="/politique-de-confidentialite" target="_blank" className="font-semibold text-[var(--teal)] underline-offset-2 hover:underline">Politique de confidentialité</Link>.
                   </span>
                 </label>
 
@@ -460,7 +460,7 @@ function AuthCard() {
                     className="mt-1 accent-[var(--navy)]"
                   />
                   <span className="text-xs leading-6 text-slate-600">
-                    J&apos;ai moins de 15 ans. Un consentement parental est nécessaire.
+                    J{'’'}ai moins de 15 ans. Un consentement parental est nécessaire.
                   </span>
                 </label>
               </div>
@@ -541,7 +541,7 @@ function AuthCard() {
               </button>
               {showHelp ? (
                 <p className="mt-3 text-sm leading-7 text-slate-600">
-                  Vérifie ton email, ton mot de passe et rafraîchis la page en cas d&apos;erreur de sécurité. Si le blocage persiste, repasse par la création de compte ou compare les plans avant de réessayer.
+                  Vérifie ton email, ton mot de passe et rafraîchis la page en cas d{'’'}erreur de sécurité. Si le blocage persiste, repasse par la création de compte ou compare les plans avant de réessayer.
                 </p>
               ) : null}
             </div>
@@ -557,7 +557,7 @@ function AuthCard() {
             </button>
             <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4">
               <p className="text-sm leading-7 text-slate-600">
-                Besoin d&apos;aide ?{' '}
+                Besoin d{'’'}aide ?{' '}
                 <a
                   href="https://wa.me/21699192829?text=Bonjour%2C%20je%20souhaite%20r%C3%A9initialiser%20mon%20mot%20de%20passe%20Nexus%20EAF."
                   target="_blank"
@@ -575,7 +575,7 @@ function AuthCard() {
             <div className="flex items-start gap-3">
               <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--teal)]" />
               <p className="text-sm leading-7 text-slate-600">
-                Une fois le compte créé, tu arrives directement sur l&apos;onboarding pour cadrer tes œuvres, ton rythme et ton point de départ, sans rien payer pour voir le produit.
+                Une fois le compte créé, tu arrives directement sur l{'’'}onboarding pour cadrer tes œuvres, ton rythme et ton point de départ, sans rien payer pour voir le produit.
               </p>
             </div>
           </div>
@@ -592,6 +592,10 @@ function AuthCard() {
           <span>·</span>
           <Link href="/#faq" className="transition-colors hover:text-[var(--navy)]">
             FAQ
+          </Link>
+          <span>·</span>
+          <Link href="/mentions-legales" className="transition-colors hover:text-[var(--navy)]">
+            Mentions légales
           </Link>
         </div>
       </div>

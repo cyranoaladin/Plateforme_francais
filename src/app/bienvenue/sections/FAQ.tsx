@@ -77,7 +77,7 @@ export function FAQ() {
             Les objections doivent être traitées avec autant de soin que les promesses.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-            Une page d&apos;accueil sérieuse répond clairement aux questions sensibles : anti-triche, sources, sécurité, accessibilité, support.
+            Une page d{'\u2019'}accueil sérieuse répond clairement aux questions sensibles : anti-triche, sources, sécurité, accessibilité, support.
           </p>
 
           <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-md)]">
@@ -85,7 +85,7 @@ export function FAQ() {
               <MessageSquareText className="h-5 w-5" />
             </div>
             <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">
-              Besoin d&apos;aller plus loin avant de t&apos;inscrire ?
+              Besoin d{'\u2019'}aller plus loin avant de t{'\u2019'}inscrire ?
             </h3>
             <p className="mt-3 text-sm leading-7 text-slate-200">
               La page tarifs détaille les plans et la page connexion permet de démarrer gratuitement pour tester le workflow réel.

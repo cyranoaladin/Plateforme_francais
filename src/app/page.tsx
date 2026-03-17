@@ -579,7 +579,7 @@ export default function HomePage() {
                       Là où un outil généraliste s’arrête à une réponse, Nexus construit une continuité de travail.
                     </h3>
                   </div>
-                  <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#e7dbc9]">comparaison</div>
+                  <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-on-navy-soft)]">comparaison</div>
                 </div>
                 <div className="mt-6 space-y-4">
                   {COMPARISON_ROWS.map((row) => (

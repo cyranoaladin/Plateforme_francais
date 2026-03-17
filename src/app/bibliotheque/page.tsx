@@ -32,6 +32,7 @@ import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { PdfPreviewViewer } from '@/components/ui/pdf-preview-viewer';
 import { FREE_LIBRARY_LIMITS, FREE_TOTAL_LIMIT, LIBRARY_TOTAL_RESOURCES } from '@/lib/billing/library-gating';
 import { Badge, Button } from '@/components/ui';
+import { StateNotice } from '@/components/ui/state-notice';
 
 const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
@@ -343,7 +344,7 @@ export default function BibliothequePage() {
 
         <div className="mt-6 flex flex-col gap-3 lg:flex-row">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7c8792]" />
+            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-icon)]" />
             <label htmlFor="rag-query" className="sr-only">Recherche</label>
             <input
               id="rag-query"
@@ -397,18 +398,12 @@ export default function BibliothequePage() {
       </section>
 
       {ragError && (
-        <div className="rounded-[24px] border border-[var(--warning-border)] bg-[var(--warning-bg-soft)] px-5 py-4" role="alert">
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--warning-text)]/10 text-[var(--warning-text)]">
-              <Search className="h-4 w-4" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-[var(--navy)]">La recherche intelligente est momentanément indisponible</p>
-              <p className="mt-1 text-sm leading-7 text-[var(--warning-text)]">{ragError}</p>
-              <p className="mt-1 text-xs text-[#b08a5a]">Tu peux toujours parcourir le catalogue et filtrer par catégorie en attendant.</p>
-            </div>
-          </div>
-        </div>
+        <StateNotice
+          title="La recherche intelligente est momentanément indisponible"
+          description={`${ragError} Tu peux toujours parcourir le catalogue et filtrer par catégorie en attendant.`}
+          variant="warning"
+          icon={Search}
+        />
       )}
 
       {ragResults.length > 0 && (
@@ -425,7 +420,7 @@ export default function BibliothequePage() {
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             {ragResults.map((item) => (
-              <article key={`${item.id}-${item.sourceRef}`} className="rounded-[24px] border border-[#d4e8e0] bg-white/90 p-4 shadow-[var(--shadow-md)]">
+              <article key={`${item.id}-${item.sourceRef}`} className="rounded-[24px] border border-[var(--border-success-vivid)] bg-white/90 p-4 shadow-[var(--shadow-md)]">
                 <div className="flex items-start gap-3">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/10 text-[var(--teal)]">
                     <FileText className="h-5 w-5" />
@@ -507,10 +502,10 @@ export default function BibliothequePage() {
                           <p className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${locked ? 'text-[#8a8580]' : 'text-[var(--navy)] group-hover:text-[#224a6e]'}`}>
                             {formatResourceTitle(resource.title, resource.ext)}
                           </p>
-                          <p className={`mt-2 line-clamp-3 text-sm leading-6 ${locked ? 'text-[#a09a94]' : 'text-[var(--text-secondary)]'}`}>
+                          <p className={`mt-2 line-clamp-3 text-sm leading-6 ${locked ? 'text-[var(--text-disabled)]' : 'text-[var(--text-secondary)]'}`}>
                             {buildResourceDescription(resource)}
                           </p>
-                          <div className={`mt-4 flex items-center justify-between text-xs ${locked ? 'text-[#a09a94]' : 'text-[var(--text-warm)]'}`}>
+                          <div className={`mt-4 flex items-center justify-between text-xs ${locked ? 'text-[var(--text-disabled)]' : 'text-[var(--text-warm)]'}`}>
                             <span>{formatFileSize(resource.size) || 'Taille non précisée'}</span>
                             {locked ? (
                               <span className="inline-flex items-center gap-1 font-semibold text-[var(--text-disabled)]">
@@ -536,11 +531,22 @@ export default function BibliothequePage() {
       </div>
 
       {filteredResources.length === 0 && (
-        <div className="rounded-[24px] border border-dashed border-[#dbcdb7] bg-[#fffaf2] px-6 py-12 text-center">
-          <FolderOpen className="mx-auto h-14 w-14 text-[#c0af96]" />
-          <p className="mt-4 text-lg font-semibold text-[var(--navy)]">Aucune ressource ne correspond à ces critères</p>
-          <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-[var(--text-caption)]">Essaie d'élargir ta recherche ou de revenir sur « Toutes les ressources » pour retrouver l'ensemble du catalogue.</p>
-        </div>
+        <StateNotice
+          title="Aucune ressource ne correspond à ces critères"
+          description="Essaie d’élargir ta recherche ou de revenir sur « Toutes les ressources » pour retrouver l’ensemble du catalogue."
+          variant="empty"
+          icon={FolderOpen}
+          center
+          className="px-6 py-12"
+          action={
+            <button
+              onClick={() => { setActiveCategory('all'); setSearchQuery(''); }}
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+            >
+              Voir toutes les ressources
+            </button>
+          }
+        />
       )}
 
       {selectedResource && (
@@ -551,7 +557,7 @@ export default function BibliothequePage() {
           <div
             role="dialog"
             aria-modal="true"
-            className="h-screen w-full overflow-auto rounded-none border-0 bg-[#fcf8f1] p-6 shadow-2xl md:h-auto md:max-h-[88vh] md:max-w-3xl md:rounded-[24px] md:border md:border-[var(--border-light)] md:p-8"
+            className="h-screen w-full overflow-auto rounded-none border-0 bg-[var(--surface-paper)] p-6 shadow-2xl md:h-auto md:max-h-[88vh] md:max-w-3xl md:rounded-[24px] md:border md:border-[var(--border-light)] md:p-8"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4">
@@ -582,7 +588,7 @@ export default function BibliothequePage() {
 
             <div className="mt-6 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
               <div className="rounded-[24px] border border-[var(--surface-sand)] bg-white p-5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Pourquoi l'ouvrir</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Pourquoi l’ouvrir</p>
                 <p className="mt-3 text-sm leading-7 text-[var(--navy-mid)]">{buildResourceDescription(selectedResource)}</p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
@@ -641,7 +647,7 @@ export default function BibliothequePage() {
                         href={selectedResourceOpenHref ?? selectedResource.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18"
+                        className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success-pale)] bg-white px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18"
                       >
                         <ExternalLink className="h-4 w-4" />
                         Ouvrir
@@ -649,7 +655,7 @@ export default function BibliothequePage() {
                     </div>
                     <Link
                       href={selectedResourceTutorHref}
-                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[16px] border border-[#cfe2dc] bg-white px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success-pale)] bg-white px-4 py-4 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
                     >
                       Reprendre cette ressource avec le guidage
                     </Link>

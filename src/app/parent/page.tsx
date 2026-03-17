@@ -209,7 +209,7 @@ export default function ParentDashboard() {
                   <span className="text-[var(--navy)]">{skill.label}</span>
                   <span className="text-slate-500">{skill.score.toFixed(1)} / 20</span>
                 </div>
-                <div className="h-2.5 rounded-full bg-[#e7ddcf]">
+                <div className="h-2.5 rounded-full bg-[var(--border-warm-mid)]">
                   <div
                     className={`h-2.5 rounded-full ${
                       skill.key === 'oral'

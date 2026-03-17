@@ -80,7 +80,7 @@ function statusLabel(status: string) {
 }
 
 function statusStyle(status: string) {
-  if (status === 'done') return 'border-[var(--teal)]/16 bg-[#eef9f6] text-[var(--teal)]';
+  if (status === 'done') return 'border-[var(--teal)]/16 bg-[var(--surface-teal-light)] text-[var(--teal)]';
   if (status === 'error') return 'border-[var(--error-muted)]/18 bg-[var(--error-bg)] text-[var(--error-dark)]';
   if (status === 'processing') return 'border-[var(--navy)]/14 bg-[var(--surface-navy-light)] text-[var(--navy)]';
   return 'border-[var(--gold-muted)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]';
@@ -333,7 +333,7 @@ export default function EnseignantPage() {
                           <span className="text-[var(--navy)]">{item.label}</span>
                           <span className="text-slate-500">{item.count} élève{item.count > 1 ? 's' : ''}</span>
                         </div>
-                        <div className="h-3 rounded-full bg-[#e7ddcf]">
+                        <div className="h-3 rounded-full bg-[var(--border-warm-mid)]">
                           <div
                             className="h-3 rounded-full bg-[var(--navy)]"
                             style={{ width: `${(item.count / distributionMax) * 100}%` }}

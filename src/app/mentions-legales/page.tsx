@@ -1,78 +1,208 @@
 import Link from 'next/link';
+import { ArrowLeft, Building2, Globe, Lock, Scale, FileText, Mail } from 'lucide-react';
 
 export const metadata = {
   title: 'Mentions légales & CGU',
-  description: "Mentions légales et conditions générales d\u2019utilisation de Nexus EAF",
+  description: 'Mentions légales et conditions générales d\u2019utilisation de Nexus EAF',
+};
+
+const EDITORIAL_HEADING = {
+  fontFamily: 'var(--font-display)',
 };
 
 export default function MentionsLegalesPage() {
   return (
-    <div className="min-h-screen bg-[var(--surface-cream)] py-12 px-4">
-      <div className="mx-auto max-w-4xl rounded-3xl border border-[var(--border-strong)] bg-white p-8 shadow-lg">
-        <h1 className="text-4xl font-bold text-[var(--navy)] mb-8" style={{ fontFamily: "var(--font-display)" }}>
-          Mentions légales & Conditions Générales d’Utilisation
-        </h1>
+    <div className="min-h-screen bg-[var(--surface-cream)] text-slate-900 [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+      <main className="relative mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
+        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[var(--shadow-md)]">
+          <Link href="/" className="flex items-center gap-4">
+            <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
+          </Link>
+          <Link href="/" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-[var(--navy)]">
+            <ArrowLeft className="h-4 w-4" />
+            Retour accueil
+          </Link>
+        </header>
 
-        <section className="space-y-6 text-[var(--navy)]/80">
-          <div>
-            <h2 className="text-2xl font-semibold text-[var(--navy)] mb-3">Éditeur du site</h2>
-            <p><strong>Raison sociale :</strong> STE M&M ACADEMY SUARL</p>
-            <p><strong>Email de contact :</strong> contact@nexusreussite.academy</p>
-            <p><strong>Site web :</strong> https://eaf.nexusreussite.academy</p>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold text-[var(--navy)] mb-3">Hébergement</h2>
-            <p>Le site est hébergé par :</p>
-            <ul className="list-disc list-inside ml-4 space-y-1">
-              <li>OVH SAS - 2 rue Kellermann, 59100 Roubaix, France</li>
-              <li>Vercel Inc. - 440 N Barranca Ave #4133, Covina, CA 91723, USA</li>
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold text-[var(--navy)] mb-3">Protection des données (RGPD)</h2>
-            <p className="mb-2">Nexus EAF s’engage à protéger vos données personnelles conformément au RGPD :</p>
-            <ul className="list-disc list-inside ml-4 space-y-2">
-              <li><strong>Collecte minimale :</strong> Nous ne collectons que les données strictement nécessaires au fonctionnement du service.</li>
-              <li><strong>Traitement des mineurs :</strong> Pour les utilisateurs de moins de 15 ans, un consentement parental est requis (email parent).</li>
-              <li><strong>Droit d’accès et de suppression :</strong> Vous pouvez à tout moment demander l’accès, la modification ou la suppression de vos données via contact@nexusreussite.academy.</li>
-              <li><strong>Pas de revente :</strong> Vos données ne sont jamais vendues à des tiers.</li>
-              <li><strong>Sécurité :</strong> Les mots de passe sont hachés, les sessions sécurisées par cookies HttpOnly.</li>
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold text-[var(--navy)] mb-3">Conditions Générales d’Utilisation</h2>
-            <p className="mb-2"><strong>Version :</strong> 2026-03</p>
-            <p className="mb-2">En utilisant Nexus EAF, vous acceptez les conditions suivantes :</p>
-            <ul className="list-disc list-inside ml-4 space-y-2">
-              <li>Le service est destiné aux élèves de Première préparant l’EAF.</li>
-              <li>L’utilisation doit respecter le cadre pédagogique et les règles de propriété intellectuelle.</li>
-              <li>Les contenus générés par IA sont fournis à titre indicatif et ne remplacent pas un enseignement officiel.</li>
-              <li>Nexus EAF se réserve le droit de suspendre un compte en cas d’usage abusif ou frauduleux.</li>
-              <li>Les tarifs des plans Premium et Masterium sont affichés en TND et peuvent être modifiés avec préavis de 30 jours.</li>
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold text-[var(--navy)] mb-3">Propriété intellectuelle</h2>
-            <p>Tous les contenus du site (textes, images, logos, structure) sont protégés par le droit d’auteur. Toute reproduction sans autorisation est interdite.</p>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold text-[var(--navy)] mb-3">Contact</h2>
-            <p>Pour toute question concernant ces mentions légales ou les CGU, contactez-nous à :</p>
-            <p className="font-semibold mt-2">contact@nexusreussite.academy</p>
-          </div>
+        <section className="mt-10">
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cadre juridique</p>
+          <h1
+            style={EDITORIAL_HEADING}
+            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl"
+          >
+            Mentions légales & Conditions Générales d{'\u2019'}Utilisation
+          </h1>
+          <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
+            Ce document rassemble les informations légales obligatoires, les conditions d{'\u2019'}utilisation du service
+            et les engagements de Nexus Réussite en matière de protection des données.
+          </p>
         </section>
 
-        <div className="mt-12 pt-6 border-t border-[var(--border-strong)]">
-          <Link href="/" className="text-[var(--teal)] hover:underline font-semibold">
-            ← Retour à l’accueil
+        <div className="mt-10 space-y-6">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+                <Building2 className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                  Éditeur du site
+                </h2>
+                <div className="mt-4 space-y-2 text-sm leading-7 text-slate-700">
+                  <p><span className="font-semibold text-[var(--navy)]">Raison sociale :</span> STE M&M ACADEMY SUARL</p>
+                  <p><span className="font-semibold text-[var(--navy)]">Email de contact :</span>{' '}
+                    <a href="mailto:contact@nexusreussite.academy" className="text-[var(--teal)] hover:underline">contact@nexusreussite.academy</a>
+                  </p>
+                  <p><span className="font-semibold text-[var(--navy)]">Site web :</span>{' '}
+                    <a href="https://eaf.nexusreussite.academy" className="text-[var(--teal)] hover:underline">https://eaf.nexusreussite.academy</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+                <Globe className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                  Hébergement
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-slate-700">Le site est hébergé par :</p>
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Infrastructure</p>
+                    <p className="mt-2 text-sm font-semibold text-[var(--navy)]">OVH SAS</p>
+                    <p className="mt-1 text-sm text-slate-600">2 rue Kellermann, 59100 Roubaix, France</p>
+                  </div>
+                  <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Déploiement</p>
+                    <p className="mt-2 text-sm font-semibold text-[var(--navy)]">Vercel Inc.</p>
+                    <p className="mt-1 text-sm text-slate-600">440 N Barranca Ave #4133, Covina, CA 91723, USA</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/10 text-[var(--teal)]">
+                <Lock className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                  Protection des données (RGPD)
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-slate-700">
+                  Nexus EAF s{'\u2019'}engage à protéger vos données personnelles conformément au Règlement Général sur la Protection des Données :
+                </p>
+                <div className="mt-4 space-y-3">
+                  {[
+                    { label: 'Collecte minimale', body: 'Nous ne collectons que les données strictement nécessaires au fonctionnement du service.' },
+                    { label: 'Traitement des mineurs', body: 'Pour les utilisateurs de moins de 15 ans, un consentement parental est requis (email parent).' },
+                    { label: 'Droit d\u2019accès et de suppression', body: 'Vous pouvez à tout moment demander l\u2019accès, la modification ou la suppression de vos données via contact@nexusreussite.academy.' },
+                    { label: 'Pas de revente', body: 'Vos données ne sont jamais vendues à des tiers.' },
+                    { label: 'Sécurité', body: 'Les mots de passe sont hachés, les sessions sécurisées par cookies HttpOnly.' },
+                  ].map((item) => (
+                    <div key={item.label} className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-3">
+                      <p className="text-sm font-semibold text-[var(--navy)]">{item.label}</p>
+                      <p className="mt-1 text-sm leading-6 text-slate-600">{item.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+                <Scale className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                  Conditions Générales d{'\u2019'}Utilisation
+                </h2>
+                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Version 2026-03</p>
+                <p className="mt-3 text-sm leading-7 text-slate-700">
+                  En utilisant Nexus EAF, vous acceptez les conditions suivantes :
+                </p>
+                <div className="mt-4 space-y-3">
+                  {[
+                    'Le service est destiné aux élèves de Première préparant l\u2019EAF.',
+                    'L\u2019utilisation doit respecter le cadre pédagogique et les règles de propriété intellectuelle.',
+                    'Les contenus générés par IA sont fournis à titre indicatif et ne remplacent pas un enseignement officiel.',
+                    'Nexus EAF se réserve le droit de suspendre un compte en cas d\u2019usage abusif ou frauduleux.',
+                    'Les tarifs des plans Premium et Masterium sont affichés en TND et peuvent être modifiés avec un préavis de 30 jours.',
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-3">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--navy)]" />
+                      <p className="text-sm leading-6 text-slate-700">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+                <FileText className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                  Propriété intellectuelle
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-slate-700">
+                  Tous les contenus du site (textes, images, logos, structure) sont protégés par le droit d{'\u2019'}auteur.
+                  Toute reproduction sans autorisation est interdite.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+                <Mail className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                  Contact
+                </h2>
+                <p className="mt-4 text-sm leading-7 text-slate-700">
+                  Pour toute question concernant ces mentions légales ou les CGU, contactez-nous :
+                </p>
+                <a
+                  href="mailto:contact@nexusreussite.academy"
+                  className="mt-3 inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
+                >
+                  contact@nexusreussite.academy
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-6 py-5 shadow-[var(--shadow-md)]">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:text-[var(--teal)]">
+            <ArrowLeft className="h-4 w-4" />
+            Retour à l{'\u2019'}accueil
+          </Link>
+          <span className="text-slate-400">·</span>
+          <Link href="/cgu" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
+            CGU détaillées
+          </Link>
+          <span className="text-slate-400">·</span>
+          <Link href="/politique-de-confidentialite" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
+            Politique de confidentialité
           </Link>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

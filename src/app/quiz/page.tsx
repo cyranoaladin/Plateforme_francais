@@ -6,6 +6,7 @@ import { BookOpen, Brain, GraduationCap, Sparkles, Target } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Button, Badge } from '@/components/ui';
+import { StateNotice } from '@/components/ui/state-notice';
 
 type QuizTheme =
   | 'grammaire'
@@ -29,16 +30,16 @@ const THEME_OPTIONS: ThemeOption[] = [
   { value: 'grammaire', label: 'Grammaire EAF', group: 'Compétences transversales' },
   { value: 'figures_de_style', label: 'Figures de style', group: 'Compétences transversales' },
   { value: 'mouvements_litteraires', label: 'Mouvements littéraires', group: 'Compétences transversales' },
-  { value: 'poesie', label: 'Poésie (Rimbaud, Ponge, Dorion)', group: "Objets d'étude" },
-  { value: 'roman', label: 'Roman (Prévost, Balzac, Colette)', group: "Objets d'étude" },
-  { value: 'theatre', label: 'Théâtre (Corneille, Musset, Sarraute)', group: "Objets d'étude" },
-  { value: 'litterature_idees', label: "Littérature d'idées (La Boétie, Fontenelle, Graffigny)", group: "Objets d'étude" },
+  { value: 'poesie', label: 'Poésie (Rimbaud, Ponge, Dorion)', group: "Objets d’étude" },
+  { value: 'roman', label: 'Roman (Prévost, Balzac, Colette)', group: "Objets d’étude" },
+  { value: 'theatre', label: 'Théâtre (Corneille, Musset, Sarraute)', group: "Objets d’étude" },
+  { value: 'litterature_idees', label: "Littérature d’idées (La Boétie, Fontenelle, Graffigny)", group: "Objets d’étude" },
   { value: 'methode_commentaire', label: 'Méthode du commentaire', group: 'Méthodologie' },
   { value: 'methode_dissertation', label: 'Méthode de la dissertation', group: 'Méthodologie' },
   { value: 'oral_eaf', label: 'Oral EAF (méthode & déroulement)', group: 'Méthodologie' },
 ];
 
-const THEME_GROUPS = ["Objets d'étude", 'Compétences transversales', 'Méthodologie'];
+const THEME_GROUPS = ["Objets d’étude", 'Compétences transversales', 'Méthodologie'];
 
 const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
@@ -190,7 +191,7 @@ export default function QuizPage() {
               Quiz adaptatif
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Des QCM courts pour fixer les repères utiles avant qu'ils ne glissent hors du radar.
+              Des QCM courts pour fixer les repères utiles avant qu’ils ne glissent hors du radar.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
               Choisis un thème, ajuste la difficulté, génère un bloc de questions et transforme le résultat en signal utile pour la suite de ton parcours.
@@ -213,17 +214,12 @@ export default function QuizPage() {
       </section>
 
       {error && (
-        <div className="rounded-[24px] border border-[var(--error-border)] bg-[var(--error-bg)] p-5">
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#b24838]/10 text-[#b24838]">
-              <Brain className="h-4 w-4" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-[var(--navy)]">Le quiz n&apos;a pas pu être généré</p>
-              <p className="mt-1 text-sm leading-7 text-[var(--error-text)]">{error}</p>
-            </div>
-          </div>
-        </div>
+        <StateNotice
+          title="Le quiz n’a pas pu être généré"
+          description={error}
+          variant="error"
+          icon={Brain}
+        />
       )}
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
@@ -313,8 +309,8 @@ export default function QuizPage() {
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Usage conseillé</p>
             <div className="mt-4 space-y-3 text-sm leading-7 text-[var(--navy-mid)]">
               <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
-              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Lis l'explication après validation : c'est elle qui transforme le score en progrès réel.</p>
-              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Un score faible n'est pas un échec : c'est un signal pour cibler la prochaine révision.</p>
+              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Lis l’explication après validation : c’est elle qui transforme le score en progrès réel.</p>
+              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Un score faible n’est pas un échec : c’est un signal pour cibler la prochaine révision.</p>
             </div>
           </section>
         </aside>
@@ -327,15 +323,14 @@ export default function QuizPage() {
           )}
 
           {questions.length === 0 ? (
-            <section className="rounded-[24px] border border-dashed border-[#dbcdb7] bg-[#fffaf2] px-6 py-12 text-center">
-              <Target className="mx-auto h-14 w-14 text-[#c0af96]" />
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
-                Le bloc de questions apparaîtra ici.
-              </h2>
-              <p className="mt-3 text-sm leading-7 text-[var(--text-caption)]">
-                Configure la séance puis génère un quiz pour passer d'une intuition vague à un test rapide et exploitable.
-              </p>
-            </section>
+            <StateNotice
+              title="Le bloc de questions apparaîtra ici"
+              description="Configure la séance puis génère un quiz pour passer d’une intuition vague à un test rapide et exploitable."
+              variant="empty"
+              icon={Target}
+              center
+              className="px-6 py-12"
+            />
           ) : (
             <div className="space-y-4">
               {questions.map((question, index) => (
@@ -383,35 +378,48 @@ export default function QuizPage() {
           )}
 
           {questions.length > 0 && (
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)]">
               {!submitted ? (
-                <Button onClick={finish}>
-                  Valider
-                </Button>
-              ) : (
-                <>
-                  <Badge
-                    variant={score >= 80 ? 'success' : score >= 50 ? 'warning' : 'error'}
-                    className="px-4 py-3 text-sm font-semibold"
-                    role="status"
-                    aria-live="polite"
-                  >
-                    Score : {score}%
-                  </Badge>
-                  <Button
-                    onClick={generate}
-                    disabled={isGenerating}
-                    variant="secondary"
-                  >
-                    Nouveau quiz
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-sm text-[var(--text-secondary)]">
+                    {answeredCount} / {questions.length} question{questions.length > 1 ? 's' : ''} répondue{answeredCount > 1 ? 's' : ''}
+                  </p>
+                  <Button onClick={finish} size="lg" className="min-h-[44px]">
+                    Valider mes réponses
                   </Button>
-                  <Link
-                    href={tutorHref}
-                    className="rounded-[20px] border border-[var(--border-sand)] bg-white px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
-                  >
-                    Reprendre ce thème avec le guidage
-                  </Link>
-                </>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-lg font-bold ${score >= 80 ? 'bg-[var(--success-bg)] text-[var(--teal)]' : score >= 50 ? 'bg-[var(--warning-bg)] text-[var(--gold-deep)]' : 'bg-[var(--error-bg)] text-[var(--error-text)]'}`} role="status" aria-live="polite">
+                      {score}%
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[var(--navy)]">
+                        {score >= 80 ? 'Excellent travail !' : score >= 50 ? 'Des bases solides, continue.' : 'Ce thème mérite une révision ciblée.'}
+                      </p>
+                      <p className="text-xs text-[var(--text-secondary)]">
+                        {questions.filter((q) => answers[q.id] === q.bonneReponse).length} bonne{questions.filter((q) => answers[q.id] === q.bonneReponse).length > 1 ? 's' : ''} réponse{questions.filter((q) => answers[q.id] === q.bonneReponse).length > 1 ? 's' : ''} sur {questions.length}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <Button
+                      onClick={generate}
+                      disabled={isGenerating}
+                      variant="secondary"
+                      className="min-h-[44px]"
+                    >
+                      Nouveau quiz
+                    </Button>
+                    <Link
+                      href={tutorHref}
+                      className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                    >
+                      Reprendre ce thème avec le guidage
+                    </Link>
+                  </div>
+                </div>
               )}
             </div>
           )}

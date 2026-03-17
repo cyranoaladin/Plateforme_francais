@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { AlertTriangle, CheckCircle2, Info, Loader2, LucideIcon } from 'lucide-react';
 
-type NoticeVariant = 'info' | 'success' | 'warning' | 'error' | 'loading';
+type NoticeVariant = 'info' | 'success' | 'warning' | 'error' | 'loading' | 'empty';
 
 type StateNoticeProps = {
   title: string;
@@ -35,7 +35,7 @@ const VARIANT_STYLES: Record<NoticeVariant, { shell: string; iconBox: string; te
   error: {
     shell: 'border-[var(--error-border)] bg-[var(--error-bg)]',
     iconBox: 'bg-[var(--error-text)]/10 text-[var(--error-text)]',
-    text: 'text-[#6a4a46]',
+    text: 'text-[var(--gold-contrast)]',
     defaultIcon: AlertTriangle,
   },
   loading: {
@@ -43,6 +43,12 @@ const VARIANT_STYLES: Record<NoticeVariant, { shell: string; iconBox: string; te
     iconBox: 'bg-[var(--navy)]/10 text-[var(--navy)]',
     text: 'text-[var(--navy-muted)]',
     defaultIcon: Loader2,
+  },
+  empty: {
+    shell: 'border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)]',
+    iconBox: 'bg-[var(--accent-bronze)]/10 text-[var(--accent-bronze)]',
+    text: 'text-[var(--text-secondary)]',
+    defaultIcon: Info,
   },
 };
 

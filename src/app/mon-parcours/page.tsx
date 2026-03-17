@@ -19,6 +19,7 @@ import {
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Card, Badge } from '@/components/ui';
+import { StateNotice } from '@/components/ui/state-notice';
 
 type Plan = {
   semaines: {
@@ -75,7 +76,7 @@ const TYPE_META: Record<
   oral: {
     label: 'Oral',
     tone: 'bg-[var(--teal)] text-white',
-    softTone: 'border-[var(--teal)]/16 bg-[#eef9f6] text-[var(--teal)]',
+    softTone: 'border-[var(--teal)]/16 bg-[var(--surface-teal-light)] text-[var(--teal)]',
     icon: Mic,
   },
   grammaire: {
@@ -99,19 +100,19 @@ const TYPE_META: Record<
   lecture: {
     label: 'Lecture',
     tone: 'bg-[var(--accent-violet)] text-white',
-    softTone: 'border-[var(--accent-violet)]/16 bg-[#f4eff8] text-[var(--accent-violet)]',
+    softTone: 'border-[var(--accent-violet)]/16 bg-[var(--surface-violet-light)] text-[var(--accent-violet)]',
     icon: BookOpen,
   },
   revisions: {
     label: 'Révisions',
     tone: 'bg-[var(--accent-violet)] text-white',
-    softTone: 'border-[var(--accent-violet)]/16 bg-[#f4eff8] text-[var(--accent-violet)]',
+    softTone: 'border-[var(--accent-violet)]/16 bg-[var(--surface-violet-light)] text-[var(--accent-violet)]',
     icon: BookOpen,
   },
   fiches: {
     label: 'Fiches',
     tone: 'bg-[var(--accent-violet)] text-white',
-    softTone: 'border-[var(--accent-violet)]/16 bg-[#f4eff8] text-[var(--accent-violet)]',
+    softTone: 'border-[var(--accent-violet)]/16 bg-[var(--surface-violet-light)] text-[var(--accent-violet)]',
     icon: BookOpen,
   },
   quiz: {
@@ -122,8 +123,8 @@ const TYPE_META: Record<
   },
   organisation: {
     label: 'Organisation',
-    tone: 'bg-[#7a4b24] text-white',
-    softTone: 'border-[#7a4b24]/16 bg-[#fbf2ea] text-[#7a4b24]',
+    tone: 'bg-[var(--accent-earth)] text-white',
+    softTone: 'border-[var(--accent-earth)]/16 bg-[var(--surface-premium)] text-[var(--accent-earth)]',
     icon: CalendarDays,
   },
 };
@@ -131,7 +132,7 @@ const TYPE_META: Record<
 const PRIORITY_META = {
   high: 'border-[var(--gold-muted)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]',
   medium: 'border-[var(--navy)]/14 bg-[var(--surface-navy-light)] text-[var(--navy)]',
-  low: 'border-[var(--teal)]/14 bg-[#eef9f6] text-[var(--teal)]',
+  low: 'border-[var(--teal)]/14 bg-[var(--surface-teal-light)] text-[var(--teal)]',
 };
 
 function normalizeHref(href: string): string {
@@ -340,27 +341,19 @@ export default function MonParcoursPage() {
       </section>
 
       {error ? (
-        <Card variant="default" className="border-[var(--error-muted)]/25 bg-[var(--error-bg)] text-sm text-[var(--error-dark)] shadow-[var(--shadow-sm)]" padding="sm">
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--error-text)]/10 text-[var(--error-text)]">
-              <AlertTriangle className="h-4 w-4" />
-            </div>
-            <div>
-              <p className="font-semibold text-[var(--navy)]">Le parcours n&apos;a pas pu être chargé</p>
-              <p className="mt-1 text-sm leading-7">{error}</p>
-              <p className="mt-1 text-xs text-slate-500">Rafraîchis la page ou réessaie dans quelques instants.</p>
-            </div>
-          </div>
-        </Card>
+        <StateNotice
+          title="Le parcours n’a pas pu être chargé"
+          description={`${error} Rafraîchis la page ou réessaie dans quelques instants.`}
+          variant="error"
+        />
       ) : null}
 
       {isLoading ? (
-        <Card variant="default" className="bg-white/90 border-[var(--border-strong)] shadow-[var(--shadow-md)]" padding="md">
-          <div className="flex items-center gap-3">
-            <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--navy)]/20 border-t-[var(--navy)]" />
-            <p className="text-sm text-slate-600">Construction de ton plan personnalisé à partir de ton profil et de tes activités...</p>
-          </div>
-        </Card>
+        <StateNotice
+          title="Construction de ton plan personnalisé"
+          description="Ton profil et tes activités sont en cours d’analyse pour te proposer une feuille de route adaptée. Cela ne prend que quelques secondes."
+          variant="loading"
+        />
       ) : null}
 
       <div className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
@@ -481,30 +474,30 @@ export default function MonParcoursPage() {
           })}
 
           {weekTasks.length === 0 && !isLoading ? (
-            <Card variant="default" padding="md" className="bg-white/90 border-[var(--border-strong)] shadow-[var(--shadow-md)]">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Parcours en attente</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
-                Ton parcours se construit à partir de tes premières activités.
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600">
-                Finalise ton onboarding ou lance un premier atelier : la plateforme pourra alors te proposer une feuille de route personnalisée, semaine par semaine.
-              </p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Link
-                  href="/onboarding"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5"
-                >
-                  Terminer l’onboarding
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href={tutorHref}
-                  className="inline-flex items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
-                >
-                  Ouvrir le guidage
-                </Link>
-              </div>
-            </Card>
+            <StateNotice
+              title="Ton parcours se construit à partir de tes premières activités"
+              description="Finalise ton onboarding ou lance un premier atelier : la plateforme pourra alors te proposer une feuille de route personnalisée, semaine par semaine."
+              variant="empty"
+              icon={MapIcon}
+              center
+              action={
+                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
+                  <Link
+                    href="/onboarding"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5"
+                  >
+                    Terminer l’onboarding
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    href={tutorHref}
+                    className="inline-flex items-center justify-center rounded-full border border-[var(--border-strong)] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                  >
+                    Ouvrir le guidage
+                  </Link>
+                </div>
+              }
+            />
           ) : null}
         </div>
 

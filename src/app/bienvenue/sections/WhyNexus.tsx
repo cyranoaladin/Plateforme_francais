@@ -11,7 +11,7 @@ const EDITORIAL_HEADING = {
 const AUDIENCE_CARDS = [
   {
     icon: GraduationCap,
-    title: "Pour l’élève",
+    title: "Pour l\u2019élève",
     body: "Le produit dit quoi faire maintenant, quoi reprendre ensuite et comment progresser sans se disperser.",
   },
   {
@@ -44,7 +44,7 @@ const COMPARISON_ROWS = [
   },
   {
     label: 'Format EAF',
-    generic: 'Pas de structure native pour l’oral, les barèmes officiels ou les ateliers vraiment scolaires.',
+    generic: "Pas de structure native pour l\u2019oral, les barèmes officiels ou les ateliers vraiment scolaires.",
     nexus: 'Oral cadré en /2 /8 /2 /8, ateliers dédiés et retour réutilisable séance après séance.',
   },
 ];
@@ -52,7 +52,7 @@ const COMPARISON_ROWS = [
 const FRICTION_POINTS = [
   'Inscription gratuite',
   'Onboarding en ~3 minutes',
-  'Premiers ateliers accessibles dès l’arrivée',
+  "Premiers ateliers accessibles dès l\u2019arrivée",
 ];
 
 export function WhyNexus() {
@@ -125,11 +125,11 @@ export function WhyNexus() {
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Différenciation utile</p>
                   <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
-                    Là où un outil généraliste s arrête à une réponse, Nexus construit une continuité de travail.
+                    Là où un outil généraliste s\u2019arrête à une réponse, Nexus construit une continuité de travail.
                   </h3>
                 </div>
-                <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#e7dbc9]">
-                  comparaison produit
+                <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[var(--border-warm)]">
+                  Comparaison produit
                 </div>
               </div>
 
@@ -155,8 +155,8 @@ export function WhyNexus() {
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                   <p className="text-sm leading-6 text-slate-200">
-                    L’objectif n’est pas de paraître “intelligent”. L’objectif est de rendre le travail plus cadré,
-                    plus crédible et plus simple à reprendre d’une séance à l’autre.
+                    L&rsquo;objectif n&rsquo;est pas de paraître &laquo;&nbsp;intelligent&nbsp;&raquo;. L&rsquo;objectif est de rendre le travail plus cadré,
+                    plus crédible et plus simple à reprendre d&rsquo;une séance à l&rsquo;autre.
                   </p>
                 </div>
               </div>

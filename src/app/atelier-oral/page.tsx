@@ -112,8 +112,8 @@ const PREP_DURATION_S = 30 * 60;
 const PASSAGE_DURATION_S = 20 * 60;
 
 const PREP_CHECKLIST = [
-  { id: 'contexte', label: "Identifier le contexte de l'extrait (auteur, œuvre, mouvement)" },
-  { id: 'mouvement', label: "Repérer les mouvements du texte et l'articulation des parties" },
+  { id: 'contexte', label: "Identifier le contexte de l’extrait (auteur, œuvre, mouvement)" },
+  { id: 'mouvement', label: "Repérer les mouvements du texte et l’articulation des parties" },
   { id: 'problematique', label: 'Formuler une problématique d\u2019analyse' },
   { id: 'procedes', label: 'Relever les procédés clés + citations à commenter' },
   { id: 'grammaire', label: 'Anticiper la question de grammaire (nature, fonction, analyse)' },
@@ -185,9 +185,9 @@ function formatTimer(seconds: number): string {
 }
 
 function timerTone(remaining: number): string {
-  if (remaining <= 120) return 'border-[#f2c7bf] bg-[var(--error-bg)] text-[var(--error-text-bright)]';
+  if (remaining <= 120) return 'border-[var(--error-border)] bg-[var(--error-bg)] text-[var(--error-text-bright)]';
   if (remaining <= 600) return 'border-[var(--border-warning-soft)] bg-[var(--warning-bg)] text-[var(--gold-deep)]';
-  return 'border-[#cde5de] bg-[var(--success-bg)] text-[var(--teal)]';
+  return 'border-[var(--border-success-soft)] bg-[var(--success-bg)] text-[var(--teal)]';
 }
 
 function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: string) {
@@ -431,7 +431,7 @@ export default function AtelierOralPage() {
           headers: { 'X-CSRF-Token': getCsrfTokenFromDocument() },
           body: formData,
         });
-        if (!response.ok) throw new Error("Échec de l'analyse de la prestation.");
+        if (!response.ok) throw new Error("Échec de l’analyse de la prestation.");
 
         const result = await response.json();
 
@@ -463,7 +463,7 @@ export default function AtelierOralPage() {
           headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
           body: JSON.stringify({ step: currentStep, transcript, duration }),
         });
-        if (!response.ok) throw new Error("Échec de l'analyse de la prestation.");
+        if (!response.ok) throw new Error("Échec de l’analyse de la prestation.");
         payload = (await response.json()) as StepFeedback;
         if (currentStep === 'ENTRETIEN' && payload.relance) speakText(payload.relance);
       }
@@ -570,7 +570,7 @@ export default function AtelierOralPage() {
               Oral EAF
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Une simulation officielle pensée comme un cockpit d'entraînement, pas comme un outil brut.
+              Une simulation officielle pensée comme un cockpit d’entraînement, pas comme un outil brut.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
               Tirage, préparation, passage puis bilan. Tout est réuni dans un seul espace pour te garder concentré sur la qualité de ta prise de parole, la précision des attendus officiels et les points à retravailler la séance suivante.
@@ -628,10 +628,10 @@ export default function AtelierOralPage() {
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Démarrage</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
-                  Tirage au sort de l'extrait
+                  Tirage au sort de l’extrait
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--navy-muted)]">
-                  Choisis ton œuvre et le niveau de contrainte. La plateforme tire l'extrait, la question de grammaire puis t'installe directement dans le rythme de l'épreuve.
+                  Choisis ton œuvre et le niveau de contrainte. La plateforme tire l’extrait, la question de grammaire puis t’installe directement dans le rythme de l’épreuve.
                 </p>
               </div>
             </div>
@@ -813,7 +813,7 @@ export default function AtelierOralPage() {
                           return next;
                         })
                       }
-                      className="mt-1 h-4 w-4 rounded border-[#cfe2dc] text-[var(--teal)] focus:ring-[var(--teal)]"
+                      className="mt-1 h-4 w-4 rounded border-[var(--border-success-pale)] text-[var(--teal)] focus:ring-[var(--teal)]"
                     />
                     <span className={prepChecklist.has(item.id) ? 'text-[#7f918d] line-through' : ''}>{item.label}</span>
                   </label>
@@ -942,7 +942,7 @@ export default function AtelierOralPage() {
                         key={profile}
                         type="button"
                         onClick={() => setExaminerProfile(profile)}
-                        className={`rounded-[16px] border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] ${examinerProfile === profile ? 'border-[var(--navy)] bg-[var(--navy)] text-white' : 'border-[#cfe2dc] bg-white text-[var(--navy)]'}`}
+                        className={`rounded-[16px] border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] ${examinerProfile === profile ? 'border-[var(--navy)] bg-[var(--navy)] text-white' : 'border-[var(--border-success-pale)] bg-white text-[var(--navy)]'}`}
                       >
                         {profile}
                       </button>
@@ -953,7 +953,7 @@ export default function AtelierOralPage() {
                     type="button"
                     onClick={askExaminerFollowUp}
                     disabled={isJuryLoading || transcript.trim().length === 0}
-                    className="mt-4 inline-flex items-center gap-2 rounded-[16px] border border-[#cfe2dc] bg-white px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:opacity-50"
+                    className="mt-4 inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-success-pale)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:opacity-50"
                   >
                     {isJuryLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Headphones className="h-4 w-4" />}
                     Obtenir une relance examinateur
@@ -983,7 +983,7 @@ export default function AtelierOralPage() {
                   Soumettre — {STEP_LABELS[currentStep]}
                 </Button>
                 <div className="flex flex-col gap-1">
-                  <p className="text-[10px] font-medium uppercase tracking-widest text-[#9ba8b4]">{useServerVoice ? 'Mode vocal serveur' : 'Mode vocal navigateur'}</p>
+                  <p className="text-[10px] font-medium uppercase tracking-widest text-[var(--text-placeholder)]">{useServerVoice ? 'Mode vocal serveur' : 'Mode vocal navigateur'}</p>
                   <p className="text-xs text-[var(--text-caption)]">{useServerVoice ? 'Ton audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par ton navigateur. Aucun audio n\u2019est envoyé à nos serveurs.'}</p>
                 </div>
               </div>
@@ -1026,7 +1026,7 @@ export default function AtelierOralPage() {
 
                       {item.axes.length > 0 && (
                         <div className="mt-4 rounded-[16px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-3">
-                          <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--gold-deep)]">Axes d'amélioration</p>
+                          <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--gold-deep)]">Axes d’amélioration</p>
                           <ul className="space-y-1 text-xs leading-6 text-[var(--gold-contrast)]">
                             {item.axes.map((axis) => (
                               <li key={axis} className="flex gap-2"><AlertCircle className="mt-1 h-3.5 w-3.5 shrink-0 text-[var(--gold-deep)]" /> <span>{axis}</span></li>
@@ -1040,7 +1040,7 @@ export default function AtelierOralPage() {
                           <Volume2 className="h-3.5 w-3.5" />
                           Écouter
                         </button>
-                        {item.relance && <span className="text-xs font-medium text-[var(--teal)]">Relance de l'examinateur : {item.relance}</span>}
+                        {item.relance && <span className="text-xs font-medium text-[var(--teal)]">Relance de l’examinateur : {item.relance}</span>}
                       </div>
                     </div>
                   );
@@ -1051,7 +1051,7 @@ export default function AtelierOralPage() {
             <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--surface-warm-section)] p-5 shadow-[var(--shadow-lg)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Principe de séance</p>
               <p className="mt-4 text-sm leading-7 text-[var(--navy-muted)]">
-                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu'une longue réponse confuse. Le cockpit est conçu pour rendre cette discipline plus facile.
+                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. Le cockpit est conçu pour rendre cette discipline plus facile.
               </p>
               <Link
                 href={oralTutorHref}
@@ -1090,7 +1090,7 @@ export default function AtelierOralPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text-warm)]">{label}</p>
                 <p className="mt-3 text-3xl font-semibold text-[var(--navy)]">
                   {data.note}
-                  <span className="text-sm text-[#7c8792]">/{data.max}</span>
+                  <span className="text-sm text-[var(--text-icon)]">/{data.max}</span>
                 </p>
                 <p className="mt-3 text-xs leading-6 text-[var(--navy-muted)]">{data.commentaire}</p>
               </div>

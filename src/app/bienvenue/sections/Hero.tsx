@@ -142,12 +142,12 @@ export function Hero() {
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--border-warm)]">Simulation orale</p>
                     <p className="mt-1 text-sm text-slate-200">Score ventilé selon le format officiel, sans zone floue.</p>
                   </div>
-                  <div className="rounded-full bg-[var(--teal)]/25 px-3 py-1 text-xs font-bold text-[#bde5df]">16.5 / 20</div>
+                  <div className="rounded-full bg-[var(--teal)]/25 px-3 py-1 text-xs font-bold text-[var(--surface-parchment)]">16.5 / 20</div>
                 </div>
 
                 <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
                   {ORAL_PHASES.map((phase) => (
-                    <div key={phase.label} className="rounded-2xl border border-white/10 bg-[#102238] px-3 py-3">
+                    <div key={phase.label} className="rounded-2xl border border-white/10 bg-[var(--navy-dark)] px-3 py-3">
                       <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">{phase.label}</p>
                       <p className="mt-2 text-lg font-bold text-white">{phase.score}</p>
                     </div>
@@ -162,8 +162,8 @@ export function Hero() {
                     Citations internes mobilisées
                   </div>
                   <ul className="mt-4 space-y-3 text-sm text-slate-200">
-                    <li className="rounded-2xl bg-black/10 px-3 py-2">BO 2025, annexe 3 — attendus de l&apos;explication</li>
-                    <li className="rounded-2xl bg-black/10 px-3 py-2">Rapport jury EAF 2024 — erreurs fréquentes à l&apos;oral</li>
+                    <li className="rounded-2xl bg-black/10 px-3 py-2">BO 2025, annexe 3 — attendus de l{'\u2019'}explication</li>
+                    <li className="rounded-2xl bg-black/10 px-3 py-2">Rapport jury EAF 2024 — erreurs fréquentes à l{'\u2019'}oral</li>
                     <li className="rounded-2xl bg-black/10 px-3 py-2">Œuvre au programme — extrait contextualisé</li>
                   </ul>
                 </div>

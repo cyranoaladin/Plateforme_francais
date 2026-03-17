@@ -275,14 +275,14 @@ export default function DescriptifPage() {
                 {OEUVRES_PAR_OBJET[formObjet].map((oeuvre, index) => <option key={index} value={index}>{oeuvre.oeuvre} — {oeuvre.auteur}</option>)}
               </select>
               <select value={formType} onChange={(event) => setFormType(event.target.value as TypeExtrait)} className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8">
-                <option value="extrait_oeuvre">Extrait d'œuvre</option>
+                <option value="extrait_oeuvre">Extrait d{'\u2019'}œuvre</option>
                 <option value="extrait_parcours">Extrait du parcours</option>
               </select>
-              <Button onClick={addTexte} disabled={!formTitre.trim()} icon={<Plus className="h-4 w-4" />} size="md">
-                Ajouter
-              </Button>
-              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex: Acte I, scène 1)" className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8" />
+              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex\u00a0: Acte I, scène 1)" className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8" />
               <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premières lignes (optionnel)" className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8" />
+              <Button onClick={addTexte} disabled={!formTitre.trim()} icon={<Plus className="h-4 w-4" />} size="md" className="w-full">
+                Ajouter ce texte
+              </Button>
             </div>
           </section>
 
@@ -338,7 +338,7 @@ export default function DescriptifPage() {
                             <div className="flex-1 min-w-0">
                               <p className="text-xs font-semibold text-[var(--navy)] truncate">{texte.oeuvre} — {texte.auteur}</p>
                               <p className="mt-1 text-sm font-medium text-[var(--navy-mid)] truncate">{texte.titre}</p>
-                              <Badge variant={texte.typeExtrait === 'extrait_oeuvre' ? 'info' : 'default'} size="sm" className={`mt-3 ${texte.typeExtrait !== 'extrait_oeuvre' ? 'bg-[#f4ecfb] text-[var(--accent-violet)] border-[var(--accent-violet)]/20' : ''}`}>
+                              <Badge variant={texte.typeExtrait === 'extrait_oeuvre' ? 'info' : 'default'} size="sm" className={`mt-3 ${texte.typeExtrait !== 'extrait_oeuvre' ? 'bg-[var(--surface-violet-light)] text-[var(--accent-violet)] border-[var(--accent-violet)]/20' : ''}`}>
                                 {texte.typeExtrait === 'extrait_oeuvre' ? 'Œuvre' : 'Parcours'}
                               </Badge>
                               {texte.premieresLignes ? (

@@ -404,7 +404,7 @@ export default function PricingPage() {
                       <p className="mt-1 text-lg font-bold text-white">Aucun compte connecté</p>
                     </div>
                     <p className="leading-6 text-slate-200">
-                      Tu peux comparer les plans librement. Le compte gratuit n’intervient qu'au moment utile, pas avant.
+                      Tu peux comparer les plans librement. Le compte gratuit n’intervient qu’au moment utile, pas avant.
                     </p>
                   </div>
                 ) : (
@@ -731,13 +731,13 @@ export default function PricingPage() {
         </section>
 
         <section className="pb-16">
-          <div className="rounded-[24px] border-2 border-[#25d366] bg-white/90 p-6 shadow-[0_18px_45px_rgba(37,211,102,0.12)] md:p-8">
+          <div className="rounded-[24px] border-2 border-[var(--whatsapp)] bg-white/90 p-6 shadow-[0_18px_45px_rgba(37,211,102,0.12)] md:p-8">
             <div className="flex items-center gap-3">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#25d366] text-white">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--whatsapp)] text-white">
                 <MessageCircle className="h-7 w-7" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#25d366]">Canal actif</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--whatsapp)]">Canal actif</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
                   Souscrire via WhatsApp
                 </h2>
@@ -759,9 +759,9 @@ export default function PricingPage() {
               <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">Comment ça marche</p>
                 <ol className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
-                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">1</span>Envoie &quot;Bonjour&quot; sur WhatsApp</li>
-                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">2</span>Choisis ton plan (Premium ou Masterium)</li>
-                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25d366] text-[10px] font-bold text-white">3</span>Reçois ton code d’activation</li>
+                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--whatsapp)] text-[10px] font-bold text-white">1</span>Envoie &quot;Bonjour&quot; sur WhatsApp</li>
+                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--whatsapp)] text-[10px] font-bold text-white">2</span>Choisis ton plan (Premium ou Masterium)</li>
+                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--whatsapp)] text-[10px] font-bold text-white">3</span>Reçois ton code d’activation</li>
                 </ol>
               </div>
             </div>
@@ -771,7 +771,7 @@ export default function PricingPage() {
                 href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25d366] px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#1fba59] hover:shadow-lg"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--whatsapp)] px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--whatsapp-hover)] hover:shadow-lg"
               >
                 <MessageCircle className="h-5 w-5" />
                 Ouvrir WhatsApp
@@ -780,14 +780,14 @@ export default function PricingPage() {
                 href={`https://wa.me/21699192829?text=${encodeURIComponent('Bonjour, je souhaite souscrire à un abonnement Nexus Réussite.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#25d366] bg-white px-7 py-3.5 text-base font-semibold text-[#25d366] transition-all hover:-translate-y-0.5 hover:bg-[#f0fdf4]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--whatsapp)] bg-white px-7 py-3.5 text-base font-semibold text-[var(--whatsapp)] transition-all hover:-translate-y-0.5 hover:bg-[#f0fdf4]"
               >
                 Envoyer un message pré-rempli
               </a>
             </div>
 
             <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[#f0fdf4] p-4">
-              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#25d366]" />
+              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--whatsapp)]" />
               <p className="text-sm leading-6 text-slate-600">
                 Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire.
               </p>

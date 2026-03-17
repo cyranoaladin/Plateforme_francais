@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Badge } from '@/components/ui';
+import { StateNotice } from '@/components/ui/state-notice';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -140,7 +141,7 @@ function TuteurPageContent() {
               Un espace pour débloquer une vraie difficulté EAF, pas pour récupérer une réponse générique.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
-              Pose une question de méthode, d'œuvre, de grammaire ou d'oral. Nexus reformule, recentre, s'appuie sur ton historique utile
+              Pose une question de méthode, d'œuvre, de grammaire ou d’oral. Nexus reformule, recentre, s’appuie sur ton historique utile
               et propose la prochaine action sans sortir du cadre pédagogique de la plateforme.
             </p>
           </div>
@@ -179,13 +180,13 @@ function TuteurPageContent() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[#d7e6e1] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Mode opératoire</p>
             <div className="mt-4 space-y-3">
               {OPERATING_RULES.map((rule) => {
                 const Icon = rule.icon;
                 return (
-                  <div key={rule.title} className="rounded-[16px] border border-[#d0e8df] bg-white/85 p-4">
+                  <div key={rule.title} className="rounded-[16px] border border-[var(--border-success-vivid)] bg-white/85 p-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--teal)]/10 text-[var(--teal)]">
                         <Icon className="h-4 w-4" />
@@ -200,7 +201,7 @@ function TuteurPageContent() {
           </section>
         </aside>
 
-        <section className="overflow-hidden rounded-[24px] border border-[#e6dccb] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] shadow-[var(--shadow-lg)]">
+        <section className="overflow-hidden rounded-[24px] border border-[var(--border-warm-mid)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] shadow-[var(--shadow-lg)]">
           <div className="border-b border-[var(--border-warm-soft)] bg-white/85 px-5 py-4 md:px-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
@@ -263,7 +264,7 @@ function TuteurPageContent() {
                       className={`flex max-w-[92%] gap-3 md:max-w-[82%] ${message.role === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
                     >
                       <div
-                        className={`mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border ${message.role === 'user' ? 'border-[var(--navy)]/18 bg-[var(--navy)] text-white' : 'border-[#d9e7e1] bg-[var(--success-bg)] text-[var(--teal)]'}`}
+                        className={`mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border ${message.role === 'user' ? 'border-[var(--navy)]/18 bg-[var(--navy)] text-white' : 'border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--teal)]'}`}
                       >
                         {message.role === 'user' ? (
                           <span className="text-sm font-semibold">Toi</span>
@@ -280,8 +281,8 @@ function TuteurPageContent() {
                         <p className="whitespace-pre-line text-sm leading-7">{message.content}</p>
 
                         {message.role === 'assistant' && message.citations && message.citations.length > 0 && (
-                          <div className="mt-4 space-y-2 border-t border-[#efe4d4] pt-4">
-                            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Citations et points d'appui</p>
+                          <div className="mt-4 space-y-2 border-t border-[var(--border-warm-soft)] pt-4">
+                            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Citations et points d’appui</p>
                             <div className="grid gap-2">
                               {message.citations.map((citation) => (
                                 <div key={`${citation.index}-${citation.title}`} className="rounded-[16px] border border-[var(--border-warm-soft)] bg-[var(--surface-warm-card)] px-3 py-3 text-xs leading-6 text-[var(--navy-mid)]">
@@ -298,14 +299,15 @@ function TuteurPageContent() {
 
                   {isSending && (
                     <div className="mr-auto flex max-w-[82%] gap-3">
-                      <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[#d9e7e1] bg-[var(--success-bg)] text-[var(--teal)]">
+                      <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--teal)]">
                         <img src="/images/logo.png" alt="" className="h-6 w-6 object-contain" />
                       </div>
                       <div className="rounded-[24px] border border-[var(--border-light)] bg-white px-5 py-4 shadow-[var(--shadow-sm)]">
+                        <p className="mb-2 text-xs font-medium text-[var(--text-caption)]">Le tuteur rédige sa réponse...</p>
                         <div className="flex items-center gap-1.5">
-                          <span className="h-2.5 w-2.5 rounded-full bg-[var(--teal)]/40 animate-bounce" />
-                          <span className="h-2.5 w-2.5 rounded-full bg-[var(--teal)]/40 animate-bounce" style={{ animationDelay: '0.12s' }} />
-                          <span className="h-2.5 w-2.5 rounded-full bg-[var(--teal)]/40 animate-bounce" style={{ animationDelay: '0.24s' }} />
+                          <span className="h-2 w-2 rounded-full bg-[var(--teal)] animate-bounce opacity-60" />
+                          <span className="h-2 w-2 rounded-full bg-[var(--teal)] animate-bounce opacity-60" style={{ animationDelay: '0.15s' }} />
+                          <span className="h-2 w-2 rounded-full bg-[var(--teal)] animate-bounce opacity-60" style={{ animationDelay: '0.3s' }} />
                         </div>
                       </div>
                     </div>
@@ -316,7 +318,7 @@ function TuteurPageContent() {
             </div>
 
             <div className="border-t border-[var(--border-warm-soft)] bg-white/90 px-4 py-4 md:px-6 md:py-5">
-              <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[#6f7f8f]">
+              <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[var(--text-caption)]">
                 <Badge variant="navy" size="sm" className="bg-[var(--navy)]/7 text-[var(--navy)]">Méthode</Badge>
                 <Badge variant="success" size="sm" className="bg-[var(--teal)]/7">Œuvres</Badge>
                 <Badge variant="warning" size="sm" className="bg-[var(--gold-muted)]/10 text-[var(--accent-bronze)]">Grammaire</Badge>
@@ -357,7 +359,17 @@ function TuteurPageContent() {
 
 export default function TuteurPage() {
   return (
-    <Suspense fallback={<div className="mx-auto w-full max-w-7xl p-4 md:p-8" />}>
+    <Suspense fallback={
+      <div className="mx-auto w-full max-w-7xl p-4 md:p-8">
+        <StateNotice
+          title="Préparation du tuteur de parcours"
+          description="L’espace de guidage se met en place. Cela ne prend que quelques secondes."
+          variant="loading"
+          center
+          className="mx-auto max-w-xl"
+        />
+      </div>
+    }>
       <TuteurPageContent />
     </Suspense>
   );
