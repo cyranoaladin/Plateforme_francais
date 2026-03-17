@@ -134,8 +134,7 @@ function externalChunkToResult(chunk: ExternalRAGChunk, index: number): RagSearc
 }
 
 /**
- * Search using external RAG API (rag-api.nexusreussite.academy).
- * Returns results from the rag_education collection.
+ * Search using external RAG API (collection rag_francais_premiere).
  */
 async function searchExternalRAG(
   query: string,
@@ -173,7 +172,7 @@ async function searchExternalRAG(
 
 /**
  * Search official references using hybrid RAG V3:
- *   1. Try external RAG API (rag-api.nexusreussite.academy) as primary source
+ *   1. Try external RAG API (rag_francais_premiere) as primary source
  *   2. Fallback to local hybrid search (vector + lexical + RRF)
  *   3. Metadata rerank with context boost
  *   4. Return top-N (default 5)

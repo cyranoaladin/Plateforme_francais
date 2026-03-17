@@ -1,6 +1,7 @@
 /**
- * Client RAG externe pour rag-api.nexusreussite.academy
- * Connexion au système RAG éducation Français avec 13 661 chunks indexés.
+ * Client RAG externe — collection rag_francais_premiere
+ * POST /search { q, k, collection }
+ * Auth: Bearer token via RAG_API_TOKEN
  */
 
 import { z } from 'zod';
@@ -87,12 +88,12 @@ class ExternalRAGClient {
   private readonly timeout: number;
 
   constructor() {
-    this.baseUrl = process.env.RAG_API_URL ?? 'https://rag-api.nexusreussite.academy';
+    this.baseUrl = process.env.RAG_API_URL ?? 'http://127.0.0.1:18001';
     this.token = process.env.RAG_API_TOKEN ?? '';
-    this.collection = process.env.RAG_COLLECTION ?? 'rag_education';
+    this.collection = process.env.RAG_COLLECTION ?? 'rag_francais_premiere';
     this.defaultMatiere = process.env.RAG_MATIERE ?? 'Français';
     this.defaultNiveau = process.env.RAG_NIVEAU ?? 'Première';
-    this.defaultTopK = parseInt(process.env.RAG_TOP_K ?? '10', 10);
+    this.defaultTopK = parseInt(process.env.RAG_TOP_K ?? '6', 10);
     this.defaultRerank = process.env.RAG_RERANK === 'true';
     this.defaultAlpha = parseFloat(process.env.RAG_ALPHA ?? '0.7');
     this.timeout = parseInt(process.env.RAG_TIMEOUT_MS ?? '8000', 10);
@@ -196,7 +197,7 @@ class ExternalRAGClient {
     const payload = {
       q: params.query,
       collection: params.collection ?? this.collection,
-      top_k: params.topK ?? this.defaultTopK,
+      k: params.topK ?? this.defaultTopK,
       rerank: params.rerank ?? this.defaultRerank,
       alpha: params.alpha ?? this.defaultAlpha,
       filters: {

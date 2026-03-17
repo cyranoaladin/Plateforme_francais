@@ -67,7 +67,7 @@ export function middleware(request: NextRequest) {
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob:`,
     `media-src 'self' blob:`,
-    `connect-src 'self' https://ipay.clictopay.com https://rag-api.nexusreussite.academy https://api.mistral.ai https://generativelanguage.googleapis.com https://api.openai.com`,
+    `connect-src 'self' https://ipay.clictopay.com http://127.0.0.1:18001 https://rag-api.nexusreussite.academy https://api.mistral.ai https://generativelanguage.googleapis.com https://api.openai.com`,
     `frame-ancestors 'none'`,
     `base-uri 'self'`,
     `form-action 'self'`,
