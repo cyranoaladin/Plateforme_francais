@@ -167,7 +167,7 @@ function PdfThumbnail({
       className={`group flex shrink-0 flex-col items-center gap-2 rounded-[18px] border px-2 py-2 transition ${
         isActive
           ? 'border-[var(--teal)] bg-[var(--success-bg)] shadow-[0_12px_24px_rgba(15,118,110,0.12)]'
-          : 'border-[#d9cdb8] bg-white hover:border-[#17324d]/18'
+          : 'border-[var(--border-strong)] bg-white hover:border-[var(--navy)]/18'
       }`}
       aria-label={`Aller à la page ${pageNumber}`}
     >
@@ -175,7 +175,7 @@ function PdfThumbnail({
         ref={canvasRef}
         className="rounded-[10px] bg-white shadow-[0_8px_20px_rgba(23,50,77,0.10)]"
       />
-      <span className={`text-xs font-semibold ${isActive ? 'text-[var(--teal)]' : 'text-[#6d7e8d]'}`}>
+      <span className={`text-xs font-semibold ${isActive ? 'text-[var(--teal)]' : 'text-[var(--navy-muted)]'}`}>
         {pageNumber}
       </span>
     </button>
@@ -597,7 +597,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
       className="space-y-3 rounded-[24px] outline-none focus-visible:ring-2 focus-visible:ring-[#0f766e]/35"
       aria-label={`Visionneuse PDF de ${title}`}
     >
-      <div className="space-y-3 rounded-[20px] border border-[#cfe2dc] bg-white px-4 py-3">
+      <div className="space-y-3 rounded-[20px] border border-[var(--border-success)] bg-white px-4 py-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-[var(--teal)]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--teal)]">
@@ -616,7 +616,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               {fitLabel}
             </span>
             {currentSearchResult && (
-              <span className="rounded-full bg-[#9a6a37]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9a6a37]">
+              <span className="rounded-full bg-[#9a6a37]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--accent-bronze)]">
                 Résultat {activeSearchResultIndex + 1}/{searchResults.length}
               </span>
             )}
@@ -631,7 +631,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               className={`rounded-full px-3 py-2 text-xs font-semibold transition ${
                 fitMode === 'auto'
                   ? 'bg-[var(--navy)] text-white'
-                  : 'border border-[#cfe2dc] bg-[#f7fbf9] text-[var(--navy)] hover:border-[#17324d]/18'
+                  : 'border border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--navy)] hover:border-[var(--navy)]/18'
               } disabled:cursor-not-allowed disabled:opacity-45`}
             >
               Fit auto
@@ -644,7 +644,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               className={`rounded-full px-3 py-2 text-xs font-semibold transition ${
                 fitMode === 'width'
                   ? 'bg-[var(--navy)] text-white'
-                  : 'border border-[#cfe2dc] bg-[#f7fbf9] text-[var(--navy)] hover:border-[#17324d]/18'
+                  : 'border border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--navy)] hover:border-[var(--navy)]/18'
               } disabled:cursor-not-allowed disabled:opacity-45`}
             >
               Fit width
@@ -657,7 +657,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               className={`rounded-full px-3 py-2 text-xs font-semibold transition ${
                 fitMode === 'page'
                   ? 'bg-[var(--navy)] text-white'
-                  : 'border border-[#cfe2dc] bg-[#f7fbf9] text-[var(--navy)] hover:border-[#17324d]/18'
+                  : 'border border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--navy)] hover:border-[var(--navy)]/18'
               } disabled:cursor-not-allowed disabled:opacity-45`}
             >
               Fit page
@@ -667,7 +667,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               data-testid="pdf-preview-zoom-out"
               onClick={() => applyZoomDelta(-0.15)}
               disabled={zoom <= 0.6 || isBusy}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[#cfe2dc] bg-[#f7fbf9] text-[var(--navy)] transition hover:border-[#17324d]/18 disabled:cursor-not-allowed disabled:opacity-45"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:cursor-not-allowed disabled:opacity-45"
               aria-label="Réduire le zoom"
             >
               <ZoomOut className="h-4 w-4" />
@@ -678,7 +678,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               data-testid="pdf-preview-zoom-in"
               onClick={() => applyZoomDelta(0.15)}
               disabled={zoom >= 2.2 || isBusy}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[#cfe2dc] bg-[#f7fbf9] text-[var(--navy)] transition hover:border-[#17324d]/18 disabled:cursor-not-allowed disabled:opacity-45"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:cursor-not-allowed disabled:opacity-45"
               aria-label="Augmenter le zoom"
             >
               <ZoomIn className="h-4 w-4" />
@@ -688,7 +688,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               data-testid="pdf-preview-prev"
               onClick={() => setPageNumber((current) => Math.max(1, current - 1))}
               disabled={!canGoBackward || isBusy}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[#cfe2dc] bg-[#f7fbf9] text-[var(--navy)] transition hover:border-[#17324d]/18 disabled:cursor-not-allowed disabled:opacity-45"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:cursor-not-allowed disabled:opacity-45"
               aria-label="Page précédente"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -698,7 +698,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               data-testid="pdf-preview-next"
               onClick={() => setPageNumber((current) => Math.min(pageCount, current + 1))}
               disabled={!canGoForward || isBusy}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[#cfe2dc] bg-[#f7fbf9] text-[var(--navy)] transition hover:border-[#17324d]/18 disabled:cursor-not-allowed disabled:opacity-45"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border-success)] bg-[var(--success-bg)] text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:cursor-not-allowed disabled:opacity-45"
               aria-label="Page suivante"
             >
               <ChevronRight className="h-4 w-4" />
@@ -715,7 +715,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
             }}
           >
             <label className="relative block min-w-[240px] flex-[1_1_320px]">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d7e8d]" />
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--navy-muted)]" />
               <input
                 ref={searchInputRef}
                 data-testid="pdf-preview-search-input"
@@ -723,14 +723,14 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
                 onChange={(event) => setSearchQuery(event.target.value)}
                 type="search"
                 placeholder="Rechercher un auteur, une notion, une citation..."
-                className="w-full rounded-[18px] border border-[#cfe2dc] bg-[#f7fbf9] py-3 pl-11 pr-4 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8a97a3] focus:border-[var(--teal)] focus:bg-white"
+                className="w-full rounded-[18px] border border-[var(--border-success)] bg-[var(--success-bg)] py-3 pl-11 pr-4 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8a97a3] focus:border-[var(--teal)] focus:bg-white"
               />
             </label>
             <button
               type="submit"
               data-testid="pdf-preview-search-submit"
               disabled={isSearching || isLoadingDocument}
-              className="rounded-[18px] bg-[var(--navy)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:cursor-not-allowed disabled:opacity-45"
+              className="rounded-[18px] bg-[var(--navy)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--navy-light)] disabled:cursor-not-allowed disabled:opacity-45"
             >
               {isSearching ? 'Recherche...' : 'Rechercher'}
             </button>
@@ -739,7 +739,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               data-testid="pdf-preview-search-prev"
               disabled={searchResults.length < 2}
               onClick={() => goToSearchResult((activeSearchResultIndex - 1 + searchResults.length) % searchResults.length)}
-              className="rounded-[18px] border border-[#cfe2dc] bg-[#f7fbf9] px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[#17324d]/18 disabled:cursor-not-allowed disabled:opacity-45"
+              className="rounded-[18px] border border-[var(--border-success)] bg-[var(--success-bg)] px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:cursor-not-allowed disabled:opacity-45"
             >
               Résultat -
             </button>
@@ -748,7 +748,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               data-testid="pdf-preview-search-next"
               disabled={searchResults.length < 2}
               onClick={() => goToSearchResult((activeSearchResultIndex + 1) % searchResults.length)}
-              className="rounded-[18px] border border-[#cfe2dc] bg-[#f7fbf9] px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[#17324d]/18 disabled:cursor-not-allowed disabled:opacity-45"
+              className="rounded-[18px] border border-[var(--border-success)] bg-[var(--success-bg)] px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:cursor-not-allowed disabled:opacity-45"
             >
               Résultat +
             </button>
@@ -759,7 +759,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               type="button"
               data-testid="pdf-preview-sidebar-toggle"
               onClick={toggleSidebar}
-              className="inline-flex items-center gap-2 rounded-[18px] border border-[#cfe2dc] bg-[#f7fbf9] px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[#17324d]/18"
+              className="inline-flex items-center gap-2 rounded-[18px] border border-[var(--border-success)] bg-[var(--success-bg)] px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18"
             >
               {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               {isSidebarCollapsed ? 'Afficher miniatures' : 'Masquer miniatures'}
@@ -776,7 +776,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
                   setSearchMessage('Saisissez un mot-clé pour interroger le PDF.');
                   setIsSearching(false);
                 }}
-                className="rounded-[18px] border border-[#d9cdb8] bg-white px-4 py-3 text-sm font-semibold text-[#6d7e8d] transition hover:border-[#17324d]/18 hover:text-[var(--navy)]"
+                className="rounded-[18px] border border-[var(--border-strong)] bg-white px-4 py-3 text-sm font-semibold text-[var(--navy-muted)] transition hover:border-[var(--navy)]/18 hover:text-[var(--navy)]"
               >
                 Effacer
               </button>
@@ -785,13 +785,13 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
         </div>
 
         {(isSearching || searchMessage || searchResults.length > 0) && (
-          <div className="rounded-[18px] border border-[#d9cdb8] bg-[var(--surface-paper)] px-4 py-3">
+          <div className="rounded-[18px] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#9a6a37]">Recherche dans le PDF</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent-bronze)]">Recherche dans le PDF</p>
                 <p
                   data-testid="pdf-preview-search-status"
-                  className="mt-1 text-sm text-[#5d7287]"
+                  className="mt-1 text-sm text-[var(--text-secondary)]"
                 >
                   {isSearching
                     ? 'Indexation du document en cours...'
@@ -818,18 +818,18 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
                       className={`rounded-[18px] border px-4 py-3 text-left transition ${
                         isActive
                           ? 'border-[var(--teal)] bg-[var(--success-bg)] shadow-[0_12px_24px_rgba(15,118,110,0.10)]'
-                          : 'border-[#d9cdb8] bg-white hover:border-[#17324d]/18'
+                          : 'border-[var(--border-strong)] bg-white hover:border-[var(--navy)]/18'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
                         <span className={`text-sm font-semibold ${isActive ? 'text-[var(--teal)]' : 'text-[var(--navy)]'}`}>
                           Page {result.pageNumber}
                         </span>
-                        <span className="text-[11px] uppercase tracking-[0.12em] text-[#6d7e8d]">
+                        <span className="text-[11px] uppercase tracking-[0.12em] text-[var(--navy-muted)]">
                           {isActive ? 'Ouverte' : 'Atteindre'}
                         </span>
                       </div>
-                      <p className="mt-2 text-sm leading-6 text-[#5d7287]">{result.snippet}</p>
+                      <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{result.snippet}</p>
                     </button>
                   );
                 })}
@@ -843,11 +843,11 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
         {!isSidebarCollapsed && (
           <aside
             data-testid="pdf-preview-sidebar"
-            className="rounded-[24px] border border-[#d9cdb8] bg-white p-3 shadow-[0_10px_30px_rgba(23,50,77,0.06)]"
+            className="rounded-[24px] border border-[var(--border-strong)] bg-white p-3 shadow-[0_10px_30px_rgba(23,50,77,0.06)]"
           >
             <div className="flex items-center justify-between gap-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#9a6a37]">Miniatures</p>
-              <p className="text-xs text-[#6d7e8d]">{thumbnailPages.length}/{pageCount || 0}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent-bronze)]">Miniatures</p>
+              <p className="text-xs text-[var(--navy-muted)]">{thumbnailPages.length}/{pageCount || 0}</p>
             </div>
             <div className="mt-3 flex gap-2 overflow-x-auto lg:max-h-[560px] lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden">
               {pdfDocument && thumbnailPages.map((thumbnailPage) => (
@@ -866,7 +866,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
         <div
           ref={containerRef}
           data-testid="pdf-preview-container"
-          className="relative overflow-auto rounded-[24px] border border-[#cfe2dc] bg-[#f5efe4] shadow-[0_16px_36px_rgba(23,50,77,0.10)]"
+          className="relative overflow-auto rounded-[24px] border border-[var(--border-success)] bg-[var(--surface-parchment)] shadow-[0_16px_36px_rgba(23,50,77,0.10)]"
         >
           <div className="flex min-h-[420px] items-start justify-center p-4 md:min-h-[520px]">
             {!error && (
@@ -881,9 +881,9 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
             {isLoadingDocument && (
               <div
                 data-testid="pdf-preview-loading"
-                className="absolute inset-0 flex items-center justify-center bg-[#f5efe4]/88 backdrop-blur-[1px]"
+                className="absolute inset-0 flex items-center justify-center bg-[var(--surface-parchment)]/88 backdrop-blur-[1px]"
               >
-                <div className="flex items-center gap-3 rounded-full border border-[#d9cdb8] bg-white px-4 py-2 text-sm font-semibold text-[var(--navy)] shadow-sm">
+                <div className="flex items-center gap-3 rounded-full border border-[var(--border-strong)] bg-white px-4 py-2 text-sm font-semibold text-[var(--navy)] shadow-sm">
                   <Loader2 className="h-4 w-4 animate-spin" />
                   Chargement du PDF
                 </div>
@@ -891,7 +891,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
             )}
 
             {!isLoadingDocument && isRenderingPage && !error && (
-              <div className="absolute right-4 top-4 rounded-full border border-[#d9cdb8] bg-white/95 px-3 py-1.5 text-xs font-semibold text-[var(--navy)] shadow-sm">
+              <div className="absolute right-4 top-4 rounded-full border border-[var(--border-strong)] bg-white/95 px-3 py-1.5 text-xs font-semibold text-[var(--navy)] shadow-sm">
                 Rendu en cours
               </div>
             )}
@@ -901,19 +901,19 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
                 data-testid="pdf-preview-error"
                 className="flex min-h-[420px] w-full flex-col items-center justify-center gap-4 px-6 text-center"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--error-bg)] text-[#b65050]">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--error-bg)] text-[var(--error-muted)]">
                   <AlertTriangle className="h-6 w-6" />
                 </div>
                 <div className="space-y-2">
                   <p className="text-base font-semibold text-[var(--navy)]">Aperçu PDF indisponible pour ce fichier.</p>
-                  <p className="max-w-lg text-sm leading-7 text-[#5d7287]">
+                  <p className="max-w-lg text-sm leading-7 text-[var(--text-secondary)]">
                     Le lecteur intégré n a pas pu rendre ce document. Les actions Ouvrir et Télécharger restent disponibles juste au-dessus.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setReloadNonce((current) => current + 1)}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#cfe2dc] bg-white px-4 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[#17324d]/18"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-success)] bg-white px-4 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18"
                 >
                   <RefreshCw className="h-4 w-4" />
                   Recharger l aperçu
@@ -924,7 +924,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
         </div>
       </div>
 
-      <div className="rounded-[18px] border border-[#d9cdb8] bg-white/70 px-4 py-3 text-xs leading-6 text-[#6d7e8d]">
+      <div className="rounded-[18px] border border-[var(--border-strong)] bg-white/70 px-4 py-3 text-xs leading-6 text-[var(--navy-muted)]">
         Raccourcis: <strong className="text-[var(--navy)]">← →</strong> pages, <strong className="text-[var(--navy)]">+ -</strong> zoom,
         <strong className="text-[var(--navy)]"> W</strong> ajuster largeur, <strong className="text-[var(--navy)]">P</strong> ajuster page,
         <strong className="text-[var(--navy)]"> A</strong> mode auto, <strong className="text-[var(--navy)]"> /</strong> focus recherche,

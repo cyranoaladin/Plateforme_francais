@@ -66,7 +66,7 @@ function RateLimitNotice({ retryAfterSec }: { retryAfterSec: number }) {
   if (remaining <= 0) return null;
 
   return (
-    <div className="flex items-start gap-3 rounded-[var(--radius-xl)] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d]" role="status">
+    <div className="flex items-start gap-3 rounded-[var(--radius-xl)] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="status">
       <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
       <span>
         Trop de tentatives. Réessaie dans <strong>{remaining}s</strong>.
@@ -121,14 +121,14 @@ function PasswordField({
 
 function ProofPanel() {
   return (
-    <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] lg:h-full lg:p-8">
+    <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_32px_90px_rgba(23,50,77,0.24)] lg:h-full lg:p-8">
       <div className="absolute -right-10 top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
       <div className="absolute -left-8 bottom-12 h-28 w-28 rounded-full bg-[var(--gold-muted)]/18 blur-2xl" />
 
       <div className="relative z-10">
         <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-12 w-auto object-contain brightness-0 invert" />
 
-        <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+        <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
           <BadgeCheck className="h-4 w-4" />
           Espace élève Nexus Réussite
         </div>
@@ -165,9 +165,9 @@ function ProofPanel() {
           ))}
         </div>
 
-        <div className="mt-8 rounded-[var(--radius-xl)] bg-[#0f2740] p-4">
+        <div className="mt-8 rounded-[var(--radius-xl)] bg-[var(--navy-dark)] p-4">
           <div className="flex items-start gap-3">
-            <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+            <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
             <p className="text-sm leading-6 text-slate-200">
               En inscription, l&apos;onboarding prend environ trois minutes. En connexion, tu récupères ton espace sans refaire un tunnel inutile.
             </p>
@@ -494,7 +494,7 @@ function AuthCard() {
           ) : null}
 
           {error ? (
-            <p className="rounded-[var(--radius-xl)] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d]" role="alert">
+            <p className="rounded-[var(--radius-xl)] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
               {error}
             </p>
           ) : null}
@@ -503,7 +503,7 @@ function AuthCard() {
             data-testid="auth-submit"
             type="submit"
             disabled={isSubmitting || (rateLimitSec !== null && rateLimitSec > 0)}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3.5 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? (
               <>
@@ -624,7 +624,7 @@ export default function LoginPage() {
             </Link>
             <Link
               href="/login?mode=register"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
             >
               Démarrer gratuitement
               <ArrowRight className="h-4 w-4" />

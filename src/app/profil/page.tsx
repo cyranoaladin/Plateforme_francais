@@ -17,6 +17,7 @@ import {
   Target,
 } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
+import { Card } from '@/components/ui/card';
 
 type StudentProfile = {
   skillMap: {
@@ -100,7 +101,7 @@ const SKILL_META = [
   {
     key: 'lectureCursive' as const,
     label: 'Lecture cursive',
-    accent: 'bg-[#6b587d]',
+    accent: 'bg-[var(--accent-violet)]',
     copy: 'Garder les œuvres et leurs enjeux disponibles au moment utile.',
     icon: BookOpen,
   },
@@ -212,13 +213,13 @@ export default function ProfilPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <ShieldCheck className="h-4 w-4" />
               Profil de progression EAF
             </div>
@@ -248,14 +249,14 @@ export default function ProfilPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 Ouvrir mon parcours
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={tutorHref}
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6"
+                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
               >
                 Débloquer un point précis
               </Link>
@@ -271,7 +272,7 @@ export default function ProfilPage() {
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -283,7 +284,7 @@ export default function ProfilPage() {
             ))}
 
             <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Signal global</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Signal global</p>
               <p className="mt-3 text-2xl font-semibold text-white">{profileSignal.label}</p>
               <p className="mt-2 text-sm leading-7 text-slate-200">{profileSignal.detail}</p>
             </div>
@@ -292,14 +293,14 @@ export default function ProfilPage() {
       </section>
 
       {error ? (
-        <div className="rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d] shadow-[var(--shadow-sm)]">
+        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)] shadow-[var(--shadow-sm)]">
           <AlertTriangle className="mr-2 inline h-4 w-4" />
           {error}
         </div>
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+        <Card variant="default" className="rounded-[24px] bg-white/90 shadow-[var(--shadow-md)]" padding="md">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cartographie actuelle</p>
           <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
             Quatre axes lisibles, pour éviter une lecture floue de tes progrès.
@@ -322,7 +323,7 @@ export default function ProfilPage() {
                     </div>
                     <span className="shrink-0 text-sm font-semibold text-slate-500">{skill.score.toFixed(1)} / 20</span>
                   </div>
-                  <div className="h-2.5 rounded-full bg-[#e7ddcf]">
+                  <div className="h-2.5 rounded-full bg-[var(--surface-sand)]">
                     <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(skill.score / 20) * 100}%` }} />
                   </div>
                 </div>
@@ -331,21 +332,21 @@ export default function ProfilPage() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+            <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Axe fort</p>
               <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{strongestSkill.label}</p>
-              <p className="mt-2 text-sm leading-6 text-slate-600">C’est là que le niveau est le plus naturellement stable aujourd’hui.</p>
-            </div>
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+              <p className="mt-2 text-sm leading-6 text-slate-600">C'est là que le niveau est le plus naturellement stable aujourd'hui.</p>
+            </Card>
+            <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Axe prioritaire</p>
               <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{weakestSkill.label}</p>
               <p className="mt-2 text-sm leading-6 text-slate-600">C’est l’endroit où une séance bien choisie rapportera le plus vite.</p>
-            </div>
+            </Card>
           </div>
-        </div>
+        </Card>
 
         <div className="space-y-6">
-          <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+          <Card variant="default" className="rounded-[24px] bg-white/90 shadow-[var(--shadow-md)]" padding="md">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Points de vigilance</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               Les erreurs récurrentes doivent rester visibles, pas seulement ressenties.
@@ -353,7 +354,7 @@ export default function ProfilPage() {
 
             {topErrors.length === 0 ? (
               <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
-                Aucune erreur récurrente forte n’est remontée pour l’instant. Continue à alimenter le profil avec des ateliers et des évaluations réelles.
+                Aucune erreur récurrente forte n'est remontée pour l’instant. Continue à alimenter le profil avec des ateliers et des évaluations réelles.
               </div>
             ) : (
               <div className="mt-8 space-y-3">
@@ -377,10 +378,10 @@ export default function ProfilPage() {
                 ))}
               </div>
             )}
-          </div>
+          </Card>
 
-          <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-lg)] md:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">72 prochaines heures</p>
+          <Card variant="dark" className="rounded-[24px] border border-[var(--navy)] shadow-[var(--shadow-lg)]" padding="md">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">72 prochaines heures</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
               Les prochaines tâches doivent être courtes, claires et immédiatement lançables.
             </h2>
@@ -402,7 +403,7 @@ export default function ProfilPage() {
                 ))
               ) : (
                 <div className="rounded-[24px] border border-white/10 bg-white/8 p-4 text-sm leading-7 text-slate-200">
-                  Le plan court n’est pas encore suffisamment renseigné. Passe par le parcours ou le guidage de parcours pour faire émerger les
+                  Le plan court n'est pas encore suffisamment renseigné. Passe par le parcours ou le guidage de parcours pour faire émerger les
                   prochaines actions utiles.
                 </div>
               )}
@@ -411,23 +412,23 @@ export default function ProfilPage() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 Voir tout le plan
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={tutorHref}
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-5 py-3 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6"
+                className="inline-flex items-center justify-center rounded-full border border-white/14 px-5 py-3 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
               >
                 Demander une relance
               </Link>
             </div>
-          </div>
+          </Card>
         </div>
       </section>
 
-      <section className="rounded-[24px] border border-[var(--border-strong)] bg-white/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+      <Card variant="default" className="rounded-[24px] bg-white/90 shadow-[var(--shadow-md)]" padding="md">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Badges et traces positives</p>
@@ -442,7 +443,7 @@ export default function ProfilPage() {
 
         {!resolvedProfile.badges.length ? (
           <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4 text-sm leading-7 text-slate-600">
-            Aucun badge n’est encore enregistré. Les premiers arrivent vite dès que la régularité et les ateliers commencent à se cumuler.
+            Aucun badge n'est encore enregistré. Les premiers arrivent vite dès que la régularité et les ateliers commencent à se cumuler.
           </div>
         ) : (
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -462,7 +463,7 @@ export default function ProfilPage() {
             ))}
           </div>
         )}
-      </section>
+      </Card>
     </div>
   );
 }

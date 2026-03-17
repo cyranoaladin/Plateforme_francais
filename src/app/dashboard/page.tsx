@@ -28,6 +28,7 @@ import {
   RadarChart,
   ResponsiveContainer,
 } from 'recharts';
+import { Card } from '@/components/ui';
 import { ParcoursRecommandation } from '@/components/dashboard/parcours-recommandation';
 import { ProgressionChart } from '@/components/dashboard/progression-chart';
 import { useDashboard } from '@/hooks/useDashboard';
@@ -59,7 +60,7 @@ const SKILL_META = [
   {
     key: 'lectureCursive' as const,
     label: 'Lecture cursive',
-    accent: 'bg-[#6b587d]',
+    accent: 'bg-[var(--accent-violet)]',
     copy: 'Réactiver les œuvres pour qu’elles restent disponibles à l’oral.',
   },
 ];
@@ -202,7 +203,7 @@ const LAUNCHPAD = [
     detail: 'Ressources courtes pour relancer méthode, œuvres et repères utiles.',
     href: '/bibliotheque',
     icon: BookOpen,
-    tone: 'from-[#4e3a62] via-[#6b587d] to-[#9a88b0]',
+    tone: 'from-[#4e3a62] via-[var(--accent-violet)] to-[#9a88b0]',
   },
   {
     title: 'Tuteur Nexus',
@@ -444,13 +445,13 @@ export default function Dashboard() {
           <p className="mt-3 text-xs text-white/60 leading-relaxed">{examInfo.phaseAction}</p>
         </div>
       )}
-      <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-lg)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[44%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_68%)] blur-2xl lg:block" />
         <div className="absolute left-[-8%] top-[-16%] h-48 w-48 rounded-full bg-[rgba(216,163,99,0.18)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <ShieldCheck className="h-4 w-4" />
               Cockpit de progression EAF
             </div>
@@ -512,7 +513,7 @@ export default function Dashboard() {
               ].map((item) => (
                 <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                   <div className="flex items-center gap-3">
-                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                       <item.icon className="h-5 w-5" />
                     </div>
                     <div>
@@ -527,7 +528,7 @@ export default function Dashboard() {
 
           <div className="grid gap-4">
             <div className="rounded-[24px] border border-white/12 bg-white/8 p-5 backdrop-blur-sm shadow-[var(--shadow-md)]">
-              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
                 <Sparkles className="h-4 w-4" />
                 Rituel recommandé aujourd’hui
               </div>
@@ -547,14 +548,14 @@ export default function Dashboard() {
                       href={action.href}
                       className={`block rounded-[24px] border p-4 transition-all hover:-translate-y-0.5 ${
                         isLead
-                          ? 'border-[#f7f2ea]/18 bg-[#f7f2ea] text-[var(--navy)] shadow-[var(--shadow-md)]'
-                          : 'border-white/10 bg-white/6 text-[#f7f2ea]'
+                          ? 'border-[var(--surface-parchment)]/18 bg-[var(--surface-parchment)] text-[var(--navy)] shadow-[var(--shadow-md)]'
+                          : 'border-white/10 bg-white/6 text-[var(--surface-parchment)]'
                       }`}
                     >
                       <div className="flex items-start gap-3">
                         <div
                           className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl ${
-                            isLead ? 'bg-[var(--navy)] text-[#f7f2ea]' : 'bg-white/10 text-[#d7c4aa]'
+                            isLead ? 'bg-[var(--navy)] text-[var(--surface-parchment)]' : 'bg-white/10 text-[var(--border-warm)]'
                           }`}
                         >
                           <Icon className="h-5 w-5" />
@@ -577,7 +578,7 @@ export default function Dashboard() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Fenêtre d’épreuve</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Fenêtre d’épreuve</p>
                 <div className="mt-4 space-y-3">
                   {[
                     { label: 'Écrit', value: data.countdownEcrit, icon: CalendarDays },
@@ -585,7 +586,7 @@ export default function Dashboard() {
                   ].map((item) => (
                     <div key={item.label} className="rounded-[16px] border border-white/10 bg-black/10 px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                        <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                           <item.icon className="h-4 w-4" />
                         </div>
                         <div>
@@ -601,12 +602,12 @@ export default function Dashboard() {
               </div>
 
               <div className="rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Cap du moment</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Cap du moment</p>
                 <p className="mt-4 text-2xl font-semibold leading-tight text-white">{focusCopy.eyebrow}</p>
                 <p className="mt-3 text-sm leading-7 text-slate-200">{weakestSkill.copy}</p>
                 <Link
                   href={ritualLead.href}
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#f7f2ea] transition-colors hover:text-[#d7c4aa]"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[var(--surface-parchment)] transition-colors hover:text-[var(--border-warm)]"
                 >
                   Ouvrir l’action prioritaire
                   <ArrowRight className="h-4 w-4" />
@@ -618,7 +619,7 @@ export default function Dashboard() {
       </section>
 
       {data.error ? (
-        <div className="rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d] shadow-[var(--shadow-md)]">
+        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)] shadow-[var(--shadow-md)]">
           <AlertTriangle className="mr-2 inline h-4 w-4" />
           {data.error}
         </div>
@@ -722,7 +723,7 @@ export default function Dashboard() {
                     </div>
                     <span className="shrink-0 text-slate-500">{score.toFixed(1)} / 20</span>
                   </div>
-                  <div className="h-2.5 w-full rounded-full bg-[#e7ddcf]">
+                  <div className="h-2.5 w-full rounded-full bg-[var(--surface-sand)]">
                     <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(score / 20) * 100}%` }} />
                   </div>
                 </div>
@@ -755,7 +756,7 @@ export default function Dashboard() {
               {recentActivity.length > 0 ? (
                 recentActivity.map((item) => (
                   <div key={`${item.label}-${item.date}`} className="flex items-start gap-3 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
-                    <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)] text-[#f7f2ea]">
+                    <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]">
                       <Clock3 className="h-4 w-4" />
                     </div>
                     <div>
@@ -772,8 +773,8 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-lg)] md:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Lanceur</p>
+          <Card variant="dark" padding="md" className="text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] md:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Lanceur</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
               Le bon tableau de bord réduit la décision à un prochain geste clair.
             </h2>
@@ -799,7 +800,7 @@ export default function Dashboard() {
                 );
               })}
             </div>
-          </div>
+          </Card>
         </div>
       </section>
     </div>

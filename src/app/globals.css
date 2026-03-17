@@ -13,29 +13,44 @@
 
   /* ─── Brand Colors ────────────────────────────────── */
   --navy: #17324d;
+  --navy-dark: #0f2740;
   --navy-light: #274d73;
+  --navy-mid: #33536f;
   --navy-muted: #5f7388;
   --teal: #0f766e;
   --teal-light: #14b8a6;
   --gold: #d4af37;
+  --gold-deep: #af7a20;
   --gold-muted: #b87333;
+  --gold-contrast: #6b5735;
+
+  /* ─── Pedagogical Accents ─────────────────────────── */
+  --accent-bronze: #9a6a37;
+  --accent-violet: #6b587d;
 
   /* ─── Surfaces ────────────────────────────────────── */
   --surface-cream: #f4eee3;
   --surface-ivory: #fffdf9;
   --surface-warm: #fbf7ef;
   --surface-paper: #fcfaf6;
+  --surface-parchment: #f7f2ea;
+  --surface-sand: #eadbc5;
 
   /* ─── Borders ─────────────────────────────────────── */
   --border-light: #e7dac6;
   --border-default: #dfd2bf;
   --border-strong: #d8ccb9;
+  --border-warm: #d7c4aa;
+  --border-sand: #dfd1bc;
+  --border-success: #d8e8e3;
 
   /* ─── Text ────────────────────────────────────────── */
   --text-heading: #0f172a;
   --text-body: #334155;
+  --text-secondary: #5d7287;
   --text-muted: #5f7388;
   --text-placeholder: #94a3b8;
+  --text-warm: #7a6858;
 
   /* ─── Status ──────────────────────────────────────── */
   --success: #0f766e;
@@ -44,6 +59,8 @@
   --warning-bg: #fff7ea;
   --error: #b91c1c;
   --error-bg: #fff0ed;
+  --error-dark: #8f2d2d;
+  --error-muted: #b65050;
   --info: #1d4ed8;
   --info-bg: #eff6ff;
 

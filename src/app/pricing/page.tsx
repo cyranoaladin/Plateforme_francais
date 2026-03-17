@@ -326,7 +326,7 @@ export default function PricingPage() {
             </Link>
             <Link
               href="/login?mode=register"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
             >
               Comparer les plans
               <ArrowRight className="h-4 w-4" />
@@ -356,7 +356,7 @@ export default function PricingPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <a
                 href="#plans"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
               >
                 Choisir mon offre
                 <ArrowRight className="h-4 w-4" />
@@ -378,15 +378,15 @@ export default function PricingPage() {
             </div>
           </div>
 
-          <aside className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8">
+          <aside className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Ton statut</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Ton statut</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                   Une facturation lisible, même avant paiement.
                 </h2>
               </div>
-              <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[#f7f2ea]">
+              <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--surface-parchment)]">
                 Facturation en TND
               </div>
             </div>
@@ -454,7 +454,7 @@ export default function PricingPage() {
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Devise et moyens de paiement</p>
                   <p className="mt-1 text-sm font-semibold">Facturation en TND. Virement bancaire et WhatsApp actifs. Paiement carte et Flouci bientôt disponibles.</p>
                 </div>
-                <div className="rounded-full bg-[var(--navy)] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f2ea]">
+                <div className="rounded-full bg-[var(--navy)] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--surface-parchment)]">
                   TND
                 </div>
               </div>
@@ -463,7 +463,7 @@ export default function PricingPage() {
         </section>
 
         {error ? (
-          <div className="mb-8 flex items-start gap-3 rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d]" role="alert">
+          <div className="mb-8 flex items-start gap-3 rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
             <span>{error}</span>
           </div>
@@ -486,7 +486,7 @@ export default function PricingPage() {
             {PLANS.map((plan) => {
               const isCurrent = isAuthenticated && plan.id === currentPlan;
               const accent = plan.highlighted
-                ? 'border-[var(--navy)] bg-[var(--navy)] text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.18)]'
+                ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[0_24px_70px_rgba(23,50,77,0.18)]'
                 : isCurrent
                   ? 'border-[var(--teal)] bg-[var(--surface-warm)] text-[var(--navy)]'
                   : 'border-[var(--border-strong)] bg-white/85 text-[var(--navy)]';
@@ -520,7 +520,7 @@ export default function PricingPage() {
                   <ul className="mt-6 space-y-3 text-sm leading-6">
                     {plan.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-start gap-3">
-                        <CheckCircle2 className={`mt-1 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-[#d7c4aa]' : 'text-[var(--teal)]'}`} />
+                        <CheckCircle2 className={`mt-1 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-[var(--border-warm)]' : 'text-[var(--teal)]'}`} />
                         <span>{bullet}</span>
                       </li>
                     ))}
@@ -541,8 +541,8 @@ export default function PricingPage() {
                     }}
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
                       plan.highlighted
-                        ? 'bg-[#f7f2ea] text-[var(--navy)] hover:-translate-y-0.5 hover:bg-white'
-                        : 'bg-[var(--navy)] text-[#f7f2ea] hover:-translate-y-0.5 hover:bg-[#0f2740]'
+                        ? 'bg-[var(--surface-parchment)] text-[var(--navy)] hover:-translate-y-0.5 hover:bg-white'
+                        : 'bg-[var(--navy)] text-[var(--surface-parchment)] hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]'
                     }`}
                   >
                     {!isAuthenticated ? (
@@ -583,7 +583,7 @@ export default function PricingPage() {
         <section className="grid gap-5 pb-16 lg:grid-cols-2">
           <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
             <div className="flex items-center gap-2">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--navy)] text-[#f7f2ea]">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]">
                 <KeyRound className="h-5 w-5" />
               </div>
               <div>
@@ -612,7 +612,7 @@ export default function PricingPage() {
                 <button
                   type="submit"
                   disabled={codeLoading || !codeInput.trim()}
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-colors hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-colors hover:bg-[var(--navy-dark)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {codeLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                   {codeLoading ? 'Activation...' : 'Activer'}
@@ -631,20 +631,20 @@ export default function PricingPage() {
               </div>
             ) : null}
             {codeError ? (
-              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d]" role="alert">
+              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{codeError}</span>
               </div>
             ) : null}
           </article>
 
-          <article className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
+          <article className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
             <div className="flex items-center gap-2">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]">
                 <Landmark className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Paiement alternatif</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Paiement alternatif</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-white">
                   Commander un code en Tunisie
                 </h2>
@@ -658,7 +658,7 @@ export default function PricingPage() {
             <div className="mt-6 space-y-3">
               <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
                 <div className="flex items-start gap-3">
-                  <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[#d7c4aa]" />
+                  <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Paiement Flouci</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">
@@ -685,7 +685,7 @@ export default function PricingPage() {
                     </p>
                     {error ? (
                       <div className="mt-4 flex items-start gap-3 rounded-[16px] border border-white/10 bg-white/10 p-3 text-sm text-white" role="alert">
-                        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                         <span>{error}</span>
                       </div>
                     ) : null}
@@ -694,14 +694,14 @@ export default function PricingPage() {
               </div>
               <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
                 <div className="flex items-start gap-3">
-                  <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-[#d7c4aa]" />
+                  <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Virement bancaire</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">Ajoutez l'email du compte ou l'identifiant utilisateur en motif. Le plan est activé après vérification du règlement.</p>
-                    <div className="mt-4 grid gap-2 rounded-[16px] bg-[#0f2740] p-4 text-sm text-slate-100 sm:grid-cols-2">
+                    <div className="mt-4 grid gap-2 rounded-[16px] bg-[var(--navy-dark)] p-4 text-sm text-slate-100 sm:grid-cols-2">
                       {BANK_TRANSFER_ROWS.map((row) => (
                         <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
-                          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#d7c4aa]">{row.label}</p>
+                          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--border-warm)]">{row.label}</p>
                           <p className="mt-1 break-all font-semibold text-white">{row.value}</p>
                         </div>
                       ))}
@@ -719,9 +719,9 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <div className="mt-6 rounded-[24px] bg-[#0f2740] p-4">
+            <div className="mt-6 rounded-[24px] bg-[var(--navy-dark)] p-4">
               <div className="flex items-start gap-3">
-                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                 <p className="text-sm leading-6 text-slate-200">
                   Facturation en dinar tunisien. Premium = 99 TND/mois. Masterium = 129 TND/mois. Le code d'activation est envoyé après confirmation du virement bancaire ou via WhatsApp.
                 </p>
@@ -843,8 +843,8 @@ export default function PricingPage() {
               Si la page est bonne, elle coupe court aux hésitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon.
             </p>
 
-            <div className="mt-8 rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Prêt à passer à l&apos;action ?</p>
+            <div className="mt-8 rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Prêt à passer à l&apos;action ?</p>
               <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                 La préparation sérieuse commence avec Premium.
               </h3>
@@ -852,11 +852,11 @@ export default function PricingPage() {
                 Le plan Freemium donne un aperçu du workflow. Premium débloque le rythme de travail nécessaire pour progresser réellement avant l&apos;épreuve.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
+                <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
                   Comparer les plans
                   <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link href="/" className="inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6">
+                <Link href="/" className="inline-flex items-center justify-center rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6">
                   Retour à l'accueil
                 </Link>
               </div>

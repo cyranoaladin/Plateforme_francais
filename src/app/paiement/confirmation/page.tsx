@@ -57,7 +57,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
     PENDING: {
       label: 'Paiement en cours de confirmation',
       icon: Clock3,
-      chip: 'border-[#efd9b4] bg-[#fff7ea] text-[#af7a20]',
+      chip: 'border-[#efd9b4] bg-[#fff7ea] text-[var(--gold-deep)]',
       panel: 'border-[#efd9b4] bg-[#fff7ea]',
       title: 'La transaction est revenue, mais l\u2019activation n\u2019est pas encore fermée.',
       body: 'Le prestataire de paiement traite encore la confirmation finale. Ce cas est normal quand la redirection revient plus vite que la mise à jour interne.',
@@ -84,8 +84,8 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
     UNKNOWN: {
       label: 'Vérification en cours',
       icon: Sparkles,
-      chip: 'border-[#dfd1bc] bg-[#fffaf4] text-[#7a6858]',
-      panel: 'border-[#dfd1bc] bg-[#fffaf4]',
+      chip: 'border-[var(--border-sand)] bg-[#fffaf4] text-[var(--text-warm)]',
+      panel: 'border-[var(--border-sand)] bg-[#fffaf4]',
       title: 'Le retour est bien reçu, mais le statut définitif n\u2019est pas encore exposé.',
       body: 'Si tu as déjà réglé la transaction, il suffit souvent de rafraîchir puis de vérifier ton espace quelques secondes plus tard.',
       steps: ['Rafraîchir cette page', 'Vérifier la page tarifaire', 'Se connecter puis contrôler le dashboard'],
@@ -104,7 +104,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
 
           <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
                 <ShieldCheck className="h-4 w-4" />
                 Retour paiement ClicToPay
               </div>
@@ -122,11 +122,11 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                 <p className="mt-2 text-xl font-semibold">{current.label}</p>
               </div>
               <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Référence</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Référence</p>
                 <p className="mt-2 truncate text-sm font-semibold text-white">{orderRef ?? orderId ?? 'Non transmise'}</p>
               </div>
               <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">API publique</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">API publique</p>
                 <p className="mt-2 text-sm font-semibold text-white">{statusUrl ? 'Disponible' : 'Aucune référence'}</p>
               </div>
             </div>
@@ -141,17 +141,17 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                   <StatusIcon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Lecture du retour</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Lecture du retour</p>
                   <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                     {current.title}
                   </h2>
                 </div>
               </div>
-              <p className="mt-5 text-sm leading-7 text-[#33536f]">{current.body}</p>
+              <p className="mt-5 text-sm leading-7 text-[var(--navy-mid)]">{current.body}</p>
               <div className="mt-6 grid gap-3 md:grid-cols-3">
                 {current.steps.map((step, index) => (
                   <div key={step} className="rounded-[22px] border border-white/60 bg-white/70 p-4">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Étape {index + 1}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Étape {index + 1}</p>
                     <p className="mt-2 text-sm leading-6 text-[var(--navy)]">{step}</p>
                   </div>
                 ))}
@@ -159,7 +159,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
             </section>
 
             <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Actions utiles</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Actions utiles</p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link
                   href={status === 'ACCEPTED' ? '/' : '/pricing'}
@@ -170,13 +170,13 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                 </Link>
                 <Link
                   href={refreshHref}
-                  className="inline-flex items-center gap-2 rounded-[16px] border border-[#dfd1bc] bg-[#fffaf4] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25 hover:bg-white"
+                  className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-sand)] bg-[#fffaf4] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25 hover:bg-white"
                 >
                   Rafraîchir le statut
                 </Link>
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-2 rounded-[16px] border border-[#dfd1bc] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25"
+                  className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-sand)] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25"
                 >
                   Se connecter
                 </Link>
@@ -186,14 +186,14 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
 
           <aside className="space-y-6">
             <section className="rounded-[24px] border border-[#e8dcc8] bg-[#f8f1e7] p-5 shadow-[var(--shadow-md)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Trace technique</p>
-              <div className="mt-4 space-y-3 text-sm text-[#33536f]">
-                <div className="rounded-[16px] border border-[#eadbc5] bg-white/80 p-4">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Trace technique</p>
+              <div className="mt-4 space-y-3 text-sm text-[var(--navy-mid)]">
+                <div className="rounded-[16px] border border-[var(--surface-sand)] bg-white/80 p-4">
                   <p className="font-semibold text-[var(--navy)]">Référence de commande</p>
                   <p className="mt-2 break-all">{orderRef ?? orderId ?? 'Aucune référence transmise dans l\u2019URL.'}</p>
                 </div>
                 {statusUrl && (
-                  <div className="rounded-[16px] border border-[#eadbc5] bg-white/80 p-4">
+                  <div className="rounded-[16px] border border-[var(--surface-sand)] bg-white/80 p-4">
                     <p className="font-semibold text-[var(--navy)]">Endpoint de vérification</p>
                     <p className="mt-2 break-all font-mono text-xs text-[#5b6f82]">{statusUrl}</p>
                   </div>
@@ -203,7 +203,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
 
             <section className="rounded-[24px] border border-[#d7e6e1] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Ce qui suit</p>
-              <ul className="mt-4 space-y-3 text-sm leading-7 text-[#33536f]">
+              <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--navy-mid)]">
                 <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--teal)]" /> Le dashboard et la page tarifaire restent la source de vérité côté produit.</li>
                 <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--teal)]" /> En cas de statut en attente, la situation se débloque en général sans nouvelle action bancaire.</li>
                 <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--teal)]" /> Si le statut reste incohérent, conserve la référence et passe par le support.</li>

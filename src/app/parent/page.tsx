@@ -112,13 +112,13 @@ export default function ParentDashboard() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <ShieldCheck className="h-4 w-4" />
               Espace parent
             </div>
@@ -145,14 +145,14 @@ export default function ParentDashboard() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 Voir le parcours
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/profil"
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6"
+                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
               >
                 Ouvrir le profil détaillé
               </Link>
@@ -168,7 +168,7 @@ export default function ParentDashboard() {
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -180,7 +180,7 @@ export default function ParentDashboard() {
             ))}
 
             <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Conseil parental de la semaine</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Conseil parental de la semaine</p>
               <p className="mt-3 text-2xl font-semibold text-white">{parentAdvice.title}</p>
               <p className="mt-2 text-sm leading-7 text-slate-200">{parentAdvice.detail}</p>
             </div>
@@ -189,7 +189,7 @@ export default function ParentDashboard() {
       </section>
 
       {data.error ? (
-        <div className="rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d] shadow-[var(--shadow-sm)]">
+        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)] shadow-[var(--shadow-sm)]">
           <AlertTriangle className="mr-2 inline h-4 w-4" />
           {data.error}
         </div>
@@ -217,7 +217,7 @@ export default function ParentDashboard() {
                         : skill.key === 'grammaire'
                           ? 'bg-[var(--gold-muted)]'
                           : skill.key === 'lectureCursive'
-                            ? 'bg-[#6b587d]'
+                            ? 'bg-[var(--accent-violet)]'
                             : 'bg-[var(--navy)]'
                     }`}
                     style={{ width: `${(skill.score / 20) * 100}%` }}
@@ -313,8 +313,8 @@ export default function ParentDashboard() {
           )}
         </div>
 
-        <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-lg)] md:p-7">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Position parentale utile</p>
+        <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] md:p-7">
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Position parentale utile</p>
           <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
             Le bon soutien n’est ni le contrôle permanent, ni le retrait total.
           </h2>
@@ -337,7 +337,7 @@ export default function ParentDashboard() {
               },
             ].map((item) => (
               <article key={item.title} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                   <item.icon className="h-5 w-5" />
                 </div>
                 <p className="mt-4 text-sm font-semibold text-white">{item.title}</p>

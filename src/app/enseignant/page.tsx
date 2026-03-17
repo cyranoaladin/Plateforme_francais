@@ -81,7 +81,7 @@ function statusLabel(status: string) {
 
 function statusStyle(status: string) {
   if (status === 'done') return 'border-[var(--teal)]/16 bg-[#eef9f6] text-[var(--teal)]';
-  if (status === 'error') return 'border-[#b65050]/18 bg-[var(--error-bg)] text-[#8f2d2d]';
+  if (status === 'error') return 'border-[var(--error-muted)]/18 bg-[var(--error-bg)] text-[var(--error-dark)]';
   if (status === 'processing') return 'border-[var(--navy)]/14 bg-[#eef3f8] text-[var(--navy)]';
   return 'border-[var(--gold-muted)]/18 bg-[#fdf4e9] text-[#9a5f25]';
 }
@@ -184,13 +184,13 @@ export default function EnseignantPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <ShieldCheck className="h-4 w-4" />
               Cockpit enseignant
             </div>
@@ -205,14 +205,14 @@ export default function EnseignantPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <button
                 onClick={() => void generateClassCode()}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 Générer un code classe
                 <Sparkles className="h-4 w-4" />
               </button>
               <a
                 href="/api/v1/enseignant/export"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
               >
                 Export CSV
                 <Download className="h-4 w-4" />
@@ -229,7 +229,7 @@ export default function EnseignantPage() {
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -241,7 +241,7 @@ export default function EnseignantPage() {
             ))}
 
             <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Lecture rapide</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Lecture rapide</p>
               <p className="mt-3 text-2xl font-semibold text-white">
                 {atRiskCount > 0 ? `${atRiskCount} élève${atRiskCount > 1 ? 's' : ''} à resserrer` : 'Aucun signal critique immédiat'}
               </p>
@@ -256,7 +256,7 @@ export default function EnseignantPage() {
       </section>
 
       {error ? (
-        <div className="rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d] shadow-[var(--shadow-sm)]" role="alert">
+        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)] shadow-[var(--shadow-sm)]" role="alert">
           <AlertTriangle className="mr-2 inline h-4 w-4" />
           {error}
         </div>
@@ -304,7 +304,7 @@ export default function EnseignantPage() {
                           <p className="font-semibold text-[var(--navy)]">{student.displayName}</p>
                         </div>
                         <p className="truncate text-slate-500">{student.email}</p>
-                        <p className={`font-semibold ${student.averageScore < 10 ? 'text-[#8f2d2d]' : 'text-[var(--navy)]'}`}>
+                        <p className={`font-semibold ${student.averageScore < 10 ? 'text-[var(--error-dark)]' : 'text-[var(--navy)]'}`}>
                           {student.averageScore} / 20
                         </p>
                         <p className="text-slate-500">{formatDateTime(student.lastActivity)}</p>
@@ -349,8 +349,8 @@ export default function EnseignantPage() {
                 </div>
               </div>
 
-              <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-lg)] md:p-7">
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Pilotage rapide</p>
+              <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] md:p-7">
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Pilotage rapide</p>
                 <div className="mt-6 grid gap-4 md:grid-cols-2">
                   {[
                     {
@@ -379,7 +379,7 @@ export default function EnseignantPage() {
                     },
                   ].map((item) => (
                     <article key={item.title} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                         <item.icon className="h-5 w-5" />
                       </div>
                       <p className="mt-4 text-sm font-semibold text-white">{item.title}</p>
@@ -448,7 +448,7 @@ export default function EnseignantPage() {
                       </div>
                       <button
                         onClick={() => void saveComment(copy.copieId)}
-                        className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-4 py-2 text-sm font-semibold text-[#f7f2ea] transition-all hover:-translate-y-0.5"
+                        className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-4 py-2 text-sm font-semibold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5"
                       >
                         Enregistrer
                         <ArrowRight className="h-4 w-4" />

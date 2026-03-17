@@ -10,7 +10,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock3,
-  Loader2,
   Mic,
   PenTool,
   Search,
@@ -20,6 +19,10 @@ import {
 } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
+import { Card } from '@/components/ui/card';
 
 const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
@@ -49,11 +52,13 @@ const CLASS_LEVELS = [
   'Première STL',
 ];
 
+const CLASS_LEVEL_OPTIONS = CLASS_LEVELS.map((level) => ({ value: level, label: level }));
+
 const SKILLS = [
   { key: 'comprehension', label: 'Compréhension du texte', icon: BookOpen, color: 'text-[var(--gold-muted)]' },
   { key: 'procedes', label: 'Analyse des procédés', icon: PenTool, color: 'text-[var(--navy)]' },
   { key: 'plan', label: 'Organisation du plan', icon: PenTool, color: 'text-[var(--teal)]' },
-  { key: 'lecture', label: 'Lecture expressive', icon: Mic, color: 'text-[#7b6f9c]' },
+  { key: 'lecture', label: 'Lecture expressive', icon: Mic, color: 'text-[var(--accent-violet)]' },
   { key: 'grammaire', label: 'Grammaire', icon: BrainCircuit, color: 'text-[var(--teal)]' },
   { key: 'culture', label: 'Culture / œuvre & parcours', icon: BookOpen, color: 'text-[var(--navy)]' },
 ] as const;
@@ -86,7 +91,7 @@ const STEP_META = {
 
 function StepRail({ current }: { current: 1 | 2 | 3 }) {
   return (
-    <nav aria-label="Étapes de l'onboarding" className="space-y-3">
+    <nav aria-label="Étapes de l’onboarding" className="space-y-3">
       {STEP_LABELS.map((label, idx) => {
         const stepNum = (idx + 1) as 1 | 2 | 3;
         const isActive = stepNum === current;
@@ -113,7 +118,7 @@ function StepRail({ current }: { current: 1 | 2 | 3 }) {
                 {isDone ? <CheckCircle2 className="h-4 w-4" /> : stepNum}
               </div>
               <div>
-                <p className={`text-[11px] font-bold uppercase tracking-[0.22em] ${isActive || isDone ? 'text-[#d7c4aa]' : 'text-white/45'}`}>
+                <p className={`text-[11px] font-bold uppercase tracking-[0.22em] ${isActive || isDone ? 'text-[var(--border-warm)]' : 'text-white/45'}`}>
                   {`0${stepNum}`}
                 </p>
                 <p className={`text-sm font-semibold ${isActive || isDone ? 'text-white' : 'text-white/65'}`}>{label}</p>
@@ -128,7 +133,7 @@ function StepRail({ current }: { current: 1 | 2 | 3 }) {
 
 function OnboardingErrorBanner({ message }: { message: string }) {
   return (
-    <div className="mb-6 rounded-[22px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d]" role="alert">
+    <div className="mb-6 rounded-[22px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
       {message}
     </div>
   );
@@ -319,7 +324,7 @@ export default function OnboardingPage() {
             <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
               Revoir l&apos;accueil
             </Link>
-            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-4 py-2 text-[#f7f2ea]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-4 py-2 text-[var(--surface-parchment)]">
               <Clock3 className="h-4 w-4" />
               Environ 3 minutes
             </div>
@@ -328,8 +333,8 @@ export default function OnboardingPage() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <aside className="lg:sticky lg:top-6 lg:self-start">
-            <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-8">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
                 <Sparkles className="h-4 w-4" />
                 Mise en route
               </div>
@@ -339,8 +344,8 @@ export default function OnboardingPage() {
               </h1>
 
               <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
-                L’objectif n’est pas de remplir un profil pour la forme. L’objectif est de caler les premiers ateliers sur tes œuvres, ton rythme,
-                tes points d’appui et les attendus officiels dès la première connexion.
+                L'objectif n'est pas de remplir un profil pour la forme. L'objectif est de caler les premiers ateliers sur tes œuvres, ton rythme,
+                tes points d'appui et les attendus officiels dès la première connexion.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2.5">
@@ -355,18 +360,18 @@ export default function OnboardingPage() {
                 <StepRail current={step} />
               </div>
 
-              <div className="mt-8 rounded-[24px] bg-[#0f2740] p-5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Ce que Nexus a déjà compris</p>
+              <div className="mt-8 rounded-[24px] bg-[var(--navy-dark)] p-5">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Ce que Nexus a déjà compris</p>
                 <div className="mt-4 space-y-3 text-sm text-slate-200">
                   <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                     <div>
                       <p className="font-semibold text-white">Profil</p>
                       <p className="mt-1 leading-6">{displayName.trim() || 'Nom affiché à renseigner'} · {classLevel || 'Classe à confirmer'}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                     <div>
                       <p className="font-semibold text-white">Corpus</p>
                       <p className="mt-1 leading-6">
@@ -377,7 +382,7 @@ export default function OnboardingPage() {
                     </div>
                   </div>
                   <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <BrainCircuit className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <BrainCircuit className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                     <div>
                       <p className="font-semibold text-white">Priorités</p>
                       <p className="mt-1 leading-6">
@@ -390,7 +395,7 @@ export default function OnboardingPage() {
 
               <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
                 <div className="flex items-start gap-3">
-                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                   <p className="text-sm leading-6 text-slate-200">
                     Les informations saisies ici servent à cadrer les premières recommandations, les ressources mobilisées et la progression visible.
                     Elles restent modifiables ensuite dans le profil.
@@ -409,7 +414,7 @@ export default function OnboardingPage() {
               </div>
             ) : null}
 
-            <div className="border-b border-[#e6dbca] pb-5">
+            <div className="border-b border-[var(--border-sand)] pb-5">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">{currentMeta.kicker}</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                 {currentMeta.title}
@@ -424,68 +429,51 @@ export default function OnboardingPage() {
               {step === 1 ? (
                 <div className="space-y-5">
                   <div className="grid gap-5 md:grid-cols-[1fr_1fr]">
-                    <div className="md:col-span-2">
-                      <label className="mb-2 block text-sm font-semibold text-[var(--navy)]" htmlFor="ob-name">Nom affiché</label>
-                      <input
-                        id="ob-name"
-                        value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        placeholder="Comment veux-tu apparaître dans la plateforme ?"
-                        className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-                        required
-                      />
-                    </div>
+                    <Input
+                      label="Nom affiché"
+                      value={displayName}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      placeholder="Comment veux-tu apparaître dans la plateforme ?"
+                      required
+                      size="lg"
+                      className="md:col-span-2"
+                    />
 
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-[var(--navy)]" htmlFor="ob-class">Classe</label>
-                      <select
-                        id="ob-class"
-                        value={classLevel}
-                        onChange={(e) => setClassLevel(e.target.value)}
-                        className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-                      >
-                        {CLASS_LEVELS.map((classItem) => (
-                          <option key={classItem} value={classItem}>{classItem}</option>
-                        ))}
-                      </select>
-                    </div>
+                    <Select
+                      label="Classe"
+                      value={classLevel}
+                      onChange={(e) => setClassLevel(e.target.value)}
+                      options={CLASS_LEVEL_OPTIONS}
+                      size="lg"
+                    />
 
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-[var(--navy)]" htmlFor="ob-date">Date EAF</label>
-                      <input
-                        id="ob-date"
-                        type="date"
-                        value={eafDate}
-                        onChange={(e) => setEafDate(e.target.value)}
-                        className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-                        required
-                      />
-                    </div>
+                    <Input
+                      label="Date EAF"
+                      type="date"
+                      value={eafDate}
+                      onChange={(e) => setEafDate(e.target.value)}
+                      required
+                      size="lg"
+                    />
 
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-[var(--navy)]" htmlFor="ob-school">Établissement</label>
-                      <input
-                        id="ob-school"
-                        value={establishment}
-                        onChange={(e) => setEstablishment(e.target.value)}
-                        placeholder="Nom de ton lycée"
-                        className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-                      />
-                    </div>
+                    <Input
+                      label="Établissement"
+                      value={establishment}
+                      onChange={(e) => setEstablishment(e.target.value)}
+                      placeholder="Nom de ton lycée"
+                      size="lg"
+                    />
 
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-[var(--navy)]" htmlFor="ob-code">Code classe enseignant</label>
-                      <input
-                        id="ob-code"
-                        value={classCode}
-                        onChange={(e) => setClassCode(e.target.value)}
-                        placeholder="Ex : PMF-1G2-2026"
-                        className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-                      />
-                    </div>
+                    <Input
+                      label="Code classe enseignant"
+                      value={classCode}
+                      onChange={(e) => setClassCode(e.target.value)}
+                      placeholder="Ex : PMF-1G2-2026"
+                      size="lg"
+                    />
                   </div>
 
-                  <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5">
+                  <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Prévisualisation</p>
                     <div className="mt-4 grid gap-3 md:grid-cols-3">
                       <div className="rounded-[22px] border border-[var(--border-strong)] bg-white px-4 py-3">
@@ -501,24 +489,22 @@ export default function OnboardingPage() {
                         <p className="mt-1 text-sm font-semibold text-[var(--navy)]">{formatDateLabel(eafDate)}</p>
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 </div>
               ) : null}
 
               {step === 2 ? (
                 <div className="space-y-5">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                    <input
-                      value={oeuvreSearch}
-                      onChange={(e) => setOeuvreSearch(e.target.value)}
-                      placeholder="Rechercher une œuvre, un auteur, un objet d’étude..."
-                      className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] py-3 pl-10 pr-4 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-                    />
-                  </div>
+                  <Input
+                    value={oeuvreSearch}
+                    onChange={(e) => setOeuvreSearch(e.target.value)}
+                    placeholder="Rechercher une œuvre, un auteur, un objet d'étude..."
+                    icon={<Search className="h-4 w-4" />}
+                    size="lg"
+                  />
 
                   {allSelectedOeuvres.length > 0 ? (
-                    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+                    <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
                       <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Sélection en cours</p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {allSelectedOeuvres.map((oeuvre) => (
@@ -527,7 +513,7 @@ export default function OnboardingPage() {
                           </span>
                         ))}
                       </div>
-                    </div>
+                    </Card>
                   ) : null}
 
                   <div className="grid gap-3 md:grid-cols-2">
@@ -541,13 +527,13 @@ export default function OnboardingPage() {
                           onClick={() => toggleOeuvre(oeuvre.title)}
                           className={`rounded-[24px] border p-4 text-left transition-all ${
                             isSelected
-                              ? 'border-[var(--navy)] bg-[var(--navy)] text-[#f7f2ea] shadow-[var(--shadow-lg)]'
+                              ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]'
                               : 'border-[var(--border-strong)] bg-white hover:-translate-y-0.5 hover:border-[var(--teal)]'
                           }`}
                         >
                           <div className="flex items-start justify-between gap-3">
                             <div>
-                              <p className={`text-[11px] font-bold uppercase tracking-[0.24em] ${isSelected ? 'text-[#d7c4aa]' : 'text-slate-500'}`}>
+                              <p className={`text-[11px] font-bold uppercase tracking-[0.24em] ${isSelected ? 'text-[var(--border-warm)]' : 'text-slate-500'}`}>
                                 {oeuvre.type}
                               </p>
                               <p className="mt-2 text-sm font-bold leading-6">{oeuvre.title}</p>
@@ -562,18 +548,13 @@ export default function OnboardingPage() {
                     })}
                   </div>
 
-                  <div>
-                    <label className="mb-2 block text-sm font-semibold text-[var(--navy)]" htmlFor="custom-oeuvre">
-                      Œuvre absente de la liste
-                    </label>
-                    <input
-                      id="custom-oeuvre"
-                      value={customOeuvre}
-                      onChange={(e) => setCustomOeuvre(e.target.value)}
-                      placeholder="Saisis exactement l’œuvre donnée par ton professeur"
-                      className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-                    />
-                  </div>
+                  <Input
+                    label="Œuvre absente de la liste"
+                    value={customOeuvre}
+                    onChange={(e) => setCustomOeuvre(e.target.value)}
+                    placeholder="Saisis exactement l'œuvre donnée par ton professeur"
+                    size="lg"
+                  />
 
                   {allSelectedOeuvres.length > 0 && (
                     <div className="rounded-[24px] border border-[var(--teal)]/20 bg-[var(--teal)]/5 p-5">
@@ -618,7 +599,7 @@ export default function OnboardingPage() {
                     const value = ratings[skill.key];
 
                     return (
-                      <div key={skill.key} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5">
+                      <Card key={skill.key} variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="md">
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
                             <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-[var(--navy)] shadow-sm">
@@ -640,7 +621,7 @@ export default function OnboardingPage() {
                             max={5}
                             value={value}
                             onChange={(e) => setRatings((prev) => ({ ...prev, [skill.key]: Number(e.target.value) }))}
-                            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[#e3d7c7] accent-[var(--navy)]"
+                            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[var(--surface-sand)] accent-[var(--navy)]"
                             aria-label={`${skill.label} : ${value} sur 5`}
                           />
                           <div className="mt-2 flex justify-between text-[10px] font-medium uppercase tracking-[0.12em] text-slate-500">
@@ -648,60 +629,53 @@ export default function OnboardingPage() {
                             <span>Solide</span>
                           </div>
                         </div>
-                      </div>
+                      </Card>
                     );
                   })}
 
-                  <div className="rounded-[24px] border border-[var(--border-strong)] bg-white p-5">
+                  <Card variant="default" className="rounded-[24px] border-[var(--border-strong)]" padding="md">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Priorisation détectée</p>
                     <p className="mt-3 text-sm leading-7 text-slate-600">
                       {weakSignals.length > 0
                         ? `Le parcours mettra d’abord l’accent sur : ${weakSignals.join(', ')}.`
                         : 'Aucune faiblesse forte auto-déclarée. Le parcours pourra commencer sur une base plus équilibrée.'}
                     </p>
-                  </div>
+                  </Card>
                 </div>
               ) : null}
             </div>
 
-            <div className="mt-8 flex items-center justify-between border-t border-[#e6dbca] pt-5">
+            <div className="mt-8 flex items-center justify-between border-t border-[var(--border-sand)] pt-5">
               {step > 1 ? (
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
                   onClick={handleBack}
                   disabled={isSubmitting}
-                  className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-[#f1e7d8] disabled:opacity-50"
+                  icon={<ChevronLeft className="h-4 w-4" />}
+                  iconPosition="left"
                 >
-                  <ChevronLeft className="h-4 w-4" />
                   Retour
-                </button>
+                </Button>
               ) : (
                 <div className="text-xs text-slate-500">Étape {step} sur 3</div>
               )}
 
-              <button
+              <Button
                 type="button"
+                variant="primary"
+                size="lg"
                 onClick={() => {
                   if (step < 3) void handleNext();
                   else void handleFinish();
                 }}
                 disabled={!canProceed || isSubmitting}
-                className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-50"
+                loading={isSubmitting}
+                icon={step < 3 ? <ChevronRight className="h-4 w-4" /> : undefined}
+                iconPosition="right"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Enregistrement...
-                  </>
-                ) : step === 3 ? (
-                  'Terminer'
-                ) : (
-                  <>
-                    Continuer
-                    <ChevronRight className="h-4 w-4" />
-                  </>
-                )}
-              </button>
+                {isSubmitting ? 'Enregistrement...' : step === 3 ? 'Terminer' : 'Continuer'}
+              </Button>
             </div>
           </section>
         </div>

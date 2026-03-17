@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { Download, Flame, Loader2, Quote, Sparkles, Target } from 'lucide-react';
 import { mapAnnotationsToRegions } from '@/lib/correction/annotation-mapper';
+import { Button } from '@/components/ui';
 
 type CorrectionPayload = {
   copieId: string;
@@ -42,8 +43,8 @@ const EDITORIAL_HEADING = {
 const PROCESSING_STEPS = ['Lecture de la copie...', 'Analyse litteraire...', 'Redaction du bilan...'];
 
 const ANNOTATION_STYLES = {
-  erreur: 'border-[#f1c8c0] bg-[var(--error-bg)] text-[#b24838]',
-  remarque: 'border-[#dfd1bc] bg-[#fffaf4] text-[#7a6858]',
+  erreur: 'border-[#f1c8c0] bg-[var(--error-bg)] text-[var(--error-muted)]',
+  remarque: 'border-[var(--border-sand)] bg-[#fffaf4] text-[var(--text-warm)]',
   bravo: 'border-[#d6e8df] bg-[var(--success-bg)] text-[var(--teal)]',
 };
 
@@ -117,22 +118,22 @@ export default function CorrectionCopiePage() {
 
   const noteTone = useMemo(() => {
     if (note >= 15) return 'border-[#d6e8df] bg-[var(--success-bg)] text-[var(--teal)]';
-    if (note >= 10) return 'border-[#efd9b4] bg-[var(--warning-bg)] text-[#af7a20]';
-    return 'border-[#f1c8c0] bg-[var(--error-bg)] text-[#b24838]';
+    if (note >= 10) return 'border-[#efd9b4] bg-[var(--warning-bg)] text-[var(--gold-deep)]';
+    return 'border-[#f1c8c0] bg-[var(--error-bg)] text-[var(--error-muted)]';
   }, [note]);
 
   if (error) {
-    return <div className="mx-auto max-w-5xl p-8 text-sm text-[#b24838]">{error}</div>;
+    return <div className="mx-auto max-w-5xl p-8 text-sm text-[var(--error-muted)]">{error}</div>;
   }
 
   if (!payload || payload.status === 'pending' || payload.status === 'processing') {
     return (
       <div className="mx-auto max-w-4xl space-y-6 p-6 md:p-10" role="status">
-        <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-8 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:px-8 md:py-10">
+        <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-8 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-10">
           <div className="absolute inset-y-0 right-[-10%] hidden w-[40%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_70%)] blur-2xl lg:block" />
           <div className="absolute left-[-6%] top-[-22%] h-40 w-40 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
           <div className="relative">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <Sparkles className="h-4 w-4" />
               Rapport en préparation
             </div>
@@ -154,7 +155,7 @@ export default function CorrectionCopiePage() {
             {PROCESSING_STEPS.map((step, index) => (
               <div
                 key={step}
-                className={`rounded-[16px] border px-4 py-4 text-sm transition ${index === stepIndex ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)] shadow-[var(--shadow-sm)]' : 'border-[#eadbc5] bg-[#fbf5ec] text-[#6d7e8d]'}`}
+                className={`rounded-[16px] border px-4 py-4 text-sm transition ${index === stepIndex ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)] shadow-[var(--shadow-sm)]' : 'border-[var(--surface-sand)] bg-[#fbf5ec] text-[#6d7e8d]'}`}
               >
                 {index + 1}. {step}
               </div>
@@ -166,20 +167,20 @@ export default function CorrectionCopiePage() {
   }
 
   if (payload.status === 'error' || !correction) {
-    return <div className="mx-auto max-w-5xl p-8 text-sm text-[#b24838]">La correction n'a pas pu être générée.</div>;
+    return <div className="mx-auto max-w-5xl p-8 text-sm text-[var(--error-muted)]">La correction n'a pas pu être générée.</div>;
   }
 
   const activeAnnotationItem = correction.annotations[activeAnnotation];
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <Sparkles className="h-4 w-4" />
               Rapport de correction
             </div>
@@ -198,11 +199,11 @@ export default function CorrectionCopiePage() {
               <p className="text-sm">{correction.mention}</p>
             </div>
             <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Rubriques</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Rubriques</p>
               <p className="mt-2 text-3xl font-semibold text-white">{correction.rubriques.length}</p>
             </div>
             <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Annotations</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Annotations</p>
               <p className="mt-2 text-3xl font-semibold text-white">{correction.annotations.length}</p>
             </div>
           </div>
@@ -217,27 +218,27 @@ export default function CorrectionCopiePage() {
                 <Target className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Vue d ensemble</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Vue d ensemble</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Bilan global
                 </h2>
               </div>
             </div>
-            <p className="mt-5 text-sm leading-7 text-[#33536f]">{correction.bilan.global}</p>
+            <p className="mt-5 text-sm leading-7 text-[var(--navy-mid)]">{correction.bilan.global}</p>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               <div className="rounded-[22px] border border-[#d6e8df] bg-[var(--success-bg)] p-4">
                 <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--teal)]">Points forts</p>
-                <ul className="mt-3 space-y-2 text-sm leading-7 text-[#33536f]">
+                <ul className="mt-3 space-y-2 text-sm leading-7 text-[var(--navy-mid)]">
                   {correction.bilan.points_forts.map((item) => (
                     <li key={item} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--teal)]" /> <span>{item}</span></li>
                   ))}
                 </ul>
               </div>
               <div className="rounded-[22px] border border-[#efd9b4] bg-[var(--warning-bg)] p-4">
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#af7a20]">Axes d amélioration</p>
-                <ul className="mt-3 space-y-2 text-sm leading-7 text-[#6b5735]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--gold-deep)]">Axes d amélioration</p>
+                <ul className="mt-3 space-y-2 text-sm leading-7 text-[var(--gold-contrast)]">
                   {correction.bilan.axes_amelioration.map((item) => (
-                    <li key={item} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#af7a20]" /> <span>{item}</span></li>
+                    <li key={item} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--gold-deep)]" /> <span>{item}</span></li>
                   ))}
                 </ul>
               </div>
@@ -250,7 +251,7 @@ export default function CorrectionCopiePage() {
               {correction.rubriques.map((item) => {
                 const width = Math.max(0, Math.min(100, Math.round((item.note / item.max) * 100)));
                 return (
-                  <article key={`${item.titre}-${item.max}`} className="rounded-[22px] border border-[#eadbc5] bg-white p-4 shadow-[var(--shadow-sm)]">
+                  <article key={`${item.titre}-${item.max}`} className="rounded-[22px] border border-[var(--surface-sand)] bg-white p-4 shadow-[var(--shadow-sm)]">
                     <div className="flex items-center justify-between gap-3 text-sm">
                       <span className="font-semibold text-[var(--navy)]">{item.titre}</span>
                       <span className="font-semibold text-[var(--navy)]">{item.note}/{item.max}</span>
@@ -258,7 +259,7 @@ export default function CorrectionCopiePage() {
                     <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#f0e6d8]">
                       <div className="h-2 rounded-full bg-[var(--navy)]" style={{ width: `${width}%` }} />
                     </div>
-                    <p className="mt-3 text-sm leading-7 text-[#5d7287]">{item.appreciation}</p>
+                    <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{item.appreciation}</p>
                     {item.conseils.length > 0 && (
                       <ul className="mt-3 space-y-2 text-xs leading-6 text-[#6d7e8d]">
                         {item.conseils.map((conseil) => (
@@ -275,13 +276,13 @@ export default function CorrectionCopiePage() {
           <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-6 shadow-[var(--shadow-lg)] md:p-7">
             <details>
               <summary className="cursor-pointer text-lg font-semibold text-[var(--navy)]">Voir le corrigé type</summary>
-              <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[#33536f]">{correction.corrige_type}</p>
+              <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--navy-mid)]">{correction.corrige_type}</p>
             </details>
           </section>
         </section>
 
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <h2 className="text-lg font-semibold text-[var(--navy)]">Annotations ciblées</h2>
             <div className="mt-5 grid gap-4 xl:grid-cols-[0.95fr_1.05fr] xl:items-start">
               <div className="space-y-3">
@@ -299,7 +300,7 @@ export default function CorrectionCopiePage() {
                         {item.type}
                       </span>
                       <p className="mt-3 font-semibold leading-6 text-[var(--navy)]">« {item.extrait} »</p>
-                      <p className="mt-2 leading-7 text-[#5d7287]">{item.commentaire}</p>
+                      <p className="mt-2 leading-7 text-[var(--text-secondary)]">{item.commentaire}</p>
                     </button>
                   );
                 })}
@@ -307,7 +308,7 @@ export default function CorrectionCopiePage() {
 
               <div className="rounded-[24px] border border-[#d3e7e1] bg-white p-4 shadow-[var(--shadow-sm)]">
                 {isImageCopy && imageUrl ? (
-                  <div className="relative overflow-hidden rounded-[16px] border border-[#eadbc5] bg-[#fbf5ec]">
+                  <div className="relative overflow-hidden rounded-[16px] border border-[var(--surface-sand)] bg-[#fbf5ec]">
                     <img src={imageUrl} alt="Copie manuscrite" className="w-full" />
                     <div className="pointer-events-none absolute inset-0">
                       {annotationRegions.map((region, idx) => {
@@ -329,16 +330,16 @@ export default function CorrectionCopiePage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="rounded-[16px] border border-[#eadbc5] bg-[#fffaf4] p-4 text-sm leading-7 text-[#5d7287]">
+                  <div className="rounded-[16px] border border-[var(--surface-sand)] bg-[#fffaf4] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                     Aperçu visuel indisponible pour ce format de copie.
                   </div>
                 )}
 
                 {activeAnnotationItem && (
-                  <div className="mt-4 rounded-[16px] border border-[#eadbc5] bg-[#fffaf4] p-4">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Annotation active</p>
+                  <div className="mt-4 rounded-[16px] border border-[var(--surface-sand)] bg-[#fffaf4] p-4">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Annotation active</p>
                     <p className="mt-3 text-sm font-semibold text-[var(--navy)]">{activeAnnotationItem.extrait}</p>
-                    <p className="mt-2 text-sm leading-7 text-[#5d7287]">{activeAnnotationItem.commentaire}</p>
+                    <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{activeAnnotationItem.commentaire}</p>
                   </div>
                 )}
               </div>
@@ -346,8 +347,8 @@ export default function CorrectionCopiePage() {
           </section>
 
           <section className="rounded-[24px] border border-[#efd9b4] bg-[var(--warning-bg)] p-6 shadow-[var(--shadow-md)] md:p-7">
-            <h2 className="flex items-center gap-2 text-lg font-semibold text-[var(--navy)]"><Flame className="h-5 w-5 text-[#af7a20]" /> Lettre du professeur</h2>
-            <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[#6b5735]">{correction.conseil_final}</p>
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-[var(--navy)]"><Flame className="h-5 w-5 text-[var(--gold-deep)]" /> Lettre du professeur</h2>
+            <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--gold-contrast)]">{correction.conseil_final}</p>
           </section>
 
           <section className="rounded-[24px] border border-[var(--border-light)] bg-white p-5 shadow-[var(--shadow-md)]">
@@ -357,17 +358,19 @@ export default function CorrectionCopiePage() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-[var(--navy)]">Exporter et retravailler</p>
-                <p className="mt-2 text-sm leading-7 text-[#5d7287]">
+                <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">
                   Le meilleur usage de ce rapport n est pas de le lire une fois. Télécharge-le, isole deux axes, puis réinjecte-les dans la prochaine copie ou dans le tuteur.
                 </p>
               </div>
             </div>
-            <a
-              href={`/api/v1/epreuves/copies/${payload.copieId}/report`}
-              className="mt-5 inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
+            <Button
+              onClick={() => { window.location.href = `/api/v1/epreuves/copies/${payload.copieId}/report`; }}
+              icon={<Download className="h-4 w-4" />}
+              size="lg"
+              className="mt-5 rounded-[16px] font-semibold"
             >
-              <Download className="h-4 w-4" /> Télécharger mon rapport PDF
-            </a>
+              Télécharger mon rapport PDF
+            </Button>
           </section>
         </aside>
       </div>

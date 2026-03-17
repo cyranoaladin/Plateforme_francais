@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { Badge } from '@/components/ui';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -125,13 +126,13 @@ function TuteurPageContent() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[#f6efe4] shadow-[var(--shadow-xl)] md:px-8 md:py-8">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8">
         <div className="absolute inset-y-0 right-[-8%] hidden w-[36%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-4%] top-[-24%] h-40 w-40 rounded-full bg-[rgba(216,163,99,0.15)] blur-3xl" />
 
         <div className="relative grid gap-6 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <MessageSquareQuote className="h-4 w-4" />
               Tuteur Nexus
             </div>
@@ -151,7 +152,7 @@ function TuteurPageContent() {
               { label: 'Cadre sécurisé', value: 'EAF' },
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">{item.label}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
@@ -162,17 +163,17 @@ function TuteurPageContent() {
       <div className="grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
         <aside className="space-y-4">
           <section className="rounded-[24px] border border-[#e8dcc8] bg-[#f8f1e7] p-5 shadow-[var(--shadow-md)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Questions qui marchent</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Questions qui marchent</p>
             <div className="mt-4 space-y-2.5">
               {STARTER_PROMPTS.map((prompt) => (
                 <button
                   key={prompt}
                   type="button"
                   onClick={() => void sendMessage(prompt)}
-                  className="flex w-full items-start justify-between gap-3 rounded-[16px] border border-[#eadbc5] bg-white/80 px-4 py-3 text-left text-sm leading-6 text-[var(--navy)] transition hover:border-[var(--navy)]/22 hover:bg-white"
+                  className="flex w-full items-start justify-between gap-3 rounded-[16px] border border-[var(--surface-sand)] bg-white/80 px-4 py-3 text-left text-sm leading-6 text-[var(--navy)] transition hover:border-[var(--navy)]/22 hover:bg-white"
                 >
                   <span>{prompt}</span>
-                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[#9a6a37]" />
+                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[var(--accent-bronze)]" />
                 </button>
               ))}
             </div>
@@ -191,7 +192,7 @@ function TuteurPageContent() {
                       </div>
                       <p className="text-sm font-semibold text-[var(--navy)]">{rule.title}</p>
                     </div>
-                    <p className="mt-3 text-sm leading-6 text-[#33536f]">{rule.body}</p>
+                    <p className="mt-3 text-sm leading-6 text-[var(--navy-mid)]">{rule.body}</p>
                   </div>
                 );
               })}
@@ -208,7 +209,7 @@ function TuteurPageContent() {
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-[var(--navy)]">Conversation guidée</h2>
-                  <p className="text-sm text-[#5d7287]">Méthode claire, références internes, aucune URL externe.</p>
+                  <p className="text-sm text-[var(--text-secondary)]">Méthode claire, références internes, aucune URL externe.</p>
                 </div>
               </div>
 
@@ -237,7 +238,7 @@ function TuteurPageContent() {
                   <h3 style={EDITORIAL_HEADING} className="mt-6 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                     Commence par le blocage réel du moment.
                   </h3>
-                  <p className="mt-3 max-w-xl text-sm leading-7 text-[#5d7287] md:text-base">
+                  <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--text-secondary)] md:text-base">
                     Plus la question est située, plus la réponse devient utile. Exemple : une introduction trop vague,
                     une métaphore mal exploitée, une problématique qui ne tient pas, une question de grammaire mal cadrée.
                   </p>
@@ -280,12 +281,12 @@ function TuteurPageContent() {
 
                         {message.role === 'assistant' && message.citations && message.citations.length > 0 && (
                           <div className="mt-4 space-y-2 border-t border-[#efe4d4] pt-4">
-                            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Citations et points d appui</p>
+                            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Citations et points d appui</p>
                             <div className="grid gap-2">
                               {message.citations.map((citation) => (
-                                <div key={`${citation.index}-${citation.title}`} className="rounded-[16px] border border-[#efe3d2] bg-[#fbf5ec] px-3 py-3 text-xs leading-6 text-[#33536f]">
+                                <div key={`${citation.index}-${citation.title}`} className="rounded-[16px] border border-[#efe3d2] bg-[#fbf5ec] px-3 py-3 text-xs leading-6 text-[var(--navy-mid)]">
                                   <span className="font-semibold text-[var(--navy)]">[{citation.index}] {citation.title}</span>
-                                  <span className="block text-[#7a6858]">{citation.source}</span>
+                                  <span className="block text-[var(--text-warm)]">{citation.source}</span>
                                 </div>
                               ))}
                             </div>
@@ -316,10 +317,10 @@ function TuteurPageContent() {
 
             <div className="border-t border-[#efe3d2] bg-white/90 px-4 py-4 md:px-6 md:py-5">
               <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[#6f7f8f]">
-                <span className="rounded-full bg-[var(--navy)]/7 px-3 py-1 font-medium text-[var(--navy)]">Méthode</span>
-                <span className="rounded-full bg-[var(--teal)]/7 px-3 py-1 font-medium text-[var(--teal)]">Œuvres</span>
-                <span className="rounded-full bg-[var(--gold-muted)]/10 px-3 py-1 font-medium text-[#9a6a37]">Grammaire</span>
-                <span className="rounded-full bg-[#6b587d]/8 px-3 py-1 font-medium text-[#6b587d]">Oral</span>
+                <Badge variant="navy" size="sm" className="bg-[var(--navy)]/7 text-[var(--navy)]">Méthode</Badge>
+                <Badge variant="success" size="sm" className="bg-[var(--teal)]/7">Œuvres</Badge>
+                <Badge variant="warning" size="sm" className="bg-[var(--gold-muted)]/10 text-[var(--accent-bronze)]">Grammaire</Badge>
+                <Badge variant="default" size="sm" className="bg-[var(--accent-violet)]/8 text-[var(--accent-violet)]">Oral</Badge>
               </div>
 
               <form

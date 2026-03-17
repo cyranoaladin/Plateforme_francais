@@ -25,7 +25,7 @@ function PaiementRefusContent() {
 
           <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
                 <AlertTriangle className="h-4 w-4" />
                 Paiement refusé
               </div>
@@ -43,11 +43,11 @@ function PaiementRefusContent() {
                 <p className="mt-2 text-xl font-semibold">Paiement refusé</p>
               </div>
               <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Montant</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Montant</p>
                 <p className="mt-2 text-sm font-semibold text-white">Aucun débit confirmé</p>
               </div>
               <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Référence</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Référence</p>
                 <p className="mt-2 truncate text-sm font-semibold text-white">{displayedRef ?? 'Non transmise'}</p>
               </div>
             </div>
@@ -62,7 +62,7 @@ function PaiementRefusContent() {
                   <AlertTriangle className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Lecture du retour</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Lecture du retour</p>
                   <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                     L&apos;abonnement n&apos;a pas été activé.
                   </h2>
@@ -78,7 +78,7 @@ function PaiementRefusContent() {
                   'Contacter le support si la référence bloque à plusieurs reprises.',
                 ].map((step, index) => (
                   <div key={step} className="rounded-[22px] border border-white/70 bg-white/75 p-4">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Étape {index + 1}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Étape {index + 1}</p>
                     <p className="mt-2 text-sm leading-6 text-[var(--navy)]">{step}</p>
                   </div>
                 ))}
@@ -86,7 +86,7 @@ function PaiementRefusContent() {
             </section>
 
             <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Actions utiles</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Actions utiles</p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link
                   href="/#plans"
@@ -97,13 +97,13 @@ function PaiementRefusContent() {
                 </Link>
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-2 rounded-[16px] border border-[#dfd1bc] bg-[#fffaf4] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25 hover:bg-white"
+                  className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-sand)] bg-[#fffaf4] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25 hover:bg-white"
                 >
                   Se connecter
                 </Link>
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 rounded-[16px] border border-[#dfd1bc] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25"
+                  className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-sand)] bg-white px-5 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25"
                 >
                   Retour à l&apos;accueil
                   <ArrowRight className="h-4 w-4" />
@@ -114,8 +114,8 @@ function PaiementRefusContent() {
 
           <aside className="space-y-6">
             <section className="rounded-[24px] border border-[#e8dcc8] bg-[#f8f1e7] p-5 shadow-[var(--shadow-md)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Référence de retour</p>
-              <div className="mt-4 rounded-[16px] border border-[#eadbc5] bg-white/80 p-4 text-sm text-[#33536f]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Référence de retour</p>
+              <div className="mt-4 rounded-[16px] border border-[var(--surface-sand)] bg-white/80 p-4 text-sm text-[var(--navy-mid)]">
                 {displayedRef ? (
                   <>
                     <p className="font-semibold text-[var(--navy)]">Référence transmise</p>
@@ -134,7 +134,7 @@ function PaiementRefusContent() {
                 </div>
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Réassurance</p>
-                  <p className="mt-2 text-sm leading-7 text-[#33536f]">
+                  <p className="mt-2 text-sm leading-7 text-[var(--navy-mid)]">
                     Aucun montant n&apos;a été débité tant que la transaction n&apos;est pas acceptée. En cas de doute, la page tarifaire et ton espace connecté restent les deux écrans de vérification utiles.
                   </p>
                 </div>

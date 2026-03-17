@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { BookOpen, Download, Loader2, Plus, Quote, Sparkles } from 'lucide-react';
+import { BookOpen, Download, Plus, Quote, Sparkles } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { StateNotice } from '@/components/ui/state-notice';
+import { Button, Badge } from '@/components/ui';
 
 type CarnetEntry = {
   id: string;
@@ -121,13 +122,13 @@ export default function CarnetPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <BookOpen className="h-4 w-4" />
               Carnet de lecture
             </div>
@@ -141,16 +142,16 @@ export default function CarnetPage() {
 
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
             <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Entrées</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Entrées</p>
               <p className="mt-2 text-2xl font-semibold text-white">{entries.length}</p>
             </div>
             <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Œuvres</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Œuvres</p>
               <p className="mt-2 text-2xl font-semibold text-white">{grouped.length}</p>
             </div>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- download endpoint */}
             <a href="/api/v1/carnet/export" className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 text-white backdrop-blur-sm transition hover:bg-white/14">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Export</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Export</p>
               <p className="mt-2 inline-flex items-center gap-2 text-base font-semibold"><Download className="h-4 w-4" /> Export PDF</p>
             </a>
           </div>
@@ -169,7 +170,7 @@ export default function CarnetPage() {
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Nouvelle entrée</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Nouvelle entrée</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Noter pendant que c est encore vivant
                 </h2>
@@ -210,21 +211,21 @@ export default function CarnetPage() {
                 placeholder="Contenu"
                 className="min-h-36 w-full rounded-[16px] border border-[var(--border-default)] bg-white px-3 py-3 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8b95a1] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
               />
-              <button
+              <Button
                 onClick={() => void submit()}
-                disabled={saving}
-                className="inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-60"
+                loading={saving}
+                icon={<Plus className="h-4 w-4" />}
               >
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />} Ajouter
-              </button>
+                Ajouter
+              </Button>
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Répartition des notes</p>
             <div className="mt-4 space-y-3">
               {typeStats.map((item) => (
-                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[#d3e7e1] bg-white/88 px-4 py-3 text-sm text-[#33536f]">
+                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[#d3e7e1] bg-white/88 px-4 py-3 text-sm text-[var(--navy-mid)]">
                   <span>{item.label}</span>
                   <span className="font-semibold text-[var(--navy)]">{item.count}</span>
                 </div>
@@ -261,13 +262,13 @@ export default function CarnetPage() {
                 </div>
                 <div className="mt-4 space-y-3">
                   {oeuvreEntries.map((entry) => (
-                    <article key={entry.id} className="rounded-[16px] border border-[#eadbc5] bg-white p-4 shadow-[var(--shadow-sm)]">
-                      <div className="flex flex-wrap items-center gap-2 text-xs text-[#7a6858]">
-                        <span className="rounded-full bg-[var(--navy)]/8 px-2.5 py-1 font-semibold text-[var(--navy)]">{TYPE_LABELS[entry.type]}</span>
+                    <article key={entry.id} className="rounded-[16px] border border-[var(--surface-sand)] bg-white p-4 shadow-[var(--shadow-sm)]">
+                      <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--text-warm)]">
+                        <Badge variant="navy" size="sm" className="bg-[var(--navy)]/8 text-[var(--navy)]">{TYPE_LABELS[entry.type]}</Badge>
                         <span>{new Date(entry.createdAt).toLocaleDateString('fr-FR')}</span>
                         {entry.page ? <span>p.{entry.page}</span> : null}
                       </div>
-                      <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-[#33536f]">{entry.contenu}</p>
+                      <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-[var(--navy-mid)]">{entry.contenu}</p>
                       {entry.tags.length > 0 && <p className="mt-3 text-xs text-[#6d7e8d]">#{entry.tags.join(' #')}</p>}
                     </article>
                   ))}

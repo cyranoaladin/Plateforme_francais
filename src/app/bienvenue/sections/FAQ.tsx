@@ -80,7 +80,7 @@ export function FAQ() {
             Une page d&apos;accueil sérieuse répond clairement aux questions sensibles : anti-triche, sources, sécurité, accessibilité, support.
           </p>
 
-          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-md)]">
+          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-md)]">
             <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]">
               <MessageSquareText className="h-5 w-5" />
             </div>

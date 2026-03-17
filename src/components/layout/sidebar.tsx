@@ -183,9 +183,9 @@ export function Sidebar() {
   return (
     <>
       {/* ─── Desktop Sidebar ─── */}
-      <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 flex-col border-r border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm)_0%,#f2eadf_100%)] shadow-[var(--shadow-md)] z-10">
+      <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 flex-col border-r border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm)_0%,var(--surface-sand)_100%)] shadow-[var(--shadow-md)] z-10">
         <div className="border-b border-[var(--border-light)] px-5 py-5">
-          <div className="rounded-[var(--radius-xl)] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,#f8f2e8_100%)] p-4 shadow-[var(--shadow-sm)]">
+          <div className="rounded-[var(--radius-xl)] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,var(--surface-parchment)_100%)] p-4 shadow-[var(--shadow-sm)]">
             <div className="flex items-center gap-3">
               <img
                 src="/images/logo_nexus_reussite.png"
@@ -193,7 +193,7 @@ export function Sidebar() {
                 className="h-14 w-14 object-contain rounded-full border border-[var(--border-light)] bg-white p-1.5"
               />
               <div className="min-w-0">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Nexus Réussite</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Nexus Réussite</p>
                 <p className="mt-1 text-sm font-semibold text-[var(--navy)]">Cockpit élève EAF</p>
                 <p className="text-xs text-[var(--navy-muted)]">Travail guidé, progression lisible, matière exploitable.</p>
               </div>
@@ -201,24 +201,24 @@ export function Sidebar() {
 
             <div className="mt-4 grid grid-cols-3 gap-2">
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-white/85 p-2.5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8b7a67]">J-EAF</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">J-EAF</p>
                 <p className="mt-1 text-base font-bold text-[var(--navy)]">{joursAvantEAF !== null ? joursAvantEAF : '--'}</p>
               </div>
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-white/85 p-2.5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8b7a67]">Streak</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">Streak</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--navy)]">
                   <Flame className="h-3.5 w-3.5 text-[#d97706]" /> {streak}
                 </p>
               </div>
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-white/85 p-2.5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8b7a67]">Badges</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">Badges</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--navy)]">
                   <Award className="h-3.5 w-3.5 text-[#b8860b]" /> {badgeCount}
                 </p>
               </div>
             </div>
 
-            <div className="mt-4 rounded-[var(--radius-xl)] border border-[#d9e7e1] bg-[#edf7f3] p-3.5">
+            <div className="mt-4 rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--success-bg)] p-3.5">
               <div className="flex items-center gap-3">
                 <div className="relative h-12 w-12 shrink-0">
                   <svg viewBox="0 0 36 36" className="h-12 w-12 -rotate-90">
@@ -250,7 +250,7 @@ export function Sidebar() {
           {navSections.map((section) => (
             <section key={section.label}>
               <div className="mb-3 px-2">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">{section.label}</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">{section.label}</p>
                 <p className="mt-1 text-xs leading-5 text-[var(--navy-muted)]">{section.description}</p>
               </div>
               <div className="space-y-1.5">

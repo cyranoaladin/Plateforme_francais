@@ -15,21 +15,21 @@ type StateNoticeProps = {
 
 const VARIANT_STYLES: Record<NoticeVariant, { shell: string; iconBox: string; text: string; defaultIcon: LucideIcon }> = {
   info: {
-    shell: 'border-[#d9e6f0] bg-[#f4f8fb]',
+    shell: 'border-[var(--border-light)] bg-[var(--info-bg)]',
     iconBox: 'bg-[var(--navy)]/10 text-[var(--navy)]',
-    text: 'text-[#33536f]',
+    text: 'text-[var(--navy-mid)]',
     defaultIcon: Info,
   },
   success: {
-    shell: 'border-[#d6e8df] bg-[var(--success-bg)]',
+    shell: 'border-[var(--border-success)] bg-[var(--success-bg)]',
     iconBox: 'bg-[var(--teal)]/10 text-[var(--teal)]',
-    text: 'text-[#33536f]',
+    text: 'text-[var(--navy-mid)]',
     defaultIcon: CheckCircle2,
   },
   warning: {
-    shell: 'border-[#efd9b4] bg-[var(--warning-bg)]',
-    iconBox: 'bg-[#af7a20]/10 text-[#af7a20]',
-    text: 'text-[#6b5735]',
+    shell: 'border-[var(--surface-sand)] bg-[var(--warning-bg)]',
+    iconBox: 'bg-[var(--gold-deep)]/10 text-[var(--gold-deep)]',
+    text: 'text-[var(--gold-contrast)]',
     defaultIcon: AlertTriangle,
   },
   error: {

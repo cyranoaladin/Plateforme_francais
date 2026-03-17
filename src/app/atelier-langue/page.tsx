@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useTrackInteraction } from '@/components/tracking/tracking-provider';
 import { StateNotice } from '@/components/ui/state-notice';
+import { Button } from '@/components/ui';
 import { buildLangueExerciseSeries } from '@/lib/langue/exercise-bank';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
@@ -211,7 +212,7 @@ export default function AtelierLangue() {
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <Type className="h-4 w-4" />
               Atelier langue
             </div>
@@ -230,7 +231,7 @@ export default function AtelierLangue() {
               { label: 'Derniere note', value: scoreLabel },
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">{item.label}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
@@ -250,20 +251,20 @@ export default function AtelierLangue() {
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Serie de travail</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Serie de travail</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Regler la seance
                 </h2>
               </div>
             </div>
 
-            <label className="mt-5 block text-xs font-bold uppercase tracking-[0.2em] text-[#8a704b]">
+            <label className="mt-5 block text-xs font-bold uppercase tracking-[0.2em] text-[var(--text-warm)]">
               Axe du programme
             </label>
             <select
               value={theme}
               onChange={(event) => setTheme(event.target.value as ThemeKey)}
-              className="mt-2 w-full rounded-[16px] border border-[#dfd1bc] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/30"
+              className="mt-2 w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/30"
               disabled={isLoading}
             >
               {THEME_OPTIONS.map((option) => (
@@ -273,20 +274,23 @@ export default function AtelierLangue() {
               ))}
             </select>
 
-            <div className="mt-4 rounded-[22px] border border-[#dfd1bc] bg-white/80 p-4">
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">{activeTheme.eyebrow}</p>
+            <div className="mt-4 rounded-[22px] border border-[var(--border-sand)] bg-white/80 p-4">
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">{activeTheme.eyebrow}</p>
               <p className="mt-2 text-sm font-semibold text-[var(--navy)]">{activeTheme.label}</p>
-              <p className="mt-2 text-sm leading-6 text-[#33536f]">{activeTheme.description}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--navy-mid)]">{activeTheme.description}</p>
             </div>
 
-            <button
+            <Button
               onClick={() => void loadExercises(theme)}
               disabled={isLoading}
-              className="mt-5 flex w-full items-center justify-center gap-2 rounded-[16px] bg-[var(--navy)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#22486b] disabled:cursor-not-allowed disabled:opacity-60"
+              variant="primary"
+              size="md"
+              fullWidth
+              icon={<RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />}
+              className="mt-5"
             >
-              <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
               {isLoading ? 'Generation...' : 'Composer une nouvelle serie'}
-            </button>
+            </Button>
           </section>
 
           <section className="rounded-[24px] border border-[#d7e6e1] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
@@ -301,7 +305,7 @@ export default function AtelierLangue() {
             </div>
             <div className="mt-4 space-y-3">
               {METHOD_MARKERS.map((marker, index) => (
-                <div key={marker} className="rounded-[20px] border border-[#d0e8df] bg-white/85 px-4 py-3 text-sm text-[#33536f]">
+                <div key={marker} className="rounded-[20px] border border-[#d0e8df] bg-white/85 px-4 py-3 text-sm text-[var(--navy-mid)]">
                   <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--teal)]/10 text-xs font-bold text-[var(--teal)]">
                     {index + 1}
                   </span>
@@ -312,7 +316,7 @@ export default function AtelierLangue() {
           </section>
 
           <section className="rounded-[24px] border border-[#e8dcc8] bg-[#f8f1e7] p-5 shadow-[var(--shadow-lg)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Progression</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Progression</p>
             <div className="mt-4 rounded-full bg-white/75 p-1">
               <div className="h-3 overflow-hidden rounded-full bg-[#efe3d2]">
                 <div className="h-3 rounded-full bg-[var(--navy)] transition-all duration-500" style={{ width: `${progressPercent}%` }} />
@@ -333,14 +337,14 @@ export default function AtelierLangue() {
                   <BookOpen className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Phrase cible</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Phrase cible</p>
                   <h2 className="text-lg font-semibold text-[var(--navy)]">
                     {currentExercise ? `Exercice ${currentIndex + 1}/${exercises.length}` : 'Atelier en attente'}
                   </h2>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#dfd1bc] bg-[#fffaf4] px-3 py-1.5 text-xs font-medium text-[var(--navy)]">
-                <Activity className="h-3.5 w-3.5 text-[#9a6a37]" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-sand)] bg-[#fffaf4] px-3 py-1.5 text-xs font-medium text-[var(--navy)]">
+                <Activity className="h-3.5 w-3.5 text-[var(--accent-bronze)]" />
                 Terminologie EAF premiere
               </div>
             </div>
@@ -365,20 +369,20 @@ export default function AtelierLangue() {
           ) : (
             <div className="space-y-6 p-5 md:p-8">
               <section className="rounded-[24px] border border-[var(--border-light)] bg-white/85 p-5 shadow-[var(--shadow-sm)] md:p-6">
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Phrase a analyser</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Phrase a analyser</p>
                 <p style={EDITORIAL_HEADING} className="mt-4 text-2xl leading-10 tracking-[-0.02em] text-[var(--navy)] md:text-3xl">
                   « {currentExercise.sentence} »
                 </p>
                 <div className="mt-5 rounded-[22px] border border-[#dfe7ef] bg-[#f4f8fb] p-4">
                   <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#6d7f90]">Question d oral</p>
-                  <p className="mt-2 text-sm leading-7 text-[#33536f]">{currentExercise.question}</p>
+                  <p className="mt-2 text-sm leading-7 text-[var(--navy-mid)]">{currentExercise.question}</p>
                 </div>
               </section>
 
               <section className="rounded-[24px] border border-[var(--border-light)] bg-white/85 p-5 shadow-[var(--shadow-sm)] md:p-6">
                 <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Ton analyse</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Ton analyse</p>
                     <h3 className="mt-2 text-lg font-semibold text-[var(--navy)]">Reste court, exact, exploitable à l&apos;oral</h3>
                   </div>
                   <p className="text-sm text-[#5b6f82]">Formule : identification, dénomination, interprétation.</p>
@@ -386,7 +390,7 @@ export default function AtelierLangue() {
 
                 <textarea
                   data-testid="langue-answer"
-                  className="mt-5 min-h-[180px] w-full rounded-[24px] border border-[#dfd1bc] bg-[#fffaf4] px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8d8173] focus:border-[var(--navy)]/30"
+                  className="mt-5 min-h-[180px] w-full rounded-[24px] border border-[var(--border-sand)] bg-[#fffaf4] px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[#8d8173] focus:border-[var(--navy)]/30"
                   placeholder="Rédige ton analyse grammaticale complète ici..."
                   value={userAnswer}
                   onChange={(event) => setUserAnswer(event.target.value)}
@@ -395,15 +399,17 @@ export default function AtelierLangue() {
 
                 {!feedback ? (
                   <div className="mt-6 flex justify-end">
-                    <button
+                    <Button
                       data-testid="langue-submit"
                       onClick={handleSubmit}
                       disabled={userAnswer.length === 0 || isSubmitting}
-                      className="inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#22486b] disabled:cursor-not-allowed disabled:opacity-50"
+                      variant="primary"
+                      size="md"
+                      loading={isSubmitting}
+                      icon={!isSubmitting ? <CheckCircle2 className="h-4 w-4" /> : undefined}
                     >
-                      {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
                       {isSubmitting ? 'Evaluation...' : 'Soumettre la reponse'}
-                    </button>
+                    </Button>
                   </div>
                 ) : (
                   <div className="mt-8 space-y-5 animate-in slide-in-from-bottom-4 duration-500">
@@ -419,10 +425,10 @@ export default function AtelierLangue() {
                     >
                       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
-                          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Retour de seance</p>
+                          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Retour de seance</p>
                           <h4 className="mt-2 flex items-center gap-2 text-base font-semibold text-[var(--navy)]">
                             {feedback.status === 'success' && <CheckCircle2 className="h-5 w-5 text-[var(--teal)]" />}
-                            {feedback.status === 'warning' && <RefreshCw className="h-5 w-5 text-[#af7a20]" />}
+                            {feedback.status === 'warning' && <RefreshCw className="h-5 w-5 text-[var(--gold-deep)]" />}
                             {feedback.status === 'error' && <Type className="h-5 w-5 text-[#b24838]" />}
                             Retour sur la reponse
                           </h4>
@@ -431,19 +437,19 @@ export default function AtelierLangue() {
                           {feedback.score}/{feedback.max}
                         </span>
                       </div>
-                      <p className="mt-4 text-sm leading-7 text-[#33536f]">{feedback.message}</p>
+                      <p className="mt-4 text-sm leading-7 text-[var(--navy-mid)]">{feedback.message}</p>
                     </div>
 
                     {feedback.missing.length > 0 && (
                       <div className="rounded-[24px] border border-[#efd9b4] bg-[var(--warning-bg)] p-5">
-                        <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[#af7a20]">
+                        <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--gold-deep)]">
                           <AlertCircle className="h-4 w-4" />
                           Axes a reprendre
                         </p>
-                        <ul className="mt-3 space-y-2 text-sm leading-7 text-[#6b5735]">
+                        <ul className="mt-3 space-y-2 text-sm leading-7 text-[var(--gold-contrast)]">
                           {feedback.missing.map((item) => (
                             <li key={item} className="flex gap-2">
-                              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#af7a20]" />
+                              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--gold-deep)]" />
                               <span>{item}</span>
                             </li>
                           ))}
@@ -456,17 +462,19 @@ export default function AtelierLangue() {
                         <Star className="h-4 w-4" />
                         Correction attendue
                       </p>
-                      <p className="mt-3 text-sm leading-7 text-[#33536f]">{currentExercise.correction}</p>
+                      <p className="mt-3 text-sm leading-7 text-[var(--navy-mid)]">{currentExercise.correction}</p>
                     </div>
 
                     <div className="flex justify-end">
-                      <button
+                      <Button
                         onClick={handleNext}
-                        className="inline-flex items-center gap-2 rounded-[16px] border border-[#dfd1bc] bg-[#fffaf4] px-6 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/25 hover:bg-white"
+                        variant="secondary"
+                        size="md"
+                        icon={<ArrowRight className="h-4 w-4" />}
+                        iconPosition="right"
                       >
                         Exercice suivant
-                        <ArrowRight className="h-4 w-4" />
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 )}

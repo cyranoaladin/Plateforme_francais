@@ -76,7 +76,7 @@ export function Hero() {
               <Link
                 href="/login?mode=register"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'hero_register', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[#f7f2ea] shadow-[var(--shadow-lg)] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
               >
                 Créer mon espace gratuit
                 <ArrowRight className="h-4 w-4" />
@@ -122,7 +122,7 @@ export function Hero() {
             <div className="absolute -left-6 top-12 hidden h-24 w-24 rounded-full bg-[var(--gold-muted)]/18 blur-2xl lg:block" />
             <div className="absolute -right-4 top-20 hidden h-16 w-16 rounded-full bg-[var(--teal)]/20 blur-2xl lg:block [animation:bienvenueFloat_8s_ease-in-out_infinite]" />
 
-            <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-8">
+            <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#e4d4bd]">Cockpit élève</p>
@@ -130,7 +130,7 @@ export function Hero() {
                     Une séance, des retours immédiatement exploitables.
                   </h2>
                 </div>
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[#f7f2ea]">
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--surface-parchment)]">
                   <Clock3 className="h-3.5 w-3.5 text-[#e4d4bd]" />
                   Session 2026
                 </div>
@@ -139,7 +139,7 @@ export function Hero() {
               <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#d7c4aa]">Simulation orale</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--border-warm)]">Simulation orale</p>
                     <p className="mt-1 text-sm text-slate-200">Score ventilé selon le format officiel, sans zone floue.</p>
                   </div>
                   <div className="rounded-full bg-[var(--teal)]/25 px-3 py-1 text-xs font-bold text-[#bde5df]">16.5 / 20</div>
@@ -195,7 +195,7 @@ export function Hero() {
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Chaîne de valeur</p>
                     <p className="mt-1 text-base font-semibold">Copie déposée → correction structurée → rapport PDF → relance ciblée</p>
                   </div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-3 py-1.5 text-xs font-bold text-[#f7f2ea]">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-3 py-1.5 text-xs font-bold text-[var(--surface-parchment)]">
                     <ShieldCheck className="h-3.5 w-3.5" />
                     anti-copie actif
                   </div>

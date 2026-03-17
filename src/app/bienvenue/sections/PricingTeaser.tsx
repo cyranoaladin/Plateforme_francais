@@ -17,7 +17,7 @@ const PLANS = [
   },
   {
     name: 'Premium',
-    accent: 'border-[var(--navy)] bg-[var(--navy)] text-[#f7f2ea] shadow-[var(--shadow-lg)]',
+    accent: 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]',
     kicker: 'La méthode complète pour assurer votre réussite.',
     bullets: ["Soutenir une vraie routine hebdomadaire", "Moins de friction sur oral, écrit et tuteur", "Le bon rythme sans surpayer"],
     featured: true,
@@ -48,7 +48,7 @@ export function PricingTeaser() {
               <Link
                 href="/pricing"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_teaser', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
               >
                 Voir les plans, quotas et paiements
                 <ArrowRight className="h-4 w-4" />
@@ -74,7 +74,7 @@ export function PricingTeaser() {
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <h3 style={EDITORIAL_HEADING} className="text-3xl tracking-[-0.03em]">{plan.name}</h3>
                   {plan.featured ? (
-                    <span className="rounded-full bg-[#f7f2ea] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--navy)]">
+                    <span className="rounded-full bg-[var(--surface-parchment)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--navy)]">
                       Recommandé
                     </span>
                   ) : null}

@@ -97,7 +97,7 @@ const STEPS = [
 
 /* ─── Données ateliers ─── */
 const FEATURE_GROUPS = [
-  { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[#f7f2ea] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose une copie PDF ou image, récupère une lecture OCR, une correction par rubriques et un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'OCR + correction structurée', 'Rapport PDF exploitable'] },
+  { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose une copie PDF ou image, récupère une lecture OCR, une correction par rubriques et un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'OCR + correction structurée', 'Rapport PDF exploitable'] },
   { title: 'Oral officiel', icon: Mic, tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Format EAF', span: 'lg:col-span-5', body: "Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.", bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'] },
   { title: 'Corpus et citations', icon: ScanSearch, tone: 'bg-white/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Sources visibles', span: 'lg:col-span-4', body: "Le guidage mobilise BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles.", bullets: ['Citations internes', 'Recherche RAG documentée', 'Corpus 2025-2026'] },
   { title: 'Langue et quiz adaptatif', icon: BrainCircuit, tone: 'bg-[#efe7da] text-[var(--navy)] border-[var(--border-strong)]', badge: 'Relance ciblée', span: 'lg:col-span-4', body: "Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.", bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'] },
@@ -198,20 +198,20 @@ function FaqItem({ question, answer, index, open, onToggle }: { question: string
 /* ─── CTA Banner réutilisable ─── */
 function CtaBanner({ title, subtitle, primary, secondary }: { title: string; subtitle?: string; primary: { label: string; href: string; track?: string }; secondary?: { label: string; href: string } }) {
   return (
-    <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] px-6 py-8 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:px-10 md:py-10">
+    <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] px-6 py-8 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-10 md:py-10">
       <h3 style={EDITORIAL_HEADING} className="text-3xl leading-tight tracking-[-0.03em] text-white sm:text-4xl">{title}</h3>
       {subtitle ? <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-200">{subtitle}</p> : null}
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <Link
           href={primary.href}
           onClick={() => primary.track && track({ name: 'cta_click', props: { cta: primary.track, path: '/' } })}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-base font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-6 py-3.5 text-base font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
         >
           {primary.label}
           <ArrowRight className="h-4 w-4" />
         </Link>
         {secondary ? (
-          <Link href={secondary.href} className="inline-flex items-center justify-center rounded-full border border-white/16 px-6 py-3.5 text-base font-semibold text-[#f7f2ea] transition-colors hover:bg-white/8">
+          <Link href={secondary.href} className="inline-flex items-center justify-center rounded-full border border-white/16 px-6 py-3.5 text-base font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/8">
             {secondary.label}
           </Link>
         ) : null}
@@ -320,7 +320,7 @@ export default function HomePage() {
                 Nexus Réussite rassemble écrit, oral, langue, corpus officiel et historique de progression dans un même flux de travail. Tu vois le vrai produit en gratuit, puis tu montes en puissance seulement si le volume de travail le justifie.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                <Link href="/pricing" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[#f7f2ea] shadow-[var(--shadow-xl)] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]">
+                <Link href="/pricing" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
                   Choisir mon offre <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a href="#comment-ca-marche" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-white/85 px-6 py-3.5 text-base font-semibold text-[var(--navy)] transition-colors hover:bg-white">
@@ -345,20 +345,20 @@ export default function HomePage() {
             </div>
 
             <div className="relative [animation:fadeUp_.95s_ease-out_.12s_both]">
-              <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.28)] md:p-8">
+              <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_32px_90px_rgba(23,50,77,0.28)] md:p-8">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#e4d4bd]">Cockpit élève</p>
                     <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">Une séance, des retours immédiatement exploitables.</h2>
                   </div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[#f7f2ea]">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--surface-parchment)]">
                     <Clock3 className="h-3.5 w-3.5 text-[#e4d4bd]" /> Session 2026
                   </div>
                 </div>
                 <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#d7c4aa]">Simulation orale</p>
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--border-warm)]">Simulation orale</p>
                       <p className="mt-1 text-sm text-slate-200">Score ventilé selon le format officiel, sans zone floue.</p>
                     </div>
                     <div className="rounded-full bg-[var(--teal)]/25 px-3 py-1 text-xs font-bold text-[#bde5df]">16.5 / 20</div>
@@ -438,7 +438,7 @@ export default function HomePage() {
               </ul>
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'method_register', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]">
+              <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'method_register', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
                 Démarrer l&apos;onboarding <ArrowRight className="h-4 w-4" />
               </Link>
               <a href="#plans" className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-white/85 px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-white">
@@ -452,7 +452,7 @@ export default function HomePage() {
                 <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
                   <div className="max-w-2xl">
                     <div className="flex items-center gap-3">
-                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--navy)] text-sm font-bold text-[#f7f2ea]">{step.number}</span>
+                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--navy)] text-sm font-bold text-[var(--surface-parchment)]">{step.number}</span>
                       <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--border-strong)] bg-[#efe7da] text-[var(--teal)]">
                         <step.icon className="h-5 w-5" />
                       </div>
@@ -465,8 +465,8 @@ export default function HomePage() {
                       <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Côté élève</p>
                       <p className="mt-2 text-sm leading-6 text-slate-700">{step.student}</p>
                     </div>
-                    <div className="rounded-[24px] bg-[var(--navy)] p-4 text-[#f7f2ea]">
-                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Côté Nexus</p>
+                    <div className="rounded-[24px] bg-[var(--navy)] p-4 text-[var(--surface-parchment)]">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Côté Nexus</p>
                       <p className="mt-2 text-sm leading-6 text-slate-200">{step.platform}</p>
                     </div>
                   </div>
@@ -555,7 +555,7 @@ export default function HomePage() {
                   {AUDIENCE_CARDS.map((card) => (
                     <article key={card.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                       <div className="flex items-start gap-3">
-                        <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)] text-[#f7f2ea]"><card.icon className="h-5 w-5" /></div>
+                        <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]"><card.icon className="h-5 w-5" /></div>
                         <div>
                           <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--navy)]">{card.title}</h3>
                           <p className="mt-2 text-sm leading-6 text-slate-600">{card.body}</p>
@@ -565,16 +565,16 @@ export default function HomePage() {
                   ))}
                 </div>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'why_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]">
+                  <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'why_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
                     Essayer gratuitement <ArrowRight className="h-4 w-4" />
                   </Link>
                   <a href="#plans" className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-white px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--surface-paper)]">Voir les plans</a>
                 </div>
               </div>
-              <div className="rounded-[24px] bg-[var(--navy)] p-5 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-6">
+              <div className="rounded-[24px] bg-[var(--navy)] p-5 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-6">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Différenciation utile</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Différenciation utile</p>
                     <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                       Là où un outil généraliste s&apos;arrête à une réponse, Nexus construit une continuité de travail.
                     </h3>
@@ -584,7 +584,7 @@ export default function HomePage() {
                 <div className="mt-6 space-y-4">
                   {COMPARISON_ROWS.map((row) => (
                     <div key={row.label} className="rounded-[24px] border border-white/10 bg-white/6 p-4">
-                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">{row.label}</p>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">{row.label}</p>
                       <div className="mt-3 grid gap-3 md:grid-cols-2">
                         <div className="rounded-[22px] border border-white/10 bg-black/10 p-4">
                           <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">Outil généraliste</p>
@@ -605,11 +605,11 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════ CONFIANCE ════════════════ */}
-      <section id="securite" className="scroll-mt-24 bg-[var(--navy)] py-20 text-[#f7f2ea] md:py-24">
+      <section id="securite" className="scroll-mt-24 bg-[var(--navy)] py-20 text-[var(--surface-parchment)] md:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Engagements non négociables</p>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Engagements non négociables</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
                 Une plateforme commerciale crédible commence par ses garde-fous.
               </h2>
@@ -626,21 +626,21 @@ export default function HomePage() {
                 </article>
               ))}
             </div>
-            <aside className="rounded-[24px] border border-white/10 bg-[#0f2740] p-6 shadow-[var(--shadow-lg)] md:p-7">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">
+            <aside className="rounded-[24px] border border-white/10 bg-[var(--navy-dark)] p-6 shadow-[var(--shadow-lg)] md:p-7">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">
                 <ShieldCheck className="h-3.5 w-3.5" /> Garantie Nexus
               </div>
               <h3 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">Ce que l&apos;interface rend explicite dès la page d&apos;accueil.</h3>
               <div className="mt-6 space-y-3">
                 {["Pas de rédaction intégrale de copie à la place de l'élève.", "Citations internes affichables quand le corpus est mobilisé.", "Parcours aligné sur les œuvres officielles et les attendus EAF.", "Sécurité d'accès et respect des comptes mineurs assumés dans le produit."].map((item) => (
                   <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <CheckCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <CheckCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                     <p className="text-sm leading-6 text-slate-200">{item}</p>
                   </div>
                 ))}
               </div>
               <div className="mt-8 flex flex-col gap-3">
-                <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'trust_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
+                <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'trust_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
                   Démarrer gratuitement <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -665,7 +665,7 @@ export default function HomePage() {
           </div>
 
           {checkoutError ? (
-            <div className="mt-6 flex items-start gap-3 rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d]" role="alert">
+            <div className="mt-6 flex items-start gap-3 rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
               <span>{checkoutError}</span>
             </div>
           ) : null}
@@ -675,7 +675,7 @@ export default function HomePage() {
               const isCurrent = isAuthenticated && plan.id === currentPlan;
               const isLoadingPlan = pendingPlan !== null && plan.checkoutPlan === pendingPlan;
               const accent = plan.highlighted
-                ? 'border-[var(--navy)] bg-[var(--navy)] text-[#f7f2ea] shadow-[var(--shadow-xl)]'
+                ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-xl)]'
                 : isCurrent ? 'border-[var(--teal)] bg-[var(--surface-warm)] text-[var(--navy)]'
                 : 'border-[var(--border-strong)] bg-white/85 text-[var(--navy)]';
               return (
@@ -699,7 +699,7 @@ export default function HomePage() {
                   <ul className="mt-6 space-y-3 text-sm leading-6">
                     {plan.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-start gap-3">
-                        <CheckCircle2 className={`mt-1 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-[#d7c4aa]' : 'text-[var(--teal)]'}`} />
+                        <CheckCircle2 className={`mt-1 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-[var(--border-warm)]' : 'text-[var(--teal)]'}`} />
                         <span>{bullet}</span>
                       </li>
                     ))}
@@ -711,7 +711,7 @@ export default function HomePage() {
                       if (!isAuthenticated) { window.location.assign('/login?mode=register'); return; }
                       if (plan.checkoutPlan) { track({ name: 'pricing_plan_select', props: { plan: plan.id } }); void startCheckout(plan.checkoutPlan, plan.id); }
                     }}
-                    className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${plan.highlighted ? 'bg-[#f7f2ea] text-[var(--navy)] hover:-translate-y-0.5 hover:bg-white' : 'bg-[var(--navy)] text-[#f7f2ea] hover:-translate-y-0.5 hover:bg-[#0f2740]'}`}
+                    className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${plan.highlighted ? 'bg-[var(--surface-parchment)] text-[var(--navy)] hover:-translate-y-0.5 hover:bg-white' : 'bg-[var(--navy)] text-[var(--surface-parchment)] hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]'}`}
                   >
                     {isLoadingPlan ? <><Loader2 className="h-4 w-4 animate-spin" /> Redirection...</>
                       : !isAuthenticated ? (plan.id === 'FREE' ? 'Essayer gratuitement' : 'Choisir ce plan')
@@ -751,7 +751,7 @@ export default function HomePage() {
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
             <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-7">
               <div className="flex items-center gap-3">
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--navy)] text-[#f7f2ea]"><KeyRound className="h-5 w-5" /></div>
+                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]"><KeyRound className="h-5 w-5" /></div>
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Activation</p>
                   <h3 style={EDITORIAL_HEADING} className="mt-1 text-2xl leading-tight tracking-[-0.03em] text-[var(--navy)]">Activer avec un code</h3>
@@ -761,7 +761,7 @@ export default function HomePage() {
               {isAuthenticated ? (
                 <form onSubmit={redeemCode} className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <input type="text" value={codeInput} onChange={(e) => setCodeInput(e.target.value.toUpperCase())} placeholder="NEXUS-PRO-XXXX-XXXX" className="flex-1 rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm font-mono tracking-wider text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20" maxLength={25} disabled={codeLoading} />
-                  <button type="submit" disabled={codeLoading || !codeInput.trim()} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-colors hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-50">
+                  <button type="submit" disabled={codeLoading || !codeInput.trim()} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-colors hover:bg-[var(--navy-dark)] disabled:cursor-not-allowed disabled:opacity-50">
                     {codeLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}{codeLoading ? 'Activation...' : 'Activer'}
                   </button>
                 </form>
@@ -771,22 +771,22 @@ export default function HomePage() {
                 </div>
               )}
               {codeSuccess ? <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#9cccaf] bg-[#eef8f0] p-4 text-sm text-[#25543d]" role="status"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /><span>{codeSuccess.message}</span></div> : null}
-              {codeError ? <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d]" role="alert"><span>{codeError}</span></div> : null}
+              {codeError ? <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert"><span>{codeError}</span></div> : null}
             </article>
 
-            <article className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-7">
+            <article className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-7">
               <div className="flex items-center gap-3">
                 <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]"><Landmark className="h-5 w-5" /></div>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Paiement alternatif</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Paiement alternatif</p>
                   <h3 style={EDITORIAL_HEADING} className="mt-1 text-2xl leading-tight tracking-[-0.03em] text-white">Flouci & virement bancaire</h3>
                 </div>
               </div>
               <p className="mt-4 text-sm leading-7 text-slate-200">Le virement bancaire est actif avec activation manuelle du plan. Flouci sera disponible prochainement.</p>
-              <div className="mt-5 grid gap-2 rounded-[16px] bg-[#0f2740] p-4 text-sm text-slate-100 sm:grid-cols-2">
+              <div className="mt-5 grid gap-2 rounded-[16px] bg-[var(--navy-dark)] p-4 text-sm text-slate-100 sm:grid-cols-2">
                 {BANK_TRANSFER_ROWS.map((row) => (
                   <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#d7c4aa]">{row.label}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--border-warm)]">{row.label}</p>
                     <p className="mt-1 break-all font-semibold text-white">{row.value}</p>
                   </div>
                 ))}
@@ -819,15 +819,15 @@ export default function HomePage() {
               Les objections doivent être traitées avec autant de soin que les promesses.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">Anti-triche, sources, sécurité, accessibilité, paiement — les réponses honnêtes sont ici.</p>
-            <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-lg)]">
+            <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#e4d4bd]"><MessageSquareText className="h-5 w-5" /></div>
               <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">Besoin d&apos;aller plus loin ?</h3>
               <p className="mt-3 text-sm leading-7 text-slate-200">Compare les plans, choisis l&apos;offre adaptée à ton rythme de travail et commence à progresser.</p>
               <div className="mt-6 flex flex-col gap-3">
-                <Link href="/pricing" onClick={() => track({ name: 'cta_click', props: { cta: 'faq_pricing', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[#f7f2ea] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
+                <Link href="/pricing" onClick={() => track({ name: 'cta_click', props: { cta: 'faq_pricing', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[var(--surface-parchment)] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
                   Voir les offres <ArrowRight className="h-4 w-4" />
                 </Link>
-                <a href="#plans" className="text-sm font-semibold text-[#d7c4aa] transition-colors hover:text-white">Revoir les plans et tarifs</a>
+                <a href="#plans" className="text-sm font-semibold text-[var(--border-warm)] transition-colors hover:text-white">Revoir les plans et tarifs</a>
               </div>
             </div>
           </div>
@@ -842,10 +842,10 @@ export default function HomePage() {
       {/* ════════════════ FINAL CTA ════════════════ */}
       <section className="pb-20 pt-8 md:pb-24 md:pt-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] px-6 py-10 text-[#f7f2ea] shadow-[0_30px_90px_rgba(23,50,77,0.28)] md:px-10 md:py-12">
+          <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] px-6 py-10 text-[var(--surface-parchment)] shadow-[0_30px_90px_rgba(23,50,77,0.28)] md:px-10 md:py-12">
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Passage à l&apos;action</p>
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Passage à l&apos;action</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
                   Vérifie le produit, constate le cadre, puis décide si Premium vaut vraiment la peine.
                 </h2>
@@ -853,12 +853,12 @@ export default function HomePage() {
                   Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d&apos;abord, choisir ensuite, payer seulement si l&apos;usage le justifie.
                 </p>
               </div>
-              <div className="rounded-[24px] bg-[#0f2740] p-6">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Dès l&apos;entrée</p>
+              <div className="rounded-[24px] bg-[var(--navy-dark)] p-6">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Dès l&apos;entrée</p>
                 <div className="mt-4 space-y-3">
                   {["Compte créé et onboarding lancé en quelques minutes", "Aucun paiement avant d'avoir vu le produit en situation", "Aucune rédaction intégrale générée à la place de l'élève"].map((item) => (
                     <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                       <p className="text-sm leading-6 text-slate-200">{item}</p>
                     </div>
                   ))}
@@ -866,10 +866,10 @@ export default function HomePage() {
               </div>
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-              <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'final_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-base font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
+              <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'final_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-6 py-3.5 text-base font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
                 Créer mon espace gratuit <ArrowRight className="h-4 w-4" />
               </Link>
-              <button type="button" onClick={() => { track({ name: 'cta_click', props: { cta: 'final_premium', path: '/' } }); void startCheckout('PREMIUM', 'PREMIUM'); }} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/16 px-6 py-3.5 text-base font-semibold text-[#f7f2ea] transition-colors hover:bg-white/8">
+              <button type="button" onClick={() => { track({ name: 'cta_click', props: { cta: 'final_premium', path: '/' } }); void startCheckout('PREMIUM', 'PREMIUM'); }} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/16 px-6 py-3.5 text-base font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/8">
                 <Send className="h-4 w-4" /> Passer directement à Premium
               </button>
               <a href="#plans" className="inline-flex items-center justify-center rounded-full px-4 py-3 text-sm font-semibold text-slate-300 transition-colors hover:text-white">

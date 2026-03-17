@@ -49,7 +49,7 @@ export function PublicHeader() {
           <Link
             href="/login?mode=register"
             onClick={() => track({ name: 'cta_click', props: { cta: 'header_register', path: '/' } })}
-            className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-[#f7f2ea] shadow-[0_18px_45px_rgba(23,50,77,0.16)] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-[var(--surface-parchment)] shadow-[0_18px_45px_rgba(23,50,77,0.16)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
           >
             Créer mon espace
             <ArrowRight className="h-4 w-4" />
@@ -105,7 +105,7 @@ export function PublicHeader() {
                   setMobileMenuOpen(false);
                   track({ name: 'cta_click', props: { cta: 'header_register_mobile', path: '/' } });
                 }}
-                className="rounded-2xl bg-[var(--navy)] px-4 py-3 text-center text-sm font-bold text-[#f7f2ea]"
+                className="rounded-2xl bg-[var(--navy)] px-4 py-3 text-center text-sm font-bold text-[var(--surface-parchment)]"
               >
                 Créer mon espace gratuit
               </Link>
@@ -125,7 +125,7 @@ export function PublicHeader() {
       <Link
         href="/login?mode=register"
         onClick={() => track({ name: 'cta_click', props: { cta: 'sticky_bottom_register', path: '/' } })}
-        className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-[var(--navy)] px-4 py-2.5 text-sm font-bold text-[#f7f2ea] shadow-[0_10px_30px_rgba(23,50,77,0.22)] transition-all hover:bg-[#0f2740]"
+        className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-[var(--navy)] px-4 py-2.5 text-sm font-bold text-[var(--surface-parchment)] shadow-[0_10px_30px_rgba(23,50,77,0.22)] transition-all hover:bg-[var(--navy-dark)]"
       >
         Commencer <ArrowRight className="h-3.5 w-3.5" />
       </Link>

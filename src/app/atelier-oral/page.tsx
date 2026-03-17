@@ -22,6 +22,7 @@ import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { createAudioRecorder, type BrowserAudioRecorder } from '@/lib/oral/audio-recorder';
 import { createBrowserStt } from '@/lib/stt/browser';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { Button, Badge } from '@/components/ui';
 
 type VoiceMode = 'browser' | 'server' | 'auto';
 
@@ -185,7 +186,7 @@ function formatTimer(seconds: number): string {
 
 function timerTone(remaining: number): string {
   if (remaining <= 120) return 'border-[#f2c7bf] bg-[var(--error-bg)] text-[#c44f3c]';
-  if (remaining <= 600) return 'border-[#efd9b4] bg-[var(--warning-bg)] text-[#af7a20]';
+  if (remaining <= 600) return 'border-[#efd9b4] bg-[var(--warning-bg)] text-[var(--gold-deep)]';
   return 'border-[#cde5de] bg-[var(--success-bg)] text-[var(--teal)]';
 }
 
@@ -558,13 +559,13 @@ export default function AtelierOralPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <BookOpen className="h-4 w-4" />
               Oral EAF
             </div>
@@ -583,7 +584,7 @@ export default function AtelierOralPage() {
               { label: 'Barème', value: '2 + 8 + 2 + 8' },
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">{item.label}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
@@ -603,12 +604,14 @@ export default function AtelierOralPage() {
             {(['TIRAGE', 'PREP', 'PASSAGE', 'BILAN'] as WizardPhase[]).map((phase) => {
               const active = wizardPhase === phase;
               return (
-                <span
+                <Badge
                   key={phase}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] ${active ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-default)] bg-white text-[#6d7e8d]'}`}
+                  variant={active ? 'navy' : 'default'}
+                  size="md"
+                  className="uppercase tracking-[0.16em]"
                 >
                   {phase === 'TIRAGE' ? 'Tirage' : phase === 'PREP' ? "Prépa 30'" : phase === 'PASSAGE' ? "Passage 20'" : 'Bilan'}
-                </span>
+                </Badge>
               );
             })}
           </div>
@@ -623,7 +626,7 @@ export default function AtelierOralPage() {
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Démarrage</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Démarrage</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Tirage au sort de l extrait
                 </h2>
@@ -655,13 +658,13 @@ export default function AtelierOralPage() {
             </div>
 
             {mode === 'FREE_PRACTICE' && (
-              <p className="mt-4 rounded-[16px] border border-[#d8e8e3] bg-[var(--success-bg)] px-4 py-3 text-sm text-[var(--teal)]">
+              <p className="mt-4 rounded-[16px] border border-[var(--border-success)] bg-[var(--success-bg)] px-4 py-3 text-sm text-[var(--teal)]">
                 Mode libre : les timers sont désactivés, tu peux prendre ton temps.
               </p>
             )}
 
             <div className="mt-6 max-w-xl">
-              <label htmlFor="oeuvre-select" className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#7a6858]">
+              <label htmlFor="oeuvre-select" className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
                 Œuvre du programme
               </label>
               <select
@@ -679,19 +682,22 @@ export default function AtelierOralPage() {
               </select>
             </div>
 
-            <button
+            <Button
               data-testid="start-session-btn"
               onClick={startSession}
               disabled={isLoading}
-              className="mt-6 inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50"
+              variant="primary"
+              size="md"
+              loading={isLoading}
+              icon={!isLoading ? <Play className="h-4 w-4" /> : undefined}
+              className="mt-6"
             >
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
               Tirer un extrait
-            </button>
+            </Button>
           </section>
 
           <aside className="space-y-6">
-            <section className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
+            <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Ce qui va suivre</p>
               <div className="mt-4 space-y-3">
                 {[
@@ -708,7 +714,7 @@ export default function AtelierOralPage() {
             </section>
 
             <section className="rounded-[24px] border border-[var(--border-light)] bg-[#f8f1e7] p-5 shadow-[var(--shadow-lg)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Bon usage</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Bon usage</p>
               <p className="mt-4 text-sm leading-7 text-[var(--navy-muted)]">
                 Une bonne simulation orale ne cherche pas à parler beaucoup. Elle cherche à rendre la parole plus nette, plus articulée et plus défendable étape après étape.
               </p>
@@ -728,7 +734,7 @@ export default function AtelierOralPage() {
           <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,var(--surface-warm)_100%)] p-6 shadow-[var(--shadow-lg)] md:p-7">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Préparation</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Préparation</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Préparation
                 </h2>
@@ -742,15 +748,15 @@ export default function AtelierOralPage() {
                   {formatTimer(prepRemaining)}
                 </div>
               ) : (
-                <span className="inline-flex items-center gap-2 rounded-[16px] border border-[#d8e8e3] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)]">
+                <span className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-success)] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)]">
                   <Zap className="h-4 w-4" />
                   Mode libre
                 </span>
               )}
             </div>
 
-            <div className="mt-6 rounded-[24px] border border-[#eadbc5] bg-white p-5 shadow-[var(--shadow-md)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9a6a37]">Extrait tiré</p>
+            <div className="mt-6 rounded-[24px] border border-[var(--surface-sand)] bg-white p-5 shadow-[var(--shadow-md)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Extrait tiré</p>
               <p data-testid="extrait-texte" className="mt-4 font-serif text-base leading-8 text-[var(--navy)]">{session.texte}</p>
               <div className="mt-5 space-y-2 text-sm leading-7 text-[var(--text-body)]">
                 <p><span className="font-semibold text-[var(--navy)]">Question de grammaire :</span> {session.questionGrammaire}</p>
@@ -776,17 +782,19 @@ export default function AtelierOralPage() {
               />
             </div>
 
-            <button
+            <Button
               onClick={startPassage}
-              className="mt-6 inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
+              variant="primary"
+              size="md"
+              icon={<Play className="h-4 w-4" />}
+              className="mt-6"
             >
-              <Play className="h-4 w-4" />
               Commencer le passage (20 min)
-            </button>
+            </Button>
           </section>
 
           <aside className="space-y-6">
-            <section className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
+            <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Checklist de préparation</p>
               <div className="mt-4 space-y-3">
                 {PREP_CHECKLIST.map((item) => (
@@ -815,7 +823,7 @@ export default function AtelierOralPage() {
             </section>
 
             <section className="rounded-[24px] border border-[var(--border-light)] bg-[#f8f1e7] p-5 shadow-[var(--shadow-lg)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Rappel</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Rappel</p>
               <p className="mt-4 text-sm leading-7 text-[var(--navy-muted)]">
                 La préparation utile ne cherche pas à tout écrire. Elle cherche à sécuriser les mouvements du texte, deux ou trois procédés décisifs et une réponse propre à la grammaire.
               </p>
@@ -835,7 +843,7 @@ export default function AtelierOralPage() {
           <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,var(--surface-warm)_100%)] p-6 shadow-[var(--shadow-lg)] md:p-7">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Passage oral</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Passage oral</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   {STEP_GUIDANCE[currentStep].title}
                 </h2>
@@ -854,7 +862,7 @@ export default function AtelierOralPage() {
                   </span>
                 )}
                 {!isSimulation && (
-                  <span className="inline-flex items-center gap-2 rounded-[16px] border border-[#d8e8e3] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)]">
+                  <span className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-success)] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)]">
                     <Zap className="h-4 w-4" />
                     Mode libre
                   </span>
@@ -869,18 +877,18 @@ export default function AtelierOralPage() {
                 return (
                   <div
                     key={stepName}
-                    className={`rounded-[22px] border px-4 py-4 text-center ${active ? 'border-[var(--navy)]/18 bg-white shadow-[var(--shadow-sm)]' : complete ? 'border-[#d8e8e3] bg-[var(--success-bg)]' : 'border-[var(--border-light)] bg-[#fbf5ec]'}`}
+                    className={`rounded-[22px] border px-4 py-4 text-center ${active ? 'border-[var(--navy)]/18 bg-white shadow-[var(--shadow-sm)]' : complete ? 'border-[var(--border-success)] bg-[var(--success-bg)]' : 'border-[var(--border-light)] bg-[#fbf5ec]'}`}
                   >
                     <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${active ? 'bg-[var(--navy)] text-white' : complete ? 'bg-[var(--teal)]/10 text-[var(--teal)]' : 'bg-white text-[#6d7e8d]'}`}>
                       {complete ? <CheckCircle2 className="h-5 w-5" /> : index + 1}
                     </div>
-                    <p className={`mt-3 text-xs font-semibold uppercase tracking-[0.14em] ${active ? 'text-[var(--navy)]' : 'text-[#7a6858]'}`}>{STEP_LABELS[stepName]}</p>
+                    <p className={`mt-3 text-xs font-semibold uppercase tracking-[0.14em] ${active ? 'text-[var(--navy)]' : 'text-[var(--text-warm)]'}`}>{STEP_LABELS[stepName]}</p>
                   </div>
                 );
               })}
             </div>
 
-            <details className="mt-6 rounded-[24px] border border-[#eadbc5] bg-white p-5 shadow-[var(--shadow-md)]">
+            <details className="mt-6 rounded-[24px] border border-[var(--surface-sand)] bg-white p-5 shadow-[var(--shadow-md)]">
               <summary className="cursor-pointer text-sm font-semibold text-[var(--navy)]">Extrait & question de grammaire</summary>
               <p className="mt-3 font-serif text-sm leading-7 text-[var(--navy)]">{session.texte}</p>
               <div className="mt-3 space-y-2 text-sm leading-7 text-[var(--text-body)]">
@@ -891,10 +899,10 @@ export default function AtelierOralPage() {
             </details>
 
             <div className="mt-6 space-y-5">
-              <div className="flex flex-col items-center rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] px-5 py-6 text-center">
+              <div className="flex flex-col items-center rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] px-5 py-6 text-center">
                 {!isMicOn ? (
                   <>
-                    <button onClick={toggleMic} className="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--navy)] text-white shadow-[var(--shadow-md)] transition hover:bg-[#244a6d]">
+                    <button onClick={toggleMic} className="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--navy)] text-white shadow-[var(--shadow-md)] transition hover:bg-[var(--navy-dark)]">
                       <Mic className="h-9 w-9" />
                     </button>
                     <p className="mt-4 text-sm font-semibold text-[var(--navy)]">Clique pour enregistrer — {STEP_LABELS[currentStep]}</p>
@@ -926,7 +934,7 @@ export default function AtelierOralPage() {
               </div>
 
               {currentStep === 'ENTRETIEN' && (
-                <div className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5">
+                <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
                   <p className="text-sm font-semibold text-[var(--navy)]">Simulation examinateur dialoguant</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {(['BIENVEILLANT', 'NEUTRE', 'HOSTILE'] as ExaminerProfile[]).map((profile) => (
@@ -964,14 +972,16 @@ export default function AtelierOralPage() {
               )}
 
               <div className="flex flex-wrap items-center gap-3">
-                <button
+                <Button
                   onClick={submitStep}
                   disabled={isLoading || transcript.trim().length === 0}
-                  className="inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50"
+                  variant="primary"
+                  size="md"
+                  loading={isLoading}
+                  icon={!isLoading ? <Play className="h-4 w-4" /> : undefined}
                 >
-                  {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
                   Soumettre — {STEP_LABELS[currentStep]}
-                </button>
+                </Button>
                 <div className="flex flex-col gap-1">
                   <p className="text-[10px] font-medium uppercase tracking-widest text-[#9ba8b4]">{useServerVoice ? 'Mode vocal serveur' : 'Mode vocal navigateur'}</p>
                   <p className="text-xs text-[#6d7e8d]">{useServerVoice ? 'Ton audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par ton navigateur. Aucun audio n\u2019est envoyé à nos serveurs.'}</p>
@@ -981,7 +991,7 @@ export default function AtelierOralPage() {
           </section>
 
           <aside className="space-y-6">
-            <section className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
+            <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
               <div className="flex items-center justify-between">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Feedbacks intermédiaires</p>
                 <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[var(--teal)]">
@@ -1016,10 +1026,10 @@ export default function AtelierOralPage() {
 
                       {item.axes.length > 0 && (
                         <div className="mt-4 rounded-[16px] border border-[#efd9b4] bg-[var(--warning-bg)] p-3">
-                          <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[#af7a20]">Axes d amélioration</p>
-                          <ul className="space-y-1 text-xs leading-6 text-[#6b5735]">
+                          <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--gold-deep)]">Axes d amélioration</p>
+                          <ul className="space-y-1 text-xs leading-6 text-[var(--gold-contrast)]">
                             {item.axes.map((axis) => (
-                              <li key={axis} className="flex gap-2"><AlertCircle className="mt-1 h-3.5 w-3.5 shrink-0 text-[#af7a20]" /> <span>{axis}</span></li>
+                              <li key={axis} className="flex gap-2"><AlertCircle className="mt-1 h-3.5 w-3.5 shrink-0 text-[var(--gold-deep)]" /> <span>{axis}</span></li>
                             ))}
                           </ul>
                         </div>
@@ -1039,7 +1049,7 @@ export default function AtelierOralPage() {
             </section>
 
             <section className="rounded-[24px] border border-[var(--border-light)] bg-[#f8f1e7] p-5 shadow-[var(--shadow-lg)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Principe de séance</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Principe de séance</p>
               <p className="mt-4 text-sm leading-7 text-[var(--navy-muted)]">
                 Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu une longue réponse confuse. Le cockpit est conçu pour rendre cette discipline plus facile.
               </p>
@@ -1060,11 +1070,11 @@ export default function AtelierOralPage() {
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--success-bg)] text-[var(--teal)] shadow-[var(--shadow-md)]">
               <CheckCircle2 className="h-8 w-8" />
             </div>
-            <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Bilan officiel</p>
+            <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Bilan officiel</p>
             <h2 style={EDITORIAL_HEADING} className="mt-2 text-4xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
               {bilan.note}/{bilan.maxNote}
             </h2>
-            <span className={`mt-4 inline-flex rounded-full px-4 py-2 text-sm font-semibold ${bilan.note >= 16 ? 'bg-[var(--success-bg)] text-[var(--teal)]' : bilan.note >= 12 ? 'bg-[#eef3f8] text-[var(--navy)]' : bilan.note >= 10 ? 'bg-[var(--warning-bg)] text-[#af7a20]' : 'bg-[var(--error-bg)] text-[#c44f3c]'}`}>
+            <span className={`mt-4 inline-flex rounded-full px-4 py-2 text-sm font-semibold ${bilan.note >= 16 ? 'bg-[var(--success-bg)] text-[var(--teal)]' : bilan.note >= 12 ? 'bg-[#eef3f8] text-[var(--navy)]' : bilan.note >= 10 ? 'bg-[var(--warning-bg)] text-[var(--gold-deep)]' : 'bg-[var(--error-bg)] text-[#c44f3c]'}`}>
               {bilan.mention}
             </span>
           </div>
@@ -1076,8 +1086,8 @@ export default function AtelierOralPage() {
               { key: 'grammaire', label: 'Grammaire', data: bilan.phases.grammaire },
               { key: 'entretien', label: 'Entretien', data: bilan.phases.entretien },
             ] as const).map(({ key, label, data }) => (
-              <div key={key} className="rounded-[24px] border border-[#eadbc5] bg-white p-4 text-center shadow-[var(--shadow-sm)]">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7a6858]">{label}</p>
+              <div key={key} className="rounded-[24px] border border-[var(--surface-sand)] bg-white p-4 text-center shadow-[var(--shadow-sm)]">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text-warm)]">{label}</p>
                 <p className="mt-3 text-3xl font-semibold text-[var(--navy)]">
                   {data.note}
                   <span className="text-sm text-[#7c8792]">/{data.max}</span>
@@ -1088,23 +1098,24 @@ export default function AtelierOralPage() {
           </div>
 
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5">
+            <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Bilan global</p>
               <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{bilan.bilan_global}</p>
             </div>
             <div className="rounded-[24px] border border-[#efd9b4] bg-[var(--warning-bg)] p-5">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#af7a20]">Conseil final</p>
-              <p className="mt-3 text-sm leading-7 text-[#6b5735]">{bilan.conseil_final}</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--gold-deep)]">Conseil final</p>
+              <p className="mt-3 text-sm leading-7 text-[var(--gold-contrast)]">{bilan.conseil_final}</p>
             </div>
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <button
+            <Button
               onClick={resetAll}
-              className="inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
+              variant="primary"
+              size="md"
             >
               Nouvelle simulation
-            </button>
+            </Button>
             <Link
               href={oralTutorHref}
               className="inline-flex items-center justify-center rounded-[16px] border border-[var(--border-strong)] bg-white px-6 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
@@ -1119,7 +1130,7 @@ export default function AtelierOralPage() {
         {badgeToasts.map((badge) => (
           <div
             key={badge}
-            className="rounded-[16px] border border-[#d8e8e3] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)] shadow-[var(--shadow-md)]"
+            className="rounded-[16px] border border-[var(--border-success)] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)] shadow-[var(--shadow-md)]"
             role="status"
             aria-live="polite"
           >

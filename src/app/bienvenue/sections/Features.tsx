@@ -8,7 +8,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Atelier écrit',
     icon: FileStack,
-    tone: 'bg-[var(--navy)] text-[#f7f2ea] border-white/10',
+    tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10',
     badge: 'Production longue',
     span: 'lg:col-span-7',
     body: 'Dépose une copie PDF ou image, récupère une lecture OCR, une correction par rubriques et un rapport clair à reprendre.',

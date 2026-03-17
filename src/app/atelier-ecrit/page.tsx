@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { Badge, Button } from '@/components/ui';
 
 type EpreuveType = 'commentaire' | 'dissertation' | 'contraction_essai';
 
@@ -240,13 +241,13 @@ export default function AtelierEcritPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.08fr_0.92fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <PenTool className="h-4 w-4" />
               Atelier ecrit
             </div>
@@ -266,7 +267,7 @@ export default function AtelierEcritPage() {
               { label: 'Rapport', value: copieLink ? 'Disponible' : pollingStatus ? 'En analyse' : 'À venir' },
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">{item.label}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
@@ -288,9 +289,9 @@ export default function AtelierEcritPage() {
               key={step.index}
               className={`rounded-[24px] border px-5 py-5 shadow-[var(--shadow-sm)] transition ${isActive ? 'border-[var(--navy)]/18 bg-white' : 'border-[var(--border-light)] bg-[#fbf5ec]'}`}
             >
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Étape {step.index}</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Étape {step.index}</p>
               <h2 className="mt-3 text-lg font-semibold text-[var(--navy)]">{step.title}</h2>
-              <p className="mt-2 text-sm leading-7 text-[#5d7287]">{step.body}</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{step.body}</p>
             </article>
           );
         })}
@@ -304,11 +305,11 @@ export default function AtelierEcritPage() {
                 <Sparkles className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Étape 1</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Étape 1</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Générez un sujet d épreuve blanche.
                 </h2>
-                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5d7287]">
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
                   Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l œuvre ou au thème que tu veux réactiver.
                 </p>
               </div>
@@ -318,14 +319,14 @@ export default function AtelierEcritPage() {
               <div className="mt-6 space-y-5">
                 <div className="grid gap-3 md:grid-cols-3">
                   <div>
-                    <label htmlFor="epreuve-type" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[#7a6858]">
+                    <label htmlFor="epreuve-type" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
                       Type
                     </label>
                     <select
                       id="epreuve-type"
                       value={type}
                       onChange={(event) => setType(event.target.value as EpreuveType)}
-                      className="w-full rounded-[16px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
+                      className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
                     >
                       <option value="commentaire">Commentaire</option>
                       <option value="dissertation">Dissertation</option>
@@ -333,7 +334,7 @@ export default function AtelierEcritPage() {
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="epreuve-oeuvre" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[#7a6858]">
+                    <label htmlFor="epreuve-oeuvre" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
                       Oeuvre (optionnel)
                     </label>
                     <input
@@ -341,11 +342,11 @@ export default function AtelierEcritPage() {
                       value={oeuvre}
                       onChange={(event) => setOeuvre(event.target.value)}
                       placeholder="Ex: Sido"
-                      className="w-full rounded-[16px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8c95a1] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
+                      className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8c95a1] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
                     />
                   </div>
                   <div>
-                    <label htmlFor="epreuve-theme" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[#7a6858]">
+                    <label htmlFor="epreuve-theme" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
                       Thème (optionnel)
                     </label>
                     <input
@@ -353,27 +354,28 @@ export default function AtelierEcritPage() {
                       value={theme}
                       onChange={(event) => setTheme(event.target.value)}
                       placeholder="Ex: la mémoire"
-                      className="w-full rounded-[16px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8c95a1] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
+                      className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[#8c95a1] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
                     />
                   </div>
                 </div>
-                <button
+                <Button
                   onClick={handleGenerate}
-                  disabled={isGenerating}
-                  className="inline-flex items-center gap-2 rounded-[16px] bg-[var(--navy)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50"
+                  loading={isGenerating}
+                  icon={<Sparkles className="h-4 w-4" />}
+                  size="lg"
+                  className="rounded-[16px] font-semibold"
                 >
-                  {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
                   {isGenerating ? 'Génération…' : 'Générer mon sujet'}
-                </button>
+                </Button>
               </div>
             ) : (
               <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_280px]">
-                <div className="rounded-[24px] border border-[#eadbc5] bg-white p-5 shadow-[var(--shadow-sm)]">
+                <div className="rounded-[24px] border border-[var(--surface-sand)] bg-white p-5 shadow-[var(--shadow-sm)]">
                   <p className="text-sm font-semibold text-[var(--navy)]">{epreuve.sujet}</p>
-                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[#33536f]">{epreuve.texte}</p>
-                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[#5d7287]">{epreuve.consignes}</p>
+                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--navy-mid)]">{epreuve.texte}</p>
+                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--text-secondary)]">{epreuve.consignes}</p>
                 </div>
-                <div className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5">
+                <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
                   <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--teal)]">Barème</p>
                   <div className="mt-4 space-y-2.5">
                     {baremeEntries.map(([label, points]) => (
@@ -401,14 +403,14 @@ export default function AtelierEcritPage() {
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Déposer ma copie
                 </h2>
-                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5d7287]">
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
                   Une photo nette ou un PDF propre suffit. Le studio suit l upload, puis bascule vers l analyse sans changer de contexte.
                 </p>
               </div>
             </div>
 
             {pollingStatus && pollingStatus !== 'done' && !copieLink ? (
-              <div className="mt-6 rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] px-6 py-10 text-center">
+              <div className="mt-6 rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] px-6 py-10 text-center">
                 <Loader2 className="mx-auto mb-4 h-12 w-12 animate-spin text-[var(--teal)]" />
                 <h3 className="text-lg font-semibold text-[var(--navy)]">Analyse de la copie en cours...</h3>
                 <p className="mt-2 text-sm text-[#52716d]">{PROCESSING_STEPS[processingStepIndex]}</p>
@@ -427,7 +429,7 @@ export default function AtelierEcritPage() {
                 >
                   <UploadCloud className="mx-auto h-12 w-12 text-[#7c8792]" />
                   <h3 className="mt-4 text-lg font-semibold text-[var(--navy)]">Dépose ta copie ici</h3>
-                  <p className="mt-2 text-sm text-[#5d7287]">PDF, JPG, PNG ou WEBP (Max 20MB)</p>
+                  <p className="mt-2 text-sm text-[var(--text-secondary)]">PDF, JPG, PNG ou WEBP (Max 20MB)</p>
                   <div className="mt-5 flex flex-wrap justify-center gap-3">
                     <button
                       onClick={(event) => {
@@ -435,7 +437,7 @@ export default function AtelierEcritPage() {
                         fileInputRef.current?.click();
                       }}
                       disabled={!epreuve}
-                      className="rounded-[16px] border border-[#dfd1bc] bg-white px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:opacity-50"
+                      className="rounded-[16px] border border-[var(--border-sand)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:opacity-50"
                     >
                       Choisir un fichier
                     </button>
@@ -445,7 +447,7 @@ export default function AtelierEcritPage() {
                         mobileInputRef.current?.click();
                       }}
                       disabled={!epreuve}
-                      className="inline-flex items-center gap-2 rounded-[16px] border border-[#dfd1bc] bg-white px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:opacity-50"
+                      className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-sand)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:opacity-50"
                     >
                       <Camera className="h-4 w-4" />
                       Photo
@@ -471,18 +473,18 @@ export default function AtelierEcritPage() {
                 </div>
 
                 {selectedFile && (
-                  <div className="rounded-[24px] border border-[#eadbc5] bg-white p-5 shadow-[var(--shadow-sm)]">
+                  <div className="rounded-[24px] border border-[var(--surface-sand)] bg-white p-5 shadow-[var(--shadow-sm)]">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div>
                         <p className="text-sm font-semibold text-[var(--navy)]">{selectedFile.name}</p>
                         <p className="mt-1 text-xs text-[#6d7e8d]">{(selectedFile.size / (1024 * 1024)).toFixed(1)} MB</p>
                       </div>
-                      <span className="inline-flex rounded-full bg-[var(--navy)]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--navy)]">
+                      <Badge variant="navy" size="sm" className="uppercase tracking-[0.14em]">
                         {selectedFile.type === 'application/pdf' ? 'PDF' : 'Image'}
-                      </span>
+                      </Badge>
                     </div>
                     {selectedFile.type.startsWith('image/') && previewUrl && (
-                      <img src={previewUrl} alt="Aperçu copie" className="mt-4 max-h-72 rounded-[16px] border border-[#eadbc5] object-contain" />
+                      <img src={previewUrl} alt="Aperçu copie" className="mt-4 max-h-72 rounded-[16px] border border-[var(--surface-sand)] object-contain" />
                     )}
                     {selectedFile.type === 'application/pdf' && (
                       <div className="mt-4 inline-flex items-center gap-2 rounded-[16px] bg-[var(--success-bg)] px-4 py-3 text-sm text-[var(--teal)]">
@@ -494,7 +496,7 @@ export default function AtelierEcritPage() {
                 )}
 
                 {isUploading && (
-                  <div className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5">
+                  <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
                     <p className="text-sm text-[#52716d]">Upload en cours… {uploadProgress}%</p>
                     <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/80">
                       <div className="h-2 rounded-full bg-[var(--teal)] transition-all" style={{ width: `${uploadProgress}%` }} />
@@ -502,19 +504,21 @@ export default function AtelierEcritPage() {
                   </div>
                 )}
 
-                <button
-                  disabled={!epreuve || !selectedFile || isUploading}
+                <Button
+                  disabled={!epreuve || !selectedFile}
+                  loading={isUploading}
                   onClick={handleUpload}
-                  className="inline-flex items-center gap-2 rounded-[16px] bg-[var(--teal)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#148b80] disabled:opacity-50"
+                  icon={<Upload className="h-4 w-4" />}
+                  size="lg"
+                  className="rounded-[16px] bg-[var(--teal)] font-semibold hover:bg-[#148b80]"
                 >
-                  {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                   Lancer la correction détaillée
-                </button>
+                </Button>
               </div>
             )}
 
             {copieLink && (
-              <div className="mt-6 rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] px-6 py-8 text-center">
+              <div className="mt-6 rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] px-6 py-8 text-center">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white text-[var(--teal)] shadow-[var(--shadow-md)]">
                   <FileText className="h-8 w-8" />
                 </div>
@@ -539,7 +543,7 @@ export default function AtelierEcritPage() {
         </div>
 
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Cadre de travail</p>
             <div className="mt-4 space-y-3">
               {[
@@ -547,7 +551,7 @@ export default function AtelierEcritPage() {
                 'Privilégie des photos nettes, plates, bien éclairées.',
                 'Relis le rapport immédiatement pour transformer le feedback en prochaine action.',
               ].map((item) => (
-                <div key={item} className="rounded-[16px] border border-[#d3e7e1] bg-white/88 px-4 py-4 text-sm leading-7 text-[#33536f]">
+                <div key={item} className="rounded-[16px] border border-[#d3e7e1] bg-white/88 px-4 py-4 text-sm leading-7 text-[var(--navy-mid)]">
                   {item}
                 </div>
               ))}
@@ -556,24 +560,24 @@ export default function AtelierEcritPage() {
 
           <section className="rounded-[24px] border border-[var(--border-light)] bg-[#f8f1e7] p-5 shadow-[var(--shadow-md)]">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--gold-muted)]/10 text-[#9a6a37]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--gold-muted)]/10 text-[var(--accent-bronze)]">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-sm font-semibold text-[var(--navy)]">Pourquoi cette page existe</p>
-                <p className="text-xs text-[#7a6858]">Écrire, déposer, corriger, puis retravailler</p>
+                <p className="text-xs text-[var(--text-warm)]">Écrire, déposer, corriger, puis retravailler</p>
               </div>
             </div>
-            <p className="mt-4 text-sm leading-7 text-[#5d7287]">
+            <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
               Le bon usage de l atelier écrit n est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante.
             </p>
           </section>
 
           {epreuve && (
             <section className="rounded-[24px] border border-[var(--border-light)] bg-white p-5 shadow-[var(--shadow-md)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Sujet actif</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Sujet actif</p>
               <p className="mt-3 text-sm font-semibold leading-7 text-[var(--navy)]">{epreuve.sujet}</p>
-              <p className="mt-3 text-sm leading-7 text-[#5d7287]">
+              <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                 {epreuve.generatedAt ? `Généré le ${new Date(epreuve.generatedAt).toLocaleDateString('fr-FR')}` : 'Sujet prêt à être travaillé.'}
               </p>
               <Link
@@ -591,7 +595,7 @@ export default function AtelierEcritPage() {
         {badgeToasts.map((badge) => (
           <div
             key={badge}
-            className="rounded-[16px] border border-[#d8e8e3] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)] shadow-[var(--shadow-md)]"
+            className="rounded-[16px] border border-[var(--border-success)] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)] shadow-[var(--shadow-md)]"
             role="status"
             aria-live="polite"
           >

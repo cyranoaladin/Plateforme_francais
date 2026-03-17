@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { BookOpen, Brain, GraduationCap, Loader2, Sparkles, Target } from 'lucide-react';
+import { BookOpen, Brain, GraduationCap, Sparkles, Target } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { Button, Badge } from '@/components/ui';
 
 type QuizTheme =
   | 'grammaire'
@@ -178,13 +179,13 @@ export default function QuizPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <Brain className="h-4 w-4" />
               Quiz adaptatif
             </div>
@@ -203,7 +204,7 @@ export default function QuizPage() {
               { label: 'Résultat', value: submitted ? `${score}%` : 'En attente' },
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">{item.label}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
@@ -225,7 +226,7 @@ export default function QuizPage() {
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Configuration du quiz</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Configuration du quiz</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Paramètres de séance
                 </h2>
@@ -241,7 +242,7 @@ export default function QuizPage() {
                   id="quiz-theme"
                   value={theme}
                   onChange={(event) => setTheme(event.target.value as QuizTheme)}
-                  className="w-full rounded-[16px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                  className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
                   disabled={isGenerating}
                 >
                   {THEME_GROUPS.map((group) => (
@@ -263,7 +264,7 @@ export default function QuizPage() {
                     id="quiz-difficulte"
                     value={difficulte}
                     onChange={(event) => setDifficulte(Number(event.target.value) as 1 | 2 | 3)}
-                    className="w-full rounded-[16px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                    className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
                     disabled={isGenerating}
                   >
                     <option value={1}>Facile — Révision des bases</option>
@@ -279,7 +280,7 @@ export default function QuizPage() {
                     id="quiz-nb-questions"
                     value={nbQuestions}
                     onChange={(event) => setNbQuestions(Number(event.target.value) as 5 | 10 | 20)}
-                    className="w-full rounded-[16px] border border-[#dfd1bc] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                    className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
                     disabled={isGenerating}
                   >
                     <option value={5}>5 questions — Rapide</option>
@@ -289,27 +290,20 @@ export default function QuizPage() {
                 </div>
               </div>
 
-              <button
+              <Button
                 onClick={generate}
-                disabled={isGenerating}
-                className="inline-flex items-center gap-2 rounded-[20px] bg-[var(--navy)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50"
+                loading={isGenerating}
+                icon={<Sparkles className="h-4 w-4" />}
+                size="lg"
               >
-                {isGenerating ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" /> Composition du quiz en cours...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4" /> Générer
-                  </>
-                )}
-              </button>
+                {isGenerating ? 'Composition du quiz en cours...' : 'Générer'}
+              </Button>
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[#d8e8e3] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
+          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Usage conseillé</p>
-            <div className="mt-4 space-y-3 text-sm leading-7 text-[#33536f]">
+            <div className="mt-4 space-y-3 text-sm leading-7 text-[var(--navy-mid)]">
               <p className="rounded-[20px] border border-[#d3e7e1] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
               <p className="rounded-[20px] border border-[#d3e7e1] bg-white/88 px-4 py-4">Lis l explication après validation : c est elle qui transforme le score en progrès réel.</p>
               <p className="rounded-[20px] border border-[#d3e7e1] bg-white/88 px-4 py-4">Un score faible n est pas un échec : c est un signal pour cibler la prochaine révision.</p>
@@ -319,7 +313,7 @@ export default function QuizPage() {
 
         <section className="space-y-5">
           {activeThemeLabel && questions.length > 0 && (
-            <div className="rounded-[24px] border border-[var(--border-light)] bg-white px-5 py-4 shadow-[var(--shadow-md)] text-sm text-[#5d7287]">
+            <div className="rounded-[24px] border border-[var(--border-light)] bg-white px-5 py-4 shadow-[var(--shadow-md)] text-sm text-[var(--text-secondary)]">
               Quiz : <span className="font-semibold text-[var(--navy)]">{activeThemeLabel}</span> — {questions.length} question{questions.length > 1 ? 's' : ''}
             </div>
           )}
@@ -353,7 +347,7 @@ export default function QuizPage() {
                           return (
                             <label
                               key={`${question.id}-${optionIndex}`}
-                              className={`rounded-[20px] border p-4 text-sm leading-7 transition ${isGood ? 'border-[#d6e8df] bg-[var(--success-bg)] text-[var(--teal)] font-semibold' : isBad ? 'border-[#f1c8c0] bg-[var(--error-bg)] text-[#b24838]' : checked ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)]' : 'border-[#eadbc5] bg-white text-[#33536f] hover:border-[var(--navy)]/18'}`}
+                              className={`rounded-[20px] border p-4 text-sm leading-7 transition ${isGood ? 'border-[#d6e8df] bg-[var(--success-bg)] text-[var(--teal)] font-semibold' : isBad ? 'border-[#f1c8c0] bg-[var(--error-bg)] text-[#b24838]' : checked ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)]' : 'border-[var(--surface-sand)] bg-white text-[var(--navy-mid)] hover:border-[var(--navy)]/18'}`}
                             >
                               <input
                                 type="radio"
@@ -369,7 +363,7 @@ export default function QuizPage() {
                         })}
                       </div>
                       {submitted && (
-                        <div className="mt-4 rounded-[20px] border border-[#d8e8e3] bg-[var(--success-bg)] p-4 text-sm leading-7 text-[#33536f]">
+                        <div className="mt-4 rounded-[20px] border border-[var(--border-success)] bg-[var(--success-bg)] p-4 text-sm leading-7 text-[var(--navy-mid)]">
                           {question.explication}
                         </div>
                       )}
@@ -383,31 +377,29 @@ export default function QuizPage() {
           {questions.length > 0 && (
             <div className="flex flex-wrap items-center gap-4">
               {!submitted ? (
-                <button
-                  onClick={finish}
-                  className="rounded-[20px] bg-[var(--navy)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d]"
-                >
+                <Button onClick={finish}>
                   Valider
-                </button>
+                </Button>
               ) : (
                 <>
-                  <div
-                    className={`rounded-[20px] border px-4 py-3 text-sm font-semibold ${score >= 80 ? 'border-[#d6e8df] bg-[var(--success-bg)] text-[var(--teal)]' : score >= 50 ? 'border-[#efd9b4] bg-[var(--warning-bg)] text-[#af7a20]' : 'border-[#f1c8c0] bg-[var(--error-bg)] text-[#b24838]'}`}
+                  <Badge
+                    variant={score >= 80 ? 'success' : score >= 50 ? 'warning' : 'error'}
+                    className="px-4 py-3 text-sm font-semibold"
                     role="status"
                     aria-live="polite"
                   >
                     Score : {score}%
-                  </div>
-                  <button
+                  </Badge>
+                  <Button
                     onClick={generate}
                     disabled={isGenerating}
-                    className="rounded-[20px] border border-[#dfd1bc] bg-white px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]/18"
+                    variant="secondary"
                   >
                     Nouveau quiz
-                  </button>
+                  </Button>
                   <Link
                     href={tutorHref}
-                    className="rounded-[20px] border border-[#dfd1bc] bg-white px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                    className="rounded-[20px] border border-[var(--border-sand)] bg-white px-4 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
                   >
                     Reprendre ce thème avec le guidage
                   </Link>

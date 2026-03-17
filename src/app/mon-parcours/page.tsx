@@ -97,20 +97,20 @@ const TYPE_META: Record<
   },
   lecture: {
     label: 'Lecture',
-    tone: 'bg-[#6b587d] text-white',
-    softTone: 'border-[#6b587d]/16 bg-[#f4eff8] text-[#6b587d]',
+    tone: 'bg-[var(--accent-violet)] text-white',
+    softTone: 'border-[var(--accent-violet)]/16 bg-[#f4eff8] text-[var(--accent-violet)]',
     icon: BookOpen,
   },
   revisions: {
     label: 'Révisions',
-    tone: 'bg-[#6b587d] text-white',
-    softTone: 'border-[#6b587d]/16 bg-[#f4eff8] text-[#6b587d]',
+    tone: 'bg-[var(--accent-violet)] text-white',
+    softTone: 'border-[var(--accent-violet)]/16 bg-[#f4eff8] text-[var(--accent-violet)]',
     icon: BookOpen,
   },
   fiches: {
     label: 'Fiches',
-    tone: 'bg-[#6b587d] text-white',
-    softTone: 'border-[#6b587d]/16 bg-[#f4eff8] text-[#6b587d]',
+    tone: 'bg-[var(--accent-violet)] text-white',
+    softTone: 'border-[var(--accent-violet)]/16 bg-[#f4eff8] text-[var(--accent-violet)]',
     icon: BookOpen,
   },
   quiz: {
@@ -242,7 +242,7 @@ export default function MonParcoursPage() {
       { label: 'Écrit', score: profile.skillMap.ecrit, accent: 'bg-[var(--navy)]' },
       { label: 'Oral', score: profile.skillMap.oral, accent: 'bg-[var(--teal)]' },
       { label: 'Grammaire', score: profile.skillMap.grammaire, accent: 'bg-[var(--gold-muted)]' },
-      { label: 'Lecture cursive', score: profile.skillMap.lectureCursive, accent: 'bg-[#6b587d]' },
+      { label: 'Lecture cursive', score: profile.skillMap.lectureCursive, accent: 'bg-[var(--accent-violet)]' },
     ];
   }, [profile?.skillMap]);
 
@@ -280,13 +280,13 @@ export default function MonParcoursPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[#f7f2ea] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-8%] hidden w-[40%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.04fr_0.96fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <MapIcon className="h-4 w-4" />
               Feuille de route Nexus
             </div>
@@ -301,14 +301,14 @@ export default function MonParcoursPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href={nextPendingTask?.lien ?? '/atelier-oral'}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f7f2ea] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 {nextPendingTask ? 'Lancer la prochaine activité' : 'Ouvrir un atelier'}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/"
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[#f7f2ea] transition-colors hover:bg-white/6"
+                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
               >
                 Retour dashboard
               </Link>
@@ -324,7 +324,7 @@ export default function MonParcoursPage() {
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -339,7 +339,7 @@ export default function MonParcoursPage() {
       </section>
 
       {error ? (
-        <div className="rounded-[24px] border border-[#b65050]/25 bg-[var(--error-bg)] p-4 text-sm text-[#8f2d2d] shadow-[var(--shadow-sm)]">
+        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)] shadow-[var(--shadow-sm)]">
           <AlertTriangle className="mr-2 inline h-4 w-4" />
           {error}
         </div>
@@ -405,7 +405,7 @@ export default function MonParcoursPage() {
                       <span className="font-semibold text-[var(--navy)]">Avancement</span>
                       <span>{weekProgress}%</span>
                     </div>
-                    <div className="mt-3 h-2.5 rounded-full bg-[#e7ddcf]">
+                    <div className="mt-3 h-2.5 rounded-full bg-[var(--surface-sand)]">
                       <div className="h-2.5 rounded-full bg-[var(--navy)]" style={{ width: `${weekProgress}%` }} />
                     </div>
                     <p className="mt-3 text-xs text-slate-500">
@@ -478,7 +478,7 @@ export default function MonParcoursPage() {
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link
                   href="/onboarding"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5"
                 >
                   Terminer l’onboarding
                   <ArrowRight className="h-4 w-4" />
@@ -506,7 +506,7 @@ export default function MonParcoursPage() {
                 <span className="text-sm font-semibold text-[var(--navy)]">Progression globale</span>
                 <span className="text-sm font-bold text-slate-600">{completionPercent}%</span>
               </div>
-              <div className="mt-3 h-2.5 rounded-full bg-[#e7ddcf]">
+              <div className="mt-3 h-2.5 rounded-full bg-[var(--surface-sand)]">
                 <div className="h-2.5 rounded-full bg-[var(--navy)]" style={{ width: `${completionPercent}%` }} />
               </div>
               <p className="mt-3 text-xs leading-5 text-slate-500">
@@ -556,7 +556,7 @@ export default function MonParcoursPage() {
                   href={item.href}
                   className="rounded-[22px] border border-[var(--border-strong)] bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-[var(--teal)]"
                 >
-                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--navy)] text-[#f7f2ea]">
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]">
                     <item.icon className="h-4 w-4" />
                   </div>
                   <p className="mt-4 text-sm font-semibold text-[var(--navy)]">{item.title}</p>
@@ -579,7 +579,7 @@ export default function MonParcoursPage() {
                       <span className="text-[var(--navy)]">{skill.label}</span>
                       <span className="text-slate-500">{skill.score.toFixed(1)} / 20</span>
                     </div>
-                    <div className="h-2.5 rounded-full bg-[#e7ddcf]">
+                    <div className="h-2.5 rounded-full bg-[var(--surface-sand)]">
                       <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(skill.score / 20) * 100}%` }} />
                     </div>
                   </div>

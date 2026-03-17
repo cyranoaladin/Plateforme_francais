@@ -78,7 +78,7 @@ export function WhyNexus() {
                 {AUDIENCE_CARDS.map((card) => (
                   <article key={card.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                     <div className="flex items-start gap-3">
-                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)] text-[#f7f2ea]">
+                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]">
                         <card.icon className="h-5 w-5" />
                       </div>
                       <div>
@@ -94,7 +94,7 @@ export function WhyNexus() {
                 <Link
                   href="/login?mode=register"
                   onClick={() => track({ name: 'cta_click', props: { cta: 'why_nexus_register', path: '/bienvenue' } })}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740]"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
                 >
                   Essayer gratuitement
                   <ArrowRight className="h-4 w-4" />
@@ -120,10 +120,10 @@ export function WhyNexus() {
               </div>
             </div>
 
-            <div className="rounded-[24px] bg-[var(--navy)] p-5 text-[#f7f2ea] shadow-[var(--shadow-lg)] md:p-6">
+            <div className="rounded-[24px] bg-[var(--navy)] p-5 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] md:p-6">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Différenciation utile</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Différenciation utile</p>
                   <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                     Là où un outil généraliste s arrête à une réponse, Nexus construit une continuité de travail.
                   </h3>
@@ -136,7 +136,7 @@ export function WhyNexus() {
               <div className="mt-6 space-y-4">
                 {COMPARISON_ROWS.map((row) => (
                   <div key={row.label} className="rounded-[24px] border border-white/10 bg-white/6 p-4">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">{row.label}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">{row.label}</p>
                     <div className="mt-3 grid gap-3 md:grid-cols-2">
                       <div className="rounded-[22px] border border-white/10 bg-black/10 p-4">
                         <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">Outil généraliste</p>
@@ -151,9 +151,9 @@ export function WhyNexus() {
                 ))}
               </div>
 
-              <div className="mt-6 rounded-[24px] border border-white/10 bg-[#0f2740] p-4">
+              <div className="mt-6 rounded-[24px] border border-white/10 bg-[var(--navy-dark)] p-4">
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                   <p className="text-sm leading-6 text-slate-200">
                     L’objectif n’est pas de paraître “intelligent”. L’objectif est de rendre le travail plus cadré,
                     plus crédible et plus simple à reprendre d’une séance à l’autre.
