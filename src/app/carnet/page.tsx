@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { BookOpen, Download, Plus, Quote, Sparkles } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { StateNotice } from '@/components/ui/state-notice';
-import { Button, Badge } from '@/components/ui';
+import { Button, Badge, Input, Textarea } from '@/components/ui';
 
 type CarnetEntry = {
   id: string;
@@ -178,69 +178,56 @@ export default function CarnetPage() {
             </div>
 
             <div className="mt-6 space-y-4">
+              <Input
+                label={'\u0152uvre'}
+                id="carnet-oeuvre"
+                value={oeuvre}
+                onChange={(event) => setOeuvre(event.target.value)}
+                placeholder="Ex : Sido, Manon Lescaut, Les Fleurs du mal..."
+                size="md"
+              />
               <div>
-                <label htmlFor="carnet-oeuvre" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
-                  \u0152uvre
-                </label>
-                <input
-                  id="carnet-oeuvre"
-                  value={oeuvre}
-                  onChange={(event) => setOeuvre(event.target.value)}
-                  placeholder="Ex : Sido, Manon Lescaut, Les Fleurs du mal..."
-                  className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
-                />
-              </div>
-              <div>
-                <label htmlFor="carnet-type" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
+                <label htmlFor="carnet-type" className="mb-1.5 block text-sm font-medium text-[var(--text-body)]">
                   Type de note
                 </label>
                 <select
                   id="carnet-type"
                   value={type}
                   onChange={(event) => setType(event.target.value as CarnetEntry['type'])}
-                  className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                  className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
                 >
                   {TYPES.map((entryType) => (
                     <option key={entryType} value={entryType}>{TYPE_LABELS[entryType]}</option>
                   ))}
                 </select>
               </div>
-              <div>
-                <label htmlFor="carnet-page" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
-                  Page <span className="font-normal normal-case text-[var(--text-caption)]">(optionnel)</span>
-                </label>
-                <input
-                  id="carnet-page"
-                  value={page}
-                  onChange={(event) => setPage(event.target.value)}
-                  placeholder="Ex : 42"
-                  className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
-                />
-              </div>
-              <div>
-                <label htmlFor="carnet-tags" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
-                  Tags <span className="font-normal normal-case text-[var(--text-caption)]">(séparés par virgules)</span>
-                </label>
-                <input
-                  id="carnet-tags"
-                  value={tags}
-                  onChange={(event) => setTags(event.target.value)}
-                  placeholder="Ex : mémoire, enfance, nature"
-                  className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
-                />
-              </div>
-              <div>
-                <label htmlFor="carnet-contenu" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
-                  Contenu
-                </label>
-                <textarea
-                  id="carnet-contenu"
-                  value={contenu}
-                  onChange={(event) => setContenu(event.target.value)}
-                  placeholder="Note ta citation, réaction ou observation ici..."
-                  className="min-h-36 w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
-                />
-              </div>
+              <Input
+                label="Page"
+                hint="Optionnel"
+                id="carnet-page"
+                value={page}
+                onChange={(event) => setPage(event.target.value)}
+                placeholder="Ex : 42"
+                size="md"
+              />
+              <Input
+                label="Tags"
+                hint="S\u00e9par\u00e9s par virgules"
+                id="carnet-tags"
+                value={tags}
+                onChange={(event) => setTags(event.target.value)}
+                placeholder="Ex : m\u00e9moire, enfance, nature"
+                size="md"
+              />
+              <Textarea
+                label="Contenu"
+                id="carnet-contenu"
+                value={contenu}
+                onChange={(event) => setContenu(event.target.value)}
+                placeholder="Note ta citation, r\u00e9action ou observation ici..."
+                rows={5}
+                size="md"
+              />
               <Button
                 onClick={() => void submit()}
                 loading={saving}

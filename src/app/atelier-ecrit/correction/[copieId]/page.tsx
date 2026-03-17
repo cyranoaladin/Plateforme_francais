@@ -148,7 +148,7 @@ export default function CorrectionCopiePage() {
               Rapport en préparation
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl">
-              Le rapport de correction est en train d'être composé.
+              Le rapport de correction est en train d’être composé.
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
               La plateforme relit la copie, structure les rubriques, ancre les annotations et prépare un bilan exploitable pour la séance suivante.
@@ -180,8 +180,8 @@ export default function CorrectionCopiePage() {
     return (
       <div className="mx-auto max-w-5xl p-4 md:p-8">
         <StateNotice
-          title="La correction n'a pas pu être générée"
-          description="L'analyse de ta copie a rencontré un problème. Tu peux retourner à l'atelier écrit pour déposer à nouveau ta copie."
+          title="La correction n’a pas pu être générée"
+          description="L’analyse de ta copie a rencontré un problème. Tu peux retourner à l’atelier écrit pour déposer à nouveau ta copie."
           variant="error"
           icon={AlertTriangle}
           action={
@@ -189,7 +189,7 @@ export default function CorrectionCopiePage() {
               href="/atelier-ecrit"
               className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
             >
-              Retour à l'atelier écrit
+              Retour à l’atelier écrit
             </a>
           }
         />
@@ -245,7 +245,7 @@ export default function CorrectionCopiePage() {
                 <Target className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Vue d'ensemble</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Vue d’ensemble</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Bilan global
                 </h2>
@@ -262,7 +262,7 @@ export default function CorrectionCopiePage() {
                 </ul>
               </div>
               <div className="rounded-[22px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-4">
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--gold-deep)]">Axes d'amélioration</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--gold-deep)]">Axes d’amélioration</p>
                 <ul className="mt-3 space-y-2 text-sm leading-7 text-[var(--gold-contrast)]">
                   {correction.bilan.axes_amelioration.map((item) => (
                     <li key={item} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--gold-deep)]" /> <span>{item}</span></li>
@@ -405,7 +405,7 @@ export default function CorrectionCopiePage() {
               <div>
                 <p className="text-sm font-semibold text-[var(--navy)]">Exporter et retravailler</p>
                 <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">
-                  Le meilleur usage de ce rapport n'est pas de le lire une fois. Télécharge-le, isole deux axes, puis réinjecte-les dans la prochaine copie ou dans le tuteur.
+                  Le meilleur usage de ce rapport n’est pas de le lire une fois. Télécharge-le, isole deux axes, puis réinjecte-les dans la prochaine copie ou dans le tuteur.
                 </p>
               </div>
             </div>

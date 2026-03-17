@@ -640,7 +640,7 @@ export default function AtelierOralPage() {
               <button
                 onClick={() => setMode('SIMULATION')}
                 data-testid="mode-simulation-btn"
-                className={`inline-flex items-center gap-2 rounded-[16px] px-4 py-3 text-sm font-semibold transition ${mode === 'SIMULATION' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-default)] bg-white text-[var(--navy)]'}`}
+                className={`inline-flex items-center gap-2 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-semibold transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${mode === 'SIMULATION' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-default)] bg-white text-[var(--navy)]'}`}
                 aria-pressed={mode === 'SIMULATION'}
               >
                 <Shield className="h-4 w-4" />
@@ -649,7 +649,7 @@ export default function AtelierOralPage() {
               <button
                 onClick={() => setMode('FREE_PRACTICE')}
                 data-testid="mode-practice-btn"
-                className={`inline-flex items-center gap-2 rounded-[16px] px-4 py-3 text-sm font-semibold transition ${mode === 'FREE_PRACTICE' ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-default)] bg-white text-[var(--navy)]'}`}
+                className={`inline-flex items-center gap-2 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-semibold transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${mode === 'FREE_PRACTICE' ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-default)] bg-white text-[var(--navy)]'}`}
                 aria-pressed={mode === 'FREE_PRACTICE'}
               >
                 <Zap className="h-4 w-4" />
@@ -670,7 +670,7 @@ export default function AtelierOralPage() {
               <select
                 id="oeuvre-select"
                 data-testid="oeuvre-select"
-                className="w-full rounded-[16px] border border-[var(--border-default)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
+                className="w-full appearance-none rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus-visible:border-[var(--teal)] focus-visible:ring-2 focus-visible:ring-[var(--teal)]/20"
                 value={oeuvre}
                 onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(event.target.value)}
               >
@@ -777,7 +777,7 @@ export default function AtelierOralPage() {
                 id="prep-notes"
                 value={prepNotes}
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setPrepNotes(event.target.value)}
-                className="min-h-60 w-full rounded-[24px] border border-[var(--border-default)] bg-white px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
+                className="min-h-60 w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder-warm)] focus-visible:border-[var(--teal)] focus-visible:ring-2 focus-visible:ring-[var(--teal)]/20"
                 placeholder="Structure ton explication linéaire, prépare tes axes, note les procédés..."
               />
             </div>
@@ -815,7 +815,7 @@ export default function AtelierOralPage() {
                       }
                       className="mt-1 h-4 w-4 rounded border-[var(--border-success-pale)] text-[var(--teal)] focus:ring-[var(--teal)]"
                     />
-                    <span className={prepChecklist.has(item.id) ? 'text-[#7f918d] line-through' : ''}>{item.label}</span>
+                    <span className={prepChecklist.has(item.id) ? 'text-[var(--text-strikethrough)] line-through' : ''}>{item.label}</span>
                   </label>
                 ))}
               </div>
@@ -911,7 +911,7 @@ export default function AtelierOralPage() {
                   <>
                     <div className="relative flex h-24 w-24 items-center justify-center">
                       <div className="absolute inset-0 animate-ping rounded-full bg-[var(--error-text-bright)] opacity-20" />
-                      <button onClick={toggleMic} className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--error-text-bright)] text-white shadow-[var(--shadow-md)] transition hover:bg-[#b33f30]">
+                      <button onClick={toggleMic} className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--error-text-bright)] text-white shadow-[var(--shadow-md)] transition hover:bg-[var(--error-hover)]">
                         <Square className="h-8 w-8" fill="currentColor" />
                       </button>
                     </div>
@@ -928,7 +928,7 @@ export default function AtelierOralPage() {
                   id="oral-transcript"
                   value={transcript}
                   onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setTranscript(event.target.value)}
-                  className="min-h-40 w-full rounded-[24px] border border-[var(--border-default)] bg-white px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
+                  className="min-h-40 w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder-warm)] focus-visible:border-[var(--teal)] focus-visible:ring-2 focus-visible:ring-[var(--teal)]/20"
                   placeholder="Le transcript micro apparaît ici, tu peux le corriger avant envoi..."
                 />
               </div>
@@ -942,7 +942,7 @@ export default function AtelierOralPage() {
                         key={profile}
                         type="button"
                         onClick={() => setExaminerProfile(profile)}
-                        className={`rounded-[16px] border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] ${examinerProfile === profile ? 'border-[var(--navy)] bg-[var(--navy)] text-white' : 'border-[var(--border-success-pale)] bg-white text-[var(--navy)]'}`}
+                        className={`rounded-[var(--radius-lg)] border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${examinerProfile === profile ? 'border-[var(--navy)] bg-[var(--navy)] text-white' : 'border-[var(--border-success-pale)] bg-white text-[var(--navy)]'}`}
                       >
                         {profile}
                       </button>
@@ -953,7 +953,7 @@ export default function AtelierOralPage() {
                     type="button"
                     onClick={askExaminerFollowUp}
                     disabled={isJuryLoading || transcript.trim().length === 0}
-                    className="mt-4 inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-success-pale)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:opacity-50"
+                    className="mt-4 inline-flex items-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border-success-pale)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] disabled:opacity-50"
                   >
                     {isJuryLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Headphones className="h-4 w-4" />}
                     Obtenir une relance examinateur
@@ -1036,7 +1036,7 @@ export default function AtelierOralPage() {
                       )}
 
                       <div className="mt-4 flex flex-wrap items-center gap-3">
-                        <button onClick={() => speakText(item.feedback)} className="inline-flex items-center gap-1.5 rounded-[16px] border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-3 py-2 text-xs font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18">
+                        <button onClick={() => speakText(item.feedback)} className="inline-flex items-center gap-1.5 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-3 py-2 text-xs font-medium text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]">
                           <Volume2 className="h-3.5 w-3.5" />
                           Écouter
                         </button>
@@ -1118,7 +1118,7 @@ export default function AtelierOralPage() {
             </Button>
             <Link
               href={oralTutorHref}
-              className="inline-flex items-center justify-center rounded-[16px] border border-[var(--border-strong)] bg-white px-6 py-3 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+              className="inline-flex items-center justify-center rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-white px-6 py-3 text-sm font-semibold text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--teal)] hover:text-[var(--teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]"
             >
               Débriefer cette simulation
             </Link>

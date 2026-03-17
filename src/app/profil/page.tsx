@@ -234,22 +234,22 @@ export default function ProfilPage() {
               {displayName}, ton profil doit te dire où appuyer, pas seulement où tu en es.
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
-              Le rôle de cette page est de condenser ton état réel: compétences les plus stables, erreurs récurrentes, tâches immédiates et badges
+              Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges
               déjà acquis.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Niveau moyen: <strong>{averageScore} / 20</strong>
+                Niveau moyen{'\u00a0'}: <strong>{averageScore} / 20</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Point fort: <strong>{strongestSkill.label}</strong>
+                Point fort{'\u00a0'}: <strong>{strongestSkill.label}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Axe à retendre: <strong>{weakestSkill.label}</strong>
+                Axe à retendre{'\u00a0'}: <strong>{weakestSkill.label}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Mise à jour: <strong>{formatShortDate(resolvedProfile.skillMap.lastUpdated)}</strong>
+                Mise à jour{'\u00a0'}: <strong>{formatShortDate(resolvedProfile.skillMap.lastUpdated)}</strong>
               </span>
             </div>
 
@@ -491,7 +491,7 @@ export default function ProfilPage() {
                 </div>
                 <p className="mt-4 text-base font-semibold leading-7">{badge}</p>
                 <p className="mt-2 text-sm leading-6 text-white/80">
-                  Trace de progression utile: ce badge matérialise une régularité ou un passage de seuil déjà atteint.
+                  Trace de progression utile : ce badge matérialise une régularité ou un passage de seuil déjà atteint.
                 </p>
               </article>
             ))}

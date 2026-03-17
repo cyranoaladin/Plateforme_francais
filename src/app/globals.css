@@ -29,12 +29,18 @@
   --accent-violet: #6b587d;
   --accent-earth: #7a4b24;
 
+  /* ─── Hover variants ─────────────────────────────── */
+  --navy-hover: #224464;
+  --teal-hover: #148b80;
+  --error-hover: #b33f30;
+
   /* ─── Third-party ───────────────────────────────── */
   --whatsapp: #25d366;
   --whatsapp-hover: #1fba59;
 
   /* ─── Icon tones ────────────────────────────────── */
   --icon-muted: #c0af96;
+  --badge-gold: #b8860b;
 
   /* ─── Surfaces ────────────────────────────────────── */
   --surface-cream: #f4eee3;
@@ -53,6 +59,7 @@
   --surface-warm-empty: #fffaf2;
   --surface-teal-light: #eef9f6;
   --surface-violet-light: #f4eff8;
+  --surface-info-box: #f4f8fb;
 
   /* ─── Borders ─────────────────────────────────────── */
   --border-light: #e7dac6;
@@ -68,6 +75,7 @@
   --border-warm-mid: #e8dcc8;
   --border-warm-soft: #efe3d2;
   --border-disabled: #e0ddd8;
+  --border-info-box: #dfe7ef;
 
   /* ─── Text ────────────────────────────────────────── */
   --text-heading: #0f172a;
@@ -82,6 +90,10 @@
   --text-on-navy-soft: #e4d4bd;
   --text-disabled: #9a9590;
   --text-icon: #7c8792;
+  --text-chart: #6b7280;
+  --text-chart-muted: #768390;
+  --text-strikethrough: #7f918d;
+  --text-locked: #8a8580;
 
   /* ─── Status ──────────────────────────────────────── */
   --success: #0f766e;
@@ -99,6 +111,10 @@
   --error-text: #b24838;
   --error-text-bright: #c44f3c;
   --error-border: #f1c8c0;
+  --success-border-accent: #9cccaf;
+  --success-text-dark: #25543d;
+  --success-bg-soft: #eef8f0;
+  --success-bg-pale: #f0fdf4;
   --info: #1d4ed8;
   --info-bg: #eff6ff;
 

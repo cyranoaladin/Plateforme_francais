@@ -155,8 +155,8 @@ export function WhyNexus() {
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                   <p className="text-sm leading-6 text-slate-200">
-                    L&rsquo;objectif n&rsquo;est pas de paraître &laquo;&nbsp;intelligent&nbsp;&raquo;. L&rsquo;objectif est de rendre le travail plus cadré,
-                    plus crédible et plus simple à reprendre d&rsquo;une séance à l&rsquo;autre.
+                    L’objectif n’est pas de paraître « intelligent ». L’objectif est de rendre le travail plus cadré,
+                    plus crédible et plus simple à reprendre d’une séance à l’autre.
                   </p>
                 </div>
               </div>

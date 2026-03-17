@@ -27,3 +27,5 @@ export type { BadgeProps, BadgeVariant, BadgeSize } from './badge';
 
 export { SectionHeader } from './section-header';
 export type { SectionHeaderProps, SectionHeaderSize } from './section-header';
+
+export { StateNotice } from './state-notice';

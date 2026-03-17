@@ -42,6 +42,8 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: CardVariant;
   /** Padding preset. */
   padding?: CardPadding;
+  /** Enable subtle hover lift micro-interaction. */
+  hoverable?: boolean;
 }
 
 /**
@@ -56,6 +58,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     {
       variant = 'default',
       padding = 'md',
+      hoverable = false,
       className,
       children,
       ...rest
@@ -68,6 +71,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         className={cn(
           variantStyles[variant],
           paddingStyles[padding],
+          hoverable && 'transition-all duration-[var(--transition-base)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]',
           className,
         )}
         {...rest}

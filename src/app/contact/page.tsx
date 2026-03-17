@@ -3,8 +3,10 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { CheckCircle2, AlertTriangle, Loader2, Send } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, Send } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
+import { Button, Input, Select, Textarea } from '@/components/ui';
+import { StateNotice } from '@/components/ui/state-notice';
 
 const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
@@ -92,83 +94,67 @@ export default function ContactPage() {
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-md)] md:p-8">
           <div className="grid gap-5 sm:grid-cols-2">
-            <div>
-              <label htmlFor="contact-name" className="block text-sm font-semibold text-[var(--navy)]">Nom</label>
-              <input
-                id="contact-name"
-                type="text"
-                required
-                minLength={2}
-                maxLength={100}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-2 w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-                placeholder="Ton nom"
-              />
-            </div>
-            <div>
-              <label htmlFor="contact-email" className="block text-sm font-semibold text-[var(--navy)]">Email</label>
-              <input
-                id="contact-email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-                placeholder="ton.email@example.com"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="contact-subject" className="block text-sm font-semibold text-[var(--navy)]">Objet</label>
-            <select
-              id="contact-subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              className="mt-2 w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-            >
-              {SUBJECTS.map((s) => (
-                <option key={s.value} value={s.value}>{s.label}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="contact-message" className="block text-sm font-semibold text-[var(--navy)]">Message</label>
-            <textarea
-              id="contact-message"
+            <Input
+              label="Nom"
+              id="contact-name"
+              type="text"
               required
-              minLength={10}
-              maxLength={2000}
-              rows={5}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="mt-2 w-full resize-y rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
-              placeholder="Décris ta demande ici..."
+              minLength={2}
+              maxLength={100}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Ton nom"
+              size="lg"
+            />
+            <Input
+              label="Email"
+              id="contact-email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="ton.email@example.com"
+              size="lg"
             />
           </div>
 
-          <button
+          <Select
+            label="Objet"
+            id="contact-subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            options={SUBJECTS.map((s) => ({ value: s.value, label: s.label }))}
+            size="lg"
+          />
+
+          <Textarea
+            label="Message"
+            id="contact-message"
+            required
+            minLength={10}
+            maxLength={2000}
+            rows={5}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Décris ta demande ici..."
+            size="lg"
+          />
+
+          <Button
             type="submit"
-            disabled={loading}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+            loading={loading}
+            icon={!loading ? <Send className="h-4 w-4" /> : undefined}
+            size="lg"
+            className="w-full sm:w-auto"
           >
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             {loading ? 'Envoi en cours...' : 'Envoyer le message'}
-          </button>
+          </Button>
 
           {success ? (
-            <div className="flex items-start gap-3 rounded-[var(--radius-xl)] border border-[var(--teal)]/25 bg-[var(--success-bg)] p-4 text-sm text-[var(--teal)]" role="status">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
-              <span>{success}</span>
-            </div>
+            <StateNotice title="Message envoy\u00e9" description={success} variant="success" />
           ) : null}
           {error ? (
-            <div className="flex items-start gap-3 rounded-[var(--radius-xl)] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
-              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-              <span>{error}</span>
-            </div>
+            <StateNotice title="Erreur d’envoi" description={error} variant="error" />
           ) : null}
         </form>
 

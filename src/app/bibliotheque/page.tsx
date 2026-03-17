@@ -353,7 +353,7 @@ export default function BibliothequePage() {
               onChange={(event) => setSearchQuery(event.target.value)}
               onKeyDown={handleSearchKeyDown}
               placeholder="Exemple : explication linéaire, problématique dissertation, Rimbaud, rapport jury..."
-              className="w-full rounded-[24px] border border-[var(--border-sand)] bg-white px-11 py-4 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/22 focus:ring-2 focus:ring-[var(--navy)]/8"
+              className="w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-11 py-4 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
             />
           </div>
           <Button
@@ -375,7 +375,7 @@ export default function BibliothequePage() {
           </span>
           <button
             onClick={() => setActiveCategory('all')}
-            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === 'all' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
+            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${activeCategory === 'all' ? 'bg-[var(--navy)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
           >
             Toutes les ressources
           </button>
@@ -386,7 +386,7 @@ export default function BibliothequePage() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${activeCategory === category ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
+                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${activeCategory === category ? 'bg-[var(--teal)] text-white' : 'border border-[var(--border-sand)] bg-white text-[var(--navy)] hover:border-[var(--navy)]/18'}`}
               >
                 <Icon className="h-4 w-4" />
                 {getCategoryLabel(category)}
@@ -474,7 +474,7 @@ export default function BibliothequePage() {
                       onClick={() => setSelectedResource(resource)}
                     >
                       <div className="flex items-start gap-4">
-                        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[16px] text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition ${locked ? 'bg-[#e8e5e0] grayscale' : 'bg-white group-hover:bg-[var(--navy)]/6'}`}>
+                        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[16px] text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition ${locked ? 'bg-[var(--border-disabled)] grayscale' : 'bg-white group-hover:bg-[var(--navy)]/6'}`}>
                           {locked ? <Lock className="h-6 w-6 text-[var(--text-disabled)]" /> : getResourceIcon(resource.type)}
                         </div>
 
@@ -499,7 +499,7 @@ export default function BibliothequePage() {
                               </Badge>
                             )}
                           </div>
-                          <p className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${locked ? 'text-[#8a8580]' : 'text-[var(--navy)] group-hover:text-[#224a6e]'}`}>
+                          <p className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${locked ? 'text-[var(--text-locked)]' : 'text-[var(--navy)] group-hover:text-[var(--navy-light)]'}`}>
                             {formatResourceTitle(resource.title, resource.ext)}
                           </p>
                           <p className={`mt-2 line-clamp-3 text-sm leading-6 ${locked ? 'text-[var(--text-disabled)]' : 'text-[var(--text-secondary)]'}`}>
@@ -539,12 +539,13 @@ export default function BibliothequePage() {
           center
           className="px-6 py-12"
           action={
-            <button
+            <Button
               onClick={() => { setActiveCategory('all'); setSearchQuery(''); }}
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+              variant="secondary"
+              size="md"
             >
               Voir toutes les ressources
-            </button>
+            </Button>
           }
         />
       )}

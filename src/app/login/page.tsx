@@ -121,7 +121,7 @@ function PasswordField({
 
 function ProofPanel() {
   return (
-    <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_32px_90px_rgba(23,50,77,0.24)] lg:h-full lg:p-8">
+    <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] lg:h-full lg:p-8">
       <div className="absolute -right-10 top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
       <div className="absolute -left-8 bottom-12 h-28 w-28 rounded-full bg-[var(--gold-muted)]/18 blur-2xl" />
 
@@ -353,7 +353,7 @@ function AuthCard() {
 
   return (
     <div className="w-full max-w-xl">
-      <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/88 p-6 shadow-[0_24px_70px_rgba(23,50,77,0.08)] sm:p-8 lg:p-9">
+      <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/88 p-6 shadow-[var(--shadow-xl)] sm:p-8 lg:p-9">
         <div className="flex flex-col gap-4 border-b border-[var(--border-light)] pb-5">
           <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--navy)]">
             {mode === 'login' ? 'Accès sécurisé' : 'Inscription gratuite'}
@@ -448,7 +448,7 @@ function AuthCard() {
                     className="mt-1 accent-[var(--navy)]"
                   />
                   <span className="text-xs leading-6 text-slate-600">
-                    J&apos;accepte les <Link href="/cgu" target="_blank" className="font-semibold text-[var(--teal)] underline-offset-2 hover:underline">Conditions d&apos;utilisation</Link> et la <Link href="/politique-de-confidentialite" target="_blank" className="font-semibold text-[var(--teal)] underline-offset-2 hover:underline">Politique de confidentialité</Link>.
+                    J’accepte les <Link href="/cgu" target="_blank" className="font-semibold text-[var(--teal)] underline-offset-2 hover:underline">Conditions d’utilisation</Link> et la <Link href="/politique-de-confidentialite" target="_blank" className="font-semibold text-[var(--teal)] underline-offset-2 hover:underline">Politique de confidentialité</Link>.
                   </span>
                 </label>
 
@@ -641,7 +641,7 @@ export default function LoginPage() {
           <div className="flex items-center justify-center">
             <Suspense
               fallback={
-                <div className="flex w-full max-w-xl items-center justify-center rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/88 p-8 shadow-[0_24px_70px_rgba(23,50,77,0.08)] min-h-[420px]">
+                <div className="flex w-full max-w-xl items-center justify-center rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/88 p-8 shadow-[var(--shadow-xl)] min-h-[420px]">
                   <Loader2 className="h-6 w-6 animate-spin text-slate-500" />
                 </div>
               }

@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
-import { Badge, Button } from '@/components/ui';
+import { Badge, Button, Input } from '@/components/ui';
 import { StateNotice } from '@/components/ui/state-notice';
 
 type EpreuveType = 'commentaire' | 'dissertation' | 'contraction_essai';
@@ -323,44 +323,36 @@ export default function AtelierEcritPage() {
               <div className="mt-6 space-y-5">
                 <div className="grid gap-3 md:grid-cols-3">
                   <div>
-                    <label htmlFor="epreuve-type" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
+                    <label htmlFor="epreuve-type" className="mb-1.5 block text-sm font-medium text-[var(--text-body)]">
                       Type
                     </label>
                     <select
                       id="epreuve-type"
                       value={type}
                       onChange={(event) => setType(event.target.value as EpreuveType)}
-                      className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
+                      className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
                     >
                       <option value="commentaire">Commentaire</option>
                       <option value="dissertation">Dissertation</option>
                       <option value="contraction_essai">Contraction / Essai</option>
                     </select>
                   </div>
-                  <div>
-                    <label htmlFor="epreuve-oeuvre" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
-                      Œuvre (optionnel)
-                    </label>
-                    <input
-                      id="epreuve-oeuvre"
-                      value={oeuvre}
-                      onChange={(event) => setOeuvre(event.target.value)}
-                      placeholder="Ex: Sido"
-                      className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="epreuve-theme" className="mb-1.5 block text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-warm)]">
-                      Thème (optionnel)
-                    </label>
-                    <input
-                      id="epreuve-theme"
-                      value={theme}
-                      onChange={(event) => setTheme(event.target.value)}
-                      placeholder="Ex: la mémoire"
-                      className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/20 focus:ring-2 focus:ring-[var(--navy)]/8"
-                    />
-                  </div>
+                  <Input
+                    label={'\u0152uvre (optionnel)'}
+                    id="epreuve-oeuvre"
+                    value={oeuvre}
+                    onChange={(event) => setOeuvre(event.target.value)}
+                    placeholder="Ex: Sido"
+                    size="md"
+                  />
+                  <Input
+                    label="Th\u00e8me (optionnel)"
+                    id="epreuve-theme"
+                    value={theme}
+                    onChange={(event) => setTheme(event.target.value)}
+                    placeholder="Ex: la m\u00e9moire"
+                    size="md"
+                  />
                 </div>
                 <Button
                   onClick={handleGenerate}
@@ -517,7 +509,7 @@ export default function AtelierEcritPage() {
                   onClick={handleUpload}
                   icon={<Upload className="h-4 w-4" />}
                   size="lg"
-                  className="rounded-[16px] bg-[var(--teal)] font-semibold hover:bg-[#148b80]"
+                  className="rounded-[16px] bg-[var(--teal)] font-semibold hover:bg-[var(--teal-hover)]"
                 >
                   Lancer la correction détaillée
                 </Button>

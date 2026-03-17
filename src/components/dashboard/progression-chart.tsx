@@ -53,25 +53,25 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
         <LineChart data={data} margin={{ top: 8, right: 12, left: -12, bottom: 0 }}>
           <defs>
             <linearGradient id="progression-commentaire" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="#17324d" />
-              <stop offset="100%" stopColor="#315f88" />
+              <stop offset="0%" stopColor="var(--navy)" />
+              <stop offset="100%" stopColor="var(--navy-light)" />
             </linearGradient>
             <linearGradient id="progression-dissertation" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="#b87333" />
-              <stop offset="100%" stopColor="#d4a45d" />
+              <stop offset="0%" stopColor="var(--gold-muted)" />
+              <stop offset="100%" stopColor="var(--gold)" />
             </linearGradient>
             <linearGradient id="progression-oral" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="#0f766e" />
-              <stop offset="100%" stopColor="#39b7aa" />
+              <stop offset="0%" stopColor="var(--teal)" />
+              <stop offset="100%" stopColor="var(--teal-light)" />
             </linearGradient>
           </defs>
 
-          <CartesianGrid vertical={false} stroke="#d8ccb9" strokeDasharray="4 6" />
-          <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 11 }} />
-          <YAxis axisLine={false} tickLine={false} domain={[0, 20]} tick={{ fill: '#6b7280', fontSize: 11 }} />
+          <CartesianGrid vertical={false} stroke="var(--border-strong)" strokeDasharray="4 6" />
+          <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: 'var(--text-chart)', fontSize: 11 }} />
+          <YAxis axisLine={false} tickLine={false} domain={[0, 20]} tick={{ fill: 'var(--text-chart)', fontSize: 11 }} />
           <Tooltip
             contentStyle={tooltipStyle}
-            cursor={{ stroke: '#d8ccb9', strokeDasharray: '4 4' }}
+            cursor={{ stroke: 'var(--border-strong)', strokeDasharray: '4 4' }}
             formatter={(value: number | string | Array<number | string> | undefined) => {
               if (Array.isArray(value)) {
                 return value.join(', ');
@@ -82,9 +82,9 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
           <Legend wrapperStyle={{ paddingTop: 12, fontSize: 11 }} iconType="circle" />
           <ReferenceLine
             y={target}
-            stroke="#b87333"
+            stroke="var(--gold-muted)"
             strokeDasharray="5 5"
-            label={{ value: 'Objectif', position: 'insideTopRight', fontSize: 10, fill: '#7a4b24' }}
+            label={{ value: 'Objectif', position: 'insideTopRight', fontSize: 10, fill: 'var(--accent-earth)' }}
           />
           <Line
             type="monotone"
@@ -92,7 +92,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
             name="Commentaire"
             stroke="url(#progression-commentaire)"
             strokeWidth={3}
-            dot={{ r: 3, fill: '#17324d', strokeWidth: 0 }}
+            dot={{ r: 3, fill: 'var(--navy)', strokeWidth: 0 }}
             activeDot={{ r: 5 }}
             connectNulls
           />
@@ -102,7 +102,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
             name="Dissertation"
             stroke="url(#progression-dissertation)"
             strokeWidth={3}
-            dot={{ r: 3, fill: '#b87333', strokeWidth: 0 }}
+            dot={{ r: 3, fill: 'var(--gold-muted)', strokeWidth: 0 }}
             activeDot={{ r: 5 }}
             connectNulls
           />
@@ -112,7 +112,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
             name="Oral"
             stroke="url(#progression-oral)"
             strokeWidth={3}
-            dot={{ r: 3, fill: '#0f766e', strokeWidth: 0 }}
+            dot={{ r: 3, fill: 'var(--teal)', strokeWidth: 0 }}
             activeDot={{ r: 5 }}
             connectNulls
           />

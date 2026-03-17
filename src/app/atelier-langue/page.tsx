@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { useTrackInteraction } from '@/components/tracking/tracking-provider';
 import { StateNotice } from '@/components/ui/state-notice';
-import { Button } from '@/components/ui';
+import { Button, Textarea } from '@/components/ui';
 import { buildLangueExerciseSeries } from '@/lib/langue/exercise-bank';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
@@ -264,7 +264,7 @@ export default function AtelierLangue() {
             <select
               value={theme}
               onChange={(event) => setTheme(event.target.value as ThemeKey)}
-              className="mt-2 w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/30"
+              className="mt-2 w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
               {THEME_OPTIONS.map((option) => (
@@ -373,7 +373,7 @@ export default function AtelierLangue() {
                 <p style={EDITORIAL_HEADING} className="mt-4 text-2xl leading-10 tracking-[-0.02em] text-[var(--navy)] md:text-3xl">
                   « {currentExercise.sentence} »
                 </p>
-                <div className="mt-5 rounded-[22px] border border-[#dfe7ef] bg-[#f4f8fb] p-4">
+                <div className="mt-5 rounded-[22px] border border-[var(--border-info-box)] bg-[var(--surface-info-box)] p-4">
                   <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--text-caption)]">Question d’oral</p>
                   <p className="mt-2 text-sm leading-7 text-[var(--navy-mid)]">{currentExercise.question}</p>
                 </div>
@@ -388,13 +388,15 @@ export default function AtelierLangue() {
                   <p className="text-sm text-[var(--text-secondary)]">Formule : identification, dénomination, interprétation.</p>
                 </div>
 
-                <textarea
+                <Textarea
                   data-testid="langue-answer"
-                  className="mt-5 min-h-[180px] w-full rounded-[24px] border border-[var(--border-sand)] bg-[var(--surface-warm-input)] px-4 py-4 text-sm leading-7 text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/30"
-                  placeholder="Rédige ton analyse grammaticale complète ici..."
+                  className="mt-5"
+                  placeholder="R\u00e9dige ton analyse grammaticale compl\u00e8te ici..."
                   value={userAnswer}
                   onChange={(event) => setUserAnswer(event.target.value)}
                   disabled={feedback !== null}
+                  rows={6}
+                  size="lg"
                 />
 
                 {!feedback ? (

@@ -12,7 +12,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
-import { Badge } from '@/components/ui';
+import { Badge, Button } from '@/components/ui';
 import { StateNotice } from '@/components/ui/state-notice';
 
 type Message = {
@@ -171,7 +171,7 @@ function TuteurPageContent() {
                   key={prompt}
                   type="button"
                   onClick={() => void sendMessage(prompt)}
-                  className="flex w-full items-start justify-between gap-3 rounded-[16px] border border-[var(--surface-sand)] bg-white/80 px-4 py-3 text-left text-sm leading-6 text-[var(--navy)] transition hover:border-[var(--navy)]/22 hover:bg-white"
+                  className="flex w-full items-start justify-between gap-3 rounded-[16px] border border-[var(--surface-sand)] bg-white/80 px-4 py-3 text-left text-sm leading-6 text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/22 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]"
                 >
                   <span>{prompt}</span>
                   <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[var(--accent-bronze)]" />
@@ -220,7 +220,7 @@ function TuteurPageContent() {
                     key={suggestion}
                     type="button"
                     onClick={() => void sendMessage(suggestion)}
-                    className="rounded-full border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-3 py-1.5 text-xs font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/22 hover:bg-white"
+                    className="rounded-full border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-3 py-1.5 text-xs font-medium text-[var(--navy)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/22 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[var(--teal)]"
                   >
                     {suggestion}
                   </button>
@@ -249,7 +249,7 @@ function TuteurPageContent() {
                         key={prompt}
                         type="button"
                         onClick={() => void sendMessage(prompt)}
-                        className="rounded-[16px] border border-[var(--border-light)] bg-white px-4 py-4 text-left text-sm leading-6 text-[var(--navy)] shadow-[var(--shadow-sm)] transition hover:border-[var(--navy)]/22 hover:-translate-y-0.5"
+                        className="rounded-[16px] border border-[var(--border-light)] bg-white px-4 py-4 text-left text-sm leading-6 text-[var(--navy)] shadow-[var(--shadow-sm)] transition-all duration-[var(--transition-base)] hover:border-[var(--navy)]/22 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]"
                       >
                         {prompt}
                       </button>
@@ -335,19 +335,21 @@ function TuteurPageContent() {
                 <label htmlFor="tuteur-input" className="sr-only">Message au tuteur de parcours</label>
                 <input
                   id="tuteur-input"
-                  className="w-full rounded-[24px] border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-5 py-4 pr-16 text-sm text-[var(--navy)] shadow-[var(--shadow-sm)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/24 focus:bg-white focus:ring-2 focus:ring-[var(--navy)]/10"
+                  className="w-full rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--surface-warm-input)] px-5 py-4 pr-16 text-sm text-[var(--navy)] shadow-[var(--shadow-sm)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--teal)] focus:bg-white focus:ring-2 focus:ring-[var(--teal)]/20"
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Exemple : ma problématique est trop vague, comment la resserrer ?"
+                  placeholder="Exemple : ma probl\u00e9matique est trop vague, comment la resserrer ?"
                 />
-                <button
+                <Button
                   type="submit"
                   disabled={!input.trim() || isSending}
-                  className="absolute right-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-2xl bg-[var(--navy)] text-white transition hover:bg-[#224464] disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  <Send className="h-4 w-4" />
-                </button>
+                  variant="primary"
+                  size="md"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-2xl p-0"
+                  icon={<Send className="h-4 w-4" />}
+                  aria-label="Envoyer"
+                />
               </form>
             </div>
           </div>

@@ -525,10 +525,10 @@ export default function OnboardingPage() {
                           type="button"
                           key={oeuvre.id}
                           onClick={() => toggleOeuvre(oeuvre.title)}
-                          className={`rounded-[24px] border p-4 text-left transition-all ${
+                          className={`rounded-[var(--radius-xl)] border p-4 text-left transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${
                             isSelected
                               ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]'
-                              : 'border-[var(--border-strong)] bg-white hover:-translate-y-0.5 hover:border-[var(--teal)]'
+                              : 'border-[var(--border-strong)] bg-white hover:-translate-y-0.5 hover:border-[var(--teal)] hover:shadow-[var(--shadow-sm)]'
                           }`}
                         >
                           <div className="flex items-start justify-between gap-3">

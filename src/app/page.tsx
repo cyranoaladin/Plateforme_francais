@@ -345,7 +345,7 @@ export default function HomePage() {
             </div>
 
             <div className="relative [animation:fadeUp_.95s_ease-out_.12s_both]">
-              <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_32px_90px_rgba(23,50,77,0.28)] md:p-8">
+              <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--text-on-navy-soft)]">Cockpit élève</p>
@@ -361,11 +361,11 @@ export default function HomePage() {
                       <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--border-warm)]">Simulation orale</p>
                       <p className="mt-1 text-sm text-slate-200">Score ventilé selon le format officiel, sans zone floue.</p>
                     </div>
-                    <div className="rounded-full bg-[var(--teal)]/25 px-3 py-1 text-xs font-bold text-[#bde5df]">16.5 / 20</div>
+                    <div className="rounded-full bg-[var(--teal)]/25 px-3 py-1 text-xs font-bold text-[var(--teal-light)]">16.5 / 20</div>
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
                     {ORAL_PHASES.map((phase) => (
-                      <div key={phase.label} className="rounded-2xl border border-white/10 bg-[#102238] px-3 py-3">
+                      <div key={phase.label} className="rounded-2xl border border-white/10 bg-[var(--navy-dark)] px-3 py-3">
                         <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">{phase.label}</p>
                         <p className="mt-2 text-lg font-bold text-white">{phase.score}</p>
                       </div>
@@ -770,7 +770,7 @@ export default function HomePage() {
                   <Link href="/login" className="font-semibold text-[var(--navy)] underline">Connecte-toi d’abord</Link> pour rattacher le code à ton compte.
                 </div>
               )}
-              {codeSuccess ? <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#9cccaf] bg-[#eef8f0] p-4 text-sm text-[#25543d]" role="status"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /><span>{codeSuccess.message}</span></div> : null}
+              {codeSuccess ? <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--success-border-accent)] bg-[var(--success-bg-soft)] p-4 text-sm text-[var(--success-text-dark)]" role="status"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /><span>{codeSuccess.message}</span></div> : null}
               {codeError ? <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert"><span>{codeError}</span></div> : null}
             </article>
 
@@ -842,7 +842,7 @@ export default function HomePage() {
       {/* ════════════════ FINAL CTA ════════════════ */}
       <section className="pb-20 pt-8 md:pb-24 md:pt-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] px-6 py-10 text-[var(--surface-parchment)] shadow-[0_30px_90px_rgba(23,50,77,0.28)] md:px-10 md:py-12">
+          <div className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] px-6 py-10 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-10 md:py-12">
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Passage à l’action</p>

@@ -213,7 +213,7 @@ export function Sidebar() {
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-white/85 p-2.5 text-center">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">Badges</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--navy)]">
-                  <Award className="h-3.5 w-3.5 text-[#b8860b]" /> {badgeCount}
+                  <Award className="h-3.5 w-3.5 text-[var(--badge-gold)]" /> {badgeCount}
                 </p>
               </div>
             </div>
@@ -239,7 +239,7 @@ export function Sidebar() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-[var(--navy)]">Trajectoire actuelle</p>
-                  <p className="text-xs leading-5 text-[var(--navy-muted)]">Objectif vise : {me?.profile.targetScore ?? '14/20'}.</p>
+                  <p className="text-xs leading-5 text-[var(--navy-muted)]">Objectif visé : {me?.profile.targetScore ?? '14/20'}.</p>
                 </div>
               </div>
             </div>

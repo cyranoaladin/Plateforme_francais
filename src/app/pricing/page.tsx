@@ -188,7 +188,7 @@ function BillingFaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[0_14px_35px_rgba(23,50,77,0.05)]">
+    <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[var(--shadow-lg)]">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
@@ -309,7 +309,7 @@ export default function PricingPage() {
       <div className="pointer-events-none absolute left-0 top-[38rem] h-72 w-72 rounded-full bg-[var(--gold-muted)]/10 blur-3xl" />
 
       <main className="relative mx-auto max-w-7xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 lg:pb-24">
-        <header className="flex flex-col gap-5 rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-5 rounded-[24px] border border-[var(--border-strong)] bg-white/80 px-5 py-4 shadow-[var(--shadow-lg)] sm:flex-row sm:items-center sm:justify-between">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--navy)]">
@@ -378,7 +378,7 @@ export default function PricingPage() {
             </div>
           </div>
 
-          <aside className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8">
+          <aside className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Ton statut</p>
@@ -486,7 +486,7 @@ export default function PricingPage() {
             {PLANS.map((plan) => {
               const isCurrent = isAuthenticated && plan.id === currentPlan;
               const accent = plan.highlighted
-                ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[0_24px_70px_rgba(23,50,77,0.18)]'
+                ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-xl)]'
                 : isCurrent
                   ? 'border-[var(--teal)] bg-[var(--surface-warm)] text-[var(--navy)]'
                   : 'border-[var(--border-strong)] bg-white/85 text-[var(--navy)]';
@@ -560,7 +560,7 @@ export default function PricingPage() {
         </section>
 
         <section className="pb-16">
-          <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/80 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-8">
+          <div className="rounded-[24px] border border-[var(--border-strong)] bg-white/80 p-6 shadow-[var(--shadow-lg)] md:p-8">
             <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Aide à la décision</p>
@@ -581,7 +581,7 @@ export default function PricingPage() {
         </section>
 
         <section className="grid gap-5 pb-16 lg:grid-cols-2">
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-white/85 p-6 shadow-[var(--shadow-lg)] md:p-7">
             <div className="flex items-center gap-2">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]">
                 <KeyRound className="h-5 w-5" />
@@ -625,7 +625,7 @@ export default function PricingPage() {
             )}
 
             {codeSuccess ? (
-              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[#9cccaf] bg-[var(--success-bg)] p-4 text-sm text-[#25543d]" role="status">
+              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--success-border-accent)] bg-[var(--success-bg)] p-4 text-sm text-[var(--success-text-dark)]" role="status">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{codeSuccess.message}</span>
               </div>
@@ -638,7 +638,7 @@ export default function PricingPage() {
             ) : null}
           </article>
 
-          <article className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
+          <article className="rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-7">
             <div className="flex items-center gap-2">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]">
                 <Landmark className="h-5 w-5" />
@@ -731,7 +731,7 @@ export default function PricingPage() {
         </section>
 
         <section className="pb-16">
-          <div className="rounded-[24px] border-2 border-[var(--whatsapp)] bg-white/90 p-6 shadow-[0_18px_45px_rgba(37,211,102,0.12)] md:p-8">
+          <div className="rounded-[24px] border-2 border-[var(--whatsapp)] bg-white/90 p-6 shadow-[var(--shadow-lg)] md:p-8">
             <div className="flex items-center gap-3">
               <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--whatsapp)] text-white">
                 <MessageCircle className="h-7 w-7" />
@@ -780,13 +780,13 @@ export default function PricingPage() {
                 href={`https://wa.me/21699192829?text=${encodeURIComponent('Bonjour, je souhaite souscrire à un abonnement Nexus Réussite.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--whatsapp)] bg-white px-7 py-3.5 text-base font-semibold text-[var(--whatsapp)] transition-all hover:-translate-y-0.5 hover:bg-[#f0fdf4]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--whatsapp)] bg-white px-7 py-3.5 text-base font-semibold text-[var(--whatsapp)] transition-all hover:-translate-y-0.5 hover:bg-[var(--success-bg-pale)]"
               >
                 Envoyer un message pré-rempli
               </a>
             </div>
 
-            <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[#f0fdf4] p-4">
+            <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[var(--success-bg-pale)] p-4">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--whatsapp)]" />
               <p className="text-sm leading-6 text-slate-600">
                 Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire.
@@ -809,7 +809,7 @@ export default function PricingPage() {
             </div>
           </div>
 
-          <div className="mt-10 overflow-x-auto rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[0_18px_45px_rgba(23,50,77,0.05)]">
+          <div className="mt-10 overflow-x-auto rounded-[24px] border border-[var(--border-strong)] bg-white/85 shadow-[var(--shadow-lg)]">
             <table className="w-full min-w-[760px] text-sm">
               <thead>
                 <tr className="bg-[var(--surface-warm)] text-left">
@@ -843,7 +843,7 @@ export default function PricingPage() {
               Si la page est bonne, elle coupe court aux hésitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon.
             </p>
 
-            <div className="mt-8 rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[0_24px_70px_rgba(23,50,77,0.14)]">
+            <div className="mt-8 rounded-[24px] border border-[var(--navy)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Prêt à passer à l’action ?</p>
               <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                 La préparation sérieuse commence avec Premium.

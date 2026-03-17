@@ -268,18 +268,18 @@ export default function DescriptifPage() {
             </div>
 
             <div className="mt-6 space-y-3">
-              <select value={formObjet} onChange={(event) => { setFormObjet(event.target.value as ObjetEtude); setFormOeuvreIdx(0); }} className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8">
+              <select value={formObjet} onChange={(event) => { setFormObjet(event.target.value as ObjetEtude); setFormOeuvreIdx(0); }} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20">
                 {OBJETS_ETUDE.map((objet) => <option key={objet.key} value={objet.key}>{objet.label}</option>)}
               </select>
-              <select value={formOeuvreIdx} onChange={(event) => setFormOeuvreIdx(Number(event.target.value))} className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8">
+              <select value={formOeuvreIdx} onChange={(event) => setFormOeuvreIdx(Number(event.target.value))} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20">
                 {OEUVRES_PAR_OBJET[formObjet].map((oeuvre, index) => <option key={index} value={index}>{oeuvre.oeuvre} — {oeuvre.auteur}</option>)}
               </select>
-              <select value={formType} onChange={(event) => setFormType(event.target.value as TypeExtrait)} className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8">
-                <option value="extrait_oeuvre">Extrait d{'\u2019'}œuvre</option>
+              <select value={formType} onChange={(event) => setFormType(event.target.value as TypeExtrait)} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20">
+                <option value="extrait_oeuvre">Extrait d{'\u2019'}\u0153uvre</option>
                 <option value="extrait_parcours">Extrait du parcours</option>
               </select>
-              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex\u00a0: Acte I, scène 1)" className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8" />
-              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premières lignes (optionnel)" className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white p-3 text-sm text-[var(--navy)] outline-none transition placeholder:text-[var(--text-placeholder-warm)] focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8" />
+              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex\u00a0: Acte I, sc\u00e8ne 1)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20" />
+              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premi\u00e8res lignes (optionnel)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20" />
               <Button onClick={addTexte} disabled={!formTitre.trim()} icon={<Plus className="h-4 w-4" />} size="md" className="w-full">
                 Ajouter ce texte
               </Button>

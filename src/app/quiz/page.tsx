@@ -246,7 +246,7 @@ export default function QuizPage() {
                   id="quiz-theme"
                   value={theme}
                   onChange={(event) => setTheme(event.target.value as QuizTheme)}
-                  className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                  className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
                   disabled={isGenerating}
                 >
                   {THEME_GROUPS.map((group) => (
@@ -268,7 +268,7 @@ export default function QuizPage() {
                     id="quiz-difficulte"
                     value={difficulte}
                     onChange={(event) => setDifficulte(Number(event.target.value) as 1 | 2 | 3)}
-                    className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                    className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isGenerating}
                   >
                     <option value={1}>Facile — Révision des bases</option>
@@ -284,7 +284,7 @@ export default function QuizPage() {
                     id="quiz-nb-questions"
                     value={nbQuestions}
                     onChange={(event) => setNbQuestions(Number(event.target.value) as 5 | 10 | 20)}
-                    className="w-full rounded-[16px] border border-[var(--border-sand)] bg-white px-3 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--navy)]/18 focus:ring-2 focus:ring-[var(--navy)]/8"
+                    className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isGenerating}
                   >
                     <option value={5}>5 questions — Rapide</option>
@@ -350,7 +350,7 @@ export default function QuizPage() {
                           return (
                             <label
                               key={`${question.id}-${optionIndex}`}
-                              className={`rounded-[20px] border p-4 text-sm leading-7 transition ${isGood ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)] text-[var(--teal)] font-semibold' : isBad ? 'border-[var(--error-border)] bg-[var(--error-bg)] text-[var(--error-text)]' : checked ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)]' : 'border-[var(--surface-sand)] bg-white text-[var(--navy-mid)] hover:border-[var(--navy)]/18'}`}
+                              className={`cursor-pointer rounded-[20px] border p-4 text-sm leading-7 transition-all duration-[var(--transition-base)] focus-within:ring-2 focus-within:ring-[var(--teal)]/20 ${isGood ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)] text-[var(--teal)] font-semibold' : isBad ? 'border-[var(--error-border)] bg-[var(--error-bg)] text-[var(--error-text)]' : checked ? 'border-[var(--navy)]/18 bg-white text-[var(--navy)]' : 'border-[var(--surface-sand)] bg-white text-[var(--navy-mid)] hover:border-[var(--navy)]/18'}`}
                             >
                               <input
                                 type="radio"

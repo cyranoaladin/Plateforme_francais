@@ -652,8 +652,8 @@ export default function Dashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="var(--border-strong)" />
-                  <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: '#52606d' }} />
-                  <PolarRadiusAxis domain={[0, 20]} tick={{ fontSize: 10, fill: '#768390' }} />
+                  <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: 'var(--text-chart)' }} />
+                  <PolarRadiusAxis domain={[0, 20]} tick={{ fontSize: 10, fill: 'var(--text-chart-muted)' }} />
                   <Radar dataKey="score" stroke="var(--navy)" fill="var(--navy)" fillOpacity={0.22} />
                 </RadarChart>
               </ResponsiveContainer>
