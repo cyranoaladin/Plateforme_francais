@@ -141,7 +141,7 @@ function TuteurPageContent() {
               Un espace pour débloquer une vraie difficulté EAF, pas pour récupérer une réponse générique.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
-              Pose une question de méthode, d'œuvre, de grammaire ou d’oral. Nexus reformule, recentre, s’appuie sur ton historique utile
+              Pose une question de méthode, d’œuvre, de grammaire ou d’oral. Nexus reformule, recentre, s’appuie sur ton historique utile
               et propose la prochaine action sans sortir du cadre pédagogique de la plateforme.
             </p>
           </div>

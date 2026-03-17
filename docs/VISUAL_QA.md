@@ -1,4 +1,4 @@
-# Visual QA -- Nexus Reussite EAF
+# Visual QA -- Nexus Réussite EAF
 
 ## Overview
 
@@ -23,6 +23,8 @@ Each suite tests both **light** and **dark** mode (except mobile, light only for
 ## Generating baselines
 
 Baselines are the reference screenshots stored in `tests/visual/*-snapshots/`.
+
+**Prerequisite:** PostgreSQL doit être démarré sur le port configuré (5433 par défaut dans `.env`).
 
 ```bash
 # 1. Ensure database is running and seeded
@@ -62,8 +64,11 @@ npm run test:visual:update
 
 ## Theme system
 
-The app supports three modes: **system**, **light**, **dark**.
+The app supports three modes: **system**, **light**, **dark** via a tri-state pill selector in the sidebar (desktop) and a popover in the mobile bottom nav.
 
+- Theme preference is stored in `localStorage` under key `eaf_theme` (`light` | `dark`; absent = system)
+- **FOUC prevention:** an inline `<script>` in `layout.tsx` reads `localStorage` synchronously before first paint and adds `.dark` if needed
+- After hydration, `ThemeProvider` adds the `theme-ready` class to `<html>` (via `rAF + setTimeout(50ms)`) to enable CSS transitions only after the initial theme is painted
 - CSS custom properties are defined in `globals.css` under `:root` (light) and `.dark` (dark)
 - Visual tests inject `.dark` on `<html>` via `page.evaluate()` to test dark mode
 - All components should use `var(--token)` instead of hardcoded colors
@@ -86,3 +91,4 @@ The app supports three modes: **system**, **light**, **dark**.
 | Auth tests fail | Verify the test user exists in the database (`npm run db:seed`) |
 | Consent banner blocks screenshots | The `dismissConsent()` helper clicks "Accepter"; check the button selector |
 | Timeout on `webServer` | Increase `timeout` in `playwright.visual.config.ts` or set `E2E_BASE_URL` |
+| Baseline generation fails immediately | Verify PostgreSQL is running on the configured port (`5433` by default in `.env`) |

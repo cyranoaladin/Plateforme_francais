@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Nexus Réussite — Préparation EAF",
-  description: "Plateforme complète de préparation à l'EAF avec parcours personnalisé, corpus officiel et suivi de progression en Première voie générale",
+  description: "Plateforme complète de préparation à l\u2019EAF avec parcours personnalisé, corpus officiel et suivi de progression en Première voie générale",
 };
 
 // Force dynamic rendering - required for ThemeProvider with Context
