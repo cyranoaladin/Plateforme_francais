@@ -236,11 +236,8 @@ test.describe('Page pricing et souscription', () => {
     const upgradeBtn = page.getByRole('button', { name: /passer à masterium|passer à premium|s'abonner|acheter/i }).first();
     if (await upgradeBtn.isVisible({ timeout: 5_000 }).catch(() => false)) {
       await upgradeBtn.click();
-      // En local sans gateway réelle : soit redirection vers ClicToPay, soit message d'erreur
-      await expect(
-        page.getByText(/paiement|checkout|clictopay|erreur|impossible/i).first()
-          .or(page.locator('main').first())
-      ).toBeVisible({ timeout: 15_000 });
+      // En local sans gateway réelle : page reste visible après clic
+      await expect(page.locator('main').first()).toBeVisible({ timeout: 15_000 });
     }
   });
 
@@ -248,7 +245,7 @@ test.describe('Page pricing et souscription', () => {
     await page.goto('/');
     await expect(page.locator('main').first()).toBeVisible({ timeout: 10_000 });
     // Check for CTAs (links or buttons) on the homepage
-    const ctaCount = await page.getByRole('link', { name: /s.inscrire|commencer|cr[eé]+er|d[eé]marrer|connexion|essayer/i }).count();
+    const ctaCount = await page.getByRole('link', { name: /choisir|voir les plans|essayer|d[eé]marrer|cr[eé]er mon espace/i }).count();
     expect(ctaCount).toBeGreaterThan(0);
   });
 });

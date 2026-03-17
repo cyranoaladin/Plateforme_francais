@@ -52,20 +52,20 @@ test.describe('Navigation principale', () => {
 
   test('clic Bibliothèque → page Bibliothèque', async ({ page }) => {
     await page.goto('/dashboard');
-    await page.getByRole('link', { name: /biblioth[eè]que/i }).click();
+    await page.getByRole('link', { name: /biblioth[eè]que/i }).first().click();
     await expect(page).toHaveURL(/\/bibliotheque/);
     await expect(page.locator('main').first()).toBeVisible();
   });
 
   test('clic Atelier Écrit → page Atelier Écrit', async ({ page }) => {
     await page.goto('/dashboard');
-    await page.getByRole('link', { name: /atelier.[eé]crit/i }).click();
+    await page.getByRole('link', { name: /atelier.[eé]crit/i }).first().click();
     await expect(page).toHaveURL(/\/atelier-ecrit/);
   });
 
   test('clic Atelier Oral → page Atelier Oral', async ({ page }) => {
     await page.goto('/dashboard');
-    await page.getByRole('link', { name: /atelier.oral/i }).click();
+    await page.getByRole('link', { name: /atelier.oral/i }).first().click();
     await expect(page).toHaveURL(/\/atelier-oral/);
   });
 });
