@@ -529,7 +529,7 @@ function AuthCard() {
               onClick={() => router.push('/login?mode=forgot')}
               className="w-full min-h-[44px] text-center text-sm text-[var(--teal)] hover:underline"
             >
-              Mot de passe oublié ?
+              Mot de passe oublié ?
             </button>
             <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4">
               <button
@@ -537,7 +537,7 @@ function AuthCard() {
                 onClick={() => setShowHelp((prev) => !prev)}
                 className="text-sm font-semibold text-[var(--navy)] underline-offset-4 transition-colors hover:underline"
               >
-                Problème de connexion ?
+                Problème de connexion ?
               </button>
               {showHelp ? (
                 <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">

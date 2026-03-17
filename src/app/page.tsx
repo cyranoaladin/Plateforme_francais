@@ -162,11 +162,11 @@ const FEATURE_ROWS = [
 
 /* ─── Données FAQ ─── */
 const FAQ_ITEMS = [
-  { question: "La plateforme peut-elle écrire à ma place ?", answer: "Non. Le produit est conçu pour guider, structurer et corriger. Les demandes de commentaire ou de dissertation complets sont refusées et remplacées par une aide méthodologique exploitable." },
-  { question: "Sur quelles sources s’appuie la plateforme ?", answer: "Le corpus mobilisable s’appuie sur les sources institutionnelles, les rapports de jury et les œuvres au programme. Quand une réponse utilise ce corpus, elle expose des références internes visibles et réutilisables." },
-  { question: "Mes données sont-elles protégées ?", answer: "Oui. Session sécurisée, protection CSRF, contrôle d’accès, cadre RGPD et posture explicite sur les comptes mineurs : l’architecture de confiance fait partie du produit." },
-  { question: "Que se passe-t-il si j’atteins un quota ?", answer: "La plateforme bloque l’action concernée, conserve ton travail et t’indique le plan utile pour reprendre sans repartir de zéro." },
-  { question: "Comment fonctionne le paiement ?", answer: "Pour le moment, les abonnements payants sont activés par virement bancaire. Le paiement carte et Flouci seront disponibles prochainement." },
+  { question: "La plateforme peut-elle écrire à ma place ?", answer: "Non. Le produit est conçu pour guider, structurer et corriger. Les demandes de commentaire ou de dissertation complets sont refusées et remplacées par une aide méthodologique exploitable." },
+  { question: "Sur quelles sources s’appuie la plateforme ?", answer: "Le corpus mobilisable s’appuie sur les sources institutionnelles, les rapports de jury et les œuvres au programme. Quand une réponse utilise ce corpus, elle expose des références internes visibles et réutilisables." },
+  { question: "Mes données sont-elles protégées ?", answer: "Oui. Session sécurisée, protection CSRF, contrôle d’accès, cadre RGPD et posture explicite sur les comptes mineurs : l’architecture de confiance fait partie du produit." },
+  { question: "Que se passe-t-il si j’atteins un quota ?", answer: "La plateforme bloque l’action concernée, conserve ton travail et t’indique le plan utile pour reprendre sans repartir de zéro." },
+  { question: "Comment fonctionne le paiement ?", answer: "Pour le moment, les abonnements payants sont activés par virement bancaire. Le paiement carte et Flouci seront disponibles prochainement." },
 ];
 
 const BANK_TRANSFER_ROWS = [
@@ -480,7 +480,7 @@ export default function HomePage() {
       {/* ════════════════ CTA INTER-SECTION 1 ════════════════ */}
       <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <CtaBanner
-          title="Prêt à voir le workflow en situation ?"
+          title="Prêt à voir le workflow en situation ?"
           subtitle="L’inscription gratuite prend moins de 3 minutes. Aucun paiement requis pour lancer l’onboarding et ouvrir les premiers ateliers."
           primary={{ label: "Comparer les plans", href: "/pricing", track: "inter_cta_1_pricing" }}
           secondary={{ label: "Comparer les plans", href: "#plans" }}

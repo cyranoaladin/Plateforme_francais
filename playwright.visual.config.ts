@@ -67,5 +67,15 @@ export default defineConfig({
         storageState: path.join(__dirname, 'tests', '.auth', 'visual-user.json'),
       },
     },
+    {
+      name: 'mobile-visual',
+      testMatch: /mobile-visual\.spec\.ts/,
+      dependencies: ['setup'],
+      use: {
+        viewport: { width: 390, height: 844 },
+        isMobile: true,
+        storageState: path.join(__dirname, 'tests', '.auth', 'visual-user.json'),
+      },
+    },
   ],
 });
