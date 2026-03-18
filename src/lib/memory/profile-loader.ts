@@ -4,6 +4,15 @@ import { findUserById } from '@/lib/db/repositories/userRepo';
 import { listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
 import { estimateGlobalLevel, type SkillLevel, type WeakSeverity } from '@/lib/memory/scoring';
 import type { MemoryProfile, WeakSkillSummary, WorkMasterySummary } from '@/lib/memory/context-builder';
+import { LRUCache } from '@/lib/cache/lru';
+
+/** 5-minute LRU cache for student memory profiles (saves 3 DB queries per hit). */
+const profileCache = new LRUCache<MemoryProfile>({ maxSize: 200, defaultTtlMs: 300_000 });
+
+/** Invalidate profile cache for a user (call after profile updates). */
+export function invalidateProfileCache(userId: string): void {
+  profileCache.invalidatePrefix(`profile:${userId}:`);
+}
 
 type LightweightEvent = {
   type: string;
@@ -139,6 +148,10 @@ export async function loadMemoryProfileForUser(
   userId: string,
   opts?: { workId?: string },
 ): Promise<MemoryProfile | null> {
+  const cacheKey = `profile:${userId}:${opts?.workId ?? 'none'}`;
+  const cached = profileCache.get(cacheKey);
+  if (cached) return cached;
+
   const recentTimeline = (await listMemoryEventsByUser(userId, 24)) as LightweightEvent[];
 
   if (await isDatabaseAvailable()) {
@@ -236,6 +249,7 @@ export async function loadMemoryProfileForUser(
       eafDate: profile?.eafDate ? profile.eafDate.toISOString().split('T')[0] : undefined,
     };
 
+    profileCache.set(cacheKey, result);
     void refreshMemorySummaries({ userId, profile: result }).catch(() => undefined);
     return result;
   }

@@ -11,6 +11,7 @@ const PUBLIC_PATHS = new Set([
   '/login',
   '/bienvenue',
   '/pricing',
+  '/contact',
   '/paiement/confirmation',
   '/paiement/refus',
   '/mentions-legales',
@@ -25,7 +26,7 @@ const PUBLIC_PATHS = new Set([
 
 const CANONICAL_ALIAS_PATHS = new Set(['/bienvenue', '/landing']);
 
-function isPublicPath(pathname: string): boolean {
+export function isPublicPath(pathname: string): boolean {
   if (PUBLIC_PATHS.has(pathname)) return true;
   for (const prefix of PUBLIC_PATHS) {
     if (pathname.startsWith(prefix + '/')) return true;

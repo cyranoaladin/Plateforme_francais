@@ -57,8 +57,10 @@ describe('MEDIA_CATALOG — structure', () => {
 
 describe('MEDIA_CATALOG — filePaths', () => {
   it('chaque filePath pointe vers un fichier existant', () => {
-    if (process.env.CI && process.env.CI_STRICT_MEDIA_FILES !== '1') {
-      // CI runners do not ship heavyweight media assets; enable strict mode explicitly when needed.
+    const ressourcesDir = path.resolve(process.cwd(), 'ressources');
+    if (!existsSync(ressourcesDir)) {
+      // Media assets live on the server volume (/opt/eaf_platform/ressources),
+      // not in the git repo. Skip when the directory is absent.
       return;
     }
 
