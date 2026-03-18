@@ -74,8 +74,14 @@ export async function getBillingContext(userId: string): Promise<BillingContext>
       endsAt: sub.currentPeriodEnd ?? null,
       isActive: true,
     };
-  } catch {
-    if (process.env.NODE_ENV === 'test') {
+  } catch (error: unknown) {
+    // P2021: table does not exist — gracefully fall back to FREE
+    const isPrismaTableMissing =
+      error instanceof Error &&
+      'code' in error &&
+      (error as { code: string }).code === 'P2021';
+
+    if (process.env.NODE_ENV === 'test' || isPrismaTableMissing) {
       return {
         planId: 'FREE',
         config: PLAN_CATALOG.FREE,

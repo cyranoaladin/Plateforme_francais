@@ -11,18 +11,23 @@ export async function GET() {
 
   const billing = await getBillingContext(userId);
 
-  const lastPayment = await prisma.paymentTransaction.findFirst({
-    where: { userId },
-    orderBy: { createdAt: 'desc' },
-    select: {
-      orderRef: true,
-      plan: true,
-      status: true,
-      amountMillimes: true,
-      currency: true,
-      createdAt: true,
-    },
-  });
+  let lastPayment = null;
+  try {
+    lastPayment = await prisma.paymentTransaction.findFirst({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        orderRef: true,
+        plan: true,
+        status: true,
+        amountMillimes: true,
+        currency: true,
+        createdAt: true,
+      },
+    });
+  } catch {
+    // PaymentTransaction table may not exist yet — gracefully skip
+  }
 
   return NextResponse.json({
     subscription: {
