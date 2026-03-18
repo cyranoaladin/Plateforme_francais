@@ -1,12 +1,12 @@
 {
   "generatedAt": "2026-03-18T18:49:35.098Z",
-  "totalResources": 548,
+  "totalResources": 544,
   "byCategory": {
     "Annales_EAF": 27,
+    "Documents_Extraits": 156,
+    "eaf_rapport_jury": 30,
     "Oeuvres": 9,
-    "Videos": 322,
-    "Documents_Extraits": 160,
-    "eaf_rapport_jury": 30
+    "Videos": 322
   },
   "resources": [
     {
@@ -336,7 +336,7 @@
     },
     {
       "id": "Annales_EAF_23frgean1",
-      "title": "23frgean1",
+      "title": "Annale EAF 2023 — Français général (AN1)",
       "originalTitle": "23frgean1.pdf",
       "type": "annales",
       "category": "Annales_EAF",
@@ -347,7 +347,7 @@
     },
     {
       "id": "Annales_EAF_23frgenc1_v1",
-      "title": "23frgenc1 v1",
+      "title": "Annale EAF 2023 — Français général (ENC1, v1)",
       "originalTitle": "23frgenc1_v1.pdf",
       "type": "annales",
       "category": "Annales_EAF",
@@ -368,52 +368,8 @@
       "ext": ".pdf"
     },
     {
-      "id": "Documents_Extraits_Certificat_QualiopiCned_20242027",
-      "title": "Certificat Qualiopi",
-      "originalTitle": "Certificat_QualiopiCned_20242027.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/Certificat_QualiopiCned_20242027.pdf",
-      "url": "/ressources/Documents_Extraits/Certificat_QualiopiCned_20242027.pdf",
-      "size": 365917,
-      "ext": ".pdf"
-    },
-    {
-      "id": "Documents_Extraits_certification-qualiopi-digischool",
-      "title": "Certification - Qualiopi - Digischool",
-      "originalTitle": "certification-qualiopi-digischool.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/certification-qualiopi-digischool.pdf",
-      "url": "/ressources/Documents_Extraits/certification-qualiopi-digischool.pdf",
-      "size": 597081,
-      "ext": ".pdf"
-    },
-    {
-      "id": "Documents_Extraits_CNED_CGV-CGU_2026_V01",
-      "title": "CNED CGV - CGU 2026 V01",
-      "originalTitle": "CNED_CGV-CGU_2026_V01.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/CNED_CGV-CGU_2026_V01.pdf",
-      "url": "/ressources/Documents_Extraits/CNED_CGV-CGU_2026_V01.pdf",
-      "size": 324700,
-      "ext": ".pdf"
-    },
-    {
-      "id": "Documents_Extraits_consignes_mannequin_challenge",
-      "title": "Consignes Mannequin Challenge",
-      "originalTitle": "consignes_mannequin_challenge.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/consignes_mannequin_challenge.pdf",
-      "url": "/ressources/Documents_Extraits/consignes_mannequin_challenge.pdf",
-      "size": 64049,
-      "ext": ".pdf"
-    },
-    {
       "id": "Documents_Extraits_document_extrait_-6432584900690954799",
-      "title": "Document Extrait -",
+      "title": "Document extrait complémentaire",
       "originalTitle": "document_extrait_-6432584900690954799.pdf",
       "type": "document",
       "category": "Documents_Extraits",

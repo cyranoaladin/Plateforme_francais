@@ -453,7 +453,7 @@ export default function Dashboard() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <ShieldCheck className="h-4 w-4" />
-              Cockpit de progression EAF
+              Ton tableau de bord EAF
             </div>
 
             <h1

@@ -297,7 +297,7 @@ export default function ParentDashboard() {
 
       <section className="grid gap-6 xl:grid-cols-[0.94fr_1.06fr]">
         <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-7">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Signaux faibles</p>
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Points à surveiller</p>
           {weakSignals.length > 0 ? (
             <div className="mt-6 flex flex-wrap gap-2.5">
               {weakSignals.map(([skill, count]) => (

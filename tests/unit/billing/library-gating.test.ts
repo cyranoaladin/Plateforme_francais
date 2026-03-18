@@ -82,11 +82,11 @@ describe('library-gating', () => {
       const sum = Object.values(FREE_LIBRARY_LIMITS).reduce((a, b) => a + b, 0);
       expect(FREE_TOTAL_LIMIT).toBe(sum);
     });
-    it('est exactement 28 (5 % de 548)', () => {
+    it('est exactement 28 (5 % de 544)', () => {
       expect(FREE_TOTAL_LIMIT).toBe(28);
     });
-    it('LIBRARY_TOTAL_RESOURCES = 548', () => {
-      expect(LIBRARY_TOTAL_RESOURCES).toBe(548);
+    it('LIBRARY_TOTAL_RESOURCES = 544', () => {
+      expect(LIBRARY_TOTAL_RESOURCES).toBe(544);
     });
     it('FREE_LIBRARY_PERCENT = 5', () => {
       expect(FREE_LIBRARY_PERCENT).toBe(5);
@@ -97,7 +97,7 @@ describe('library-gating', () => {
     it('FREE retourne un message mentionnant le nombre de ressources', () => {
       const msg = getLibraryPaywallMessage('FREE');
       expect(msg).toContain('28');
-      expect(msg).toContain('548');
+      expect(msg).toContain('544');
       expect(msg).toContain('Premium');
     });
     it('FREE ne mentionne pas les anciens noms', () => {

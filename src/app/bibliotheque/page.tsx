@@ -117,7 +117,7 @@ export default function BibliothequePage() {
   const [selectedResource, setSelectedResource] = useState<EafResource | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [ragError, setRagError] = useState<string | null>(null);
-  const [hasFullAccess, setHasFullAccess] = useState(true); // true par défaut → pas de flash
+  const [hasFullAccess, setHasFullAccess] = useState(false); // false par défaut → freemium affiché, corrigé après fetch
 
   useEffect(() => {
     fetch('/api/v1/billing/status')
@@ -317,7 +317,7 @@ export default function BibliothequePage() {
               Cherche par besoin réel : œuvre, auteur, méthode, rapport ou question précise.
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
-              La recherche standard filtre le catalogue. La recherche RAG tente en plus de remonter les passages les
+              La recherche standard filtre le catalogue. La recherche intelligente tente en plus de remonter les passages les
               plus pertinents pour ta requête.
             </p>
           </div>
@@ -364,7 +364,7 @@ export default function BibliothequePage() {
             size="lg"
             className="rounded-[22px]"
           >
-            {isSearching ? 'Recherche…' : 'Recherche RAG'}
+            {isSearching ? 'Recherche…' : 'Recherche intelligente'}
           </Button>
         </div>
 
@@ -410,7 +410,7 @@ export default function BibliothequePage() {
         <section data-testid="rag-results" className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)] md:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Résultats RAG</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Résultats de recherche</p>
               <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                 Passages remontés pour “{searchQuery}”.
               </h2>

@@ -81,12 +81,14 @@ function PasswordField({
   onChange,
   label,
   testId,
+  autoComplete,
 }: {
   id: string;
   value: string;
   onChange: (v: string) => void;
   label: string;
   testId?: string;
+  autoComplete?: string;
 }) {
   const [show, setShow] = useState(false);
 
@@ -102,6 +104,7 @@ function PasswordField({
           type={show ? 'text' : 'password'}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          autoComplete={autoComplete ?? 'current-password'}
           className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 pr-11 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
           required
           minLength={8}
@@ -133,9 +136,9 @@ function ProofPanel() {
           Espace élève Nexus Réussite
         </div>
 
-        <h2 style={EDITORIAL_HEADING} className="mt-6 max-w-xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
+        <h1 style={EDITORIAL_HEADING} className="mt-6 max-w-xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
           Ton espace de préparation au Bac de Français commence ici.
-        </h2>
+        </h1>
 
         <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
           Écrit, oral, grammaire, corpus officiel : tout est réuni pour t{'’'}aider à progresser méthodiquement. Essaie gratuitement, explore les ateliers, et passe à un plan supérieur seulement quand tu es prêt.
@@ -359,9 +362,9 @@ function AuthCard() {
             {mode === 'login' ? 'Accès sécurisé' : 'Inscription gratuite'}
           </div>
           <div>
-            <h1 style={EDITORIAL_HEADING} className="text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
+            <h2 style={EDITORIAL_HEADING} className="text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               {title}
-            </h1>
+            </h2>
             <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{subtitle}</p>
           </div>
           <div className="flex flex-wrap gap-2.5">
@@ -427,17 +430,18 @@ function AuthCard() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
               required
-              placeholder="jean@eaf.local"
+              autoComplete="email"
+              placeholder="prenom@exemple.fr"
             />
           </div>
 
-          {mode !== 'forgot' && <PasswordField id="password" value={password} onChange={setPassword} label="Mot de passe" testId="auth-password" />}
+          {mode !== 'forgot' && <PasswordField id="password" value={password} onChange={setPassword} label="Mot de passe" testId="auth-password" autoComplete={mode === 'register' ? 'new-password' : 'current-password'} />}
 
-          {mode === 'reset' && <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le mot de passe" />}
+          {mode === 'reset' && <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le mot de passe" autoComplete="new-password" />}
 
           {mode === 'register' ? (
             <>
-              <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le mot de passe" />
+              <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le mot de passe" autoComplete="new-password" />
 
               <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -564,7 +568,7 @@ function AuthCard() {
                   rel="noopener noreferrer"
                   className="font-semibold text-[var(--teal)] hover:underline"
                 >
-                  Contactez-nous sur WhatsApp
+                  Contacte-nous sur WhatsApp
                 </a>
                 {' '}pour une réinitialisation rapide.
               </p>
@@ -616,7 +620,7 @@ export default function LoginPage() {
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--navy)]">
               <span className="h-2 w-2 rounded-full bg-[var(--teal)]" />
-              Connexion 2026
+              Espace sécurisé
             </div>
           </Link>
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">

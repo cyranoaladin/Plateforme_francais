@@ -18,7 +18,7 @@ const TRUST_BLOCKS = [
   {
     icon: LockKeyhole,
     title: 'Protection des comptes et des mineurs',
-    description: 'Sessions sécurisées, protection CSRF, accès contrôlé, posture RGPD et refus de la publicité ciblée sur les comptes mineurs.',
+    description: 'Sessions sécurisées, accès contrôlé, posture RGPD et refus de la publicité ciblée sur les comptes mineurs.',
   },
 ];
 

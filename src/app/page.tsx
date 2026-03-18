@@ -98,11 +98,11 @@ const STEPS = [
 
 /* ─── Données ateliers ─── */
 const FEATURE_GROUPS = [
-  { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose ta copie en PDF ou photo. Nexus la lit, la corrige rubrique par rubrique et te fournit un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'OCR + correction structurée', 'Rapport PDF exploitable'] },
+  { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose ta copie en PDF ou photo. Nexus la lit, la corrige rubrique par rubrique et te fournit un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'Lecture automatique + correction structurée', 'Rapport PDF exploitable'] },
   { title: 'Oral officiel', icon: Mic, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Format EAF', span: 'lg:col-span-5', body: "Entraîne-toi au format réel de l’oral : lecture, explication linéaire, grammaire et entretien, chacun noté selon le barème officiel.", bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'] },
-  { title: 'Corpus et citations', icon: ScanSearch, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Sources visibles', span: 'lg:col-span-4', body: "Chaque réponse peut s’appuyer sur le BO, Eduscol, les rapports de jury et les œuvres au programme. Les sources sont toujours visibles.", bullets: ['Citations internes', 'Recherche RAG documentée', 'Corpus 2025-2026'] },
+  { title: 'Corpus et citations', icon: ScanSearch, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Sources visibles', span: 'lg:col-span-4', body: "Chaque réponse peut s’appuyer sur le BO, Eduscol, les rapports de jury et les œuvres au programme. Les sources sont toujours visibles.", bullets: ['Citations internes', 'Recherche intelligente dans le corpus', 'Corpus 2025-2026'] },
   { title: 'Langue et quiz adaptatif', icon: BrainCircuit, tone: 'bg-[var(--surface-warm-accent)] text-[var(--navy)] border-[var(--border-strong)]', badge: 'Relance ciblée', span: 'lg:col-span-4', body: "Travaille la grammaire avec des quiz ciblés sur tes points faibles. Les erreurs identifiées en atelier alimentent tes prochains exercices.", bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'] },
-  { title: 'Guidage personnalisé et mémoire de progression', icon: MessageCircleMore, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Coaching actif', span: 'lg:col-span-4', body: "Nexus retient tes forces et tes lacunes d’une séance à l’autre pour te proposer le bon exercice au bon moment.", bullets: ['Relances contextuelles', 'Signaux faibles', 'Séances suivantes cohérentes'] },
+  { title: 'Guidage personnalisé et mémoire de progression', icon: MessageCircleMore, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Coaching actif', span: 'lg:col-span-4', body: "Nexus retient tes forces et tes lacunes d’une séance à l’autre pour te proposer le bon exercice au bon moment.", bullets: ['Relances contextuelles', 'Détection de tes points à retravailler', 'Séances suivantes cohérentes'] },
 ];
 
 /* ─── Données audiences ─── */
@@ -113,7 +113,7 @@ const AUDIENCE_CARDS = [
 ];
 const COMPARISON_ROWS = [
   { label: 'Structure du travail', generic: 'Une réponse isolée à chaque question, sans mémoire de ton parcours.', nexus: 'Un parcours continu : tu produis, tu corriges, tu progresses d’une séance à l’autre.' },
-  { label: 'Anti-triche', generic: 'Risque de dérive : copie intégrale ou corrigé prêt à rendre.', nexus: "Refus de rédiger à ta place. Nexus te guide vers une réponse que tu construis toi-même." },
+  { label: 'Cadre pédagogique', generic: 'Risque de dérive : copie intégrale ou corrigé prêt à rendre.', nexus: "Refus de rédiger à ta place. Nexus te guide vers une réponse que tu construis toi-même." },
   { label: 'Références', generic: 'Sources floues ou réponses déconnectées du programme EAF.', nexus: "Sources citées, corpus du BO et rapports de jury accessibles directement dans chaque réponse." },
   { label: 'Format EAF', generic: "Pas de format pour l’oral EAF, pas de barème officiel, pas d’ateliers structurés.", nexus: "Oral noté en /2, /8, /2, /8, ateliers dédiés par compétence et corrections réutilisables." },
 ];
@@ -121,8 +121,8 @@ const COMPARISON_ROWS = [
 /* ─── Données confiance ─── */
 const TRUST_BLOCKS = [
   { icon: Quote, title: 'Sources visibles, jamais opaques', description: "Quand le corpus intervient, l’élève voit ce qui fonde la réponse : BO, Eduscol, rapports de jury, œuvres au programme." },
-  { icon: UserRoundCheck, title: 'Anti-triche intégré', description: "La plateforme refuse la dissertation ou le commentaire complets et bascule vers une alternative guidée, constructive et traçable." },
-  { icon: LockKeyhole, title: 'Protection des comptes et des mineurs', description: "Sessions sécurisées, protection CSRF, accès contrôlé, posture RGPD et refus de la publicité ciblée sur les comptes mineurs." },
+  { icon: UserRoundCheck, title: 'Cadre pédagogique strict', description: "La plateforme refuse la dissertation ou le commentaire complets et bascule vers une alternative guidée, constructive et traçable." },
+  { icon: LockKeyhole, title: 'Protection des comptes et des mineurs', description: "Sessions sécurisées, accès contrôlé, conformité RGPD et refus de la publicité ciblée sur les comptes mineurs." },
 ];
 
 /* ─── Données plans ─── */
@@ -136,14 +136,14 @@ const PLANS = [
   },
   {
     id: 'PREMIUM' as SubscriptionPlan, title: 'Premium', priceTND: '99 TND', period: '/ mois',
-    bullets: ['10 sessions orales / semaine', '20 corrections écrites / mois', '100 échanges guidés / jour', 'OCR 20 copies / mois', 'Parcours personnalisé', 'Rapport PDF oral', 'Bibliothèque complète'],
+    bullets: ['10 sessions orales / semaine', '20 corrections écrites / mois', '100 échanges guidés / jour', 'Lecture auto 20 copies / mois', 'Parcours personnalisé', 'Rapport PDF oral', 'Bibliothèque complète'],
     cta: 'Passer à Premium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PREMIUM' as CheckoutPlan, highlighted: true,
     kicker: 'La préparation complète pour réussir ton EAF.',
     note: "Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.",
   },
   {
     id: 'PRO' as SubscriptionPlan, title: 'Masterium', priceTND: '129 TND', period: '/ mois',
-    bullets: ['Oral illimité', 'Corrections écrites illimitées', 'Accompagnement guidé illimité', 'OCR 50 copies / mois', 'Capacité 200k / jour', 'Graph RAG avancé', 'Historique oral complet', 'Support prioritaire'],
+    bullets: ['Oral illimité', 'Corrections écrites illimitées', 'Accompagnement guidé illimité', 'Lecture auto 50 copies / mois', 'Capacité étendue', 'Recherche avancée dans le corpus', 'Historique oral complet', 'Support prioritaire'],
     cta: 'Passer à Masterium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PRO' as CheckoutPlan, highlighted: false,
     kicker: "Pour viser la mention et travailler sans limite.",
     note: "Aucune limite sur les quotas. Pour ceux qui travaillent intensément et veulent une préparation maximale.",
@@ -154,10 +154,10 @@ const FEATURE_ROWS = [
   { label: 'Sessions orales / mois', free: '1', premium: '10 / semaine', pro: 'Illimité' },
   { label: 'Corrections écrites / mois', free: '2', premium: '20', pro: 'Illimité' },
   { label: 'Échanges guidés / jour', free: '3', premium: '100', pro: 'Illimité' },
-  { label: 'OCR copies / mois', free: '—', premium: '20', pro: '50' },
+  { label: 'Lecture auto copies / mois', free: '—', premium: '20', pro: '50' },
   { label: 'Capacité de traitement / jour', free: '5k', premium: '50k', pro: '200k' },
   { label: 'Rapport PDF oral', free: '—', premium: 'Oui', pro: 'Oui' },
-  { label: 'Graph RAG', free: '—', premium: '—', pro: 'Oui' },
+  { label: 'Recherche avancée corpus', free: '—', premium: '—', pro: 'Oui' },
   { label: 'Support', free: 'FAQ', premium: 'Email', pro: 'Prioritaire' },
 ];
 
@@ -166,21 +166,12 @@ const FAQ_ITEMS = [
   { question: "Est-ce que Nexus peut écrire ma copie à ma place ?", answer: "Non, et c’est voulu. Nexus refuse de rédiger un commentaire ou une dissertation complets. L’objectif est de t’aider à construire ta réponse toi-même, avec la bonne méthode et les bonnes références." },
   { question: "Sur quelles sources s’appuie la plateforme ?", answer: "Nexus s’appuie sur le Bulletin officiel, les ressources Eduscol, les rapports de jury et les œuvres au programme. Chaque réponse qui mobilise le corpus affiche ses sources pour que tu puisses vérifier." },
   { question: "Quelle est la différence avec ChatGPT ou un autre chatbot ?", answer: "Un chatbot généraliste ne connaît pas le barème EAF, ne structure pas de parcours et ne refuse pas de tricher. Nexus est conçu spécifiquement pour l’EAF : oral au format officiel (/2, /8, /2, /8), corrections structurées, corpus vérifiable et progression d’une séance à l’autre." },
-  { question: "Mes données sont-elles protégées ?", answer: "Oui. Sessions sécurisées, protection CSRF, contrôle d’accès strict et conformité RGPD. Les comptes de mineurs bénéficient d’une protection renforcée : consentement parental requis pour les moins de 15 ans, aucune publicité ciblée." },
+  { question: "Mes données sont-elles protégées ?", answer: "Oui. Sessions sécurisées, contrôle d’accès strict et conformité RGPD. Les comptes de mineurs bénéficient d’une protection renforcée : consentement parental requis pour les moins de 15 ans, aucune publicité ciblée." },
   { question: "Mon enfant mineur peut-il utiliser la plateforme ?", answer: "Oui. Les moins de 15 ans doivent fournir l’email d’un parent lors de l’inscription (conformément au RGPD). La plateforme ne diffuse aucune publicité et protège les données de tous les utilisateurs." },
   { question: "Que se passe-t-il quand j’atteins un quota ?", answer: "Ton travail est conservé. La plateforme t’indique clairement quel plan te permettrait de continuer. Tu ne perds rien : ton parcours, tes corrections et ta progression restent intacts." },
   { question: "Le plan gratuit est-il vraiment utile ?", answer: "Oui. Le plan Freemium donne accès aux ateliers écrit, oral et langue avec des quotas limités, plus un échantillon de la bibliothèque. C’est suffisant pour tester la méthode et décider si tu veux aller plus loin." },
   { question: "Comment fonctionne le paiement ?", answer: "Les abonnements peuvent être activés par virement bancaire ou par code d’activation. Le paiement par carte et Flouci seront disponibles prochainement. Aucun engagement : tu peux résilier à tout moment." },
 ];
-
-const BANK_TRANSFER_ROWS = [
-  { label: 'Identifiant', value: '871456' },
-  { label: 'Titulaire', value: 'STE M&M ACADEMY SUARL' },
-  { label: 'Nature du compte', value: 'COMPTES CHEQUES ENTREPRISES' },
-  { label: 'RIB', value: 'RIB25079000000156908404' },
-  { label: 'IBAN', value: 'TN5925079000000156908404' },
-  { label: 'BIC', value: 'BZITTNTT' },
-] as const;
 
 
 /* ─── Sous-composants ─── */
@@ -354,7 +345,7 @@ export default function HomePage() {
               <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--text-on-navy-soft)]">Cockpit élève</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--text-on-navy-soft)]">Ton tableau de bord</p>
                     <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">Une séance, des retours immédiatement exploitables.</h2>
                   </div>
                   <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--surface-parchment)]">
@@ -488,7 +479,7 @@ export default function HomePage() {
         <CtaBanner
           title="Prêt à tester la méthode ?"
           subtitle="L’inscription est gratuite et prend moins de 3 minutes. Tu accèdes directement à tes premiers ateliers, sans engagement."
-          primary={{ label: "Créer mon compte gratuit", href: "/login?mode=register", track: "inter_cta_1_register" }}
+          primary={{ label: "Commencer gratuitement", href: "/login?mode=register", track: "inter_cta_1_register" }}
           secondary={{ label: "Voir les tarifs", href: "#plans" }}
         />
       </div>
@@ -580,7 +571,7 @@ export default function HomePage() {
               <div className="rounded-[24px] bg-[var(--navy)] p-5 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-6">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Différenciation utile</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Ce qui change pour toi</p>
                     <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                       Ce qui distingue Nexus d’un simple chatbot.
                     </h3>
@@ -620,7 +611,7 @@ export default function HomePage() {
                 Tes données, ton travail et ta confiance sont protégés.
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">Anti-triche, sources vérifiables, sessions sécurisées et respect des données personnelles : voici nos engagements concrets.</p>
+            <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">Cadre pédagogique strict, sources vérifiables, sessions sécurisées et respect des données personnelles : voici nos engagements concrets.</p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="grid gap-5 md:grid-cols-3">
@@ -647,7 +638,7 @@ export default function HomePage() {
               </div>
               <div className="mt-8 flex flex-col gap-3">
                 <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'trust_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white">
-                  Démarrer gratuitement <ArrowRight className="h-4 w-4" />
+                  Commencer gratuitement <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
             </aside>
@@ -788,15 +779,7 @@ export default function HomePage() {
                   <h3 style={EDITORIAL_HEADING} className="mt-1 text-2xl leading-tight tracking-[-0.03em] text-white">Flouci & virement bancaire</h3>
                 </div>
               </div>
-              <p className="mt-4 text-sm leading-7 text-slate-200">Le virement bancaire est actif avec activation manuelle du plan. Flouci sera disponible prochainement.</p>
-              <div className="mt-5 grid gap-2 rounded-[16px] bg-[var(--navy-dark)] p-4 text-sm text-slate-100 sm:grid-cols-2">
-                {BANK_TRANSFER_ROWS.map((row) => (
-                  <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--border-warm)]">{row.label}</p>
-                    <p className="mt-1 break-all font-semibold text-white">{row.value}</p>
-                  </div>
-                ))}
-              </div>
+              <p className="mt-4 text-sm leading-7 text-slate-200">Le virement bancaire est disponible avec activation manuelle du plan. Flouci sera disponible prochainement. Contacte-nous pour recevoir les coordonnées bancaires.</p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/60 cursor-not-allowed">Flouci — bientôt disponible</span>
                 <Link href="/contact?subject=virement" className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[var(--surface-warm-section)]">Envoyer la référence virement</Link>
@@ -824,7 +807,7 @@ export default function HomePage() {
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
               Tout ce que tu veux savoir avant de commencer.
             </h2>
-            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">Anti-triche, sources, sécurité, accessibilité, paiement — les réponses honnêtes sont ici.</p>
+            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">Méthode, sources, sécurité, accessibilité, paiement — les réponses honnêtes sont ici.</p>
             <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]"><MessageSquareText className="h-5 w-5" /></div>
               <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">Besoin d’aller plus loin ?</h3>

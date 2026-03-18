@@ -11,8 +11,8 @@ const FEATURE_GROUPS = [
     tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10',
     badge: 'Production longue',
     span: 'lg:col-span-7',
-    body: 'Dépose une copie PDF ou image, récupère une lecture OCR, une correction par rubriques et un rapport clair à reprendre.',
-    bullets: ['Dépôt PDF/image', 'OCR + correction structurée', 'Rapport PDF exploitable'],
+    body: 'Dépose une copie PDF ou image, récupère une lecture automatique, une correction par rubriques et un rapport clair à reprendre.',
+    bullets: ['Dépôt PDF/image', 'Lecture auto + correction structurée', 'Rapport PDF exploitable'],
   },
   {
     title: 'Oral officiel',
@@ -30,7 +30,7 @@ const FEATURE_GROUPS = [
     badge: 'Sources visibles',
     span: 'lg:col-span-4',
     body: 'Le guidage et les ateliers mobilisent BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles et réutilisables.',
-    bullets: ['Citations internes', 'Recherche RAG documentée', 'Corpus 2025-2026'],
+    bullets: ['Citations internes', 'Recherche intelligente dans le corpus', 'Corpus 2025-2026'],
   },
   {
     title: 'Langue et quiz adaptatif',
@@ -48,7 +48,7 @@ const FEATURE_GROUPS = [
     badge: 'Coaching actif',
     span: 'lg:col-span-4',
     body: 'Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance au lieu de repartir de zéro.',
-    bullets: ['Relances contextuelles', 'Signaux faibles', 'Séances suivantes cohérentes'],
+    bullets: ['Relances contextuelles', 'Détection de tes points à retravailler', 'Séances suivantes cohérentes'],
   },
 ];
 

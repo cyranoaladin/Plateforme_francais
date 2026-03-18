@@ -19,7 +19,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Mes données sont-elles protégées ?',
-    answer: 'Oui. Session sécurisée, protection CSRF, contrôle d’accès, cadre RGPD et posture explicite sur les comptes mineurs : l’architecture de confiance fait partie du produit, pas d’un simple texte légal.',
+    answer: "Oui. Session sécurisée, contrôle d’accès, cadre RGPD et posture explicite sur les comptes mineurs : l’architecture de confiance fait partie du produit, pas d’un simple texte légal.",
   },
   {
     question: 'Et si je suis dys / TDAH ?',

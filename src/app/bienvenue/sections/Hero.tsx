@@ -125,7 +125,7 @@ export function Hero() {
             <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--text-on-navy-soft)]">Cockpit élève</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--text-on-navy-soft)]">Ton tableau de bord</p>
                   <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                     Une séance, des retours immédiatement exploitables.
                   </h2>
