@@ -74,6 +74,72 @@ The app supports three modes: **system**, **light**, **dark** via a tri-state pi
 - All components should use `var(--token)` instead of hardcoded colors
 - Key tokens: `--navy`, `--surface-parchment`, `--card`, `--text-body`, `--border-strong`, `--teal`, `--accent-bronze`
 
+## Prérequis infrastructure (diagnostic LOT 12)
+
+La génération de baselines nécessite une base PostgreSQL opérationnelle. Deux blocages ont été identifiés factuellement le 2026-03-18 :
+
+### Blocage 1 — Port PostgreSQL
+
+Le projet configure `DATABASE_URL` sur le port **5433** (`.env` et `.env.local`), mais le cluster PostgreSQL 16/main tourne sur le port **5432** par défaut.
+
+**Diagnostic :**
+```bash
+pg_lsclusters          # Vérifie le port réel du cluster
+pg_isready -p 5432     # Doit répondre "accepting connections"
+pg_isready -p 5433     # Échoue si aucun cluster n'écoute sur 5433
+```
+
+**Correction :** modifier le port dans `.env` et `.env.local` :
+```
+DATABASE_URL=postgresql://eaf_user:eaf_password@localhost:5432/eaf_local
+```
+
+### Blocage 2 — Extension pgvector manquante
+
+Même avec le bon port, `prisma db push` échoue avec `type "vector" does not exist`. L'extension pgvector est utilisée par 3 modèles RAG (Chunk, WeakSkillEntry, MemorySummary).
+
+**Correction :**
+```bash
+sudo apt install postgresql-16-pgvector
+sudo systemctl restart postgresql
+```
+
+### Procédure complète de déblocage
+
+```bash
+# 1. Installer pgvector
+sudo apt install postgresql-16-pgvector
+sudo systemctl restart postgresql
+
+# 2. Corriger le port (si nécessaire)
+sed -i 's/:5433\//:5432\//' .env .env.local
+
+# 3. Vérifier avec le script de précheck
+bash scripts/visual-qa-precheck.sh
+
+# 4. Pousser le schéma et seeder
+npx prisma db push
+npm run db:seed
+
+# 5. Générer les baselines
+npm run dev                                              # terminal 1
+E2E_BASE_URL=http://localhost:3000 npm run test:visual:update  # terminal 2
+
+# 6. Commiter les baselines
+git add tests/visual/*-snapshots/
+git commit -m "chore: add visual regression baselines"
+```
+
+## Script de précheck
+
+Un script de diagnostic automatique est disponible :
+
+```bash
+bash scripts/visual-qa-precheck.sh
+```
+
+Il vérifie : Node, Playwright, `.env.local`, `DATABASE_URL`, PostgreSQL (port + accessibilité), pgvector, Prisma, seed, et les fichiers de test. Chaque point est affiché avec un indicateur vert/rouge/jaune et des solutions proposées.
+
 ## Known limitations
 
 1. **Baselines require a seeded database** -- connected page tests need a test user (`eleve.pro@eaf.local` / `ProTest2026!`)
@@ -81,6 +147,7 @@ The app supports three modes: **system**, **light**, **dark** via a tri-state pi
 3. **Consent banner** -- dismissed via click in tests; if the banner DOM changes, tests may need updating
 4. **Mobile dark mode** -- not yet covered (can be added in a future lot)
 5. **Dynamic content** -- pages with live data (dashboard counters, dates) may cause false positives
+6. **Baselines non générées (LOT 12)** -- blocage par port PostgreSQL (5433 vs 5432) et pgvector manquant. Voir section "Prérequis infrastructure" ci-dessus
 
 ## Troubleshooting
 
@@ -91,4 +158,6 @@ The app supports three modes: **system**, **light**, **dark** via a tri-state pi
 | Auth tests fail | Verify the test user exists in the database (`npm run db:seed`) |
 | Consent banner blocks screenshots | The `dismissConsent()` helper clicks "Accepter"; check the button selector |
 | Timeout on `webServer` | Increase `timeout` in `playwright.visual.config.ts` or set `E2E_BASE_URL` |
-| Baseline generation fails immediately | Verify PostgreSQL is running on the configured port (`5433` by default in `.env`) |
+| `prisma db push` échoue "vector" | Installer pgvector : `sudo apt install postgresql-16-pgvector` |
+| PostgreSQL "connection refused" | Vérifier le port réel avec `pg_lsclusters` et corriger `DATABASE_URL` |
+| Précheck rapide | Lancer `bash scripts/visual-qa-precheck.sh` pour un diagnostic complet |
