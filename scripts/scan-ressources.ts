@@ -5,8 +5,9 @@
 
 import fs from 'fs';
 import path from 'path';
+import { getRessourcesRoot } from '../src/lib/ressources/path';
 
-const RESSOURCES_DIR = path.join(__dirname, '../ressources');
+const RESSOURCES_DIR = getRessourcesRoot();
 const OUTPUT_FILE = path.join(__dirname, '../src/data/ressources-scan.json');
 
 interface ResourceItem {
@@ -431,7 +432,7 @@ function scanDirectory(dirPath: string, category: string): ResourceItem[] {
         originalTitle: entry.name,
         type,
         category,
-        filePath: fullPath,
+        filePath: path.posix.join('ressources', relativePath.split(path.sep).join('/')),
         url: `/ressources/${relativePath}`,  // URL publique via symlink
         size: fs.statSync(fullPath).size,
         ext: ext || undefined,
@@ -461,6 +462,94 @@ function main() {
     const items = scanDirectory(categoryPath, category);
     console.log(`📁 ${category}: ${items.length} fichiers`);
     allResources.push(...items);
+  }
+
+  // ─── Post-processing : nettoyage des titres ───────────────────────────────
+
+  // 1. Table de titres corrigés pour les fichiers à intitulé garbled
+  const TITLE_OVERRIDES: Record<string, string> = {
+    '04-annexe1_francais_2e_bomodifie.pdf': 'Programme de Français — Seconde (BO modifié 2024)',
+    '04_annexe2_francais_1egt_bomodifie.pdf': 'Programme de Français — Première (BO modifié 2024)',
+    'baccalaur-at-technologique-2025-fran-ais-preuve-anticip-e-227685.pdf': 'Baccalauréat Technologique 2025 — Épreuve anticipée de Français',
+    'intervention-anne-vibert-lecture-vf-20-11-13.pdf': 'Intervention d\'Anne Vibert — La lecture littéraire (2013)',
+    'LES-EPREUVES-ANTICIPEES-DE-FRANCAIS.pdf': 'Les Épreuves Anticipées de Français — Guide complet',
+    'RA20_Lycee_GT_1_FRA_preparation-epreuve-orale_Fiche1 1.pdf.pdf': 'Ressource Eduscol 2020 — Préparation de l\'épreuve orale (Fiche 1)',
+    'sga14_979-10-231-1562-8.pdf': 'Terminologie grammaticale — Édition de référence',
+    'voie-g_-ses_version-consolidee_sept.-2024.pdf': 'Programme SES — Voie générale (version consolidée 2024)',
+    'voie-g_llca_-version-consolidee-2024.pdf': 'Programme LLCA — Voie générale (version consolidée 2024)',
+    'voie-g_philo_-version-consolidee-2024_0.pdf': 'Programme Philosophie — Voie générale (version consolidée 2024)',
+    'voies-gt_eaf_version-consolidee-2024-avec-annexe.pdf': 'Programme EAF — Voies GT (version consolidée 2024, avec annexe)',
+    'Entretiens_sur_la_pluralité_des_mondes.pdf': 'Entretiens sur la pluralité des mondes — Fontenelle',
+    "Lettres_d\u2019une_P\u00e9ruvienne.pdf": 'Lettres d\u2019une Péruvienne — Françoise de Graffigny',
+    "Lettres_d'une_P\u00e9ruvienne.pdf": 'Lettres d\u2019une Péruvienne — Françoise de Graffigny',
+    'servitude.pdf': 'Discours de la servitude volontaire — La Boétie (édition abrégée)',
+  };
+
+  for (const r of allResources) {
+    const override = TITLE_OVERRIDES[r.originalTitle];
+    if (override) {
+      r.title = override;
+    }
+  }
+
+  // 2. Nettoyer les extensions résiduelles dans les titres
+  for (const r of allResources) {
+    r.title = r.title.replace(/\.(pdf|ppsx|doc|docx|webm|mkv|mp4)$/i, '').trim();
+  }
+
+  // 3. Différencier les titres dupliqués (ajouter numéro de partie)
+  const titleCounts = new Map<string, number>();
+  const titleIndexes = new Map<string, number>();
+  for (const r of allResources) {
+    const key = `${r.category}:${r.title}`;
+    titleCounts.set(key, (titleCounts.get(key) ?? 0) + 1);
+  }
+  for (const r of allResources) {
+    const key = `${r.category}:${r.title}`;
+    const total = titleCounts.get(key) ?? 1;
+    if (total > 1) {
+      const idx = (titleIndexes.get(key) ?? 0) + 1;
+      titleIndexes.set(key, idx);
+      r.title = `${r.title} (${idx}/${total})`;
+    }
+  }
+
+  // 4. Enrichir les rapports de jury : préciser Charte ÉAF avec année
+  for (const r of allResources) {
+    if (r.category === 'eaf_rapport_jury') {
+      const orig = r.originalTitle.toLowerCase();
+      // Préciser l'année dans le titre Charte avant le numérotage
+      if (/^Charte(\s|$)/.test(r.title) || /^Charte ÉAF(\s|$)/.test(r.title)) {
+        if (orig.includes('2025')) {
+          r.title = r.title.replace(/^Charte(\s+ÉAF)?/, 'Charte ÉAF 2025');
+        } else if (orig.includes('2020')) {
+          r.title = r.title.replace(/^Charte(\s+ÉAF)?/, 'Charte ÉAF 2020');
+        } else {
+          r.title = r.title.replace(/^Charte(\s|$)/, 'Charte ÉAF ');
+        }
+        r.title = r.title.trim();
+      }
+    }
+  }
+
+  // 5. Re-numéroter les doublons par année/source pour un groupement plus clair
+  //    Reset de la numérotation car l'étape 4 a modifié les titres
+  const titleCounts2 = new Map<string, number>();
+  const titleIndexes2 = new Map<string, number>();
+  for (const r of allResources) {
+    // Retirer le suffixe (x/y) existant pour re-calculer
+    r.title = r.title.replace(/\s*\(\d+\/\d+\)$/, '');
+    const key = `${r.category}:${r.title}`;
+    titleCounts2.set(key, (titleCounts2.get(key) ?? 0) + 1);
+  }
+  for (const r of allResources) {
+    const key = `${r.category}:${r.title}`;
+    const total = titleCounts2.get(key) ?? 1;
+    if (total > 1) {
+      const idx = (titleIndexes2.get(key) ?? 0) + 1;
+      titleIndexes2.set(key, idx);
+      r.title = `${r.title} (${idx}/${total})`;
+    }
   }
 
   // Trier par catégorie puis par titre

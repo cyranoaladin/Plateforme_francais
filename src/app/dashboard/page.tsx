@@ -506,7 +506,7 @@ export default function Dashboard() {
                 { label: 'Sessions tracées', value: `${data.totalSessions}`, icon: Target },
                 {
                   label: 'Personnalisation',
-                  value: data.onboardingCompleted ? 'Active' : 'À terminer',
+                  value: data.onboardingCompleted ? 'Activée' : 'À terminer',
                   icon: CheckCircle2,
                 },
                 { label: 'Repère fort', value: strongestSkill.label, icon: GraduationCap },
