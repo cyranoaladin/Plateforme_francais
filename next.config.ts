@@ -40,6 +40,8 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   // Disable React strict mode to avoid context issues in error boundaries
   reactStrictMode: false,
+  // Remove X-Powered-By header (information disclosure)
+  poweredByHeader: false,
   turbopack: {
     root: projectRoot,
   },

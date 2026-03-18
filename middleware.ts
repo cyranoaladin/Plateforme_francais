@@ -41,6 +41,32 @@ export function isPublicPath(pathname: string): boolean {
   return false;
 }
 
+/** Apply CSP and security headers to a response. */
+function applySecurityHeaders(response: NextResponse): NextResponse {
+  const nonce = edgeRandomBase64(16);
+  response.headers.set('x-nonce', nonce);
+
+  const csp = [
+    `default-src 'self'`,
+    `script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com`,
+    `style-src 'self' 'unsafe-inline'`,
+    `img-src 'self' data: blob:`,
+    `media-src 'self' blob:`,
+    `connect-src 'self' https://ipay.clictopay.com http://127.0.0.1:18001 https://rag-api.nexusreussite.academy https://api.mistral.ai https://generativelanguage.googleapis.com https://api.openai.com`,
+    `frame-ancestors 'none'`,
+    `base-uri 'self'`,
+    `form-action 'self'`,
+  ].join('; ');
+  response.headers.set('Content-Security-Policy', csp);
+
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+
+  return response;
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -57,9 +83,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(aliasUrl);
   }
 
-  // Skip public paths
+  // Public paths: serve with CSP but no auth check
   if (isPublicPath(pathname)) {
-    return NextResponse.next();
+    return applySecurityHeaders(NextResponse.next());
   }
 
   // Check session cookie
@@ -70,32 +96,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Add CSP nonce header
-  const nonce = edgeRandomBase64(16);
-  const response = NextResponse.next();
-  response.headers.set('x-nonce', nonce);
-
-  // Content Security Policy with nonce
-  const csp = [
-    `default-src 'self'`,
-    `script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com`,
-    `style-src 'self' 'unsafe-inline'`,
-    `img-src 'self' data: blob:`,
-    `media-src 'self' blob:`,
-    `connect-src 'self' https://ipay.clictopay.com http://127.0.0.1:18001 https://rag-api.nexusreussite.academy https://api.mistral.ai https://generativelanguage.googleapis.com https://api.openai.com`,
-    `frame-ancestors 'none'`,
-    `base-uri 'self'`,
-    `form-action 'self'`,
-  ].join('; ');
-  response.headers.set('Content-Security-Policy', csp);
-
-  // Additional security headers
-  response.headers.set('X-Frame-Options', 'DENY');
-  response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-
-  return response;
+  return applySecurityHeaders(NextResponse.next());
 }
 
 export const config = {

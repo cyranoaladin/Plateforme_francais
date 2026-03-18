@@ -415,7 +415,7 @@ export default function PricingPage() {
                     </div>
                     <div>
                       <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Statut</p>
-                      <p className="mt-1 font-semibold text-white">{billing?.subscription.status ?? 'ACTIVE'}</p>
+                      <p className="mt-1 font-semibold text-white">{{ ACTIVE: 'Actif', CANCELLED: 'Annulé', PAST_DUE: 'Échéance dépassée', TRIALING: 'Essai' }[billing?.subscription.status ?? 'ACTIVE'] ?? billing?.subscription.status}</p>
                     </div>
                     {currentPeriodEndLabel ? (
                       <div>
@@ -436,7 +436,7 @@ export default function PricingPage() {
                   </div>
                 ) : billing?.lastPayment ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-200">
-                    <p className="font-semibold text-white">{billing.lastPayment.status}</p>
+                    <p className="font-semibold text-white">{{ PENDING: 'En attente', ACCEPTED: 'Accepté', REFUSED: 'Refusé', ERROR: 'Erreur' }[billing.lastPayment.status] ?? billing.lastPayment.status}</p>
                     <p>{lastPaymentLabel}</p>
                     <p className="text-xs text-slate-400">
                       {PLAN_LABELS[billing.lastPayment.plan] ?? billing.lastPayment.plan} · Ref. {billing.lastPayment.orderRef}

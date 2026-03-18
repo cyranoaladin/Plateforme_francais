@@ -597,7 +597,7 @@ export default function BibliothequePage() {
                     Type: {selectedResource.type.replace('_', ' ')}
                   </Badge>
                   <Badge variant="success" size="sm">
-                    Format: {selectedResource.ext?.toUpperCase() || 'N/A'}
+                    Format : {selectedResource.ext?.toUpperCase() || 'Inconnu'}
                   </Badge>
                   {selectedResource.year && (
                     <Badge variant="premium" size="sm">

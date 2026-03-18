@@ -8,9 +8,10 @@ describe('middleware public routes', () => {
     expect(isPublicPath('/pricing')).toBe(true);
   });
 
-  it('ne redirige pas /contact vers /login', () => {
+  it('ne redirige pas /contact vers /login et applique CSP', () => {
     const response = middleware(new NextRequest('http://localhost:3000/contact'));
     expect(response.headers.get('location')).toBeNull();
+    expect(response.headers.get('Content-Security-Policy')).toContain("default-src 'self'");
   });
 
   it('redirige /bienvenue vers la route canonique /', () => {
