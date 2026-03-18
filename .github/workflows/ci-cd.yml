@@ -365,7 +365,7 @@ jobs:
   deploy-production:
     name: "Gate 6b - Deploy Production (Blue-Green)"
     needs: [e2e-tests, security-scan]
-    if: github.ref == 'refs/heads/main' && secrets.PROD_DATABASE_URL != ''
+    if: github.ref == 'refs/heads/main'
     environment: production
     runs-on: ubuntu-22.04
     steps:
@@ -375,7 +375,19 @@ jobs:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - run: npm ci
+      - name: "Check production secrets are configured"
+        id: check-secrets
+        run: |
+          if [ -z "$PROD_DB" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Production secrets not configured — skipping deploy"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          PROD_DB: ${{ secrets.PROD_DATABASE_URL }}
       - name: "Config sanity check (production)"
+        if: steps.check-secrets.outputs.configured == 'true'
         run: NODE_ENV=production npm run ci:config-sanity
         env:
           DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
@@ -391,6 +403,7 @@ jobs:
           NEXT_PUBLIC_APP_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}
           NEXT_PUBLIC_API_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}/api
       - name: Blue-Green Deploy
+        if: steps.check-secrets.outputs.configured == 'true'
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.PROD_HOST }}
