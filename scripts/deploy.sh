@@ -11,6 +11,7 @@ set -euo pipefail
 
 DOMAIN="eaf.nexusreussite.academy"
 APP_DIR="/opt/eaf_platform"
+RESSOURCES_DIR="/srv/eaf_ressources"
 BRANCH="${DEPLOY_BRANCH:-main}"
 SSH_TARGET="${1:?Usage: $0 user@host [--first-run]}"
 FIRST_RUN="${2:-}"
@@ -35,13 +36,14 @@ echo "  ✅ Connexion SSH OK"
 echo "[1/8] Synchronisation du code vers le serveur..."
 rsync -avz --delete \
   --exclude='.git' \
+  --exclude='.worktrees' \
   --exclude='node_modules' \
   --exclude='.next' \
   --exclude='.env' \
   --exclude='.env.local' \
   --exclude='.env.backup' \
   --exclude='.data' \
-  --exclude='ressources/' \
+  --exclude='/ressources/' \
   --exclude='coverage' \
   --exclude='test-results' \
   --exclude='.antigravity' \
@@ -51,6 +53,11 @@ rsync -avz --delete \
   ./ "$SSH_TARGET:$APP_DIR/"
 
 echo "  ✅ Code synchronisé"
+
+echo "[1b/8] Préparation du volume ressources durable (symlink après build)..."
+ssh "$SSH_TARGET" "mkdir -p $RESSOURCES_DIR"
+# Retirer le symlink temporairement pour que Turbopack ne le traverse pas pendant le build
+ssh "$SSH_TARGET" "[ -L $APP_DIR/ressources ] && rm -f $APP_DIR/ressources || true"
 
 # --- 2. Install dependencies on server ---
 echo "[2/8] Installation des dépendances..."
@@ -62,7 +69,42 @@ ssh "$SSH_TARGET" "cd $APP_DIR && npm install --workspace=packages/mcp-server --
 
 # --- 4. Prisma generate & migrate ---
 echo "[4/8] Prisma generate & migrate..."
-ssh "$SSH_TARGET" "cd $APP_DIR && npx prisma generate && npx prisma migrate deploy"
+ssh "$SSH_TARGET" "bash -s" <<EOF
+set -euo pipefail
+cd "$APP_DIR"
+DATABASE_URL_VALUE="\$(grep -m1 '^DATABASE_URL=' .env .env.local 2>/dev/null | head -n1 | cut -d= -f2- || true)"
+if [ -n "\$DATABASE_URL_VALUE" ]; then
+  readarray -t DB_INFO < <(DATABASE_URL_VALUE="\$DATABASE_URL_VALUE" python3 - <<'PY'
+import os
+from urllib.parse import urlparse
+raw = os.environ.get('DATABASE_URL_VALUE', '')
+if raw:
+    parsed = urlparse(raw)
+    if parsed.hostname in ('localhost', '127.0.0.1') and parsed.path.lstrip('/') and parsed.username:
+        print(parsed.path.lstrip('/'))
+        print(parsed.username)
+PY
+)
+  DB_NAME="\${DB_INFO[0]:-}"
+  DB_USER="\${DB_INFO[1]:-}"
+  if [ -n "\$DB_NAME" ] && [ -n "\$DB_USER" ]; then
+    if ! sudo -u postgres psql -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname = '\$DB_NAME'" | grep -q 1; then
+      sudo -u postgres createdb -O "\$DB_USER" "\$DB_NAME"
+    fi
+    sudo -u postgres psql -d "\$DB_NAME" -c 'CREATE EXTENSION IF NOT EXISTS vector;'
+
+    TABLE_COUNT="\$(sudo -u postgres psql -d "\$DB_NAME" -tAc "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public';")"
+    FAILED_MIGRATION_COUNT="\$(sudo -u postgres psql -d "\$DB_NAME" -tAc "SELECT count(*) FROM _prisma_migrations WHERE finished_at IS NULL AND rolled_back_at IS NULL;" 2>/dev/null || echo 0)"
+    if [ "\${TABLE_COUNT// /}" = "1" ] && [ "\${FAILED_MIGRATION_COUNT// /}" != "0" ]; then
+      sudo -u postgres dropdb --if-exists "\$DB_NAME"
+      sudo -u postgres createdb -O "\$DB_USER" "\$DB_NAME"
+      sudo -u postgres psql -d "\$DB_NAME" -c 'CREATE EXTENSION IF NOT EXISTS vector;'
+    fi
+  fi
+fi
+npx prisma generate
+npx prisma migrate deploy
+EOF
 
 # --- 5. Build Next.js ---
 echo "[5/8] Build Next.js (production)..."
@@ -91,6 +133,11 @@ if [ "$FIRST_RUN" = "--first-run" ]; then
 else
   echo "[7/8] Nginx — pas de reconfiguration (pas --first-run)"
 fi
+
+# --- 7b. Rétablir le symlink ressources après le build ---
+echo "[7b/8] Rétablissement du symlink ressources..."
+ssh "$SSH_TARGET" "ln -sfn $RESSOURCES_DIR $APP_DIR/ressources"
+echo "  ✅ Symlink $APP_DIR/ressources → $RESSOURCES_DIR"
 
 # --- 8. Restart PM2 ---
 echo "[8/8] Redémarrage des services PM2..."
