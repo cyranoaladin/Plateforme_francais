@@ -289,7 +289,7 @@ export default function OnboardingPage() {
           setError(err.message);
         }
       } else {
-        setError('Impossible de finaliser l’onboarding. Réessaie.');
+        setError('Impossible de finaliser la configuration. Réessaie.');
       }
     } finally {
       setIsSubmitting(false);
@@ -317,7 +317,7 @@ export default function OnboardingPage() {
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--navy)]">
               <span className="h-2 w-2 rounded-full bg-[var(--teal)]" />
-              Onboarding 2026
+              Configuration du parcours
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">

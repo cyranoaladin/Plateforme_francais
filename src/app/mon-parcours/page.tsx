@@ -475,7 +475,7 @@ export default function MonParcoursPage() {
           {weekTasks.length === 0 && !isLoading ? (
             <StateNotice
               title="Ton parcours se construit à partir de tes premières activités"
-              description="Finalise ton onboarding ou lance un premier atelier : la plateforme pourra alors te proposer une feuille de route personnalisée, semaine par semaine."
+              description="Finalise la configuration de ton parcours ou lance un premier atelier : la plateforme pourra alors te proposer une feuille de route personnalisée, semaine par semaine."
               variant="empty"
               icon={MapIcon}
               center
@@ -485,7 +485,7 @@ export default function MonParcoursPage() {
                     href="/onboarding"
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5"
                   >
-                    Terminer l’onboarding
+                    Terminer la configuration
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link

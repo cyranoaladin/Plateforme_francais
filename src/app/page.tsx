@@ -436,7 +436,7 @@ export default function HomePage() {
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'method_register', path: '/' } })} className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
-                Démarrer l’onboarding <ArrowRight className="h-4 w-4" />
+                Configurer mon parcours <ArrowRight className="h-4 w-4" />
               </Link>
               <a href="#plans" className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)]/85 px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--card)]">
                 Voir les tarifs

@@ -73,7 +73,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
       chip: 'border-[var(--border-success-vivid)] bg-[var(--success-bg)] text-[var(--teal)]',
       panel: 'border-[var(--border-success-vivid)] bg-[var(--success-bg)]',
       title: 'Le plan est en cours d\u2019activation sur ton espace.',
-      body: 'Ton paiement a été validé. Tu peux retourner dans le produit et poursuivre l\u2019onboarding ou reprendre ton travail là où tu l\u2019avais laissé.',
+      body: 'Ton paiement a été validé. Tu peux retourner dans le produit et poursuivre la configuration ou reprendre ton travail là où tu l\u2019avais laissé.',
       steps: ['Vérifier ton tableau de bord', 'Relancer l\u2019atelier voulu', 'Contrôler le plan actif dans la page tarifaire'],
     },
     PENDING: {

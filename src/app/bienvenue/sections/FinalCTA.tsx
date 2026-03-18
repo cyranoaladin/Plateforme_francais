@@ -55,7 +55,7 @@ export function FinalCTA() {
               onClick={() => track({ name: 'cta_click', props: { cta: 'final_pricing', path: '/bienvenue' } })}
               className="inline-flex items-center justify-center rounded-full border border-white/16 px-6 py-3.5 text-base font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
             >
-              Voir les plans
+              Voir les tarifs
             </Link>
           </div>
         </div>

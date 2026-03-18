@@ -104,7 +104,7 @@ export function WhyNexus() {
                   onClick={() => track({ name: 'cta_click', props: { cta: 'why_nexus_pricing', path: '/bienvenue' } })}
                   className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--card)] px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--surface-paper)]"
                 >
-                  Voir les plans
+                  Voir les tarifs
                 </Link>
               </div>
 

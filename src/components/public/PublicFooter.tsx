@@ -48,7 +48,7 @@ export function PublicFooter() {
               <li>contact@nexusreussite.academy</li>
               <li>
                 <Link href="/#plans" className="transition-colors hover:text-[var(--navy)]">
-                  Voir les plans et tarifs
+                  Voir les tarifs et tarifs
                 </Link>
               </li>
               <li>

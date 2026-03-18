@@ -488,13 +488,13 @@ export default function Dashboard() {
               <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-cream)] p-4 text-[var(--navy)] shadow-[var(--shadow-md)]">
                 <p className="text-sm font-semibold">Le profil n’est pas encore entièrement personnalisé.</p>
                 <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">
-                  Finaliser l’onboarding permettra d’ancrer le cockpit sur les œuvres, le niveau déclaré et les priorités à travailler.
+                  Finaliser la configuration permettra d’ancrer ton tableau de bord sur les œuvres, le niveau déclaré et les priorités à travailler.
                 </p>
                 <Link
                   href="/onboarding"
                   className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[var(--navy)] transition-colors hover:text-[var(--teal)]"
                 >
-                  Reprendre l’onboarding
+                  Reprendre la configuration
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>

@@ -91,7 +91,7 @@ export function FAQ() {
               La page tarifs détaille les plans et la page connexion permet de démarrer gratuitement pour tester le workflow réel.
             </p>
             <div className="mt-6 flex flex-col gap-2 text-sm font-semibold">
-              <Link href="/pricing" className="transition-colors hover:text-white">Voir les plans détaillés</Link>
+              <Link href="/pricing" className="transition-colors hover:text-white">Voir les tarifs détaillés</Link>
               <Link href="/login?mode=register" className="transition-colors hover:text-white">Créer un compte gratuit</Link>
             </div>
           </div>

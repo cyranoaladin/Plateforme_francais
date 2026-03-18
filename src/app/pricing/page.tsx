@@ -435,7 +435,7 @@ export default function PricingPage() {
                 {!isAuthenticated ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-200">
                     <p className="font-semibold text-white">Aucun paiement requis pour commencer</p>
-                    <p>Le plan Freemium permet déjà de tester l’onboarding, les premiers ateliers et la logique du produit.</p>
+                    <p>Le plan Freemium permet déjà de configurer ton parcours, de tester les premiers ateliers et de découvrir la méthode.</p>
                   </div>
                 ) : billing?.lastPayment ? (
                   <div className="mt-3 space-y-2 text-sm text-slate-200">
