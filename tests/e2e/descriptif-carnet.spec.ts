@@ -105,7 +105,7 @@ test.describe('Page Carnet de lecture', () => {
   });
 
   test("affiche des tabs d'œuvres du programme", async ({ page }) => {
-    await expect(page.getByPlaceholder(/oeuvre/i)).toBeVisible();
+    await expect(page.locator('#carnet-oeuvre')).toBeVisible();
     await expect(page.locator('h1, h2').first()).toBeVisible();
   });
 
@@ -116,8 +116,8 @@ test.describe('Page Carnet de lecture', () => {
   });
 
   test("ajouter une entrée l'affiche dans la liste", async ({ page }) => {
-    await page.getByPlaceholder(/oeuvre/i).fill('Cahier de Douai');
-    await page.getByPlaceholder(/contenu/i).fill('Citation de test pour Playwright');
+    await page.locator('#carnet-oeuvre').fill('Cahier de Douai');
+    await page.locator('#carnet-contenu').fill('Citation de test pour Playwright');
     const addBtn = page.getByRole('button', { name: /^ajouter$/i });
     await expect(addBtn).toBeEnabled();
     await addBtn.click();
@@ -129,12 +129,12 @@ test.describe('Page Carnet de lecture', () => {
   });
 
   test("groupe les entrées par œuvre", async ({ page }) => {
-    await page.getByPlaceholder(/oeuvre/i).fill('Cahier de Douai');
-    await page.getByPlaceholder(/contenu/i).fill('Entrée Cahier de Douai');
+    await page.locator('#carnet-oeuvre').fill('Cahier de Douai');
+    await page.locator('#carnet-contenu').fill('Entrée Cahier de Douai');
     await page.getByRole('button', { name: /^ajouter$/i }).click();
 
-    await page.getByPlaceholder(/oeuvre/i).fill('Manon Lescaut');
-    await page.getByPlaceholder(/contenu/i).fill('Entrée Manon');
+    await page.locator('#carnet-oeuvre').fill('Manon Lescaut');
+    await page.locator('#carnet-contenu').fill('Entrée Manon');
     await page.getByRole('button', { name: /^ajouter$/i }).click();
 
     await expect(page.getByRole('heading', { name: /Cahier de Douai/i }).first()).toBeVisible();
