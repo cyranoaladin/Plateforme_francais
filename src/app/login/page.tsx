@@ -628,7 +628,7 @@ export default function LoginPage() {
               Retour accueil
             </Link>
             <Link href="/#plans" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
-              Voir les plans
+              Voir les tarifs
             </Link>
             <Link
               href="/login?mode=register"

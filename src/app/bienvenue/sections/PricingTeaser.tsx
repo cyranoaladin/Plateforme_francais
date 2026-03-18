@@ -13,7 +13,7 @@ const PLANS = [
     name: 'Freemium',
     accent: 'border-[var(--border-strong)] bg-[var(--card)] text-[var(--navy)]',
     kicker: 'Fais tes premiers pas vers le Bac.',
-    bullets: ["Voir le vrai produit", "Onboarding et premiers ateliers", "Vérifier si le cadre te convient"],
+    bullets: ["Voir le vrai produit", "Configuration et premiers ateliers", "Vérifier si le cadre te convient"],
   },
   {
     name: 'Premium',
@@ -63,7 +63,7 @@ export function PricingTeaser() {
             </div>
 
             <p className="mt-4 max-w-lg text-sm leading-7 text-[var(--text-muted)]">
-              Le plan gratuit permet déjà de lancer l’onboarding, d’ouvrir les premiers ateliers et de voir si le produit tient sa promesse avant toute dépense.
+              Le plan gratuit permet déjà de configurer ton parcours, d’ouvrir les premiers ateliers et de voir si le produit tient sa promesse avant toute dépense.
             </p>
           </div>
 

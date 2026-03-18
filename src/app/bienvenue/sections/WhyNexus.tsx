@@ -51,7 +51,7 @@ const COMPARISON_ROWS = [
 
 const FRICTION_POINTS = [
   'Inscription gratuite',
-  'Onboarding en ~3 minutes',
+  'Prêt en 3 minutes',
   "Premiers ateliers accessibles dès l\u2019arrivée",
 ];
 

@@ -57,10 +57,10 @@ type BillingStatusPayload = {
 const MICRO_PROOFS = ['Oral au barème officiel', 'Corrections personnalisées', 'Corpus BO et Eduscol', 'Anti-triche intégré'];
 const FRICTION_REMOVERS = ['Inscription gratuite', 'Prêt en 3 minutes', 'Premiers ateliers sans payer'];
 const HERO_STATS = [
-  { value: '3 min', label: 'pour un onboarding cadré' },
+  { value: '3 min', label: 'pour configurer ton parcours' },
   { value: '4 ateliers', label: 'écrit, oral, langue, quiz' },
   { value: '12 œuvres', label: 'du programme voie générale' },
-  { value: '1 cockpit', label: 'pour piloter la progression' },
+  { value: '1 tableau de bord', label: 'pour suivre ta progression' },
 ];
 const ORAL_PHASES = [
   { label: 'Lecture', score: '2/2' },
@@ -98,10 +98,10 @@ const STEPS = [
 
 /* ─── Données ateliers ─── */
 const FEATURE_GROUPS = [
-  { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose ta copie en PDF ou photo. Nexus la lit, la corrige rubrique par rubrique et te fournit un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'Lecture automatique + correction structurée', 'Rapport PDF exploitable'] },
+  { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose ta copie en PDF ou photo. Nexus la lit, la corrige rubrique par rubrique et te fournit un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'Analyse automatique + correction structurée', 'Rapport PDF exploitable'] },
   { title: 'Oral officiel', icon: Mic, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Format EAF', span: 'lg:col-span-5', body: "Entraîne-toi au format réel de l’oral : lecture, explication linéaire, grammaire et entretien, chacun noté selon le barème officiel.", bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'] },
   { title: 'Corpus et citations', icon: ScanSearch, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Sources visibles', span: 'lg:col-span-4', body: "Chaque réponse peut s’appuyer sur le BO, Eduscol, les rapports de jury et les œuvres au programme. Les sources sont toujours visibles.", bullets: ['Citations internes', 'Recherche intelligente dans le corpus', 'Corpus 2025-2026'] },
-  { title: 'Langue et quiz adaptatif', icon: BrainCircuit, tone: 'bg-[var(--surface-warm-accent)] text-[var(--navy)] border-[var(--border-strong)]', badge: 'Relance ciblée', span: 'lg:col-span-4', body: "Travaille la grammaire avec des quiz ciblés sur tes points faibles. Les erreurs identifiées en atelier alimentent tes prochains exercices.", bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'] },
+  { title: 'Langue et quiz adaptatif', icon: BrainCircuit, tone: 'bg-[var(--surface-warm-accent)] text-[var(--navy)] border-[var(--border-strong)]', badge: 'Relance ciblée', span: 'lg:col-span-4', body: "Travaille la grammaire avec des quiz ciblés sur tes points faibles. Les erreurs identifiées en atelier alimentent tes prochains exercices.", bullets: ['Axes du programme', 'Retour immédiat', 'Priorisation des lacunes'] },
   { title: 'Guidage personnalisé et mémoire de progression', icon: MessageCircleMore, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Coaching actif', span: 'lg:col-span-4', body: "Nexus retient tes forces et tes lacunes d’une séance à l’autre pour te proposer le bon exercice au bon moment.", bullets: ['Relances contextuelles', 'Détection de tes points à retravailler', 'Séances suivantes cohérentes'] },
 ];
 
@@ -136,14 +136,14 @@ const PLANS = [
   },
   {
     id: 'PREMIUM' as SubscriptionPlan, title: 'Premium', priceTND: '99 TND', period: '/ mois',
-    bullets: ['10 sessions orales / semaine', '20 corrections écrites / mois', '100 échanges guidés / jour', 'Lecture auto 20 copies / mois', 'Parcours personnalisé', 'Rapport PDF oral', 'Bibliothèque complète'],
+    bullets: ['10 sessions orales / semaine', '20 corrections écrites / mois', '100 échanges guidés / jour', 'Analyse de copies : 20 / mois', 'Parcours personnalisé', 'Rapport PDF oral', 'Bibliothèque complète'],
     cta: 'Passer à Premium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PREMIUM' as CheckoutPlan, highlighted: true,
     kicker: 'La préparation complète pour réussir ton EAF.',
     note: "Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.",
   },
   {
     id: 'PRO' as SubscriptionPlan, title: 'Masterium', priceTND: '129 TND', period: '/ mois',
-    bullets: ['Oral illimité', 'Corrections écrites illimitées', 'Accompagnement guidé illimité', 'Lecture auto 50 copies / mois', 'Capacité étendue', 'Recherche avancée dans le corpus', 'Historique oral complet', 'Support prioritaire'],
+    bullets: ['Oral illimité', 'Corrections écrites illimitées', 'Accompagnement guidé illimité', 'Analyse de copies : 50 / mois', 'Volume de travail illimité', 'Recherche avancée dans le corpus', 'Historique oral complet', 'Support prioritaire'],
     cta: 'Passer à Masterium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PRO' as CheckoutPlan, highlighted: false,
     kicker: "Pour viser la mention et travailler sans limite.",
     note: "Aucune limite sur les quotas. Pour ceux qui travaillent intensément et veulent une préparation maximale.",
@@ -154,8 +154,8 @@ const FEATURE_ROWS = [
   { label: 'Sessions orales / mois', free: '1', premium: '10 / semaine', pro: 'Illimité' },
   { label: 'Corrections écrites / mois', free: '2', premium: '20', pro: 'Illimité' },
   { label: 'Échanges guidés / jour', free: '3', premium: '100', pro: 'Illimité' },
-  { label: 'Lecture auto copies / mois', free: '—', premium: '20', pro: '50' },
-  { label: 'Capacité de traitement / jour', free: '5k', premium: '50k', pro: '200k' },
+  { label: 'Analyse de copies / mois', free: '—', premium: '20', pro: '50' },
+  { label: 'Volume de travail quotidien', free: 'Limité', premium: 'Élevé', pro: 'Illimité' },
   { label: 'Rapport PDF oral', free: '—', premium: 'Oui', pro: 'Oui' },
   { label: 'Recherche avancée corpus', free: '—', premium: '—', pro: 'Oui' },
   { label: 'Support', free: 'FAQ', premium: 'Email', pro: 'Prioritaire' },
@@ -427,7 +427,7 @@ export default function HomePage() {
             <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/85 p-6 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Ce que la plateforme garantit</p>
               <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
-                {['Un onboarding qui configure vraiment ton parcours.', 'Des ateliers qui te font produire, pas juste lire.', 'Des corrections qui orientent ta prochaine séance.'].map((item) => (
+                {['Une configuration de parcours rapide et personnalisée.', 'Des ateliers qui te font produire, pas juste lire.', 'Des corrections qui orientent ta prochaine séance.'].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--teal)]" /><span>{item}</span>
                   </li>
@@ -439,7 +439,7 @@ export default function HomePage() {
                 Démarrer l’onboarding <ArrowRight className="h-4 w-4" />
               </Link>
               <a href="#plans" className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)]/85 px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--card)]">
-                Voir les plans
+                Voir les tarifs
               </a>
             </div>
           </div>
@@ -565,7 +565,7 @@ export default function HomePage() {
                   <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'why_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
                     Essayer gratuitement <ArrowRight className="h-4 w-4" />
                   </Link>
-                  <a href="#plans" className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--card)] px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--surface-paper)]">Voir les plans</a>
+                  <a href="#plans" className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--card)] px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--surface-paper)]">Voir les tarifs</a>
                 </div>
               </div>
               <div className="rounded-[24px] bg-[var(--navy)] p-5 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-6">
@@ -845,7 +845,7 @@ export default function HomePage() {
               <div className="rounded-[24px] bg-[var(--navy-dark)] p-6">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Dès l’entrée</p>
                 <div className="mt-4 space-y-3">
-                  {["Compte créé et onboarding lancé en quelques minutes", "Aucun paiement avant d’avoir testé les ateliers", "Aucune rédaction intégrale générée à la place de l’élève"].map((item) => (
+                  {["Compte créé et parcours configuré en quelques minutes", "Aucun paiement avant d’avoir testé les ateliers", "Aucune rédaction intégrale générée à la place de l’élève"].map((item) => (
                     <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                       <p className="text-sm leading-6 text-slate-200">{item}</p>

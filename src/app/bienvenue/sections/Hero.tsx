@@ -24,15 +24,15 @@ const MICRO_PROOFS = [
 
 const FRICTION_REMOVERS = [
   'Inscription gratuite',
-  'Onboarding ~3 minutes',
+  'Prêt en 3 minutes',
   'Voir le produit avant de payer',
 ];
 
 const HERO_STATS = [
-  { value: '3 min', label: 'pour un onboarding cadré' },
+  { value: '3 min', label: 'pour configurer ton parcours' },
   { value: '4 ateliers', label: 'écrit, oral, langue, quiz' },
   { value: '12 œuvres', label: 'du programme voie générale' },
-  { value: '1 cockpit', label: 'pour piloter la progression' },
+  { value: '1 tableau de bord', label: 'pour suivre ta progression' },
 ];
 
 const ORAL_PHASES = [

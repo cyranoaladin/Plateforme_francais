@@ -27,7 +27,7 @@ const STEPS = [
   },
   {
     number: '03',
-    title: 'Réinjecter le feedback au bon endroit',
+    title: 'Réinjecter les retours au bon endroit',
     icon: RefreshCcw,
     description: 'Le retour n’est pas décoratif : il alimente les signaux faibles, le parcours et les prochaines relances.',
     student: 'L’élève sait précisément quoi retravailler et dans quel ordre.',
@@ -56,9 +56,9 @@ export function HowItWorks() {
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Ce que la page promet</p>
             <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
               {[
-                'Un onboarding réellement utile, pas décoratif.',
+                'Une mise en route réellement utile, pas décorative.',
                 'Des ateliers qui débouchent sur une production concrète.',
-                'Un feedback transformé en prochaine action.',
+                'Chaque retour transformé en prochaine action.',
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--teal)]" />
@@ -74,7 +74,7 @@ export function HowItWorks() {
               onClick={() => track({ name: 'cta_click', props: { cta: 'how_it_works_register', path: '/bienvenue' } })}
               className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
             >
-              Démarrer l{'\u2019'}onboarding
+              Configurer mon parcours
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

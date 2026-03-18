@@ -28,7 +28,7 @@ export function FinalCTA() {
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Dès l’entrée</p>
               <div className="mt-4 space-y-3">
                 {[
-                  "Compte créé et onboarding lancé en quelques minutes",
+                  "Compte créé et parcours configuré en quelques minutes",
                   "Aucun paiement avant d’avoir vu le produit en situation",
                   "Aucune rédaction intégrale générée à la place de l’élève",
                 ].map((item) => (

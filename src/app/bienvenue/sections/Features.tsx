@@ -12,7 +12,7 @@ const FEATURE_GROUPS = [
     badge: 'Production longue',
     span: 'lg:col-span-7',
     body: 'Dépose une copie PDF ou image, récupère une lecture automatique, une correction par rubriques et un rapport clair à reprendre.',
-    bullets: ['Dépôt PDF/image', 'Lecture auto + correction structurée', 'Rapport PDF exploitable'],
+    bullets: ['Dépôt PDF/image', 'Analyse automatique + correction structurée', 'Rapport PDF exploitable'],
   },
   {
     title: 'Oral officiel',
@@ -39,7 +39,7 @@ const FEATURE_GROUPS = [
     badge: 'Relance ciblée',
     span: 'lg:col-span-4',
     body: 'Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.',
-    bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'],
+    bullets: ['Axes du programme', 'Retour immédiat', 'Priorisation des lacunes'],
   },
   {
     title: 'Guidage personnalisé et mémoire de progression',
@@ -120,7 +120,7 @@ export function Features() {
               {[
                 { icon: BookOpenText, title: 'Produire', text: 'Toujours une sortie concrète : copie, oral, réponse ou correction.' },
                 { icon: ScanSearch, title: 'Justifier', text: 'Les réponses exploitables gardent la trace des sources et des attentes.' },
-                { icon: BrainCircuit, title: 'Réactiver', text: 'Le feedback alimente ensuite le parcours au lieu de se perdre.' },
+                { icon: BrainCircuit, title: 'Réactiver', text: 'Le retour alimente ensuite le parcours au lieu de se perdre.' },
               ].map((item) => (
                 <div key={item.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                   <item.icon className="h-5 w-5 text-[var(--teal)]" />

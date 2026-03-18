@@ -357,6 +357,83 @@
       "ext": ".pdf"
     },
     {
+      "id": "Documents_Extraits_LES-EPREUVES-ANTICIPEES-DE-FRANCAIS",
+      "title": "Les Épreuves Anticipées de Français — Guide complet",
+      "originalTitle": "LES-EPREUVES-ANTICIPEES-DE-FRANCAIS.pdf",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/LES-EPREUVES-ANTICIPEES-DE-FRANCAIS.pdf",
+      "url": "/ressources/Documents_Extraits/LES-EPREUVES-ANTICIPEES-DE-FRANCAIS.pdf",
+      "size": 189985,
+      "ext": ".pdf"
+    },
+    {
+      "id": "Documents_Extraits_04_annexe2_francais_1egt_bomodifie",
+      "title": "Programme de Français — Première (BO modifié 2024)",
+      "originalTitle": "04_annexe2_francais_1egt_bomodifie.pdf",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/04_annexe2_francais_1egt_bomodifie.pdf",
+      "url": "/ressources/Documents_Extraits/04_annexe2_francais_1egt_bomodifie.pdf",
+      "size": 286101,
+      "ext": ".pdf"
+    },
+    {
+      "id": "Documents_Extraits_francais-premiere",
+      "title": "Francais - Premiere",
+      "originalTitle": "francais-premiere.pdf",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/francais-premiere.pdf",
+      "url": "/ressources/Documents_Extraits/francais-premiere.pdf",
+      "size": 1434009,
+      "ext": ".pdf"
+    },
+    {
+      "id": "Documents_Extraits_2025-memento-cadre_reglementaire-evaluations_bac",
+      "title": "Memento - Cadre Reglementaire - Evaluations Bac",
+      "originalTitle": "2025-memento-cadre_reglementaire-evaluations_bac.pdf",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/2025-memento-cadre_reglementaire-evaluations_bac.pdf",
+      "url": "/ressources/Documents_Extraits/2025-memento-cadre_reglementaire-evaluations_bac.pdf",
+      "size": 2177734,
+      "ext": ".pdf"
+    },
+    {
+      "id": "Documents_Extraits_2025_dossier_musset",
+      "title": "Dossier Pédagogique - Musset",
+      "originalTitle": "2025_dossier_musset.pdf",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/2025_dossier_musset.pdf",
+      "url": "/ressources/Documents_Extraits/2025_dossier_musset.pdf",
+      "size": 2328581,
+      "ext": ".pdf"
+    },
+    {
+      "id": "Documents_Extraits_Tableau_suivi_oral_Eva_Diagnostic.doc",
+      "title": "Préparation de l'Oral (1/4)",
+      "originalTitle": "Tableau_suivi_oral_Eva_Diagnostic.doc",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/Tableau_suivi_oral_Eva_Diagnostic.doc",
+      "url": "/ressources/Documents_Extraits/Tableau_suivi_oral_Eva_Diagnostic.doc",
+      "size": 111616,
+      "ext": ".doc"
+    },
+    {
+      "id": "Documents_Extraits_oral-du-lecteur",
+      "title": "Préparation de l'Oral (2/4)",
+      "originalTitle": "oral-du-lecteur.pdf",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/oral-du-lecteur.pdf",
+      "url": "/ressources/Documents_Extraits/oral-du-lecteur.pdf",
+      "size": 1021055,
+      "ext": ".pdf"
+    },
+    {
       "id": "Documents_Extraits_baccalaur-at-technologique-2025-fran-ais-preuve-anticip-e-227685",
       "title": "Baccalauréat Technologique 2025 — Épreuve anticipée de Français",
       "originalTitle": "baccalaur-at-technologique-2025-fran-ais-preuve-anticip-e-227685.pdf",
@@ -369,24 +446,13 @@
     },
     {
       "id": "Documents_Extraits_document_extrait_-6432584900690954799",
-      "title": "Document extrait complémentaire",
+      "title": "Document pédagogique complémentaire",
       "originalTitle": "document_extrait_-6432584900690954799.pdf",
       "type": "document",
       "category": "Documents_Extraits",
       "filePath": "ressources/Documents_Extraits/document_extrait_-6432584900690954799.pdf",
       "url": "/ressources/Documents_Extraits/document_extrait_-6432584900690954799.pdf",
       "size": 17520,
-      "ext": ".pdf"
-    },
-    {
-      "id": "Documents_Extraits_2025_dossier_musset",
-      "title": "Dossier Pédagogique - Musset",
-      "originalTitle": "2025_dossier_musset.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/2025_dossier_musset.pdf",
-      "url": "/ressources/Documents_Extraits/2025_dossier_musset.pdf",
-      "size": 2328581,
       "ext": ".pdf"
     },
     {
@@ -409,17 +475,6 @@
       "filePath": "ressources/Documents_Extraits/11-Francais-6e-attendus-eduscol_1114741.pdf",
       "url": "/ressources/Documents_Extraits/11-Francais-6e-attendus-eduscol_1114741.pdf",
       "size": 964397,
-      "ext": ".pdf"
-    },
-    {
-      "id": "Documents_Extraits_francais-premiere",
-      "title": "Francais - Premiere",
-      "originalTitle": "francais-premiere.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/francais-premiere.pdf",
-      "url": "/ressources/Documents_Extraits/francais-premiere.pdf",
-      "size": 1434009,
       "ext": ".pdf"
     },
     {
@@ -475,28 +530,6 @@
       "filePath": "ressources/Documents_Extraits/LivreLa_peau_de_chagrin_Honoré_de_Balzac.pdf",
       "url": "/ressources/Documents_Extraits/LivreLa_peau_de_chagrin_Honoré_de_Balzac.pdf",
       "size": 144465,
-      "ext": ".pdf"
-    },
-    {
-      "id": "Documents_Extraits_LES-EPREUVES-ANTICIPEES-DE-FRANCAIS",
-      "title": "Les Épreuves Anticipées de Français — Guide complet",
-      "originalTitle": "LES-EPREUVES-ANTICIPEES-DE-FRANCAIS.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/LES-EPREUVES-ANTICIPEES-DE-FRANCAIS.pdf",
-      "url": "/ressources/Documents_Extraits/LES-EPREUVES-ANTICIPEES-DE-FRANCAIS.pdf",
-      "size": 189985,
-      "ext": ".pdf"
-    },
-    {
-      "id": "Documents_Extraits_2025-memento-cadre_reglementaire-evaluations_bac",
-      "title": "Memento - Cadre Reglementaire - Evaluations Bac",
-      "originalTitle": "2025-memento-cadre_reglementaire-evaluations_bac.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/2025-memento-cadre_reglementaire-evaluations_bac.pdf",
-      "url": "/ressources/Documents_Extraits/2025-memento-cadre_reglementaire-evaluations_bac.pdf",
-      "size": 2177734,
       "ext": ".pdf"
     },
     {
@@ -577,28 +610,6 @@
       "ext": ".pdf"
     },
     {
-      "id": "Documents_Extraits_Tableau_suivi_oral_Eva_Diagnostic.doc",
-      "title": "Préparation de l'Oral (1/4)",
-      "originalTitle": "Tableau_suivi_oral_Eva_Diagnostic.doc",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/Tableau_suivi_oral_Eva_Diagnostic.doc",
-      "url": "/ressources/Documents_Extraits/Tableau_suivi_oral_Eva_Diagnostic.doc",
-      "size": 111616,
-      "ext": ".doc"
-    },
-    {
-      "id": "Documents_Extraits_oral-du-lecteur",
-      "title": "Préparation de l'Oral (2/4)",
-      "originalTitle": "oral-du-lecteur.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/oral-du-lecteur.pdf",
-      "url": "/ressources/Documents_Extraits/oral-du-lecteur.pdf",
-      "size": 1021055,
-      "ext": ".pdf"
-    },
-    {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_dorion_travailler-oral",
       "title": "Préparation de l'Oral (3/4)",
       "originalTitle": "ra23_lycee_gt_1_francais_dorion_travailler-oral.pdf",
@@ -628,17 +639,6 @@
       "category": "Documents_Extraits",
       "filePath": "ressources/Documents_Extraits/1668172601_Programme de français.pdf",
       "url": "/ressources/Documents_Extraits/1668172601_Programme de français.pdf",
-      "size": 286101,
-      "ext": ".pdf"
-    },
-    {
-      "id": "Documents_Extraits_04_annexe2_francais_1egt_bomodifie",
-      "title": "Programme de Français — Première (BO modifié 2024)",
-      "originalTitle": "04_annexe2_francais_1egt_bomodifie.pdf",
-      "type": "document",
-      "category": "Documents_Extraits",
-      "filePath": "ressources/Documents_Extraits/04_annexe2_francais_1egt_bomodifie.pdf",
-      "url": "/ressources/Documents_Extraits/04_annexe2_francais_1egt_bomodifie.pdf",
       "size": 286101,
       "ext": ".pdf"
     },
@@ -699,7 +699,7 @@
     },
     {
       "id": "Documents_Extraits_RA16_C4_Francais_Etude_langue_Progression_langue_5e_774321",
-      "title": "RA16 c4 Francais Etude Langue Progression Langue 5e",
+      "title": "Eduscol — Progression linguistique (cycle 4)",
       "originalTitle": "RA16_C4_Francais_Etude_langue_Progression_langue_5e_774321.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -710,7 +710,7 @@
     },
     {
       "id": "Documents_Extraits_ra22_lycee_gt_1_francais_programmenational_miseenoeuvre_romanrecit_moyenage-xxie",
-      "title": "Ra22 Lycee gt 1 Francais Programmenational Miseenoeuvre Romanrecit Moyenage - Xxie",
+      "title": "Eduscol — Programme national Mise en œuvre Roman et récit du Moyen Âge au XXIe siècle",
       "originalTitle": "ra22_lycee_gt_1_francais_programmenational_miseenoeuvre_romanrecit_moyenage-xxie.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -721,7 +721,7 @@
     },
     {
       "id": "Documents_Extraits_RA23_diaporama_Balzac_image.ppsx",
-      "title": "RA23 Diaporama Balzac Image",
+      "title": "Eduscol — Diaporama Balzac — Images",
       "originalTitle": "RA23_diaporama_Balzac_image.ppsx",
       "type": "document",
       "category": "Documents_Extraits",
@@ -732,7 +732,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_diaporama_balzac_image_0_0",
-      "title": "Ra23 Diaporama Balzac Image 0 0",
+      "title": "Eduscol — Diaporama Balzac — Images (2)",
       "originalTitle": "ra23_diaporama_balzac_image_0_0.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -743,7 +743,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_g_1_francais_balzac_peaudechagrin_annoterpage",
-      "title": "Ra23 Lycee g 1 Francais Balzac Peaudechagrin Annoterpage",
+      "title": "Eduscol — Balzac La Peau de chagrin Annoter une page",
       "originalTitle": "ra23_lycee_g_1_francais_balzac_peaudechagrin_annoterpage.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -754,7 +754,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_g_1_francais_balzac_peaudechagrin_maximes",
-      "title": "Ra23 Lycee g 1 Francais Balzac Peaudechagrin Maximes",
+      "title": "Eduscol — Balzac La Peau de chagrin Maximes",
       "originalTitle": "ra23_lycee_g_1_francais_balzac_peaudechagrin_maximes.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -765,7 +765,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_g_1_francais_balzac_peaudechagrin_oeuvreparcours",
-      "title": "Ra23 Lycee g 1 Francais Balzac Peaudechagrin Oeuvreparcours",
+      "title": "Eduscol — Balzac La Peau de chagrin Œuvre et parcours",
       "originalTitle": "ra23_lycee_g_1_francais_balzac_peaudechagrin_oeuvreparcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -776,7 +776,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_g_1_francais_balzac_peaudechagrin_textescomplementaires",
-      "title": "Ra23 Lycee g 1 Francais Balzac Peaudechagrin Textescomplementaires",
+      "title": "Eduscol — Balzac La Peau de chagrin Textes complémentaires",
       "originalTitle": "ra23_lycee_g_1_francais_balzac_peaudechagrin_textescomplementaires.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -787,7 +787,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_g_1_francais_balzac_questionimage",
-      "title": "Ra23 Lycee g 1 Francais Balzac Questionimage",
+      "title": "Eduscol — Balzac Question sur l'image",
       "originalTitle": "ra23_lycee_g_1_francais_balzac_questionimage.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -798,7 +798,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_dorion_etudecomparee_mesforetspoesienature",
-      "title": "Ra23 Lycee gt 1 Dorion Etudecomparee Mesforetspoesienature",
+      "title": "Eduscol — Dorion Étude comparée Mes forêts — poésie et nature",
       "originalTitle": "ra23_lycee_gt_1_dorion_etudecomparee_mesforetspoesienature.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -809,7 +809,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_dorion_propositiongoupement_textes1",
-      "title": "Ra23 Lycee gt 1 Dorion Propositiongoupement Textes1",
+      "title": "Eduscol — Dorion Proposition de groupement Textes (1)",
       "originalTitle": "ra23_lycee_gt_1_dorion_propositiongoupement_textes1.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -820,7 +820,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_dorion_natureintime_parcours",
-      "title": "Ra23 Lycee gt 1 Francais Dorion Natureintime Parcours",
+      "title": "Eduscol — Dorion Nature intime Parcours",
       "originalTitle": "ra23_lycee_gt_1_francais_dorion_natureintime_parcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -831,7 +831,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_dorion_objetetude_formelivre1",
-      "title": "Ra23 Lycee gt 1 Francais Dorion Objetetude Formelivre1",
+      "title": "Eduscol — Dorion Objet d'étude Forme du livre (1)",
       "originalTitle": "ra23_lycee_gt_1_francais_dorion_objetetude_formelivre1.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -842,7 +842,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_dorion_objetetude_formelivre2",
-      "title": "Ra23 Lycee gt 1 Francais Dorion Objetetude Formelivre2",
+      "title": "Eduscol — Dorion Objet d'étude Forme du livre (2)",
       "originalTitle": "ra23_lycee_gt_1_francais_dorion_objetetude_formelivre2.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -853,7 +853,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_dorion_oeuvreparcours",
-      "title": "Ra23 Lycee gt 1 Francais Dorion Oeuvreparcours",
+      "title": "Eduscol — Dorion Œuvre et parcours",
       "originalTitle": "ra23_lycee_gt_1_francais_dorion_oeuvreparcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -864,7 +864,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_dorion_travailler-ecrit",
-      "title": "Ra23 Lycee gt 1 Francais Dorion Travailler - Ecrit",
+      "title": "Eduscol — Dorion Travailler l'écrit",
       "originalTitle": "ra23_lycee_gt_1_francais_dorion_travailler-ecrit.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -875,7 +875,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_ponge_atelier-arts-plastiques",
-      "title": "Ra23 Lycee gt 1 Francais Ponge Atelier - Arts - Plastiques",
+      "title": "Eduscol — Ponge Atelier — Arts — Plastiques",
       "originalTitle": "ra23_lycee_gt_1_francais_ponge_atelier-arts-plastiques.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -886,7 +886,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_ponge_chantier-du-poeme",
-      "title": "Ra23 Lycee gt 1 Francais Ponge Chantier - du - Poeme",
+      "title": "Eduscol — Ponge Chantier du poème",
       "originalTitle": "ra23_lycee_gt_1_francais_ponge_chantier-du-poeme.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -897,7 +897,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_ponge_laboratoiredesmots",
-      "title": "Ra23 Lycee gt 1 Francais Ponge Laboratoiredesmots",
+      "title": "Eduscol — Ponge Laboratoire des mots",
       "originalTitle": "ra23_lycee_gt_1_francais_ponge_laboratoiredesmots.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -908,7 +908,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_ponge_oeuvreparcours",
-      "title": "Ra23 Lycee gt 1 Francais Ponge Oeuvreparcours",
+      "title": "Eduscol — Ponge Œuvre et parcours",
       "originalTitle": "ra23_lycee_gt_1_francais_ponge_oeuvreparcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -919,7 +919,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_ponge_poesie-contre-poesie",
-      "title": "Ra23 Lycee gt 1 Francais Ponge Poesie - Contre - Poesie",
+      "title": "Eduscol — Ponge Poésie contre poésie",
       "originalTitle": "ra23_lycee_gt_1_francais_ponge_poesie-contre-poesie.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -930,7 +930,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_rimbaud_avoixhaute",
-      "title": "Ra23 Lycee gt 1 Francais Rimbaud Avoixhaute",
+      "title": "Eduscol — Rimbaud À voix haute",
       "originalTitle": "ra23_lycee_gt_1_francais_rimbaud_avoixhaute.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -941,7 +941,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_rimbaud_ecrirepoursemanciper",
-      "title": "Ra23 Lycee gt 1 Francais Rimbaud Ecrirepoursemanciper",
+      "title": "Eduscol — Rimbaud Écrire pour s'émanciper",
       "originalTitle": "ra23_lycee_gt_1_francais_rimbaud_ecrirepoursemanciper.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -952,7 +952,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_rimbaud_objetetude_choixtextesparcours",
-      "title": "Ra23 Lycee gt 1 Francais Rimbaud Objetetude Choixtextesparcours",
+      "title": "Eduscol — Rimbaud Objet d'étude Choix de textes et parcours",
       "originalTitle": "ra23_lycee_gt_1_francais_rimbaud_objetetude_choixtextesparcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -963,7 +963,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_rimbaud_objetetude_nouvellesformespolitiquespoetiques",
-      "title": "Ra23 Lycee gt 1 Francais Rimbaud Objetetude Nouvellesformespolitiquespoetiques",
+      "title": "Eduscol — Rimbaud Objet d'étude Nouvelles formes politiques et poétiques",
       "originalTitle": "ra23_lycee_gt_1_francais_rimbaud_objetetude_nouvellesformespolitiquespoetiques.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -974,7 +974,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_rimbaud_oeuvreparcours",
-      "title": "Ra23 Lycee gt 1 Francais Rimbaud Oeuvreparcours",
+      "title": "Eduscol — Rimbaud Œuvre et parcours",
       "originalTitle": "ra23_lycee_gt_1_francais_rimbaud_oeuvreparcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -985,7 +985,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_gt_1_francais_rimbaud_projetlitterairerecueil",
-      "title": "Ra23 Lycee gt 1 Francais Rimbaud Projetlitterairerecueil",
+      "title": "Eduscol — Rimbaud Projet littéraire du recueil",
       "originalTitle": "ra23_lycee_gt_1_francais_rimbaud_projetlitterairerecueil.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -996,7 +996,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_t_1_francais_balzac_bibliothequeslouiserenee",
-      "title": "Ra23 Lycee t 1 Francais Balzac Bibliothequeslouiserenee",
+      "title": "Eduscol — Balzac Bibliothèques de Louise et Renée",
       "originalTitle": "ra23_lycee_t_1_francais_balzac_bibliothequeslouiserenee.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1007,7 +1007,7 @@
     },
     {
       "id": "Documents_Extraits_ra23_lycee_t_1_francais_balzac_groupementtextesparcoursraisonsentiments",
-      "title": "Ra23 Lycee t 1 Francais Balzac Groupementtextesparcoursraisonsentiments",
+      "title": "Eduscol — Balzac Groupement de textes — Raison et sentiments",
       "originalTitle": "ra23_lycee_t_1_francais_balzac_groupementtextesparcoursraisonsentiments.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1018,7 +1018,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_corneille_menteur_mensongecomedie_multiplesvisagesmensonge",
-      "title": "Ra24 Lycee gt 1 Corneille Menteur Mensongecomedie Multiplesvisagesmensonge",
+      "title": "Eduscol — Corneille Menteur Mensonge et comédie Les multiples visages du mensonge",
       "originalTitle": "ra24_lycee_gt_1_corneille_menteur_mensongecomedie_multiplesvisagesmensonge.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1029,7 +1029,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_corneille_menteur_mensongecomedie_veritedumensonge",
-      "title": "Ra24 Lycee gt 1 Corneille Menteur Mensongecomedie Veritedumensonge",
+      "title": "Eduscol — Corneille Menteur Mensonge et comédie La vérité du mensonge",
       "originalTitle": "ra24_lycee_gt_1_corneille_menteur_mensongecomedie_veritedumensonge.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1040,7 +1040,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_corneille_menteur_oeuvreparcours_mensongecomedie",
-      "title": "Ra24 Lycee gt 1 Corneille Menteur Oeuvreparcours Mensongecomedie",
+      "title": "Eduscol — Corneille Menteur Œuvre et parcours Mensonge et comédie",
       "originalTitle": "ra24_lycee_gt_1_corneille_menteur_oeuvreparcours_mensongecomedie.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1051,7 +1051,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_corneille_reecriture",
-      "title": "Ra24 Lycee gt 1 Corneille Reecriture",
+      "title": "Eduscol — Corneille Reecriture",
       "originalTitle": "ra24_lycee_gt_1_corneille_reecriture.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1062,7 +1062,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_musset_choixtextesparcours_jeuxcoeurparole",
-      "title": "Ra24 Lycee gt 1 Musset Choixtextesparcours Jeuxcoeurparole",
+      "title": "Eduscol — Musset Choix de textes et parcours Jeuxcoeurparole",
       "originalTitle": "ra24_lycee_gt_1_musset_choixtextesparcours_jeuxcoeurparole.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1073,7 +1073,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_musset_diremussetclasseentiere_approchedramaturgique",
-      "title": "Ra24 Lycee gt 1 Musset Diremussetclasseentiere Approchedramaturgique",
+      "title": "Eduscol — Musset Diremussetclasseentiere Approchedramaturgique",
       "originalTitle": "ra24_lycee_gt_1_musset_diremussetclasseentiere_approchedramaturgique.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1084,7 +1084,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_musset_sitobiblio_0",
-      "title": "Ra24 Lycee gt 1 Musset Sitobiblio 0",
+      "title": "Eduscol — Musset Sitobiblio 0",
       "originalTitle": "ra24_lycee_gt_1_musset_sitobiblio_0.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1095,7 +1095,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_musset_texterepresentation_0",
-      "title": "Ra24 Lycee gt 1 Musset Texterepresentation 0",
+      "title": "Eduscol — Musset Texterepresentation 0",
       "originalTitle": "ra24_lycee_gt_1_musset_texterepresentation_0.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1106,7 +1106,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_parcours_fontenelle",
-      "title": "Ra24 Lycee gt 1 Parcours Fontenelle",
+      "title": "Eduscol — Parcours Fontenelle",
       "originalTitle": "ra24_lycee_gt_1_parcours_fontenelle.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1117,7 +1117,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_parcours_graffigny",
-      "title": "Ra24 Lycee gt 1 Parcours Graffigny",
+      "title": "Eduscol — Parcours Graffigny",
       "originalTitle": "ra24_lycee_gt_1_parcours_graffigny.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1128,7 +1128,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_parcours_la_boetie",
-      "title": "Ra24 Lycee gt 1 Parcours la Boetie",
+      "title": "Eduscol — Parcours la Boetie",
       "originalTitle": "ra24_lycee_gt_1_parcours_la_boetie.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1139,7 +1139,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_rimbaud_bibliographiesitographie",
-      "title": "Ra24 Lycee gt 1 Rimbaud Bibliographiesitographie",
+      "title": "Eduscol — Rimbaud Bibliographiesitographie",
       "originalTitle": "ra24_lycee_gt_1_rimbaud_bibliographiesitographie.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1150,7 +1150,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_sarraute_parcours_theatredispute_lecturescursivescorpus",
-      "title": "Ra24 Lycee gt 1 Sarraute Parcours Theatredispute Lecturescursivescorpus",
+      "title": "Eduscol — Sarraute Parcours Theatredispute Lecturescursivescorpus",
       "originalTitle": "ra24_lycee_gt_1_sarraute_parcours_theatredispute_lecturescursivescorpus.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1161,7 +1161,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_sarraute_pourouipournon_oeuvreparcours_theatredispute",
-      "title": "Ra24 Lycee gt 1 Sarraute Pourouipournon Oeuvreparcours Theatredispute",
+      "title": "Eduscol — Sarraute Pour un oui ou pour un non Œuvre et parcours Theatredispute",
       "originalTitle": "ra24_lycee_gt_1_sarraute_pourouipournon_oeuvreparcours_theatredispute.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1172,7 +1172,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_sarraute_pourouipournon_oeuvreparcours_theatredispute2",
-      "title": "Ra24 Lycee gt 1 Sarraute Pourouipournon Oeuvreparcours Theatredispute2",
+      "title": "Eduscol — Sarraute Pour un oui ou pour un non Œuvre et parcours Theatredispute2",
       "originalTitle": "ra24_lycee_gt_1_sarraute_pourouipournon_oeuvreparcours_theatredispute2.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1183,7 +1183,7 @@
     },
     {
       "id": "Documents_Extraits_ra24_lycee_t_1_balzac_memoiresdeuxjeunesmaries_oeuvreparcours_raisonsentiments",
-      "title": "Ra24 Lycee t 1 Balzac Memoiresdeuxjeunesmaries Oeuvreparcours Raisonsentiments",
+      "title": "Eduscol — Balzac Mémoires de deux jeunes mariés Œuvre et parcours Raison et sentiments",
       "originalTitle": "ra24_lycee_t_1_balzac_memoiresdeuxjeunesmaries_oeuvreparcours_raisonsentiments.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1194,7 +1194,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_corneille_galanterie",
-      "title": "Ra25 Lycee gt 1 Corneille Galanterie",
+      "title": "Eduscol — Corneille Galanterie",
       "originalTitle": "ra25_lycee_gt_1_corneille_galanterie.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1205,7 +1205,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_francais_dorion_entretien",
-      "title": "Ra25 Lycee gt 1 Francais Dorion Entretien",
+      "title": "Eduscol — Dorion Entretien",
       "originalTitle": "ra25_lycee_gt_1_francais_dorion_entretien.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1216,7 +1216,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_francais_fontenelle_savoirprismeimaginaire",
-      "title": "Ra25 Lycee gt 1 Francais Fontenelle Savoirprismeimaginaire",
+      "title": "Eduscol — Fontenelle Savoirprismeimaginaire",
       "originalTitle": "ra25_lycee_gt_1_francais_fontenelle_savoirprismeimaginaire.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1227,7 +1227,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_francais_goutdelascience",
-      "title": "Ra25 Lycee gt 1 Francais Goutdelascience",
+      "title": "Eduscol — Goutdelascience",
       "originalTitle": "ra25_lycee_gt_1_francais_goutdelascience.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1238,7 +1238,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_francais_graffigny_emancipationfeminine",
-      "title": "Ra25 Lycee gt 1 Francais Graffigny Emancipationfeminine",
+      "title": "Eduscol — Graffigny Emancipationfeminine",
       "originalTitle": "ra25_lycee_gt_1_francais_graffigny_emancipationfeminine.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1249,7 +1249,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_francais_graffigny_romanepistolaire",
-      "title": "Ra25 Lycee gt 1 Francais Graffigny Romanepistolaire",
+      "title": "Eduscol — Graffigny Romanepistolaire",
       "originalTitle": "ra25_lycee_gt_1_francais_graffigny_romanepistolaire.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1260,7 +1260,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_francais_laboetie_contextereception-002",
-      "title": "Ra25 Lycee gt 1 Francais Laboetie Contextereception - 002",
+      "title": "Eduscol — Laboetie Contextereception — 002",
       "originalTitle": "ra25_lycee_gt_1_francais_laboetie_contextereception-002.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1271,7 +1271,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_francais_laboetie_entrerlecture",
-      "title": "Ra25 Lycee gt 1 Francais Laboetie Entrerlecture",
+      "title": "Eduscol — Laboetie Entrerlecture",
       "originalTitle": "ra25_lycee_gt_1_francais_laboetie_entrerlecture.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1282,7 +1282,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_francais_theatre_ecritsappropriation",
-      "title": "Ra25 Lycee gt 1 Francais Theatre Ecritsappropriation",
+      "title": "Eduscol — Theatre Ecritsappropriation",
       "originalTitle": "ra25_lycee_gt_1_francais_theatre_ecritsappropriation.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1293,7 +1293,7 @@
     },
     {
       "id": "Documents_Extraits_ra25_lycee_gt_1_francais_theatre_lireserepresentercreer",
-      "title": "Ra25 Lycee gt 1 Francais Theatre Lireserepresentercreer",
+      "title": "Eduscol — Theatre Lireserepresentercreer",
       "originalTitle": "ra25_lycee_gt_1_francais_theatre_lireserepresentercreer.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1304,7 +1304,7 @@
     },
     {
       "id": "Documents_Extraits_ra26_lycee_g_1_francais_chretientroyes_oeuvreparcours",
-      "title": "Ra26 Lycee g 1 Francais Chretientroyes Oeuvreparcours",
+      "title": "Eduscol — Chretientroyes Œuvre et parcours",
       "originalTitle": "ra26_lycee_g_1_francais_chretientroyes_oeuvreparcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1315,7 +1315,7 @@
     },
     {
       "id": "Documents_Extraits_ra26_lycee_g_1_francais_emilezola_oeuvreparcours",
-      "title": "Ra26 Lycee g 1 Francais Emilezola Oeuvreparcours",
+      "title": "Eduscol — Emilezola Œuvre et parcours",
       "originalTitle": "ra26_lycee_g_1_francais_emilezola_oeuvreparcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1326,7 +1326,7 @@
     },
     {
       "id": "Documents_Extraits_ra26_lycee_gt_1_francais_graffigny_reportagefrancelumieres",
-      "title": "Ra26 Lycee gt 1 Francais Graffigny Reportagefrancelumieres",
+      "title": "Eduscol — Graffigny Reportagefrancelumieres",
       "originalTitle": "ra26_lycee_gt_1_francais_graffigny_reportagefrancelumieres.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1337,7 +1337,7 @@
     },
     {
       "id": "Documents_Extraits_ra26_lycee_gt_1_francais_graffigny_representationincas",
-      "title": "Ra26 Lycee gt 1 Francais Graffigny Representationincas",
+      "title": "Eduscol — Graffigny Representationincas",
       "originalTitle": "ra26_lycee_gt_1_francais_graffigny_representationincas.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1348,7 +1348,7 @@
     },
     {
       "id": "Documents_Extraits_ra26_lycee_gt_1_francais_schwarzbart_parcoursassocie",
-      "title": "Ra26 Lycee gt 1 Francais Schwarzbart Parcoursassocie",
+      "title": "Eduscol — Schwarzbart Parcoursassocie",
       "originalTitle": "ra26_lycee_gt_1_francais_schwarzbart_parcoursassocie.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1359,7 +1359,7 @@
     },
     {
       "id": "Documents_Extraits_ra26_lycee_t_1_francais_chretientroyes_oeuvreparcours",
-      "title": "Ra26 Lycee t 1 Francais Chretientroyes Oeuvreparcours",
+      "title": "Eduscol — Chretientroyes Œuvre et parcours",
       "originalTitle": "ra26_lycee_t_1_francais_chretientroyes_oeuvreparcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
@@ -1370,7 +1370,7 @@
     },
     {
       "id": "Documents_Extraits_ra26_lycee_t_1_francais_emilezola_oeuvreparcours",
-      "title": "Ra26 Lycee t 1 Francais Emilezola Oeuvreparcours",
+      "title": "Eduscol — Emilezola Œuvre et parcours",
       "originalTitle": "ra26_lycee_t_1_francais_emilezola_oeuvreparcours.pdf",
       "type": "document",
       "category": "Documents_Extraits",
