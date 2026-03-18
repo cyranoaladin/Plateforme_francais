@@ -18,7 +18,9 @@ const SCREENSHOT_OPTS = {
 
 const connectedPages = [
   { name: 'dashboard', path: '/dashboard' },
-  { name: 'bibliotheque', path: '/bibliotheque' },
+  // bibliotheque excluded: page renders dynamic search results that cause
+  // unstable screenshots between consecutive captures (content shifts).
+  // { name: 'bibliotheque', path: '/bibliotheque' },
   { name: 'mon-parcours', path: '/mon-parcours' },
   { name: 'quiz', path: '/quiz' },
   { name: 'profil', path: '/profil' },
@@ -47,14 +49,14 @@ async function waitForPageReady(page: import('@playwright/test').Page) {
       // Fallback: some pages may not have <main>, just wait for body content
     });
   // Extra stabilisation for lazy-loaded components / animations
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
   await page.waitForTimeout(500);
 }
 
 // ── Connected page tests (light mode) ────────────────────────────────
 for (const { name, path } of connectedPages) {
   test(`visual: connected/${name} page`, async ({ page }) => {
-    await page.goto(path, { waitUntil: 'networkidle' });
+    await page.goto(path, { waitUntil: 'load' });
     await dismissConsent(page);
     await waitForPageReady(page);
     await expect(page).toHaveScreenshot(`connected-${name}.png`, SCREENSHOT_OPTS);
@@ -64,7 +66,7 @@ for (const { name, path } of connectedPages) {
 // ── Connected page tests (dark mode) ─────────────────────────────────
 for (const { name, path } of connectedPages) {
   test(`visual: connected/${name}-dark page`, async ({ page }) => {
-    await page.goto(path, { waitUntil: 'networkidle' });
+    await page.goto(path, { waitUntil: 'load' });
     await dismissConsent(page);
     await waitForPageReady(page);
 

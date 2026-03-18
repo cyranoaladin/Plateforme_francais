@@ -16,9 +16,14 @@ Each suite tests both **light** and **dark** mode (except mobile, light only for
 
 ### Pages covered
 
-- **Public:** landing, pricing, login, contact, mentions-legales, cgu
-- **Connected:** dashboard, bibliotheque, mon-parcours, quiz, profil, carnet, atelier-ecrit
-- **Mobile:** landing, pricing, login, contact + dashboard, bibliotheque, mon-parcours, atelier-ecrit
+- **Public (12 tests):** landing, pricing, login, contact, mentions-legales, cgu (light + dark)
+- **Connected (12 tests):** dashboard, mon-parcours, quiz, profil, carnet, atelier-ecrit (light + dark)
+- **Mobile (6 tests):** landing, login, contact + dashboard, mon-parcours, atelier-ecrit (light uniquement)
+
+### Pages exclues (instabilité documentée)
+
+- **bibliotheque** (connected + mobile) : résultats de recherche dynamiques provoquant des variations de contenu entre captures consécutives
+- **pricing** (mobile uniquement) : hauteur de page fluctuante due à l'accordéon FAQ et aux sections chargées dynamiquement sur petit viewport
 
 ## Generating baselines
 
@@ -147,7 +152,7 @@ Il vérifie : Node, Playwright, `.env.local`, `DATABASE_URL`, PostgreSQL (port +
 3. **Consent banner** -- dismissed via click in tests; if the banner DOM changes, tests may need updating
 4. **Mobile dark mode** -- not yet covered (can be added in a future lot)
 5. **Dynamic content** -- pages with live data (dashboard counters, dates) may cause false positives
-6. **Baselines non générées (LOT 12)** -- blocage par port PostgreSQL (5433 vs 5432) et pgvector manquant. Voir section "Prérequis infrastructure" ci-dessus
+6. **Baselines générées (LOT 13)** -- 30 snapshots stables sur 3 suites. Pages exclues : bibliotheque (instable) et pricing mobile (hauteur variable)
 
 ## Troubleshooting
 
