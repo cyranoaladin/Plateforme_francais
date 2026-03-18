@@ -28,13 +28,27 @@ export type RagSearchOptions = {
 };
 
 const STOP_WORDS = new Set([
-  'de', 'la', 'le', 'les', 'du', 'des', 'un', 'une',
-  'et', 'ou', 'a', 'au', 'aux', 'pour', 'sur', 'dans',
-  'que', 'qui', 'en', 'ce', 'se', 'ne', 'pas', 'par',
-  'avec', 'son', 'sa', 'ses', 'mon', 'ma', 'mes', 'ton',
-  'ta', 'tes', 'est', 'sont', 'il', 'elle', 'on', 'nous',
-  'vous', 'ils', 'elles', 'je', 'tu', 'plus', 'cette',
-  'ces', 'dont', 'mais', 'donc', 'car', 'ni', 'si',
+  // Articles & contractions
+  'de', 'la', 'le', 'les', 'du', 'des', 'un', 'une', 'au', 'aux',
+  // Conjonctions & prépositions
+  'et', 'ou', 'a', 'pour', 'sur', 'dans', 'par', 'avec', 'sans',
+  'vers', 'entre', 'chez', 'contre', 'sous', 'depuis', 'avant', 'apres',
+  // Pronoms
+  'que', 'qui', 'en', 'ce', 'se', 'ne', 'pas', 'y',
+  'son', 'sa', 'ses', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes',
+  'il', 'elle', 'on', 'nous', 'vous', 'ils', 'elles', 'je', 'tu',
+  'leur', 'leurs', 'lui', 'eux', 'moi', 'toi', 'soi',
+  // Démonstratifs & relatifs
+  'cette', 'ces', 'dont', 'cet', 'celle', 'ceux', 'celles',
+  'lequel', 'laquelle', 'lesquels', 'lesquelles',
+  // Conjonctions logiques
+  'mais', 'donc', 'car', 'ni', 'si', 'puis', 'or',
+  // Verbes auxiliaires courants
+  'est', 'sont', 'ete', 'etait', 'etaient', 'sera', 'seront',
+  'avoir', 'etre', 'fait', 'faire',
+  // Adverbes fréquents
+  'plus', 'tres', 'bien', 'aussi', 'encore', 'toujours', 'tout', 'tous',
+  'peut', 'comme', 'meme',
 ]);
 
 function tokenize(input: string): string[] {
@@ -120,7 +134,7 @@ function externalChunkToResult(chunk: ExternalRAGChunk, index: number): RagSearc
     type: 'texte_officiel' as ReferenceDoc['type'],
     level: (metadata.niveau as ReferenceDoc['level']) ?? 'Niveau B',
     sourceRef: sourceUrl || title,
-    excerpt: chunk.content.slice(0, 200),
+    excerpt: chunk.content.slice(0, 400),
     score: chunk.score,
   };
 }
@@ -223,7 +237,7 @@ export async function searchOfficialReferences(
         type: (chunk.sourceType as ReferenceDoc['type']) ?? 'texte_officiel',
         level: chunk.level || levelFromDocId(),
         sourceRef: chunk.sourceUrl || chunk.docId,
-        excerpt: chunk.content.slice(0, 200),
+        excerpt: chunk.content.slice(0, 400),
         url: chunk.sourceUrl || chunk.docId,
         score: scoreFromDistance(Number(chunk.distance)),
       }));

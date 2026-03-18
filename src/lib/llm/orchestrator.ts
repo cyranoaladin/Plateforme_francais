@@ -196,26 +196,25 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
     return buildRefusalOutput(compliance);
   }
 
-  let memoryContext = '';
-  if (memoryAgentType) {
-    const memoryProfile = await loadMemoryProfileForUser(userId, { workId: effectiveWorkId });
-    if (memoryProfile) {
-      memoryContext = truncateToTokenBudget(
+  // Parallelize memory profile loading and media context (independent operations)
+  const [memoryContext, mediaContext] = await Promise.all([
+    (async () => {
+      if (!memoryAgentType) return '';
+      const memoryProfile = await loadMemoryProfileForUser(userId, { workId: effectiveWorkId });
+      if (!memoryProfile) return '';
+      return truncateToTokenBudget(
         composeMemoryContext(memoryProfile, {
           agentType: memoryAgentType,
           workId: effectiveWorkId,
         }),
       );
-    }
-  }
-
-  // Build media context only for skills that benefit from it
-  let mediaContext = '';
-  if (!SKILLS_WITHOUT_MEDIA.has(skill)) {
-    const agentType = skillToAgentType(skill);
-    const mediaEntries = getMediaForAgent(agentType, effectiveWorkId);
-    mediaContext = formatMediaContextForPrompt(mediaEntries);
-  }
+    })(),
+    Promise.resolve(
+      !SKILLS_WITHOUT_MEDIA.has(skill)
+        ? formatMediaContextForPrompt(getMediaForAgent(skillToAgentType(skill), effectiveWorkId))
+        : '',
+    ),
+  ]);
 
   const prompt = [
     SYSTEM_PROMPT_EAF,
@@ -237,9 +236,10 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
     userQuery,
   ].filter(Boolean).join('\n\n');
 
+  const contextTokens = estimateTokens([{ content: prompt }]);
   const selectedProvider = selectProvider({
     skill,
-    contextTokens: estimateTokens([{ content: prompt }]),
+    contextTokens,
   });
 
   try {
@@ -265,9 +265,9 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
         success: false,
         errorCode: 'ANTI_TRICHE_OUTPUT',
-        contextSize: estimateTokens([{ content: prompt }]),
+        contextSize: contextTokens,
       });
-      await persistAgentMemory({
+      void persistAgentMemory({
         userId,
         skill,
         userQuery,
@@ -297,9 +297,9 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
         success: false,
         errorCode: 'OUTPUT_VALIDATION',
-        contextSize: estimateTokens([{ content: prompt }]),
+        contextSize: contextTokens,
       });
-      await persistAgentMemory({
+      void persistAgentMemory({
         userId,
         skill,
         userQuery,
@@ -339,10 +339,10 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
         success: false,
         errorCode: 'SCHEMA_VALIDATION',
-        contextSize: estimateTokens([{ content: prompt }]),
+        contextSize: contextTokens,
       });
       const fallback = fallbackSkillOutput(skill);
-      await persistAgentMemory({
+      void persistAgentMemory({
         userId,
         skill,
         userQuery,
@@ -414,7 +414,7 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         latencyMs: Date.now() - startedAt,
         success: false,
         errorCode: 'JSON_PARSE',
-        contextSize: estimateTokens([{ content: prompt }]),
+        contextSize: contextTokens,
       });
       return fallbackSkillOutput(skill);
     }
@@ -432,7 +432,7 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         latencyMs: Date.now() - startedAt,
         success: false,
         errorCode: 'ZOD_PARSE',
-        contextSize: estimateTokens([{ content: prompt }]),
+        contextSize: contextTokens,
       });
       return fallbackSkillOutput(skill);
     }

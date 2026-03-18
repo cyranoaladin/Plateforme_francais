@@ -7,11 +7,11 @@ import { externalRAG } from '@/lib/rag/external-client';
  */
 export async function GET() {
   const isConfigured = externalRAG.isConfigured();
-  
+
   if (!isConfigured) {
     return NextResponse.json({
       status: 'not_configured',
-      message: 'RAG_API_TOKEN is not set',
+      message: 'Service RAG non configuré',
       external_rag: {
         configured: false,
         healthy: false,
@@ -28,18 +28,15 @@ export async function GET() {
       external_rag: {
         configured: true,
         healthy: health.status === 'healthy',
-        url: process.env.RAG_API_URL,
-        collection: process.env.RAG_COLLECTION,
         stats: stats ? {
           total_chunks: stats.total_chunks,
-          embedding_model: stats.embedding_model,
         } : null,
       },
     }, { status: health.status === 'healthy' ? 200 : 503 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({
       status: 'error',
-      message: error instanceof Error ? error.message : 'Unknown error',
+      message: 'Erreur de connexion au service RAG',
       external_rag: {
         configured: true,
         healthy: false,
