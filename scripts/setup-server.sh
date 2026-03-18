@@ -8,6 +8,7 @@ set -euo pipefail
 
 DOMAIN="eaf.nexusreussite.academy"
 APP_DIR="/opt/eaf_platform"
+RESSOURCES_DIR="/srv/eaf_ressources"
 APP_USER="eaf"
 NODE_VERSION="20"
 
@@ -65,7 +66,9 @@ if ! id "$APP_USER" &>/dev/null; then
   useradd -m -s /bin/bash "$APP_USER"
 fi
 mkdir -p "$APP_DIR"
+mkdir -p "$RESSOURCES_DIR"
 chown -R "$APP_USER:$APP_USER" "$APP_DIR"
+chown -R "$APP_USER:$APP_USER" "$RESSOURCES_DIR"
 
 # --- 8. Configure firewall ---
 echo "[8/9] Configuration du pare-feu (UFW)..."

@@ -4,7 +4,6 @@
  */
 import { describe, it, expect } from 'vitest';
 import { existsSync } from 'fs';
-import path from 'path';
 import {
   MEDIA_CATALOG,
   BIBLIOTHEQUE_MEDIA,
@@ -12,6 +11,7 @@ import {
   formatMediaContextForPrompt,
 } from '@/data/media-catalog';
 import type { MediaEntry } from '@/data/media-catalog';
+import { getRessourcesRoot, resolveCatalogFilePath } from '@/lib/ressources/path';
 
 describe('MEDIA_CATALOG — structure', () => {
   it('contient au moins 80 entrées', () => {
@@ -57,7 +57,7 @@ describe('MEDIA_CATALOG — structure', () => {
 
 describe('MEDIA_CATALOG — filePaths', () => {
   it('chaque filePath pointe vers un fichier existant', () => {
-    const ressourcesDir = path.resolve(process.cwd(), 'ressources');
+    const ressourcesDir = getRessourcesRoot();
     if (!existsSync(ressourcesDir)) {
       // Media assets live on the server volume (/opt/eaf_platform/ressources),
       // not in the git repo. Skip when the directory is absent.
@@ -66,7 +66,7 @@ describe('MEDIA_CATALOG — filePaths', () => {
 
     const missing: string[] = [];
     for (const entry of MEDIA_CATALOG) {
-      const absPath = path.resolve(process.cwd(), entry.filePath);
+      const absPath = resolveCatalogFilePath(entry.filePath);
       if (!existsSync(absPath)) {
         missing.push(`${entry.id}: ${entry.filePath}`);
       }

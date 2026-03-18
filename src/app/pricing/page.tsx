@@ -26,6 +26,7 @@ type PaymentStatus = 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
 type CheckoutPlan = 'PREMIUM' | 'PRO';
 
 type BillingStatusPayload = {
+  authenticated?: boolean;
   subscription: {
     plan: SubscriptionPlan;
     status: string;
@@ -223,9 +224,11 @@ export default function PricingPage() {
 
     const load = async () => {
       try {
-        const payload = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status');
+        const payload = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status', {
+          redirectOnUnauthorized: false,
+        });
         setBilling(payload);
-        setIsAuthenticated(true);
+        setIsAuthenticated(payload.authenticated ?? true);
       } catch (err) {
         if (isApiError(err) && err.status === 401) {
           setBilling(null);

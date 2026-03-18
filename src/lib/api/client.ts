@@ -27,30 +27,31 @@ export function isApiError(err: unknown): err is ApiError {
  */
 export async function apiFetch<T>(
   input: string,
-  init: RequestInit & { json?: unknown } = {},
+  init: RequestInit & { json?: unknown; redirectOnUnauthorized?: boolean } = {},
 ): Promise<T> {
   const headers = new Headers(init.headers);
+  const { json, redirectOnUnauthorized = true, ...requestInit } = init;
 
   const csrf = getCsrfTokenFromDocument();
   if (csrf) {
     headers.set('X-CSRF-Token', csrf);
   }
 
-  if (init.json !== undefined) {
+  if (json !== undefined) {
     headers.set('Content-Type', 'application/json');
   }
 
   const res = await fetch(input, {
-    ...init,
+    ...requestInit,
     headers,
-    body: init.json !== undefined ? JSON.stringify(init.json) : init.body,
+    body: json !== undefined ? JSON.stringify(json) : requestInit.body,
     credentials: 'include',
   });
 
   if (!res.ok) {
     // 18C: On 401, redirect to login with session_expired reason.
     // This handles evicted sessions (anti-sharing FIFO eviction).
-    if (res.status === 401 && typeof window !== 'undefined') {
+    if (res.status === 401 && redirectOnUnauthorized && typeof window !== 'undefined') {
       const current = window.location.pathname;
       if (current !== '/login') {
         window.location.href = `/login?reason=session_expired&redirect=${encodeURIComponent(current)}`;

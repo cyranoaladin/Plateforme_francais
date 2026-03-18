@@ -12,7 +12,17 @@ export async function GET() {
   try {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
-      return NextResponse.json({ error: 'Non authentifié.' }, { status: 401 });
+      return NextResponse.json({
+        authenticated: false,
+        subscription: {
+          plan: normalizePlanId('FREE'),
+          status: 'INACTIVE',
+          currentPeriodEnd: null,
+          cancelAtPeriodEnd: false,
+        },
+        lastPayment: null,
+        lastTransaction: null,
+      });
     }
 
     const subscription = await prisma.subscription.findUnique({
@@ -25,6 +35,7 @@ export async function GET() {
     });
 
     return NextResponse.json({
+      authenticated: true,
       subscription: {
         plan: normalizePlanId(subscription?.plan ?? 'FREE'),
         status: subscription?.status ?? 'INACTIVE',

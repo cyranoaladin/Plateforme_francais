@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/app-shell";
@@ -27,17 +28,20 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const nonce = (await headers()).get('x-nonce') ?? undefined;
+
   return (
     <html lang="fr" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
       <head>
         {/* Inline script to prevent flash of wrong theme (FOUC).
             Runs synchronously before first paint. */}
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var s=localStorage.getItem('eaf_theme');if(s==='dark'||(s!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
           }}

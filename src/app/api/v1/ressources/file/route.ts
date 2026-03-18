@@ -8,6 +8,7 @@ import { createMemoryEvent } from '@/lib/memory/store';
 import { getBillingContext } from '@/lib/billing/context';
 import { hasFullLibraryAccess, FREE_LIBRARY_LIMITS } from '@/lib/billing/library-gating';
 import { RESSOURCES } from '@/data/ressources';
+import { isWithinRessourcesRoot, resolveRessourcePath } from '@/lib/ressources/path';
 
 const MIME_TYPES: Record<string, string> = {
   '.mp4': 'video/mp4',
@@ -111,9 +112,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Accès refusé.' }, { status: 403 });
   }
 
-  const ressourcesRoot = path.resolve(process.cwd(), 'ressources');
   const normalizedPath = requestedPath.replace(/^\/+/, '');
-  const absolutePath = path.resolve(ressourcesRoot, normalizedPath);
+  const absolutePath = resolveRessourcePath(normalizedPath);
 
   // ── Gating freemium bibliothèque ──
   const billing = await getBillingContext(auth.user.id);
@@ -147,7 +147,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
   }
 
-  if (!absolutePath.startsWith(`${ressourcesRoot}${path.sep}`)) {
+  if (!isWithinRessourcesRoot(absolutePath)) {
     logger.warn({ route: 'api/v1/ressources/file', requestedPath, absolutePath }, 'resource_file.path_traversal_blocked');
     return NextResponse.json({ error: 'Accès refusé.' }, { status: 403 });
   }

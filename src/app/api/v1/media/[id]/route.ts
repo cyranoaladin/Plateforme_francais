@@ -8,6 +8,7 @@ import path from 'path';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { MEDIA_CATALOG } from '@/data/media-catalog';
 import { logger } from '@/lib/logger';
+import { isWithinRessourcesRoot, resolveCatalogFilePath } from '@/lib/ressources/path';
 
 const MIME_TYPES: Record<string, string> = {
   '.mp4': 'video/mp4',
@@ -45,8 +46,7 @@ export async function GET(
     return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
   }
 
-  // Resolve absolute path (filePath is relative to project root)
-  const absolutePath = path.resolve(process.cwd(), entry.filePath);
+  const absolutePath = resolveCatalogFilePath(entry.filePath);
 
   // Security: reject null bytes in the id (prevents poison-null-byte attacks)
   if (id.includes('\0')) {
@@ -54,9 +54,7 @@ export async function GET(
     return NextResponse.json({ error: 'Accès refusé.' }, { status: 403 });
   }
 
-  // Security: ensure the resolved path stays inside the project's ressources/ directory
-  const ressourcesRoot = path.resolve(process.cwd(), 'ressources') + path.sep;
-  if (!absolutePath.startsWith(ressourcesRoot)) {
+  if (!isWithinRessourcesRoot(absolutePath)) {
     logger.error({ route: 'api/v1/media', id, absolutePath }, 'media.path_traversal_blocked');
     return NextResponse.json({ error: 'Accès refusé.' }, { status: 403 });
   }

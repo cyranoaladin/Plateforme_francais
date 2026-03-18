@@ -308,7 +308,7 @@ export default function MonParcoursPage() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/"
+                href="/dashboard"
                 className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
               >
                 Retour dashboard
@@ -547,7 +547,7 @@ export default function MonParcoursPage() {
                 {
                   title: 'Revenir au dashboard',
                   detail: 'Reprendre les signaux récents et vérifier ce que la dernière session a bougé.',
-                  href: '/',
+                  href: '/dashboard',
                   icon: MapIcon,
                 },
                 {

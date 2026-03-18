@@ -41,9 +41,17 @@ export function isPublicPath(pathname: string): boolean {
   return false;
 }
 
-/** Apply CSP and security headers to a response. */
-function applySecurityHeaders(response: NextResponse): NextResponse {
+function withSecurityHeaders(request: NextRequest): NextResponse {
   const nonce = edgeRandomBase64(16);
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-nonce', nonce);
+
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+
   response.headers.set('x-nonce', nonce);
 
   const csp = [
@@ -85,7 +93,7 @@ export function middleware(request: NextRequest) {
 
   // Public paths: serve with CSP but no auth check
   if (isPublicPath(pathname)) {
-    return applySecurityHeaders(NextResponse.next());
+    return withSecurityHeaders(request);
   }
 
   // Check session cookie
@@ -96,7 +104,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return applySecurityHeaders(NextResponse.next());
+  return withSecurityHeaders(request);
 }
 
 export const config = {

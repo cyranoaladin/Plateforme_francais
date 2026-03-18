@@ -62,6 +62,7 @@ function withProductionDefaults(defaults, fileEnv) {
 const webEnv = withProductionDefaults(
   {
     APP_ROOT: appRoot,
+    RESSOURCES_ROOT: '/srv/eaf_ressources',
     PORT: 3000,
   },
   appEnv,
@@ -70,6 +71,7 @@ const webEnv = withProductionDefaults(
 const workerEnv = withProductionDefaults(
   {
     APP_ROOT: appRoot,
+    RESSOURCES_ROOT: '/srv/eaf_ressources',
   },
   appEnv,
 );

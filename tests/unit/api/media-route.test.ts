@@ -5,6 +5,7 @@
 import { describe, it, expect } from 'vitest';
 import path from 'path';
 import { MEDIA_CATALOG } from '@/data/media-catalog';
+import { getRessourcesRoot, isWithinRessourcesRoot, resolveCatalogFilePath, resolveRessourcePath } from '@/lib/ressources/path';
 
 describe('Media API Route — catalog integrity', () => {
   it('chaque id du catalogue est un slug sûr (pas de path traversal)', () => {
@@ -17,9 +18,9 @@ describe('Media API Route — catalog integrity', () => {
   });
 
   it('chaque filePath reste dans ressources/', () => {
-    const ressourcesRoot = path.resolve(process.cwd(), 'ressources') + path.sep;
+    const ressourcesRoot = path.resolve(getRessourcesRoot()) + path.sep;
     for (const entry of MEDIA_CATALOG) {
-      const absPath = path.resolve(process.cwd(), entry.filePath);
+      const absPath = resolveCatalogFilePath(entry.filePath);
       expect(absPath.startsWith(ressourcesRoot)).toBe(true);
     }
   });
@@ -34,27 +35,31 @@ describe('Media API Route — catalog integrity', () => {
 
 describe('Media API Route — path traversal protection logic', () => {
   it('un chemin avec .. serait détecté par startsWith', () => {
-    const ressourcesRoot = path.resolve(process.cwd(), 'ressources') + path.sep;
-    const maliciousPath = path.resolve(process.cwd(), 'ressources/../etc/passwd');
+    const ressourcesRoot = path.resolve(getRessourcesRoot()) + path.sep;
+    const maliciousPath = path.resolve(getRessourcesRoot(), '../etc/passwd');
     expect(maliciousPath.startsWith(ressourcesRoot)).toBe(false);
+    expect(isWithinRessourcesRoot(maliciousPath)).toBe(false);
   });
 
   it('un chemin vers un répertoire frère est bloqué', () => {
-    const ressourcesRoot = path.resolve(process.cwd(), 'ressources') + path.sep;
+    const ressourcesRoot = path.resolve(getRessourcesRoot()) + path.sep;
     const siblingPath = path.resolve(process.cwd(), 'src/data/media-catalog.ts');
     expect(siblingPath.startsWith(ressourcesRoot)).toBe(false);
+    expect(isWithinRessourcesRoot(siblingPath)).toBe(false);
   });
 
   it('un chemin qui commence par ressources- (sans /) est bloqué', () => {
-    const ressourcesRoot = path.resolve(process.cwd(), 'ressources') + path.sep;
+    const ressourcesRoot = path.resolve(getRessourcesRoot()) + path.sep;
     const trickPath = path.resolve(process.cwd(), 'ressources-evil/malicious.mp4');
     expect(trickPath.startsWith(ressourcesRoot)).toBe(false);
+    expect(isWithinRessourcesRoot(trickPath)).toBe(false);
   });
 
   it('un chemin légitime dans ressources/Videos est accepté', () => {
-    const ressourcesRoot = path.resolve(process.cwd(), 'ressources') + path.sep;
-    const legitimatePath = path.resolve(process.cwd(), 'ressources/Videos/test.mp4');
+    const ressourcesRoot = path.resolve(getRessourcesRoot()) + path.sep;
+    const legitimatePath = resolveRessourcePath('Videos/test.mp4');
     expect(legitimatePath.startsWith(ressourcesRoot)).toBe(true);
+    expect(isWithinRessourcesRoot(legitimatePath)).toBe(true);
   });
 });
 

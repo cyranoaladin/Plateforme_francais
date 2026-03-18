@@ -5,21 +5,24 @@ import { Sidebar } from '@/components/layout/sidebar';
 import { TrackingProvider } from '@/components/tracking/tracking-provider';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 
+const PUBLIC_STANDALONE_PATHS = new Set([
+  '/',
+  '/login',
+  '/bienvenue',
+  '/pricing',
+  '/contact',
+  '/mentions-legales',
+  '/cgu',
+  '/politique-de-confidentialite',
+]);
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const shouldTrackLearningActivity =
-    pathname !== '/' &&
-    pathname !== '/login' &&
-    pathname !== '/bienvenue' &&
-    pathname !== '/pricing' &&
-    !pathname.startsWith('/paiement/');
   const isStandalonePage =
-    pathname === '/' ||
-    pathname === '/login' ||
-    pathname === '/bienvenue' ||
-    pathname === '/pricing' ||
+    PUBLIC_STANDALONE_PATHS.has(pathname) ||
     pathname === '/onboarding' ||
     pathname.startsWith('/paiement/');
+  const shouldTrackLearningActivity = !isStandalonePage;
 
   if (isStandalonePage) {
     return (

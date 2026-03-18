@@ -17,7 +17,7 @@ const VitalSchema = z.object({
 /**
  * POST /api/v1/metrics/vitals
  * Reçoit les Web Vitals du client et les persiste en base de données.
- * Rate-limited (100/min par IP) + graceful 202 on DB failure.
+ * Rate-limited (100/min par IP) + graceful 202 on overload or DB failure.
  */
 export async function POST(request: Request) {
   // Rate limit: 100 requests per minute per IP
@@ -28,10 +28,7 @@ export async function POST(request: Request) {
     windowMs: 60 * 1000,
   });
   if (!limit.allowed) {
-    return NextResponse.json(
-      { error: 'Rate limit exceeded.' },
-      { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } },
-    );
+    return NextResponse.json({ ok: true, dropped: true, reason: 'rate_limited' }, { status: 202 });
   }
 
   let body;

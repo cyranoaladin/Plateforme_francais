@@ -48,6 +48,7 @@ const EDITORIAL_HEADING = {
 type SubscriptionPlan = 'FREE' | 'PREMIUM' | 'PRO';
 type CheckoutPlan = 'PREMIUM' | 'PRO';
 type BillingStatusPayload = {
+  authenticated?: boolean;
   subscription: { plan: SubscriptionPlan; status: string; currentPeriodEnd: string | null };
   lastPayment: { orderRef: string; plan: SubscriptionPlan; status: string; amountMillimes: number; currency: string } | null;
 };
@@ -236,9 +237,11 @@ export default function HomePage() {
     track({ name: 'page_view', props: { path: '/' } });
     const load = async () => {
       try {
-        const payload = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status');
+        const payload = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status', {
+          redirectOnUnauthorized: false,
+        });
         setBilling(payload);
-        setIsAuthenticated(true);
+        setIsAuthenticated(payload.authenticated ?? true);
       } catch (err) {
         if (isApiError(err) && err.status === 401) {
           setIsAuthenticated(false);

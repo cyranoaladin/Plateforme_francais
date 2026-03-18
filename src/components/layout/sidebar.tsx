@@ -29,7 +29,7 @@ import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { useTheme } from '@/components/theme/theme-provider';
 
 const navItems = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard, section: 'Pilotage', hint: 'Vue d\u2019ensemble' },
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, section: 'Pilotage', hint: 'Vue d’ensemble' },
   { name: 'Mon Parcours', href: '/mon-parcours', icon: Map, section: 'Pilotage', hint: 'Plan de progression' },
   { name: 'Profil', href: '/profil', icon: UserCircle2, section: 'Pilotage', hint: 'Cap et repères' },
   { name: 'Tuteur de parcours', href: '/tuteur', icon: MessagesSquare, section: 'Ateliers', hint: 'Question guidée' },
@@ -42,7 +42,7 @@ const navItems = [
 ];
 
 const mobileNavItems = [
-  { name: 'Accueil', href: '/', icon: LayoutDashboard },
+  { name: 'Accueil', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Tuteur', href: '/tuteur', icon: MessagesSquare },
   { name: 'Oral', href: '/atelier-oral', icon: Mic },
   { name: 'Quiz', href: '/quiz', icon: HelpCircle },
