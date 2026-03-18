@@ -1,32 +1,172 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════
+   NEXUS RÉUSSITE — Design System CSS Foundation
+   Single source of truth for CSS custom properties.
+   ═══════════════════════════════════════════════════════════ */
+
 :root {
-  --background: #f4eee3;
-  --foreground: #0f172a;
+  /* ─── Typography ──────────────────────────────────── */
+  --font-sans: var(--font-inter), "Inter", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-display: var(--font-playfair), "Playfair Display", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
+
+  /* ─── Brand Colors ────────────────────────────────── */
+  --navy: #17324d;
+  --navy-dark: #0f2740;
+  --navy-light: #274d73;
+  --navy-mid: #33536f;
+  --navy-muted: #5f7388;
+  --teal: #0f766e;
+  --teal-light: #14b8a6;
+  --gold: #d4af37;
+  --gold-deep: #af7a20;
+  --gold-muted: #b87333;
+  --gold-contrast: #6b5735;
+
+  /* ─── Pedagogical Accents ─────────────────────────── */
+  --accent-bronze: #9a6a37;
+  --accent-violet: #6b587d;
+  --accent-earth: #7a4b24;
+
+  /* ─── Hover variants ─────────────────────────────── */
+  --navy-hover: #224464;
+  --teal-hover: #148b80;
+  --error-hover: #b33f30;
+
+  /* ─── Third-party ───────────────────────────────── */
+  --whatsapp: #25d366;
+  --whatsapp-hover: #1fba59;
+
+  /* ─── Icon tones ────────────────────────────────── */
+  --icon-muted: #c0af96;
+  --badge-gold: #b8860b;
+
+  /* ─── Surfaces ────────────────────────────────────── */
+  --surface-cream: #f4eee3;
+  --surface-ivory: #fffdf9;
+  --surface-warm: #fbf7ef;
+  --surface-paper: #fcfaf6;
+  --surface-parchment: #f7f2ea;
+  --surface-sand: #eadbc5;
+  --surface-navy-light: #eef3f8;
+  --surface-premium: #fdf4e9;
+  --surface-warm-input: #fffaf4;
+  --surface-warm-section: #f8f1e7;
+  --surface-warm-accent: #efe7da;
+  --surface-warm-card: #fbf5ec;
+  --surface-warm-card-top: #fffdfa;
+  --surface-warm-empty: #fffaf2;
+  --surface-teal-light: #eef9f6;
+  --surface-violet-light: #f4eff8;
+  --surface-info-box: #f4f8fb;
+
+  /* ─── Borders ─────────────────────────────────────── */
+  --border-light: #e7dac6;
+  --border-default: #dfd2bf;
+  --border-strong: #d8ccb9;
+  --border-warm: #d7c4aa;
+  --border-sand: #dfd1bc;
+  --border-success: #d8e8e3;
+  --border-success-soft: #d3e7e1;
+  --border-success-vivid: #d6e8df;
+  --border-success-pale: #cfe2dc;
+  --border-warning-soft: #efd9b4;
+  --border-warm-mid: #e8dcc8;
+  --border-warm-soft: #efe3d2;
+  --border-disabled: #e0ddd8;
+  --border-info-box: #dfe7ef;
+
+  /* ─── Text ────────────────────────────────────────── */
+  --text-heading: #0f172a;
+  --text-body: #334155;
+  --text-secondary: #5d7287;
+  --text-muted: #5f7388;
+  --text-caption: #6d7e8d;
+  --text-placeholder: #94a3b8;
+  --text-placeholder-warm: #8b95a1;
+  --text-warm: #7a6858;
+  --text-on-navy-muted: #dfe8f0;
+  --text-on-navy-soft: #e4d4bd;
+  --text-disabled: #9a9590;
+  --text-icon: #7c8792;
+  --text-chart: #6b7280;
+  --text-chart-muted: #768390;
+  --text-strikethrough: #7f918d;
+  --text-locked: #8a8580;
+
+  /* ─── Status ──────────────────────────────────────── */
+  --success: #0f766e;
+  --success-bg: #edf7f3;
+  --success-text: #52716d;
+  --warning: #b45309;
+  --warning-bg: #fff7ea;
+  --warning-text: #9a5f25;
+  --warning-border: #d9b98f;
+  --warning-bg-soft: #fff5e9;
+  --error: #b91c1c;
+  --error-bg: #fff0ed;
+  --error-dark: #8f2d2d;
+  --error-muted: #b65050;
+  --error-text: #b24838;
+  --error-text-bright: #c44f3c;
+  --error-border: #f1c8c0;
+  --success-border-accent: #9cccaf;
+  --success-text-dark: #25543d;
+  --success-bg-soft: #eef8f0;
+  --success-bg-pale: #f0fdf4;
+  --info: #1d4ed8;
+  --info-bg: #eff6ff;
+
+  /* ─── Dark surfaces ──────────────────────────────── */
+  --dark-900: #0f172a;
+  --dark-800: #1e293b;
+
+  /* ─── Semantic aliases (Tailwind compat) ──────────── */
+  --background: var(--surface-cream);
+  --foreground: var(--text-heading);
   --muted: #ece2d3;
-  --muted-foreground: #475569;
-  --card: #fffdf9;
-  --card-foreground: #0f172a;
-  --primary: #0f766e;
+  --muted-foreground: var(--text-muted);
+  --card: var(--surface-ivory);
+  --card-foreground: var(--text-heading);
+  --primary: var(--teal);
   --primary-foreground: #ffffff;
-  --secondary: #334155;
+  --secondary: var(--text-body);
   --secondary-foreground: #ffffff;
   --accent: #d97706;
   --accent-foreground: #ffffff;
-  --border: #dfd2bf;
+  --border: var(--border-default);
   --input: #efe5d8;
-  --success: #15803d;
-  --warning: #b45309;
-  --error: #b91c1c;
+
+  /* ─── Radii ───────────────────────────────────────── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ─── Shadows ─────────────────────────────────────── */
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.16);
+  --shadow-gold: 0 8px 24px rgba(212, 175, 55, 0.2);
+
+  /* ─── Transitions ─────────────────────────────────── */
+  --transition-fast: 150ms ease-out;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease-in-out;
 }
 
 .dark {
+  /* ─── Semantic aliases ─────────────────────────────── */
   --background: #0f172a;
-  --foreground: #f1f5f9;
+  --foreground: #e2e8f0;
   --muted: #1e293b;
   --muted-foreground: #94a3b8;
-  --card: #334155;
-  --card-foreground: #f1f5f9;
+  --card: #1e293b;
+  --card-foreground: #e2e8f0;
   --primary: #14b8a6;
   --primary-foreground: #ffffff;
   --secondary: #0f766e;
@@ -35,9 +175,135 @@
   --accent-foreground: #0f172a;
   --border: #334155;
   --input: #1e293b;
+
+  /* ─── Brand Colors — lighter for dark backgrounds ── */
+  --navy: #93b4d4;
+  --navy-dark: #7da3c8;
+  --navy-light: #a8c4de;
+  --navy-mid: #8fb0cf;
+  --navy-muted: #7a9bb8;
+  --teal: #14b8a6;
+  --teal-light: #2dd4bf;
+  --gold: #ecc94b;
+  --gold-deep: #d69e2e;
+  --gold-muted: #c8874e;
+  --gold-contrast: #d4b896;
+
+  /* ─── Pedagogical Accents ──────────────────────────── */
+  --accent-bronze: #c89b6e;
+  --accent-violet: #a78bbd;
+  --accent-earth: #b07d4f;
+
+  /* ─── Hover variants ───────────────────────────────── */
+  --navy-hover: #a8c4de;
+  --teal-hover: #2dd4bf;
+  --error-hover: #f87171;
+
+  /* ─── Icon tones ───────────────────────────────────── */
+  --icon-muted: #8b7a65;
+  --badge-gold: #d4a017;
+
+  /* ─── Surfaces — dark equivalents ──────────────────── */
+  --surface-cream: #1a2332;
+  --surface-ivory: #1e293b;
+  --surface-warm: #1c2736;
+  --surface-paper: #1e293b;
+  --surface-parchment: #1a2535;
+  --surface-sand: #2a3444;
+  --surface-navy-light: #1a2840;
+  --surface-premium: #1f2a38;
+  --surface-warm-input: #1e2a3a;
+  --surface-warm-section: #1a2535;
+  --surface-warm-accent: #23303f;
+  --surface-warm-card: #1c2838;
+  --surface-warm-card-top: #1e2c3d;
+  --surface-warm-empty: #1c2736;
+  --surface-teal-light: #0f2a28;
+  --surface-violet-light: #1f1a2e;
+  --surface-info-box: #172030;
+
+  /* ─── Borders — lighter for dark backgrounds ───────── */
+  --border-light: #334155;
+  --border-default: #3b4a5c;
+  --border-strong: #475569;
+  --border-warm: #3d4d5f;
+  --border-sand: #3b4a5c;
+  --border-success: #1a4a3e;
+  --border-success-soft: #1a4a3e;
+  --border-success-vivid: #1f5545;
+  --border-success-pale: #1a4a3e;
+  --border-warning-soft: #4a3520;
+  --border-warm-mid: #3d4d5f;
+  --border-warm-soft: #334155;
+  --border-disabled: #2d3a48;
+  --border-info-box: #2a3a4d;
+
+  /* ─── Text — brighter for dark backgrounds ─────────── */
+  --text-heading: #f1f5f9;
+  --text-body: #cbd5e1;
+  --text-secondary: #94a3b8;
+  --text-muted: #7a8fa5;
+  --text-caption: #8494a7;
+  --text-placeholder: #64748b;
+  --text-placeholder-warm: #6b7a8a;
+  --text-warm: #b8a48e;
+  --text-on-navy-muted: #94a3b8;
+  --text-on-navy-soft: #b8a48e;
+  --text-disabled: #4a5568;
+  --text-icon: #8494a7;
+  --text-chart: #94a3b8;
+  --text-chart-muted: #7a8fa5;
+  --text-strikethrough: #64748b;
+  --text-locked: #64748b;
+
+  /* ─── Status ───────────────────────────────────────── */
   --success: #10b981;
-  --warning: #d97706;
+  --success-bg: #0f2a28;
+  --success-text: #6ee7b7;
+  --warning: #f59e0b;
+  --warning-bg: #2d1f0a;
+  --warning-text: #fbbf24;
+  --warning-border: #4a3520;
+  --warning-bg-soft: #2d1f0a;
   --error: #ef4444;
+  --error-bg: #2d1010;
+  --error-dark: #fca5a5;
+  --error-muted: #f87171;
+  --error-text: #fca5a5;
+  --error-text-bright: #f87171;
+  --error-border: #4a1515;
+  --success-border-accent: #1a4a3e;
+  --success-text-dark: #6ee7b7;
+  --success-bg-soft: #0f2a28;
+  --success-bg-pale: #0f2a28;
+  --info: #60a5fa;
+  --info-bg: #172040;
+
+  /* ─── Dark surfaces ────────────────────────────────── */
+  --dark-900: #0f172a;
+  --dark-800: #1e293b;
+
+  /* ─── Shadows — stronger for dark mode ─────────────── */
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.4);
+  --shadow-gold: 0 8px 24px rgba(212, 175, 55, 0.15);
+}
+
+/* ─── Dark mode body gradient ──────────────────────── */
+.dark body {
+  background-image:
+    radial-gradient(circle at top right, rgba(20, 184, 166, 0.06), transparent 34%),
+    radial-gradient(circle at top left, rgba(185, 120, 50, 0.04), transparent 28%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+}
+
+/* ─── Dark mode surface-dark override ─────────────── */
+.dark .surface-dark {
+  background: var(--dark-800);
+  color: #e2e8f0;
 }
 
 @theme inline {
@@ -58,17 +324,37 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+  --color-info: var(--info);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Base styles
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Smooth theme transitions (only after initial paint) ── */
+html:not(.theme-ready) * {
+  transition: none !important;
+}
+
+html.theme-ready {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.theme-ready body {
+  transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "Avenir Next", "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+  font-family: var(--font-sans);
   background-image:
-    radial-gradient(circle at top right, rgba(15, 118, 110, 0.11), transparent 34%),
-    radial-gradient(circle at top left, rgba(185, 120, 50, 0.1), transparent 28%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0)),
-    repeating-linear-gradient(90deg, rgba(23, 50, 77, 0.02) 0 1px, transparent 1px 64px);
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 34%),
+    radial-gradient(circle at top left, rgba(185, 120, 50, 0.06), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
 }
 
 ::selection {
@@ -76,14 +362,48 @@ body {
   color: var(--foreground);
 }
 
-/* ─── WCAG 2.1 AA: Focus visible ring ──────────────── */
+/* ─── Editorial display headings ─────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ─── Utility: card surface ──────────────────────────── */
+.surface-card {
+  background: var(--card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+
+.surface-elevated {
+  background: var(--card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.surface-elevated:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.surface-dark {
+  background: var(--navy);
+  color: #f7f2ea;
+  border-radius: var(--radius-xl);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Accessibility (WCAG 2.1 AA)
+   ═══════════════════════════════════════════════════════════ */
+
 *:focus-visible {
   outline: 3px solid var(--primary);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* ─── WCAG 2.1 AA: Skip-to-content link ───────────── */
 .skip-to-content {
   position: absolute;
   left: -9999px;
@@ -99,7 +419,6 @@ body {
   left: 0;
 }
 
-/* ─── WCAG 2.1 AA: Reduced motion ─────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -108,7 +427,6 @@ body {
   }
 }
 
-/* ─── WCAG 2.1 AA: Dyslexia mode ──────────────────── */
 .dyslexia-mode {
   font-family: "OpenDyslexic", "Comic Sans MS", "Trebuchet MS", sans-serif;
   letter-spacing: 0.08em;

@@ -30,21 +30,21 @@ const MAP_RECO: Record<
     label: 'Relancer la grammaire ciblée',
     detail: 'Reprendre un exercice bref et précis pour consolider la notion qui décroche le plus vite.',
     icon: BrainCircuit,
-    accent: 'from-[#17324d] via-[#22486e] to-[#0f766e]',
+    accent: 'from-[var(--navy)] via-[#22486e] to-[var(--teal)]',
   },
   problematisation: {
     href: '/atelier-ecrit',
     label: 'Retendre la problématique',
     detail: 'Retravailler la tension du sujet avant de produire pour éviter un plan correct mais sans colonne vertébrale.',
     icon: BookOpen,
-    accent: 'from-[#7a4b24] via-[#b87333] to-[#d6a15d]',
+    accent: 'from-[var(--accent-earth)] via-[var(--gold-muted)] to-[#d6a15d]',
   },
   'explication lineaire': {
     href: '/atelier-oral',
     label: 'Relancer une explication linéaire',
     detail: 'Refaire une prise de parole guidée pour retrouver l’enchaînement texte, axe, procédé, effet.',
     icon: Mic,
-    accent: 'from-[#0f766e] via-[#149a8f] to-[#7ed4c2]',
+    accent: 'from-[var(--teal)] via-[#149a8f] to-[#7ed4c2]',
   },
   'lecture cursive': {
     href: '/bibliotheque',
@@ -104,7 +104,7 @@ export function ParcoursRecommandation({ weakSignals, weakSkills = [], className
   const Icon = recommended.icon;
 
   return (
-    <div className={`mt-6 overflow-hidden rounded-[28px] border border-[#d8ccb9] bg-[#f8f4ec] ${className}`.trim()}>
+    <div className={`mt-6 overflow-hidden rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] ${className}`.trim()}>
       <div className={`bg-gradient-to-r ${recommended.accent} px-5 py-4 text-white`}>
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-white/80">
           <Sparkles className="h-4 w-4" />
@@ -122,12 +122,12 @@ export function ParcoursRecommandation({ weakSignals, weakSkills = [], className
       </div>
 
       <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-6 text-slate-600">
+        <p className="text-sm leading-6 text-[var(--text-secondary)]">
           L’idée n’est pas d’en faire plus, mais de relancer le bon atelier au bon moment.
         </p>
         <Link
           href={recommended.href}
-          className="inline-flex items-center gap-2 rounded-full border border-[#17324d]/14 bg-white px-4 py-2 text-sm font-bold text-[#17324d] transition-all hover:-translate-y-0.5 hover:border-[#0f766e] hover:text-[#0f766e]"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--navy)]/14 bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--teal)] hover:text-[var(--teal)]"
         >
           Ouvrir l’atelier
           <ArrowRight className="h-4 w-4" />

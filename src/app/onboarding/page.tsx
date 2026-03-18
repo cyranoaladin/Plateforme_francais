@@ -10,7 +10,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock3,
-  Loader2,
   Mic,
   PenTool,
   Search,
@@ -20,9 +19,13 @@ import {
 } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
+import { Card } from '@/components/ui/card';
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 const OEUVRES = [
@@ -49,13 +52,15 @@ const CLASS_LEVELS = [
   'Première STL',
 ];
 
+const CLASS_LEVEL_OPTIONS = CLASS_LEVELS.map((level) => ({ value: level, label: level }));
+
 const SKILLS = [
-  { key: 'comprehension', label: 'Compréhension du texte', icon: BookOpen, color: 'text-[#b87333]' },
-  { key: 'procedes', label: 'Analyse des procédés', icon: PenTool, color: 'text-[#17324d]' },
-  { key: 'plan', label: 'Organisation du plan', icon: PenTool, color: 'text-[#0f766e]' },
-  { key: 'lecture', label: 'Lecture expressive', icon: Mic, color: 'text-[#7b6f9c]' },
-  { key: 'grammaire', label: 'Grammaire', icon: BrainCircuit, color: 'text-[#0f766e]' },
-  { key: 'culture', label: 'Culture / œuvre & parcours', icon: BookOpen, color: 'text-[#17324d]' },
+  { key: 'comprehension', label: 'Compréhension du texte', icon: BookOpen, color: 'text-[var(--gold-muted)]' },
+  { key: 'procedes', label: 'Analyse des procédés', icon: PenTool, color: 'text-[var(--navy)]' },
+  { key: 'plan', label: 'Organisation du plan', icon: PenTool, color: 'text-[var(--teal)]' },
+  { key: 'lecture', label: 'Lecture expressive', icon: Mic, color: 'text-[var(--accent-violet)]' },
+  { key: 'grammaire', label: 'Grammaire', icon: BrainCircuit, color: 'text-[var(--teal)]' },
+  { key: 'culture', label: 'Culture / œuvre & parcours', icon: BookOpen, color: 'text-[var(--navy)]' },
 ] as const;
 
 const STEP_LABELS = ['Profil', 'Œuvres', 'Auto-évaluation'] as const;
@@ -86,7 +91,7 @@ const STEP_META = {
 
 function StepRail({ current }: { current: 1 | 2 | 3 }) {
   return (
-    <nav aria-label="Étapes de l'onboarding" className="space-y-3">
+    <nav aria-label="Étapes de l’onboarding" className="space-y-3">
       {STEP_LABELS.map((label, idx) => {
         const stepNum = (idx + 1) as 1 | 2 | 3;
         const isActive = stepNum === current;
@@ -107,13 +112,13 @@ function StepRail({ current }: { current: 1 | 2 | 3 }) {
             <div className="flex items-center gap-3">
               <div
                 className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                  isActive || isDone ? 'bg-[#f4efe5] text-[#17324d]' : 'bg-white/10 text-white/60'
+                  isActive || isDone ? 'bg-[var(--surface-cream)] text-[var(--navy)]' : 'bg-white/10 text-white/60'
                 }`}
               >
                 {isDone ? <CheckCircle2 className="h-4 w-4" /> : stepNum}
               </div>
               <div>
-                <p className={`text-[11px] font-bold uppercase tracking-[0.22em] ${isActive || isDone ? 'text-[#d7c4aa]' : 'text-white/45'}`}>
+                <p className={`text-[11px] font-bold uppercase tracking-[0.22em] ${isActive || isDone ? 'text-[var(--border-warm)]' : 'text-white/45'}`}>
                   {`0${stepNum}`}
                 </p>
                 <p className={`text-sm font-semibold ${isActive || isDone ? 'text-white' : 'text-white/65'}`}>{label}</p>
@@ -128,7 +133,7 @@ function StepRail({ current }: { current: 1 | 2 | 3 }) {
 
 function OnboardingErrorBanner({ message }: { message: string }) {
   return (
-    <div className="mb-6 rounded-[22px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d]" role="alert">
+    <div className="mb-6 rounded-[22px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
       {message}
     </div>
   );
@@ -301,25 +306,25 @@ export default function OnboardingPage() {
   const currentMeta = STEP_META[step];
 
   return (
-    <div className="min-h-dvh overflow-x-clip bg-[#f4efe5] text-slate-900 [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-dvh overflow-x-clip bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[30rem] bg-[radial-gradient(circle_at_center_top,rgba(255,255,255,0.9),transparent_65%)]" />
-      <div className="pointer-events-none absolute right-0 top-20 h-72 w-72 rounded-full bg-[#0f766e]/10 blur-3xl" />
-      <div className="pointer-events-none absolute left-0 top-[34rem] h-72 w-72 rounded-full bg-[#b87333]/10 blur-3xl" />
+      <div className="pointer-events-none absolute right-0 top-20 h-72 w-72 rounded-full bg-[var(--teal)]/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-0 top-[34rem] h-72 w-72 rounded-full bg-[var(--gold-muted)]/10 blur-3xl" />
 
       <main className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        <header className="flex flex-col gap-5 rounded-[30px] border border-[#d8ccb9] bg-white/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-5 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/80 px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
-            <div className="hidden md:flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#17324d]">
-              <span className="h-2 w-2 rounded-full bg-[#0f766e]" />
+            <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--navy)]">
+              <span className="h-2 w-2 rounded-full bg-[var(--teal)]" />
               Onboarding 2026
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-600">
-            <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[#17324d]">
-              Revoir l&apos;accueil
+          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">
+            <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
+              Revoir l{'’'}accueil
             </Link>
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-4 py-2 text-[#f7f2ea]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-4 py-2 text-[var(--surface-parchment)]">
               <Clock3 className="h-4 w-4" />
               Environ 3 minutes
             </div>
@@ -328,8 +333,8 @@ export default function OnboardingPage() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <aside className="lg:sticky lg:top-6 lg:self-start">
-            <div className="rounded-[34px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
                 <Sparkles className="h-4 w-4" />
                 Mise en route
               </div>
@@ -355,18 +360,18 @@ export default function OnboardingPage() {
                 <StepRail current={step} />
               </div>
 
-              <div className="mt-8 rounded-[28px] bg-[#0f2740] p-5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Ce que Nexus a déjà compris</p>
+              <div className="mt-8 rounded-[24px] bg-[var(--navy-dark)] p-5">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Ce que Nexus a déjà compris</p>
                 <div className="mt-4 space-y-3 text-sm text-slate-200">
                   <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                     <div>
                       <p className="font-semibold text-white">Profil</p>
                       <p className="mt-1 leading-6">{displayName.trim() || 'Nom affiché à renseigner'} · {classLevel || 'Classe à confirmer'}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                     <div>
                       <p className="font-semibold text-white">Corpus</p>
                       <p className="mt-1 leading-6">
@@ -377,7 +382,7 @@ export default function OnboardingPage() {
                     </div>
                   </div>
                   <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <BrainCircuit className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                    <BrainCircuit className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                     <div>
                       <p className="font-semibold text-white">Priorités</p>
                       <p className="mt-1 leading-6">
@@ -390,7 +395,7 @@ export default function OnboardingPage() {
 
               <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
                 <div className="flex items-start gap-3">
-                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#d7c4aa]" />
+                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                   <p className="text-sm leading-6 text-slate-200">
                     Les informations saisies ici servent à cadrer les premières recommandations, les ressources mobilisées et la progression visible.
                     Elles restent modifiables ensuite dans le profil.
@@ -400,22 +405,22 @@ export default function OnboardingPage() {
             </div>
           </aside>
 
-          <section className="rounded-[34px] border border-[#d8ccb9] bg-white/88 p-6 shadow-[0_24px_70px_rgba(23,50,77,0.08)] sm:p-8 lg:p-9">
+          <section className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/88 p-6 shadow-[var(--shadow-lg)] sm:p-8 lg:p-9">
             {error ? <OnboardingErrorBanner message={error} /> : null}
             {welcomeMessage ? (
-              <div className="mb-6 flex items-center gap-2 rounded-[22px] border border-[#9cccaf] bg-[#eef8f0] p-4 text-sm text-[#25543d]" role="status">
+              <div className="mb-6 flex items-center gap-2 rounded-[var(--radius-xl)] border border-[var(--teal)]/25 bg-[var(--success-bg)] p-4 text-sm text-[var(--teal)]" role="status">
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
                 {welcomeMessage}
               </div>
             ) : null}
 
-            <div className="border-b border-[#e6dbca] pb-5">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">{currentMeta.kicker}</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[#17324d] sm:text-5xl">
+            <div className="border-b border-[var(--border-sand)] pb-5">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">{currentMeta.kicker}</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
                 {currentMeta.title}
               </h2>
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">{currentMeta.description}</p>
-              <div className="mt-4 rounded-[22px] border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-3 text-sm text-slate-600">
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{currentMeta.description}</p>
+              <div className="mt-4 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-3 text-sm text-[var(--text-secondary)]">
                 {currentMeta.benefit}
               </div>
             </div>
@@ -424,110 +429,91 @@ export default function OnboardingPage() {
               {step === 1 ? (
                 <div className="space-y-5">
                   <div className="grid gap-5 md:grid-cols-[1fr_1fr]">
-                    <div className="md:col-span-2">
-                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-name">Nom affiché</label>
-                      <input
-                        id="ob-name"
-                        value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        placeholder="Comment veux-tu apparaître dans la plateforme ?"
-                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
-                        required
-                      />
-                    </div>
+                    <Input
+                      label="Nom affiché"
+                      value={displayName}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      placeholder="Comment veux-tu apparaître dans la plateforme ?"
+                      required
+                      size="lg"
+                      className="md:col-span-2"
+                    />
 
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-class">Classe</label>
-                      <select
-                        id="ob-class"
-                        value={classLevel}
-                        onChange={(e) => setClassLevel(e.target.value)}
-                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
-                      >
-                        {CLASS_LEVELS.map((classItem) => (
-                          <option key={classItem} value={classItem}>{classItem}</option>
-                        ))}
-                      </select>
-                    </div>
+                    <Select
+                      label="Classe"
+                      value={classLevel}
+                      onChange={(e) => setClassLevel(e.target.value)}
+                      options={CLASS_LEVEL_OPTIONS}
+                      size="lg"
+                    />
 
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-date">Date EAF</label>
-                      <input
-                        id="ob-date"
-                        type="date"
-                        value={eafDate}
-                        onChange={(e) => setEafDate(e.target.value)}
-                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
-                        required
-                      />
-                    </div>
+                    <Input
+                      label="Date EAF"
+                      type="date"
+                      value={eafDate}
+                      onChange={(e) => setEafDate(e.target.value)}
+                      required
+                      size="lg"
+                    />
 
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-school">Établissement</label>
-                      <input
-                        id="ob-school"
-                        value={establishment}
-                        onChange={(e) => setEstablishment(e.target.value)}
-                        placeholder="Nom de ton lycée"
-                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
-                      />
-                    </div>
+                    <Input
+                      label="Établissement"
+                      value={establishment}
+                      onChange={(e) => setEstablishment(e.target.value)}
+                      placeholder="Nom de ton lycée"
+                      size="lg"
+                    />
 
-                    <div>
-                      <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="ob-code">Code classe enseignant</label>
-                      <input
-                        id="ob-code"
-                        value={classCode}
-                        onChange={(e) => setClassCode(e.target.value)}
-                        placeholder="Ex : PMF-1G2-2026"
-                        className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
-                      />
-                    </div>
+                    <Input
+                      label="Code classe enseignant"
+                      value={classCode}
+                      onChange={(e) => setClassCode(e.target.value)}
+                      placeholder="Ex : PMF-1G2-2026"
+                      size="lg"
+                    />
                   </div>
 
-                  <div className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-5">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Prévisualisation</p>
+                  <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Prévisualisation</p>
                     <div className="mt-4 grid gap-3 md:grid-cols-3">
-                      <div className="rounded-[22px] border border-[#d8ccb9] bg-white px-4 py-3">
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Nom</p>
-                        <p className="mt-1 text-sm font-semibold text-[#17324d]">{displayName.trim() || 'À renseigner'}</p>
+                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3">
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Nom</p>
+                        <p className="mt-1 text-sm font-semibold text-[var(--navy)]">{displayName.trim() || 'À renseigner'}</p>
                       </div>
-                      <div className="rounded-[22px] border border-[#d8ccb9] bg-white px-4 py-3">
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Classe</p>
-                        <p className="mt-1 text-sm font-semibold text-[#17324d]">{classLevel}</p>
+                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3">
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Classe</p>
+                        <p className="mt-1 text-sm font-semibold text-[var(--navy)]">{classLevel}</p>
                       </div>
-                      <div className="rounded-[22px] border border-[#d8ccb9] bg-white px-4 py-3">
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Échéance</p>
-                        <p className="mt-1 text-sm font-semibold text-[#17324d]">{formatDateLabel(eafDate)}</p>
+                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3">
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Échéance</p>
+                        <p className="mt-1 text-sm font-semibold text-[var(--navy)]">{formatDateLabel(eafDate)}</p>
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 </div>
               ) : null}
 
               {step === 2 ? (
                 <div className="space-y-5">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                    <input
-                      value={oeuvreSearch}
-                      onChange={(e) => setOeuvreSearch(e.target.value)}
-                      placeholder="Rechercher une œuvre, un auteur, un objet d’étude..."
-                      className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] py-3 pl-10 pr-4 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
-                    />
-                  </div>
+                  <Input
+                    value={oeuvreSearch}
+                    onChange={(e) => setOeuvreSearch(e.target.value)}
+                    placeholder="Rechercher une œuvre, un auteur, un objet d’étude..."
+                    icon={<Search className="h-4 w-4" />}
+                    size="lg"
+                  />
 
                   {allSelectedOeuvres.length > 0 ? (
-                    <div className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
-                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Sélection en cours</p>
+                    <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Sélection en cours</p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {allSelectedOeuvres.map((oeuvre) => (
-                          <span key={oeuvre} className="rounded-full border border-[#d8ccb9] bg-white px-3.5 py-1.5 text-xs font-semibold text-[#17324d]">
+                          <span key={oeuvre} className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3.5 py-1.5 text-xs font-semibold text-[var(--navy)]">
                             {oeuvre}
                           </span>
                         ))}
                       </div>
-                    </div>
+                    </Card>
                   ) : null}
 
                   <div className="grid gap-3 md:grid-cols-2">
@@ -539,21 +525,21 @@ export default function OnboardingPage() {
                           type="button"
                           key={oeuvre.id}
                           onClick={() => toggleOeuvre(oeuvre.title)}
-                          className={`rounded-[24px] border p-4 text-left transition-all ${
+                          className={`rounded-[var(--radius-xl)] border p-4 text-left transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${
                             isSelected
-                              ? 'border-[#17324d] bg-[#17324d] text-[#f7f2ea] shadow-[0_18px_45px_rgba(23,50,77,0.14)]'
-                              : 'border-[#d8ccb9] bg-white hover:-translate-y-0.5 hover:border-[#0f766e]'
+                              ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]'
+                              : 'border-[var(--border-strong)] bg-[var(--card)] hover:-translate-y-0.5 hover:border-[var(--teal)] hover:shadow-[var(--shadow-sm)]'
                           }`}
                         >
                           <div className="flex items-start justify-between gap-3">
                             <div>
-                              <p className={`text-[11px] font-bold uppercase tracking-[0.24em] ${isSelected ? 'text-[#d7c4aa]' : 'text-slate-500'}`}>
+                              <p className={`text-[11px] font-bold uppercase tracking-[0.24em] ${isSelected ? 'text-[var(--border-warm)]' : 'text-[var(--text-muted)]'}`}>
                                 {oeuvre.type}
                               </p>
                               <p className="mt-2 text-sm font-bold leading-6">{oeuvre.title}</p>
-                              <p className={`mt-1 text-sm ${isSelected ? 'text-slate-200' : 'text-slate-600'}`}>{oeuvre.author}</p>
+                              <p className={`mt-1 text-sm ${isSelected ? 'text-slate-200' : 'text-[var(--text-secondary)]'}`}>{oeuvre.author}</p>
                             </div>
-                            <div className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${isSelected ? 'border-white bg-white text-[#17324d]' : 'border-[#d8ccb9] text-transparent'}`}>
+                            <div className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${isSelected ? 'border-white bg-white text-[var(--navy)]' : 'border-[var(--border-strong)] text-transparent'}`}>
                               <CheckCircle2 className="h-4 w-4" />
                             </div>
                           </div>
@@ -562,23 +548,18 @@ export default function OnboardingPage() {
                     })}
                   </div>
 
-                  <div>
-                    <label className="mb-2 block text-sm font-semibold text-[#17324d]" htmlFor="custom-oeuvre">
-                      Œuvre absente de la liste
-                    </label>
-                    <input
-                      id="custom-oeuvre"
-                      value={customOeuvre}
-                      onChange={(e) => setCustomOeuvre(e.target.value)}
-                      placeholder="Saisis exactement l’œuvre donnée par ton professeur"
-                      className="w-full rounded-2xl border border-[#d8ccb9] bg-[#fcfaf6] px-4 py-3 text-sm text-[#17324d] outline-none transition focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20"
-                    />
-                  </div>
+                  <Input
+                    label="Œuvre absente de la liste"
+                    value={customOeuvre}
+                    onChange={(e) => setCustomOeuvre(e.target.value)}
+                    placeholder={"Saisis exactement l\u2019œuvre donnée par ton professeur"}
+                    size="lg"
+                  />
 
                   {allSelectedOeuvres.length > 0 && (
-                    <div className="rounded-[26px] border border-[#0f766e]/20 bg-[#0f766e]/5 p-5">
-                      <p className="text-sm font-semibold text-[#17324d]">Ton œuvre d&apos;entretien oral</p>
-                      <p className="mt-1 text-xs text-slate-500">Œuvre intégrale pour la 2e partie de l&apos;oral (8 points sur 20).</p>
+                    <div className="rounded-[24px] border border-[var(--teal)]/20 bg-[var(--teal)]/5 p-5">
+                      <p className="text-sm font-semibold text-[var(--navy)]">Ton œuvre d{'’'}entretien oral</p>
+                      <p className="mt-1 text-xs text-[var(--text-muted)]">Œuvre intégrale pour la 2e partie de l{'’'}oral (8 points sur 20).</p>
                       <div className="mt-3 space-y-2">
                         {allSelectedOeuvres.map((title) => {
                           const found = OEUVRES.find((o) => o.title === title);
@@ -588,8 +569,8 @@ export default function OnboardingPage() {
                               key={'entretien-' + title}
                               className={'flex items-center gap-3 rounded-2xl border px-4 py-3 cursor-pointer transition-colors ' + (
                                 oeuvreEntretien === title
-                                  ? 'border-[#0f766e] bg-[#0f766e]/10'
-                                  : 'border-[#d8ccb9] bg-white hover:border-[#0f766e]/40'
+                                  ? 'border-[var(--teal)] bg-[var(--teal)]/10'
+                                  : 'border-[var(--border-strong)] bg-[var(--card)] hover:border-[var(--teal)]/40'
                               )}
                             >
                               <input
@@ -598,10 +579,10 @@ export default function OnboardingPage() {
                                 value={title}
                                 checked={oeuvreEntretien === title}
                                 onChange={() => setOeuvreEntretien(title)}
-                                className="accent-[#0f766e]"
+                                className="accent-[var(--teal)]"
                               />
-                              <span className="text-sm font-medium text-[#17324d]">{title}</span>
-                              {authorName && <span className="text-xs text-slate-400">{authorName}</span>}
+                              <span className="text-sm font-medium text-[var(--navy)]">{title}</span>
+                              {authorName && <span className="text-xs text-[var(--text-placeholder)]">{authorName}</span>}
                             </label>
                           );
                         })}
@@ -618,18 +599,18 @@ export default function OnboardingPage() {
                     const value = ratings[skill.key];
 
                     return (
-                      <div key={skill.key} className="rounded-[26px] border border-[#d8ccb9] bg-[#f8f4ec] p-5">
+                      <Card key={skill.key} variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="md">
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
-                            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-[#17324d] shadow-sm">
+                            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--card)] text-[var(--navy)] shadow-sm">
                               <Icon className={`h-5 w-5 ${skill.color}`} />
                             </div>
                             <div>
-                              <p className="text-sm font-semibold text-[#17324d]">{skill.label}</p>
-                              <p className="text-xs text-slate-500">Réglage initial pour prioriser les prochains ateliers.</p>
+                              <p className="text-sm font-semibold text-[var(--navy)]">{skill.label}</p>
+                              <p className="text-xs text-[var(--text-muted)]">Réglage initial pour prioriser les prochains ateliers.</p>
                             </div>
                           </div>
-                          <div className="rounded-full border border-[#d8ccb9] bg-white px-3 py-1 text-xs font-bold text-[#17324d]">
+                          <div className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3 py-1 text-xs font-bold text-[var(--navy)]">
                             {value} / 5
                           </div>
                         </div>
@@ -640,68 +621,61 @@ export default function OnboardingPage() {
                             max={5}
                             value={value}
                             onChange={(e) => setRatings((prev) => ({ ...prev, [skill.key]: Number(e.target.value) }))}
-                            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[#e3d7c7] accent-[#17324d]"
+                            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[var(--surface-sand)] accent-[var(--navy)]"
                             aria-label={`${skill.label} : ${value} sur 5`}
                           />
-                          <div className="mt-2 flex justify-between text-[10px] font-medium uppercase tracking-[0.12em] text-slate-500">
+                          <div className="mt-2 flex justify-between text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--text-muted)]">
                             <span>Fragile</span>
                             <span>Solide</span>
                           </div>
                         </div>
-                      </div>
+                      </Card>
                     );
                   })}
 
-                  <div className="rounded-[26px] border border-[#d8ccb9] bg-white p-5">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Priorisation détectée</p>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
+                  <Card variant="default" className="rounded-[24px] border-[var(--border-strong)]" padding="md">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Priorisation détectée</p>
+                    <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                       {weakSignals.length > 0
                         ? `Le parcours mettra d’abord l’accent sur : ${weakSignals.join(', ')}.`
                         : 'Aucune faiblesse forte auto-déclarée. Le parcours pourra commencer sur une base plus équilibrée.'}
                     </p>
-                  </div>
+                  </Card>
                 </div>
               ) : null}
             </div>
 
-            <div className="mt-8 flex items-center justify-between border-t border-[#e6dbca] pt-5">
+            <div className="mt-8 flex items-center justify-between border-t border-[var(--border-sand)] pt-5">
               {step > 1 ? (
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
                   onClick={handleBack}
                   disabled={isSubmitting}
-                  className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-[#f1e7d8] disabled:opacity-50"
+                  icon={<ChevronLeft className="h-4 w-4" />}
+                  iconPosition="left"
                 >
-                  <ChevronLeft className="h-4 w-4" />
                   Retour
-                </button>
+                </Button>
               ) : (
-                <div className="text-xs text-slate-500">Étape {step} sur 3</div>
+                <div className="text-xs text-[var(--text-muted)]">Étape {step} sur 3</div>
               )}
 
-              <button
+              <Button
                 type="button"
+                variant="primary"
+                size="lg"
                 onClick={() => {
                   if (step < 3) void handleNext();
                   else void handleFinish();
                 }}
                 disabled={!canProceed || isSubmitting}
-                className="inline-flex items-center gap-2 rounded-full bg-[#17324d] px-6 py-3.5 text-sm font-bold text-[#f7f2ea] transition-all hover:-translate-y-0.5 hover:bg-[#0f2740] disabled:cursor-not-allowed disabled:opacity-50"
+                loading={isSubmitting}
+                icon={step < 3 ? <ChevronRight className="h-4 w-4" /> : undefined}
+                iconPosition="right"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Enregistrement...
-                  </>
-                ) : step === 3 ? (
-                  'Terminer'
-                ) : (
-                  <>
-                    Continuer
-                    <ChevronRight className="h-4 w-4" />
-                  </>
-                )}
-              </button>
+                {isSubmitting ? 'Enregistrement...' : step === 3 ? 'Terminer' : 'Continuer'}
+              </Button>
             </div>
           </section>
         </div>

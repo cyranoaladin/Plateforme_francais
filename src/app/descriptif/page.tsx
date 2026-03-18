@@ -1,9 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { AlertTriangle, CheckCircle2, ClipboardList, Loader2, Plus, ShieldCheck, Trash2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ClipboardList, Plus, ShieldCheck, Trash2 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { StateNotice } from '@/components/ui/state-notice';
+import { Badge, Button } from '@/components/ui';
 
 type ObjetEtude = 'poesie' | 'roman' | 'theatre' | 'litterature_idees';
 type TypeExtrait = 'extrait_oeuvre' | 'extrait_parcours';
@@ -20,7 +21,7 @@ type DescriptifTexte = {
 
 const OBJETS_ETUDE: { key: ObjetEtude; label: string }[] = [
   { key: 'poesie', label: 'Poésie' },
-  { key: 'litterature_idees', label: "Littérature d'idées" },
+  { key: 'litterature_idees', label: "Littérature d’idées" },
   { key: 'theatre', label: 'Théâtre' },
   { key: 'roman', label: 'Roman' },
 ];
@@ -28,17 +29,17 @@ const OBJETS_ETUDE: { key: ObjetEtude; label: string }[] = [
 const OEUVRES_PAR_OBJET: Record<ObjetEtude, { oeuvre: string; auteur: string }[]> = {
   poesie: [
     { oeuvre: 'Cahier de Douai', auteur: 'Arthur Rimbaud' },
-    { oeuvre: "La rage de l'expression", auteur: 'Francis Ponge' },
+    { oeuvre: "La rage de l’expression", auteur: 'Francis Ponge' },
     { oeuvre: 'Mes forêts', auteur: 'Hélène Dorion' },
   ],
   litterature_idees: [
     { oeuvre: 'Discours de la servitude volontaire', auteur: 'Étienne de La Boétie' },
     { oeuvre: 'Entretiens sur la pluralité des mondes', auteur: 'Bernard Le Bouyer de Fontenelle' },
-    { oeuvre: "Lettres d'une Péruvienne", auteur: 'Françoise de Graffigny' },
+    { oeuvre: "Lettres d’une Péruvienne", auteur: 'Françoise de Graffigny' },
   ],
   theatre: [
     { oeuvre: 'Le Menteur', auteur: 'Pierre Corneille' },
-    { oeuvre: "On ne badine pas avec l'amour", auteur: 'Alfred de Musset' },
+    { oeuvre: "On ne badine pas avec l’amour", auteur: 'Alfred de Musset' },
     { oeuvre: 'Pour un oui ou pour un non', auteur: 'Nathalie Sarraute' },
   ],
   roman: [
@@ -49,7 +50,7 @@ const OEUVRES_PAR_OBJET: Record<ObjetEtude, { oeuvre: string; auteur: string }[]
 };
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 function validateDescriptifClient(textes: DescriptifTexte[]): string[] {
@@ -179,7 +180,7 @@ export default function DescriptifPage() {
       <div className="mx-auto flex min-h-64 max-w-6xl items-center justify-center p-8">
         <StateNotice
           title="Chargement du descriptif"
-          description="Les textes deja saisis, les controles de repartition et les regles de couverture sont en cours de lecture."
+          description="Les textes déjà saisis, les contrôles de répartition et les règles de couverture sont en cours de lecture."
           variant="loading"
           className="w-full max-w-2xl"
         />
@@ -189,36 +190,36 @@ export default function DescriptifPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[#17324d] px-6 py-7 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.22)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <ClipboardList className="h-4 w-4" />
               Mon Descriptif de lecture
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Le descriptif doit devenir une carte de passage crédible pour l oral, pas une simple liste remplie à la hâte.
+              Le descriptif doit devenir une carte de passage crédible pour l’oral, pas une simple liste remplie à la hâte.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[#dfe8f0] md:text-base">
-              Répartis les textes par objet d étude, équilibre œuvres et parcours, puis sauvegarde un descriptif cohérent avec le programme officiel et
-              réellement pilotable pour l oral.
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
+              Répartis les textes par objet d’étude, équilibre œuvres et parcours, puis sauvegarde un descriptif cohérent avec le programme officiel et
+              réellement pilotable pour l’oral.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-            <div className={`rounded-[24px] border px-4 py-4 backdrop-blur-sm ${textes.length >= 20 ? 'border-[#d6e8df] bg-[#edf7f3] text-[#0f766e]' : 'border-white/12 bg-white/10 text-white'}`}>
-              <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${textes.length >= 20 ? 'text-[#0f766e]' : 'text-[#d7c4aa]'}`}>Textes</p>
+            <div className={`rounded-[24px] border px-4 py-4 backdrop-blur-sm ${textes.length >= 20 ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)] text-[var(--teal)]' : 'border-white/12 bg-white/10 text-white'}`}>
+              <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${textes.length >= 20 ? 'text-[var(--teal)]' : 'text-[var(--border-warm)]'}`}>Textes</p>
               <p className="mt-2 text-3xl font-semibold">{textes.length}/20</p>
             </div>
             <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Objets</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Objets</p>
               <p className="mt-2 text-3xl font-semibold text-white">4</p>
             </div>
             <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d7c4aa]">Statut</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Statut</p>
               <p className="mt-2 text-2xl font-semibold text-white">{clientWarnings.length === 0 ? 'Stable' : 'À compléter'}</p>
             </div>
           </div>
@@ -226,26 +227,26 @@ export default function DescriptifPage() {
       </section>
 
       {clientWarnings.length > 0 && (
-        <div className="rounded-[24px] border border-[#efd9b4] bg-[#fff7ea] p-4">
-          <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-[#af7a20]">
+        <div className="rounded-[24px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-4">
+          <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-[var(--gold-deep)]">
             <AlertTriangle className="h-4 w-4" /> Règles non satisfaites
           </h3>
-          <ul className="space-y-1 text-xs leading-6 text-[#6b5735]">
+          <ul className="space-y-1 text-xs leading-6 text-[var(--gold-contrast)]">
             {clientWarnings.map((warning, index) => <li key={index}>• {warning}</li>)}
           </ul>
         </div>
       )}
 
       {successMsg && (
-        <div className="rounded-[24px] border border-[#d6e8df] bg-[#edf7f3] p-4 text-sm text-[#0f766e] flex items-center gap-2">
+        <div className="rounded-[24px] border border-[var(--border-success-vivid)] bg-[var(--success-bg)] p-4 text-sm text-[var(--teal)] flex items-center gap-2">
           <CheckCircle2 className="h-4 w-4" /> {successMsg}
         </div>
       )}
 
       {serverWarnings.length > 0 && (
-        <div className="rounded-[24px] border border-[#efd9b4] bg-[#fff7ea] p-4">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#af7a20]">Avertissements serveur</p>
-          <ul className="space-y-1 text-xs leading-6 text-[#6b5735]">
+        <div className="rounded-[24px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-4">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[var(--gold-deep)]">Avertissements serveur</p>
+          <ul className="space-y-1 text-xs leading-6 text-[var(--gold-contrast)]">
             {serverWarnings.map((warning, index) => <li key={index}>• {warning}</li>)}
           </ul>
         </div>
@@ -253,46 +254,46 @@ export default function DescriptifPage() {
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_20px_70px_rgba(23,50,77,0.08)]">
+          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-lg)]">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#17324d]/8 text-[#17324d]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
                 <Plus className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#9a6a37]">Ajouter un texte</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[#17324d]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Ajouter un texte</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
                   Enrichir le descriptif
                 </h2>
               </div>
             </div>
 
             <div className="mt-6 space-y-3">
-              <select value={formObjet} onChange={(event) => { setFormObjet(event.target.value as ObjetEtude); setFormOeuvreIdx(0); }} className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8">
+              <select value={formObjet} onChange={(event) => { setFormObjet(event.target.value as ObjetEtude); setFormOeuvreIdx(0); }} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20">
                 {OBJETS_ETUDE.map((objet) => <option key={objet.key} value={objet.key}>{objet.label}</option>)}
               </select>
-              <select value={formOeuvreIdx} onChange={(event) => setFormOeuvreIdx(Number(event.target.value))} className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8">
+              <select value={formOeuvreIdx} onChange={(event) => setFormOeuvreIdx(Number(event.target.value))} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20">
                 {OEUVRES_PAR_OBJET[formObjet].map((oeuvre, index) => <option key={index} value={index}>{oeuvre.oeuvre} — {oeuvre.auteur}</option>)}
               </select>
-              <select value={formType} onChange={(event) => setFormType(event.target.value as TypeExtrait)} className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8">
-                <option value="extrait_oeuvre">Extrait d'œuvre</option>
+              <select value={formType} onChange={(event) => setFormType(event.target.value as TypeExtrait)} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20">
+                <option value="extrait_oeuvre">Extrait d{'\u2019'}\u0153uvre</option>
                 <option value="extrait_parcours">Extrait du parcours</option>
               </select>
-              <button onClick={addTexte} disabled={!formTitre.trim()} className="inline-flex items-center justify-center gap-2 rounded-[20px] bg-[#17324d] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50">
-                <Plus className="h-4 w-4" /> Ajouter
-              </button>
-              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex: Acte I, scène 1)" className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8" />
-              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premières lignes (optionnel)" className="w-full rounded-[18px] border border-[#dfd1bc] bg-white p-3 text-sm text-[#17324d] outline-none transition placeholder:text-[#8b95a1] focus:border-[#17324d]/18 focus:ring-2 focus:ring-[#17324d]/8" />
+              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex\u00a0: Acte I, sc\u00e8ne 1)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20" />
+              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premi\u00e8res lignes (optionnel)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20" />
+              <Button onClick={addTexte} disabled={!formTitre.trim()} icon={<Plus className="h-4 w-4" />} size="md" className="w-full">
+                Ajouter ce texte
+              </Button>
             </div>
           </section>
 
-          <section className="rounded-[28px] border border-[#d8e8e3] bg-[#edf7f3] p-5 shadow-[0_18px_55px_rgba(15,118,110,0.08)]">
+          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
             <div className="flex items-start gap-3">
-              <ShieldCheck className="mt-1 h-5 w-5 text-[#0f766e]" />
+              <ShieldCheck className="mt-1 h-5 w-5 text-[var(--teal)]" />
               <div>
-                <p className="text-sm font-semibold text-[#17324d]">Règle d équilibre</p>
-                <p className="mt-2 text-sm leading-7 text-[#33536f]">
-                  Un bon descriptif répartit les textes par objet d étude, couvre les attendus officiels et évite les trous. Le but n est pas de
-                  remplir une contrainte administrative, mais de rendre l oral réellement défendable.
+                <p className="text-sm font-semibold text-[var(--navy)]">Règle d’équilibre</p>
+                <p className="mt-2 text-sm leading-7 text-[var(--navy-mid)]">
+                  Un bon descriptif répartit les textes par objet d’étude, couvre les attendus officiels et évite les trous. Le but n’est pas de
+                  remplir une contrainte administrative, mais de rendre l’oral réellement défendable.
                 </p>
               </div>
             </div>
@@ -304,12 +305,12 @@ export default function DescriptifPage() {
             {OBJETS_ETUDE.map((objet) => {
               const count = textesParObjet[objet.key].length;
               return (
-                <div key={objet.key} className="rounded-[26px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_16px_40px_rgba(23,50,77,0.06)]">
-                  <p className="text-sm font-semibold text-[#17324d]">{objet.label}</p>
-                  <p className="mt-3 text-3xl font-semibold text-[#17324d]">{count}</p>
-                  <span className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${count >= 5 ? 'bg-[#edf7f3] text-[#0f766e]' : 'bg-[#fff7ea] text-[#af7a20]'}`}>
+                <div key={objet.key} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)]">
+                  <p className="text-sm font-semibold text-[var(--navy)]">{objet.label}</p>
+                  <p className="mt-3 text-3xl font-semibold text-[var(--navy)]">{count}</p>
+                  <Badge variant={count >= 5 ? 'success' : 'warning'} size="sm" className="mt-3">
                     {count}/5
-                  </span>
+                  </Badge>
                 </div>
               );
             })}
@@ -320,33 +321,33 @@ export default function DescriptifPage() {
               const items = textesParObjet[objet.key];
               const count = items.length;
               return (
-                <section key={objet.key} className="rounded-[30px] border border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)] p-5 shadow-[0_16px_40px_rgba(23,50,77,0.06)]">
+                <section key={objet.key} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)]">
                   <div className="flex items-center justify-between gap-3">
-                    <h2 className="text-xl font-semibold text-[#17324d]">{objet.label}</h2>
-                    <span className={`rounded-full px-3 py-1 text-xs font-semibold ${count >= 5 ? 'bg-[#edf7f3] text-[#0f766e]' : 'bg-[#fff7ea] text-[#af7a20]'}`}>
+                    <h2 className="text-xl font-semibold text-[var(--navy)]">{objet.label}</h2>
+                    <Badge variant={count >= 5 ? 'success' : 'warning'} size="sm">
                       {count}/5
-                    </span>
+                    </Badge>
                   </div>
                   {count === 0 ? (
-                    <p className="mt-4 text-sm text-[#6d7e8d]">Aucun texte ajouté.</p>
+                    <p className="mt-4 text-sm text-[var(--text-caption)]">Aucun texte ajouté.</p>
                   ) : (
                     <div className="mt-4 space-y-3">
                       {items.map((texte) => (
-                        <article key={texte.id} className="rounded-[22px] border border-[#eadbc5] bg-white p-4 shadow-[0_10px_24px_rgba(23,50,77,0.05)]">
+                        <article key={texte.id} className="rounded-[22px] border border-[var(--surface-sand)] bg-[var(--card)] p-4 shadow-[var(--shadow-sm)]">
                           <div className="flex items-start gap-3">
                             <div className="flex-1 min-w-0">
-                              <p className="text-xs font-semibold text-[#17324d] truncate">{texte.oeuvre} — {texte.auteur}</p>
-                              <p className="mt-1 text-sm font-medium text-[#33536f] truncate">{texte.titre}</p>
-                              <span className={`mt-3 inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold ${texte.typeExtrait === 'extrait_oeuvre' ? 'bg-[#eef3f8] text-[#17324d]' : 'bg-[#f4ecfb] text-[#6b587d]'}`}>
+                              <p className="text-xs font-semibold text-[var(--navy)] truncate">{texte.oeuvre} — {texte.auteur}</p>
+                              <p className="mt-1 text-sm font-medium text-[var(--navy-mid)] truncate">{texte.titre}</p>
+                              <Badge variant={texte.typeExtrait === 'extrait_oeuvre' ? 'info' : 'default'} size="sm" className={`mt-3 ${texte.typeExtrait !== 'extrait_oeuvre' ? 'bg-[var(--surface-violet-light)] text-[var(--accent-violet)] border-[var(--accent-violet)]/20' : ''}`}>
                                 {texte.typeExtrait === 'extrait_oeuvre' ? 'Œuvre' : 'Parcours'}
-                              </span>
+                              </Badge>
                               {texte.premieresLignes ? (
-                                <p className="mt-3 text-xs leading-6 text-[#6d7e8d]">{texte.premieresLignes}</p>
+                                <p className="mt-3 text-xs leading-6 text-[var(--text-caption)]">{texte.premieresLignes}</p>
                               ) : null}
                             </div>
-                            <button onClick={() => removeTexte(texte.id)} className="p-2 text-[#b24838] transition hover:text-[#8c3428]" aria-label="Supprimer">
+                            <Button onClick={() => removeTexte(texte.id)} variant="ghost" size="sm" className="p-2 text-[var(--error-muted)] hover:text-[var(--error-dark)] hover:bg-transparent" aria-label="Supprimer">
                               <Trash2 className="h-4 w-4" />
-                            </button>
+                            </Button>
                           </div>
                         </article>
                       ))}
@@ -360,10 +361,9 @@ export default function DescriptifPage() {
       </div>
 
       <div className="flex justify-end">
-        <button onClick={saveDescriptif} disabled={saving || textes.length === 0} className="inline-flex items-center gap-2 rounded-[20px] bg-[#17324d] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#244a6d] disabled:opacity-50">
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
+        <Button onClick={saveDescriptif} disabled={saving || textes.length === 0} loading={saving} icon={!saving ? <CheckCircle2 className="h-4 w-4" /> : undefined} size="lg">
           Sauvegarder le descriptif
-        </button>
+        </Button>
       </div>
     </div>
   );

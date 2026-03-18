@@ -36,7 +36,12 @@
     "mcp:init": "node -e \"const fs=require('fs');const envPath='packages/mcp-server/.env';if(!fs.existsSync(envPath)){fs.copyFileSync(envPath+'.example',envPath);console.log('packages/mcp-server/.env créé depuis .env.example');}const k=require('crypto').randomBytes(32).toString('hex');let e=fs.readFileSync(envPath,'utf8');e=e.replace(/MCP_API_KEY=.*/,'MCP_API_KEY='+k);fs.writeFileSync(envPath,e);console.log('MCP_API_KEY générée :',k);\"",
     "setup": "bash scripts/setup.sh",
     "ci:config-sanity": "node scripts/check-env.js",
-    "ci:audit-csrf": "node scripts/audit-csrf-routes.mjs"
+    "ci:audit-csrf": "node scripts/audit-csrf-routes.mjs",
+    "test:visual": "playwright test --config=playwright.visual.config.ts",
+    "test:visual:update": "playwright test --config=playwright.visual.config.ts --update-snapshots",
+    "test:visual:public": "playwright test --config=playwright.visual.config.ts --project=public-visual",
+    "test:visual:connected": "playwright test --config=playwright.visual.config.ts --project=connected-visual",
+    "test:visual:mobile": "playwright test --config=playwright.visual.config.ts --project=mobile-visual"
   },
   "overrides": {
     "@modelcontextprotocol/sdk": {

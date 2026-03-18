@@ -28,38 +28,39 @@ import {
   RadarChart,
   ResponsiveContainer,
 } from 'recharts';
+import { Card } from '@/components/ui';
 import { ParcoursRecommandation } from '@/components/dashboard/parcours-recommandation';
 import { ProgressionChart } from '@/components/dashboard/progression-chart';
 import { useDashboard } from '@/hooks/useDashboard';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 
 const EDITORIAL_HEADING = {
-  fontFamily: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+  fontFamily: "var(--font-display)",
 };
 
 const SKILL_META = [
   {
     key: 'ecrit' as const,
     label: 'Écrit',
-    accent: 'bg-[#17324d]',
+    accent: 'bg-[var(--navy)]',
     copy: 'Structurer vite, sans perdre la tension de l’argumentation.',
   },
   {
     key: 'oral' as const,
     label: 'Oral',
-    accent: 'bg-[#0f766e]',
+    accent: 'bg-[var(--teal)]',
     copy: 'Garder une parole nette, mobile et assez solide pour tenir la relance.',
   },
   {
     key: 'grammaire' as const,
     label: 'Grammaire',
-    accent: 'bg-[#b87333]',
+    accent: 'bg-[var(--gold-muted)]',
     copy: 'Verrouiller les notions qui coûtent des points trop rapidement.',
   },
   {
     key: 'lectureCursive' as const,
     label: 'Lecture cursive',
-    accent: 'bg-[#6b587d]',
+    accent: 'bg-[var(--accent-violet)]',
     copy: 'Réactiver les œuvres pour qu’elles restent disponibles à l’oral.',
   },
 ];
@@ -188,28 +189,28 @@ const LAUNCHPAD = [
     detail: 'Lecture, explication, entretien: repartir sur une séquence complète.',
     href: '/atelier-oral',
     icon: Mic,
-    tone: 'from-[#17324d] via-[#274d73] to-[#0f766e]',
+    tone: 'from-[var(--navy)] via-[var(--navy-light)] to-[var(--teal)]',
   },
   {
     title: 'Atelier écrit',
     detail: 'Commentaire, dissertation ou sujet blanc selon le besoin réel.',
     href: '/atelier-ecrit',
     icon: PenTool,
-    tone: 'from-[#7a4b24] via-[#b87333] to-[#d8a363]',
+    tone: 'from-[var(--accent-earth)] via-[var(--gold-muted)] to-[#d8a363]',
   },
   {
     title: 'Bibliothèque',
     detail: 'Ressources courtes pour relancer méthode, œuvres et repères utiles.',
     href: '/bibliotheque',
     icon: BookOpen,
-    tone: 'from-[#4e3a62] via-[#6b587d] to-[#9a88b0]',
+    tone: 'from-[#4e3a62] via-[var(--accent-violet)] to-[#9a88b0]',
   },
   {
     title: 'Tuteur Nexus',
     detail: 'Débloquer une difficulté précise au lieu de tourner en rond.',
     href: '/tuteur',
     icon: MessageSquare,
-    tone: 'from-[#0f766e] via-[#149a8f] to-[#7ed4c2]',
+    tone: 'from-[var(--teal)] via-[#149a8f] to-[#7ed4c2]',
   },
 ];
 
@@ -255,8 +256,8 @@ function formatCountdown(value: number | null, label: string) {
 function describeMomentum(current: number | null, previous: number | null) {
   if (current === null || previous === null) {
     return {
-      label: 'Lecture encore incomplète',
-      detail: 'Le tableau de bord a besoin de davantage de sessions pour dégager une tendance propre.',
+      label: 'Tendance en construction',
+      detail: 'Quelques sessions supplémentaires permettront de dégager une trajectoire claire et fiable.',
     };
   }
 
@@ -432,25 +433,25 @@ export default function Dashboard() {
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
       {examInfo && (
-        <div className="mb-6 rounded-2xl bg-gradient-to-r from-[#17324D] to-[#0F766E] p-6 text-white">
-          <div className="flex items-center justify-between">
+        <div className="mb-6 rounded-2xl bg-gradient-to-r from-[var(--navy)] to-[var(--teal)] p-4 text-white md:p-6">
+          <div className="flex items-start justify-between gap-3 sm:items-center">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">{examInfo.phaseLabel}</p>
-              <p className="mt-1 text-4xl font-bold" style={EDITORIAL_HEADING}>J-{examInfo.daysUntilExam}</p>
+              <p className="mt-1 text-3xl font-bold sm:text-4xl" style={EDITORIAL_HEADING}>J-{examInfo.daysUntilExam}</p>
               <p className="mt-1 text-sm text-white/70">{examInfo.examDayLabel} — Coefficient {examInfo.coefficient}</p>
             </div>
-            <CalendarDays className="h-10 w-10 text-white/20" />
+            <CalendarDays className="h-8 w-8 shrink-0 text-white/20 sm:h-10 sm:w-10" />
           </div>
-          <p className="mt-3 text-xs text-white/60 leading-relaxed">{examInfo.phaseAction}</p>
+          <p className="mt-3 text-xs leading-relaxed text-white/60 sm:text-sm">{examInfo.phaseAction}</p>
         </div>
       )}
-      <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_32px_90px_rgba(23,50,77,0.24)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-4 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] sm:rounded-[38px] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[44%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_68%)] blur-2xl lg:block" />
         <div className="absolute left-[-8%] top-[-16%] h-48 w-48 rounded-full bg-[rgba(216,163,99,0.18)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <ShieldCheck className="h-4 w-4" />
               Cockpit de progression EAF
             </div>
@@ -484,14 +485,14 @@ export default function Dashboard() {
             </div>
 
             {!data.onboardingCompleted ? (
-              <div className="mt-6 rounded-[24px] border border-[#d8ccb9] bg-[#f4efe5] p-4 text-[#17324d] shadow-[0_10px_28px_rgba(15,23,42,0.08)]">
+              <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-cream)] p-4 text-[var(--navy)] shadow-[var(--shadow-md)]">
                 <p className="text-sm font-semibold">Le profil n’est pas encore entièrement personnalisé.</p>
-                <p className="mt-2 text-sm leading-7 text-slate-600">
+                <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">
                   Finaliser l’onboarding permettra d’ancrer le cockpit sur les œuvres, le niveau déclaré et les priorités à travailler.
                 </p>
                 <Link
                   href="/onboarding"
-                  className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#17324d] transition-colors hover:text-[#0f766e]"
+                  className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[var(--navy)] transition-colors hover:text-[var(--teal)]"
                 >
                   Reprendre l’onboarding
                   <ArrowRight className="h-4 w-4" />
@@ -512,7 +513,7 @@ export default function Dashboard() {
               ].map((item) => (
                 <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                   <div className="flex items-center gap-3">
-                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                       <item.icon className="h-5 w-5" />
                     </div>
                     <div>
@@ -526,8 +527,8 @@ export default function Dashboard() {
           </div>
 
           <div className="grid gap-4">
-            <div className="rounded-[30px] border border-white/12 bg-white/8 p-5 backdrop-blur-sm shadow-[0_18px_48px_rgba(15,23,42,0.18)]">
-              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">
+            <div className="rounded-[24px] border border-white/12 bg-white/8 p-5 backdrop-blur-sm shadow-[var(--shadow-md)]">
+              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
                 <Sparkles className="h-4 w-4" />
                 Rituel recommandé aujourd’hui
               </div>
@@ -547,26 +548,26 @@ export default function Dashboard() {
                       href={action.href}
                       className={`block rounded-[24px] border p-4 transition-all hover:-translate-y-0.5 ${
                         isLead
-                          ? 'border-[#f7f2ea]/18 bg-[#f7f2ea] text-[#17324d] shadow-[0_18px_35px_rgba(15,23,42,0.16)]'
-                          : 'border-white/10 bg-white/6 text-[#f7f2ea]'
+                          ? 'border-[var(--surface-parchment)]/18 bg-[var(--surface-parchment)] text-[var(--navy)] shadow-[var(--shadow-md)]'
+                          : 'border-white/10 bg-white/6 text-[var(--surface-parchment)]'
                       }`}
                     >
                       <div className="flex items-start gap-3">
                         <div
                           className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl ${
-                            isLead ? 'bg-[#17324d] text-[#f7f2ea]' : 'bg-white/10 text-[#d7c4aa]'
+                            isLead ? 'bg-[var(--navy)] text-[var(--surface-parchment)]' : 'bg-white/10 text-[var(--border-warm)]'
                           }`}
                         >
                           <Icon className="h-5 w-5" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center justify-between gap-2">
-                            <p className={`text-sm font-semibold ${isLead ? 'text-[#17324d]' : 'text-white'}`}>{action.title}</p>
-                            <span className={`text-xs font-bold uppercase tracking-[0.18em] ${isLead ? 'text-slate-500' : 'text-slate-300'}`}>
+                            <p className={`text-sm font-semibold ${isLead ? 'text-[var(--navy)]' : 'text-white'}`}>{action.title}</p>
+                            <span className={`text-xs font-bold uppercase tracking-[0.18em] ${isLead ? 'text-[var(--text-muted)]' : 'text-slate-300'}`}>
                               {action.duration}
                             </span>
                           </div>
-                          <p className={`mt-2 text-sm leading-6 ${isLead ? 'text-slate-600' : 'text-slate-200'}`}>{action.detail}</p>
+                          <p className={`mt-2 text-sm leading-6 ${isLead ? 'text-[var(--text-secondary)]' : 'text-slate-200'}`}>{action.detail}</p>
                         </div>
                       </div>
                     </Link>
@@ -576,16 +577,16 @@ export default function Dashboard() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[26px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Fenêtre d’épreuve</p>
+              <div className="rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Fenêtre d’épreuve</p>
                 <div className="mt-4 space-y-3">
                   {[
                     { label: 'Écrit', value: data.countdownEcrit, icon: CalendarDays },
                     { label: 'Oral', value: data.countdownOral, icon: Clock3 },
                   ].map((item) => (
-                    <div key={item.label} className="rounded-[20px] border border-white/10 bg-black/10 px-4 py-3">
+                    <div key={item.label} className="rounded-[16px] border border-white/10 bg-black/10 px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-[#d7c4aa]">
+                        <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
                           <item.icon className="h-4 w-4" />
                         </div>
                         <div>
@@ -600,13 +601,13 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="rounded-[26px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#d7c4aa]">Cap du moment</p>
+              <div className="rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Cap du moment</p>
                 <p className="mt-4 text-2xl font-semibold leading-tight text-white">{focusCopy.eyebrow}</p>
                 <p className="mt-3 text-sm leading-7 text-slate-200">{weakestSkill.copy}</p>
                 <Link
                   href={ritualLead.href}
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#f7f2ea] transition-colors hover:text-[#d7c4aa]"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[var(--surface-parchment)] transition-colors hover:text-[var(--border-warm)]"
                 >
                   Ouvrir l’action prioritaire
                   <ArrowRight className="h-4 w-4" />
@@ -618,22 +619,30 @@ export default function Dashboard() {
       </section>
 
       {data.error ? (
-        <div className="rounded-[24px] border border-[#b65050]/25 bg-[#fff0ef] p-4 text-sm text-[#8f2d2d] shadow-[0_12px_28px_rgba(182,80,80,0.08)]">
-          <AlertTriangle className="mr-2 inline h-4 w-4" />
-          {data.error}
+        <div className="rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-5 text-sm text-[var(--error-dark)] shadow-[var(--shadow-md)]">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--error-text)]/10 text-[var(--error-text)]">
+              <AlertTriangle className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="font-semibold text-[var(--navy)]">Un souci temporaire nous empêche d{'’'}afficher toutes les données</p>
+              <p className="mt-1 text-sm leading-7">{data.error}</p>
+              <p className="mt-1 text-xs text-[var(--text-muted)]">Rafraîchis la page dans quelques instants ou poursuis ta session normalement.</p>
+            </div>
+          </div>
         </div>
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[0.94fr_1.06fr]">
-        <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
-          <div className="flex items-center justify-between gap-3">
+        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Boussole</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Boussole</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-3xl">
                 Une lecture visuelle rapide de tes quatre grands axes.
               </h2>
             </div>
-            <div className="rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+            <div className="shrink-0 self-start rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-muted)]">
               Moyenne {averageScore} / 20
             </div>
           </div>
@@ -642,39 +651,40 @@ export default function Dashboard() {
             {chartsReady ? (
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={radarData}>
-                  <PolarGrid stroke="#d8ccb9" />
-                  <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: '#52606d' }} />
-                  <PolarRadiusAxis domain={[0, 20]} tick={{ fontSize: 10, fill: '#768390' }} />
-                  <Radar dataKey="score" stroke="#17324d" fill="#17324d" fillOpacity={0.22} />
+                  <PolarGrid stroke="var(--border-strong)" />
+                  <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: 'var(--text-chart)' }} />
+                  <PolarRadiusAxis domain={[0, 20]} tick={{ fontSize: 10, fill: 'var(--text-chart-muted)' }} />
+                  <Radar dataKey="score" stroke="var(--navy)" fill="var(--navy)" fillOpacity={0.22} />
                 </RadarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex h-full items-center justify-center rounded-[24px] bg-[#f8f4ec] text-sm text-slate-500">
-                Préparation du graphique...
+              <div className="flex h-full flex-col items-center justify-center gap-2 rounded-[24px] bg-[var(--surface-warm)] text-sm text-[var(--text-muted)]">
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--navy)]/20 border-t-[var(--navy)]" />
+                Préparation de la boussole...
               </div>
             )}
           </div>
 
           <div className="mt-5 flex flex-wrap gap-2.5">
             {radarData.map((item) => (
-              <span key={item.skill} className="rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-3.5 py-1.5 text-xs font-semibold text-slate-600">
+              <span key={item.skill} className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-secondary)]">
                 {item.skill}: {item.score.toFixed(1)} / 20
               </span>
             ))}
           </div>
         </div>
 
-        <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
+        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Trajectoire</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Trajectoire</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
                 La progression doit être lisible, pas seulement ressentie.
               </h2>
             </div>
-            <div className="rounded-[22px] border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-3 text-sm text-slate-600">
-              <p className="font-semibold text-[#17324d]">{momentum.label}</p>
-              <p className="mt-1 max-w-sm text-xs leading-5 text-slate-500">{momentum.detail}</p>
+            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+              <p className="font-semibold text-[var(--navy)]">{momentum.label}</p>
+              <p className="mt-1 max-w-sm text-xs leading-5 text-[var(--text-muted)]">{momentum.detail}</p>
             </div>
           </div>
 
@@ -682,28 +692,29 @@ export default function Dashboard() {
             {chartsReady ? (
               <ProgressionChart data={progressionData} target={12} />
             ) : (
-              <div className="flex h-64 items-center justify-center rounded-[24px] bg-[#f8f4ec] text-sm text-slate-500">
-                Préparation du graphique...
+              <div className="flex h-64 flex-col items-center justify-center gap-2 rounded-[24px] bg-[var(--surface-warm)] text-sm text-[var(--text-muted)]">
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--navy)]/20 border-t-[var(--navy)]" />
+                Préparation de la trajectoire...
               </div>
             )}
           </div>
 
-          {data.isLoading ? <p className="mt-3 text-xs text-slate-500">Chargement de la progression...</p> : null}
+          {data.isLoading ? <p className="mt-3 text-xs text-[var(--text-muted)]">Actualisation des données de progression en cours...</p> : null}
         </div>
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[0.98fr_1.02fr]">
-        <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
-          <div className="flex items-center justify-between gap-3">
+        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Cartographie fine</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[#17324d]">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cartographie fine</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-3xl">
                 Ce que tu tiens bien, et ce qu’il faut remettre sous tension.
               </h2>
             </div>
             <Link
               href="/mon-parcours"
-              className="inline-flex items-center gap-2 rounded-full border border-[#d8ccb9] bg-[#f8f4ec] px-4 py-2 text-sm font-semibold text-[#17324d] transition-colors hover:border-[#0f766e] hover:text-[#0f766e]"
+              className="inline-flex min-h-[44px] shrink-0 items-center gap-2 self-start rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
             >
               Voir le parcours
               <MapIcon className="h-4 w-4" />
@@ -717,12 +728,12 @@ export default function Dashboard() {
                 <div key={skill.key}>
                   <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
                     <div>
-                      <span className="text-[#17324d]">{skill.label}</span>
-                      <p className="mt-1 text-xs leading-5 text-slate-500">{skill.copy}</p>
+                      <span className="text-[var(--navy)]">{skill.label}</span>
+                      <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{skill.copy}</p>
                     </div>
-                    <span className="shrink-0 text-slate-500">{score.toFixed(1)} / 20</span>
+                    <span className="shrink-0 text-[var(--text-muted)]">{score.toFixed(1)} / 20</span>
                   </div>
-                  <div className="h-2.5 w-full rounded-full bg-[#e7ddcf]">
+                  <div className="h-2.5 w-full rounded-full bg-[var(--surface-sand)]">
                     <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(score / 20) * 100}%` }} />
                   </div>
                 </div>
@@ -730,18 +741,18 @@ export default function Dashboard() {
             })}
           </div>
 
-          <div className="mt-8 rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">Points de vigilance remontés</p>
+          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Points de vigilance remontés</p>
             {weakSignals.length > 0 ? (
               <div className="mt-3 flex flex-wrap gap-2">
                 {weakSignals.map(([skill, count]) => (
-                  <span key={skill} className="rounded-full border border-[#d8ccb9] bg-white px-3.5 py-1.5 text-xs font-semibold text-[#17324d]">
+                  <span key={skill} className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3.5 py-1.5 text-xs font-semibold text-[var(--navy)]">
                     {skill} ({count})
                   </span>
                 ))}
               </div>
             ) : (
-              <p className="mt-3 text-sm leading-7 text-slate-600">Aucun signal faible fort n’est remonté sur la fenêtre récente.</p>
+              <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">Aucun point de vigilance particulier sur la période récente. Continue sur ta lancée.</p>
             )}
           </div>
 
@@ -749,31 +760,35 @@ export default function Dashboard() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-[30px] border border-[#d8ccb9] bg-white/90 p-6 shadow-[0_18px_45px_rgba(23,50,77,0.06)] md:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0f766e]">Activité récente</p>
+          <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Activité récente</p>
             <div className="mt-6 space-y-3">
               {recentActivity.length > 0 ? (
                 recentActivity.map((item) => (
-                  <div key={`${item.label}-${item.date}`} className="flex items-start gap-3 rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4">
-                    <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#17324d] text-[#f7f2ea]">
+                  <div key={`${item.label}-${item.date}`} className="flex items-start gap-3 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+                    <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]">
                       <Clock3 className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-[#17324d]">{item.label}</p>
-                      <p className="mt-1 text-sm text-slate-500">{item.date}</p>
+                      <p className="text-sm font-semibold text-[var(--navy)]">{item.label}</p>
+                      <p className="mt-1 text-sm text-[var(--text-muted)]">{item.date}</p>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="rounded-[24px] border border-[#d8ccb9] bg-[#f8f4ec] p-4 text-sm leading-7 text-slate-600">
-                  Pas encore d’activité exploitable. Lance un premier atelier pour transformer ce cockpit en vrai tableau de pilotage.
+                <div className="flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)] p-6 text-center">
+                  <Clock3 className="h-10 w-10 text-[var(--icon-muted)]" />
+                  <p className="text-sm font-semibold text-[var(--navy)]">Ton fil d{'’'}activité est encore vierge</p>
+                  <p className="max-w-sm text-sm leading-7 text-[var(--text-secondary)]">
+                    Dès que tu lanceras un premier atelier ou un quiz, tes sessions apparaîtront ici pour suivre ta progression au fil des jours.
+                  </p>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="rounded-[30px] border border-[#17324d] bg-[#17324d] p-6 text-[#f7f2ea] shadow-[0_24px_70px_rgba(23,50,77,0.16)] md:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7c4aa]">Lanceur</p>
+          <Card variant="dark" padding="md" className="text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] md:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Lanceur</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
               Le bon tableau de bord réduit la décision à un prochain geste clair.
             </h2>
@@ -788,7 +803,7 @@ export default function Dashboard() {
                   <Link
                     key={item.title}
                     href={item.href === '/tuteur' ? tutorHref : item.href}
-                    className={`rounded-[24px] border border-white/10 bg-gradient-to-br ${item.tone} p-4 text-white shadow-[0_18px_40px_rgba(15,23,42,0.16)] transition-transform hover:-translate-y-0.5`}
+                    className={`rounded-[24px] border border-white/10 bg-gradient-to-br ${item.tone} p-4 text-white shadow-[var(--shadow-md)] transition-transform hover:-translate-y-0.5`}
                   >
                     <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12">
                       <Icon className="h-5 w-5" />
@@ -799,7 +814,7 @@ export default function Dashboard() {
                 );
               })}
             </div>
-          </div>
+          </Card>
         </div>
       </section>
     </div>

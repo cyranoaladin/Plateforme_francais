@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { AlertTriangle, CheckCircle2, Info, Loader2, LucideIcon } from 'lucide-react';
 
-type NoticeVariant = 'info' | 'success' | 'warning' | 'error' | 'loading';
+type NoticeVariant = 'info' | 'success' | 'warning' | 'error' | 'loading' | 'empty';
 
 type StateNoticeProps = {
   title: string;
@@ -15,34 +15,40 @@ type StateNoticeProps = {
 
 const VARIANT_STYLES: Record<NoticeVariant, { shell: string; iconBox: string; text: string; defaultIcon: LucideIcon }> = {
   info: {
-    shell: 'border-[#d9e6f0] bg-[#f4f8fb]',
-    iconBox: 'bg-[#17324d]/10 text-[#17324d]',
-    text: 'text-[#33536f]',
+    shell: 'border-[var(--border-light)] bg-[var(--info-bg)]',
+    iconBox: 'bg-[var(--navy)]/10 text-[var(--navy)]',
+    text: 'text-[var(--navy-mid)]',
     defaultIcon: Info,
   },
   success: {
-    shell: 'border-[#d6e8df] bg-[#edf7f3]',
-    iconBox: 'bg-[#0f766e]/10 text-[#0f766e]',
-    text: 'text-[#33536f]',
+    shell: 'border-[var(--border-success)] bg-[var(--success-bg)]',
+    iconBox: 'bg-[var(--teal)]/10 text-[var(--teal)]',
+    text: 'text-[var(--navy-mid)]',
     defaultIcon: CheckCircle2,
   },
   warning: {
-    shell: 'border-[#efd9b4] bg-[#fff7ea]',
-    iconBox: 'bg-[#af7a20]/10 text-[#af7a20]',
-    text: 'text-[#6b5735]',
+    shell: 'border-[var(--surface-sand)] bg-[var(--warning-bg)]',
+    iconBox: 'bg-[var(--gold-deep)]/10 text-[var(--gold-deep)]',
+    text: 'text-[var(--gold-contrast)]',
     defaultIcon: AlertTriangle,
   },
   error: {
-    shell: 'border-[#f1c8c0] bg-[#fff0ed]',
-    iconBox: 'bg-[#b24838]/10 text-[#b24838]',
-    text: 'text-[#6a4a46]',
+    shell: 'border-[var(--error-border)] bg-[var(--error-bg)]',
+    iconBox: 'bg-[var(--error-text)]/10 text-[var(--error-text)]',
+    text: 'text-[var(--gold-contrast)]',
     defaultIcon: AlertTriangle,
   },
   loading: {
-    shell: 'border-[#e7dac6] bg-[linear-gradient(180deg,#fffdfa_0%,#fbf5ec_100%)]',
-    iconBox: 'bg-[#17324d]/10 text-[#17324d]',
-    text: 'text-[#5d7287]',
+    shell: 'border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,var(--surface-warm)_100%)]',
+    iconBox: 'bg-[var(--navy)]/10 text-[var(--navy)]',
+    text: 'text-[var(--navy-muted)]',
     defaultIcon: Loader2,
+  },
+  empty: {
+    shell: 'border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)]',
+    iconBox: 'bg-[var(--accent-bronze)]/10 text-[var(--accent-bronze)]',
+    text: 'text-[var(--text-secondary)]',
+    defaultIcon: Info,
   },
 };
 
@@ -60,15 +66,15 @@ export function StateNotice({
 
   return (
     <div
-      className={`rounded-[28px] border p-5 shadow-[0_14px_40px_rgba(23,50,77,0.05)] ${visual.shell} ${className}`}
+      className={`rounded-[24px] border p-5 shadow-[var(--shadow-sm)] ${visual.shell} ${className}`}
     >
       <div className={`flex gap-4 ${center ? 'flex-col items-center text-center' : 'items-start'}`}>
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${visual.iconBox}`}>
           <Icon className={`h-5 w-5 ${variant === 'loading' ? 'animate-spin' : ''}`} />
         </div>
         <div className={`min-w-0 flex-1 ${visual.text}`}>
-          <h3 className="text-base font-semibold text-[#17324d]">{title}</h3>
-          {description ? <p className="mt-2 text-sm leading-7">{description}</p> : null}
+          <h3 className="text-base font-semibold text-[var(--navy)]">{title}</h3>
+          {description ? <p className="mt-1.5 text-sm leading-7">{description}</p> : null}
           {action ? <div className="mt-4">{action}</div> : null}
         </div>
       </div>
