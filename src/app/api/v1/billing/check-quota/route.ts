@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
   const feature = request.nextUrl.searchParams.get('feature');
   if (!feature || !VALID_FEATURES.has(feature)) {
-    return NextResponse.json({ error: 'Feature invalide.' }, { status: 400 });
+    return NextResponse.json({ error: 'Fonctionnalité invalide.' }, { status: 400 });
   }
 
   const billing = await getBillingContext(userId);

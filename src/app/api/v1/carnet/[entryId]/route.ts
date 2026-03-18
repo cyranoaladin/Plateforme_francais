@@ -21,7 +21,7 @@ export async function DELETE(
 
   const entry = await prisma.carnetEntry.findUnique({ where: { id: entryId } });
   if (!entry || entry.studentId !== profile.id) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    return NextResponse.json({ error: 'Entrée introuvable.' }, { status: 404 });
   }
 
   await prisma.carnetEntry.delete({ where: { id: entryId } });

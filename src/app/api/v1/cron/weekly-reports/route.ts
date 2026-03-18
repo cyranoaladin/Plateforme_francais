@@ -10,18 +10,18 @@ export async function POST(request: Request) {
   const expected = process.env.CRON_SECRET;
   if (!expected) {
     logger.error('CRON_SECRET not configured');
-    return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 });
+    return NextResponse.json({ error: 'Configuration serveur manquante.' }, { status: 500 });
   }
   const secret = request.headers.get('x-cron-secret') ?? '';
   if (
     secret.length !== expected.length ||
     !timingSafeEqual(Buffer.from(secret), Buffer.from(expected))
   ) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Non autorisé.' }, { status: 401 });
   }
 
   if (!(await isDatabaseAvailable())) {
-    return NextResponse.json({ error: 'DB unavailable' }, { status: 503 });
+    return NextResponse.json({ error: 'Base de données indisponible.' }, { status: 503 });
   }
 
   const students = await prisma.user.findMany({
