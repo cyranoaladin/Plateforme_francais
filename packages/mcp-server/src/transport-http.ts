@@ -68,7 +68,7 @@ export function createHttpTransport(
 
     if (req.url === '/health' && req.method === 'GET') {
       res.writeHead(200, { 'Content-Type': 'application/json' })
-      res.end(JSON.stringify({ status: 'ok', version: '1.0.0', toolCount: 27 }))
+      res.end(JSON.stringify({ status: 'ok', version: '1.0.0' }))
       return
     }
 

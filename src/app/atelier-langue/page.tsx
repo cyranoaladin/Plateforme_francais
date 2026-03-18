@@ -168,7 +168,7 @@ export default function AtelierLangue() {
       });
 
       if (!response.ok) {
-        throw new Error('API error');
+        throw new Error('Erreur lors de l\'évaluation.');
       }
 
       const result = (await response.json()) as LangueFeedback;
