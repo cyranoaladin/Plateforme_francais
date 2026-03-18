@@ -69,7 +69,8 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     },
     ref,
   ) => {
-    const selectId = id ?? React.useId();
+    const autoId = React.useId();
+    const selectId = id ?? autoId;
 
     return (
       <div className={cn('flex flex-col gap-1.5', className)}>

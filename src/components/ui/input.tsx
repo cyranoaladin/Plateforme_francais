@@ -59,7 +59,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
-    const inputId = id ?? React.useId();
+    const autoId = React.useId();
+    const inputId = id ?? autoId;
 
     return (
       <div className={cn('flex flex-col gap-1.5', className)}>

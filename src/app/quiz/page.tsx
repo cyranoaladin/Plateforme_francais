@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { BookOpen, Brain, GraduationCap, Sparkles, Target } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
-import { Button, Badge } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { StateNotice } from '@/components/ui/state-notice';
 
 type QuizTheme =

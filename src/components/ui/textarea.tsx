@@ -62,7 +62,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref,
   ) => {
-    const textareaId = id ?? React.useId();
+    const autoId = React.useId();
+    const textareaId = id ?? autoId;
 
     return (
       <div className={cn('flex flex-col gap-1.5', className)}>

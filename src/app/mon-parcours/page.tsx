@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import {
-  AlertTriangle,
   ArrowRight,
   BookOpen,
   BrainCircuit,

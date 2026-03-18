@@ -7,7 +7,6 @@ import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
-  Loader2,
   RefreshCw,
   Sparkles,
   Star,
