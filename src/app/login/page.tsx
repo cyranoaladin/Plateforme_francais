@@ -31,26 +31,26 @@ const EDITORIAL_HEADING = {
 };
 
 const TRUST_POINTS = [
-  'Compte gratuit',
-  'Aucun paiement avant essai',
-  'Onboarding en ~3 minutes',
+  'Inscription gratuite',
+  'Premiers ateliers sans payer',
+  'Prêt en 3 minutes',
 ];
 
 const PROOF_CARDS = [
   {
     icon: BookOpen,
-    title: 'Parcours vraiment guidé',
-    body: 'Le produit structure l\u2019effort, relance les priorités et fait travailler l\u2019élève à partir de ses œuvres, de son historique et de ses compétences actives.',
+    title: 'Ton parcours, tes œuvres',
+    body: 'Chaque séance part de tes textes au programme. Tu travailles l\u2019écrit, l\u2019oral et la langue dans un ordre qui a du sens pour toi.',
   },
   {
     icon: ShieldCheck,
-    title: 'Cadre défendable',
-    body: 'Corpus officiel, logique EAF, attentes visibles et sécurité d\u2019accès : le produit reste explicable à un parent comme à un enseignant.',
+    title: 'Méthode et sources officielles',
+    body: 'Corpus du BO, rapports de jury, barèmes EAF : tout est traçable. Un cadre que tes parents et tes profs peuvent vérifier.',
   },
   {
     icon: Users,
-    title: 'Entrée sans friction',
-    body: 'La page permet de commencer tout de suite, de vérifier la qualité du parcours puis de choisir un plan seulement si le rythme le demande.',
+    title: 'Commence tout de suite',
+    body: 'Crée ton compte en 2 minutes, configure tes œuvres, et lance ta première séance. Tu choisis un plan payant seulement si tu en as besoin.',
   },
 ];
 
@@ -134,11 +134,11 @@ function ProofPanel() {
         </div>
 
         <h2 style={EDITORIAL_HEADING} className="mt-6 max-w-xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
-          Entre dans un cadre de travail qui se laisse vérifier avant de demander plus.
+          Ton espace de préparation au Bac de Français commence ici.
         </h2>
 
         <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
-          Cette page ne doit pas juste connecter un utilisateur. Elle doit montrer qu{'’'}on peut essayer le produit, comprendre le cadre pédagogique, voir les sources mobilisables et commencer sans devoir décider tout de suite pour un abonnement.
+          Écrit, oral, grammaire, corpus officiel : tout est réuni pour t{'’'}aider à progresser méthodiquement. Essaie gratuitement, explore les ateliers, et passe à un plan supérieur seulement quand tu es prêt.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2.5">
@@ -169,7 +169,7 @@ function ProofPanel() {
           <div className="flex items-start gap-3">
             <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
             <p className="text-sm leading-6 text-slate-200">
-              En inscription, l{'’'}onboarding prend environ trois minutes. En connexion, tu récupères ton espace sans refaire un tunnel inutile.
+              L{'’'}inscription prend environ trois minutes. Si tu as déjà un compte, connecte-toi pour retrouver ton parcours là où tu l{'’'}as laissé.
             </p>
           </div>
         </div>
@@ -344,11 +344,11 @@ function AuthCard() {
     : 'Nouveau mot de passe';
   const subtitle =
     mode === 'login'
-      ? 'Retrouve ton parcours, tes ateliers, tes priorités et ton historique sans repartir de zéro.'
+      ? 'Retrouve ton parcours, tes ateliers et ta progression exactement là où tu les as laissés.'
       : mode === 'register'
-      ? 'Commence gratuitement. Le parcours se construit à partir de tes œuvres, de ton niveau et du travail déjà réalisé.'
+      ? 'Gratuit pour commencer. Choisis tes œuvres, lance ton premier atelier et progresse à ton rythme.'
       : mode === 'forgot'
-      ? 'Entre ton email pour recevoir un lien de réinitialisation. Si le mail ne fonctionne pas, nous sommes disponibles sur WhatsApp.'
+      ? 'Entre ton email pour recevoir un lien de réinitialisation.'
       : 'Choisis un nouveau mot de passe sécurisé.';
 
   return (
@@ -366,8 +366,8 @@ function AuthCard() {
           </div>
           <div className="flex flex-wrap gap-2.5">
             {(mode === 'register'
-              ? ['Aucun paiement avant essai', 'Onboarding ~3 minutes', 'Freemium disponible tout de suite']
-              : ['Connexion sécurisée', 'Session protégée', 'Récupération rapide de l\u2019espace']
+              ? ['Gratuit pour commencer', 'Prêt en 3 minutes', 'Accès immédiat aux ateliers']
+              : ['Connexion sécurisée', 'Session protégée', 'Reprise immédiate']
             ).map((item) => (
               <span key={item} className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)]">
                 {item}
@@ -541,7 +541,7 @@ function AuthCard() {
               </button>
               {showHelp ? (
                 <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
-                  Vérifie ton email, ton mot de passe et rafraîchis la page en cas d{'’'}erreur de sécurité. Si le blocage persiste, repasse par la création de compte ou compare les plans avant de réessayer.
+                  Vérifie ton email et ton mot de passe. En cas d{'’'}erreur persistante, rafraîchis la page ou utilise « Mot de passe oublié ». Tu peux aussi nous contacter sur WhatsApp au +216 99 19 28 29.
                 </p>
               ) : null}
             </div>
@@ -575,7 +575,7 @@ function AuthCard() {
             <div className="flex items-start gap-3">
               <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--teal)]" />
               <p className="text-sm leading-7 text-[var(--text-secondary)]">
-                Une fois le compte créé, tu arrives directement sur l{'’'}onboarding pour cadrer tes œuvres, ton rythme et ton point de départ, sans rien payer pour voir le produit.
+                Après inscription, tu configures tes œuvres et ton niveau en quelques minutes, puis tu accèdes directement à tes premiers ateliers.
               </p>
             </div>
           </div>

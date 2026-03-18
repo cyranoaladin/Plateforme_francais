@@ -54,8 +54,8 @@ type BillingStatusPayload = {
 };
 
 /* ─── Données hero ─── */
-const MICRO_PROOFS = ['Oral officiel : /2 /8 /2 /8', 'Aucun paiement avant essai', 'Anti-copie actif', 'Sources internes visibles'];
-const FRICTION_REMOVERS = ['Inscription gratuite', 'Onboarding ~3 minutes', 'Voir le produit avant de payer'];
+const MICRO_PROOFS = ['Oral au barème officiel', 'Corrections personnalisées', 'Corpus BO et Eduscol', 'Anti-triche intégré'];
+const FRICTION_REMOVERS = ['Inscription gratuite', 'Prêt en 3 minutes', 'Premiers ateliers sans payer'];
 const HERO_STATS = [
   { value: '3 min', label: 'pour un onboarding cadré' },
   { value: '4 ateliers', label: 'écrit, oral, langue, quiz' },
@@ -77,45 +77,45 @@ const SIGNALS = [
 /* ─── Données méthode ─── */
 const STEPS = [
   {
-    number: '01', title: 'Cadrer le point de départ', icon: Compass,
-    description: "Œuvres choisies, objectifs, niveau perçu, contraintes de rythme : la plateforme comprend d’abord le terrain de jeu.",
-    student: "L’élève renseigne son profil, ses œuvres et son niveau de départ.",
-    platform: 'Nexus construit une base de progression cohérente et prépare les premiers ateliers.',
+    number: '01', title: 'Configure ton profil EAF', icon: Compass,
+    description: "Choisis tes œuvres au programme, indique ton niveau et tes objectifs. La plateforme s’adapte à ton point de départ.",
+    student: "Tu renseignes tes textes, ton niveau et tes priorités.",
+    platform: 'Nexus construit un parcours cohérent et prépare tes premiers ateliers.',
   },
   {
-    number: '02', title: 'Produire dans un format exigeant', icon: PenSquare,
-    description: 'Chaque atelier force une production concrète : réponse orale, analyse, correction de langue, copie déposée.',
-    student: "L’élève écrit, parle, justifie, reprend et corrige.",
-    platform: 'La plateforme balise la méthode, cite les références utiles et refuse les demandes de copie intégrale.',
+    number: '02', title: 'Travaille en conditions réelles', icon: PenSquare,
+    description: "Chaque atelier te demande une vraie production : oral enregistré, analyse rédigée, exercice de langue, copie corrigée.",
+    student: "Tu écris, tu parles, tu justifies tes choix et tu corriges.",
+    platform: 'Nexus guide ta méthode, cite les sources utiles et refuse de rédiger à ta place.',
   },
   {
-    number: '03', title: 'Réinjecter le feedback au bon endroit', icon: RefreshCcw,
-    description: "Le retour n’est pas décoratif : il alimente les signaux faibles, le parcours et les prochaines relances.",
-    student: "L’élève sait précisément quoi retravailler et dans quel ordre.",
-    platform: 'Nexus priorise les lacunes, propose la séance suivante et garde une mémoire utile.',
+    number: '03', title: 'Progresse séance après séance', icon: RefreshCcw,
+    description: "Chaque correction identifie tes points faibles et oriente la suite. Rien ne se perd entre deux séances.",
+    student: "Tu sais exactement quoi retravailler et dans quel ordre.",
+    platform: 'Nexus priorise tes lacunes et propose la prochaine séance adaptée.',
   },
 ];
 
 /* ─── Données ateliers ─── */
 const FEATURE_GROUPS = [
-  { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose une copie PDF ou image, récupère une lecture OCR, une correction par rubriques et un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'OCR + correction structurée', 'Rapport PDF exploitable'] },
-  { title: 'Oral officiel', icon: Mic, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Format EAF', span: 'lg:col-span-5', body: "Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.", bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'] },
-  { title: 'Corpus et citations', icon: ScanSearch, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Sources visibles', span: 'lg:col-span-4', body: "Le guidage mobilise BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles.", bullets: ['Citations internes', 'Recherche RAG documentée', 'Corpus 2025-2026'] },
-  { title: 'Langue et quiz adaptatif', icon: BrainCircuit, tone: 'bg-[var(--surface-warm-accent)] text-[var(--navy)] border-[var(--border-strong)]', badge: 'Relance ciblée', span: 'lg:col-span-4', body: "Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.", bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'] },
-  { title: 'Guidage personnalisé et mémoire de progression', icon: MessageCircleMore, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Coaching actif', span: 'lg:col-span-4', body: "Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance.", bullets: ['Relances contextuelles', 'Signaux faibles', 'Séances suivantes cohérentes'] },
+  { title: 'Atelier écrit', icon: FileStack, tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10', badge: 'Production longue', span: 'lg:col-span-7', body: "Dépose ta copie en PDF ou photo. Nexus la lit, la corrige rubrique par rubrique et te fournit un rapport clair à reprendre.", bullets: ['Dépôt PDF/image', 'OCR + correction structurée', 'Rapport PDF exploitable'] },
+  { title: 'Oral officiel', icon: Mic, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Format EAF', span: 'lg:col-span-5', body: "Entraîne-toi au format réel de l’oral : lecture, explication linéaire, grammaire et entretien, chacun noté selon le barème officiel.", bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'] },
+  { title: 'Corpus et citations', icon: ScanSearch, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Sources visibles', span: 'lg:col-span-4', body: "Chaque réponse peut s’appuyer sur le BO, Eduscol, les rapports de jury et les œuvres au programme. Les sources sont toujours visibles.", bullets: ['Citations internes', 'Recherche RAG documentée', 'Corpus 2025-2026'] },
+  { title: 'Langue et quiz adaptatif', icon: BrainCircuit, tone: 'bg-[var(--surface-warm-accent)] text-[var(--navy)] border-[var(--border-strong)]', badge: 'Relance ciblée', span: 'lg:col-span-4', body: "Travaille la grammaire avec des quiz ciblés sur tes points faibles. Les erreurs identifiées en atelier alimentent tes prochains exercices.", bullets: ['Axes du programme', 'Feedback immédiat', 'Priorisation des lacunes'] },
+  { title: 'Guidage personnalisé et mémoire de progression', icon: MessageCircleMore, tone: 'bg-[var(--card)]/90 text-[var(--navy)] border-[var(--border-strong)]', badge: 'Coaching actif', span: 'lg:col-span-4', body: "Nexus retient tes forces et tes lacunes d’une séance à l’autre pour te proposer le bon exercice au bon moment.", bullets: ['Relances contextuelles', 'Signaux faibles', 'Séances suivantes cohérentes'] },
 ];
 
 /* ─── Données audiences ─── */
 const AUDIENCE_CARDS = [
-  { icon: GraduationCap, title: "Pour l’élève", body: "Le produit dit quoi faire maintenant, quoi reprendre ensuite et comment progresser sans se disperser." },
+  { icon: GraduationCap, title: "Pour l’élève", body: "Tu sais quoi faire maintenant, quoi reprendre ensuite et comment progresser sans te disperser." },
   { icon: UsersRound, title: 'Pour les parents', body: "La valeur perçue vient d’un cadre visible : workflow clair, garde-fous nets, progression compréhensible." },
-  { icon: ShieldCheck, title: 'Pour les enseignants', body: "Le langage et les formats restent compatibles avec les attendus EAF, pas avec un outil généraliste déconnecté du programme." },
+  { icon: ShieldCheck, title: 'Pour les enseignants', body: "Les exercices, les barèmes et les sources respectent les attendus EAF. Rien d’approximatif, rien de hors-programme." },
 ];
 const COMPARISON_ROWS = [
-  { label: 'Structure du travail', generic: 'Une réponse isolée à chaque prompt, sans mémoire réelle du parcours.', nexus: 'Un flux continu : produire, corriger, relancer, puis prioriser la suite.' },
-  { label: 'Anti-triche', generic: 'Risque de dérive vers la copie complète ou le corrigé prêt à rendre.', nexus: "Refus de la copie intégrale et redirection vers une aide exploitable et méthodique." },
-  { label: 'Références', generic: 'Sources peu lisibles ou réponses déconnectées du cadre EAF.', nexus: "Citations internes, corpus mobilisable et références rendues visibles quand elles comptent." },
-  { label: 'Format EAF', generic: "Pas de structure native pour l’oral, les barèmes officiels ou les ateliers vraiment scolaires.", nexus: "Oral cadré en /2 /8 /2 /8, ateliers dédiés et retour réutilisable séance après séance." },
+  { label: 'Structure du travail', generic: 'Une réponse isolée à chaque question, sans mémoire de ton parcours.', nexus: 'Un parcours continu : tu produis, tu corriges, tu progresses d’une séance à l’autre.' },
+  { label: 'Anti-triche', generic: 'Risque de dérive : copie intégrale ou corrigé prêt à rendre.', nexus: "Refus de rédiger à ta place. Nexus te guide vers une réponse que tu construis toi-même." },
+  { label: 'Références', generic: 'Sources floues ou réponses déconnectées du programme EAF.', nexus: "Sources citées, corpus du BO et rapports de jury accessibles directement dans chaque réponse." },
+  { label: 'Format EAF', generic: "Pas de format pour l’oral EAF, pas de barème officiel, pas d’ateliers structurés.", nexus: "Oral noté en /2, /8, /2, /8, ateliers dédiés par compétence et corrections réutilisables." },
 ];
 
 /* ─── Données confiance ─── */
@@ -131,22 +131,22 @@ const PLANS = [
     id: 'FREE' as SubscriptionPlan, title: 'Freemium', priceTND: '0 TND', period: '',
     bullets: ['1 session orale / mois', '2 corrections écrites / mois', '3 échanges guidés / jour', 'Échantillon de bibliothèque'],
     cta: 'Essayer gratuitement', ctaDisabledLabel: 'Plan actuel', highlighted: false,
-    kicker: 'Fais tes premiers pas vers le Bac.',
-    note: "Un aperçu limité pour juger la qualité du produit. Pour progresser réellement, passe à Premium.",
+    kicker: 'Teste la méthode gratuitement.',
+    note: "Accès limité pour découvrir les ateliers et la méthode. Idéal pour tester avant de s’engager.",
   },
   {
     id: 'PREMIUM' as SubscriptionPlan, title: 'Premium', priceTND: '99 TND', period: '/ mois',
     bullets: ['10 sessions orales / semaine', '20 corrections écrites / mois', '100 échanges guidés / jour', 'OCR 20 copies / mois', 'Parcours personnalisé', 'Rapport PDF oral', 'Bibliothèque complète'],
     cta: 'Passer à Premium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PREMIUM' as CheckoutPlan, highlighted: true,
-    kicker: 'La méthode complète pour assurer ta réussite.',
+    kicker: 'La préparation complète pour réussir ton EAF.',
     note: "Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.",
   },
   {
     id: 'PRO' as SubscriptionPlan, title: 'Masterium', priceTND: '129 TND', period: '/ mois',
     bullets: ['Oral illimité', 'Corrections écrites illimitées', 'Accompagnement guidé illimité', 'OCR 50 copies / mois', 'Capacité 200k / jour', 'Graph RAG avancé', 'Historique oral complet', 'Support prioritaire'],
     cta: 'Passer à Masterium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PRO' as CheckoutPlan, highlighted: false,
-    kicker: "L’excellence absolue pour décrocher la mention.",
-    note: "Conçu pour les usages intensifs et ceux qui veulent zéro limite sur les quotas.",
+    kicker: "Pour viser la mention et travailler sans limite.",
+    note: "Aucune limite sur les quotas. Pour ceux qui travaillent intensément et veulent une préparation maximale.",
   },
 ];
 
@@ -316,21 +316,21 @@ export default function HomePage() {
                 Parcours EAF complet
               </div>
               <h1 style={EDITORIAL_HEADING} className="mt-7 text-4xl leading-[0.96] tracking-[-0.04em] text-[var(--navy)] sm:text-5xl md:text-6xl lg:text-7xl">
-                La préparation EAF qui se laisse vérifier avant d’être achetée,
-                <span className="block text-[var(--teal)]">puis accompagne vraiment quand le rythme monte.</span>
+                Prépare ton Bac de Français avec méthode,
+                <span className="block text-[var(--teal)]">les bonnes sources et un vrai suivi.</span>
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-body)] sm:text-xl">
-                Nexus Réussite rassemble écrit, oral, langue, corpus officiel et historique de progression dans un même flux de travail. Tu vois le vrai produit en gratuit, puis tu montes en puissance seulement si le volume de travail le justifie.
+                Écrit, oral, grammaire et corpus officiel : Nexus Réussite structure ta préparation EAF autour de tes œuvres au programme. Corrections ciblées, entraînement oral au barème officiel et parcours adapté à ton niveau.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                <Link href="/pricing" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
-                  Choisir mon offre <ArrowRight className="h-4 w-4" />
+                <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_register', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]">
+                  Commencer gratuitement <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a href="#comment-ca-marche" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)]/85 px-6 py-3.5 text-base font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--card)]">
-                  Voir la méthode
+                  Découvrir la méthode
                 </a>
-                <a href="#plans" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
-                  Comparer les plans
+                <a href="#plans" onClick={() => track({ name: 'cta_click', props: { cta: 'hero_plans', path: '/' } })} className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
+                  Voir les tarifs
                 </a>
               </div>
               <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--text-secondary)]">
@@ -425,15 +425,15 @@ export default function HomePage() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">La méthode</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
-              Une mécanique de progression, pas une accumulation d’outils.
+              Une méthode en 3 étapes pour progresser concrètement.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
-              La différence n’est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic, la production, la correction et la relance.
+              Diagnostic, production, correction, relance : chaque séance s’enchaîne logiquement pour que tu progresses vraiment d’une semaine à l’autre.
             </p>
             <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/85 p-6 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Ce que la plateforme garantit</p>
               <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
-                {['Un onboarding réellement utile, pas décoratif.', 'Des ateliers qui débouchent sur une production concrète.', 'Un feedback transformé en prochaine action.'].map((item) => (
+                {['Un onboarding qui configure vraiment ton parcours.', 'Des ateliers qui te font produire, pas juste lire.', 'Des corrections qui orientent ta prochaine séance.'].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--teal)]" /><span>{item}</span>
                   </li>
@@ -484,9 +484,9 @@ export default function HomePage() {
       <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <CtaBanner
           title="Prêt à voir le workflow en situation ?"
-          subtitle="L’inscription gratuite prend moins de 3 minutes. Aucun paiement requis pour lancer l’onboarding et ouvrir les premiers ateliers."
-          primary={{ label: "Comparer les plans", href: "/pricing", track: "inter_cta_1_pricing" }}
-          secondary={{ label: "Comparer les plans", href: "#plans" }}
+          subtitle="L’inscription est gratuite et prend moins de 3 minutes. Tu accèdes directement à tes premiers ateliers, sans engagement."
+          primary={{ label: "Créer mon compte gratuit", href: "/login?mode=register", track: "inter_cta_1_register" }}
+          secondary={{ label: "Voir les tarifs", href: "#plans" }}
         />
       </div>
 
@@ -500,7 +500,7 @@ export default function HomePage() {
                 Tout ce qu’il faut pour réussir l’EAF, organisé par usage réel.
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">Produire, corriger, citer, relancer, piloter — quatre ateliers qui couvrent l’ensemble du parcours EAF.</p>
+            <p className="max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">Quatre ateliers complémentaires qui couvrent l’ensemble de l’épreuve : écrit, oral, langue et corpus.</p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-12">
             {FEATURE_GROUPS.map((feature, index) => (
@@ -525,10 +525,10 @@ export default function HomePage() {
             <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Fil directeur</p>
-                <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">De la copie à la relance, le même système garde le cap.</h3>
+                <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">Un fil conducteur de la copie à la révision.</h3>
               </div>
               <div className="grid gap-3 sm:grid-cols-3">
-                {[{ icon: BookOpenText, title: 'Produire', text: 'Toujours une sortie concrète : copie, oral, réponse ou correction.' }, { icon: ScanSearch, title: 'Justifier', text: "Les réponses exploitables gardent la trace des sources et des attentes." }, { icon: BrainCircuit, title: 'Réactiver', text: "Le feedback alimente ensuite le parcours au lieu de se perdre." }].map((item) => (
+                {[{ icon: BookOpenText, title: 'Produire', text: 'Chaque atelier débouche sur un résultat concret : copie corrigée, oral noté ou exercice validé.' }, { icon: ScanSearch, title: 'Justifier', text: "Les corrections citent les sources et rappellent les attentes du programme." }, { icon: BrainCircuit, title: 'Réactiver', text: "Chaque retour alimente la séance suivante pour que rien ne se perde." }].map((item) => (
                   <div key={item.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                     <item.icon className="h-5 w-5 text-[var(--teal)]" />
                     <p className="mt-3 text-sm font-bold text-[var(--navy)]">{item.title}</p>
@@ -549,10 +549,10 @@ export default function HomePage() {
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Pourquoi Nexus Réussite</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
-                  Un bon produit EAF doit convaincre trois personnes en même temps.
+                  Conçu pour l’élève, rassurant pour les parents, crédible pour les profs.
                 </h2>
                 <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
-                  L’élève veut une aide actionnable. Le parent veut un cadre crédible. L’enseignant doit reconnaître une logique scolaire sérieuse.
+                  Chaque décision pédagogique est pensée pour que l’élève progresse, que le parent comprenne la méthode et que l’enseignant reconnaisse un cadre sérieux.
                 </p>
                 <div className="mt-8 grid gap-3">
                   {AUDIENCE_CARDS.map((card) => (
@@ -579,7 +579,7 @@ export default function HomePage() {
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Différenciation utile</p>
                     <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
-                      Là où un outil généraliste s’arrête à une réponse, Nexus construit une continuité de travail.
+                      Ce qui distingue Nexus d’un simple chatbot.
                     </h3>
                   </div>
                   <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-on-navy-soft)]">comparaison</div>
@@ -614,10 +614,10 @@ export default function HomePage() {
             <div className="max-w-3xl">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Engagements non négociables</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
-                Une plateforme commerciale crédible commence par ses garde-fous.
+                Tes données, ton travail et ta confiance sont protégés.
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">La qualité ici ne repose pas sur des effets de style. Elle repose sur une architecture pédagogique nette et une confiance qui se voit dans l’interface.</p>
+            <p className="max-w-xl text-sm leading-7 text-slate-200 sm:text-base">Anti-triche, sources vérifiables, sessions sécurisées et respect des données personnelles : voici nos engagements concrets.</p>
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="grid gap-5 md:grid-cols-3">
@@ -633,7 +633,7 @@ export default function HomePage() {
               <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">
                 <ShieldCheck className="h-3.5 w-3.5" /> Garantie Nexus
               </div>
-              <h3 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">Ce que l’interface rend explicite dès la page d’accueil.</h3>
+              <h3 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">Nos garanties concrètes pour chaque élève.</h3>
               <div className="mt-6 space-y-3">
                 {["Pas de rédaction intégrale de copie à la place de l’élève.", "Citations internes affichables quand le corpus est mobilisé.", "Parcours aligné sur les œuvres officielles et les attendus EAF.", "Sécurité d’accès et respect des comptes mineurs assumés dans le produit."].map((item) => (
                   <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
@@ -659,11 +659,11 @@ export default function HomePage() {
             <div className="max-w-3xl">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Plans et tarifs</p>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
-                Trois rythmes, trois plafonds, une seule logique de valeur.
+                Choisis le rythme qui correspond à ta préparation.
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">
-              Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme. Chaque niveau correspond à une intensité de préparation différente.
+              Commence gratuitement pour tester la méthode. Passe à un plan supérieur quand ton rythme de travail le demande.
             </p>
           </div>
 
@@ -806,7 +806,7 @@ export default function HomePage() {
       {/* ════════════════ CTA INTER-SECTION 2 ════════════════ */}
       <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <CtaBanner
-          title="La préparation sérieuse commence avec Premium ou Masterium."
+          title="Passe à la vitesse supérieure avec Premium ou Masterium."
           subtitle="Premium à 99 TND/mois — Masterium à 129 TND/mois. Aucun engagement long terme. Résilie quand tu veux."
           primary={{ label: "Comparer les plans", href: "/pricing", track: "inter_cta_2_pricing" }}
           secondary={{ label: "Essayer gratuitement", href: "/login?mode=register" }}
@@ -819,7 +819,7 @@ export default function HomePage() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Questions fréquentes</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
-              Les objections doivent être traitées avec autant de soin que les promesses.
+              Tout ce que tu veux savoir avant de commencer.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">Anti-triche, sources, sécurité, accessibilité, paiement — les réponses honnêtes sont ici.</p>
             <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]">
@@ -850,7 +850,7 @@ export default function HomePage() {
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Passage à l’action</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
-                  Vérifie le produit, constate le cadre, puis décide si Premium vaut vraiment la peine.
+                  Commence gratuitement, progresse à ton rythme, et décide ensuite.
                 </h2>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
                   Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d’abord, choisir ensuite, payer seulement si l’usage le justifie.
