@@ -45,6 +45,7 @@ const AGENT_SCOPES: Record<AgentSkill, string[]> = {
   ],
   'quiz-maitre': [
     'eaf_get_student_profile',
+    'eaf_update_skill_map',
     'eaf_save_evaluation',
     'eaf_get_error_bank',
     'eaf_schedule_revision',
@@ -63,6 +64,7 @@ const AGENT_SCOPES: Record<AgentSkill, string[]> = {
     'eaf_get_student_profile',
     'eaf_search_corpus',
     'eaf_get_chunk',
+    'eaf_get_error_bank',
     'eaf_check_policy',
     'eaf_get_study_plan',
   ],

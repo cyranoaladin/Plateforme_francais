@@ -147,6 +147,10 @@ export async function loadMemoryProfileForUser(
         where: { userId },
         select: {
           globalLevel: true,
+          classLevel: true,
+          voie: true,
+          selectedOeuvres: true,
+          eafDate: true,
           weakSkills: true,
           weakSkillEntries: {
             where: { status: { in: ['ACTIVE', 'IMPROVING'] } },
@@ -226,6 +230,10 @@ export async function loadMemoryProfileForUser(
       weakSkills,
       currentWorkMastery: currentWork,
       recentSessionsSummary: buildRecentSessionsSummary(recentTimeline),
+      classLevel: profile?.classLevel ?? undefined,
+      voie: profile?.voie ?? undefined,
+      selectedOeuvres: profile?.selectedOeuvres.length ? profile.selectedOeuvres : undefined,
+      eafDate: profile?.eafDate ? profile.eafDate.toISOString().split('T')[0] : undefined,
     };
 
     void refreshMemorySummaries({ userId, profile: result }).catch(() => undefined);

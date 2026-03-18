@@ -158,6 +158,21 @@ export default function QuizPage() {
       });
     }
 
+    // Persist quiz evaluation to database
+    await fetch('/api/v1/quiz/evaluate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': getCsrfTokenFromDocument(),
+      },
+      body: JSON.stringify({
+        theme,
+        score: good,
+        maxScore: questions.length,
+        questionsCount: questions.length,
+      }),
+    }).catch(() => undefined); // Non-blocking
+
     if (pct === 100) {
       const badgeResponse = await fetch('/api/v1/badges/evaluate', {
         method: 'POST',

@@ -63,6 +63,11 @@ export interface MemoryProfile {
   weakSkills: WeakSkillSummary[];
   currentWorkMastery: WorkMasterySummary | null;
   recentSessionsSummary: string | null;
+  /** Enrichment fields — student context for pedagogical adaptation */
+  classLevel?: string;
+  voie?: string;
+  selectedOeuvres?: string[];
+  eafDate?: string;
 }
 
 /**
@@ -100,6 +105,22 @@ export function composeMemoryContext(profile: MemoryProfile, opts: MemoryContext
   const lines: string[] = [
     '--- PROFIL ÉLÈVE (interne — ne pas mentionner explicitement) ---',
   ];
+
+  // Student identity context
+  if (profile.classLevel || profile.voie) {
+    const cls = profile.classLevel ?? 'Première';
+    const voie = profile.voie === 'TECHNOLOGIQUE' ? 'technologique' : 'générale';
+    lines.push(`Classe : ${cls} ${voie}`);
+  }
+
+  if (profile.eafDate) {
+    const daysLeft = Math.max(0, Math.round((new Date(profile.eafDate).getTime() - Date.now()) / 86_400_000));
+    lines.push(`Échéance EAF : ${profile.eafDate} (J-${daysLeft})`);
+  }
+
+  if (profile.selectedOeuvres && profile.selectedOeuvres.length > 0) {
+    lines.push(`Œuvres choisies : ${profile.selectedOeuvres.join(', ')}`);
+  }
 
   // Global level + scores
   const scoreStr = [
