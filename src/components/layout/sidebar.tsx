@@ -210,7 +210,7 @@ export function Sidebar() {
               />
               <div className="min-w-0">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Nexus Réussite</p>
-                <p className="mt-1 text-sm font-semibold text-[var(--navy)]">Cockpit élève EAF</p>
+                <p className="mt-1 text-sm font-semibold text-[var(--navy)]">Tableau de bord EAF</p>
                 <p className="text-xs text-[var(--navy-muted)]">Travail guidé, progression lisible, matière exploitable.</p>
               </div>
             </div>

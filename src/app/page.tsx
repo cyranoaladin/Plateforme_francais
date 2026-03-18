@@ -54,7 +54,7 @@ type BillingStatusPayload = {
 };
 
 /* ─── Données hero ─── */
-const MICRO_PROOFS = ['Oral au barème officiel', 'Corrections personnalisées', 'Corpus BO et Eduscol', 'Anti-triche intégré'];
+const MICRO_PROOFS = ['Oral au barème officiel', 'Corrections personnalisées', 'Corpus BO et Eduscol', 'Cadre pédagogique strict'];
 const FRICTION_REMOVERS = ['Inscription gratuite', 'Prêt en 3 minutes', 'Premiers ateliers sans payer'];
 const HERO_STATS = [
   { value: '3 min', label: 'pour configurer ton parcours' },

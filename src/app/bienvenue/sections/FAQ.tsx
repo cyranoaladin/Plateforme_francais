@@ -77,7 +77,7 @@ export function FAQ() {
             Les objections doivent être traitées avec autant de soin que les promesses.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
-            Une page d{'\u2019'}accueil sérieuse répond clairement aux questions sensibles : anti-triche, sources, sécurité, accessibilité, support.
+            Une page d{'\u2019'}accueil sérieuse répond clairement aux questions sensibles : cadre pédagogique, sources, sécurité, accessibilité, support.
           </p>
 
           <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-md)]">

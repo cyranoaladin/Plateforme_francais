@@ -570,7 +570,7 @@ export default function AtelierOralPage() {
               Oral EAF
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Une simulation officielle pensée comme un cockpit d’entraînement, pas comme un outil brut.
+              Une simulation officielle pensée comme un espace d’entraînement, pas comme un outil brut.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
               Tirage, préparation, passage puis bilan. Tout est réuni dans un seul espace pour te garder concentré sur la qualité de ta prise de parole, la précision des attendus officiels et les points à retravailler la séance suivante.
@@ -1051,7 +1051,7 @@ export default function AtelierOralPage() {
             <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--surface-warm-section)] p-5 shadow-[var(--shadow-lg)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Principe de séance</p>
               <p className="mt-4 text-sm leading-7 text-[var(--navy-muted)]">
-                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. Le cockpit est conçu pour rendre cette discipline plus facile.
+                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L'espace oral est conçu pour rendre cette discipline plus facile.
               </p>
               <Link
                 href={oralTutorHref}

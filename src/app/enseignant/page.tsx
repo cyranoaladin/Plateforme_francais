@@ -192,7 +192,7 @@ export default function EnseignantPage() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
               <ShieldCheck className="h-4 w-4" />
-              Cockpit enseignant
+              Espace enseignant
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               La vue enseignant doit permettre de piloter la classe, pas de fouiller les données une par une.
@@ -264,7 +264,7 @@ export default function EnseignantPage() {
 
       {isLoading ? (
         <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 text-sm text-[var(--text-muted)] shadow-[var(--shadow-md)]" role="status">
-          Chargement du cockpit enseignant...
+          Chargement de l'espace enseignant...
         </div>
       ) : null}
 

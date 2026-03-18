@@ -29,7 +29,7 @@ const STEPS = [
     number: '03',
     title: 'Réinjecter les retours au bon endroit',
     icon: RefreshCcw,
-    description: 'Le retour n’est pas décoratif : il alimente les signaux faibles, le parcours et les prochaines relances.',
+    description: 'Le retour n’est pas décoratif : il alimente les points à surveiller, le parcours et les prochaines relances.',
     student: 'L’élève sait précisément quoi retravailler et dans quel ordre.',
     platform: 'Nexus priorise les lacunes, propose la séance suivante et garde une mémoire utile.',
   },

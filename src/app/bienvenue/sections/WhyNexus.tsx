@@ -33,7 +33,7 @@ const COMPARISON_ROWS = [
     nexus: 'Un flux continu : produire, corriger, relancer, puis prioriser la suite.',
   },
   {
-    label: 'Anti-triche',
+    label: 'Cadre pédagogique',
     generic: 'Risque de dérive vers la copie complète ou le corrigé prêt à rendre.',
     nexus: 'Refus de la copie intégrale et redirection vers une aide exploitable et méthodique.',
   },
