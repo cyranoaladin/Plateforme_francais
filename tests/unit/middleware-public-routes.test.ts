@@ -17,4 +17,19 @@ describe('middleware public routes', () => {
     const response = middleware(new NextRequest('http://localhost:3000/bienvenue'));
     expect(response.headers.get('location')).toBe('http://localhost:3000/');
   });
+
+  it('redirige /connexion vers /login', () => {
+    const response = middleware(new NextRequest('http://localhost:3000/connexion'));
+    expect(response.headers.get('location')).toBe('http://localhost:3000/login');
+  });
+
+  it('redirige /inscription vers /login?mode=register', () => {
+    const response = middleware(new NextRequest('http://localhost:3000/inscription'));
+    expect(response.headers.get('location')).toBe('http://localhost:3000/login?mode=register');
+  });
+
+  it('redirige /tarifs vers /pricing', () => {
+    const response = middleware(new NextRequest('http://localhost:3000/tarifs'));
+    expect(response.headers.get('location')).toBe('http://localhost:3000/pricing');
+  });
 });

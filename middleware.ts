@@ -26,6 +26,13 @@ const PUBLIC_PATHS = new Set([
 
 const CANONICAL_ALIAS_PATHS = new Set(['/bienvenue', '/landing']);
 
+/** French aliases → canonical paths (public redirects, no auth needed). */
+const FRENCH_ALIASES: Record<string, string> = {
+  '/connexion': '/login',
+  '/inscription': '/login?mode=register',
+  '/tarifs': '/pricing',
+};
+
 export function isPublicPath(pathname: string): boolean {
   if (PUBLIC_PATHS.has(pathname)) return true;
   for (const prefix of PUBLIC_PATHS) {
@@ -41,6 +48,13 @@ export function middleware(request: NextRequest) {
     const canonicalUrl = request.nextUrl.clone();
     canonicalUrl.pathname = '/';
     return NextResponse.redirect(canonicalUrl);
+  }
+
+  // French aliases → redirect to canonical paths (public, no auth needed)
+  const alias = FRENCH_ALIASES[pathname];
+  if (alias) {
+    const aliasUrl = new URL(alias, request.url);
+    return NextResponse.redirect(aliasUrl);
   }
 
   // Skip public paths
