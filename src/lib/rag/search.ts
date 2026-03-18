@@ -3,6 +3,10 @@ import { levelFromDocId, scoreFromDistance, vectorSearch } from '@/lib/rag/vecto
 import { reciprocalRankFusion, metadataRerank } from '@/lib/rag/rerank';
 import { externalRAG, type ExternalRAGChunk } from '@/lib/rag/external-client';
 import { logger } from '@/lib/logger';
+import { LRUCache } from '@/lib/cache/lru';
+
+/** 10-minute LRU cache for RAG search results (shared-safe: corpus data, not user data). */
+const ragCache = new LRUCache<RagSearchResult[]>({ maxSize: 500, defaultTtlMs: 600_000 });
 
 export type RagSearchResult = {
   id: string;
@@ -24,25 +28,13 @@ export type RagSearchOptions = {
 };
 
 const STOP_WORDS = new Set([
-  'de',
-  'la',
-  'le',
-  'les',
-  'du',
-  'des',
-  'un',
-  'une',
-  'et',
-  'ou',
-  'a',
-  'au',
-  'aux',
-  'pour',
-  'sur',
-  'dans',
-  'que',
-  'qui',
-  'en',
+  'de', 'la', 'le', 'les', 'du', 'des', 'un', 'une',
+  'et', 'ou', 'a', 'au', 'aux', 'pour', 'sur', 'dans',
+  'que', 'qui', 'en', 'ce', 'se', 'ne', 'pas', 'par',
+  'avec', 'son', 'sa', 'ses', 'mon', 'ma', 'mes', 'ton',
+  'ta', 'tes', 'est', 'sont', 'il', 'elle', 'on', 'nous',
+  'vous', 'ils', 'elles', 'je', 'tu', 'plus', 'cette',
+  'ces', 'dont', 'mais', 'donc', 'car', 'ni', 'si',
 ]);
 
 function tokenize(input: string): string[] {
@@ -128,7 +120,7 @@ function externalChunkToResult(chunk: ExternalRAGChunk, index: number): RagSearc
     type: 'texte_officiel' as ReferenceDoc['type'],
     level: (metadata.niveau as ReferenceDoc['level']) ?? 'Niveau B',
     sourceRef: sourceUrl || title,
-    excerpt: chunk.content.slice(0, 300),
+    excerpt: chunk.content.slice(0, 200),
     score: chunk.score,
   };
 }
@@ -177,15 +169,29 @@ async function searchExternalRAG(
  *   3. Metadata rerank with context boost
  *   4. Return top-N (default 5)
  */
+/** Normalize query for cache key generation. */
+function normalizeQueryForCache(query: string, context?: { oeuvre?: string; parcours?: string }): string {
+  const tokens = tokenize(query).sort().join(' ');
+  return `${tokens}|${context?.oeuvre ?? ''}|${context?.parcours ?? ''}`;
+}
+
 export async function searchOfficialReferences(
   query: string,
   maxResults = 5,
   context?: { oeuvre?: string; parcours?: string },
 ): Promise<RagSearchResult[]> {
-  const PREFETCH = 20;
+  const PREFETCH = 12; // Reduced from 20 — top-k optimization
 
   if (!query.trim()) {
     return lexicalSearch(query, maxResults);
+  }
+
+  // Check RAG cache
+  const cacheKey = normalizeQueryForCache(query, context);
+  const cached = ragCache.get(cacheKey);
+  if (cached) {
+    logger.info({ query: query.slice(0, 30), cacheHit: true }, '[rag] cache_hit');
+    return cached.slice(0, maxResults);
   }
 
   // 1. Try external RAG first (primary source - 13 661 chunks)
@@ -217,7 +223,7 @@ export async function searchOfficialReferences(
         type: (chunk.sourceType as ReferenceDoc['type']) ?? 'texte_officiel',
         level: chunk.level || levelFromDocId(),
         sourceRef: chunk.sourceUrl || chunk.docId,
-        excerpt: chunk.content.slice(0, 220),
+        excerpt: chunk.content.slice(0, 200),
         url: chunk.sourceUrl || chunk.docId,
         score: scoreFromDistance(Number(chunk.distance)),
       }));
@@ -252,7 +258,14 @@ export async function searchOfficialReferences(
   // 5. Metadata rerank with context boost
   const reranked = metadataRerank(fused, context);
 
-  const final = reranked.slice(0, maxResults);
+  // Filter out low-score results (noise reduction)
+  const MIN_SCORE = 0.01;
+  const filtered = reranked.filter((r) => r.score >= MIN_SCORE);
+  const final = filtered.slice(0, maxResults);
+
+  // Cache results for future identical queries
+  ragCache.set(cacheKey, final);
+
   logger.info({ mode, resultsCount: final.length, query: query.slice(0, 30) }, '[rag] search_complete');
   return final;
 }
