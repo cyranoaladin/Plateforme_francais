@@ -92,8 +92,8 @@ const PLANS: PlanCard[] = [
     cta: 'Essayer gratuitement',
     ctaDisabledLabel: 'Plan actuel',
     highlighted: false,
-    kicker: 'Fais tes premiers pas vers le Bac.',
-    note: 'Un aperçu limité pour juger la qualité du produit. Pour progresser réellement, passe à Premium.',
+    kicker: 'Teste la méthode gratuitement.',
+    note: 'Accès limité pour découvrir les ateliers et la méthode. Idéal pour tester avant de t’engager.',
   },
   {
     id: 'PREMIUM',
@@ -113,7 +113,7 @@ const PLANS: PlanCard[] = [
     ctaDisabledLabel: 'Plan actuel',
     checkoutPlan: 'PREMIUM',
     highlighted: true,
-    kicker: 'La méthode complète pour assurer ta réussite.',
+    kicker: 'La préparation complète pour réussir ton EAF.',
     note: 'Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
   },
   {
@@ -136,7 +136,7 @@ const PLANS: PlanCard[] = [
     checkoutPlan: 'PRO',
     highlighted: false,
     kicker: "L’excellence absolue pour décrocher la mention.",
-    note: 'Conçu pour les usages intensifs et ceux qui veulent zéro limite sur les quotas.',
+    note: 'Aucune limite sur les quotas. Pour ceux qui travaillent intensément et veulent une préparation maximale.',
   },
 ];
 
@@ -158,7 +158,7 @@ const BILLING_FAQ = [
   },
   {
     q: 'Puis-je changer de plan ?',
-    a: 'Oui. Cette page sert justement à comparer, monter en puissance au bon moment et relire ton statut de facturation.',
+    a: 'Oui, à tout moment. Compare les offres sur cette page et choisis le plan adapté à ton rythme de travail.',
   },
   {
     q: 'Comment fonctionne le paiement ?',
@@ -177,7 +177,7 @@ const DECISION_GUIDES = [
   },
   {
     title: 'Premium — 99 TND/mois',
-    body: 'Le vrai rythme de travail : assez de volume pour progresser chaque semaine sans tomber sur les limites.',
+    body: 'Le bon rythme pour progresser chaque semaine : quotas larges, parcours personnalisé et bibliothèque complète.',
   },
   {
     title: 'Masterium — 129 TND/mois',
