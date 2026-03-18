@@ -103,10 +103,14 @@ DATABASE_URL=postgresql://eaf_user:eaf_password@localhost:5432/eaf_local
 
 Même avec le bon port, `prisma db push` échoue avec `type "vector" does not exist`. L'extension pgvector est utilisée par 3 modèles RAG (Chunk, WeakSkillEntry, MemorySummary).
 
-**Correction :**
+**Correction (deux options) :**
 ```bash
+# Option A — apt (nécessite sudo)
 sudo apt install postgresql-16-pgvector
 sudo systemctl restart postgresql
+
+# Option B — Docker (utilisée en LOT 13, sans sudo)
+docker run -d -p 5433:5432 -e POSTGRES_USER=eaf_user -e POSTGRES_PASSWORD=eaf_password -e POSTGRES_DB=eaf_local pgvector/pgvector:pg16
 ```
 
 ### Procédure complète de déblocage

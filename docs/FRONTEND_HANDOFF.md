@@ -1,7 +1,7 @@
 # Handoff frontend — Nexus Réussite EAF
 
 > Document de transmission pour le chantier frontend premium (LOT 2 → LOT 13).
-> Rédigé le 2026-03-18. Branche : `main`, 12 commits d'avance sur `origin/main`.
+> Rédigé le 2026-03-18. Mergé sur `main` via PR #47 le 2026-03-18.
 
 ---
 

@@ -50,12 +50,12 @@ Transformation complète du frontend élève en produit visuel industrialisé : 
 - En cas de changement de polices ou de layout majeur, régénérer les baselines (`npm run test:visual:update`).
 - Le rate-limiter d'auth (in-memory, 10 tentatives/min) peut bloquer les tests visuels si le serveur n'est pas redémarré entre les runs.
 
-## Checklist pré-push
+## Checklist pré-push (complétée)
 
-- [ ] `npx tsc --noEmit` — pas d'erreur nouvelle
-- [ ] `git diff --cached` — pas de secret, pas de `.env`
-- [ ] Historique lisible (12 commits LOT 2→13)
-- [ ] Snapshots présents dans `tests/visual/*-snapshots/`
+- [x] `npx tsc --noEmit` — pas d'erreur nouvelle
+- [x] `git diff --cached` — pas de secret, pas de `.env`
+- [x] Historique lisible (13 commits LOT 2→13)
+- [x] Snapshots présents dans `tests/visual/*-snapshots/`
 
 ## Checklist post-merge
 
