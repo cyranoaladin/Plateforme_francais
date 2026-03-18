@@ -108,7 +108,7 @@ const FEATURE_GROUPS = [
 /* ─── Données audiences ─── */
 const AUDIENCE_CARDS = [
   { icon: GraduationCap, title: "Pour l’élève", body: "Tu sais quoi faire maintenant, quoi reprendre ensuite et comment progresser sans te disperser." },
-  { icon: UsersRound, title: 'Pour les parents', body: "La valeur perçue vient d’un cadre visible : workflow clair, garde-fous nets, progression compréhensible." },
+  { icon: UsersRound, title: 'Pour les parents', body: "Un cadre clair et vérifiable : méthode structurée, sources officielles, progression compréhensible." },
   { icon: ShieldCheck, title: 'Pour les enseignants', body: "Les exercices, les barèmes et les sources respectent les attendus EAF. Rien d’approximatif, rien de hors-programme." },
 ];
 const COMPARISON_ROWS = [
@@ -121,7 +121,7 @@ const COMPARISON_ROWS = [
 /* ─── Données confiance ─── */
 const TRUST_BLOCKS = [
   { icon: Quote, title: 'Sources visibles, jamais opaques', description: "Quand le corpus intervient, l’élève voit ce qui fonde la réponse : BO, Eduscol, rapports de jury, œuvres au programme." },
-  { icon: UserRoundCheck, title: 'Anti-copie intégré dans le produit', description: "La plateforme refuse la dissertation ou le commentaire complets et bascule vers une alternative guidée, constructive et traçable." },
+  { icon: UserRoundCheck, title: 'Anti-triche intégré', description: "La plateforme refuse la dissertation ou le commentaire complets et bascule vers une alternative guidée, constructive et traçable." },
   { icon: LockKeyhole, title: 'Protection des comptes et des mineurs', description: "Sessions sécurisées, protection CSRF, accès contrôlé, posture RGPD et refus de la publicité ciblée sur les comptes mineurs." },
 ];
 
@@ -163,11 +163,14 @@ const FEATURE_ROWS = [
 
 /* ─── Données FAQ ─── */
 const FAQ_ITEMS = [
-  { question: "La plateforme peut-elle écrire à ma place ?", answer: "Non. Le produit est conçu pour guider, structurer et corriger. Les demandes de commentaire ou de dissertation complets sont refusées et remplacées par une aide méthodologique exploitable." },
-  { question: "Sur quelles sources s’appuie la plateforme ?", answer: "Le corpus mobilisable s’appuie sur les sources institutionnelles, les rapports de jury et les œuvres au programme. Quand une réponse utilise ce corpus, elle expose des références internes visibles et réutilisables." },
-  { question: "Mes données sont-elles protégées ?", answer: "Oui. Session sécurisée, protection CSRF, contrôle d’accès, cadre RGPD et posture explicite sur les comptes mineurs : l’architecture de confiance fait partie du produit." },
-  { question: "Que se passe-t-il si j’atteins un quota ?", answer: "La plateforme bloque l’action concernée, conserve ton travail et t’indique le plan utile pour reprendre sans repartir de zéro." },
-  { question: "Comment fonctionne le paiement ?", answer: "Pour le moment, les abonnements payants sont activés par virement bancaire. Le paiement carte et Flouci seront disponibles prochainement." },
+  { question: "Est-ce que Nexus peut écrire ma copie à ma place ?", answer: "Non, et c’est voulu. Nexus refuse de rédiger un commentaire ou une dissertation complets. L’objectif est de t’aider à construire ta réponse toi-même, avec la bonne méthode et les bonnes références." },
+  { question: "Sur quelles sources s’appuie la plateforme ?", answer: "Nexus s’appuie sur le Bulletin officiel, les ressources Eduscol, les rapports de jury et les œuvres au programme. Chaque réponse qui mobilise le corpus affiche ses sources pour que tu puisses vérifier." },
+  { question: "Quelle est la différence avec ChatGPT ou un autre chatbot ?", answer: "Un chatbot généraliste ne connaît pas le barème EAF, ne structure pas de parcours et ne refuse pas de tricher. Nexus est conçu spécifiquement pour l’EAF : oral au format officiel (/2, /8, /2, /8), corrections structurées, corpus vérifiable et progression d’une séance à l’autre." },
+  { question: "Mes données sont-elles protégées ?", answer: "Oui. Sessions sécurisées, protection CSRF, contrôle d’accès strict et conformité RGPD. Les comptes de mineurs bénéficient d’une protection renforcée : consentement parental requis pour les moins de 15 ans, aucune publicité ciblée." },
+  { question: "Mon enfant mineur peut-il utiliser la plateforme ?", answer: "Oui. Les moins de 15 ans doivent fournir l’email d’un parent lors de l’inscription (conformément au RGPD). La plateforme ne diffuse aucune publicité et protège les données de tous les utilisateurs." },
+  { question: "Que se passe-t-il quand j’atteins un quota ?", answer: "Ton travail est conservé. La plateforme t’indique clairement quel plan te permettrait de continuer. Tu ne perds rien : ton parcours, tes corrections et ta progression restent intacts." },
+  { question: "Le plan gratuit est-il vraiment utile ?", answer: "Oui. Le plan Freemium donne accès aux ateliers écrit, oral et langue avec des quotas limités, plus un échantillon de la bibliothèque. C’est suffisant pour tester la méthode et décider si tu veux aller plus loin." },
+  { question: "Comment fonctionne le paiement ?", answer: "Les abonnements peuvent être activés par virement bancaire ou par code d’activation. Le paiement par carte et Flouci seront disponibles prochainement. Aucun engagement : tu peux résilier à tout moment." },
 ];
 
 const BANK_TRANSFER_ROWS = [
@@ -483,7 +486,7 @@ export default function HomePage() {
       {/* ════════════════ CTA INTER-SECTION 1 ════════════════ */}
       <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
         <CtaBanner
-          title="Prêt à voir le workflow en situation ?"
+          title="Prêt à tester la méthode ?"
           subtitle="L’inscription est gratuite et prend moins de 3 minutes. Tu accèdes directement à tes premiers ateliers, sans engagement."
           primary={{ label: "Créer mon compte gratuit", href: "/login?mode=register", track: "inter_cta_1_register" }}
           secondary={{ label: "Voir les tarifs", href: "#plans" }}
@@ -635,7 +638,7 @@ export default function HomePage() {
               </div>
               <h3 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">Nos garanties concrètes pour chaque élève.</h3>
               <div className="mt-6 space-y-3">
-                {["Pas de rédaction intégrale de copie à la place de l’élève.", "Citations internes affichables quand le corpus est mobilisé.", "Parcours aligné sur les œuvres officielles et les attendus EAF.", "Sécurité d’accès et respect des comptes mineurs assumés dans le produit."].map((item) => (
+                {["Pas de rédaction intégrale de copie à la place de l’élève.", "Citations internes affichables quand le corpus est mobilisé.", "Parcours aligné sur les œuvres officielles et les attendus EAF.", "Sécurité d’accès et respect des données des comptes mineurs."].map((item) => (
                   <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
                     <CheckCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                     <p className="text-sm leading-6 text-slate-200">{item}</p>
@@ -853,13 +856,13 @@ export default function HomePage() {
                   Commence gratuitement, progresse à ton rythme, et décide ensuite.
                 </h2>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
-                  Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d’abord, choisir ensuite, payer seulement si l’usage le justifie.
+                  Inscription gratuite, mise en route en 3 minutes, premiers ateliers accessibles immédiatement. Tu paies seulement quand tu en as vraiment besoin.
                 </p>
               </div>
               <div className="rounded-[24px] bg-[var(--navy-dark)] p-6">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Dès l’entrée</p>
                 <div className="mt-4 space-y-3">
-                  {["Compte créé et onboarding lancé en quelques minutes", "Aucun paiement avant d’avoir vu le produit en situation", "Aucune rédaction intégrale générée à la place de l’élève"].map((item) => (
+                  {["Compte créé et onboarding lancé en quelques minutes", "Aucun paiement avant d’avoir testé les ateliers", "Aucune rédaction intégrale générée à la place de l’élève"].map((item) => (
                     <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                       <p className="text-sm leading-6 text-slate-200">{item}</p>
