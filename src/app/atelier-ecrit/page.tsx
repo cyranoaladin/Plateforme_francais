@@ -550,7 +550,7 @@ export default function AtelierEcritPage() {
               {[
                 'Utilise un sujet à la fois pour garder une correction lisible.',
                 'Privilégie des photos nettes, plates, bien éclairées.',
-                'Relis le rapport immédiatement pour transformer le feedback en prochaine action.',
+                'Relis le rapport immédiatement pour transformer les conseils en prochaine action.',
               ].map((item) => (
                 <div key={item} className="rounded-[16px] border border-[var(--border-success-soft)] bg-[var(--card)]/88 px-4 py-4 text-sm leading-7 text-[var(--navy-mid)]">
                   {item}

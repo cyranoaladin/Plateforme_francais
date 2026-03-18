@@ -232,7 +232,7 @@ export default function BibliothequePage() {
       });
 
       if (!response.ok) {
-        throw new Error('Recherche RAG indisponible pour le moment.');
+        throw new Error('Recherche intelligente indisponible pour le moment.');
       }
 
       const payload = (await response.json()) as { results: RagResult[] };
