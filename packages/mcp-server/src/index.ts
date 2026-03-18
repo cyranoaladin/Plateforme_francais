@@ -46,6 +46,7 @@ async function main() {
     const httpTransport = createHttpTransport(server, {
       port: parseInt(process.env.MCP_PORT ?? '3100'),
       allowedOrigins: (process.env.MCP_ALLOWED_ORIGINS ?? 'http://localhost:3000').split(','),
+      bindHost: process.env.MCP_HTTP_BIND ?? '127.0.0.1',
     })
 
     await httpTransport.start()
