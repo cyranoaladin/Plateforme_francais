@@ -430,6 +430,7 @@ export default function OnboardingPage() {
                 <div className="space-y-5">
                   <div className="grid gap-5 md:grid-cols-[1fr_1fr]">
                     <Input
+                      id="ob-name"
                       label="Nom affiché"
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value)}
@@ -448,6 +449,7 @@ export default function OnboardingPage() {
                     />
 
                     <Input
+                      id="ob-date"
                       label="Date EAF"
                       type="date"
                       value={eafDate}
