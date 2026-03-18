@@ -82,12 +82,12 @@ export async function checkRateLimit(input: {
         );
         return checkRateLimitMemory({ key: `${input.key}:${ip}`, limit: input.limit, windowMs: input.windowMs });
       } else {
-        // En production: FAIL-CLOSED pour sécurité
+        // En production: FAIL-CLOSED pour sécurité mais avec retryAfter court
         logger.error(
           { key: input.key, ip },
           'rate_limit:redis_unavailable, fail_closed (production)',
         );
-        return { allowed: false, retryAfter: 60 };
+        return { allowed: false, retryAfter: 5 }; // 5 secondes au lieu de 60
       }
     }
 
@@ -112,7 +112,7 @@ export async function checkRateLimit(input: {
       'rate_limit:redis_error, fail_closed — blocking request',
     );
 
-    // Retourner FAIL-CLOSED avec retryAfter raisonnable (60 secondes)
-    return { allowed: false, retryAfter: 60 };
+    // Retourner FAIL-CLOSED avec retryAfter court (5 secondes)
+    return { allowed: false, retryAfter: 5 };
   }
 }
