@@ -9,18 +9,27 @@ import { logger } from '@/lib/logger';
 
 /* ─── Zod contract for external RAG response ─── */
 const ExternalRAGChunkSchema = z.object({
-  content: z.string(),
+  content: z.string().optional(),
+  document: z.string().optional(),
   score: z.number(),
   metadata: z.record(z.unknown()).default({}),
-});
+}).transform((chunk) => ({
+  content: chunk.content ?? chunk.document ?? '',
+  score: chunk.score,
+  metadata: chunk.metadata,
+}));
 
 const ExternalRAGResponseSchema = z.object({
-  results: z.array(ExternalRAGChunkSchema).default([]),
+  results: z.array(ExternalRAGChunkSchema).optional(),
+  hits: z.array(ExternalRAGChunkSchema).optional(),
   query: z.string().optional(),
   collection: z.string().optional(),
   total_found: z.number().optional(),
   search_time_ms: z.number().optional(),
-});
+}).transform((data) => ({
+  ...data,
+  results: data.results ?? data.hits ?? [],
+}));
 
 export interface ExternalRAGSearchParams {
   query: string;

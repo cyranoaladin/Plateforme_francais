@@ -79,7 +79,7 @@ export async function POST(request: Request) {
     const clientIp = (request.headers.get('x-forwarded-for') ?? '').split(',')[0]?.trim() ?? '';
     if (!isIpAllowed(clientIp)) {
       logger.warn({ clientIp }, 'clictopay.callback.ip_blocked');
-      return NextResponse.json({ error: 'Forbidden.' }, { status: 403 });
+      return NextResponse.json({ error: 'Accès refusé.' }, { status: 403 });
     }
 
     const text = await request.text();
