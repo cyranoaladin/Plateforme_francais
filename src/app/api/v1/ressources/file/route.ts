@@ -8,7 +8,7 @@ import { createMemoryEvent } from '@/lib/memory/store';
 import { getBillingContext } from '@/lib/billing/context';
 import { hasFullLibraryAccess, FREE_LIBRARY_LIMITS } from '@/lib/billing/library-gating';
 import { RESSOURCES } from '@/data/ressources';
-import { isWithinRessourcesRoot, resolveRessourcePath } from '@/lib/ressources/path';
+import { isWithinRessourcesRoot, resolveCatalogFilePath } from '@/lib/ressources/path';
 
 const MIME_TYPES: Record<string, string> = {
   '.mp4': 'video/mp4',
@@ -113,7 +113,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 
   const normalizedPath = requestedPath.replace(/^\/+/, '');
-  const absolutePath = resolveRessourcePath(normalizedPath);
+  const absolutePath = resolveCatalogFilePath(normalizedPath);
 
   // ── Gating freemium bibliothèque ──
   const billing = await getBillingContext(auth.user.id);
