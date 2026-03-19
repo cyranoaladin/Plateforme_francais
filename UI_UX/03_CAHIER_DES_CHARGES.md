@@ -569,7 +569,7 @@ Winner: Keep or combine
 - Figma (design)
 - Windsurf (coding)
 - Fathom Analytics (tracking)
-- Vercel (deployment)
+- VPS (Nginx + PM2) (deployment)
 - GitHub (version control)
 - Hotjar (heatmaps, optional)
 
@@ -585,7 +585,7 @@ Total: 56h (~1 week)
 
 Monthly:
   Fathom: $14
-  Vercel: $20
+  VPS: $20
   Hotjar: $32 (optional)
   ─────────
   Total: $66/month

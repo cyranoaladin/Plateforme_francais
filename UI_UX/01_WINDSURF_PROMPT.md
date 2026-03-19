@@ -428,7 +428,7 @@ fathom.trackEvent('SCROLL_DEPTH', { depth: 75 });
 - [ ] No TypeScript errors: `npm run typecheck`
 - [ ] Linting passes: `npm run lint`
 - [ ] Tests pass (if added): `npm run test`
-- [ ] Preview link: Vercel staging
+- [ ] Preview link: staging VPS
 - [ ] DNS configured: plateforme-francais.com → landing page
 - [ ] SSL certificate: Let's Encrypt active
 - [ ] CDN configured: Images served via Cloudflare

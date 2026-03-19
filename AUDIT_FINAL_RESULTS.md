@@ -134,12 +134,11 @@
 
 ## Partie F — Infrastructure
 
-| Fichier | Action |
+| Fichier | Modification |
 |---|---|
 | `src/app/api/v1/cron/weekly-reports/route.ts` | **CRÉÉ** — route cron protégée par `CRON_SECRET` |
 | `src/app/api/v1/cron/revision-reminders/route.ts` | **CRÉÉ** — route cron protégée par `CRON_SECRET` |
 | `src/lib/cron/scheduler.ts` | Modifié — auto-start supprimé, `START_SCHEDULER=true` requis, export `CRON_ROUTES` |
-| `vercel.json` | **CRÉÉ** — crons Vercel (weekly-reports dimanche 18h, reminders 8h quotidien) |
 | `.env.example` | Ajouté `CRON_SECRET` |
 | `prisma/schema.prisma` | Déjà OK — OralSession existe |
 
@@ -167,10 +166,9 @@
 ### Créés (6)
 1. `src/app/api/v1/cron/weekly-reports/route.ts`
 2. `src/app/api/v1/cron/revision-reminders/route.ts`
-3. `vercel.json`
-4. `tests/unit/upload-copie.test.ts`
-5. `tests/unit/oral-session.test.ts`
-6. `tests/unit/badges.test.ts`
+3. `tests/unit/upload-copie.test.ts`
+4. `tests/unit/oral-session.test.ts`
+5. `tests/unit/badges.test.ts`
 
 ### Non modifiés (confirmés OK après audit)
 - `src/lib/llm/cost-tracker.ts` — Prisma persistence déjà présente

@@ -4983,14 +4983,14 @@
       "line": 82,
       "column": 82,
       "kind": "jsx-text",
-      "text": "Vercel Inc."
+      "text": "Serveur dédié (VPS)"
     },
     {
       "file": "src/app/mentions-legales/page.tsx",
       "line": 83,
       "column": 78,
       "kind": "jsx-text",
-      "text": "440 N Barranca Ave #4133, Covina, CA 91723, USA"
+      "text": "Déploiement et exploitation en interne (Nexus Réussite)"
     },
     {
       "file": "src/app/mentions-legales/page.tsx",

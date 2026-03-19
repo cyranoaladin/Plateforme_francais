@@ -22,10 +22,10 @@ Déployer la plateforme en **pré-production** pour validation avant beta fermé
 ┌─────────────────────────────────────────────────┐
 │              PRÉ-PRODUCTION                     │
 ├─────────────────────────────────────────────────┤
-│  Vercel / Railway / Render                      │
-│  ├─ Next.js (Node.js 20)                       │
-│  ├─ API Routes (40+)                           │
-│  └─ MCP Server (port 3100)                     │
+│  VPS (SSH + Nginx + PM2)                        │
+│  ├─ Next.js (Node.js 20)                        │
+│  ├─ API Routes                                  │
+│  └─ MCP Server (port 3100)                      │
 ├─────────────────────────────────────────────────┤
 │  PostgreSQL (Supabase / Neon / Railway)        │
 │  ├─ 27 tables                                  │
@@ -43,7 +43,7 @@ Déployer la plateforme en **pré-production** pour validation avant beta fermé
 ## ✅ PRÉREQUIS
 
 ### 1. Accès Nécessaires
-- [ ] Compte Vercel / Railway / Render
+- [ ] Accès SSH au VPS (ex: `root@88.99.254.59`)
 - [ ] Accès GitHub (repository)
 - [ ] Base de données PostgreSQL
 - [ ] Redis instance
@@ -124,34 +124,30 @@ openssl rand -hex 32
 
 ### Étape 2: Configurer CI/CD (30 min)
 
-#### 2.1 Vercel (recommandé)
+#### 2.1 VPS (déploiement SSH)
+
+Le dépôt fournit un script de déploiement vers un VPS :
 
 ```bash
-# 1. Installer Vercel CLI
-npm i -g vercel
-
-# 2. Login
-vercel login
-
-# 3. Lier projet
-vercel link
-
-# 4. Configurer variables d'environnement
-vercel env add DATABASE_URL production
-vercel env add DIRECT_URL production
-vercel env add MISTRAL_API_KEY production
-vercel env add SESSION_SECRET production
-vercel env add CSRF_SECRET production
-vercel env add NEXT_PUBLIC_APP_URL production
-vercel env add REDIS_URL production
-vercel env add CLICTOPAY_WEBHOOK_SECRET production
-vercel env add CRON_SECRET production
-
-# 5. Deploy
-vercel --prod
+./scripts/deploy.sh root@88.99.254.59
 ```
 
-#### 2.2 Railway
+Pour une première installation (nginx + SSL) :
+
+```bash
+./scripts/deploy.sh root@88.99.254.59 --first-run
+```
+
+Le script :
+- synchronise le code (rsync)
+- installe les dépendances
+- applique les migrations Prisma
+- build Next.js + build MCP
+- redémarre PM2
+
+Les variables d'environnement doivent être présentes sur le serveur dans `.env` (non commité).
+
+#### 2.2 Railway (si besoin uniquement pour DB/Redis)
 
 ```bash
 # 1. Installer Railway CLI
@@ -268,14 +264,10 @@ curl -X POST https://eaf-preprod.yourdomain.com/api/v1/rag/search \
 #### 5.3 Vérifier Logs
 
 ```bash
-# Vercel
-vercel logs --prod
-
-# Railway
 railway logs
 
 # Vérifier erreurs
-vercel logs --prod | grep -i error
+railway logs | grep -i error
 ```
 
 ---
@@ -409,18 +401,17 @@ curl https://eaf-preprod.yourdomain.com/paiement/refus
 ### Si Problème Critique
 
 ```bash
-# 1. Stopper déploiement
-vercel rollback  # ou équivalent
-
-# 2. Revenir à version précédente
+# 1. Revenir à la version précédente (sur votre machine)
 git checkout <commit-precedent>
-vercel --prod
+
+# 2. Redéployer sur le VPS
+./scripts/deploy.sh root@88.99.254.59
 
 # 3. Vérifier
 curl https://eaf-preprod.yourdomain.com/api/v1/health
 
-# 4. Analyser logs
-vercel logs --prod | grep -i error
+# 4. Analyser logs (VPS)
+ssh root@88.99.254.59 'pm2 logs --lines 200' | grep -i error
 ```
 
 ### Contacts d'Urgence
@@ -447,7 +438,7 @@ vercel logs --prod | grep -i error
 ### Outils Recommandés
 
 - **Sentry:** Error tracking
-- **Vercel Analytics:** Web Vitals
+- **WebPageTest / Lighthouse:** Web Vitals
 - **Better Uptime:** Monitoring uptime
 - **Logtail:** Logs aggregation
 

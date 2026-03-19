@@ -934,7 +934,6 @@ Ce document décrit l’arborescence utile du dépôt dans son état courant. Il
 ├── eslint.config.mjs
 ├── knip.json
 ├── middleware.ts
-├── netlify.toml
 ├── next-env.d.ts
 ├── next.config.ts
 ├── package-lock.json
@@ -945,6 +944,5 @@ Ce document décrit l’arborescence utile du dépôt dans son état courant. Il
 ├── stryker.conf.json
 ├── tsconfig.json
 ├── tsconfig.test.json
-├── vercel.json
 └── vitest.config.ts
 ```

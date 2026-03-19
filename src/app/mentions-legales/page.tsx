@@ -79,8 +79,8 @@ export default function MentionsLegalesPage() {
                   </div>
                   <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Déploiement</p>
-                    <p className="mt-2 text-sm font-semibold text-[var(--navy)]">Vercel Inc.</p>
-                    <p className="mt-1 text-sm text-[var(--text-secondary)]">440 N Barranca Ave #4133, Covina, CA 91723, USA</p>
+                    <p className="mt-2 text-sm font-semibold text-[var(--navy)]">Serveur dédié (VPS)</p>
+                    <p className="mt-1 text-sm text-[var(--text-secondary)]">Déploiement et exploitation en interne (Nexus Réussite)</p>
                   </div>
                 </div>
               </div>

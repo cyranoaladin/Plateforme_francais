@@ -6,12 +6,22 @@ type SeedUser = {
   email: string;
   password: string;
   displayName: string;
-  plan: 'FREE' | 'PRO' | 'MAX';
+  plan: 'FREE' | 'PREMIUM' | 'PRO';
   classLevel: string;
   targetScore: string;
   selectedOeuvres: string[];
   oeuvreChoisieEntretien: string;
   weakSkills: string[];
+};
+
+type SeedAdmin = {
+  email: string;
+  password: string;
+};
+
+const SEED_ADMIN: SeedAdmin = {
+  email: 'admin@eaf.local',
+  password: 'AdminTest2026!',
 };
 
 const SEED_USERS: SeedUser[] = [
@@ -45,9 +55,9 @@ const SEED_USERS: SeedUser[] = [
     weakSkills: ['Lecture expressive'],
   },
   {
-    email: 'eleve.max@eaf.local',
-    password: 'MaxTest2026!',
-    displayName: 'Emma Benali (Max)',
+    email: 'eleve.masterium@eaf.local',
+    password: 'MasteriumTest2026!',
+    displayName: 'Emma Benali (Masterium)',
     plan: 'PRO',
     classLevel: 'Première générale',
     targetScore: '18/20',
@@ -69,6 +79,25 @@ const SEED_USERS: SeedUser[] = [
     weakSkills: [],
   },
 ];
+
+async function seedAdmin(data: SeedAdmin) {
+  const credentials = createPasswordCredentials(data.password);
+  await prisma.user.upsert({
+    where: { email: data.email },
+    update: {
+      passwordHash: credentials.passwordHash,
+      passwordSalt: credentials.passwordSalt,
+      role: 'admin',
+    },
+    create: {
+      email: data.email,
+      passwordHash: credentials.passwordHash,
+      passwordSalt: credentials.passwordSalt,
+      role: 'admin',
+    },
+  });
+  console.log(`  ✅ Admin (${data.email})`);
+}
 
 async function seedUser(data: SeedUser) {
   const credentials = createPasswordCredentials(data.password);
@@ -110,12 +139,10 @@ async function seedUser(data: SeedUser) {
     },
   });
 
-  // Create subscription for PRO and MAX
+  // Create subscription for PREMIUM and PRO
   if (data.plan !== 'FREE') {
     const now = new Date();
-    const periodEnd = data.plan === 'MAX'
-      ? new Date('2126-01-01') // lifetime
-      : new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // +30 days
+    const periodEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // +30 days
 
     await prisma.subscription.upsert({
       where: { userId: user.id },
@@ -139,7 +166,9 @@ async function seedUser(data: SeedUser) {
 }
 
 async function main() {
-  console.log('=== Seed Nexus EAF — 3 profils test ===\n');
+  console.log('=== Seed Nexus EAF — 4 profils test ===\n');
+
+  await seedAdmin(SEED_ADMIN);
 
   for (const userData of SEED_USERS) {
     await seedUser(userData);
@@ -170,9 +199,11 @@ async function main() {
 
   console.log('=== Seed terminé ===');
   console.log('\nComptes test :');
-  console.log('  FREE : eleve.free@eaf.local / FreeTest2026!');
-  console.log('  PRO  : eleve.pro@eaf.local  / ProTest2026!');
-  console.log('  MAX  : eleve.max@eaf.local  / MaxTest2026!');
+  console.log(`  ADMIN     : ${SEED_ADMIN.email} / ${SEED_ADMIN.password}`);
+  console.log('  FREEMIUM  : eleve.free@eaf.local / FreeTest2026!');
+  console.log('  PREMIUM   : eleve.pro@eaf.local / ProTest2026!');
+  console.log('  MASTERIUM : eleve.masterium@eaf.local / MasteriumTest2026!');
+  console.log('  LEGACY    : jean@eaf.local / demo1234');
 }
 
 main()

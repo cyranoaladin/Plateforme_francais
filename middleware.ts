@@ -140,6 +140,12 @@ export function middleware(request: NextRequest) {
   // Check session cookie
   const sessionToken = request.cookies.get('eaf_session')?.value;
   if (!sessionToken) {
+    if (pathname.startsWith('/api')) {
+      return new NextResponse(JSON.stringify({ error: 'Non authentifié.' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      });
+    }
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
