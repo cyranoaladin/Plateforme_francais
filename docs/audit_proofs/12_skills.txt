@@ -1,0 +1,705 @@
+packages/mcp-server/tests/skill-delta.test.ts:16:describe('getSkillDelta', () => {
+packages/mcp-server/tests/skill-delta.test.ts:51:    const { getSkillDelta } = await import('../src/tools/all-tools.js')
+packages/mcp-server/tests/skill-delta.test.ts:52:    const result = await getSkillDelta({
+packages/mcp-server/tests/skill-delta.test.ts:68:    const { getSkillDelta } = await import('../src/tools/all-tools.js')
+packages/mcp-server/tests/skill-delta.test.ts:69:    const result = await getSkillDelta({
+packages/mcp-server/tests/mcp-server.test.ts:88:      agentSkill: 'correcteur',
+packages/mcp-server/tests/mcp-server.test.ts:104:      agentSkill: 'correcteur',
+packages/mcp-server/tests/mcp-server.test.ts:129:      agentSkill: 'coach-ecrit',
+packages/mcp-server/tests/mcp-server.test.ts:145:      agentSkill: 'tuteur-libre',
+packages/mcp-server/tests/mcp-server.test.ts:162:  it('retourne le profil complet avec SkillMap', async () => {
+packages/mcp-server/tests/mcp-server.test.ts:172:        weakSkills: ['oral', 'langue'],
+packages/mcp-server/tests/mcp-server.test.ts:173:        skillMap: JSON.stringify({
+packages/mcp-server/tests/mcp-server.test.ts:187:    const result = await getStudentProfile({ studentId: 'user-123', includeSkillMap: true })
+packages/mcp-server/tests/mcp-server.test.ts:191:    expect(result.weakSkills).toContain('oral')
+packages/mcp-server/tests/mcp-server.test.ts:192:    expect(result.skillMap?.axes).toHaveLength(2)
+packages/mcp-server/tests/mcp-server.test.ts:203:      getStudentProfile({ studentId: 'inexistant', includeSkillMap: false })
+src/app/mon-parcours/page.tsx:35:  skillMap?: {
+src/app/mon-parcours/page.tsx:238:    if (!profile?.skillMap) {
+src/app/mon-parcours/page.tsx:243:      { label: 'Écrit', score: profile.skillMap.ecrit, accent: 'bg-[var(--navy)]' },
+src/app/mon-parcours/page.tsx:244:      { label: 'Oral', score: profile.skillMap.oral, accent: 'bg-[var(--teal)]' },
+src/app/mon-parcours/page.tsx:245:      { label: 'Grammaire', score: profile.skillMap.grammaire, accent: 'bg-[var(--gold-muted)]' },
+src/app/mon-parcours/page.tsx:246:      { label: 'Lecture cursive', score: profile.skillMap.lectureCursive, accent: 'bg-[var(--accent-violet)]' },
+src/app/mon-parcours/page.tsx:248:  }, [profile?.skillMap]);
+src/app/quiz/page.tsx:64:  weakSkills: string[];
+src/app/quiz/page.tsx:142:    const weakSkillLabel = selectedOption?.label ?? theme;
+src/app/quiz/page.tsx:149:      const weak = Array.from(new Set([...profile.weakSkills, weakSkillLabel]));
+src/app/quiz/page.tsx:157:        body: JSON.stringify({ weakSkills: weak }),
+src/app/onboarding/page.tsx:224:          weakSkills: weakSignals,
+src/app/api/v1/chat/route.ts:25: * Body: { query: string; workId?: string; parcours?: string; skill?: Skill }
+src/app/api/v1/auth/register/route.ts:28:  weakSkills: ['Problématisation', 'Grammaire'],
+src/app/api/v1/memory/timeline/route.ts:22:      const weak = event.payload?.weakSkills;
+src/app/api/v1/onboarding/complete/route.ts:46:  const nextWeak = Array.from(new Set([...auth.user.profile.weakSkills, ...sanitizedData.weakSignals]));
+src/app/api/v1/onboarding/complete/route.ts:58:    weakSkills: nextWeak,
+src/app/api/v1/onboarding/complete/route.ts:66:        weakSkills: nextWeak,
+src/app/api/v1/quiz/generate/route.ts:122:  const weakSkills = auth.user.profile.weakSkills ?? [];
+src/app/api/v1/quiz/generate/route.ts:123:  const studentContext = weakSkills.length > 0
+src/app/api/v1/quiz/generate/route.ts:124:    ? `Faiblesses de l'élève: ${weakSkills.join(', ')}.`
+src/app/dashboard/page.tsx:328:  const weakestSkill = SKILL_META.reduce(
+src/app/dashboard/page.tsx:332:  const strongestSkill = SKILL_META.reduce(
+src/app/dashboard/page.tsx:338:  const focusCopy = FOCUS_COPY[weakestSkill.key] ?? FOCUS_COPY.ecrit;
+src/app/dashboard/page.tsx:421:      (ACTIONS[weakestSkill.key] ?? ACTIONS.ecrit).map((action) => ({
+src/app/dashboard/page.tsx:425:    [tutorHref, weakestSkill.key],
+src/app/dashboard/page.tsx:468:              d’abord <strong>{weakestSkill.label.toLowerCase()}</strong> au centre, à partir de l’historique réel des séances et des attendus EAF,
+src/app/dashboard/page.tsx:474:                Point fort courant: <strong>{strongestSkill.label}</strong>
+src/app/dashboard/page.tsx:477:                Angle à retendre: <strong>{weakestSkill.label}</strong>
+src/app/dashboard/page.tsx:512:                { label: 'Repère fort', value: strongestSkill.label, icon: GraduationCap },
+src/app/dashboard/page.tsx:607:                <p className="mt-3 text-sm leading-7 text-slate-200">{weakestSkill.copy}</p>
+src/app/api/v1/evaluations/langue/route.ts:84:  const nextWeakSkills =
+src/app/api/v1/evaluations/langue/route.ts:86:      ? auth.user.profile.weakSkills.filter((skill) => skill !== 'Grammaire')
+src/app/api/v1/evaluations/langue/route.ts:87:      : Array.from(new Set([...auth.user.profile.weakSkills, 'Grammaire']));
+src/app/api/v1/evaluations/langue/route.ts:91:    weakSkills: nextWeakSkills,
+src/app/api/v1/evaluations/langue/route.ts:112:        microSkillId: 'langue_grammaire',
+src/app/api/v1/evaluations/langue/route.ts:124:              microSkillId: 'langue_grammaire',
+src/app/api/v1/evaluations/langue/route.ts:140:        weakSkills: result.status === 'success' ? [] : ['Grammaire'],
+src/app/api/v1/student/profile/route.ts:33:    .flatMap((event) => (Array.isArray(event.payload?.weakSkills) ? event.payload.weakSkills : []))
+src/app/api/v1/student/profile/route.ts:66:    skillMap: {
+src/app/api/v1/student/profile/route.ts:106:    weakSkills: parsed.data.weakSkills ?? auth.user.profile.weakSkills,
+src/app/api/v1/oral/session/[sessionId]/end/route.ts:61:  const weakSkills = Array.from(
+src/app/api/v1/oral/session/[sessionId]/end/route.ts:86:      axes: weakSkills,
+src/app/api/v1/oral/session/[sessionId]/end/route.ts:135:        weakSkills,
+src/app/profil/page.tsx:24:  skillMap: {
+src/app/profil/page.tsx:61:  skillMap: {
+src/app/profil/page.tsx:167:      (resolvedProfile.skillMap.ecrit +
+src/app/profil/page.tsx:168:        resolvedProfile.skillMap.oral +
+src/app/profil/page.tsx:169:        resolvedProfile.skillMap.grammaire +
+src/app/profil/page.tsx:170:        resolvedProfile.skillMap.lectureCursive) /
+src/app/profil/page.tsx:177:    score: resolvedProfile.skillMap[skill.key],
+src/app/profil/page.tsx:180:  const strongestSkill = skillCards.reduce((prev, current) => (current.score > prev.score ? current : prev), skillCards[0]);
+src/app/profil/page.tsx:181:  const weakestSkill = skillCards.reduce((prev, current) => (current.score < prev.score ? current : prev), skillCards[0]);
+src/app/profil/page.tsx:246:                Point fort{'\u00a0'}: <strong>{strongestSkill.label}</strong>
+src/app/profil/page.tsx:249:                Axe à retendre{'\u00a0'}: <strong>{weakestSkill.label}</strong>
+src/app/profil/page.tsx:252:                Mise à jour{'\u00a0'}: <strong>{formatShortDate(resolvedProfile.skillMap.lastUpdated)}</strong>
+src/app/profil/page.tsx:345:              <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{strongestSkill.label}</p>
+src/app/profil/page.tsx:350:              <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{weakestSkill.label}</p>
+src/app/api/v1/parcours/generate/route.ts:110:      userQuery: `Génère un plan de révision EAF sur 4 semaines. Faiblesses de l'élève : ${auth.user.profile.weakSkills.join(', ') || 'aucune précisée'}. Séquence prioritaire : ${sequence.objectif}.`,
+src/app/parent/page.tsx:65:  const strongestSkill = skillEntries.reduce((prev, current) => (current.score > prev.score ? current : prev), skillEntries[0]);
+src/app/parent/page.tsx:66:  const weakestSkill = skillEntries.reduce((prev, current) => (current.score < prev.score ? current : prev), skillEntries[0]);
+src/app/parent/page.tsx:107:  }[weakestSkill.key as keyof typeof data.scores] ?? {
+src/app/parent/page.tsx:138:                Point fort&nbsp;: <strong>{strongestSkill.label}</strong>
+src/app/parent/page.tsx:141:                Focus semaine&nbsp;: <strong>{weakestSkill.label}</strong>
+src/app/parent/page.tsx:233:              <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{strongestSkill.label}</p>
+src/app/parent/page.tsx:238:              <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{weakestSkill.label}</p>
+packages/mcp-server/README.md:62:| `eaf_get_student_profile` | Profil complet avec SkillMap 5 axes |
+src/lib/cron/scheduler.ts:52:        weakSkills: user.profile?.weakSkills ?? ['Problématisation', 'Grammaire'],
+src/lib/mcp/client.ts:28:type AgentSkill =
+src/lib/mcp/client.ts:43:  agentSkill: AgentSkill
+src/lib/mcp/client.ts:80:              agentSkill: options.agentSkill,
+src/lib/mcp/client.ts:112:    getProfile: (studentId: string, agentSkill: AgentSkill) =>
+src/lib/mcp/client.ts:113:      this.callTool('eaf_get_student_profile', { studentId }, { agentSkill, studentId }),
+src/lib/mcp/client.ts:115:    updateSkillMap: (
+src/lib/mcp/client.ts:117:      agentSkill: AgentSkill,
+src/lib/mcp/client.ts:119:    ) => this.callTool('eaf_update_skill_map', params, { agentSkill, studentId }),
+src/lib/mcp/client.ts:121:    getErrorBank: (studentId: string, agentSkill: AgentSkill) =>
+src/lib/mcp/client.ts:122:      this.callTool('eaf_get_error_bank', { studentId }, { agentSkill, studentId }),
+src/lib/mcp/client.ts:124:    scheduleRevision: (params: Record<string, unknown>, agentSkill: AgentSkill) =>
+src/lib/mcp/client.ts:126:        agentSkill,
+src/lib/mcp/client.ts:130:    getStudyPlan: (studentId: string, agentSkill: AgentSkill) =>
+src/lib/mcp/client.ts:131:      this.callTool('eaf_get_study_plan', { studentId }, { agentSkill, studentId }),
+src/lib/mcp/client.ts:135:    search: (query: string, options: Record<string, unknown>, agentSkill: AgentSkill) =>
+src/lib/mcp/client.ts:136:      this.callTool('eaf_search_corpus', { query, ...options }, { agentSkill }),
+src/lib/mcp/client.ts:138:    getChunk: (chunkId: string, agentSkill: AgentSkill) =>
+src/lib/mcp/client.ts:139:      this.callTool('eaf_get_chunk', { chunkId }, { agentSkill }),
+src/lib/mcp/client.ts:143:    checkPolicy: (params: Record<string, unknown>, agentSkill: AgentSkill, studentId?: string) =>
+src/lib/mcp/client.ts:144:      this.callTool('eaf_check_policy', params, { agentSkill, studentId }),
+src/lib/mcp/client.ts:146:    logEvent: (params: Record<string, unknown>, agentSkill: AgentSkill) =>
+src/lib/mcp/client.ts:147:      this.callTool('eaf_log_rule_event', params, { agentSkill }),
+src/lib/mcp/client.ts:152:      this.callTool('eaf_get_subscription', { studentId, feature }, { agentSkill: 'system', studentId }),
+src/lib/mcp/client.ts:155:      this.callTool('eaf_get_usage', { studentId }, { agentSkill: 'system', studentId }),
+src/lib/mcp/client.ts:160:      this.callTool('eaf_get_correction', { copieId, studentId }, { agentSkill: 'correcteur', studentId }),
+src/lib/mcp/client.ts:163:      this.callTool('eaf_save_evaluation', params, { agentSkill: 'correcteur', studentId }),
+src/lib/mcp/client.ts:166:      this.callTool('eaf_get_oral_session', { sessionId, studentId }, { agentSkill: 'coach-oral', studentId }),
+src/lib/mcp/client.ts:171:      this.callTool('eaf_generate_plan', { studentId, ...(options ?? {}) }, { agentSkill: 'diagnosticien', studentId }),
+src/lib/mcp/client.ts:174:      this.callTool('eaf_mark_task_complete', params, { agentSkill: 'rappel-agent', studentId }),
+src/lib/mcp/client.ts:179:      this.callTool('eaf_get_weekly_stats', { studentId, weekOffset }, { agentSkill: 'rapport-auto', studentId }),
+src/lib/mcp/client.ts:181:    getSkillDelta: (studentId: string, fromDate: string, toDate?: string) =>
+src/lib/mcp/client.ts:182:      this.callTool('eaf_get_skill_delta', { studentId, fromDate, toDate }, { agentSkill: 'rapport-auto', studentId }),
+src/lib/mcp/client.ts:185:      this.callTool('eaf_generate_report', { studentId, weekOffset }, { agentSkill: 'rapport-auto', studentId }),
+src/lib/security/llm-rate-limiter.ts:3:import type { Skill } from '@/lib/llm/skills/types';
+src/lib/security/llm-rate-limiter.ts:5:export type LimitedSkill =
+src/lib/security/llm-rate-limiter.ts:14:const LLM_LIMITS: Record<LimitedSkill, { rpm: number; daily: number }> = {
+src/lib/security/llm-rate-limiter.ts:30:function normalizeSkill(skill: Skill | string): LimitedSkill | null {
+src/lib/security/llm-rate-limiter.ts:32:    return skill as LimitedSkill;
+src/lib/security/llm-rate-limiter.ts:49:export async function checkLLMQuota(userId: string, skill: Skill | string): Promise<void> {
+src/lib/security/llm-rate-limiter.ts:50:  const normalized = normalizeSkill(skill);
+src/lib/security/llm-rate-limiter.ts:52:  const resolvedSkill = normalized ?? skill;
+src/lib/security/llm-rate-limiter.ts:57:  const dailyKey = `llm_quota:${userId}:${resolvedSkill}:daily:${day}`;
+src/lib/security/llm-rate-limiter.ts:58:  const rpmKey = `llm_quota:${userId}:${resolvedSkill}:rpm:${minute}`;
+src/lib/security/llm-rate-limiter.ts:65:      throw new QuotaExceededError(resolvedSkill, 'rpm', limits.rpm);
+src/lib/security/llm-rate-limiter.ts:68:      throw new QuotaExceededError(resolvedSkill, 'daily', limits.daily);
+src/lib/security/llm-rate-limiter.ts:78:        skill: resolvedSkill,
+src/lib/security/llm-rate-limiter.ts:83:    throw new QuotaExceededError(resolvedSkill, 'rpm', limits.rpm);
+src/lib/memory/context-builder.ts:13:  type SkillLevel,
+src/lib/memory/context-builder.ts:42:export interface WeakSkillSummary {
+src/lib/memory/context-builder.ts:59:  globalLevel: SkillLevel;
+src/lib/memory/context-builder.ts:63:  weakSkills: WeakSkillSummary[];
+src/lib/memory/context-builder.ts:134:  const relevantWeak = filterWeakSkillsByAgent(profile.weakSkills, opts.agentType);
+src/lib/memory/context-builder.ts:171:export function filterWeakSkillsByAgent(
+src/lib/memory/context-builder.ts:172:  weakSkills: WeakSkillSummary[],
+src/lib/memory/context-builder.ts:174:): WeakSkillSummary[] {
+src/lib/memory/context-builder.ts:198:    return weakSkills;
+src/lib/memory/context-builder.ts:201:  return weakSkills.filter((ws) =>
+src/lib/memory/store.ts:3: * Ce n'est PAS le Memory Store Pédagogique (SkillMap, WeakSkills, WorkMastery).
+src/lib/memory/store.ts:74:                weakSkills: user.profile.weakSkills,
+src/lib/memory/scoring.ts:7: * - WeakSkill severity computation
+src/lib/memory/scoring.ts:13:export type SkillLevel = 'INSUFFISANT' | 'PASSABLE' | 'SATISFAISANT' | 'EXCELLENT';
+src/lib/memory/scoring.ts:14:export type SkillTrend = 'IMPROVING' | 'STABLE' | 'DECLINING';
+src/lib/memory/scoring.ts:17: * Update a SkillMapEntry score using Weighted Moving Average.
+src/lib/memory/scoring.ts:26:export function updateSkillScore(
+src/lib/memory/scoring.ts:38: * Compute the severity of a WeakSkill based on frequency and recency.
+src/lib/memory/scoring.ts:54: * Apply daily decay to a WeakSkill's decayedScore.
+src/lib/memory/scoring.ts:78:export function computeSkillTrend(
+src/lib/memory/scoring.ts:80:): SkillTrend {
+src/lib/memory/scoring.ts:111:export function estimateGlobalLevel(avgScore: number): SkillLevel {
+src/lib/memory/scoring.ts:119: * Check if a WeakSkill should be created/updated based on error recurrence.
+src/lib/memory/scoring.ts:120: * Per ADDENDUM: same error ≥ 3 times in 30 days triggers WeakSkill.
+src/lib/memory/scoring.ts:123:export function shouldCreateWeakSkill(errorCount: number, windowDays = 30): boolean {
+src/lib/store/premium-store.ts:4:import { Prisma, SkillTrend, WeakStatus, type EafSkill, type RevisionPhase as PrismaRevisionPhase, type WeakSeverity } from '@prisma/client';
+src/lib/store/premium-store.ts:9:export type SkillAxis = 'ecrit' | 'oral' | 'langue' | 'oeuvres' | 'methode';
+src/lib/store/premium-store.ts:23:  microSkillId: string;
+src/lib/store/premium-store.ts:38:export type SkillPoint = {
+src/lib/store/premium-store.ts:39:  microSkillId: string;
+src/lib/store/premium-store.ts:43:export type SkillMap = {
+src/lib/store/premium-store.ts:45:  axes: Record<SkillAxis, SkillPoint[]>;
+src/lib/store/premium-store.ts:69:  skillMaps: Record<string, SkillMap>;
+src/lib/store/premium-store.ts:86:  weakSkills: [] as string[],
+src/lib/store/premium-store.ts:89:const MICRO_SKILL_MAP: Record<string, { axis: SkillAxis; skill: EafSkill }> = {
+src/lib/store/premium-store.ts:123:const SKILL_TO_MICRO_FALLBACK: Partial<Record<EafSkill, string>> = {
+src/lib/store/premium-store.ts:151:  skillMaps: {},
+src/lib/store/premium-store.ts:176:      skillMaps: parsed.skillMaps ?? {},
+src/lib/store/premium-store.ts:197:function createEmptySkillMap(studentId: string): SkillMap {
+src/lib/store/premium-store.ts:219:function inferAxis(microSkillId: string): SkillAxis {
+src/lib/store/premium-store.ts:220:  return MICRO_SKILL_MAP[microSkillId]?.axis ?? ((microSkillId.split('_')[0] as SkillAxis) || 'methode');
+src/lib/store/premium-store.ts:223:function mapMicroSkill(microSkillId: string): { axis: SkillAxis; skill: EafSkill } {
+src/lib/store/premium-store.ts:224:  const mapped = MICRO_SKILL_MAP[microSkillId];
+src/lib/store/premium-store.ts:229:  const axis = inferAxis(microSkillId);
+src/lib/store/premium-store.ts:237:function mapStoredMicroSkill(microSkillKey: string | null, skill: EafSkill): string {
+src/lib/store/premium-store.ts:238:  return microSkillKey ?? SKILL_TO_MICRO_FALLBACK[skill] ?? 'methode_temps';
+src/lib/store/premium-store.ts:241:function skillTrend(previousScore: number | null, nextScore: number): SkillTrend {
+src/lib/store/premium-store.ts:252:function parseWeakSkillExamples(value: Prisma.JsonValue): Array<{ example: string; correction: string }> {
+src/lib/store/premium-store.ts:296:async function getSkillMapFromDb(studentId: string, profileId: string): Promise<SkillMap> {
+src/lib/store/premium-store.ts:297:  const entries = await prisma.skillMapEntry.findMany({
+src/lib/store/premium-store.ts:303:    return createEmptySkillMap(studentId);
+src/lib/store/premium-store.ts:306:  const axes = createEmptySkillMap(studentId).axes;
+src/lib/store/premium-store.ts:310:    const microSkillId = mapStoredMicroSkill(entry.microSkillKey, entry.skill);
+src/lib/store/premium-store.ts:311:    const axis = inferAxis(microSkillId);
+src/lib/store/premium-store.ts:312:    axes[axis] = [...axes[axis], { microSkillId, score: entry.score }];
+src/lib/store/premium-store.ts:326:function mapWeakSkillRecordToItem(
+src/lib/store/premium-store.ts:332:    microSkillKey: string | null;
+src/lib/store/premium-store.ts:333:    skill: EafSkill;
+src/lib/store/premium-store.ts:342:  const examples = parseWeakSkillExamples(entry.examples);
+src/lib/store/premium-store.ts:349:    microSkillId: mapStoredMicroSkill(entry.microSkillKey, entry.skill),
+src/lib/store/premium-store.ts:375:  microSkillId: string;
+src/lib/store/premium-store.ts:377:  const text = `${input.errorType} ${input.category} ${input.microSkillId}`.toLowerCase();
+src/lib/store/premium-store.ts:400:  microSkillId: string;
+src/lib/store/premium-store.ts:412:    microSkillId: input.microSkillId,
+src/lib/store/premium-store.ts:429:    const mapping = mapMicroSkill(input.microSkillId);
+src/lib/store/premium-store.ts:430:    await prisma.weakSkillEntry.create({
+src/lib/store/premium-store.ts:434:        microSkillKey: input.microSkillId,
+src/lib/store/premium-store.ts:459:    const entry = await prisma.weakSkillEntry.findUnique({
+src/lib/store/premium-store.ts:464:      await prisma.weakSkillRevision.create({
+src/lib/store/premium-store.ts:466:          weakSkillEntryId: errorId,
+src/lib/store/premium-store.ts:475:      await prisma.weakSkillEntry.update({
+src/lib/store/premium-store.ts:504:    const items = await prisma.weakSkillEntry.findMany({
+src/lib/store/premium-store.ts:509:    return items.map((entry) => mapWeakSkillRecordToItem(studentId, entry));
+src/lib/store/premium-store.ts:529:export function createDefaultSkillMap(studentId: string): SkillMap {
+src/lib/store/premium-store.ts:530:  return createEmptySkillMap(studentId);
+src/lib/store/premium-store.ts:533:export async function getOrCreateSkillMap(studentId: string): Promise<SkillMap> {
+src/lib/store/premium-store.ts:536:    return getSkillMapFromDb(studentId, profileId);
+src/lib/store/premium-store.ts:540:  const existing = current.skillMaps[studentId];
+src/lib/store/premium-store.ts:543:  const created = createEmptySkillMap(studentId);
+src/lib/store/premium-store.ts:546:    skillMaps: { ...store.skillMaps, [studentId]: created },
+src/lib/store/premium-store.ts:551:export async function updateSkillMap(
+src/lib/store/premium-store.ts:553:  updates: Array<{ microSkillId: string; score: number }>,
+src/lib/store/premium-store.ts:554:): Promise<SkillMap> {
+src/lib/store/premium-store.ts:557:    const keys = updates.map((item) => item.microSkillId);
+src/lib/store/premium-store.ts:558:    const existing = await prisma.skillMapEntry.findMany({
+src/lib/store/premium-store.ts:559:      where: { profileId, microSkillKey: { in: keys } },
+src/lib/store/premium-store.ts:561:    const existingByKey = new Map(existing.map((entry) => [entry.microSkillKey ?? '', entry]));
+src/lib/store/premium-store.ts:567:        const mapping = mapMicroSkill(update.microSkillId);
+src/lib/store/premium-store.ts:568:        const current = existingByKey.get(update.microSkillId);
+src/lib/store/premium-store.ts:571:          return prisma.skillMapEntry.update({
+src/lib/store/premium-store.ts:584:        return prisma.skillMapEntry.create({
+src/lib/store/premium-store.ts:587:            microSkillKey: update.microSkillId,
+src/lib/store/premium-store.ts:599:    return getSkillMapFromDb(studentId, profileId);
+src/lib/store/premium-store.ts:602:  const map = await getOrCreateSkillMap(studentId);
+src/lib/store/premium-store.ts:603:  const next: SkillMap = {
+src/lib/store/premium-store.ts:610:    const axis = inferAxis(update.microSkillId);
+src/lib/store/premium-store.ts:612:    const index = next.axes[axis].findIndex((item) => item.microSkillId === update.microSkillId);
+src/lib/store/premium-store.ts:614:      next.axes[axis][index] = { microSkillId: update.microSkillId, score: boundedScore };
+src/lib/store/premium-store.ts:616:      next.axes[axis] = [...next.axes[axis], { microSkillId: update.microSkillId, score: boundedScore }];
+src/lib/store/premium-store.ts:622:    skillMaps: {
+src/lib/store/premium-store.ts:623:      ...current.skillMaps,
+src/lib/memory/profile-loader.ts:5:import { estimateGlobalLevel, type SkillLevel, type WeakSeverity } from '@/lib/memory/scoring';
+src/lib/memory/profile-loader.ts:6:import type { MemoryProfile, WeakSkillSummary, WorkMasterySummary } from '@/lib/memory/context-builder';
+src/lib/memory/profile-loader.ts:56:function guessLegacyWeakSkill(label: string): string {
+src/lib/memory/profile-loader.ts:61:function buildLegacyWeakSkills(labels: string[] | undefined): WeakSkillSummary[] {
+src/lib/memory/profile-loader.ts:63:    skill: guessLegacyWeakSkill(label),
+src/lib/memory/profile-loader.ts:127:  explicitLevel: SkillLevel | null | undefined,
+src/lib/memory/profile-loader.ts:130:): SkillLevel {
+src/lib/memory/profile-loader.ts:167:          weakSkills: true,
+src/lib/memory/profile-loader.ts:168:          weakSkillEntries: {
+src/lib/memory/profile-loader.ts:218:    const weakSkills = profile?.weakSkillEntries.length
+src/lib/memory/profile-loader.ts:219:      ? profile.weakSkillEntries.map((entry) => ({
+src/lib/memory/profile-loader.ts:226:      : buildLegacyWeakSkills(profile?.weakSkills);
+src/lib/memory/profile-loader.ts:239:      globalLevel: deriveGlobalLevel(profile?.globalLevel as SkillLevel | undefined, avgOralScore, avgEcritScore),
+src/lib/memory/profile-loader.ts:243:      weakSkills,
+src/lib/memory/profile-loader.ts:270:    weakSkills: buildLegacyWeakSkills(fallbackUser.profile.weakSkills),
+src/lib/onboarding/copy-analysis.ts:8: *   4. Extracts WeakSkills and saves them to the student profile
+src/lib/onboarding/copy-analysis.ts:33:type EafSkillValue =
+src/lib/onboarding/copy-analysis.ts:44: * Keyword-to-EafSkill mapping for automatic classification of lacunes.
+src/lib/onboarding/copy-analysis.ts:46:const LACUNE_KEYWORD_MAP: Array<{ keywords: string[]; skill: EafSkillValue; category: string }> = [
+src/lib/onboarding/copy-analysis.ts:63: * Map free-text lacunes from LLM analysis to EafSkill enum values.
+src/lib/onboarding/copy-analysis.ts:66:function mapLacunesToEafSkills(
+src/lib/onboarding/copy-analysis.ts:69:): Array<{ skill: EafSkillValue; pattern: string; category: string }> {
+src/lib/onboarding/copy-analysis.ts:70:  const usedSkills = new Set<EafSkillValue>();
+src/lib/onboarding/copy-analysis.ts:71:  const results: Array<{ skill: EafSkillValue; pattern: string; category: string }> = [];
+src/lib/onboarding/copy-analysis.ts:78:      if (usedSkills.has(mapping.skill)) continue;
+src/lib/onboarding/copy-analysis.ts:81:        usedSkills.add(mapping.skill);
+src/lib/onboarding/copy-analysis.ts:88:      const fallback: EafSkillValue =
+src/lib/onboarding/copy-analysis.ts:92:      if (!usedSkills.has(fallback)) {
+src/lib/onboarding/copy-analysis.ts:94:        usedSkills.add(fallback);
+src/lib/onboarding/copy-analysis.ts:203: * 3. Save initial WeakSkills to profile
+src/lib/onboarding/copy-analysis.ts:208: * @param profileId - Student's profile ID (for WeakSkill storage).
+src/lib/onboarding/copy-analysis.ts:244:      const mappedSkills = mapLacunesToEafSkills(analysis.lacunes, analysis.copyType);
+src/lib/onboarding/copy-analysis.ts:246:      for (let i = 0; i < mappedSkills.length; i++) {
+src/lib/onboarding/copy-analysis.ts:247:        const mapped = mappedSkills[i];
+src/lib/onboarding/copy-analysis.ts:249:        await prisma.weakSkillEntry.create({
+src/lib/onboarding/copy-analysis.ts:261:        { userId, weakSkills: mappedSkills.length },
+src/lib/quiz/theme-mapping.ts:6: * - weakSkill label for student profile tracking
+src/lib/quiz/theme-mapping.ts:25:  /** weakSkill key for student profile tracking */
+src/lib/quiz/theme-mapping.ts:26:  weakSkillKey: string;
+src/lib/quiz/theme-mapping.ts:37:    weakSkillKey: 'Grammaire',
+src/lib/quiz/theme-mapping.ts:47:    weakSkillKey: 'Figures de style',
+src/lib/quiz/theme-mapping.ts:57:    weakSkillKey: 'Mouvements littéraires',
+src/lib/quiz/theme-mapping.ts:69:    weakSkillKey: 'Poésie',
+src/lib/quiz/theme-mapping.ts:81:    weakSkillKey: 'Roman',
+src/lib/quiz/theme-mapping.ts:93:    weakSkillKey: 'Théâtre',
+src/lib/quiz/theme-mapping.ts:105:    weakSkillKey: 'Littérature d\'idées',
+src/lib/quiz/theme-mapping.ts:115:    weakSkillKey: 'Commentaire',
+src/lib/quiz/theme-mapping.ts:125:    weakSkillKey: 'Dissertation',
+src/lib/quiz/theme-mapping.ts:135:    weakSkillKey: 'Oral',
+src/lib/types/premium.ts:1:export type SkillAxis = 'ecrit' | 'oral' | 'langue' | 'oeuvres' | 'methode'
+src/lib/types/premium.ts:15:export type SkillMap = {
+src/lib/types/premium.ts:17:  axes: Record<SkillAxis, Array<{ microSkillId: string; score: number }>>
+src/lib/types/premium.ts:49:  skillMap: SkillMap
+src/lib/types/premium.ts:61:  skillMapDelta: Array<{ axis: SkillAxis; current: number; delta: number }>
+src/lib/epreuves/worker.ts:71:        weakSkills: correction.bilan.axes_amelioration,
+src/lib/epreuves/worker.ts:84:          weakSkills: correction.bilan.axes_amelioration,
+src/lib/oral/service.ts:4:import { type Skill } from '@/lib/llm/skills/types';
+src/lib/oral/service.ts:121: * Evaluate a single oral phase transcript via the centralized Orchestrator (Skills).
+src/lib/oral/service.ts:133:  const mapping: Record<OralPhaseKey, Skill> = {
+src/lib/agents/student-modeler.ts:2: * StudentModeler Agent (P0-2) — updates SkillMap + evidence after EVERY interaction.
+src/lib/agents/student-modeler.ts:6:import { updateSkillMap, addErrorBankItem, getOrCreateSkillMap } from "@/lib/store/premium-store";
+src/lib/agents/student-modeler.ts:8:  SkillMap,
+src/lib/agents/student-modeler.ts:11:  SkillAxis,
+src/lib/agents/student-modeler.ts:21:    category: SkillAxis;
+src/lib/agents/student-modeler.ts:22:    microSkillId: string;
+src/lib/agents/student-modeler.ts:27:    microSkillId: string;
+src/lib/agents/student-modeler.ts:34: * Rubric criterion ID → microSkill ID mapping.
+src/lib/agents/student-modeler.ts:52: * Returns the updated SkillMap.
+src/lib/agents/student-modeler.ts:56:): Promise<SkillMap> {
+src/lib/agents/student-modeler.ts:57:  const updates: Array<{ microSkillId: string; score: number; evidence?: string }> = [];
+src/lib/agents/student-modeler.ts:62:      const microSkillId = CRITERION_TO_MICRO[criterion.id] || criterion.id;
+src/lib/agents/student-modeler.ts:65:        microSkillId,
+src/lib/agents/student-modeler.ts:76:        microSkillId: delta.microSkillId,
+src/lib/agents/student-modeler.ts:90:        microSkillId: err.microSkillId,
+src/lib/agents/student-modeler.ts:99:  // 4. Update SkillMap
+src/lib/agents/student-modeler.ts:101:    return updateSkillMap(event.studentId, updates);
+src/lib/agents/student-modeler.ts:105:  return getOrCreateSkillMap(event.studentId);
+src/lib/agents/student-modeler.ts:117:  category: SkillAxis;
+src/lib/agents/student-modeler.ts:118:  microSkillId: string;
+src/lib/agents/student-modeler.ts:124:    category: SkillAxis;
+src/lib/agents/student-modeler.ts:125:    microSkillId: string;
+src/lib/agents/student-modeler.ts:143:  const CATEGORY_MAP: Record<string, SkillAxis> = {
+src/lib/agents/student-modeler.ts:159:      const microSkillId = CRITERION_TO_MICRO[criterion.id] || criterion.id;
+src/lib/agents/student-modeler.ts:163:        microSkillId,
+src/lib/agents/rapport-auto.ts:7:  getOrCreateSkillMap,
+src/lib/agents/rapport-auto.ts:12:import type { SkillAxis, WeeklyReport } from '@/lib/types/premium';
+src/lib/agents/rapport-auto.ts:77:  const [skillMap, previousReport, errors, plan] = await Promise.all([
+src/lib/agents/rapport-auto.ts:78:    getOrCreateSkillMap(studentId),
+src/lib/agents/rapport-auto.ts:92:    void mcpClient.analytics.getSkillDelta(
+src/lib/agents/rapport-auto.ts:101:  const axes = Object.entries(skillMap.axes) as Array<[SkillAxis, typeof skillMap.axes[SkillAxis]]>;
+src/lib/agents/rapport-auto.ts:102:  const skillMapDelta = axes.map(([axis, skills]) => {
+src/lib/agents/rapport-auto.ts:104:    const previousAxis = previousReport?.skillMapDelta.find((item) => item.axis === axis);
+src/lib/agents/rapport-auto.ts:134:    skillMapDelta,
+src/lib/agents/router.ts:6:import { type Skill } from '@/lib/llm/skills/types';
+src/lib/agents/router.ts:73:export interface SkillResolutionContext {
+src/lib/agents/router.ts:84:export function resolveSkillForIntent(
+src/lib/agents/router.ts:86:  context: SkillResolutionContext = {},
+src/lib/agents/router.ts:87:): Skill {
+src/lib/agents/router.ts:140:  context: SkillResolutionContext = {},
+src/lib/agents/router.ts:141:): { category: IntentCategory; skill: Skill; confidence: number } {
+src/lib/agents/router.ts:143:  const skill = resolveSkillForIntent(category, context);
+src/lib/db/repositories/userRepo.ts:35:  weakSkills: ['Problématisation', 'Grammaire'],
+src/lib/db/repositories/userRepo.ts:62:              weakSkills: user.profile.weakSkills,
+src/lib/db/repositories/userRepo.ts:105:            weakSkills: user.profile.weakSkills,
+src/lib/db/repositories/userRepo.ts:148:            weakSkills: user.profile.weakSkills,
+src/lib/db/repositories/userRepo.ts:189:            weakSkills: input.profile.weakSkills,
+src/lib/db/repositories/userRepo.ts:231:        weakSkills: profile.weakSkills,
+src/lib/db/repositories/userRepo.ts:247:        weakSkills: profile.weakSkills,
+src/lib/agents/diagnosticien.ts:11:  createDefaultSkillMap,
+src/lib/agents/diagnosticien.ts:12:  updateSkillMap,
+src/lib/agents/diagnosticien.ts:21:  SkillMap,
+src/lib/agents/diagnosticien.ts:24:  SkillAxis,
+src/lib/agents/diagnosticien.ts:59:  let skillMap = createDefaultSkillMap(studentId);
+src/lib/agents/diagnosticien.ts:64:        microSkillId: "ecrit_problematique",
+src/lib/agents/diagnosticien.ts:67:      { microSkillId: "ecrit_plan", score: selfAssessment.ecrit / 20 },
+src/lib/agents/diagnosticien.ts:68:      { microSkillId: "ecrit_citations", score: selfAssessment.ecrit / 20 },
+src/lib/agents/diagnosticien.ts:69:      { microSkillId: "ecrit_expression", score: selfAssessment.ecrit / 20 },
+src/lib/agents/diagnosticien.ts:70:      { microSkillId: "oral_lecture", score: selfAssessment.oral / 20 },
+src/lib/agents/diagnosticien.ts:71:      { microSkillId: "oral_mouvements", score: selfAssessment.oral / 20 },
+src/lib/agents/diagnosticien.ts:72:      { microSkillId: "oral_procedes", score: selfAssessment.oral / 20 },
+src/lib/agents/diagnosticien.ts:73:      { microSkillId: "oral_entretien", score: selfAssessment.oral / 20 },
+src/lib/agents/diagnosticien.ts:75:        microSkillId: "langue_phrase_complexe",
+src/lib/agents/diagnosticien.ts:78:      { microSkillId: "langue_relatives", score: selfAssessment.langue / 20 },
+src/lib/agents/diagnosticien.ts:80:    skillMap = await updateSkillMap(studentId, updates);
+src/lib/agents/diagnosticien.ts:135:            microSkillId: string;
+src/lib/agents/diagnosticien.ts:184:                  microSkillId: skillId,
+src/lib/agents/diagnosticien.ts:192:            skillMap = await updateSkillMap(studentId, axisUpdates);
+src/lib/agents/diagnosticien.ts:202:  const studyPlan = generateStudyPlan(studentId, skillMap, progressionMode);
+src/lib/agents/diagnosticien.ts:237:    skillMap,
+src/lib/agents/diagnosticien.ts:290:      skillMap,
+src/lib/agents/diagnosticien.ts:315:  skillMap: SkillMap,
+src/lib/agents/diagnosticien.ts:319:  const weakAxes = identifyWeakAxes(skillMap);
+src/lib/agents/diagnosticien.ts:361:  skillMap: SkillMap
+src/lib/agents/diagnosticien.ts:362:): Array<{ axis: SkillAxis; avgScore: number }> {
+src/lib/agents/diagnosticien.ts:363:  const results: Array<{ axis: SkillAxis; avgScore: number }> = [];
+src/lib/agents/diagnosticien.ts:365:  for (const [axis, skills] of Object.entries(skillMap.axes)) {
+src/lib/agents/diagnosticien.ts:368:    results.push({ axis: axis as SkillAxis, avgScore: avg });
+src/lib/agents/diagnosticien.ts:378:  weakAxes: Array<{ axis: SkillAxis; avgScore: number }>
+src/lib/config/tunisia.ts:237:      action: "Priorité : mini-séances quotidiennes (10-20 min), construire la SkillMap, alimenter l'ErrorBank.",
+src/lib/db/repositories/learningMemoryRepo.ts:3:import type { Skill } from '@/lib/llm/skills/types';
+src/lib/db/repositories/learningMemoryRepo.ts:16:  weakSkills: [] as string[],
+src/lib/db/repositories/learningMemoryRepo.ts:19:const SKILL_TO_AGENT_TYPE: Partial<Record<Skill, AgentTypeEnum>> = {
+src/lib/db/repositories/learningMemoryRepo.ts:92:    if (profile.weakSkills.length === 0) {
+src/lib/db/repositories/learningMemoryRepo.ts:95:    return profile.weakSkills
+src/lib/db/repositories/learningMemoryRepo.ts:106:      profile.weakSkills.filter((item) => item.skill.startsWith('ORAL_')).slice(0, 5).map((item) => `${item.skill}: ${item.pattern}`).join('\n'),
+src/lib/db/repositories/learningMemoryRepo.ts:114:      profile.weakSkills.filter((item) => item.skill.startsWith('ECRIT_') || item.skill.startsWith('TRANS_')).slice(0, 5).map((item) => `${item.skill}: ${item.pattern}`).join('\n'),
+src/lib/db/repositories/learningMemoryRepo.ts:130:  skill: Skill;
+src/lib/auth/types.ts:13:  weakSkills: string[];
+src/lib/llm/orchestrator.ts:10:import { fallbackSkillOutput, parseSkillOutput, skillPromptFor, skillSchemaFor } from '@/lib/llm/skills';
+src/lib/llm/orchestrator.ts:11:import { type Skill } from '@/lib/llm/skills/types';
+src/lib/llm/orchestrator.ts:20:/** Skills that should NOT receive media context injection */
+src/lib/llm/orchestrator.ts:21:const SKILLS_WITHOUT_MEDIA: ReadonlySet<Skill> = new Set([
+src/lib/llm/orchestrator.ts:29:  skill: Skill;
+src/lib/llm/orchestrator.ts:38:/** Maps a Skill to the closest AgentType for media filtering */
+src/lib/llm/orchestrator.ts:39:function skillToAgentType(skill: Skill): AgentType {
+src/lib/llm/orchestrator.ts:40:  const mapping: Partial<Record<Skill, AgentType>> = {
+src/lib/llm/orchestrator.ts:57:function skillToMemoryAgentType(skill: Skill): AgentType | null {
+src/lib/llm/orchestrator.ts:58:  const mapping: Partial<Record<Skill, AgentType | null>> = {
+src/lib/llm/orchestrator.ts:105:function extractSkillSignals(payload: Record<string, unknown>): {
+src/lib/llm/orchestrator.ts:152:  skill: Skill;
+src/lib/llm/orchestrator.ts:162:  const signals = input.parsedOutput ? extractSkillSignals(input.parsedOutput) : null;
+src/lib/llm/orchestrator.ts:222:    `Skill: ${skill}`,
+src/lib/llm/orchestrator.ts:344:      const fallback = fallbackSkillOutput(skill);
+src/lib/llm/orchestrator.ts:394:    return parseSkillOutput(skill, validated.data);
+src/lib/llm/orchestrator.ts:419:      return fallbackSkillOutput(skill);
+src/lib/llm/orchestrator.ts:437:      return fallbackSkillOutput(skill);
+src/lib/llm/orchestrator.ts:454:    return fallbackSkillOutput(skill);
+src/lib/llm/streaming.ts:4:import type { Skill } from '@/lib/llm/skills/types';
+src/lib/llm/streaming.ts:76:          skill: params.skill as Skill,
+src/lib/llm/provider.ts:32:export type LegacySkill = 'diagnosticien' | 'coach_ecrit' | 'planner' | string;
+src/lib/llm/provider.ts:40:  skill: LegacySkill;
+src/lib/llm/provider.ts:61:function mockResponseForSkill(skill: LegacySkill): string {
+src/lib/llm/provider.ts:106:    return mockResponseForSkill(options.skill);
+src/lib/llm/factory.ts:38:  getTierForSkill,
+src/lib/llm/cost-tracker.ts:194:  bySkill: Record<string, { calls: number; costEurCents: number; avgLatencyMs: number }>;
+src/lib/llm/cost-tracker.ts:197:  topCostSkills: Array<{ skill: string; costEurCents: number; pct: number }>;
+src/lib/llm/cost-tracker.ts:223:  const bySkill: Record<string, { calls: number; costEurCents: number; avgLatencyMs: number }> = {};
+src/lib/llm/cost-tracker.ts:238:    bySkill[row.skill] ??= { calls: 0, costEurCents: 0, avgLatencyMs: 0 };
+src/lib/llm/cost-tracker.ts:239:    bySkill[row.skill].calls += 1;
+src/lib/llm/cost-tracker.ts:240:    bySkill[row.skill].costEurCents += row.costEurCents;
+src/lib/llm/cost-tracker.ts:248:  for (const [skill, agg] of Object.entries(bySkill)) {
+src/lib/llm/cost-tracker.ts:253:  const topCostSkills = Object.entries(bySkill)
+src/lib/llm/cost-tracker.ts:266:    bySkill,
+src/lib/llm/cost-tracker.ts:270:    topCostSkills,
+src/lib/llm/router.ts:38:const SKILL_ROUTING: Record<string, MistralTier> = {
+src/lib/llm/router.ts:65:  // Skills interactifs, coaching, assistance conversationnelle
+src/lib/llm/router.ts:192:export function getTierForSkill(skill: string): MistralTier {
+src/lib/llm/router.ts:193:  return SKILL_ROUTING[skill] ?? 'standard';
+src/lib/llm/router.ts:267:  let tier = getTierForSkill(config.skill);
+src/lib/llm/skills/quiz-maitre.ts:2:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/quiz-maitre.ts:18:export const quizMaitreSkill: SkillConfig<QuizMaitreOutput> = {
+src/lib/llm/skills/revision-citations-procedes.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/revision-citations-procedes.ts:17:export const citationsProcedesSkill: SkillConfig<CitationsProcedesOutput> = {
+src/lib/llm/skills/correcteur.ts:2:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/correcteur.ts:77:export const correcteurSkill: SkillConfig<CorrecteurOutput> = {
+src/lib/llm/skills/revision-fiches.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/revision-fiches.ts:19:export const revisionFichesSkill: SkillConfig<RevisionFichesOutput> = {
+src/lib/llm/skills/coach-oral.ts:2:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/coach-oral.ts:15:export const coachOralSkill: SkillConfig<CoachOralOutput> = {
+src/lib/llm/skills/revision-sr-planner.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/revision-sr-planner.ts:28:export const srPlannerSkill: SkillConfig<SRPlannerOutput> = {
+src/lib/llm/skills/langue-generator.ts:2:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/langue-generator.ts:17:export const langueGeneratorSkill: SkillConfig<LangueGeneratorOutput> = {
+src/lib/llm/skills/ecrit-pastiche.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/ecrit-pastiche.ts:6: * P0-SaaS-2 — Skill Pastiche (Mimétisme de Plume)
+src/lib/llm/skills/ecrit-pastiche.ts:31:export type PasticheSkillOutput = z.infer<typeof schema>;
+src/lib/llm/skills/ecrit-pastiche.ts:33:export const pasticheSkill: SkillConfig<PasticheSkillOutput> = {
+src/lib/llm/skills/oral-examinateur-virtuel.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/oral-examinateur-virtuel.ts:28:export const examinateurVirtuelSkill: SkillConfig<ExaminateurVirtuelOutput> = {
+src/lib/llm/skills/types.ts:35:export type Skill = z.infer<typeof skillSchema>;
+src/lib/llm/skills/types.ts:37:export type SkillConfig<T> = {
+src/lib/llm/skills/tuteur-libre.ts:2:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/tuteur-libre.ts:18:export const tuteurLibreSkill: SkillConfig<TuteurLibreOutput> = {
+src/lib/llm/skills/oral-coach-lecture.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/oral-coach-lecture.ts:16:export const coachLectureSkill: SkillConfig<CoachLectureOutput> = {
+src/lib/llm/skills/bibliothecaire.ts:2:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/bibliothecaire.ts:18:export const bibliothecaireSkill: SkillConfig<BibliothecaireOutput> = {
+src/lib/llm/skills/revision-quiz-adaptatif.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/revision-quiz-adaptatif.ts:19:export const quizAdaptatifSkill: SkillConfig<QuizAdaptatifOutput> = {
+src/lib/llm/skills/ecrit-contraction.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/ecrit-contraction.ts:16:export const ecritContractionSkill: SkillConfig<EcritContractionOutput> = {
+src/lib/llm/skills/oral-coach-explication.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/oral-coach-explication.ts:17:export const coachExplicationSkill: SkillConfig<CoachExplicationOutput> = {
+src/lib/llm/skills/oral-prep30.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/oral-prep30.ts:14:export const oralPrep30Skill: SkillConfig<OralPrep30Output> = {
+src/lib/llm/skills/coach-ecrit.ts:2:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/coach-ecrit.ts:16:export const coachEcritSkill: SkillConfig<CoachEcritOutput> = {
+src/lib/llm/skills/oral-bilan-officiel.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/oral-bilan-officiel.ts:15:export const oralBilanOfficielSkill: SkillConfig<OralBilanOfficielOutput> = {
+src/lib/llm/skills/oral-grammaire-ciblee.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/oral-grammaire-ciblee.ts:16:export const grammaireCibleeSkill: SkillConfig<GrammaireCibleeOutput> = {
+src/lib/llm/skills/ecrit-plans.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/ecrit-plans.ts:18:export const ecritPlansSkill: SkillConfig<EcritPlansOutput> = {
+src/lib/llm/skills/revision-spaced-repetition.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/revision-spaced-repetition.ts:17:export const spacedRepetitionSkill: SkillConfig<SpacedRepetitionOutput> = {
+src/lib/pdf/generator.ts:201:  const weakSkills = (data['weakSkills'] as string[] | undefined) ?? [];
+src/lib/pdf/generator.ts:210:  if (weakSkills.length) {
+src/lib/pdf/generator.ts:211:    html += '<div class="section"><h2>Compétences à renforcer</h2><ul>' + weakSkills.map((s) => `<li>${escapeHtml(s)}</li>`).join('') + '</ul></div>';
+src/lib/llm/skills/index.ts:2:import { bibliothecaireSkill } from '@/lib/llm/skills/bibliothecaire';
+src/lib/llm/skills/index.ts:3:import { coachEcritSkill } from '@/lib/llm/skills/coach-ecrit';
+src/lib/llm/skills/index.ts:4:import { coachOralSkill } from '@/lib/llm/skills/coach-oral';
+src/lib/llm/skills/index.ts:5:import { correcteurSkill } from '@/lib/llm/skills/correcteur';
+src/lib/llm/skills/index.ts:6:import { quizMaitreSkill } from '@/lib/llm/skills/quiz-maitre';
+src/lib/llm/skills/index.ts:7:import { tuteurLibreSkill } from '@/lib/llm/skills/tuteur-libre';
+src/lib/llm/skills/index.ts:8:import { oralTirageSkill } from '@/lib/llm/skills/oral-tirage';
+src/lib/llm/skills/index.ts:9:import { coachLectureSkill } from '@/lib/llm/skills/oral-coach-lecture';
+src/lib/llm/skills/index.ts:10:import { coachExplicationSkill } from '@/lib/llm/skills/oral-coach-explication';
+src/lib/llm/skills/index.ts:11:import { grammaireCibleeSkill } from '@/lib/llm/skills/oral-grammaire-ciblee';
+src/lib/llm/skills/index.ts:12:import { oralEntretienSkill } from '@/lib/llm/skills/oral-entretien';
+src/lib/llm/skills/index.ts:13:import { oralBilanOfficielSkill } from '@/lib/llm/skills/oral-bilan-officiel';
+src/lib/llm/skills/index.ts:14:import { ecritDiagnosticSkill } from '@/lib/llm/skills/ecrit-diagnostic';
+src/lib/llm/skills/index.ts:15:import { ecritPlansSkill } from '@/lib/llm/skills/ecrit-plans';
+src/lib/llm/skills/index.ts:16:import { ecritContractionSkill } from '@/lib/llm/skills/ecrit-contraction';
+src/lib/llm/skills/index.ts:17:import { ecritEssaiSkill } from '@/lib/llm/skills/ecrit-essai';
+src/lib/llm/skills/index.ts:18:import { ecritLangueSkill } from '@/lib/llm/skills/ecrit-langue';
+src/lib/llm/skills/index.ts:19:import { ecritBaremageSkill } from '@/lib/llm/skills/ecrit-baremage';
+src/lib/llm/skills/index.ts:20:import { revisionFichesSkill } from '@/lib/llm/skills/revision-fiches';
+src/lib/llm/skills/index.ts:21:import { quizAdaptatifSkill } from '@/lib/llm/skills/revision-quiz-adaptatif';
+src/lib/llm/skills/index.ts:22:import { spacedRepetitionSkill } from '@/lib/llm/skills/revision-spaced-repetition';
+src/lib/llm/skills/index.ts:23:import { oralPrep30Skill } from '@/lib/llm/skills/oral-prep30';
+src/lib/llm/skills/index.ts:24:import { citationsProcedesSkill } from '@/lib/llm/skills/revision-citations-procedes';
+src/lib/llm/skills/index.ts:25:import { carnetLectureSkill } from '@/lib/llm/skills/revision-carnet-lecture';
+src/lib/llm/skills/index.ts:26:import { srPlannerSkill } from '@/lib/llm/skills/revision-sr-planner';
+src/lib/llm/skills/index.ts:27:import { supportProduitSkill } from '@/lib/llm/skills/support-produit';
+src/lib/llm/skills/index.ts:28:import { examinateurVirtuelSkill } from '@/lib/llm/skills/oral-examinateur-virtuel';
+src/lib/llm/skills/index.ts:29:import { pasticheSkill } from '@/lib/llm/skills/ecrit-pastiche';
+src/lib/llm/skills/index.ts:30:import { langueGeneratorSkill } from '@/lib/llm/skills/langue-generator';
+src/lib/llm/skills/index.ts:31:import { type Skill, type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/index.ts:33:export const skillConfigs: Record<Skill, SkillConfig<unknown>> = {
+src/lib/llm/skills/index.ts:34:  bibliothecaire: bibliothecaireSkill,
+src/lib/llm/skills/index.ts:35:  coach_ecrit: coachEcritSkill,
+src/lib/llm/skills/index.ts:36:  coach_oral: coachOralSkill,
+src/lib/llm/skills/index.ts:37:  correcteur: correcteurSkill,
+src/lib/llm/skills/index.ts:38:  quiz_maitre: quizMaitreSkill,
+src/lib/llm/skills/index.ts:39:  tuteur_libre: tuteurLibreSkill,
+src/lib/llm/skills/index.ts:40:  oral_tirage: oralTirageSkill,
+src/lib/llm/skills/index.ts:41:  coach_lecture: coachLectureSkill,
+src/lib/llm/skills/index.ts:42:  coach_explication: coachExplicationSkill,
+src/lib/llm/skills/index.ts:43:  grammaire_ciblee: grammaireCibleeSkill,
+src/lib/llm/skills/index.ts:44:  oral_entretien: oralEntretienSkill,
+src/lib/llm/skills/index.ts:45:  oral_bilan_officiel: oralBilanOfficielSkill,
+src/lib/llm/skills/index.ts:46:  ecrit_diagnostic: ecritDiagnosticSkill,
+src/lib/llm/skills/index.ts:47:  ecrit_plans: ecritPlansSkill,
+src/lib/llm/skills/index.ts:48:  ecrit_contraction: ecritContractionSkill,
+src/lib/llm/skills/index.ts:49:  ecrit_essai: ecritEssaiSkill,
+src/lib/llm/skills/index.ts:50:  ecrit_langue: ecritLangueSkill,
+src/lib/llm/skills/index.ts:51:  ecrit_baremage: ecritBaremageSkill,
+src/lib/llm/skills/index.ts:52:  revision_fiches: revisionFichesSkill,
+src/lib/llm/skills/index.ts:53:  quiz_adaptatif: quizAdaptatifSkill,
+src/lib/llm/skills/index.ts:54:  spaced_repetition: spacedRepetitionSkill,
+src/lib/llm/skills/index.ts:55:  oral_prep30: oralPrep30Skill,
+src/lib/llm/skills/index.ts:56:  citations_procedes: citationsProcedesSkill,
+src/lib/llm/skills/index.ts:57:  carnet_lecture: carnetLectureSkill,
+src/lib/llm/skills/index.ts:58:  sr_planner: srPlannerSkill,
+src/lib/llm/skills/index.ts:59:  support_produit: supportProduitSkill,
+src/lib/llm/skills/index.ts:60:  examinateur_virtuel: examinateurVirtuelSkill,
+src/lib/llm/skills/index.ts:61:  pastiche: pasticheSkill,
+src/lib/llm/skills/index.ts:62:  langue_generator: langueGeneratorSkill,
+src/lib/llm/skills/index.ts:65:export function parseSkillOutput(skill: Skill, payload: unknown): unknown {
+src/lib/llm/skills/index.ts:70:export function fallbackSkillOutput(skill: Skill): unknown {
+src/lib/llm/skills/index.ts:74:export function skillSchemaFor(skill: Skill): z.ZodType<unknown> {
+src/lib/llm/skills/index.ts:78:export function skillPromptFor(skill: Skill): string {
+src/lib/llm/skills/ecrit-baremage.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/ecrit-baremage.ts:20:export const ecritBaremageSkill: SkillConfig<EcritBaremageOutput> = {
+packages/mcp-server/src/resources/index.ts:26:  const weakSkills = (profile.weakSkills as string[]) ?? []
+packages/mcp-server/src/resources/index.ts:41:  const skillMapSection = '- SkillMap non encore générée (onboarding en cours)'
+packages/mcp-server/src/resources/index.ts:63:## Compétences (SkillMap)
+packages/mcp-server/src/resources/index.ts:64:${skillMapSection}
+packages/mcp-server/src/resources/index.ts:67:${weakSkills.length > 0 ? weakSkills.map((s) => `- ⚠️ ${s}`).join('\n') : '- Aucune faiblesse critique identifiée'}
+packages/mcp-server/src/resources/index.ts:162:    description: 'Profil pédagogique complet d\'un élève (SkillMap, progression, ErrorBank)',
+src/lib/validation/schemas.ts:113:  weakSkills: z.array(z.string().trim().min(1).max(120)).optional(),
+src/lib/portfolio/profil-card-generator.ts:7:import { type SkillMap, type SkillAxis } from '@/lib/store/premium-store';
+src/lib/portfolio/profil-card-generator.ts:16:  axesScores: Record<SkillAxis, number>;
+src/lib/portfolio/profil-card-generator.ts:25: * Extract scores per axis from a SkillMap.
+src/lib/portfolio/profil-card-generator.ts:27:function computeAxesScores(skillMap: SkillMap): Record<SkillAxis, number> {
+src/lib/portfolio/profil-card-generator.ts:28:  const axes: SkillAxis[] = ['ecrit', 'oral', 'langue', 'oeuvres', 'methode'];
+src/lib/portfolio/profil-card-generator.ts:29:  const result = {} as Record<SkillAxis, number>;
+src/lib/portfolio/profil-card-generator.ts:32:    const points = skillMap.axes[axis] ?? [];
+src/lib/portfolio/profil-card-generator.ts:51:  skillMap: SkillMap;
+src/lib/portfolio/profil-card-generator.ts:57:  const axesScores = computeAxesScores(opts.skillMap);
+src/lib/portfolio/profil-card-generator.ts:58:  const allPoints = Object.values(opts.skillMap.axes).flat();
+src/lib/portfolio/profil-card-generator.ts:87:  const axesBars = (['ecrit', 'oral', 'langue', 'oeuvres', 'methode'] as SkillAxis[])
+src/components/dashboard/parcours-recommandation.tsx:8:  profile: { weakSkills?: string[] };
+src/components/dashboard/parcours-recommandation.tsx:14:  weakSkills?: string[];
+src/components/dashboard/parcours-recommandation.tsx:66:export function ParcoursRecommandation({ weakSignals, weakSkills = [], className = '' }: ParcoursRecommandationProps) {
+src/components/dashboard/parcours-recommandation.tsx:68:  const [remoteWeakSkills, setRemoteWeakSkills] = useState<string[]>([]);
+src/components/dashboard/parcours-recommandation.tsx:70:  const shouldFetch = !weakSignals && weakSkills.length === 0;
+src/components/dashboard/parcours-recommandation.tsx:84:        setRemoteWeakSkills(payload.profile.weakSkills ?? []);
+src/components/dashboard/parcours-recommandation.tsx:94:  const resolvedWeakSkills = weakSkills.length > 0 ? weakSkills : remoteWeakSkills;
+src/components/dashboard/parcours-recommandation.tsx:98:    const fallbackWeak = resolvedWeakSkills[0];
+src/components/dashboard/parcours-recommandation.tsx:102:  }, [resolvedWeakSignals, resolvedWeakSkills]);
+packages/mcp-server/src/types/index.ts:9:// --- Axes de compétences (SkillMap) ---
+packages/mcp-server/src/types/index.ts:10:export type SkillAxis = 'ecrit' | 'oral' | 'langue' | 'oeuvres' | 'methode'
+packages/mcp-server/src/types/index.ts:12:export interface SkillMapEntry {
+packages/mcp-server/src/types/index.ts:13:  axis: SkillAxis
+packages/mcp-server/src/types/index.ts:19:export interface SkillMap {
+packages/mcp-server/src/types/index.ts:20:  axes: SkillMapEntry[]
+packages/mcp-server/src/types/index.ts:32:  weakSkills: string[]
+packages/mcp-server/src/types/index.ts:38:  skillMap?: SkillMap
+packages/mcp-server/src/types/index.ts:152:export type AgentSkill =
+packages/mcp-server/src/types/index.ts:176:  agentSkill: AgentSkill
+packages/mcp-server/src/client.ts:31:type AgentSkill =
+packages/mcp-server/src/client.ts:37:  agentSkill: AgentSkill
+packages/mcp-server/src/client.ts:71:            agentSkill: options.agentSkill,
+packages/mcp-server/src/client.ts:139:    getProfile: (studentId: string, agentSkill: AgentSkill) =>
+packages/mcp-server/src/client.ts:140:      this.callTool('eaf_get_student_profile', { studentId }, { agentSkill, studentId }),
+packages/mcp-server/src/client.ts:142:    updateSkillMap: (
+packages/mcp-server/src/client.ts:144:      agentSkill: AgentSkill,
+packages/mcp-server/src/client.ts:146:    ) => this.callTool('eaf_update_skill_map', params, { agentSkill, studentId }),
+packages/mcp-server/src/client.ts:148:    getErrorBank: (studentId: string, agentSkill: AgentSkill) =>
+packages/mcp-server/src/client.ts:149:      this.callTool('eaf_get_error_bank', { studentId }, { agentSkill, studentId }),
+packages/mcp-server/src/client.ts:151:    scheduleRevision: (params: Record<string, unknown>, agentSkill: AgentSkill) =>
+packages/mcp-server/src/client.ts:153:        agentSkill,
+packages/mcp-server/src/client.ts:157:    getStudyPlan: (studentId: string, agentSkill: AgentSkill) =>
+packages/mcp-server/src/client.ts:158:      this.callTool('eaf_get_study_plan', { studentId }, { agentSkill, studentId }),
+packages/mcp-server/src/client.ts:162:    search: (query: string, options: Record<string, unknown>, agentSkill: AgentSkill) =>
+packages/mcp-server/src/client.ts:163:      this.callTool('eaf_search_corpus', { query, ...options }, { agentSkill }),
+packages/mcp-server/src/client.ts:165:    getChunk: (chunkId: string, agentSkill: AgentSkill) =>
+packages/mcp-server/src/client.ts:166:      this.callTool('eaf_get_chunk', { chunkId }, { agentSkill }),
+packages/mcp-server/src/client.ts:170:    checkPolicy: (params: Record<string, unknown>, agentSkill: AgentSkill, studentId?: string) =>
+packages/mcp-server/src/client.ts:171:      this.callTool('eaf_check_policy', params, { agentSkill, studentId }),
+packages/mcp-server/src/client.ts:173:    logEvent: (params: Record<string, unknown>, agentSkill: AgentSkill) =>
+packages/mcp-server/src/client.ts:174:      this.callTool('eaf_log_rule_event', params, { agentSkill }),
+packages/mcp-server/src/client.ts:179:      this.callTool('eaf_get_subscription', { studentId, feature }, { agentSkill: 'system', studentId }),
+packages/mcp-server/src/server.ts:18:import type { AgentSkill } from './types/index.js'
+packages/mcp-server/src/server.ts:23:  UpdateSkillMapSchema, updateSkillMap,
+packages/mcp-server/src/server.ts:46:  GetSkillDeltaSchema, getSkillDelta,
+packages/mcp-server/src/server.ts:78:    description: 'Récupère le profil pédagogique complet d\'un élève : SkillMap 5 axes, œuvres, date EAF, plan abonnement, XP, streak, révisions en attente.',
+packages/mcp-server/src/server.ts:83:        includeSkillMap: { type: 'boolean', description: 'Inclure la carte de compétences (défaut: true)' },
+packages/mcp-server/src/server.ts:103:              microSkillId: { type: 'string', description: 'ex: "ecrit_problematique", "oral_lecture"' },
+packages/mcp-server/src/server.ts:107:            required: ['microSkillId', 'newScore', 'evidence'],
+packages/mcp-server/src/server.ts:393:async function routeTool(name: string, args: Record<string, unknown>, agentSkill: string, studentId?: string) {
+packages/mcp-server/src/server.ts:398:      return updateSkillMap(UpdateSkillMapSchema.parse(args))
+packages/mcp-server/src/server.ts:410:      if (agentSkill !== 'admin') throw new McpError(ErrorCode.MethodNotFound, 'eaf_index_document est réservé aux admins')
+packages/mcp-server/src/server.ts:425:      return getSkillDelta(GetSkillDeltaSchema.parse(args))
+packages/mcp-server/src/server.ts:435:        agentSkill: agentSkill as AgentSkill,
+packages/mcp-server/src/server.ts:481:    const { agentSkill, studentId, requestId } = agentContext
+packages/mcp-server/src/server.ts:484:    if (!checkScope(agentSkill, name)) {
+packages/mcp-server/src/server.ts:485:      logger.warn({ tool: name, agentSkill, requestId }, '[Auth] Scope refusé')
+packages/mcp-server/src/server.ts:488:        `L'agent '${agentSkill}' n'est pas autorisé à utiliser l'outil '${name}'`
+packages/mcp-server/src/server.ts:510:      const result = await routeTool(name, cleanArgs, agentSkill, studentId)
+packages/mcp-server/src/server.ts:513:      logToolCall({ tool: name, agentSkill, studentId, durationMs, success: true })
+packages/mcp-server/src/server.ts:527:      logToolCall({ tool: name, agentSkill, studentId, durationMs, success: false, error: message })
+src/hooks/useDashboard.ts:27:type SkillScores = {
+src/hooks/useDashboard.ts:35:  scores: SkillScores;
+src/hooks/useDashboard.ts:54:const DEFAULT_SCORES: SkillScores = {
+src/hooks/useDashboard.ts:89:function resolveSkill(event: MemoryEvent): keyof SkillScores {
+src/hooks/useDashboard.ts:91:  const weakSkills = Array.isArray(event.payload?.weakSkills)
+src/hooks/useDashboard.ts:92:    ? event.payload?.weakSkills.join(' ').toLowerCase()
+src/hooks/useDashboard.ts:96:  if (text.includes('langue') || weakSkills.includes('grammaire')) return 'grammaire';
+src/hooks/useDashboard.ts:97:  if (text.includes('lecture') || weakSkills.includes('lecture cursive')) return 'lectureCursive';
+src/hooks/useDashboard.ts:182:    const scoreBuckets: Record<keyof SkillScores, number[]> = {
+src/hooks/useDashboard.ts:201:      const skill = resolveSkill(event);
+src/hooks/useDashboard.ts:210:    const scores: SkillScores = {
+packages/mcp-server/src/prompts/index.ts:57:  "skillMap": {
+packages/mcp-server/src/prompts/index.ts:64:  "weakSkills": ["liste des axes < 0.45"],
+packages/mcp-server/src/lib/policy-gate.ts:2:import type { ComplianceRuleId, ComplianceViolation, AgentSkill } from '../types/index.js'
+packages/mcp-server/src/lib/policy-gate.ts:96:          agentSkill: ctx.agentSkill,
+packages/mcp-server/src/lib/policy-gate.ts:177:  agentSkill: AgentSkill
+packages/mcp-server/src/lib/policy-gate.ts:215:        agentSkill: ctx.agentSkill,
+packages/mcp-server/src/lib/policy-gate.ts:233:        agentSkill: ctx.agentSkill,
+packages/mcp-server/src/lib/policy-gate.ts:243:      agentSkill: ctx.agentSkill,
+packages/mcp-server/src/lib/policy-gate.ts:269:  agentSkill: AgentSkill
+packages/mcp-server/src/lib/policy-gate.ts:284:        feature: params.agentSkill,
+packages/mcp-server/src/lib/auth.ts:1:import type { AgentSkill } from '../types/index.js'
+packages/mcp-server/src/lib/auth.ts:9:const AGENT_SCOPES: Record<AgentSkill, string[]> = {
+packages/mcp-server/src/lib/auth.ts:156:export function checkScope(agentSkill: AgentSkill, toolName: string): boolean {
+packages/mcp-server/src/lib/auth.ts:157:  const allowedTools = AGENT_SCOPES[agentSkill]
+packages/mcp-server/src/lib/auth.ts:159:    logger.warn({ agentSkill, toolName }, '[Auth] Unknown agent skill')
+packages/mcp-server/src/lib/auth.ts:170:  agentSkill: AgentSkill
+packages/mcp-server/src/lib/auth.ts:174:  // SECURITY: Never trust client-supplied agentSkill in HTTP mode.
+packages/mcp-server/src/lib/auth.ts:178:  const rawSkill = (requestMeta?.agentSkill as string) ?? 'system'
+packages/mcp-server/src/lib/auth.ts:179:  const validSkills = Object.keys(AGENT_SCOPES) as AgentSkill[]
+packages/mcp-server/src/lib/auth.ts:181:  let agentSkill: AgentSkill = 'system'
+packages/mcp-server/src/lib/auth.ts:182:  if (!isHttp && validSkills.includes(rawSkill as AgentSkill)) {
+packages/mcp-server/src/lib/auth.ts:183:    agentSkill = rawSkill as AgentSkill
+packages/mcp-server/src/lib/auth.ts:184:  } else if (isHttp && rawSkill !== 'system') {
+packages/mcp-server/src/lib/auth.ts:185:    logger.warn({ requestedSkill: rawSkill }, '[Auth] HTTP client attempted to set agentSkill — ignored, using system')
+packages/mcp-server/src/lib/auth.ts:189:    agentSkill,
+src/lib/llm/skills/oral-tirage.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/oral-tirage.ts:26:export const oralTirageSkill: SkillConfig<OralTirageOutput> = {
+src/lib/llm/skills/revision-carnet-lecture.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/revision-carnet-lecture.ts:16:export const carnetLectureSkill: SkillConfig<CarnetLectureOutput> = {
+src/lib/llm/skills/ecrit-essai.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/ecrit-essai.ts:17:export const ecritEssaiSkill: SkillConfig<EcritEssaiOutput> = {
+src/lib/llm/skills/support-produit.ts:2:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/support-produit.ts:13:export const supportProduitSkill: SkillConfig<SupportProduitOutput> = {
+packages/mcp-server/src/tools/all-tools.ts:70:    skillMapUpdated: false,
+packages/mcp-server/src/tools/all-tools.ts:241:export const GetSkillDeltaSchema = z.object({
+packages/mcp-server/src/tools/all-tools.ts:248:export async function getSkillDelta(input: z.infer<typeof GetSkillDeltaSchema>) {
+packages/mcp-server/src/tools/all-tools.ts:279:      microSkillId?: string
+packages/mcp-server/src/tools/all-tools.ts:287:      const axis = update.axis ?? update.microSkillId?.split('_')[0]
+src/lib/llm/skills/ecrit-langue.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/ecrit-langue.ts:20:export const ecritLangueSkill: SkillConfig<EcritLangueOutput> = {
+src/lib/llm/skills/ecrit-diagnostic.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/ecrit-diagnostic.ts:16:export const ecritDiagnosticSkill: SkillConfig<EcritDiagnosticOutput> = {
+packages/mcp-server/src/lib/logger.ts:31:  agentSkill: string
+packages/mcp-server/src/lib/logger.ts:41:      agent: params.agentSkill,
+packages/mcp-server/src/lib/logger.ts:55:  agentSkill: string
+packages/mcp-server/src/lib/logger.ts:66:      agent: params.agentSkill,
+src/lib/llm/skills/oral-entretien.ts:3:import { type SkillConfig } from '@/lib/llm/skills/types';
+src/lib/llm/skills/oral-entretien.ts:17:export const oralEntretienSkill: SkillConfig<OralEntretienOutput> = {
+packages/mcp-server/src/tools/student/get-profile.ts:4:import type { StudentProfile, SkillAxis, SkillMap } from '../../types/index.js'
+packages/mcp-server/src/tools/student/get-profile.ts:8:  includeSkillMap: z.boolean().default(true),
+packages/mcp-server/src/tools/student/get-profile.ts:14:function toSkillAxis(value: string): SkillAxis {
+packages/mcp-server/src/tools/student/get-profile.ts:65:  let skillMap: SkillMap | undefined
+packages/mcp-server/src/tools/student/get-profile.ts:66:  if (input.includeSkillMap) {
+packages/mcp-server/src/tools/student/get-profile.ts:67:    const raw = profile?.skillMap
+packages/mcp-server/src/tools/student/get-profile.ts:71:        skillMap = parsed as SkillMap
+packages/mcp-server/src/tools/student/get-profile.ts:73:        skillMap = undefined
+packages/mcp-server/src/tools/student/get-profile.ts:85:    weakSkills: Array.isArray(profile?.weakSkills) ? (profile?.weakSkills as string[]) : [],
+packages/mcp-server/src/tools/student/get-profile.ts:91:    skillMap,
+packages/mcp-server/src/tools/student/get-profile.ts:95:export const UpdateSkillMapSchema = z.object({
+packages/mcp-server/src/tools/student/get-profile.ts:100:    microSkillId: z.string(),
+packages/mcp-server/src/tools/student/get-profile.ts:107:export type UpdateSkillMapInput = z.infer<typeof UpdateSkillMapSchema>
+packages/mcp-server/src/tools/student/get-profile.ts:109:export interface UpdateSkillMapResult {
+packages/mcp-server/src/tools/student/get-profile.ts:111:  microSkillsUpdated: number
+packages/mcp-server/src/tools/student/get-profile.ts:112:  newWeakSkills: string[]
+packages/mcp-server/src/tools/student/get-profile.ts:113:  removedWeakSkills: string[]
+packages/mcp-server/src/tools/student/get-profile.ts:121:export async function updateSkillMap(input: UpdateSkillMapInput): Promise<UpdateSkillMapResult> {
+packages/mcp-server/src/tools/student/get-profile.ts:132:  const currentWeakSkills = profile.weakSkills ?? []
+packages/mcp-server/src/tools/student/get-profile.ts:135:  const updatesByAxis = new Map<SkillAxis, number>()
+packages/mcp-server/src/tools/student/get-profile.ts:137:    const axis = toSkillAxis(update.microSkillId.split('_')[0] ?? '')
+packages/mcp-server/src/tools/student/get-profile.ts:141:  const newWeakSkillsList = Array.from(updatesByAxis.entries())
+packages/mcp-server/src/tools/student/get-profile.ts:145:  const newWeakSkills = newWeakSkillsList.filter((s) => !currentWeakSkills.includes(s))
+packages/mcp-server/src/tools/student/get-profile.ts:146:  const removedWeakSkills = currentWeakSkills.filter((s) => !newWeakSkillsList.includes(s as SkillAxis))
+packages/mcp-server/src/tools/student/get-profile.ts:151:      weakSkills: Array.from(new Set([...currentWeakSkills, ...newWeakSkills])).filter(
+packages/mcp-server/src/tools/student/get-profile.ts:152:        (skill) => !removedWeakSkills.includes(skill)
+packages/mcp-server/src/tools/student/get-profile.ts:165:        newWeakSkills,
+packages/mcp-server/src/tools/student/get-profile.ts:166:        removedWeakSkills,
+packages/mcp-server/src/tools/student/get-profile.ts:173:    microSkillsUpdated: input.updates.length,
+packages/mcp-server/src/tools/student/get-profile.ts:174:    newWeakSkills,
+packages/mcp-server/src/tools/student/get-profile.ts:175:    removedWeakSkills,
