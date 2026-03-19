@@ -1,8 +1,0 @@
-
-> nexus-reussite-eaf@1.0.0 test:e2e
-> playwright test --config=playwright.config.ts
-
-[2m[WebServer] [22m[2mEnvironment variables loaded from .env[22m
-[2m[WebServer] [22m[1m[31mError: [39m[22mUse the --accept-data-loss flag to ignore the data loss warnings like [1m[32mprisma db push --accept-data-loss[39m[22m
-Error: Process from config.webServer was not able to start. Exit code: 1
-
