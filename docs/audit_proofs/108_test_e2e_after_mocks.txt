@@ -1,0 +1,149 @@
+[2m[WebServer] [22m[2mEnvironment variables loaded from .env[22m
+[2m[WebServer] [22m[33m[1m⚠[22m[39m "next start" does not work with "output: standalone" configuration. Use "node .next/standalone/server.js" instead.
+
+Running 96 tests using 2 workers
+
+  ✓   1 [chromium] › tests/e2e/atelier-ecrit.spec.ts:11:5 › Génération sujet → upload copie → lien rapport (1.1s)
+  ✓   2 [chromium] › tests/e2e/atelier-oral.spec.ts:11:5 › Sélection œuvre → démarrage simulation → affichage extrait (1.1s)
+  ✓   4 [chromium] › tests/e2e/espace-enseignant.spec.ts:11:5 › Accès espace enseignant (élève) → accès refusé ou erreur explicite (999ms)
+  ✓   3 [chromium] › tests/e2e/descriptif-carnet.spec.ts:25:7 › Page Descriptif de lecture › affiche le heading et le compteur 0/20 (1.0s)
+  ✓   5 [chromium] › tests/e2e/flows.spec.ts:31:5 › upload copie puis polling jusqu au statut done (919ms)
+  ✓   6 [chromium] › tests/e2e/descriptif-carnet.spec.ts:30:7 › Page Descriptif de lecture › affiche les 4 sections par objet d'étude (932ms)
+  -   7 [chromium] › tests/e2e/flows.spec.ts:51:5 › parcours onboarding puis quiz puis oral simulé
+  ✓   8 [chromium] › tests/e2e/descriptif-carnet.spec.ts:37:7 › Page Descriptif de lecture › le bouton Ajouter est désactivé sans titre (909ms)
+  ✓   9 [chromium] › tests/e2e/flows.spec.ts:111:5 › login → dashboard affiche compte à rebours EAF (1.0s)
+  ✓  10 [chromium] › tests/e2e/descriptif-carnet.spec.ts:42:7 › Page Descriptif de lecture › ajouter un texte incrémente le compteur (977ms)
+  ✓  11 [chromium] › tests/e2e/flows.spec.ts:117:5 › démarrer session orale → tirage affiche un extrait et le chrono de 30 min (941ms)
+  ✓  12 [chromium] › tests/e2e/descriptif-carnet.spec.ts:50:7 › Page Descriptif de lecture › changer l'objet d'étude met à jour la liste d'œuvres (895ms)
+  ✓  13 [chromium] › tests/e2e/flows.spec.ts:139:5 › envoyer message tuteur → réponse IA reçue sans URL (953ms)
+  ✓  14 [chromium] › tests/e2e/descriptif-carnet.spec.ts:58:7 › Page Descriptif de lecture › supprimer un texte décrémente le compteur (996ms)
+  ✓  15 [chromium] › tests/e2e/inscription-workflow.spec.ts:55:7 › Page accueil publique › visiteur non connecté voit la page marketing sans sidebar (371ms)
+  ✓  17 [chromium] › tests/e2e/inscription-workflow.spec.ts:66:7 › Page accueil publique › section pricing visible sur la page d accueil (#plans) (462ms)
+  ✓  16 [chromium] › tests/e2e/descriptif-carnet.spec.ts:66:7 › Page Descriptif de lecture › affiche les warnings si règles non satisfaites (984ms)
+  ✓  18 [chromium] › tests/e2e/inscription-workflow.spec.ts:88:7 › Login utilisateur existant › login réussi redirige vers /dashboard ou /onboarding (666ms)
+  ✓  20 [chromium] › tests/e2e/inscription-workflow.spec.ts:95:7 › Login utilisateur existant › login avec mauvais mot de passe affiche une erreur (274ms)
+  ✓  19 [chromium] › tests/e2e/descriptif-carnet.spec.ts:72:7 › Page Descriptif de lecture › bouton Sauvegarder désactivé si aucun texte (1.0s)
+  ✓  21 [chromium] › tests/e2e/inscription-workflow.spec.ts:105:7 › Login utilisateur existant › accès à une route protégée sans login : dashboard charge mais pas de données utilisateur (338ms)
+  ✓  23 [chromium] › tests/e2e/inscription-workflow.spec.ts:115:7 › Login utilisateur existant › API /api/v1/student/profile sans login retourne 401 (54ms)
+  ✓  22 [chromium] › tests/e2e/descriptif-carnet.spec.ts:77:7 › Page Descriptif de lecture › sidebar contient un lien "Mon Descriptif" (1.4s)
+[2m[WebServer] [22m[llm] provider_error for skill=tuteur_libre: Redis circuit breaker open — skipping connection attempt
+  ✓  25 [chromium] › tests/e2e/descriptif-carnet.spec.ts:103:7 › Page Carnet de lecture › affiche le heading "Carnet de lecture" (808ms)
+  ✓  26 [chromium] › tests/e2e/descriptif-carnet.spec.ts:107:7 › Page Carnet de lecture › affiche des tabs d'œuvres du programme (793ms)
+  ✓  24 [chromium] › tests/e2e/inscription-workflow.spec.ts:124:7 › Inscription → Onboarding → Dashboard › inscription puis onboarding 3 étapes redirige vers /dashboard (3.3s)
+  ✓  27 [chromium] › tests/e2e/descriptif-carnet.spec.ts:112:7 › Page Carnet de lecture › affiche une erreur si on ajoute sans contenu (868ms)
+  ✓  28 [chromium] › tests/e2e/inscription-workflow.spec.ts:162:7 › Inscription → Onboarding → Dashboard › onboarding étape 1 : bouton suivant désactivé sans prénom ni date (921ms)
+  ✓  29 [chromium] › tests/e2e/descriptif-carnet.spec.ts:118:7 › Page Carnet de lecture › ajouter une entrée l'affiche dans la liste (932ms)
+  ✓  30 [chromium] › tests/e2e/inscription-workflow.spec.ts:177:7 › Inscription → Onboarding → Dashboard › onboarding étape 2 : bouton suivant désactivé sans œuvre sélectionnée (1.1s)
+  ✓  31 [chromium] › tests/e2e/descriptif-carnet.spec.ts:127:7 › Page Carnet de lecture › lien Exporter en PDF visible (867ms)
+  ✓  32 [chromium] › tests/e2e/inscription-workflow.spec.ts:202:7 › Déconnexion › déconnexion efface la session — API protégées retournent 401 (699ms)
+  ✓  34 [chromium] › tests/e2e/inscription-workflow.spec.ts:212:7 › Déconnexion › après effacement session, API /student/profile retourne 401 (651ms)
+  ✓  33 [chromium] › tests/e2e/descriptif-carnet.spec.ts:131:7 › Page Carnet de lecture › groupe les entrées par œuvre (1.2s)
+  ✓  35 [chromium] › tests/e2e/inscription-workflow.spec.ts:223:7 › Page pricing et souscription › page /pricing affiche les 3 plans (822ms)
+  ✓  36 [chromium] › tests/e2e/descriptif-carnet.spec.ts:144:7 › Page Carnet de lecture › sidebar contient un lien "Carnet" (831ms)
+  ✓  37 [chromium] › tests/e2e/inscription-workflow.spec.ts:230:7 › Page pricing et souscription › page /pricing affiche le plan actuel de l utilisateur (814ms)
+  ✓  38 [chromium] › tests/e2e/descriptif-carnet.spec.ts:155:7 › Profil — Œuvre choisie pour l'entretien › widget oeuvre choisie est visible (883ms)
+  ✓  39 [chromium] › tests/e2e/inscription-workflow.spec.ts:236:7 › Page pricing et souscription › clic sur "Passer à Masterium" initie le paiement (redirection ou erreur gateway attendue) (880ms)
+  ✓  40 [chromium] › tests/e2e/descriptif-carnet.spec.ts:161:7 › Profil — Œuvre choisie pour l'entretien › select contient les 12 œuvres du programme (913ms)
+  ✓  41 [chromium] › tests/e2e/inscription-workflow.spec.ts:250:7 › Page pricing et souscription › page homepage #plans visible et CTAs d upgrade présents (387ms)
+  ✓  43 [chromium] › tests/e2e/inscription-workflow.spec.ts:263:7 › Code d activation › la page pricing contient un champ pour saisir un code d activation (812ms)
+  ✓  42 [chromium] › tests/e2e/mobile.spec.ts:12:5 › Parcours mobile: login + dashboard + navigation (956ms)
+  ✓  44 [chromium] › tests/e2e/inscription-workflow.spec.ts:277:7 › Code d activation › saisie d un code invalide affiche un message d erreur (976ms)
+[2m[WebServer] [22m[llm] provider_error for skill=sr_planner: Redis circuit breaker open — skipping connection attempt
+  ✓  46 [chromium] › tests/e2e/inscription-workflow.spec.ts:295:7 › Code d activation › API redeem-code retourne 400 pour un code vide (706ms)
+  ✓  45 [chromium] › tests/e2e/navigation.spec.ts:17:7 › Navigation principale › tous les liens de la sidebar mènent à une page valide (1.9s)
+  ✓  47 [chromium] › tests/e2e/inscription-workflow.spec.ts:310:7 › Pages paiement › page /paiement/confirmation sans orderRef affiche un statut UNKNOWN géré (238ms)
+  ✓  49 [chromium] › tests/e2e/inscription-workflow.spec.ts:320:7 › Pages paiement › page /paiement/refus affiche un message de refus et un lien de retour (230ms)
+  ✓  50 [chromium] › tests/e2e/inscription-workflow.spec.ts:332:7 › Pages paiement › page /paiement/confirmation avec orderRef fictif affiche état géré (284ms)
+  ✓  51 [chromium] › tests/e2e/inscription-workflow.spec.ts:345:7 › API billing status › GET /api/v1/billing/status retourne 401 pour non authentifié (36ms)
+  ✓  48 [chromium] › tests/e2e/navigation.spec.ts:38:7 › Navigation principale › dashboard affiche le compte à rebours EAF (985ms)
+  ✓  52 [chromium] › tests/e2e/inscription-workflow.spec.ts:350:7 › API billing status › GET /api/v1/billing/status retourne le plan FREE pour eleve.free (727ms)
+  ✓  53 [chromium] › tests/e2e/navigation.spec.ts:43:7 › Navigation principale › les comptes à rebours affichent des valeurs positives en 2026 (1.1s)
+  ✓  54 [chromium] › tests/e2e/inscription-workflow.spec.ts:359:7 › API billing status › GET /api/v1/billing/status retourne le bon plan pour eleve.pro (705ms)
+  ✓  56 [chromium] › tests/e2e/inscription-workflow.spec.ts:373:7 › Protection paywall › utilisateur FREE peut accéder à /atelier-oral (quota géré en runtime) (806ms)
+  ✓  57 [chromium] › tests/e2e/inscription-workflow.spec.ts:381:7 › Protection paywall › utilisateur FREE voit un message de quota sur /pricing (775ms)
+  ✓  55 [chromium] › tests/e2e/navigation.spec.ts:55:7 › Navigation principale › aucune page ne génère d'erreur runtime fatale (1.7s)
+  ✓  58 [chromium] › tests/e2e/inscription-workflow.spec.ts:391:7 › Navigation post-login › utilisateur connecté allant sur / voit la page marketing sans sidebar (856ms)
+  ✓  60 [chromium] › tests/e2e/inscription-workflow.spec.ts:401:7 › Navigation post-login › utilisateur connecté peut accéder à /dashboard (1.0s)
+  ✓  61 [chromium] › tests/e2e/inscription-workflow.spec.ts:410:7 › Navigation post-login › le lien "Connexion" sur la page d accueil mène à /login (412ms)
+  ✓  59 [chromium] › tests/e2e/navigation.spec.ts:70:7 › Tuteur IA — interactions › envoyer un message reçoit une réponse IA sans URL (3.0s)
+  -  62 [chromium] › tests/e2e/onboarding.spec.ts:20:5 › Inscription → onboarding wizard → dashboard personnalisé
+[2m[WebServer] [22m[llm] provider_error for skill=sr_planner: Redis circuit breaker open — skipping connection attempt
+  ✓  64 [chromium] › tests/e2e/parcours.spec.ts:11:5 › Parcours hebdo généré → activités visibles (905ms)
+  ✓  63 [chromium] › tests/e2e/navigation.spec.ts:86:7 › Tuteur IA — interactions › la réponse du tuteur contient une référence aux œuvres du programme (981ms)
+  ✓  66 [chromium] › tests/e2e/platform.spec.ts:19:7 › Authentification › login avec identifiants valides → dashboard (637ms)
+  ✓  65 [chromium] › tests/e2e/payment-flow.spec.ts:14:7 › Payment Flow E2E › page pricing affiche les plans correctement (812ms)
+  ✓  67 [chromium] › tests/e2e/platform.spec.ts:24:7 › Authentification › login avec mauvais mot de passe → message erreur (285ms)
+  ✓  69 [chromium] › tests/e2e/platform.spec.ts:32:7 › Authentification › redirection vers /login si non authentifié (201ms)
+  ✓  68 [chromium] › tests/e2e/payment-flow.spec.ts:30:7 › Payment Flow E2E › clic bouton upgrade → redirection ou modal de paiement (920ms)
+  ✓  71 [chromium] › tests/e2e/payment-flow.spec.ts:51:7 › Payment Flow E2E › page confirmation paiement est accessible (212ms)
+  ✓  70 [chromium] › tests/e2e/platform.spec.ts:47:7 › Navigation principale › sidebar visible et liens présents (956ms)
+  ✓  72 [chromium] › tests/e2e/payment-flow.spec.ts:56:7 › Payment Flow E2E › page refus paiement est accessible (254ms)
+  ✓  74 [chromium] › tests/e2e/payment-flow.spec.ts:61:7 › Payment Flow E2E › navigation vers pricing depuis le dashboard (782ms)
+  ✓  73 [chromium] › tests/e2e/platform.spec.ts:53:7 › Navigation principale › clic Bibliothèque → page Bibliothèque (1.2s)
+  ✓  75 [chromium] › tests/e2e/payment-flow.spec.ts:76:7 › Payment Flow E2E › affichage des quotas/usage sur la page pricing (787ms)
+[2m[WebServer] [22m[31m[1m⨯[22m[39m Error [PrismaClientKnownRequestError]: 
+[2m[WebServer] [22mInvalid `prisma.session.update()` invocation:
+[2m[WebServer] [22m
+[2m[WebServer] [22m
+[2m[WebServer] [22mAn operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+[2m[WebServer] [22m    at async h (.next/server/chunks/5352.js:1:889)
+[2m[WebServer] [22m    at async u (.next/server/app/api/v1/admin/activation-codes/route.js:1:10143)
+[2m[WebServer] [22m    at async f (.next/server/app/api/v1/admin/activation-codes/route.js:1:12742)
+[2m[WebServer] [22m    at async C (.next/server/app/api/v1/memory/events/route.js:1:9017) {
+[2m[WebServer] [22m  code: [32m'P2025'[39m,
+[2m[WebServer] [22m  meta: { modelName: [32m'Session'[39m, cause: [32m'No record was found for an update.'[39m },
+[2m[WebServer] [22m  clientVersion: [32m'6.16.2'[39m
+[2m[WebServer] [22m}
+[2m[WebServer] [22m[31m[1m⨯[22m[39m Error [PrismaClientKnownRequestError]: 
+[2m[WebServer] [22mInvalid `prisma.session.update()` invocation:
+[2m[WebServer] [22m
+[2m[WebServer] [22m
+[2m[WebServer] [22mAn operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+[2m[WebServer] [22m    at async h (.next/server/chunks/5352.js:1:889)
+[2m[WebServer] [22m    at async u (.next/server/app/api/v1/admin/activation-codes/route.js:1:10143)
+[2m[WebServer] [22m    at async f (.next/server/app/api/v1/admin/activation-codes/route.js:1:12742)
+[2m[WebServer] [22m    at async y (.next/server/app/api/v1/auth/me/route.js:1:2574) {
+[2m[WebServer] [22m  code: [32m'P2025'[39m,
+[2m[WebServer] [22m  meta: { modelName: [32m'Session'[39m, cause: [32m'No record was found for an update.'[39m },
+[2m[WebServer] [22m  clientVersion: [32m'6.16.2'[39m
+[2m[WebServer] [22m}
+[2m[WebServer] [22m[31m[1m⨯[22m[39m Error [PrismaClientKnownRequestError]: 
+[2m[WebServer] [22mInvalid `prisma.session.update()` invocation:
+[2m[WebServer] [22m
+[2m[WebServer] [22m
+[2m[WebServer] [22mAn operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+[2m[WebServer] [22m    at async h (.next/server/chunks/5352.js:1:889)
+[2m[WebServer] [22m    at async u (.next/server/app/api/v1/admin/activation-codes/route.js:1:10143)
+[2m[WebServer] [22m    at async f (.next/server/app/api/v1/admin/activation-codes/route.js:1:12742)
+[2m[WebServer] [22m    at async y (.next/server/app/api/v1/memory/timeline/route.js:1:2614) {
+[2m[WebServer] [22m  code: [32m'P2025'[39m,
+[2m[WebServer] [22m  meta: { modelName: [32m'Session'[39m, cause: [32m'No record was found for an update.'[39m },
+[2m[WebServer] [22m  clientVersion: [32m'6.16.2'[39m
+[2m[WebServer] [22m}
+  ✓  76 [chromium] › tests/e2e/platform.spec.ts:60:7 › Navigation principale › clic Atelier Écrit → page Atelier Écrit (1.1s)
+  ✓  77 [chromium] › tests/e2e/payment-flow.spec.ts:91:7 › Payment - User Journey › parcours complet: dashboard → pricing → paiement (835ms)
+  ✓  79 [chromium] › tests/e2e/quiz-adaptatif.spec.ts:11:5 › Quiz 10 questions → validation → score affiché (901ms)
+  ✓  78 [chromium] › tests/e2e/platform.spec.ts:66:7 › Navigation principale › clic Atelier Oral → page Atelier Oral (1.2s)
+  ✓  80 [chromium] › tests/e2e/securite.spec.ts:11:5 › Tentative API enseignant en tant qu’élève → 403 (662ms)
+  ✓  82 [chromium] › tests/e2e/tuteur-chat.spec.ts:11:5 › Question légitime → réponse tuteur + citations éventuelles (1.0s)
+  ✓  81 [chromium] › tests/e2e/platform.spec.ts:80:7 › RAG — Bibliothèque › recherche documentaire retourne des résultats (1.8s)
+  ✓  83 [chromium] › tests/e2e/platform.spec.ts:117:7 › RAG — Bibliothèque › champ recherche accepte la saisie (1.5s)
+  ✓  84 [chromium] › tests/e2e/platform.spec.ts:132:7 › Atelier Écrit › la page Atelier Écrit charge correctement (751ms)
+  ✓  85 [chromium] › tests/e2e/platform.spec.ts:137:7 › Atelier Écrit › bouton générer une épreuve est présent (795ms)
+  ✓  86 [chromium] › tests/e2e/platform.spec.ts:152:7 › Atelier Oral › la page Atelier Oral charge correctement (786ms)
+  ✓  87 [chromium] › tests/e2e/platform.spec.ts:157:7 › Atelier Oral › bouton démarrer simulation est visible (783ms)
+[2m[WebServer] [22m[llm] provider_error for skill=langue_generator: Redis circuit breaker open — skipping connection attempt
+  ✓  88 [chromium] › tests/e2e/platform.spec.ts:171:7 › Atelier Langue › la page Atelier Langue charge (752ms)
+[2m[WebServer] [22m[llm] provider_error for skill=langue_generator: Redis circuit breaker open — skipping connection attempt
+[2m[WebServer] [22m[llm] provider_error for skill=grammaire_ciblee: Redis circuit breaker open — skipping connection attempt
+  ✓  89 [chromium] › tests/e2e/platform.spec.ts:176:7 › Atelier Langue › soumettre une réponse → feedback reçu (962ms)
+  ✓  90 [chromium] › tests/e2e/platform.spec.ts:196:7 › Tuteur Libre › la page Tuteur charge (766ms)
+  ✓  91 [chromium] › tests/e2e/platform.spec.ts:201:7 › Tuteur Libre › envoyer un message au tuteur retourne une reponse (888ms)
+  ✓  92 [chromium] › tests/e2e/platform.spec.ts:217:7 › Performance › le dashboard charge en moins de 5 secondes (911ms)
+  ✓  93 [chromium] › tests/e2e/platform.spec.ts:224:7 › Performance › aucune erreur console fatale sur le dashboard (951ms)
+  ✓  94 [chromium] › tests/e2e/platform.spec.ts:243:7 › Consentement RGPD › la bannière de consentement apparaît lors du premier accès (330ms)
+  ✓  95 [chromium] › tests/e2e/platform.spec.ts:259:7 › Descriptif de lecture › page descriptif → formulaire visible + compteur textes (860ms)
+  ✓  96 [chromium] › tests/e2e/platform.spec.ts:268:7 › Carnet de lecture › page carnet → heading visible (763ms)
+
+  2 skipped
+  94 passed (1.6m)

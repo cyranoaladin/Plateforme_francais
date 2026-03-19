@@ -78,6 +78,32 @@ test.describe('RAG — Bibliothèque', () => {
   test.beforeEach(async ({ page }) => { await login(page); });
 
   test('recherche documentaire retourne des résultats', async ({ page }) => {
+    await page.route('**/api/v1/rag/search', async (route) => {
+      const request = route.request();
+      if (request.method() !== 'POST') {
+        await route.continue();
+        return;
+      }
+
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          results: [
+            {
+              id: 'e2e-rag-1',
+              title: 'Méthode — explication linéaire',
+              type: 'document',
+              level: 'Première',
+              sourceRef: 'E2E fixture',
+              excerpt: 'Structure en mouvements, problématique, procédés + interprétation.',
+              score: 0.92,
+            },
+          ],
+        }),
+      });
+    });
+
     await page.goto('/bibliotheque');
     const searchInput = page.getByTestId('rag-query');
     await expect(searchInput).toBeVisible();

@@ -13,6 +13,36 @@ test('Sélection œuvre → démarrage simulation → affichage extrait', async 
   page.on('pageerror', err => console.log(`[BROWSER ERROR] ${err.message}`));
 
   test.setTimeout(60_000);
+
+  await page.route('**/api/v1/oral/session/start', async (route) => {
+    const request = route.request();
+    if (request.method() !== 'POST') {
+      await route.continue();
+      return;
+    }
+
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        sessionId: 'e2e-oral-session-1',
+        texte: "Texte d'extrait (E2E) — ceci est un extrait de test pour valider l'affichage.",
+        questionGrammaire: 'Identifier la fonction de la subordonnée relative.',
+        oeuvreChoisie: 'Cahier de Douai — Arthur Rimbaud',
+        instructions: 'E2E fixture',
+      }),
+    });
+  });
+
+  await page.route('**/api/v1/oral/session/*/start-prep', async (route) => {
+    const request = route.request();
+    if (request.method() !== 'POST') {
+      await route.continue();
+      return;
+    }
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' });
+  });
+
   await login(page);
   await page.goto('/atelier-oral');
 
