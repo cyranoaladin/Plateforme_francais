@@ -16,12 +16,13 @@ STUDENT_EMAIL="student.contract.$(date +%s).$RANDOM@eaf.local"
 curl -sS -D "$tmp_headers_student" -o /dev/null \
   -X POST "${BASE_URL}/api/v1/auth/register" \
   -H "Content-Type: application/json" \
-  --data "{\"email\":\"${STUDENT_EMAIL}\",\"password\":\"contract1234\",\"displayName\":\"Student Contract\"}"
+  --data "{\"email\":\"${STUDENT_EMAIL}\",\"password\":\"Contract1234\",\"displayName\":\"Student Contract\",\"acceptedCgu\":true,\"cguVersion\":\"2026-03\"}"
 
 STUDENT_SESSION="$(grep -i '^set-cookie: eaf_session=' "$tmp_headers_student" | head -n1 | sed -E 's/^set-cookie: eaf_session=([^;]+).*/\1/i')"
 STUDENT_CSRF="$(grep -i '^set-cookie: eaf_csrf=' "$tmp_headers_student" | head -n1 | sed -E 's/^set-cookie: eaf_csrf=([^;]+).*/\1/i')"
+STUDENT_ROLE="$(grep -i '^set-cookie: eaf_role=' "$tmp_headers_student" | head -n1 | sed -E 's/^set-cookie: eaf_role=([^;]+).*/\1/i')"
 
-if [ -z "${STUDENT_SESSION}" ] || [ -z "${STUDENT_CSRF}" ]; then
+if [ -z "${STUDENT_SESSION}" ] || [ -z "${STUDENT_CSRF}" ] || [ -z "${STUDENT_ROLE}" ]; then
   echo "Unable to bootstrap student cookies"
   exit 1
 fi
@@ -30,12 +31,13 @@ fi
 curl -sS -D "$tmp_headers_teacher" -o /dev/null \
   -X POST "${BASE_URL}/api/v1/auth/login" \
   -H "Content-Type: application/json" \
-  --data '{"email":"teacher.contract@eaf.local","password":"contract1234"}'
+  --data '{"email":"teacher.contract@eaf.local","password":"Contract1234"}'
 
 TEACHER_SESSION="$(grep -i '^set-cookie: eaf_session=' "$tmp_headers_teacher" | head -n1 | sed -E 's/^set-cookie: eaf_session=([^;]+).*/\1/i')"
 TEACHER_CSRF="$(grep -i '^set-cookie: eaf_csrf=' "$tmp_headers_teacher" | head -n1 | sed -E 's/^set-cookie: eaf_csrf=([^;]+).*/\1/i')"
+TEACHER_ROLE="$(grep -i '^set-cookie: eaf_role=' "$tmp_headers_teacher" | head -n1 | sed -E 's/^set-cookie: eaf_role=([^;]+).*/\1/i')"
 
-if [ -z "${TEACHER_SESSION}" ] || [ -z "${TEACHER_CSRF}" ]; then
+if [ -z "${TEACHER_SESSION}" ] || [ -z "${TEACHER_CSRF}" ] || [ -z "${TEACHER_ROLE}" ]; then
   echo "Unable to bootstrap teacher cookies"
   exit 1
 fi
@@ -50,11 +52,10 @@ docker run --rm \
   --generation-allow-x00 false \
   --mode=positive \
   --phases fuzzing \
-  --header "Cookie: eaf_session=${STUDENT_SESSION}; eaf_csrf=${STUDENT_CSRF}" \
+  --header "Cookie: eaf_session=${STUDENT_SESSION}; eaf_csrf=${STUDENT_CSRF}; eaf_role=${STUDENT_ROLE}" \
   --header "X-CSRF-Token: ${STUDENT_CSRF}" \
   --checks all \
   --exclude-checks unsupported_method \
-  --stateful=none \
   --max-examples=20
 
 # Allowed contracts with teacher role
@@ -67,10 +68,9 @@ docker run --rm \
   --generation-allow-x00 false \
   --mode=positive \
   --phases fuzzing \
-  --header "Cookie: eaf_session=${TEACHER_SESSION}; eaf_csrf=${TEACHER_CSRF}" \
+  --header "Cookie: eaf_session=${TEACHER_SESSION}; eaf_csrf=${TEACHER_CSRF}; eaf_role=${TEACHER_ROLE}" \
   --header "X-CSRF-Token: ${TEACHER_CSRF}" \
   --checks all \
   --exclude-checks unsupported_method \
-  --stateful=none \
   --max-examples=20
 

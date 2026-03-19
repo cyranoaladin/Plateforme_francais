@@ -14,6 +14,7 @@ paths:
           application/json:
             schema:
               type: object
+              additionalProperties: false
               required: [query]
               properties:
                 query:
@@ -84,169 +85,6 @@ paths:
                 properties:
                   error: { type: string }
 
-  /api/v1/tuteur/message:
-    post:
-      summary: Authenticated tutor message
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required: [message]
-              properties:
-                message:
-                  type: string
-                  minLength: 1
-                  maxLength: 4000
-                conversationHistory:
-                  type: array
-                  maxItems: 20
-                  items:
-                    type: object
-                    required: [role, content]
-                    properties:
-                      role:
-                        type: string
-                        enum: [user, assistant]
-                      content:
-                        type: string
-                        minLength: 1
-                        maxLength: 4000
-      responses:
-        '200':
-          description: Tutor answer
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [answer, citations, suggestions]
-                properties:
-                  answer: { type: string }
-                  citations:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        index: { type: integer }
-                        title: { type: string }
-                        source: { type: string }
-                  suggestions:
-                    type: array
-                    items: { type: string }
-        '400':
-          description: Invalid payload
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [error]
-                properties:
-                  error: { type: string }
-        '401':
-          description: Unauthenticated
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [error]
-                properties:
-                  error: { type: string }
-        '403':
-          description: Plan quota exceeded
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [error]
-                properties:
-                  error: { type: string }
-                  upgradeUrl: { type: string }
-        '429':
-          description: Rate limit or LLM quota
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [error]
-                properties:
-                  error: { type: string }
-
-  /api/v1/oral/session/start:
-    post:
-      summary: Start oral session
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required: [oeuvre]
-              properties:
-                oeuvre:
-                  type: string
-                  minLength: 1
-                  maxLength: 200
-                extrait:
-                  type: string
-                  minLength: 1
-                questionGrammaire:
-                  type: string
-                  minLength: 1
-      responses:
-        '200':
-          description: Oral session started
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  [sessionId, texte, questionGrammaire, phraseGrammaire, oeuvreChoisie, instructions]
-                properties:
-                  sessionId: { type: string }
-                  texte: { type: string }
-                  questionGrammaire: { type: string }
-                  phraseGrammaire: { type: string }
-                  oeuvreChoisie: { type: string }
-                  instructions: { type: string }
-        '400':
-          description: Invalid payload
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [error]
-                properties:
-                  error: { type: string }
-        '401':
-          description: Unauthenticated
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [error]
-                properties:
-                  error: { type: string }
-        '403':
-          description: Plan quota exceeded
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [error]
-                properties:
-                  error: { type: string }
-                  upgradeUrl: { type: string }
-        '429':
-          description: Rate limit exceeded
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [error]
-                properties:
-                  error: { type: string }
-
   /api/v1/epreuves/generate:
     post:
       summary: Generate written exam
@@ -256,6 +94,7 @@ paths:
           application/json:
             schema:
               type: object
+              additionalProperties: false
               required: [type]
               properties:
                 type:

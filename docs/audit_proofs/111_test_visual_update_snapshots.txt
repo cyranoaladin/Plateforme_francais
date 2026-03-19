@@ -1,0 +1,72 @@
+
+> nexus-reussite-eaf@1.0.0 test:visual:update
+> playwright test --config=playwright.visual.config.ts --update-snapshots --reporter=line
+
+
+Running 31 tests using 2 workers
+
+[1A[2K[1/31] [setup] › tests/visual/auth.setup.ts:6:6 › authenticate for visual tests
+[1A[2K[2/31] [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: landing page
+[1A[2K[3/31] [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: pricing page
+[1A[2K[4/31] [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: login page
+[1A[2K[5/31] [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: contact page
+[1A[2K[6/31] [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: mentions-legales page
+[1A[2K[public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: pricing page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/visual-regression.spec.ts-snapshots/pricing-public-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[7/31] [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: cgu page
+[1A[2K[8/31] [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: landing-dark page
+[1A[2K[9/31] [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: pricing-dark page
+[1A[2K[10/31] [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: login-dark page
+[1A[2K[11/31] [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: contact-dark page
+[1A[2K[12/31] [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: mentions-legales-dark page
+[1A[2K[13/31] [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: cgu-dark page
+[1A[2K[14/31] [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/mon-parcours page
+[1A[2K[15/31] [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/dashboard page
+[1A[2K[connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/mon-parcours page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts-snapshots/connected-mon-parcours-connected-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[16/31] [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/quiz page
+[1A[2K[connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/dashboard page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts-snapshots/connected-dashboard-connected-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[17/31] [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/profil page
+[1A[2K[18/31] [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/carnet page
+[1A[2K[connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/profil page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts-snapshots/connected-profil-connected-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[19/31] [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/atelier-ecrit page
+[1A[2K[20/31] [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/dashboard-dark page
+[1A[2K[21/31] [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/mon-parcours-dark page
+[1A[2K[connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/dashboard-dark page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts-snapshots/connected-dashboard-dark-connected-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[22/31] [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/quiz-dark page
+[1A[2K[connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/mon-parcours-dark page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts-snapshots/connected-mon-parcours-dark-connected-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[23/31] [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/profil-dark page
+[1A[2K[24/31] [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/carnet-dark page
+[1A[2K[25/31] [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/atelier-ecrit-dark page
+[1A[2K[connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/profil-dark page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts-snapshots/connected-profil-dark-connected-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[26/31] [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: landing page
+[1A[2K[27/31] [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: login page
+[1A[2K[28/31] [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: contact page
+[1A[2K[29/31] [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/dashboard page
+[1A[2K[mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/dashboard page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts-snapshots/mobile-connected-dashboard-mobile-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[30/31] [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/mon-parcours page
+[1A[2K[mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: landing page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts-snapshots/mobile-landing-mobile-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[31/31] [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/atelier-ecrit page
+[1A[2K[mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/mon-parcours page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts-snapshots/mobile-connected-mon-parcours-mobile-visual-linux.png is re-generated, writing actual.
+
+[1A[2K[mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/atelier-ecrit page
+/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts-snapshots/mobile-connected-atelier-ecrit-mobile-visual-linux.png is re-generated, writing actual.
+
+[1A[2K  31 passed (40.6s)

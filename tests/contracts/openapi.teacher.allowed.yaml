@@ -37,8 +37,6 @@ paths:
   /api/v1/enseignant/class-code:
     post:
       summary: Class code generation allowed for teacher/admin role
-      requestBody:
-        required: false
       responses:
         '200':
           description: New class code generated

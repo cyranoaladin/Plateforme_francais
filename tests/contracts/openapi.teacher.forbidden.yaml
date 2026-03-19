@@ -22,8 +22,6 @@ paths:
   /api/v1/enseignant/class-code:
     post:
       summary: Class code generation forbidden for student role
-      requestBody:
-        required: false
       responses:
         '403':
           description: Access denied for non-teacher

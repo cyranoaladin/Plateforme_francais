@@ -65,14 +65,14 @@ async function main() {
 
   await upsertUser({
     email: 'teacher.contract@eaf.local',
-    password: 'contract1234',
+    password: 'Contract1234',
     role: 'enseignant',
     displayName: 'Teacher Contract',
   });
 
   await upsertUser({
     email: 'admin.contract@eaf.local',
-    password: 'contract1234',
+    password: 'Contract1234',
     role: 'admin',
     displayName: 'Admin Contract',
   });

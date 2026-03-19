@@ -4,15 +4,20 @@ import * as path from 'path';
 const authFile = path.join(__dirname, '..', '.auth', 'visual-user.json');
 
 setup('authenticate for visual tests', async ({ page }) => {
-  // Navigate to login page
-  await page.goto('/login');
+  const email = `visual.${Date.now()}.${Math.floor(Math.random() * 10000)}@eaf.local`;
+  const password = 'ProTest2026!';
 
-  // Fill login form using test IDs from the login page
-  await page.getByTestId('auth-email').fill('eleve.pro@eaf.local');
-  await page.getByTestId('auth-password').fill('ProTest2026!');
-  await page.getByTestId('auth-submit').click();
+  await page.request.post('/api/v1/auth/register', {
+    data: {
+      email,
+      password,
+      displayName: 'Visual User',
+      acceptedCgu: true,
+      cguVersion: '2026-03',
+    },
+  });
 
-  // Wait for redirect away from login
+  await page.goto('/dashboard');
   await expect(page).not.toHaveURL(/\/login/, { timeout: 15000 });
 
   // Save storage state (cookies + localStorage)

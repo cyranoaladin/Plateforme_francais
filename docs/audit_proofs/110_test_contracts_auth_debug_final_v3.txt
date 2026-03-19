@@ -1,0 +1,67 @@
++ set -euo pipefail
++ BASE_URL=http://127.0.0.1:3000
++ SPEC_PATH=/work/openapi.auth.yaml
+++ date +%s
++ EMAIL=contract.1773955428.28376@eaf.local
++ PASSWORD=Contract1234
+++ mktemp
++ TMP_HEADERS=/tmp/tmp.9dM31wsrse
++ trap 'rm -f "$TMP_HEADERS"' EXIT
++ curl -sS -D /tmp/tmp.9dM31wsrse -o /dev/null -X POST http://127.0.0.1:3000/api/v1/auth/register -H 'Content-Type: application/json' --data '{"email":"contract.1773955428.28376@eaf.local","password":"Contract1234","displayName":"Contract User","acceptedCgu":true,"cguVersion":"2026-03"}'
+++ grep -i '^set-cookie: eaf_session=' /tmp/tmp.9dM31wsrse
+++ head -n1
+++ sed -E 's/^set-cookie: eaf_session=([^;]+).*/\1/i'
++ SESSION_COOKIE=ae289801-e32b-4bfe-8fbd-ca05f7f88601
+++ grep -i '^set-cookie: eaf_csrf=' /tmp/tmp.9dM31wsrse
+++ head -n1
+++ sed -E 's/^set-cookie: eaf_csrf=([^;]+).*/\1/i'
++ CSRF_COOKIE=6f1d9a07a9344047dd58da2a98f26d5210908f3898477728
+++ grep -i '^set-cookie: eaf_role=' /tmp/tmp.9dM31wsrse
+++ head -n1
+++ sed -E 's/^set-cookie: eaf_role=([^;]+).*/\1/i'
++ ROLE_COOKIE=eleve
++ '[' -z ae289801-e32b-4bfe-8fbd-ca05f7f88601 ']'
++ '[' -z 6f1d9a07a9344047dd58da2a98f26d5210908f3898477728 ']'
++ '[' -z eleve ']'
+++ pwd
++ docker run --rm --network host -v /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/contracts:/work schemathesis/schemathesis:stable run /work/openapi.auth.yaml --url http://127.0.0.1:3000 --mode=positive --generation-allow-x00 false --phases fuzzing --header 'Cookie: eaf_session=ae289801-e32b-4bfe-8fbd-ca05f7f88601; eaf_csrf=6f1d9a07a9344047dd58da2a98f26d5210908f3898477728; eaf_role=eleve' --header 'X-CSRF-Token: 6f1d9a07a9344047dd58da2a98f26d5210908f3898477728' --checks all --exclude-checks unsupported_method --max-examples=30
+Schemathesis v4.12.2
+━━━━━━━━━━━━━━━━━━━━
+
+
+ ✅  Loaded specification from /work/openapi.auth.yaml (in 0.97s)               
+
+     Base URL:         http://127.0.0.1:3000                                    
+     Specification:    Open API 3.0.3                                           
+     Operations:       2 selected / 2 total                                     
+
+
+ ✅  API capabilities:                                                          
+
+     Supports NULL byte in headers:    ✘                                        
+
+ ✅  Fuzzing (in 6.58s)                                                         
+                                                                                
+     ✅ 2 passed                                                                
+
+=================================== SUMMARY ====================================
+
+API Operations:
+  Selected: 2/2
+  Tested: 2
+
+Test Phases:
+  ⏭  Examples (disabled)
+  ⏭  Coverage (disabled)
+  ✅ Fuzzing
+  ⏭  Stateful (disabled)
+
+Schema Coverage report: ./schema-coverage.html
+
+Test cases:
+  60 generated, 60 passed
+
+Seed: 197297498751839059797579843352580190467
+
+=========================== No issues found in 6.68s ===========================
++ rm -f /tmp/tmp.9dM31wsrse
