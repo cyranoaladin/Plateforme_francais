@@ -74,4 +74,16 @@ describe('parseJsonBody', () => {
       expect(result.response.status).toBe(400);
     }
   });
+
+  it('rejette un payload contenant un caractère NUL', async () => {
+    const req = makeRequest({ name: 'A\u0000B', score: 10 });
+    const result = await parseJsonBody(req, testSchema);
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.response.status).toBe(400);
+      const body = await result.response.json();
+      expect(body.error).toBe('Payload invalide.');
+      expect(body.details).toContain('Caractère NUL non autorisé.');
+    }
+  });
 });

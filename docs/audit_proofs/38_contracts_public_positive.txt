@@ -1,0 +1,2112 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts
+> bash tests/contracts/run-schemathesis.sh http://127.0.0.1:3000
+
+Schemathesis v4.12.2
+━━━━━━━━━━━━━━━━━━━━
+
+
+ ✅  Loaded specification from /work/openapi.public.yaml (in 1.32s)             
+
+     Base URL:         http://127.0.0.1:3000                                    
+     Specification:    Open API 3.0.3                                           
+     Operations:       3 selected / 3 total                                     
+
+
+ ✅  API capabilities:                                                          
+
+     Supports NULL byte in headers:    ✘                                        
+
+ ⏭   Examples (in 0.12s)                                                        
+                                                                                
+     ⏭  3 skipped                                                               
+
+Exception in thread schemathesis_unit_tests_0:
+Traceback (most recent call last):
+  File "/opt/python/lib/python3.14t/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/python/lib/python3.14t/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/engine/run/unit/__init__.py", line 249, in worker_task
+    test_function = create_test(
+        operation=operation,
+    ...<7 lines>...
+        ),
+    )
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/hypothesis/builder.py", line 227, in create_test
+    hypothesis_test = add_coverage(
+        hypothesis_test,
+    ...<6 lines>...
+        generation_config=generation,
+    )
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/hypothesis/builder.py", line 383, in add_coverage
+    for case in generate_coverage_cases(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        operation=operation,
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        generation_config=generation_config,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/hypothesis/builder.py", line 421, in generate_coverage_cases
+    for case in _iter_coverage_cases(
+                ~~~~~~~~~~~~~~~~~~~~^
+        operation=operation,
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        generation_config=generation_config,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/hypothesis/builder.py", line 837, in _iter_coverage_cases
+    next_value = next(iterator)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 663, in _cover_positive_for_type
+    yield from _positive_object(ctx, _with_effective_required(schema), cast(dict, template))
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 1477, in _positive_object
+    for new in cover_schema_iter(ctx, sub_schema):
+               ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 644, in _cover_positive_for_type
+    yield from cover_schema_iter(ctx, canonical)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 732, in cover_schema_iter
+    yield from _cover_positive_for_type(ctx, schema, ty)
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/coverage.py", line 643, in _cover_positive_for_type
+    canonical = canonicalish(schema)
+  File "/opt/venv/lib/python3.14t/site-packages/hypothesis_jsonschema/_canonicalise.py", line 594, in canonicalish
+    out = merged([tmp, *ao])
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/hypothesis/__init__.py", line 197, in _merged
+    return _original_merged(schemas)
+  File "/opt/venv/lib/python3.14t/site-packages/hypothesis_jsonschema/_canonicalise.py", line 631, in merged
+    schemas = sorted((canonicalish(s) for s in schemas), key=upper_bound_instances)
+  File "/opt/venv/lib/python3.14t/site-packages/hypothesis_jsonschema/_canonicalise.py", line 631, in <genexpr>
+    schemas = sorted((canonicalish(s) for s in schemas), key=upper_bound_instances)
+                      ~~~~~~~~~~~~^^^
+  File "/opt/venv/lib/python3.14t/site-packages/schemathesis/generation/hypothesis/__init__.py", line 328, in _fast_canonicalish
+    cache_key = _schema_cache_key(schema)
+RecursionError: maximum recursion depth exceeded
+ ✅  Coverage (in 2.61s)                                                        
+                                                                                
+     ✅ 1 passed                                                                
+
+ ❌  Fuzzing (in 1.81s)                                                         
+                                                                                
+     ✅ 2 passed  ❌ 1 failed                                                   
+
+=================================== FAILURES ===================================
+__________________________ POST /api/v1/auth/register __________________________
+1. Test Case ID: IDgXPS
+
+- API rejected schema-compliant request
+
+    Valid data should have been accepted
+    Expected: 2xx, 401, 403, 404, 409, 5xx
+
+[400] Bad Request:
+
+    `{"error":"Payload invalide.","details":["Invalid email"]}`
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -H 'Cookie: [Filtered]' -d '{"acceptedCgu": true, "email": "v%@NRUgc0N0zkQXWgLQW0Dae.T.ORg", "password": ":\ud802\udfe5\u00db\udba4\udf7aL\u009a/\u0083o9dGi\uda8c\ude41\u0092\u00c3a%\u00fdi\u00b6\uda15\udd00\u023a\u008a\u0099:\u023a\udb8f\udd0c\ud9a9\udeed\u001dL\udbc0\udf7f\u00b3\ud9fa\udd80"}' http://127.0.0.1:3000/api/v1/auth/register
+
+=================================== WARNINGS ===================================
+
+Authentication failed: 1 operation returned authentication errors
+
+401 Unauthorized (1 operation):
+  - POST /api/v1/auth/login
+
+💡 Ensure valid authentication credentials are set via --auth or -H
+
+=================================== SUMMARY ====================================
+
+API Operations:
+  Selected: 3/3
+  Tested: 3
+
+Test Phases:
+  ⏭  Examples
+  ✅ Coverage
+  ❌ Fuzzing
+  ⏭  Stateful (not applicable)
+
+Failures:
+  ❌ API rejected schema-compliant request: 1
+
+Warnings:
+  ⚠️ Missing authentication: 1 operation returned only 401/403 responses
+
+Schema Coverage report: ./schema-coverage.html
+
+Test cases:
+  41 generated, 1 found 1 unique failures
+
+Seed: 144209927258025248931733411255584687383
+
+======================== 1 failure, 1 warning in 4.65s =========================

@@ -1,0 +1,851 @@
+
+> nexus-reussite-eaf@1.0.0 test:visual
+> playwright test --config=playwright.visual.config.ts
+
+
+Running 31 tests using 2 workers
+
+  ✓   1 [setup] › tests/visual/auth.setup.ts:6:6 › authenticate for visual tests (825ms)
+  ✓   3 [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: pricing page (2.7s)
+  ✓   4 [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: login page (1.6s)
+  ✘   2 [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: landing page (6.9s)
+  ✓   5 [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: contact page (1.5s)
+  ✓   6 [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: cgu page (1.5s)
+  ✓   7 [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: mentions-legales page (1.8s)
+  ✓   9 [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: pricing-dark page (2.8s)
+  ✓  10 [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: login-dark page (1.9s)
+  ✓  11 [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: contact-dark page (1.8s)
+  ✘   8 [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: landing-dark page (7.2s)
+  ✓  12 [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: mentions-legales-dark page (1.9s)
+  ✓  13 [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: cgu-dark page (1.9s)
+  ✘  14 [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/mon-parcours page (4.1s)
+  ✘  15 [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/dashboard page (4.3s)
+  ✘  16 [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/quiz page (2.6s)
+  ✘  17 [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/profil page (3.4s)
+  ✓  18 [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/carnet page (1.8s)
+  ✘  19 [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/atelier-ecrit page (3.0s)
+  ✘  20 [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/dashboard-dark page (4.4s)
+  ✘  21 [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/mon-parcours-dark page (4.6s)
+  ✘  22 [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/quiz-dark page (2.9s)
+  ✘  23 [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/profil-dark page (3.8s)
+  ✘  24 [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/carnet-dark page (3.1s)
+  ✘  26 [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/atelier-ecrit-dark page (3.3s)
+  ✘  27 [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: login page (1.7s)
+  ✘  25 [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: landing page (6.1s)
+  ✘  28 [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: contact page (1.3s)
+  ✘  29 [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/dashboard page (3.3s)
+  ✘  30 [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/mon-parcours page (2.8s)
+  ✘  31 [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/atelier-ecrit page (2.3s)
+
+
+  1) [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: landing page ──────────
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Timeout: 5000ms
+      Timeout 5000ms exceeded.
+
+      Snapshot: landing.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(landing.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - Expected an image 1280px by 12252px, received 1280px by 11232px. 7164449 pixels (ratio 0.46 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - Timeout 5000ms exceeded.[22m
+
+
+      41 |     await page.goto(path, { waitUntil: 'networkidle' });
+      42 |     await dismissConsent(page);
+    > 43 |     await expect(page).toHaveScreenshot(`${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      44 |   });
+      45 | }
+      46 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/visual-regression.spec.ts:43:24
+
+    attachment #1: landing (image/png) ─────────────────────────────────────────────────────────────
+    Expected: tests/visual/visual-regression.spec.ts-snapshots/landing-public-visual-linux.png
+    Received: test-results/visual-regression-visual-landing-page-public-visual/landing-actual.png
+    Diff:     test-results/visual-regression-visual-landing-page-public-visual/landing-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-regression-visual-landing-page-public-visual/error-context.md
+
+  2) [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: landing-dark page ─────
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Timeout: 5000ms
+      Timeout 5000ms exceeded.
+
+      Snapshot: landing-dark.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(landing-dark.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - Expected an image 1280px by 12252px, received 1280px by 11232px. 9061267 pixels (ratio 0.58 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - Timeout 5000ms exceeded.[22m
+
+
+      59 |     await page.waitForTimeout(300);
+      60 |
+    > 61 |     await expect(page).toHaveScreenshot(`${name}-dark.png`, SCREENSHOT_OPTS);
+         |                        ^
+      62 |   });
+      63 | }
+      64 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/visual-regression.spec.ts:61:24
+
+    attachment #1: landing-dark (image/png) ────────────────────────────────────────────────────────
+    Expected: tests/visual/visual-regression.spec.ts-snapshots/landing-dark-public-visual-linux.png
+    Received: test-results/visual-regression-visual-landing-dark-page-public-visual/landing-dark-actual.png
+    Diff:     test-results/visual-regression-visual-landing-dark-page-public-visual/landing-dark-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/visual-regression-visual-landing-dark-page-public-visual/error-context.md
+
+  3) [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/dashboard page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      79156 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: connected-dashboard.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-dashboard.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 79510 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 79156 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      60 |     await dismissConsent(page);
+      61 |     await waitForPageReady(page);
+    > 62 |     await expect(page).toHaveScreenshot(`connected-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      63 |   });
+      64 | }
+      65 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:62:24
+
+    attachment #1: connected-dashboard (image/png) ─────────────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-dashboard-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-dashboard-page-connected-visual/connected-dashboard-actual.png
+    Diff:     test-results/connected-visual-visual-connected-dashboard-page-connected-visual/connected-dashboard-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-dashboard-page-connected-visual/error-context.md
+
+  4) [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/mon-parcours page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      70929 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: connected-mon-parcours.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-mon-parcours.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 70929 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 70929 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      60 |     await dismissConsent(page);
+      61 |     await waitForPageReady(page);
+    > 62 |     await expect(page).toHaveScreenshot(`connected-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      63 |   });
+      64 | }
+      65 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:62:24
+
+    attachment #1: connected-mon-parcours (image/png) ──────────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-mon-parcours-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-mon-parcours-page-connected-visual/connected-mon-parcours-actual.png
+    Diff:     test-results/connected-visual-visual-connected-mon-parcours-page-connected-visual/connected-mon-parcours-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-mon-parcours-page-connected-visual/error-context.md
+
+  5) [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/quiz page ─
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      64162 pixels (ratio 0.04 of all image pixels) are different.
+
+      Snapshot: connected-quiz.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-quiz.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 64162 pixels (ratio 0.04 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 64162 pixels (ratio 0.04 of all image pixels) are different.[22m
+
+
+      60 |     await dismissConsent(page);
+      61 |     await waitForPageReady(page);
+    > 62 |     await expect(page).toHaveScreenshot(`connected-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      63 |   });
+      64 | }
+      65 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:62:24
+
+    attachment #1: connected-quiz (image/png) ──────────────────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-quiz-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-quiz-page-connected-visual/connected-quiz-actual.png
+    Diff:     test-results/connected-visual-visual-connected-quiz-page-connected-visual/connected-quiz-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-quiz-page-connected-visual/error-context.md
+
+  6) [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/profil page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      67237 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: connected-profil.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-profil.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 67237 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 67237 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      60 |     await dismissConsent(page);
+      61 |     await waitForPageReady(page);
+    > 62 |     await expect(page).toHaveScreenshot(`connected-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      63 |   });
+      64 | }
+      65 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:62:24
+
+    attachment #1: connected-profil (image/png) ────────────────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-profil-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-profil-page-connected-visual/connected-profil-actual.png
+    Diff:     test-results/connected-visual-visual-connected-profil-page-connected-visual/connected-profil-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-profil-page-connected-visual/error-context.md
+
+  7) [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/atelier-ecrit page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      66787 pixels (ratio 0.03 of all image pixels) are different.
+
+      Snapshot: connected-atelier-ecrit.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-atelier-ecrit.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 66787 pixels (ratio 0.03 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 66787 pixels (ratio 0.03 of all image pixels) are different.[22m
+
+
+      60 |     await dismissConsent(page);
+      61 |     await waitForPageReady(page);
+    > 62 |     await expect(page).toHaveScreenshot(`connected-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      63 |   });
+      64 | }
+      65 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:62:24
+
+    attachment #1: connected-atelier-ecrit (image/png) ─────────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-atelier-ecrit-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-atelier-ecrit-page-connected-visual/connected-atelier-ecrit-actual.png
+    Diff:     test-results/connected-visual-visual-connected-atelier-ecrit-page-connected-visual/connected-atelier-ecrit-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-atelier-ecrit-page-connected-visual/error-context.md
+
+  8) [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/dashboard-dark page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      78233 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: connected-dashboard-dark.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-dashboard-dark.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 78233 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 78233 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      78 |     await page.waitForTimeout(300);
+      79 |
+    > 80 |     await expect(page).toHaveScreenshot(`connected-${name}-dark.png`, SCREENSHOT_OPTS);
+         |                        ^
+      81 |   });
+      82 | }
+      83 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:80:24
+
+    attachment #1: connected-dashboard-dark (image/png) ────────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-dashboard-dark-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-dashboard-dark-page-connected-visual/connected-dashboard-dark-actual.png
+    Diff:     test-results/connected-visual-visual-connected-dashboard-dark-page-connected-visual/connected-dashboard-dark-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-dashboard-dark-page-connected-visual/error-context.md
+
+  9) [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/mon-parcours-dark page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      70310 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: connected-mon-parcours-dark.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-mon-parcours-dark.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 70310 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 70310 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      78 |     await page.waitForTimeout(300);
+      79 |
+    > 80 |     await expect(page).toHaveScreenshot(`connected-${name}-dark.png`, SCREENSHOT_OPTS);
+         |                        ^
+      81 |   });
+      82 | }
+      83 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:80:24
+
+    attachment #1: connected-mon-parcours-dark (image/png) ─────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-mon-parcours-dark-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-mon-parcours-dark-page-connected-visual/connected-mon-parcours-dark-actual.png
+    Diff:     test-results/connected-visual-visual-connected-mon-parcours-dark-page-connected-visual/connected-mon-parcours-dark-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-mon-parcours-dark-page-connected-visual/error-context.md
+
+  10) [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/quiz-dark page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      62983 pixels (ratio 0.04 of all image pixels) are different.
+
+      Snapshot: connected-quiz-dark.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-quiz-dark.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 62983 pixels (ratio 0.04 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 62983 pixels (ratio 0.04 of all image pixels) are different.[22m
+
+
+      78 |     await page.waitForTimeout(300);
+      79 |
+    > 80 |     await expect(page).toHaveScreenshot(`connected-${name}-dark.png`, SCREENSHOT_OPTS);
+         |                        ^
+      81 |   });
+      82 | }
+      83 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:80:24
+
+    attachment #1: connected-quiz-dark (image/png) ─────────────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-quiz-dark-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-quiz-dark-page-connected-visual/connected-quiz-dark-actual.png
+    Diff:     test-results/connected-visual-visual-connected-quiz-dark-page-connected-visual/connected-quiz-dark-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-quiz-dark-page-connected-visual/error-context.md
+
+  11) [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/profil-dark page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      65556 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: connected-profil-dark.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-profil-dark.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 65556 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 65556 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      78 |     await page.waitForTimeout(300);
+      79 |
+    > 80 |     await expect(page).toHaveScreenshot(`connected-${name}-dark.png`, SCREENSHOT_OPTS);
+         |                        ^
+      81 |   });
+      82 | }
+      83 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:80:24
+
+    attachment #1: connected-profil-dark (image/png) ───────────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-profil-dark-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-profil-dark-page-connected-visual/connected-profil-dark-actual.png
+    Diff:     test-results/connected-visual-visual-connected-profil-dark-page-connected-visual/connected-profil-dark-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-profil-dark-page-connected-visual/error-context.md
+
+  12) [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/carnet-dark page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      32188 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: connected-carnet-dark.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-carnet-dark.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 32188 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 32188 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      78 |     await page.waitForTimeout(300);
+      79 |
+    > 80 |     await expect(page).toHaveScreenshot(`connected-${name}-dark.png`, SCREENSHOT_OPTS);
+         |                        ^
+      81 |   });
+      82 | }
+      83 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:80:24
+
+    attachment #1: connected-carnet-dark (image/png) ───────────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-carnet-dark-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-carnet-dark-page-connected-visual/connected-carnet-dark-actual.png
+    Diff:     test-results/connected-visual-visual-connected-carnet-dark-page-connected-visual/connected-carnet-dark-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-carnet-dark-page-connected-visual/error-context.md
+
+  13) [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/atelier-ecrit-dark page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      65719 pixels (ratio 0.03 of all image pixels) are different.
+
+      Snapshot: connected-atelier-ecrit-dark.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(connected-atelier-ecrit-dark.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 65719 pixels (ratio 0.03 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 65719 pixels (ratio 0.03 of all image pixels) are different.[22m
+
+
+      78 |     await page.waitForTimeout(300);
+      79 |
+    > 80 |     await expect(page).toHaveScreenshot(`connected-${name}-dark.png`, SCREENSHOT_OPTS);
+         |                        ^
+      81 |   });
+      82 | }
+      83 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/connected-visual.spec.ts:80:24
+
+    attachment #1: connected-atelier-ecrit-dark (image/png) ────────────────────────────────────────
+    Expected: tests/visual/connected-visual.spec.ts-snapshots/connected-atelier-ecrit-dark-connected-visual-linux.png
+    Received: test-results/connected-visual-visual-connected-atelier-ecrit-dark-page-connected-visual/connected-atelier-ecrit-dark-actual.png
+    Diff:     test-results/connected-visual-visual-connected-atelier-ecrit-dark-page-connected-visual/connected-atelier-ecrit-dark-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/connected-visual-visual-connected-atelier-ecrit-dark-page-connected-visual/error-context.md
+
+  14) [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: landing page ─────────────
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Timeout: 5000ms
+      Timeout 5000ms exceeded.
+
+      Snapshot: mobile-landing.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(mobile-landing.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - Expected an image 674px by 18418px, received 674px by 18636px. 3551287 pixels (ratio 0.29 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - Timeout 5000ms exceeded.[22m
+
+
+      61 |     await page.goto(path, { waitUntil: 'load' });
+      62 |     await dismissConsent(page);
+    > 63 |     await expect(page).toHaveScreenshot(`mobile-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      64 |   });
+      65 | }
+      66 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts:63:24
+
+    attachment #1: mobile-landing (image/png) ──────────────────────────────────────────────────────
+    Expected: tests/visual/mobile-visual.spec.ts-snapshots/mobile-landing-mobile-visual-linux.png
+    Received: test-results/mobile-visual-mobile-landing-page-mobile-visual/mobile-landing-actual.png
+    Diff:     test-results/mobile-visual-mobile-landing-page-mobile-visual/mobile-landing-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/mobile-visual-mobile-landing-page-mobile-visual/error-context.md
+
+  15) [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: login page ───────────────
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      Expected an image 390px by 2851px, received 390px by 2710px. 131761 pixels (ratio 0.12 of all image pixels) are different.
+
+      Snapshot: mobile-login.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(mobile-login.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - Expected an image 390px by 2851px, received 390px by 2710px. 131761 pixels (ratio 0.12 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - Expected an image 390px by 2851px, received 390px by 2710px. 131761 pixels (ratio 0.12 of all image pixels) are different.[22m
+
+
+      61 |     await page.goto(path, { waitUntil: 'load' });
+      62 |     await dismissConsent(page);
+    > 63 |     await expect(page).toHaveScreenshot(`mobile-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      64 |   });
+      65 | }
+      66 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts:63:24
+
+    attachment #1: mobile-login (image/png) ────────────────────────────────────────────────────────
+    Expected: tests/visual/mobile-visual.spec.ts-snapshots/mobile-login-mobile-visual-linux.png
+    Received: test-results/mobile-visual-mobile-login-page-mobile-visual/mobile-login-actual.png
+    Diff:     test-results/mobile-visual-mobile-login-page-mobile-visual/mobile-login-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/mobile-visual-mobile-login-page-mobile-visual/error-context.md
+
+  16) [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: contact page ─────────────
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      Expected an image 390px by 1457px, received 390px by 1377px. 9612 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: mobile-contact.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(mobile-contact.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - Expected an image 390px by 1457px, received 390px by 1377px. 9612 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - Expected an image 390px by 1457px, received 390px by 1377px. 9612 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      61 |     await page.goto(path, { waitUntil: 'load' });
+      62 |     await dismissConsent(page);
+    > 63 |     await expect(page).toHaveScreenshot(`mobile-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      64 |   });
+      65 | }
+      66 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts:63:24
+
+    attachment #1: mobile-contact (image/png) ──────────────────────────────────────────────────────
+    Expected: tests/visual/mobile-visual.spec.ts-snapshots/mobile-contact-mobile-visual-linux.png
+    Received: test-results/mobile-visual-mobile-contact-page-mobile-visual/mobile-contact-actual.png
+    Diff:     test-results/mobile-visual-mobile-contact-page-mobile-visual/mobile-contact-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/mobile-visual-mobile-contact-page-mobile-visual/error-context.md
+
+  17) [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/dashboard page ─
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      38621 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: mobile-connected-dashboard.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(mobile-connected-dashboard.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 38413 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 38621 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      71 |     await dismissConsent(page);
+      72 |     await waitForPageReady(page);
+    > 73 |     await expect(page).toHaveScreenshot(`mobile-connected-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      74 |   });
+      75 | }
+      76 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts:73:24
+
+    attachment #1: mobile-connected-dashboard (image/png) ──────────────────────────────────────────
+    Expected: tests/visual/mobile-visual.spec.ts-snapshots/mobile-connected-dashboard-mobile-visual-linux.png
+    Received: test-results/mobile-visual-mobile-connected-dashboard-page-mobile-visual/mobile-connected-dashboard-actual.png
+    Diff:     test-results/mobile-visual-mobile-connected-dashboard-page-mobile-visual/mobile-connected-dashboard-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/mobile-visual-mobile-connected-dashboard-page-mobile-visual/error-context.md
+
+  18) [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/mon-parcours page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      36834 pixels (ratio 0.02 of all image pixels) are different.
+
+      Snapshot: mobile-connected-mon-parcours.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(mobile-connected-mon-parcours.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 36834 pixels (ratio 0.02 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 36834 pixels (ratio 0.02 of all image pixels) are different.[22m
+
+
+      71 |     await dismissConsent(page);
+      72 |     await waitForPageReady(page);
+    > 73 |     await expect(page).toHaveScreenshot(`mobile-connected-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      74 |   });
+      75 | }
+      76 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts:73:24
+
+    attachment #1: mobile-connected-mon-parcours (image/png) ───────────────────────────────────────
+    Expected: tests/visual/mobile-visual.spec.ts-snapshots/mobile-connected-mon-parcours-mobile-visual-linux.png
+    Received: test-results/mobile-visual-mobile-connected-mon-parcours-page-mobile-visual/mobile-connected-mon-parcours-actual.png
+    Diff:     test-results/mobile-visual-mobile-connected-mon-parcours-page-mobile-visual/mobile-connected-mon-parcours-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/mobile-visual-mobile-connected-mon-parcours-page-mobile-visual/error-context.md
+
+  19) [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/atelier-ecrit page 
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+      38635 pixels (ratio 0.03 of all image pixels) are different.
+
+      Snapshot: mobile-connected-atelier-ecrit.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(mobile-connected-atelier-ecrit.png)" with timeout 5000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - 38849 pixels (ratio 0.03 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - taking page screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 38635 pixels (ratio 0.03 of all image pixels) are different.[22m
+
+
+      71 |     await dismissConsent(page);
+      72 |     await waitForPageReady(page);
+    > 73 |     await expect(page).toHaveScreenshot(`mobile-connected-${name}.png`, SCREENSHOT_OPTS);
+         |                        ^
+      74 |   });
+      75 | }
+      76 |
+        at /home/alaeddine/Documents/Plateforme_Francais/eaf_platform/tests/visual/mobile-visual.spec.ts:73:24
+
+    attachment #1: mobile-connected-atelier-ecrit (image/png) ──────────────────────────────────────
+    Expected: tests/visual/mobile-visual.spec.ts-snapshots/mobile-connected-atelier-ecrit-mobile-visual-linux.png
+    Received: test-results/mobile-visual-mobile-connected-atelier-ecrit-page-mobile-visual/mobile-connected-atelier-ecrit-actual.png
+    Diff:     test-results/mobile-visual-mobile-connected-atelier-ecrit-page-mobile-visual/mobile-connected-atelier-ecrit-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/mobile-visual-mobile-connected-atelier-ecrit-page-mobile-visual/error-context.md
+
+  19 failed
+    [public-visual] › tests/visual/visual-regression.spec.ts:40:7 › visual: landing page ───────────
+    [public-visual] › tests/visual/visual-regression.spec.ts:50:7 › visual: landing-dark page ──────
+    [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/dashboard page 
+    [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/mon-parcours page 
+    [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/quiz page ──
+    [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/profil page 
+    [connected-visual] › tests/visual/connected-visual.spec.ts:58:7 › visual: connected/atelier-ecrit page 
+    [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/dashboard-dark page 
+    [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/mon-parcours-dark page 
+    [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/quiz-dark page 
+    [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/profil-dark page 
+    [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/carnet-dark page 
+    [connected-visual] › tests/visual/connected-visual.spec.ts:68:7 › visual: connected/atelier-ecrit-dark page 
+    [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: landing page ───────────────
+    [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: login page ─────────────────
+    [mobile-visual] › tests/visual/mobile-visual.spec.ts:60:7 › mobile: contact page ───────────────
+    [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/dashboard page ───
+    [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/mon-parcours page 
+    [mobile-visual] › tests/visual/mobile-visual.spec.ts:69:7 › mobile: connected/atelier-ecrit page 
+  12 passed (1.0m)

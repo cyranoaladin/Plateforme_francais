@@ -1,0 +1,75 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts
+> bash tests/contracts/run-schemathesis.sh http://127.0.0.1:3000
+
+Schemathesis v4.12.2
+━━━━━━━━━━━━━━━━━━━━
+
+
+ ✅  Loaded specification from /work/openapi.public.yaml (in 1.27s)             
+
+     Base URL:         http://127.0.0.1:3000                                    
+     Specification:    Open API 3.0.3                                           
+     Operations:       3 selected / 3 total                                     
+
+
+ ✅  API capabilities:                                                          
+
+     Supports NULL byte in headers:    ✘                                        
+
+ ❌  Fuzzing (in 5.55s)                                                         
+                                                                                
+     ✅ 2 passed  ❌ 1 failed                                                   
+
+=================================== FAILURES ===================================
+__________________________ POST /api/v1/auth/register __________________________
+1. Test Case ID: wscURs
+
+- API rejected schema-compliant request
+
+    Valid data should have been accepted
+    Expected: 2xx, 401, 403, 404, 409, 5xx
+
+[400] Bad Request:
+
+    `{"error":"Payload invalide.","details":["Invalid email"]}`
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -H 'Cookie: [Filtered]' -d '{"acceptedCgu": true, "email": "h_4id3@w.iaGJFI", "password": "\udbdc\udd11va\u00c55E=+10", "isMinor": false, "parentEmail": "xA.@LjdpfXl.z.v.sMLQgi.s.oR.u.MMka1EWP.RNlKl.h.K.0palwwB0p9K-pT0.U.NAD", "displayName": "\u00a4", "cguVersion": "FbZLAU"}' http://127.0.0.1:3000/api/v1/auth/register
+
+=================================== WARNINGS ===================================
+
+Authentication failed: 1 operation returned authentication errors
+
+401 Unauthorized (1 operation):
+  - POST /api/v1/auth/login
+
+💡 Ensure valid authentication credentials are set via --auth or -H
+
+=================================== SUMMARY ====================================
+
+API Operations:
+  Selected: 3/3
+  Tested: 3
+
+Test Phases:
+  ⏭  Examples (disabled)
+  ⏭  Coverage (disabled)
+  ❌ Fuzzing
+  ⏭  Stateful (disabled)
+
+Failures:
+  ❌ API rejected schema-compliant request: 1
+
+Warnings:
+  ⚠️ Missing authentication: 1 operation returned only 401/403 responses
+
+Schema Coverage report: ./schema-coverage.html
+
+Test cases:
+  57 generated, 1 found 1 unique failures
+
+Seed: 183027331040104028538952162552358446994
+
+======================== 1 failure, 1 warning in 5.65s =========================

@@ -1,0 +1,8 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts
+> bash tests/contracts/run-schemathesis.sh http://127.0.0.1:3000
+
+Usage: schemathesis run [OPTIONS] LOCATION
+Try 'schemathesis run -h' for help.
+
+Error: Invalid value for '--exclude-checks': invalid choice(s): unsupported-methods. Choose from not_a_server_error, status_code_conformance, content_type_conformance, response_headers_conformance, response_schema_conformance, negative_data_rejection, positive_data_acceptance, missing_required_header, unsupported_method, use_after_free, ensure_resource_availability, ignored_auth, all.

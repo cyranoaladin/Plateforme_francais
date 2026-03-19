@@ -1,0 +1,75 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts
+> bash tests/contracts/run-schemathesis.sh http://127.0.0.1:3000
+
+Schemathesis v4.12.2
+━━━━━━━━━━━━━━━━━━━━
+
+
+ ✅  Loaded specification from /work/openapi.public.yaml (in 1.32s)             
+
+     Base URL:         http://127.0.0.1:3000                                    
+     Specification:    Open API 3.0.3                                           
+     Operations:       3 selected / 3 total                                     
+
+
+ ✅  API capabilities:                                                          
+
+     Supports NULL byte in headers:    ✘                                        
+
+ ❌  Fuzzing (in 3.20s)                                                         
+                                                                                
+     ✅ 2 passed  ❌ 1 failed                                                   
+
+=================================== FAILURES ===================================
+__________________________ POST /api/v1/auth/register __________________________
+1. Test Case ID: IgMfty
+
+- API rejected schema-compliant request
+
+    Valid data should have been accepted
+    Expected: 2xx, 401, 403, 404, 409, 5xx
+
+[400] Bad Request:
+
+    `{"error":"Payload invalide.","details":["Invalid email"]}`
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -H 'Cookie: [Filtered]' -d '{"acceptedCgu": true, "email": ".0y-ezUw@6.b.En6c179Q.ZIOq.v0nl.RJlf", "password": "v@mL\u0083\ud900\udd9c\ud83d\ude0d\u00a1\u023a\ud848\udf80}y0{\u0017\u000e%\u00c6\udbd7\udd01\ue856\u0002\u0016\ud991\udc25\u023e\u023e\u00e1\uda85\udfb7[\u023ap\u00fe\udb92\udf36X+\u00f2\u00bd\u0013\u00a3\u00ed\u00aa\u0014\u007f"}' http://127.0.0.1:3000/api/v1/auth/register
+
+=================================== WARNINGS ===================================
+
+Authentication failed: 1 operation returned authentication errors
+
+401 Unauthorized (1 operation):
+  - POST /api/v1/auth/login
+
+💡 Ensure valid authentication credentials are set via --auth or -H
+
+=================================== SUMMARY ====================================
+
+API Operations:
+  Selected: 3/3
+  Tested: 3
+
+Test Phases:
+  ⏭  Examples (disabled)
+  ⏭  Coverage (disabled)
+  ❌ Fuzzing
+  ⏭  Stateful (disabled)
+
+Failures:
+  ❌ API rejected schema-compliant request: 1
+
+Warnings:
+  ⚠️ Missing authentication: 1 operation returned only 401/403 responses
+
+Schema Coverage report: ./schema-coverage.html
+
+Test cases:
+  33 generated, 1 found 1 unique failures
+
+Seed: 290288695376254869575854969303928100302
+
+======================== 1 failure, 1 warning in 3.30s =========================

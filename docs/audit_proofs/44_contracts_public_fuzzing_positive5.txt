@@ -1,0 +1,78 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts
+> bash tests/contracts/run-schemathesis.sh http://127.0.0.1:3000
+
+Schemathesis v4.12.2
+━━━━━━━━━━━━━━━━━━━━
+
+
+ ✅  Loaded specification from /work/openapi.public.yaml (in 1.34s)             
+
+     Base URL:         http://127.0.0.1:3000                                    
+     Specification:    Open API 3.0.3                                           
+     Operations:       3 selected / 3 total                                     
+
+
+ ✅  API capabilities:                                                          
+
+     Supports NULL byte in headers:    ✘                                        
+
+ ❌  Fuzzing (in 4.64s)                                                         
+                                                                                
+     ✅ 2 passed  ❌ 1 failed                                                   
+
+=================================== FAILURES ===================================
+__________________________ POST /api/v1/auth/register __________________________
+1. Test Case ID: rslA1V
+
+- Server error
+
+- Undocumented HTTP status code
+
+    Received: 500
+    Documented: 201, 400, 409, 429
+
+[500] Internal Server Error:
+
+    <EMPTY>
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -H 'Cookie: [Filtered]' -d '{"acceptedCgu": true, "email": "dC_wAlI@4x1x04p.SbL.ZLpRmdO.WJ.d.KJi8.k0A.Mmy.FdMUwBVdUTr", "isMinor": true, "parentEmail": "0O6YO95J@0.oyfZf1Q8V0.W.F.4nD1SAUxjvbubQZg5y.f.gjYb4f6TTdfpV.wOgTUs", "password": ">~H\ud818\udcb2\udb86\udc38\u001f\ud840\udcd1\udae2\udf31\u00f7\udb24\udd4c\ud973\udfd5\ud83d\ude0d\u0010\u0090\ud85a\udda3\u009b\u00b6\u001309\uda27\udee3\u00cd\u00d1\u0000\udaba\ude07\udafe\udc01j\u00df", "cguVersion": "FG6T3.q.fPIUJDHtkZcI", "displayName": "\u00cb\u00ea`\u00fcK\u0002\u0011$\u00da\u00e0\nn\ud8e5\uddbf\u00b8\ud843\udde4\u0000\udb94\ude9bx\u00b3\u00b1\ud9d8\ude72\u00ef\u00b1\u0015\u00e5\u00d7"}' http://127.0.0.1:3000/api/v1/auth/register
+
+=================================== WARNINGS ===================================
+
+Authentication failed: 1 operation returned authentication errors
+
+401 Unauthorized (1 operation):
+  - POST /api/v1/auth/login
+
+💡 Ensure valid authentication credentials are set via --auth or -H
+
+=================================== SUMMARY ====================================
+
+API Operations:
+  Selected: 3/3
+  Tested: 3
+
+Test Phases:
+  ⏭  Examples (disabled)
+  ⏭  Coverage (disabled)
+  ❌ Fuzzing
+  ⏭  Stateful (disabled)
+
+Failures:
+  ❌ Server error: 1
+  ❌ Undocumented HTTP status code: 1
+
+Warnings:
+  ⚠️ Missing authentication: 1 operation returned only 401/403 responses
+
+Schema Coverage report: ./schema-coverage.html
+
+Test cases:
+  40 generated, 1 found 2 unique failures
+
+Seed: 25982071098468003668077426792226208804
+
+======================== 2 failures, 1 warning in 4.74s ========================

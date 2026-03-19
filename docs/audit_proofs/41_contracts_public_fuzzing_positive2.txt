@@ -1,0 +1,63 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts
+> bash tests/contracts/run-schemathesis.sh http://127.0.0.1:3000
+
+Schemathesis v4.12.2
+━━━━━━━━━━━━━━━━━━━━
+
+
+ ✅  Loaded specification from /work/openapi.public.yaml (in 1.37s)             
+
+     Base URL:         http://127.0.0.1:3000                                    
+     Specification:    Open API 3.0.3                                           
+     Operations:       3 selected / 3 total                                     
+
+
+ ✅  API capabilities:                                                          
+
+     Supports NULL byte in headers:    ✘                                        
+
+ ❌  Fuzzing (in 5.26s)                                                         
+                                                                                
+     ✅ 2 passed  ❌ 1 failed                                                   
+
+=================================== FAILURES ===================================
+___________________________ POST /api/v1/auth/login ____________________________
+1. Test Case ID: VdecyC
+
+- API rejected schema-compliant request
+
+    Valid data should have been accepted
+    Expected: 2xx, 401, 403, 404, 409, 5xx
+
+[400] Bad Request:
+
+    `{"error":"Payload invalide.","details":["Invalid email"]}`
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -d '{"email": "orZIzei@rusJ.4p.0Snct1.oz6D.Zc9cbOd.4CpXo.00.D3EK0I.b5epklxo.pf07.OYCM.g.It.IA.M2y.vMjuFJ20hFa86c-F.JFwnAx.E0a.-60N00RXf-q.n.W0.XXA.QNO01MhFPBK.2io.zQ80SjY0Z8jk.0tS.jsxB30naTVd0fxOv.gY6.Kpe.0iU401.uEoXRwmEdzw", "password": "G"}' http://127.0.0.1:3000/api/v1/auth/login
+
+=================================== SUMMARY ====================================
+
+API Operations:
+  Selected: 3/3
+  Tested: 3
+
+Test Phases:
+  ⏭  Examples (disabled)
+  ⏭  Coverage (disabled)
+  ❌ Fuzzing
+  ⏭  Stateful (disabled)
+
+Failures:
+  ❌ API rejected schema-compliant request: 1
+
+Schema Coverage report: ./schema-coverage.html
+
+Test cases:
+  37 generated, 1 found 1 unique failures
+
+Seed: 259139726672812650484082570914115239132
+
+============================== 1 failure in 5.36s ==============================

@@ -1,0 +1,18 @@
+
+> nexus-reussite-eaf@1.0.0 mcp:test
+> cd packages/mcp-server && vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/alaeddine/Documents/Plateforme_Francais/eaf_platform/packages/mcp-server[39m
+
+{"level":40,"time":"2026-03-19T18:41:36.851Z","service":"nexus-eaf-mcp","version":"1.0.0","compliance":true,"ruleId":"R-AIACT-01","action":"deny","agent":"correcteur","studentId":"student-123","msg":"[COMPLIANCE] R-AIACT-01 → DENY — Inférence émotionnelle détectée : \"Tu sembles stressé\""}
+ [32m✓[39m tests/skill-delta.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 73[2mms[22m[39m
+{"level":40,"time":"2026-03-19T18:41:36.855Z","service":"nexus-eaf-mcp","version":"1.0.0","compliance":true,"ruleId":"R-FRAUD-01","action":"deny","agent":"coach-ecrit","studentId":"student-123","msg":"[COMPLIANCE] R-FRAUD-01 → DENY — Output potentiellement une rédaction complète (392 mots, structure essay détectée en mode examen)"}
+{"level":30,"time":"2026-03-19T18:41:36.857Z","service":"nexus-eaf-mcp","version":"1.0.0","compliance":true,"ruleId":"R-SCOPE-01","action":"warn","agent":"tuteur-libre","msg":"[COMPLIANCE] R-SCOPE-01 → WARN — Demande hors scope détectée (voie non générale)"}
+ [32m✓[39m tests/mcp-server.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 128[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m15 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m 19:41:36
+[2m   Duration [22m 321ms[2m (transform 240ms, setup 0ms, import 160ms, tests 201ms, environment 0ms)[22m
+

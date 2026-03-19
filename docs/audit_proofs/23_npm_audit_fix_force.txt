@@ -1,0 +1,13 @@
+npm warn using --force Recommended protections disabled.
+npm warn audit Updating hono to 4.12.8, which is outside your stated dependency range.
+npm warn audit Updating next to 16.2.0, which is outside your stated dependency range.
+npm warn audit Updating @stryker-mutator/core to 9.6.0, which is a SemVer major change.
+npm warn audit Updating @stryker-mutator/vitest-runner to 9.6.0, which is a SemVer major change.
+npm warn audit Updating vitest to 4.1.0, which is a SemVer major change.
+
+added 13 packages, removed 46 packages, changed 49 packages, and audited 1035 packages in 21s
+
+315 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities

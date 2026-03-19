@@ -105,6 +105,20 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  if (pathname.startsWith('/api/v1/')) {
+    const method = request.method.toUpperCase();
+    const allowedMethodsByPath: Record<string, Set<string>> = {
+      '/api/v1/health': new Set(['GET']),
+      '/api/v1/auth/login': new Set(['POST']),
+      '/api/v1/auth/register': new Set(['POST']),
+    };
+
+    const allowed = allowedMethodsByPath[pathname];
+    if (allowed && !allowed.has(method)) {
+      return new NextResponse('Method Not Allowed', { status: 405 });
+    }
+  }
+
   if (CANONICAL_ALIAS_PATHS.has(pathname)) {
     const canonicalUrl = request.nextUrl.clone();
     canonicalUrl.pathname = '/';

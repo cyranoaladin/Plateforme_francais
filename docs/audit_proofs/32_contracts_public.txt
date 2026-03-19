@@ -1,0 +1,209 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts
+> bash tests/contracts/run-schemathesis.sh http://127.0.0.1:3000
+
+Schemathesis v4.12.2
+━━━━━━━━━━━━━━━━━━━━
+
+
+ ✅  Loaded specification from /work/openapi.public.yaml (in 1.36s)             
+
+     Base URL:         http://127.0.0.1:3000                                    
+     Specification:    Open API 3.0.3                                           
+     Operations:       3 selected / 3 total                                     
+
+
+ ✅  API capabilities:                                                          
+
+     Supports NULL byte in headers:    ✘                                        
+
+ ⏭   Examples (in 0.12s)                                                        
+                                                                                
+     ⏭  3 skipped                                                               
+
+ ❌  Coverage (in 2.17s)                                                        
+                                                                                
+     ❌ 3 failed                                                                
+
+ ❌  Fuzzing (in 0.62s)                                                         
+                                                                                
+     ❌ 3 failed                                                                
+
+=================================== FAILURES ===================================
+___________________________ TRACE /api/v1/auth/login ___________________________
+1. Test Case ID: Dl3Oe1
+
+- Server error
+
+- Unsupported methods
+
+    Unsupported method TRACE returned 500, expected 405 Method Not Allowed
+
+    Return 405 for methods not listed in the OpenAPI spec
+
+[500] Internal Server Error:
+
+    `Internal Server Error`
+
+Reproduce with:
+
+    curl -X TRACE -H 'Content-Type: application/json' -d '{"email": "0@A.COM", "password": "0"}' http://127.0.0.1:3000/api/v1/auth/login
+
+_________________________ TRACE /api/v1/auth/register __________________________
+1. Test Case ID: 8DcQju
+
+- Server error
+
+- Unsupported methods
+
+    Unsupported method TRACE returned 500, expected 405 Method Not Allowed
+
+    Return 405 for methods not listed in the OpenAPI spec
+
+[500] Internal Server Error:
+
+    `Internal Server Error`
+
+Reproduce with:
+
+    curl -X TRACE -H 'Content-Type: application/json' -d '{"email": "0@A.COM", "password": "00000000", "displayName": "0"}' http://127.0.0.1:3000/api/v1/auth/register
+
+_____________________________ TRACE /api/v1/health _____________________________
+1. Test Case ID: MF4iRx
+
+- Server error
+
+- Unsupported methods
+
+    Unsupported method TRACE returned 500, expected 405 Method Not Allowed
+
+    Return 405 for methods not listed in the OpenAPI spec
+
+[500] Internal Server Error:
+
+    `Internal Server Error`
+
+Reproduce with:
+
+    curl -X TRACE http://127.0.0.1:3000/api/v1/health
+
+___________________________ POST /api/v1/auth/login ____________________________
+1. Test Case ID: XIfWeY
+
+- API rejected schema-compliant request
+
+    Valid data should have been accepted
+    Expected: 2xx, 401, 403, 404, 409, 5xx
+    Hint: The request body contains 20 additional properties not defined in the schema (``, `.exe`, `񳮪P𼜐ßäAU` and 17 more). The server likely rejects unexpected fields. Add `additionalProperties: false` to your schema to prevent this.
+
+[400] Bad Request:
+
+    `{"error":"Payload invalide.","details":["Invalid email"]}`
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -d '{"email": "1xv9Z/q@Weo6Do8QuxOzDVUk.mPqLaQ80gW8W.ZAne8UDRcT20pXDx.MnkWrEV.RE", "password": "\u0097\ud8de\udf1b", "\u00bd\u00b7_B": {}, "\udafe\udc9e\u00c6\u0013c7\t\udb75\udcd1'"'"'\ud8b0\udef8\u00e5\u00c0 \udb61\udf1b\u00fb\u0014\u00ec": [], "\uda6d\udf61\n\udbff\udf08\udbf7\udfc0\u00e2": [[" ", false]], "\u007f\ud98e\udfaaP\ud8b1\udf10\u00df\u00e4AU\u0096": {}, "\u00db\u0082\u00af\u00f0\u00ec": {"": [{"\u00ba\u0098": -104, "\udad9\udc54\u00de\udab0\uddcdb\u00cd": null, "5": "\u001a"}], "Z\u00b5\u009ca\u0080": {"\u00ef\udada\ude4f\ud86f\uddd4\u0080\u00f9": ["s"], "\uda61\udee3\u00c8\u1f28)\u00e6": [], "t\udb7b\uddeb": {"\u00b1\u00b9\u00f7\u0002I\ud96b\udf07\\\u00d6\u00b6\u00d5/": true}}, "\u00f1\u00e5\u00ab\u001f\u00df\u001b`\ud891\udffc\u0089\u00de\uda9f\udc32W\u00c0:^": [true, 3.0033159892551494e+194]}, "\u00f6\ud9d6\udedc": [[], {"\u0088\u0015s!\ud8a9\udd38\u00d8\u00c1\ud99d\udd62": true, "9": true, "\u009c\u0007\u0086\u0003\ud98c\udfba": null}, [127, null, -37]], "": [], "\u00bf\u009d\u00a2I\t": [true, false], "\u00df\u0001\u00b3q}\u0010\ud8a2\udef2D": [{"\uda87\ude3d": {"\u00f9\ue914\u001e": {}, "": [], "\ud999\udeea\u00c3\ud916\udc02\udb6a\ude52\u00d3A\b\u00b8\n": false}, "\u00e5\u00e4": [[8303533007608741.0, -5e-324]], "": [true, [], {}]}], "\udaba\udff7a\u00cd\u00d1\u00aeo\u0014\u0090\u0096\ud86a\ude20": {"/\u00a4\u008cOm\u00ad\u00c8\u00a1\u0087\u00a9": [29019, -2.0338637922439668e+16, 2.2250738585e-313]}, ".exe": [], "\u00fa\u00ae\u009c\ud81e\udfbe\u008f\u00f8^\ud832\udfd0": [], "\udbbc\udfc2\u00d9\uda9f\udd6a\u00a7\u0088\udafc\udfac\udbd1\udc85\u0090\u00c5": {}, "\udac6\udff0\n": [{}, {"\u001c&\ud81a\udf83.": [null], "": -3.754765797488272e+16, "\u00c3/2\udbeb\udd14": {"": false, "8\ud831\udd5d\u009d\u00a8IEI": -944990766122329084, "2\u009c\u00db": true}}, [{"": 101}]], "\u009d\u00b5\u0086\udb60\ude5a\udb46\udcff\u0005": {"": {"": 4.833797625521689e+16, "\u0094": {"\u00b98$\u0011 ?\u00b4\u0017\ud92c\udcce\ud8f2\uddc1": "\u009a", "5<\ud85e\udc95\u0012/\ud922\udd6e\u00b2\u00f5\udb1b\udc01\udb60\udce6\t\ud8b0\udc86": "]\u00f1\u0082x\u0083Q", "l\ud9c0\udc59\u00bc\ud94e\udf30\u008b\udaa9\udec92\udbc0\udd8e\udb94\udd9d": 14195}, "\u00df\u00ea": {}}, "\u00e9Y": [], "q\ud8d8\udf86\b\u0005\u0001\u00a9\u009d\u008c\u00ac": {"9\u000e": null}}, "\u00f9\u00cf\ud8e2\udd70\u00cd": {"\u00fe\u00d0\u0087\u0083\u001c\udaf7\udc2c\u0011": "\u0006\u00e6", "": [[[-2.4310493058442108e+16], [], {"\u00f6\u00db\u00bc#[": -6.7673229274269976e+16, "\udbff\udcc8\u0001\u00a4\u00fb\u009d\u0090\u0002": -67, "\u55b5\ud970\ude00\ud944\uddef\u00fc\u00b0\u0012<\u88c1\u0098\u00caS5\udb8a\ude8d\u00c4\ud855\ude18": false}]], "\u00d3\u0005\ud815\udee1\u00b3\u00f4": [[-20516, null]]}, "\u00d6\u00e1\u001d\udb0e\udccd": {}, "\uda45\udd03": {"\u001dd": null}, "\u00e5\u000b\u00e2\ud994\ude69\u008c": {}, "\ud97d\udc64\u00eb9\u0083": {"\u001c": {"\u00cd\u0003\udb40\udd8ao\u0001v\uda86\ude33I\u0094\u0017]T(\udb55\udc55{\ud9b4\udf72\u009a": "4\u00f9\ud97f\uddab\u00cd8\u00d3\u0097Q\u00b9\uda1d\ude73", "T\u00d1\u0001\u00ea": -165629741608796271670995922836255974829, "\udafa\uddfd\u00e1\u00d2V\u0006\ud8db\udc17\u00b0\u00f2\u0005\udb0d\udcce\u00f5~\ud846\udfce\u0016\u008d\udae5\udfb2[": -2.360147034275749e+16}}}' http://127.0.0.1:3000/api/v1/auth/login
+
+__________________________ POST /api/v1/auth/register __________________________
+1. Test Case ID: c7bnei
+
+- API rejected schema-compliant request
+
+    Valid data should have been accepted
+    Expected: 2xx, 401, 403, 404, 409, 5xx
+
+[400] Bad Request:
+
+    `{"error":"Payload invalide.","details":["Au moins une minuscule.","Au moins une majuscule.","Required"]}`
+
+Reproduce with:
+
+    curl -X POST -H 'Content-Type: application/json' -d '{"email": "0@A.COM", "password": "00000000"}' http://127.0.0.1:3000/api/v1/auth/register
+
+______________________________ GET /api/v1/health ______________________________
+1. Test Case ID: P6x0aX
+
+- Response violates schema
+
+    "service" is a required property
+
+    Schema:
+
+        {
+            "required": [
+                "status",
+                "service",
+                "database",
+                "mcpServer",
+                "checkedAt"
+            ],
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "database": {
+                    "type": "string"
+                },
+            // Output truncated...
+        }
+
+    Value:
+
+        {
+            "checks": {
+                "app": "ok",
+                "db": "ok"
+            },
+            "release": {
+                "buildTime": "2026-03-19T18:40:14.416Z",
+                "gitSha": "961733d",
+                "nodeEnv": "production"
+            },
+            "status": "ok",
+            "timestamp": "2026-03-19T19:04:15.785Z",
+            "voice": {
+                "effectiveVoiceMode": "browser",
+                "requestedVoiceMode": "browser",
+                "sttAvailable": false,
+                "ttsAvailable": false
+            }
+        }
+
+[200] OK:
+
+    `{"status":"ok","checks":{"db":"ok","app":"ok"},"timestamp":"2026-03-19T19:04:15.785Z","release":{"gitSha":"961733d","buildTime":"2026-03-19T18:40:14.416Z","nodeEnv":"production"},"voice":{"requestedVoiceMode":"browser","effectiveVoiceMode":"browser","sttAvailable":false,"ttsAvailable":false}}`
+
+Reproduce with:
+
+    curl -X GET http://127.0.0.1:3000/api/v1/health
+
+=================================== SUMMARY ====================================
+
+API Operations:
+  Selected: 3/3
+  Tested: 3
+
+Test Phases:
+  ⏭  Examples
+  ❌ Coverage
+  ❌ Fuzzing
+  ⏭  Stateful (not applicable)
+
+Failures:
+  ❌ Server error: 3
+  ❌ Response violates schema: 1
+  ❌ API rejected schema-compliant request: 2
+  ❌ Unsupported methods: 3
+
+Schema Coverage report: ./schema-coverage.html
+
+Test cases:
+  11 generated, 6 found 9 unique failures
+
+Seed: 130139841106141462802245602847479932799
+
+============================= 9 failures in 3.03s ==============================

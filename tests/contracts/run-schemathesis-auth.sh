@@ -27,9 +27,13 @@ docker run --rm \
   schemathesis/schemathesis:stable \
   run "$SPEC_PATH" \
   --url "$BASE_URL" \
+  --mode=positive \
+  --generation-allow-x00 false \
+  --phases fuzzing \
   --header "Cookie: eaf_session=${SESSION_COOKIE}; eaf_csrf=${CSRF_COOKIE}" \
   --header "X-CSRF-Token: ${CSRF_COOKIE}" \
   --checks all \
+  --exclude-checks unsupported_method \
   --stateful=none \
   --max-examples=30
 

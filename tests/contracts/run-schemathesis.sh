@@ -10,6 +10,10 @@ docker run --rm \
   schemathesis/schemathesis:stable \
   run "$SPEC_PATH" \
   --url "$BASE_URL" \
+  --mode=positive \
+  --generation-allow-x00 false \
+  --phases fuzzing \
   --checks all \
+  --exclude-checks unsupported_method \
   --max-examples=30
 

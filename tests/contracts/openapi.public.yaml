@@ -15,26 +15,62 @@ paths:
             application/json:
               schema:
                 type: object
-                required: [status, service, database, mcpServer, checkedAt]
+                required: [status, checks, timestamp, release, voice]
                 properties:
                   status: { type: string }
-                  service: { type: string }
-                  database: { type: string }
-                  mcpServer: { type: string }
-                  checkedAt: { type: string, format: date-time }
+                  checks:
+                    type: object
+                    required: [db, app]
+                    properties:
+                      db: { type: string }
+                      app: { type: string }
+                  timestamp: { type: string, format: date-time }
+                  release:
+                    type: object
+                    required: [gitSha, buildTime, nodeEnv]
+                    properties:
+                      gitSha: { type: string }
+                      buildTime: { type: string }
+                      nodeEnv: { type: string }
+                  voice:
+                    type: object
+                    required: [requestedVoiceMode, effectiveVoiceMode, sttAvailable, ttsAvailable]
+                    properties:
+                      requestedVoiceMode: { type: string }
+                      effectiveVoiceMode: { type: string }
+                      sttAvailable: { type: boolean }
+                      ttsAvailable: { type: boolean }
         '503':
           description: Service degraded
           content:
             application/json:
               schema:
                 type: object
-                required: [status, service, database, mcpServer, checkedAt]
+                required: [status, checks, timestamp, release, voice]
                 properties:
                   status: { type: string }
-                  service: { type: string }
-                  database: { type: string }
-                  mcpServer: { type: string }
-                  checkedAt: { type: string, format: date-time }
+                  checks:
+                    type: object
+                    required: [db, app]
+                    properties:
+                      db: { type: string }
+                      app: { type: string }
+                  timestamp: { type: string, format: date-time }
+                  release:
+                    type: object
+                    required: [gitSha, buildTime, nodeEnv]
+                    properties:
+                      gitSha: { type: string }
+                      buildTime: { type: string }
+                      nodeEnv: { type: string }
+                  voice:
+                    type: object
+                    required: [requestedVoiceMode, effectiveVoiceMode, sttAvailable, ttsAvailable]
+                    properties:
+                      requestedVoiceMode: { type: string }
+                      effectiveVoiceMode: { type: string }
+                      sttAvailable: { type: boolean }
+                      ttsAvailable: { type: boolean }
 
   /api/v1/auth/register:
     post:
@@ -44,19 +80,75 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required: [email, password]
-              properties:
-                email:
-                  type: string
-                  format: email
-                password:
-                  type: string
-                  minLength: 8
-                displayName:
-                  type: string
-                  minLength: 1
-                  maxLength: 120
+              oneOf:
+                # Major / non mineur
+                - type: object
+                  additionalProperties: false
+                  required: [email, password, acceptedCgu]
+                  properties:
+                    email:
+                      type: string
+                      maxLength: 254
+                      pattern: "^[A-Za-z0-9][A-Za-z0-9_+\\-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])?\\.)+[A-Za-z]{2,}$"
+                    password:
+                      type: string
+                      minLength: 8
+                      maxLength: 128
+                      allOf:
+                        - pattern: ".*[a-z].*"
+                        - pattern: ".*[A-Z].*"
+                        - pattern: ".*[0-9].*"
+                    displayName:
+                      type: string
+                      minLength: 1
+                      maxLength: 120
+                    acceptedCgu:
+                      type: boolean
+                      enum: [true]
+                    cguVersion:
+                      type: string
+                      minLength: 1
+                      maxLength: 20
+                      pattern: "^[A-Za-z0-9._\\-]{1,20}$"
+                    isMinor:
+                      type: boolean
+                      enum: [false]
+                # Mineur
+                - type: object
+                  additionalProperties: false
+                  required: [email, password, acceptedCgu, isMinor, parentEmail]
+                  properties:
+                    email:
+                      type: string
+                      maxLength: 254
+                      pattern: "^[A-Za-z0-9][A-Za-z0-9_+\\-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])?\\.)+[A-Za-z]{2,}$"
+                    password:
+                      type: string
+                      minLength: 8
+                      maxLength: 128
+                      allOf:
+                        - pattern: ".*[a-z].*"
+                        - pattern: ".*[A-Z].*"
+                        - pattern: ".*[0-9].*"
+                    displayName:
+                      type: string
+                      minLength: 1
+                      maxLength: 120
+                    acceptedCgu:
+                      type: boolean
+                      enum: [true]
+                    cguVersion:
+                      type: string
+                      minLength: 1
+                      maxLength: 20
+                      pattern: "^[A-Za-z0-9._\\-]{1,20}$"
+                    isMinor:
+                      type: boolean
+                      enum: [true]
+                    parentEmail:
+                      type: string
+                      maxLength: 254
+                      pattern: "^[A-Za-z0-9][A-Za-z0-9._+\\-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])?\\.)+[A-Za-z]{2,}$"
       responses:
         '201':
           description: Registered
@@ -104,11 +196,13 @@ paths:
           application/json:
             schema:
               type: object
+              additionalProperties: false
               required: [email, password]
               properties:
                 email:
                   type: string
-                  format: email
+                  maxLength: 254
+                  pattern: "^[A-Za-z0-9][A-Za-z0-9_+\\-]{0,63}@(?:[A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])?\\.)+[A-Za-z]{2,}$"
                 password:
                   type: string
                   minLength: 1

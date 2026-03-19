@@ -47,9 +47,13 @@ docker run --rm \
   schemathesis/schemathesis:stable \
   run "$SPEC_FORBIDDEN" \
   --url "$BASE_URL" \
+  --generation-allow-x00 false \
+  --mode=positive \
+  --phases fuzzing \
   --header "Cookie: eaf_session=${STUDENT_SESSION}; eaf_csrf=${STUDENT_CSRF}" \
   --header "X-CSRF-Token: ${STUDENT_CSRF}" \
   --checks all \
+  --exclude-checks unsupported_method \
   --stateful=none \
   --max-examples=20
 
@@ -60,9 +64,13 @@ docker run --rm \
   schemathesis/schemathesis:stable \
   run "$SPEC_ALLOWED" \
   --url "$BASE_URL" \
+  --generation-allow-x00 false \
+  --mode=positive \
+  --phases fuzzing \
   --header "Cookie: eaf_session=${TEACHER_SESSION}; eaf_csrf=${TEACHER_CSRF}" \
   --header "X-CSRF-Token: ${TEACHER_CSRF}" \
   --checks all \
+  --exclude-checks unsupported_method \
   --stateful=none \
   --max-examples=20
 

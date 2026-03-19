@@ -1,0 +1,4 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts:teacher-export-rbac
+> bash tests/contracts/run-teacher-export-rbac.sh
+

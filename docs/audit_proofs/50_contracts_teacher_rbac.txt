@@ -1,0 +1,4 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts:teacher-rbac
+> bash tests/contracts/run-schemathesis-teacher-rbac.sh http://127.0.0.1:3000
+

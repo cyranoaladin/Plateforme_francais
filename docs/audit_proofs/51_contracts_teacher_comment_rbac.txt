@@ -1,0 +1,5 @@
+
+> nexus-reussite-eaf@1.0.0 test:contracts:teacher-comment-rbac
+> bash tests/contracts/run-teacher-comment-rbac.sh
+
+Teacher comment RBAC assertions passed (200 same-class, 403 out-of-class).

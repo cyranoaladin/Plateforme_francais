@@ -1,0 +1,16 @@
+npm warn deprecated @babel/plugin-proposal-explicit-resource-management@7.27.4: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-explicit-resource-management instead.
+
+added 1066 packages, and audited 1068 packages in 17s
+
+322 packages are looking for funding
+  run `npm fund` for details
+
+15 vulnerabilities (4 low, 10 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
