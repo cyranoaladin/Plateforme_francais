@@ -22,12 +22,10 @@
       "ignoreDependencies": [
         "@mistralai/mistralai",
         "@react-email/components",
-        "clsx",
         "highlight.js",
         "pino-pretty",
         "react-markdown",
         "rehype-highlight",
-        "tailwind-merge",
         "tailwindcss",
         "postcss"
       ],
@@ -43,7 +41,11 @@
         "src/lib/llm/context-manager.ts",
         "src/lib/llm/self-reflection.ts",
         "src/lib/portfolio/profil-card-generator.ts",
-        "src/lib/storage/s3-provider.ts"
+        "src/lib/storage/s3-provider.ts",
+        "src/lib/design-tokens.ts",
+        "src/lib/oral/examiner-context.ts",
+        "src/lib/oral/rag-context.ts",
+        "src/lib/oral/remote-audio.ts"
       ]
     },
     "packages/mcp-server": {
