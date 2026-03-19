@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Merriweather } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/app-shell";
 import { WebVitalsReporter } from "@/components/monitoring/web-vitals-reporter";
@@ -17,6 +17,13 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   display: "swap",
   weight: ["400", "500", "600", "700"],
+});
+
+const merriweather = Merriweather({
+  subsets: ["latin"],
+  variable: "--font-merriweather",
+  display: "swap",
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -36,7 +43,7 @@ export default async function RootLayout({
   const nonce = (await headers()).get('x-nonce') ?? undefined;
 
   return (
-    <html lang="fr" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
+    <html lang="fr" className={`${inter.variable} ${playfair.variable} ${merriweather.variable}`} suppressHydrationWarning>
       <head>
         {/* Inline script to prevent flash of wrong theme (FOUC).
             Runs synchronously before first paint. */}
