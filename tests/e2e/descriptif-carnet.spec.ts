@@ -124,8 +124,8 @@ test.describe('Page Carnet de lecture', () => {
     await expect(page.getByText('Citation de test pour Playwright').first()).toBeVisible({ timeout: 10_000 });
   });
 
-  test('lien Export PDF visible', async ({ page }) => {
-    await expect(page.getByRole('link', { name: /export pdf/i })).toBeVisible();
+  test('lien Exporter en PDF visible', async ({ page }) => {
+    await expect(page.getByRole('link', { name: /exporter en pdf/i })).toBeVisible();
   });
 
   test("groupe les entrées par œuvre", async ({ page }) => {

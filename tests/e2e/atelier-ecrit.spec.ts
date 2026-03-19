@@ -28,7 +28,7 @@ test('Génération sujet → upload copie → lien rapport', async ({ page }) =>
     const correctionState = page
       .getByText(/Analyse de la copie en cours/i)
       .or(page.getByRole('link', { name: /Voir mon rapport/i }))
-      .or(page.getByText(/Upload en cours/i));
+      .or(page.getByText(/Envoi en cours/i));
     await expect(correctionState.first()).toBeVisible({ timeout: 20_000 });
   }
 });
