@@ -11,6 +11,5 @@ docker run --rm \
   run "$SPEC_PATH" \
   --url "$BASE_URL" \
   --checks all \
-  --stateful=none \
   --max-examples=30
 
