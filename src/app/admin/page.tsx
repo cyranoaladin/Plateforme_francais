@@ -109,6 +109,10 @@ export default function AdminDashboard() {
       if (activeTab === 'overview') {
         const res = await fetch('/api/v1/admin/stats');
         if (!res.ok) {
+          if (res.status === 401) {
+            router.push('/login');
+            return;
+          }
           if (res.status === 403) {
             router.push('/dashboard');
             return;
@@ -120,11 +124,13 @@ export default function AdminDashboard() {
         setRecentPayments(data.recentPayments);
       } else if (activeTab === 'users') {
         const res = await fetch('/api/v1/admin/users');
+        if (res.status === 401) { router.push('/login'); return; }
         if (!res.ok) throw new Error('Erreur lors du chargement des utilisateurs');
         const data = await res.json();
         setUsers(data.users);
       } else if (activeTab === 'codes') {
         const res = await fetch('/api/v1/admin/activation-codes');
+        if (res.status === 401) { router.push('/login'); return; }
         if (!res.ok) throw new Error('Erreur lors du chargement des codes');
         const data = await res.json();
         setCodes(data.codes);
