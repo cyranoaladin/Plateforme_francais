@@ -7,6 +7,8 @@ import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
 import { generateTtsUrl } from '@/lib/tts/generator';
+import { buildExaminerPersonaContext } from '@/lib/oral/examiner-context';
+import { buildOralRagContext } from '@/lib/oral/rag-context';
 
 const bodySchema = z.object({
   message: z.string().trim().min(1).max(4000),
@@ -43,6 +45,13 @@ export async function POST(request: Request) {
     .map((item, idx) => `${idx + 1}. [${item.role}] ${item.content}`)
     .join('\n');
 
+  const personaContext = buildExaminerPersonaContext(profile);
+  const ragContext = await buildOralRagContext({
+    phase: 'JURY',
+    oeuvreChoisie: parsed.data.oeuvreChoisie,
+    transcript: parsed.data.message,
+  });
+
   let juryText = 'Peux-tu preciser ton argument avec un exemple du texte ?';
   try {
     const result = (await orchestrate({
@@ -53,7 +62,9 @@ export async function POST(request: Request) {
       context: [
         parsed.data.oeuvreChoisie ? `Oeuvre choisie: ${parsed.data.oeuvreChoisie}` : '',
         `Persona examinateur: ${profile}`,
+        personaContext,
         `Historique récent:\n${memoryContext || 'Aucun échange précédent.'}`,
+        ragContext.promptContext ? `Contexte officiel (RAG):\n${ragContext.promptContext}` : '',
         'Objectif: produire UNE relance imprévisible mais pertinente en tenant compte des réponses précédentes.',
       ].filter(Boolean).join('\n\n'),
     })) as {

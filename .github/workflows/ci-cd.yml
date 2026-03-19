@@ -58,6 +58,8 @@ jobs:
         run: npm run lint
       - name: CSRF route audit
         run: npm run ci:audit-csrf
+      - name: Contrôle FR (baseline copy)
+        run: npm run ci:fr-copy
       - name: Audit dépendances npm
         run: npx audit-ci --high
       - name: Détection code mort
