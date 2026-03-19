@@ -1,0 +1,216 @@
+        env:
+          E2E_BASE_URL: http://localhost:3000
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+  security-scan:
+    name: "Gate 5 - Securite"
+    needs: unit-tests
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: npm audit high
+        run: npm audit --audit-level=high
+      - name: Secrets scan (GitLeaks)
+        id: gitleaks
+        continue-on-error: true
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fail on real leaks (ignore stderr-only errors)
+        if: steps.gitleaks.outcome == 'failure'
+        run: |
+          if [ -f results.sarif ]; then
+            LEAKS=$(python3 -c "import json; d=json.load(open('results.sarif')); print(sum(len(r.get('results',[])) for r in d.get('runs',[])))" 2>/dev/null || echo "0")
+            if [ "$LEAKS" != "0" ]; then
+              echo "::error::GitLeaks found $LEAKS secret(s). Review results.sarif."
+              exit 1
+            fi
+            echo "GitLeaks exited non-zero but found 0 leaks (stderr noise). Passing."
+          else
+            echo "::warning::GitLeaks failed but no SARIF report found. Investigate manually."
+          fi
+      - name: Snyk vuln scan
+        run: |
+          if [ -z "$SNYK_TOKEN" ]; then
+            echo "::notice::SNYK_TOKEN not configured — skipping Snyk scan. Configure the secret to enable."
+            exit 0
+          fi
+          npx snyk test --severity-threshold=high
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: CodeQL init
+        uses: github/codeql-action/init@v3
+        with:
+          languages: typescript
+      - name: Build for CodeQL
+        run: npm run build:ci
+      - name: CodeQL analyze
+        uses: github/codeql-action/analyze@v3
+
+  performance-tests:
+    name: "Gate 5b - Performance Artillery"
+    needs: integration-tests
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: Artillery load test
+        run: npx artillery run tests/performance/load-test.yml
+
+  zap-security-tests:
+    name: "Gate 5c - OWASP ZAP"
+    needs: integration-tests
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 2 * * 1')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ZAP active scan
+        run: bash tests/security/run-zap.sh
+
+  mutation-tests:
+    name: "Gate 5d - Mutation Tests"
+    needs: unit-tests
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 3 1 * *')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: Stryker mutation testing
+        run: npm run test:mutation | tee stryker.log
+      - name: Upload mutation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stryker-reports
+          path: |
+            stryker.log
+            reports/mutation
+            .stryker-tmp/reports
+
+  deploy-staging:
+    name: "Gate 6 - Deploy Staging"
+    needs: [e2e-tests, security-scan]
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd /var/www/eaf-staging
+            git pull origin develop
+            npm ci --production
+            npx prisma migrate deploy
+            pm2 reload ecosystem.config.cjs --env staging
+
+  deploy-production:
+    name: "Gate 6b - Deploy Production (Blue-Green)"
+    needs: [e2e-tests, security-scan]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - name: "Check production secrets are configured"
+        id: check-secrets
+        run: |
+          if [ -z "$PROD_DB" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Production secrets not configured — skipping deploy"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          PROD_DB: ${{ secrets.PROD_DATABASE_URL }}
+      - name: "Config sanity check (production)"
+        if: steps.check-secrets.outputs.configured == 'true'
+        run: NODE_ENV=production npm run ci:config-sanity
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          REDIS_URL: ${{ secrets.PROD_REDIS_URL }}
+          SESSION_SECRET: ${{ secrets.PROD_SESSION_SECRET }}
+          CSRF_SECRET: ${{ secrets.PROD_CSRF_SECRET }}
+          MISTRAL_API_KEY: ${{ secrets.PROD_MISTRAL_API_KEY }}
+          CLICTOPAY_USERNAME: ${{ secrets.PROD_CLICTOPAY_USERNAME }}
+          CLICTOPAY_PASSWORD: ${{ secrets.PROD_CLICTOPAY_PASSWORD }}
+          BILLING_CODE_PEPPER: ${{ secrets.PROD_BILLING_CODE_PEPPER }}
+          RESEND_API_KEY: ${{ secrets.PROD_RESEND_API_KEY }}
+          STORAGE_PROVIDER: "s3"
+          NEXT_PUBLIC_APP_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}/api
+      - name: Blue-Green Deploy
+        if: steps.check-secrets.outputs.configured == 'true'
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            ACTIVE=$(cat /etc/nginx/conf.d/active-slot.txt)
+            NEXT=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
+            NEXT_PORT=$([ "$NEXT" = "blue" ] && echo "3000" || echo "3001")
+            cd /var/www/eaf-$NEXT
+            git pull origin main
+            npm ci --production
+            npx prisma migrate deploy
+            PORT=$NEXT_PORT pm2 start ecosystem.config.cjs --env production --name eaf-$NEXT
+            SMOKE_OK=0
+            for i in {1..30}; do
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${NEXT_PORT}/api/v1/health")
+              if [ "$STATUS" = "200" ]; then
+                SMOKE_OK=1
+                break
+              fi
+              sleep 2
+            done
+            if [ "$SMOKE_OK" = "0" ]; then
+              echo "Smoke test failed on slot $NEXT ($NEXT_PORT). Cleaning up."
+              pm2 delete eaf-$NEXT || true
+              exit 1
+            fi
+            echo $NEXT > /etc/nginx/conf.d/active-slot.txt
+            nginx -s reload
+            pm2 delete eaf-$ACTIVE
+
+  post-deploy-monitoring:
+    name: "Post-Deploy - Health & Canary"
+    needs: deploy-production
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Health check 5min
+        run: |
+          for i in {1..30}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://eaf.nexusreussite.academy/api/v1/health)
+            if [ "$STATUS" != "200" ]; then
+              echo "Health check failed"; exit 1
+            fi
+            sleep 10
+          done

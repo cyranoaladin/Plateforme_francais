@@ -1,0 +1,27 @@
+56:run: npx tsc --noEmit
+58:run: npm run lint
+60:run: npm run ci:audit-csrf
+62:run: npm run ci:fr-copy
+64:run: npx audit-ci --high
+66:run: npx knip
+89:run: npx vitest run tests/unit --coverage
+141:- run: npx prisma migrate deploy
+145:run: npx vitest run tests/integration
+175:- run: npx prisma migrate deploy
+176:- run: npm run build:ci
+177:- run: npm run start &
+178:- run: npx wait-on http://127.0.0.1:3000/api/v1/health
+180:run: npm run test:contracts | tee schemathesis-public.log
+182:run: npm run test:contracts:auth | tee schemathesis-auth.log
+184:run: npm run test:contracts:teacher-rbac | tee schemathesis-teacher-rbac.log
+186:run: npm run test:contracts:teacher-comment-rbac | tee teacher-comment-rbac.log
+188:run: npm run test:contracts:teacher-export-rbac | tee teacher-export-rbac.log
+233:- run: npm run db:seed
+234:- run: npx playwright install --with-deps chromium
+235:- run: npm run build:ci
+237:- run: npx wait-on http://localhost:3000
+239:run: npx playwright test --project=chromium
+294:run: npm run build:ci
+311:run: npx artillery run tests/performance/load-test.yml
+321:run: bash tests/security/run-zap.sh
+336:run: npm run test:mutation | tee stryker.log

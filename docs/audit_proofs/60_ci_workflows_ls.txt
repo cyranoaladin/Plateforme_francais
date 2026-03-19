@@ -1,0 +1,4 @@
+total 24
+drwxrwxr-x 2 alaeddine alaeddine  4096 mars  19 15:04 .
+drwxrwxr-x 3 alaeddine alaeddine  4096 févr. 25 08:02 ..
+-rw-rw-r-- 1 alaeddine alaeddine 16222 mars  19 19:24 ci-cd.yml
