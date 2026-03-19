@@ -11,17 +11,17 @@
   --font-display: var(--font-playfair), "Playfair Display", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
 
-  /* ─── Brand Colors ────────────────────────────────── */
-  --navy: #17324d;
-  --navy-dark: #0f2740;
-  --navy-light: #274d73;
+  /* ─── Brand Colors — Nouvelle Charte Graphique 2026 ────────────────────────────────── */
+  --navy: #1E3A5F;        /* Bleu Académique (primaire) */
+  --navy-dark: #0F1F33;   /* Bleu Profond */
+  --navy-light: #4A7C9B;  /* Bleu Clair */
   --navy-mid: #33536f;
   --navy-muted: #5f7388;
-  --teal: #0f766e;
+  --teal: #2D8A5E;        /* Vert Validation */
   --teal-light: #14b8a6;
-  --gold: #d4af37;
-  --gold-deep: #af7a20;
-  --gold-muted: #b87333;
+  --gold: #D4A853;        /* Or Réussite */
+  --gold-deep: #B8943F;   /* Or Réussite gradient end */
+  --gold-muted: #E07B39;  /* Orange Accent */
   --gold-contrast: #6b5735;
 
   /* ─── Pedagogical Accents ─────────────────────────── */
@@ -42,7 +42,9 @@
   --icon-muted: #c0af96;
   --badge-gold: #b8860b;
 
-  /* ─── Surfaces ────────────────────────────────────── */
+  /* ─── Surfaces — Nouvelle Charte ────────────────────────────────────── */
+  --surface-white: #FAFBFC;   /* Blanc Cassé */
+  --surface-light: #F0F2F5;   /* Gris Clair */
   --surface-cream: #f4eee3;
   --surface-ivory: #fffdf9;
   --surface-warm: #fbf7ef;
@@ -61,10 +63,10 @@
   --surface-violet-light: #f4eff8;
   --surface-info-box: #f4f8fb;
 
-  /* ─── Borders ─────────────────────────────────────── */
-  --border-light: #e7dac6;
+  /* ─── Borders — Nouvelle Charte ─────────────────────────────────────── */
+  --border-light: #E8EBF0;    /* Nouvelle charte */
   --border-default: #dfd2bf;
-  --border-strong: #d8ccb9;
+  --border-strong: #D1D5DB;   /* Nouvelle charte */
   --border-warm: #d7c4aa;
   --border-sand: #dfd1bc;
   --border-success: #d8e8e3;
@@ -77,11 +79,11 @@
   --border-disabled: #e0ddd8;
   --border-info-box: #dfe7ef;
 
-  /* ─── Text ────────────────────────────────────────── */
-  --text-heading: #0f172a;
-  --text-body: #334155;
+  /* ─── Text — Nouvelle Charte ────────────────────────────────────────── */
+  --text-heading: #1A1D23;    /* Noir Doux */
+  --text-body: #3D4852;       /* Gris Foncé */
   --text-secondary: #5d7287;
-  --text-muted: #5f7388;
+  --text-muted: #8A94A6;      /* Gris Moyen */
   --text-caption: #6d7e8d;
   --text-placeholder: #94a3b8;
   --text-placeholder-warm: #8b95a1;
@@ -95,8 +97,8 @@
   --text-strikethrough: #7f918d;
   --text-locked: #8a8580;
 
-  /* ─── Status ──────────────────────────────────────── */
-  --success: #0f766e;
+  /* ─── Status — Nouvelle Charte ──────────────────────────────────────── */
+  --success: #2D8A5E;         /* Vert Validation */
   --success-bg: #edf7f3;
   --success-text: #52716d;
   --warning: #b45309;
@@ -104,7 +106,7 @@
   --warning-text: #9a5f25;
   --warning-border: #d9b98f;
   --warning-bg-soft: #fff5e9;
-  --error: #b91c1c;
+  --error: #C44536;           /* Rouge Correction */
   --error-bg: #fff0ed;
   --error-dark: #8f2d2d;
   --error-muted: #b65050;
