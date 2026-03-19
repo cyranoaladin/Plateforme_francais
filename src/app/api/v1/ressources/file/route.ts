@@ -121,7 +121,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     // Trouver la ressource dans le catalogue
     const matchedResource = RESSOURCES.find(r => {
       const rPath = r.url.replace(/^\/ressources\//, '');
-      return rPath === normalizedPath;
+      const inputPath = normalizedPath.replace(/^ressources\//, '');
+      return rPath === inputPath;
     });
 
     if (matchedResource) {
