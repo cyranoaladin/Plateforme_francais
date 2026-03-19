@@ -51,6 +51,19 @@ function loadEnvBundle(...relativePaths) {
 const appEnv = loadEnvBundle('.env', '.env.local', '.release.env');
 const mcpEnv = loadEnvBundle(path.join('packages', 'mcp-server', '.env'));
 
+function readOptionalFile(filePath) {
+  try {
+    if (!fs.existsSync(filePath)) return null;
+    const raw = fs.readFileSync(filePath, 'utf8').trim();
+    return raw || null;
+  } catch {
+    return null;
+  }
+}
+
+const releaseGitSha = appEnv.BUILD_GIT_SHA || readOptionalFile(path.join(appRoot, '.git_sha'));
+const releaseBuildTime = appEnv.BUILD_TIME || readOptionalFile(path.join(appRoot, '.build_time'));
+
 function withProductionDefaults(defaults, fileEnv) {
   return {
     ...fileEnv,
@@ -65,7 +78,11 @@ const webEnv = withProductionDefaults(
     RESSOURCES_ROOT: '/srv/eaf_ressources',
     PORT: 3000,
   },
-  appEnv,
+  {
+    ...appEnv,
+    ...(releaseGitSha ? { BUILD_GIT_SHA: releaseGitSha } : {}),
+    ...(releaseBuildTime ? { BUILD_TIME: releaseBuildTime } : {}),
+  },
 );
 
 const workerEnv = withProductionDefaults(
