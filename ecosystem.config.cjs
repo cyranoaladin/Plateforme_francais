@@ -48,7 +48,7 @@ function loadEnvBundle(...relativePaths) {
   }), {});
 }
 
-const appEnv = loadEnvBundle('.env', '.env.local');
+const appEnv = loadEnvBundle('.env', '.env.local', '.release.env');
 const mcpEnv = loadEnvBundle(path.join('packages', 'mcp-server', '.env'));
 
 function withProductionDefaults(defaults, fileEnv) {

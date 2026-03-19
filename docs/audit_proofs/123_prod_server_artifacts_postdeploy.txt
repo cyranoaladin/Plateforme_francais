@@ -1,0 +1,2 @@
+netlify/vercel artifacts:
+-rw-rw-r--   1 1000 1000    649 Mar 17 15:04 .netlifyignore

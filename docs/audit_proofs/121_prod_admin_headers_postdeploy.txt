@@ -1,0 +1,11 @@
+HTTP/2 307 
+server: nginx/1.24.0 (Ubuntu)
+date: Thu, 19 Mar 2026 23:12:40 GMT
+x-dns-prefetch-control: on
+x-frame-options: DENY
+x-content-type-options: nosniff
+referrer-policy: strict-origin-when-cross-origin
+permissions-policy: camera=(self), microphone=(self), geolocation=()
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+location: /login?redirect=%2Fadmin
+

@@ -110,7 +110,9 @@ EOF
 echo "[5/8] Build Next.js (production)..."
 LOCAL_GIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 echo "  → Build SHA: $LOCAL_GIT_SHA"
-ssh "$SSH_TARGET" "cd $APP_DIR && BUILD_GIT_SHA=$LOCAL_GIT_SHA NODE_ENV=production npm run build"
+BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+ssh "$SSH_TARGET" "cd $APP_DIR && printf 'BUILD_GIT_SHA=%s\nBUILD_TIME=%s\n' '$LOCAL_GIT_SHA' '$BUILD_TIME' > .release.env"
+ssh "$SSH_TARGET" "cd $APP_DIR && BUILD_GIT_SHA=$LOCAL_GIT_SHA BUILD_TIME=$BUILD_TIME NODE_ENV=production npm run build"
 
 # --- 6. Build MCP server ---
 echo "[6/8] Build MCP server..."
