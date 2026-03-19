@@ -496,7 +496,7 @@ export default function AtelierEcritPage() {
 
                 {isUploading && (
                   <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
-                    <p className="text-sm text-[var(--success-text)]">Upload en cours… {uploadProgress}%</p>
+                    <p className="text-sm text-[var(--success-text)]">Envoi en cours… {uploadProgress}%</p>
                     <div className="mt-3 h-2 overflow-hidden rounded-full bg-[var(--card)]/80">
                       <div className="h-2 rounded-full bg-[var(--teal)] transition-all" style={{ width: `${uploadProgress}%` }} />
                     </div>

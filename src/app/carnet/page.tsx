@@ -152,7 +152,7 @@ export default function CarnetPage() {
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- download endpoint */}
             <a href="/api/v1/carnet/export" className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 text-white backdrop-blur-sm transition hover:bg-white/14">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Export</p>
-              <p className="mt-2 inline-flex items-center gap-2 text-base font-semibold"><Download className="h-4 w-4" /> Export PDF</p>
+              <p className="mt-2 inline-flex items-center gap-2 text-base font-semibold"><Download className="h-4 w-4" /> Exporter en PDF</p>
             </a>
           </div>
         </div>
@@ -211,7 +211,7 @@ export default function CarnetPage() {
                 size="md"
               />
               <Input
-                label="Tags"
+                label="Mots-clés"
                 hint="S\u00e9par\u00e9s par virgules"
                 id="carnet-tags"
                 value={tags}

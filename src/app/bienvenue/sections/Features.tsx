@@ -45,7 +45,7 @@ const FEATURE_GROUPS = [
     title: 'Guidage personnalisé et mémoire de progression',
     icon: MessageCircleMore,
     tone: 'bg-[var(--card)] text-[var(--navy)] border-[var(--border-strong)]',
-    badge: 'Coaching actif',
+    badge: 'Accompagnement actif',
     span: 'lg:col-span-4',
     body: 'Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance au lieu de repartir de zéro.',
     bullets: ['Relances contextuelles', 'Détection de tes points à retravailler', 'Séances suivantes cohérentes'],

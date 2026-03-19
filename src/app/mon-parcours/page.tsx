@@ -311,7 +311,7 @@ export default function MonParcoursPage() {
                 href="/dashboard"
                 className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
               >
-                Retour dashboard
+                Retour au tableau de bord
               </Link>
             </div>
           </div>
@@ -375,7 +375,7 @@ export default function MonParcoursPage() {
                 {priorityTasks.map((task) => (
                   <Card key={task.id} variant="default" padding="sm" className="border-[var(--border-strong)] bg-[var(--surface-warm)]" role="article">
                     <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${PRIORITY_META[task.priority]}`}>
-                      {task.priority}
+                      {task.priority === 'high' ? 'Haute' : task.priority === 'medium' ? 'Moyenne' : 'Faible'}
                     </Badge>
                     <p className="mt-4 text-sm font-semibold leading-6 text-[var(--navy)]">{task.description}</p>
                     <p className="mt-3 text-sm text-[var(--text-muted)]">
@@ -545,7 +545,7 @@ export default function MonParcoursPage() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
               {[
                 {
-                  title: 'Revenir au dashboard',
+                  title: 'Revenir au tableau de bord',
                   detail: 'Reprendre les signaux récents et vérifier ce que la dernière session a bougé.',
                   href: '/dashboard',
                   icon: MapIcon,

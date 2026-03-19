@@ -83,7 +83,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
       panel: 'border-[var(--border-warning-soft)] bg-[var(--warning-bg)]',
       title: 'La transaction est revenue, mais l\u2019activation n\u2019est pas encore fermée.',
       body: 'Le prestataire de paiement traite encore la confirmation finale. Ce cas est normal quand la redirection revient plus vite que la mise à jour interne.',
-      steps: ['Rafraîchir cette page dans quelques secondes', 'Vérifier ensuite la page tarifaire', 'Revenir au dashboard si l\u2019activation apparaît'],
+      steps: ['Rafraîchir cette page dans quelques secondes', 'Vérifier ensuite la page tarifaire', 'Revenir au tableau de bord si l\u2019activation apparaît'],
     },
     REFUSED: {
       label: 'Paiement refusé',
@@ -110,7 +110,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
       panel: 'border-[var(--border-sand)] bg-[var(--surface-warm-input)]',
       title: 'Le retour est bien reçu, mais le statut définitif n\u2019est pas encore exposé.',
       body: 'Si tu as déjà réglé la transaction, il suffit souvent de rafraîchir puis de vérifier ton espace quelques secondes plus tard.',
-      steps: ['Rafraîchir cette page', 'Vérifier la page tarifaire', 'Se connecter puis contrôler le dashboard'],
+      steps: ['Rafraîchir cette page', 'Vérifier la page tarifaire', 'Se connecter puis contrôler le tableau de bord'],
     },
   } as const;
 
@@ -188,7 +188,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
                   href={status === 'ACCEPTED' ? '/' : '/pricing'}
                   className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
                 >
-                  {status === 'ACCEPTED' ? 'Accéder au dashboard' : 'Retourner aux offres'}
+                  {status === 'ACCEPTED' ? 'Accéder au tableau de bord' : 'Retourner aux offres'}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
@@ -227,7 +227,7 @@ export default async function PaiementConfirmationPage({ searchParams }: PagePro
             <section className="rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Ce qui suit</p>
               <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--navy-mid)]">
-                <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--teal)]" /> Le dashboard et la page tarifaire restent la source de vérité côté produit.</li>
+                <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--teal)]" /> Le tableau de bord et la page tarifaire restent la source de vérité côté produit.</li>
                 <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--teal)]" /> En cas de statut en attente, la situation se débloque en général sans nouvelle action bancaire.</li>
                 <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--teal)]" /> Si le statut reste incohérent, conserve la référence et passe par le support.</li>
               </ul>

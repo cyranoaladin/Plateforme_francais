@@ -8,14 +8,14 @@ import { type PlanId, PLAN_CATALOG } from '@/lib/billing/plan-catalog';
 
 /**
  * Nombre de ressources accessibles par catégorie pour le plan FREE.
- * Cible : ~5 % du catalogue total (544 ressources → 28 accessibles).
+ * Cible : ~5 % du catalogue total (548 ressources → 28 accessibles).
  * Distribution proportionnelle au poids de chaque catégorie :
  *   Annales_EAF (27)          → 2
  *   Oeuvres (9)               → 1
  *   Videos (322)              → 16
- *   Documents_Extraits (156)  → 8
+ *   Documents_Extraits (160)  → 8
  *   eaf_rapport_jury (30)     → 1
- *   Total : 28 (~5,15 %)
+ *   Total : 28 (~5,11 %)
  */
 export const FREE_LIBRARY_LIMITS: Record<string, number> = {
   Annales_EAF: 2,
@@ -60,7 +60,7 @@ export function isResourceAccessible(
 }
 
 /** Nombre total de ressources dans le catalogue. */
-export const LIBRARY_TOTAL_RESOURCES = 544;
+export const LIBRARY_TOTAL_RESOURCES = 548;
 
 /** Pourcentage du catalogue accessible en FREE. */
 export const FREE_LIBRARY_PERCENT = Math.round((FREE_TOTAL_LIMIT / LIBRARY_TOTAL_RESOURCES) * 100);

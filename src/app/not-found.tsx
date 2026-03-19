@@ -11,7 +11,7 @@ export default function NotFound() {
         href="/"
         className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--teal)] px-6 py-3 text-sm font-bold text-white hover:bg-[var(--teal)]/90 transition-colors"
       >
-        Retour au dashboard
+        Retour au tableau de bord
       </Link>
     </div>
   );

@@ -303,7 +303,7 @@ export default function BibliothequePage() {
               href="/pricing"
               className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[var(--navy-dark)]"
             >
-              Booster le plan
+              Passer au plan supérieur
             </Link>
           </div>
         </section>
@@ -628,7 +628,7 @@ export default function BibliothequePage() {
                         href="/pricing"
                         className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3 text-sm font-bold text-white transition hover:bg-[var(--navy-dark)]"
                       >
-                        Booster le plan
+                        Passer au plan supérieur
                       </Link>
                     </div>
                   </>
