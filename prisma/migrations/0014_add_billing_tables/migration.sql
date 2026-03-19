@@ -62,25 +62,27 @@ CREATE TABLE IF NOT EXISTS "PaymentTransaction" (
 CREATE INDEX IF NOT EXISTS "PaymentTransaction_userId_createdAt_idx" ON "PaymentTransaction"("userId", "createdAt");
 CREATE INDEX IF NOT EXISTS "PaymentTransaction_status_idx" ON "PaymentTransaction"("status");
 
--- Table ActivationCode
+-- Table ActivationCode (alignée avec le schéma Prisma existant)
 CREATE TABLE IF NOT EXISTS "ActivationCode" (
   "id" TEXT NOT NULL DEFAULT gen_random_uuid()::text,
-  "code" TEXT NOT NULL,
-  "plan" "SubscriptionPlan" NOT NULL,
-  "durationDays" INTEGER,
-  "maxUses" INTEGER NOT NULL DEFAULT 1,
-  "usedCount" INTEGER NOT NULL DEFAULT 0,
+  "codeHash" TEXT NOT NULL,
+  "plan" TEXT NOT NULL,
+  "durationDays" INTEGER NOT NULL,
+  "status" TEXT NOT NULL DEFAULT 'CREATED',
   "expiresAt" TIMESTAMP(3),
-  "createdById" TEXT,
   "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "redeemedAt" TIMESTAMP(3),
+  "redeemedByUserId" TEXT,
+  "batchId" TEXT,
+  "orderRef" TEXT,
+  "notes" TEXT,
   CONSTRAINT "ActivationCode_pkey" PRIMARY KEY ("id"),
-  CONSTRAINT "ActivationCode_code_key" UNIQUE ("code"),
-  CONSTRAINT "ActivationCode_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL
+  CONSTRAINT "ActivationCode_codeHash_key" UNIQUE ("codeHash"),
+  CONSTRAINT "ActivationCode_redeemedByUserId_fkey" FOREIGN KEY ("redeemedByUserId") REFERENCES "User"("id") ON DELETE SET NULL
 );
 
-CREATE INDEX IF NOT EXISTS "ActivationCode_code_idx" ON "ActivationCode"("code");
-CREATE INDEX IF NOT EXISTS "ActivationCode_plan_idx" ON "ActivationCode"("plan");
+CREATE INDEX IF NOT EXISTS "ActivationCode_status_idx" ON "ActivationCode"("status");
+CREATE INDEX IF NOT EXISTS "ActivationCode_batchId_idx" ON "ActivationCode"("batchId");
 
 -- Créer une subscription FREE par défaut pour les utilisateurs existants
 INSERT INTO "Subscription" ("id", "userId", "plan", "status", "createdAt", "updatedAt")
