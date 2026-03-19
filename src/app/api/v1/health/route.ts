@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { getSttCapability } from '@/lib/stt/transcriber';
@@ -17,6 +19,17 @@ function getEffectiveVoiceMode(): string {
   if (requested === 'server') return sttAvailable ? 'server' : 'browser';
   if (requested === 'auto') return sttAvailable ? 'server' : 'browser';
   return 'browser';
+}
+
+function readLocalReleaseValue(fileName: string): string | null {
+  try {
+    const filePath = path.join(process.cwd(), fileName);
+    if (!fs.existsSync(filePath)) return null;
+    const raw = fs.readFileSync(filePath, 'utf8').trim();
+    return raw || null;
+  } catch {
+    return null;
+  }
 }
 
 export async function GET() {
@@ -45,8 +58,8 @@ export async function GET() {
       checks,
       timestamp: new Date().toISOString(),
       release: {
-        gitSha: process.env.BUILD_GIT_SHA ?? 'unknown',
-        buildTime: process.env.BUILD_TIME ?? 'unknown',
+        gitSha: process.env.BUILD_GIT_SHA ?? readLocalReleaseValue('.git_sha') ?? 'unknown',
+        buildTime: process.env.BUILD_TIME ?? readLocalReleaseValue('.build_time') ?? 'unknown',
         nodeEnv: process.env.NODE_ENV ?? 'unknown',
       },
       voice: {
