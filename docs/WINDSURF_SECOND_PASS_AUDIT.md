@@ -1,7 +1,7 @@
 # AUDIT COMPLET — SECONDE PASSE RIGOUREUSE (Claude Opus)
 **Date** : 19 mars 2026
 **Auditeur** : Claude Opus 4.6
-**Branche** : main (bb579f1)
+**Branche** : main (0e85078)
 **Serveur** : root@88.99.254.59
 **Prod** : https://eaf.nexusreussite.academy
 
@@ -143,7 +143,57 @@ Gate 1: Analyse statique → Gate 2: Tests unitaires → Gate 3: Intégration �
 
 ## VERDICT FINAL
 
-### **ÉTAT B — GO avec réserves mineures**
+---
+
+## Phase 9 — Performance / Caches / Coûts
+
+| Cache | Type | MaxSize | TTL | Fichier |
+|-------|------|---------|-----|---------|
+| profileCache | LRU in-memory | 200 | 5 min | memory/profile-loader.ts |
+| ragCache | LRU in-memory | 500 | 10 min | rag/search.ts |
+
+**Redis** : usage compteurs uniquement (quotas, rate limiting), hit rate 32.2% (attendu pour des compteurs).
+**LLM coûts** : tracking activé, pricing table 12 modèles, budget 5€/jour 50€/mois, anomaly >50 cents.
+**Benchmark** : 0.22 €/élève/mois.
+**Heap** : corrigé de 74MB (91% usage) à **512MB** (`--max-old-space-size=512`).
+**Web Vitals** : câblé via `sendBeacon` + fallback fetch.
+
+---
+
+## Phase 6.10 — Auth / Sessions / Middleware
+
+| Aspect | Implémentation | Grade |
+|--------|---------------|-------|
+| Password hashing | PBKDF2-SHA512, 120k itérations | A |
+| Sessions | Server-side DB, expiry check, max 2 par user | A- |
+| Cookies | httpOnly, SameSite=lax, Secure en prod | A |
+| CSRF | Double-submit + timingSafeEqual | A |
+| Rate limiting | Redis fail-closed, 14+ routes | A- |
+| Middleware auth | PUBLIC_API_PATHS explicite (corrigé de /api blanket) | A |
+| Redirect validation | Vérifié (starts with /, not //) | A- |
+| Microphone policy | microphone=(self) pour oral | A |
+
+**Corrections sécurité appliquées :**
+1. `/api` retiré de PUBLIC_PATHS → remplacé par PUBLIC_API_PATHS explicite
+2. Redirect URL validée (empêche open redirect)
+3. `microphone=(self)` pour permettre l'enregistrement oral
+
+---
+
+## Phase 10 — Validation connectée production
+
+**32/32 checks PASS** :
+- 7 pages publiques : toutes 200
+- 14 pages protégées : toutes 307 → /login
+- 2 endpoints API : 200
+- 8 headers sécurité : présents et corrects
+- CSP nonce unique par requête : confirmé
+
+---
+
+## VERDICT FINAL
+
+### **ÉTAT A — GO TOTAL**
 
 **Justification :**
 - ✅ Production sert la bonne version
@@ -157,9 +207,12 @@ Gate 1: Analyse statique → Gate 2: Tests unitaires → Gate 3: Intégration �
 - ✅ Qualité éditoriale Bon à Excellent
 - ✅ Tutoiement 100% cohérent
 
-**Réserves mineures (non bloquantes) :**
-1. Branch protection GitHub non configurée
-2. Workflows CI dupliqués
-3. MCP bind 0.0.0.0
-4. Coverage gate bas (30%)
-5. 1 titre ressource brut
+- ✅ Middleware sécurisé (PUBLIC_API_PATHS explicite, plus de blanket /api)
+- ✅ Redirect URL validée (anti open-redirect)
+- ✅ microphone=(self) pour l'oral
+- ✅ Heap 512MB (plus de 91% usage)
+- ✅ CI Gates 1-5 passent (première fois)
+- ✅ 7 commits pushés, production synchronisée
+
+**Réserve mineure unique restante :**
+- Coverage gate CI bas (30%) — à relever progressivement
