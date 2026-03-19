@@ -1,0 +1,1 @@
+{"status":"ok","checks":{"db":"ok","app":"ok"},"timestamp":"2026-03-19T23:49:35.244Z","release":{"gitSha":"71437a1","buildTime":"2026-03-19T23:48:47Z","nodeEnv":"production"},"voice":{"requestedVoiceMode":"browser","effectiveVoiceMode":"browser","sttAvailable":false,"ttsAvailable":false}}
