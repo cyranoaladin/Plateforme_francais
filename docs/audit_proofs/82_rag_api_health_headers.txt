@@ -1,0 +1,11 @@
+HTTP/2 504 
+server: nginx/1.24.0 (Ubuntu)
+date: Thu, 19 Mar 2026 19:59:52 GMT
+content-type: text/html
+content-length: 176
+x-content-type-options: nosniff
+referrer-policy: no-referrer
+x-frame-options: SAMEORIGIN
+permissions-policy: geolocation=(), microphone=(), camera=()
+strict-transport-security: max-age=63072000; includeSubDomains
+

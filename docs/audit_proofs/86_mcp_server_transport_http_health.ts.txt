@@ -1,0 +1,36 @@
+        res.end(JSON.stringify({ error: 'Unauthorized' }))
+        return
+      }
+
+      const expectedBuf = Buffer.from(expected)
+      const tokenBuf = Buffer.alloc(expectedBuf.length)
+      Buffer.from(token).copy(tokenBuf, 0, 0, expectedBuf.length)
+      if (!timingSafeEqual(expectedBuf, tokenBuf) || token.length !== expected.length) {
+        res.writeHead(401, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ error: 'Unauthorized' }))
+        return
+      }
+    }
+
+    if (req.url === '/health' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+      res.end(JSON.stringify({ status: 'ok', version: '1.0.0' }))
+      return
+    }
+
+    if (req.url === '/mcp' && req.method === 'POST') {
+      const chunks: Buffer[] = []
+      req.on('data', (chunk: Buffer) => chunks.push(chunk))
+      req.on('end', async () => {
+        try {
+          const body = JSON.parse(Buffer.concat(chunks).toString()) as {
+            id: string | number | null
+            method: string
+            params?: unknown
+          }
+          const requestId = req.headers['x-request-id']
+          if (typeof requestId === 'string') {
+            logger.debug({ requestId, method: body.method }, '[MCP HTTP] request')
+          }
+
+          const result = await handleJsonRpc(mcpServer, body)

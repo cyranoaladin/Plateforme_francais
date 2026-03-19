@@ -1,0 +1,37 @@
+=== docker stats snapshot ===
+NAME                   CPU %     MEM USAGE / LIMIT     NET I/O           BLOCK I/O
+compose-ingestor-1     0.21%     381.4MiB / 8GiB       84.1MB / 14.4MB   22.3MB / 53.5MB
+nexus-postgres-db      0.47%     23.38MiB / 62.71GiB   859kB / 807kB     11.8MB / 4.98MB
+docker-backend-1       0.15%     1.762GiB / 62.71GiB   477MB / 168MB     41MB / 427MB
+docker-nginx-1         0.00%     10.96MiB / 62.71GiB   5.4MB / 162MB     72.4MB / 12.3kB
+docker-celery-1        1.24%     266.8MiB / 62.71GiB   93.5MB / 109MB    10.2MB / 44.8MB
+compose-ui-1           0.00%     98.81MiB / 2GiB       8.95MB / 13MB     11.4MB / 0B
+docker-celery-beat-1   1.09%     100MiB / 62.71GiB     1.93MB / 8.43MB   172kB / 58.4MB
+compose-ollama-1       551.32%   613.6MiB / 24GiB      71.4MB / 411MB    610MB / 0B
+compose-chroma-1       0.00%     334.5MiB / 2GiB       208MB / 224MB     65.6MB / 6.17GB
+journey-redis          0.43%     5.07MiB / 62.71GiB    926B / 126B       21.7MB / 0B
+journey-postgres       0.00%     19.04MiB / 62.71GiB   554B / 126B       3.6MB / 337kB
+docker-db-1            4.17%     75.99MiB / 62.71GiB   409MB / 1.17GB    97.7MB / 104MB
+docker-redis-1         0.47%     5.484MiB / 62.71GiB   261MB / 216MB     4.73MB / 1.18GB
+brevet-master-qdrant   0.07%     65.77MiB / 62.71GiB   439kB / 615kB     88.6MB / 3.15MB
+maths_portal_backend   0.07%     84.13MiB / 62.71GiB   870B / 126B       86.2MB / 86kB
+infra-web-1            0.00%     126.8MiB / 62.71GiB   512kB / 803kB     183MB / 195MB
+infra-redis-1          0.46%     3.969MiB / 62.71GiB   19.1MB / 4.83MB   8.19kB / 0B
+infra-postgres-1       0.00%     23.98MiB / 62.71GiB   4.77kB / 126B     76.2MB / 925kB
+infra-minio-1          0.02%     145MiB / 62.71GiB     6.6MB / 4.86MB    231MB / 568MB
+
+=== inside compose-ingestor-1: process list ===
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.3  0.5 1160052 391548 ?      Ssl  20:47   0:09 /usr/local/bin/python3.11 /usr/local/bin/uvicorn api:app --host 0.0.0.0 --port 8001
+root         655 28.5  0.0   2672  1848 ?        Ss   21:37   0:00 sh -lc ps aux
+root         664  0.0  0.0   6844  4108 ?        R    21:37   0:00 ps aux
+
+=== inside compose-ingestor-1: listening sockets ===
+no_ss_no_netstat
+
+=== inside compose-ingestor-1: try GET / (timeout 2s) ===
+curl: (28) Operation timed out after 2001 milliseconds with 0 bytes received
+no_curl
+
+=== host: curl container port directly (timeout 2s) ===
+curl: (28) Operation timed out after 2001 milliseconds with 0 bytes received

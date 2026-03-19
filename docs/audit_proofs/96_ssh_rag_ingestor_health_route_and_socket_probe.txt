@@ -1,0 +1,12 @@
+=== inside compose-ingestor-1: tcp connect test to 127.0.0.1:8001 ===
+connect: ok
+
+=== inside compose-ingestor-1: raw HTTP GET /health via socket ===
+error TimeoutError('timed out')
+
+=== inside compose-ingestor-1: show /health implementation in api.py (grep) ===
+1534:@app.get("/health")
+1535:def health_check():
+1536:    return {"status": "healthy"}
+
+=== inside compose-ingestor-1: show api.py around health (sed) ===

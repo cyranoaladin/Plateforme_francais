@@ -118,17 +118,3 @@ export function createHttpTransport(
         })
         server.on('error', reject)
       }),
-  }
-}
-
-async function handleJsonRpc(
-  mcpServer: MCPServer,
-  body: { method: string; params?: unknown },
-): Promise<unknown> {
-  const internal = mcpServer as unknown as { _requestHandlers?: Map<string, (payload: unknown) => Promise<unknown>> }
-  const handler = internal._requestHandlers?.get(body.method)
-  if (!handler) {
-    throw new Error(`Method unknown: ${body.method}`)
-  }
-  return handler({ method: body.method, params: body.params })
-}

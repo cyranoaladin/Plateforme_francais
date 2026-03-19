@@ -1,0 +1,370 @@
+=== compose-ingestor-1: /proc/net/tcp listen entries for :1F41 (8001) ===
+1F41
+   1: 00000000:1F41 00000000:0000 0A 00000000:00000084 00:00000000 00000000     0        0 25095615 133 0000000000000000 100 0 0 10 0                
+   2: 0100007F:8A12 0100007F:1F41 05 00000000:00000000 03:000013BE 00000000     0        0 0 3 0000000000000000                                      
+   3: 0100007F:1F41 0100007F:A078 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+   4: 0100007F:1F41 0100007F:DFD8 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+   6: 0100007F:1F41 0100007F:97D2 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+   7: 0100007F:1F41 0100007F:A088 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+   8: 0100007F:1F41 0100007F:D3BA 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+   9: 0100007F:1F41 0100007F:CBB0 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  13: 030015AC:1F41 010015AC:D194 08 00000000:00000001 00:00000000 00000000     0        0 25095616 1 0000000000000000 20 4 0 10 -1                  
+  14: 030015AC:1F41 010015AC:DCAA 01 00000000:0001E2FF 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+  15: 0100007F:1F41 0100007F:A924 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  17: 030015AC:1F41 010015AC:D4BA 01 00000000:0001D72B 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+  18: 0100007F:1F41 0100007F:AEF4 08 00000000:0000004F 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  21: 030015AC:1F41 010015AC:E878 08 00000000:000000FD 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  23: 030015AC:1F41 010015AC:DA64 01 00000000:0001D72A 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+  25: 0100007F:1F41 0100007F:D1DA 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  26: 0100007F:1F41 0100007F:800E 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  28: 0100007F:1F41 0100007F:9F42 08 00000000:00000055 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  32: 0100007F:1F41 0100007F:AFDC 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  33: 030015AC:1F41 010015AC:D4B6 08 00000000:00000055 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  37: 0100007F:1F41 0100007F:9518 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  39: 0100007F:1F41 0100007F:D952 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  40: 0100007F:1F41 0100007F:9C2C 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  41: 0100007F:1F41 0100007F:C698 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  42: 0100007F:1F41 0100007F:ABAA 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  43: 0100007F:1F41 0100007F:DC9E 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  44: 0100007F:1F41 0100007F:AAEC 08 00000000:0000003D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  45: 0100007F:1F41 0100007F:BC1C 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  47: 0100007F:1F41 0100007F:89A4 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  48: 0100007F:1F41 0100007F:D8C0 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  51: 0100007F:1F41 0100007F:C106 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  56: 0100007F:1F41 0100007F:A220 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  57: 030015AC:1F41 010015AC:CA24 08 00000000:00000129 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  59: 030015AC:1F41 010015AC:A33E 01 00000000:0001E348 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+  60: 030015AC:1F41 010015AC:C886 01 00000000:0001E348 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+  61: 030015AC:1F41 010015AC:A30A 08 00000000:00000001 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 0 10 -1                         
+  62: 030015AC:1F41 010015AC:C27E 08 00000000:00000001 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 0 10 -1                         
+  63: 0100007F:1F41 0100007F:9F92 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  64: 0100007F:1F41 0100007F:8A12 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  66: 0100007F:1F41 0100007F:9220 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  68: 0100007F:E716 0100007F:1F41 05 00000000:00000000 03:000005EC 00000000     0        0 0 3 0000000000000000                                      
+  70: 0100007F:1F41 0100007F:E438 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  72: 0100007F:1F41 0100007F:A9D8 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  74: 030015AC:1F41 010015AC:A036 08 00000000:00000055 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  77: 030015AC:1F41 010015AC:BD16 01 00000000:0001E1FE 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+  79: 030015AC:1F41 010015AC:95BE 01 00000000:0001D72B 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+  82: 0100007F:1F41 0100007F:E9FE 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  84: 0100007F:1F41 0100007F:B32C 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  85: 0100007F:1F41 0100007F:8B14 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  87: 0100007F:1F41 0100007F:A1B6 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  88: 0100007F:1F41 0100007F:9DB6 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  90: 0100007F:1F41 0100007F:B758 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  92: 030015AC:1F41 010015AC:C274 08 00000000:0000013E 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  93: 0100007F:1F41 0100007F:EC7A 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  95: 0100007F:1F41 0100007F:D1DC 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  96: 0100007F:1F41 0100007F:EDC4 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+  97: 0100007F:1F41 0100007F:A8B8 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 100: 0100007F:1F41 0100007F:92D0 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 101: 0100007F:1F41 0100007F:C900 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 102: 0100007F:1F41 0100007F:A9BE 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 103: 030015AC:1F41 010015AC:AEF4 01 00000000:0001E348 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 104: 0100007F:1F41 0100007F:D2EA 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 106: 0100007F:1F41 0100007F:89C0 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 108: 0100007F:1F41 0100007F:CEB2 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 111: 030015AC:1F41 010015AC:B570 01 00000000:0001E348 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 115: 030015AC:1F41 010015AC:E872 08 00000000:00000001 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 0 10 -1                         
+ 116: 0100007F:1F41 0100007F:C1F4 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 117: 0100007F:1F41 0100007F:984E 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 118: 030015AC:1F41 010015AC:B9EE 01 00000000:0001E5A1 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 119: 0100007F:1F41 0100007F:8EB0 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 121: 030015AC:1F41 010015AC:CBAC 08 00000000:0000004F 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 123: 0100007F:1F41 0100007F:A56A 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 124: 0100007F:1F41 0100007F:E90A 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 126: 0100007F:1F41 0100007F:9174 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 128: 0100007F:1F41 0100007F:8272 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 130: 030015AC:1F41 010015AC:A304 08 00000000:0000013E 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 132: 0100007F:1F41 0100007F:D3D8 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 134: 0100007F:1F41 0100007F:D00E 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 135: 0100007F:1F41 0100007F:DE34 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 136: 030015AC:1F41 010015AC:903C 01 00000000:0001E348 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 137: 0100007F:1F41 0100007F:BA4A 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 138: 0100007F:1F41 0100007F:D4F0 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 139: 030015AC:1F41 010015AC:C0FE 01 00000000:0001D72A 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 140: 0100007F:1F41 0100007F:9F3E 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 142: 030015AC:1F41 010015AC:9692 01 00000000:0001D72C 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 144: 0100007F:1F41 0100007F:D272 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 147: 0100007F:1F41 0100007F:E238 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 148: 0100007F:1F41 0100007F:E7E8 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 149: 0100007F:1F41 0100007F:D044 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 150: 0100007F:1F41 0100007F:A4B0 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 151: 030015AC:1F41 010015AC:B736 08 00000000:0000014C 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 152: 0100007F:1F41 0100007F:EB68 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 153: 0100007F:1F41 0100007F:D48C 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 154: 0100007F:1F41 0100007F:B802 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 156: 0100007F:1F41 0100007F:97FE 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 157: 0100007F:1F41 0100007F:C1A2 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 159: 0100007F:1F41 0100007F:8A7A 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 161: 0100007F:1F41 0100007F:E0BE 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 163: 0100007F:1F41 0100007F:9B64 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 164: 0100007F:1F41 0100007F:9B5C 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 167: 0100007F:1F41 0100007F:DD94 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 169: 030015AC:1F41 010015AC:CD82 01 00000000:0001E348 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 170: 030015AC:1F41 010015AC:A8C8 01 00000000:0001D72A 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 172: 0100007F:1F41 0100007F:B774 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 174: 030015AC:1F41 010015AC:D1A4 01 00000000:0001E348 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 176: 0100007F:1F41 0100007F:CB16 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 177: 0100007F:1F41 0100007F:9A08 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 178: 0100007F:1F41 0100007F:8562 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 180: 0100007F:1F41 0100007F:C960 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 181: 0100007F:1F41 0100007F:C676 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 182: 0100007F:1F41 0100007F:E568 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 183: 030015AC:1F41 010015AC:95AE 08 00000000:00000055 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 187: 0100007F:1F41 0100007F:C738 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 189: 0100007F:1F41 0100007F:AADC 08 00000000:00000001 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 0 10 -1                         
+ 190: 0100007F:1F41 0100007F:BB4C 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 192: 030015AC:1F41 010015AC:8F82 08 00000000:000000FD 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 194: 0100007F:1F41 0100007F:B8B2 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 195: 030015AC:1F41 010015AC:863C 01 00000000:0001E37E 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 196: 0100007F:1F41 0100007F:898A 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 197: 0100007F:1F41 0100007F:9806 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 198: 0100007F:1F41 0100007F:CEB0 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 199: 030015AC:1F41 010015AC:EBEE 08 00000000:00000001 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 0 10 -1                         
+ 202: 0100007F:1F41 0100007F:81E2 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 204: 030015AC:1F41 010015AC:8340 01 00000000:000000C1 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 30 10 -1                        
+ 205: 030015AC:1F41 010015AC:DECE 01 00000000:0001D72B 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 207: 030015AC:1F41 010015AC:861C 01 00000000:0001D72A 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 209: 0100007F:1F41 0100007F:CD26 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 210: 0100007F:1F41 0100007F:E716 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 211: 0100007F:1F41 0100007F:861A 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 212: 0100007F:1F41 0100007F:D81A 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 213: 030015AC:1F41 010015AC:C638 08 00000000:00000129 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 214: 0100007F:1F41 0100007F:EB44 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 216: 030015AC:1F41 010015AC:9F54 01 00000000:0001D72C 00:00000000 00000000     0        0 0 1 0000000000000000 20 8 0 10 -1                         
+ 217: 0100007F:1F41 0100007F:A6AC 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 221: 0100007F:1F41 0100007F:CC56 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+ 224: 0100007F:1F41 0100007F:C7A0 08 00000000:0000007D 00:00000000 00000000     0        0 0 1 0000000000000000 20 4 28 10 -1                        
+
+=== compose-ingestor-1: grep middleware/startup keywords in api.py ===
+204:@app.middleware("http")
+205:async def _metrics_middleware(request, call_next):
+
+=== compose-ingestor-1: first 220 lines of api.py ===
+
+from __future__ import annotations
+
+import hashlib
+import importlib
+import importlib.util
+import ipaddress
+import logging
+import mimetypes
+import os
+import socket
+import sys
+import tempfile
+import threading
+import time
+import uuid
+from collections.abc import Mapping, Sequence, Callable
+from dataclasses import dataclass, field
+from pathlib import Path
+from types import ModuleType
+from typing import TYPE_CHECKING, Any, Literal, Optional, cast
+from urllib.parse import urlparse
+
+import chromadb
+import requests
+from bs4 import BeautifulSoup
+from chromadb.config import Settings
+from fastapi import BackgroundTasks, FastAPI, File, HTTPException, Query, Request, Response, UploadFile
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.embeddings import OllamaEmbeddings
+from langchain_google_community import GoogleDriveLoader
+from prometheus_client import CONTENT_TYPE_LATEST
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field
+
+try:
+    from .drive_sync import DriveSyncManager
+except ImportError:
+    from drive_sync import DriveSyncManager
+
+if TYPE_CHECKING:
+    from langchain.schema import Document
+else:
+    try:
+        from langchain.schema import Document
+    except ImportError:
+        Document = Any  # fallback for type checking
+
+# --- Metrics module loader ---
+def _load_metrics_module() -> ModuleType:
+    module_name = "src.ingestor.metrics"
+    existing = sys.modules.get(module_name)
+    if isinstance(existing, ModuleType):
+        return existing
+    spec = importlib.util.spec_from_file_location(
+        module_name,
+        Path(__file__).with_name("metrics.py"),
+    )
+    if spec and spec.loader:
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[module_name] = module
+        spec.loader.exec_module(module)
+        return module
+    raise ImportError("Unable to load metrics module")
+
+ingest_metrics: ModuleType = _load_metrics_module()
+
+# --- Configuration ---
+CHROMA_HOST = os.getenv("CHROMA_HOST", "localhost")
+CHROMA_PORT = int(os.getenv("CHROMA_PORT", "8000"))
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
+EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "rag_education")
+
+# ── Multi-collection architecture ──────────────────────────────────
+# Collections are organized by major section:
+#   - rag_education : all education resources (filtered by matiere/niveau/groupe via metadata)
+#   - rag_web3      : blockchain, DeFi, NFT, Solana, etc.
+# Within each collection, metadata filters provide fine-grained retrieval.
+COLLECTION_MAP: dict[str, str] = {
+    "education": "rag_education",
+    "web3": "rag_web3",
+    "blockchain": "rag_web3",
+    "default": "rag_education",
+}
+
+
+def resolve_collection_name(section: str | None = None, collection: str | None = None) -> str:
+    """Resolve the ChromaDB collection name from section or explicit collection name."""
+    if collection and collection.strip():
+        return collection.strip()
+    sec = (section or "default").strip().lower()
+    return COLLECTION_MAP.get(sec, COLLECTION_MAP["default"])
+
+CHROMA_REQUEST_TIMEOUT = float(os.getenv("CHROMA_REQUEST_TIMEOUT", "30"))
+OLLAMA_REQUEST_TIMEOUT = float(os.getenv("OLLAMA_REQUEST_TIMEOUT", "30"))
+MAX_REMOTE_BYTES = int(os.getenv("MAX_REMOTE_BYTES", str(10 * 1024 * 1024)))
+LOCAL_SOURCE_ROOT = Path(
+    os.getenv("LOCAL_SOURCE_ROOT", "/data/uploads")).resolve()
+ALLOW_UNRESTRICTED_LOCAL = os.getenv(
+    "ALLOW_UNRESTRICTED_LOCAL", "false").lower() == "true"
+URL_SCHEMES_ALLOWED = {"http", "https"}
+
+INGEST_CHUNK_SIZE = int(os.getenv("INGEST_CHUNK_SIZE", "1000"))
+INGEST_CHUNK_OVERLAP = int(os.getenv("INGEST_CHUNK_OVERLAP", "150"))
+METRICS_ENABLED = ingest_metrics.METRICS_ENABLED
+MULTIMODAL_ENABLED = os.getenv("MULTIMODAL_ENABLED", "false").lower() == "true"
+MM_PARSER_TIMEOUT = float(os.getenv("MM_PARSER_TIMEOUT", "30"))
+MM_MAX_CHARS_PER_CHUNK = int(os.getenv("MM_MAX_CHARS_PER_CHUNK", "1200"))
+MM_CACHE_DIR = os.getenv("MM_CACHE_DIR", "/data/mm-cache")
+GOOGLE_DRIVE_TOKEN_PATH = os.getenv("GOOGLE_DRIVE_TOKEN_PATH", "/tmp/google-drive-token.json")
+GDRIVE_MAX_DOCS = int(os.getenv("GDRIVE_MAX_DOCS", "0"))
+
+# Keep metrics isolated per module import to avoid duplicate registration in tests.
+METRIC_REGISTRY = ingest_metrics.REGISTRY
+REQUEST_COUNT = ingest_metrics.REQUEST_COUNT
+REQUEST_LATENCY = ingest_metrics.REQUEST_LATENCY
+INGEST_RESULT = ingest_metrics.INGEST_RESULT
+ingest_requests_total = ingest_metrics.ingest_requests_total
+
+logger = logging.getLogger(__name__)
+
+# Multimodal adapter: default to safe stubs, then try to override with real impl
+class Chunk:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pragma: no cover - stub
+        self.text: str = ""
+        self.modality: str = "unknown"
+        self.metadata: dict[str, Any] = {}
+
+    def as_text(self) -> str:  # pragma: no cover - stub
+        return getattr(self, "text", "")
+
+
+def _parse_multimodal_stub(*args: Any, **kwargs: Any) -> Any:  # pragma: no cover - stub
+    raise RuntimeError("Multimodal parser not available on this runtime")
+
+# Assign stub by default; successful import below will override this name
+parse_multimodal: Callable[..., Any] = _parse_multimodal_stub
+
+# Try package-relative import first, then fallback to local module path
+_mm_mod: Optional[ModuleType] = None
+try:
+    from . import mm_adapter as _pkg_mm  # prefer package-relative when available
+    _mm_mod = _pkg_mm
+except Exception:  # pragma: no cover - import fallback
+    try:
+        _mm_mod = importlib.import_module("mm_adapter")
+    except Exception:
+        _mm_mod = None
+
+if _mm_mod is not None:
+    parse_multimodal = getattr(_mm_mod, "parse_multimodal", parse_multimodal)
+
+# Import admin_api from the same package; support both package and script execution
+try:
+    from . import admin_api as _admin_api_module
+except Exception:  # pragma: no cover - flexible fallback
+    try:
+        _admin_api_module = importlib.import_module("ingestor.admin_api")
+    except Exception:
+        _admin_api_module = importlib.import_module("admin_api")
+
+admin_api = _admin_api_module
+
+
+@dataclass
+class PreparedBatch:
+    ids: list[str]
+    documents: list[str]
+    metadatas: list[dict[str, str]]
+    modality: str
+
+
+@dataclass
+class DriveTaskProgress:
+    """Suivi de progression pour une ingestion Google Drive."""
+    task_id: str
+    folder_id: str
+    status: str = "pending"  # pending, scanning, ingesting, done, error
+    total_files: int = 0
+    processed_files: int = 0
+    added_chunks: int = 0
+    skipped_files: int = 0
+    error_files: int = 0
+    current_file: str = ""
+    target_collection: str = ""
+    file_results: list[dict[str, Any]] = field(default_factory=list)
+    error_message: str = ""
+    started_at: float = 0.0
+    finished_at: float = 0.0
+
+
+# In-memory store for drive task progress (thread-safe via GIL for simple dict ops)
+_drive_tasks: dict[str, DriveTaskProgress] = {}
+_drive_tasks_lock = threading.Lock()
+
+app = FastAPI(title="RAG Ingestor API")
+app.include_router(admin_api.router)
+
+_DRIVE_SYNC_DB = os.getenv("DRIVE_SYNC_DB_PATH", "/data/drive_sync_state.db")
+sync_manager = DriveSyncManager(db_path=_DRIVE_SYNC_DB)
+
+
+@app.middleware("http")
+async def _metrics_middleware(request, call_next):
+    start = time.perf_counter()
+    code = 500
+    try:
+        response = await call_next(request)
+        code = getattr(response, "status_code", 500)
+    except Exception:
+        code = 500
+        raise
+    finally:
+        if ingest_metrics.METRICS_ENABLED:
+            elapsed = time.perf_counter() - start
+            path = request.url.path
+            method = request.method
+            REQUEST_LATENCY.labels(path=path, method=method).observe(elapsed)
+            REQUEST_COUNT.labels(path=path, method=method, code=str(code)).inc()
+
+=== compose-ingestor-1: raw socket GET /health (15s loop) ===
+NO_RESPONSE
+
+=== host: curl upstream 127.0.0.1:18001/health (timeout 5s) ===
+curl: (28) Operation timed out after 5002 milliseconds with 0 bytes received

@@ -71,7 +71,7 @@ import {
 // Définition de tous les outils (schémas JSON pour le LLM)
 // ============================================================
 
-const TOOL_DEFINITIONS = [
+export const TOOL_DEFINITIONS = [
   // --- Student ---
   {
     name: 'eaf_get_student_profile',
