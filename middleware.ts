@@ -17,11 +17,28 @@ const PUBLIC_PATHS = new Set([
   '/mentions-legales',
   '/cgu',
   '/politique-de-confidentialite',
-  '/api',
   '/_next',
   '/images',
   '/favicon.ico',
   '/ressources',
+]);
+
+/** API routes that genuinely need to be public (no session cookie required). */
+const PUBLIC_API_PATHS = new Set([
+  '/api/v1/auth/login',
+  '/api/v1/auth/register',
+  '/api/v1/auth/forgot-password',
+  '/api/v1/auth/reset-password',
+  '/api/v1/health',
+  '/api/v1/rag/health',
+  '/api/v1/csrf',
+  '/api/v1/contact',
+  '/api/v1/exam-info',
+  '/api/v1/ressources',
+  '/api/v1/metrics/vitals',
+  '/api/v1/payments/clictopay/callback',
+  '/api/v1/payments/clictopay/public-status',
+  '/api/mcp/health',
 ]);
 
 const CANONICAL_ALIAS_PATHS = new Set(['/bienvenue', '/landing']);
@@ -37,6 +54,16 @@ export function isPublicPath(pathname: string): boolean {
   if (PUBLIC_PATHS.has(pathname)) return true;
   for (const prefix of PUBLIC_PATHS) {
     if (pathname.startsWith(prefix + '/')) return true;
+  }
+  // Check public API routes (explicit allowlist instead of blanket /api)
+  if (pathname.startsWith('/api')) {
+    if (PUBLIC_API_PATHS.has(pathname)) return true;
+    for (const prefix of PUBLIC_API_PATHS) {
+      if (pathname.startsWith(prefix + '/')) return true;
+    }
+    // Cron routes protected by CRON_SECRET bearer token, not session cookie
+    if (pathname.startsWith('/api/v1/cron')) return true;
+    return false;
   }
   return false;
 }
@@ -70,7 +97,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()');
 
   return response;
 }

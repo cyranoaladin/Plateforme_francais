@@ -303,7 +303,9 @@ function AuthCard() {
         return;
       }
 
-      const redirectTo = searchParams.get('redirect') || '/dashboard';
+      const rawRedirect = searchParams.get('redirect') || '/dashboard';
+      // Validate redirect: must be a relative path starting with /, not //
+      const redirectTo = (rawRedirect.startsWith('/') && !rawRedirect.startsWith('//')) ? rawRedirect : '/dashboard';
       try {
         const profile = await apiFetch<ProfilePayload>('/api/v1/student/profile');
         if (!profile.onboardingCompleted) {
