@@ -23,7 +23,9 @@ function getEffectiveVoiceMode(): string {
 
 function readLocalReleaseValue(fileName: string): string | null {
   try {
-    const filePath = path.join(process.cwd(), fileName);
+    const appRoot = process.env.APP_ROOT?.trim();
+    const baseDir = appRoot ? path.resolve(appRoot) : process.cwd();
+    const filePath = path.join(baseDir, fileName);
     if (!fs.existsSync(filePath)) return null;
     const raw = fs.readFileSync(filePath, 'utf8').trim();
     return raw || null;
