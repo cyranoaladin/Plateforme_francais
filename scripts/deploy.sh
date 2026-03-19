@@ -143,7 +143,7 @@ echo "  ✅ Symlink $APP_DIR/ressources → $RESSOURCES_DIR"
 
 # --- 8. Restart PM2 ---
 echo "[8/8] Redémarrage des services PM2..."
-ssh "$SSH_TARGET" "cd $APP_DIR && pm2 startOrRestart ecosystem.config.cjs --env production"
+ssh "$SSH_TARGET" "cd $APP_DIR && pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
 ssh "$SSH_TARGET" "pm2 save"
 
 echo ""
