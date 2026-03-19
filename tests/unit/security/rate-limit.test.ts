@@ -52,22 +52,22 @@ describe('checkRateLimit', () => {
     const { checkRateLimit } = await import('@/lib/security/rate-limit');
     const result = await checkRateLimit({ request: makeRequest('1.2.3.4'), key: 'test', limit: 5 });
     expect(result.allowed).toBe(false);
-    expect(result.retryAfter).toBe(60);
+    expect(result.retryAfter).toBe(5); // 5 secondes en production (fail-closed avec retry court)
   });
 
   it('fail-closed si ping Redis échoue (production)', async () => {
     // Simuler NODE_ENV=production
     const originalEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'production';
+    vi.stubEnv('NODE_ENV', 'production');
     
     try {
       redisMock.ping.mockRejectedValue(new Error('ECONNREFUSED'));
       const { checkRateLimit } = await import('@/lib/security/rate-limit');
       const result = await checkRateLimit({ request: makeRequest('1.2.3.4'), key: 'test', limit: 5 });
       expect(result.allowed).toBe(false);
-      expect(result.retryAfter).toBe(60);
+      expect(result.retryAfter).toBe(5); // 5 secondes en production (fail-closed avec retry court)
     } finally {
-      process.env.NODE_ENV = originalEnv;
+      vi.unstubAllEnvs();
     }
   });
 
