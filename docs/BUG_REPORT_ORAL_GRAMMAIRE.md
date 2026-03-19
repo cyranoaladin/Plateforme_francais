@@ -120,7 +120,7 @@ Session expirée ou cookie invalide. L'utilisateur doit se reconnecter.
 **Action** :
 ```bash
 # 1. Ajouter la clé en production
-ssh root@88.99.254.59 'echo "MISTRAL_API_KEY=ZuobH4RVOWfEfJJTtdlH5xVWKsYQebLW" >> /opt/eaf_platform/.env'
+ssh root@88.99.254.59 'echo "MISTRAL_API_KEY=***REDACTED***" >> /opt/eaf_platform/.env'
 
 # 2. Activer le router LLM
 ssh root@88.99.254.59 'echo "LLM_ROUTER_ENABLED=true" >> /opt/eaf_platform/.env'

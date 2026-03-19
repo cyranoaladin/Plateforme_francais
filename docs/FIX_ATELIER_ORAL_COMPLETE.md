@@ -13,7 +13,7 @@ Aucune clé API LLM configurée en production → skill `grammaire_ciblee` écho
 ### Solution appliquée
 ```bash
 # Variables ajoutées à /opt/eaf_platform/.env
-MISTRAL_API_KEY=ZuobH4RVOWfEfJJTtdlH5xVWKsYQebLW
+MISTRAL_API_KEY=***REDACTED***
 LLM_ROUTER_ENABLED=true
 LLM_MULTI_PROVIDER_FALLBACK=true
 LLM_TIMEOUT_MS=15000
@@ -26,7 +26,7 @@ pm2 restart eaf-nextjs
 ### Vérification
 ```bash
 ssh root@88.99.254.59 'grep MISTRAL_API_KEY /opt/eaf_platform/.env'
-# MISTRAL_API_KEY=ZuobH4RVOWfEfJJTtdlH5xVWKsYQebLW ✅
+# MISTRAL_API_KEY=***REDACTED*** ✅
 ```
 
 ### Résultat attendu
@@ -111,7 +111,7 @@ ssh root@88.99.254.59 'grep -E "MISTRAL_API_KEY|LLM_ROUTER_ENABLED|LLM_MULTI_PRO
 
 **Résultat attendu** :
 ```
-MISTRAL_API_KEY=ZuobH4RVOWfEfJJTtdlH5xVWKsYQebLW
+MISTRAL_API_KEY=***REDACTED***
 LLM_ROUTER_ENABLED=true
 LLM_MULTI_PROVIDER_FALLBACK=true
 ```
