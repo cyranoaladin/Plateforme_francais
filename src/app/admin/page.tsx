@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Users,
@@ -101,11 +101,7 @@ export default function AdminDashboard() {
   const [paymentNotes, setPaymentNotes] = useState('');
   const [processingPayment, setProcessingPayment] = useState(false);
 
-  useEffect(() => {
-    loadData();
-  }, [activeTab]);
-
-  async function loadData() {
+  const loadData = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -138,7 +134,11 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [activeTab, router]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   async function generateCode() {
     setGeneratingCode(true);
@@ -464,7 +464,7 @@ export default function AdminDashboard() {
                       <label className="block text-sm font-medium mb-2">Plan</label>
                       <select
                         value={newCodePlan}
-                        onChange={(e) => setNewCodePlan(e.target.value as any)}
+                        onChange={(e) => setNewCodePlan(e.target.value as 'PREMIUM' | 'PRO' | 'MAX')}
                         className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
                         <option value="PREMIUM">PREMIUM (99 TND/mois)</option>
@@ -589,7 +589,7 @@ export default function AdminDashboard() {
                       <select
                         value={paymentPlan}
                         onChange={(e) => {
-                          const plan = e.target.value as any;
+                          const plan = e.target.value as 'PREMIUM' | 'PRO' | 'MAX';
                           setPaymentPlan(plan);
                           setPaymentAmount(plan === 'PREMIUM' ? '99000' : plan === 'PRO' ? '129000' : '149000');
                         }}
@@ -620,7 +620,7 @@ export default function AdminDashboard() {
                       <label className="block text-sm font-medium mb-2">Méthode de paiement</label>
                       <select
                         value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value as any)}
+                        onChange={(e) => setPaymentMethod(e.target.value as 'VIREMENT' | 'ESPECES' | 'AUTRE')}
                         className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
                         <option value="VIREMENT">Virement bancaire</option>

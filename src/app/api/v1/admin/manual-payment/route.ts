@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db/client';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
+import type { SubscriptionPlan } from '@prisma/client';
 
 const manualPaymentSchema = z.object({
   userId: z.string().uuid(),
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
         userId,
         provider: 'CLICTOPAY', // On utilise CLICTOPAY comme provider par défaut
         status: 'ACCEPTED',
-        plan: plan as any, // Cast car MAX n'est pas dans l'enum Prisma mais existe dans le catalogue
+        plan: plan as unknown as SubscriptionPlan, // Cast car MAX n'est pas dans l'enum Prisma mais existe dans le catalogue
         amountMillimes,
         orderRef: `MANUAL-${reference}`,
         providerRef: reference,
@@ -79,7 +80,7 @@ export async function POST(request: Request) {
       await prisma.subscription.update({
         where: { id: user.subscription.id },
         data: {
-          plan: plan as any,
+          plan: plan as unknown as SubscriptionPlan,
           status: 'ACTIVE',
           currentPeriodStart: now,
           currentPeriodEnd: periodEnd,
@@ -90,7 +91,7 @@ export async function POST(request: Request) {
       await prisma.subscription.create({
         data: {
           userId,
-          plan: plan as any,
+          plan: plan as unknown as SubscriptionPlan,
           status: 'ACTIVE',
           currentPeriodStart: now,
           currentPeriodEnd: periodEnd,
@@ -106,7 +107,7 @@ export async function POST(request: Request) {
       },
       { status: 200 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la validation du paiement.' },
       { status: 500 }

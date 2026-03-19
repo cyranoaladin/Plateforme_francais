@@ -20,6 +20,11 @@ const eslintConfig = defineConfig([
     "coverage/**",
     "next-env.d.ts",
     "docs/**",
+    // Build artifacts and worktrees:
+    ".worktrees/**",
+    "packages/mcp-server/dist/**",
+    ".windsurf/**",
+    ".superpowers/**",
   ]),
 ]);
 

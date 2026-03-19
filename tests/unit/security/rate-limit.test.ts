@@ -57,7 +57,6 @@ describe('checkRateLimit', () => {
 
   it('fail-closed si ping Redis échoue (production)', async () => {
     // Simuler NODE_ENV=production
-    const originalEnv = process.env.NODE_ENV;
     vi.stubEnv('NODE_ENV', 'production');
     
     try {

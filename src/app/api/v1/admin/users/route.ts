@@ -46,7 +46,7 @@ export async function GET() {
     });
 
     return NextResponse.json({ users }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des utilisateurs.' },
       { status: 500 }

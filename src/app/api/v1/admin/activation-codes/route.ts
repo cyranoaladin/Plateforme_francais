@@ -41,7 +41,7 @@ export async function GET() {
     });
 
     return NextResponse.json({ codes }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des codes.' },
       { status: 500 }
@@ -90,7 +90,7 @@ export async function POST(request: Request) {
         plainCode: code, // Retourner le code en clair une seule fois
       }
     }, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la création du code.' },
       { status: 500 }
