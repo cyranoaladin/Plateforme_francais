@@ -1,0 +1,20 @@
+bb579f1 fix(tests): corriger tests rate-limit pour refléter retryAfter=5s
+b8ff269 feat(design): merge nouvelle charte graphique 2026
+0b683aa feat(design): intégration nouvelle charte graphique 2026
+1cf49d3 feat: dashboard admin pour paiements manuels et codes d'activation
+5305e8a feat: activer le système de billing/abonnement en production
+9990677 sync: mettre à jour le catalogue des ressources avec 548 fichiers (+4)
+9463727 fix: ajouter API manquante pour le catalogue des ressources (/api/v1/ressources)
+a1820d5 fix: réduire retryAfter rate limiting à 5s pour éviter 503 injustifiés
+1828337 fix: supprimer jargon technique 'RAG' et 'feedback' des pages connectées
+7300672 fix: supprimer jargon 'workflow' de la page pricing
+7530f84 fix: graceful fallback FREE when Subscription/PaymentTransaction tables missing
+997956d fix: purge derniers résidus jargon (Cockpit, Anti-triche, signaux faibles)
+54368f6 Merge branch 'remediation/hardening-code'
+5eb577a fix: derniers anglicismes (onboarding, Voir les plans) dans tout le projet
+3370b6b fix: finition produit — anglicismes, titres Eduscol, free tier, kickers
+c4ca946 fix: purge jargon technique des pages publiques + finition UX login/bibliothèque
+a9220dd fix: supprimer tous les résidus de langage produit-interne
+cc5e09f refonte: réécriture complète du copy public (landing, login, pricing) (#53)
+6e03b6d Include csrf client test in test tsconfig
+7ede26c Harden ressources deployment and fix public frontend flows
