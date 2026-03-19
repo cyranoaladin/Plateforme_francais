@@ -109,7 +109,7 @@ class ExternalRAGClient {
 
     // Do not throw here as it breaks next build
     if (process.env.NODE_ENV === 'production' && !this.token) {
-      logger.error('[ExternalRAG] RAG_API_TOKEN is missing in production environment.');
+      logger.warn('[ExternalRAG] RAG_API_TOKEN is missing in production environment.');
     }
   }
 
