@@ -113,11 +113,10 @@ echo "  → Build SHA: $LOCAL_GIT_SHA"
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 ssh "$SSH_TARGET" "cd $APP_DIR && printf 'BUILD_GIT_SHA=%s\nBUILD_TIME=%s\n' '$LOCAL_GIT_SHA' '$BUILD_TIME' > .release.env"
 ssh "$SSH_TARGET" "cd $APP_DIR && printf '%s\n' '$LOCAL_GIT_SHA' > .git_sha && printf '%s\n' '$BUILD_TIME' > .build_time"
-# Remove symlinks that break Turbopack before build, restore after
-ssh "$SSH_TARGET" "cd $APP_DIR && rm -f ressources public/ressources"
-ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .next && BUILD_GIT_SHA=$LOCAL_GIT_SHA BUILD_TIME=$BUILD_TIME NODE_ENV=production npm run build"
+# Remove symlinks that break Turbopack before build (restored in step 7b)
+ssh "$SSH_TARGET" "cd $APP_DIR && { [ -L ressources ] && rm ressources || true; } && { [ -L public/ressources ] && rm public/ressources || true; }"
+ssh "$SSH_TARGET" "cd $APP_DIR && BUILD_GIT_SHA=$LOCAL_GIT_SHA BUILD_TIME=$BUILD_TIME NODE_ENV=production npm run build"
 ssh "$SSH_TARGET" "cd $APP_DIR && if [ -d .next/standalone ]; then cp -f .git_sha .build_time .next/standalone/; fi"
-ssh "$SSH_TARGET" "cd $APP_DIR && [ -d /opt/eaf_ressources ] && ln -sf /opt/eaf_ressources ressources || true"
 
 # --- 6. Build MCP server ---
 echo "[6/8] Build MCP server..."
