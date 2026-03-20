@@ -22,55 +22,20 @@ function toCheckoutPlan(raw: z.infer<typeof initBodySchema>['plan']): 'PREMIUM' 
 
 /**
  * POST /api/v1/payments/clictopay/init
- * Initiates a ClicToPay checkout session for the authenticated user.
+ * DISABLED — ClicToPay payment is not active at go-live.
+ * Returns 503 Service Unavailable with manual payment instructions.
  */
 export async function POST(request: Request) {
-  try {
-    const csrfError = await validateCsrf(request);
-    if (csrfError) return csrfError;
-
-    const userId = await getAuthenticatedUserId();
-    if (!userId) {
-      return NextResponse.json({ error: 'Non authentifié.' }, { status: 401 });
-    }
-
-    const limit = await checkRateLimit({
-      request,
-      key: `payment:init:${userId}`,
-      limit: 5,
-      windowMs: 60 * 1000,
-    });
-    if (!limit.allowed) {
-      return NextResponse.json(
-        { error: 'Trop de tentatives. Réessayez plus tard.' },
-        { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } },
-      );
-    }
-
-    const parsed = await parseJsonBody(request, initBodySchema);
-    if (!parsed.success) return parsed.response;
-
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user) {
-      return NextResponse.json({ error: 'Utilisateur introuvable.' }, { status: 404 });
-    }
-
-    const result = await initiateClicToPayPayment({
-      userId,
-      plan: toCheckoutPlan(parsed.data.plan),
-      email: user.email,
-      months: parsed.data.months,
-    });
-
-    return NextResponse.json({
-      checkoutUrl: result.redirectUrl,
-      orderRef: result.orderRef,
-    });
-  } catch (error) {
-    logger.error({ error }, 'clictopay.init.error');
-    return NextResponse.json(
-      { error: 'Impossible d\'initier le paiement. Réessayez.' },
-      { status: 500 },
-    );
-  }
+  return NextResponse.json(
+    {
+      error: 'Paiement carte désactivé. Utilisez le virement bancaire ou contactez-nous via WhatsApp.',
+      code: 'PAYMENT_METHOD_DISABLED',
+      alternative: {
+        method: 'bank_transfer',
+        whatsapp: '+21699192829',
+        instructions: 'Virement bancaire avec votre email en référence, puis activation par code.',
+      },
+    },
+    { status: 503 }
+  );
 }

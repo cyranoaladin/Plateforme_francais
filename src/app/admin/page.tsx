@@ -225,11 +225,18 @@ export default function AdminDashboard() {
     }
   }
 
+  const planLabels: Record<string, string> = {
+    FREE: 'Freemium',
+    PREMIUM: 'Premium',
+    PRO: 'Masterium',
+    MAX: 'Masterium Lifetime',
+  };
+
   const planColors: Record<string, string> = {
     FREE: 'bg-gray-100 text-gray-800',
     PREMIUM: 'bg-blue-100 text-blue-800',
     PRO: 'bg-purple-100 text-purple-800', // Masterium
-    MAX: 'bg-purple-100 text-purple-800', // Masterium Lifetime (legacy)
+    MAX: 'bg-purple-100 text-purple-800', // Masterium Lifetime
   };
 
   const statusColors: Record<string, string> = {
@@ -364,7 +371,7 @@ export default function AdminDashboard() {
                   <div className="space-y-2">
                     {stats.subscriptionsByPlan.map((item) => (
                       <div key={item.plan} className="flex items-center justify-between">
-                        <span className="font-medium">{item.plan}</span>
+                        <span className="font-medium">{planLabels[item.plan] || item.plan}</span>
                         <Badge className={planColors[item.plan] || 'bg-gray-100'}>
                           {item.count} utilisateur{item.count > 1 ? 's' : ''}
                         </Badge>
@@ -391,7 +398,7 @@ export default function AdminDashboard() {
                           <tr key={payment.id} className="border-b border-[var(--border-primary)]">
                             <td className="py-2 px-4">{payment.user.email}</td>
                             <td className="py-2 px-4">
-                              <Badge className={planColors[payment.plan]}>{payment.plan}</Badge>
+                              <Badge className={planColors[payment.plan]}>{planLabels[payment.plan] || payment.plan}</Badge>
                             </td>
                             <td className="py-2 px-4">{(payment.amountMillimes / 1000).toFixed(2)} TND</td>
                             <td className="py-2 px-4">
@@ -434,7 +441,7 @@ export default function AdminDashboard() {
                           <td className="py-2 px-4">
                             {user.subscription ? (
                               <Badge className={planColors[user.subscription.plan]}>
-                                {user.subscription.plan}
+                                {planLabels[user.subscription.plan]}
                               </Badge>
                             ) : (
                               <span className="text-[var(--text-secondary)]">Aucun</span>
@@ -542,7 +549,7 @@ export default function AdminDashboard() {
                           <tr key={code.id} className="border-b border-[var(--border-primary)]">
                             <td className="py-2 px-4 font-mono text-xs">{code.codeHash.substring(0, 8)}...</td>
                             <td className="py-2 px-4">
-                              <Badge className={planColors[code.plan]}>{code.plan}</Badge>
+                              <Badge className={planColors[code.plan]}>{planLabels[code.plan] || code.plan}</Badge>
                             </td>
                             <td className="py-2 px-4">
                               {code.durationDays >= 365 ? `${Math.round(code.durationDays / 365)} an(s)` : `${code.durationDays} jours`}

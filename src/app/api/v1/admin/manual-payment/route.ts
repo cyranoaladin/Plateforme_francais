@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     const payment = await prisma.paymentTransaction.create({
       data: {
         userId,
-        provider: 'CLICTOPAY', // On utilise CLICTOPAY comme provider par défaut
+        provider: 'MANUAL', // Paiement manuel (virement/espèces)
         status: 'ACCEPTED',
         plan: plan as unknown as SubscriptionPlan, // Cast car MAX n'est pas dans l'enum Prisma mais existe dans le catalogue
         amountMillimes,

@@ -44,17 +44,8 @@ export async function sendSubscriptionConfirmationEmail(data: {
       };
     }
   > = {
+    // Legacy mappings (deprecated but kept for compatibility)
     MONTHLY: {
-      name: 'Régulier',
-      price: '99 TND/mois',
-      limits: {
-        oraux: '10 / semaine',
-        corrections: '20 / mois',
-        echanges: '100 / jour',
-        analyses: '20 / mois',
-      },
-    },
-    PREMIUM: {
       name: 'Premium',
       price: '99 TND/mois',
       limits: {
@@ -65,13 +56,24 @@ export async function sendSubscriptionConfirmationEmail(data: {
       },
     },
     LIFETIME: {
-      name: 'Intensif',
+      name: 'Masterium',
       price: '129 TND/mois',
       limits: {
         oraux: 'Illimité',
         corrections: 'Illimité',
         echanges: 'Illimité',
         analyses: '50 / mois',
+      },
+    },
+    // Current mappings (aligned with UI)
+    PREMIUM: {
+      name: 'Premium',
+      price: '99 TND/mois',
+      limits: {
+        oraux: '10 / semaine',
+        corrections: '20 / mois',
+        echanges: '100 / jour',
+        analyses: '20 / mois',
       },
     },
     PRO: {
