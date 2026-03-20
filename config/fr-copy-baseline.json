@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-20T15:31:43.899Z",
+  "generatedAt": "2026-03-20T15:49:58.141Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -429,6 +429,27 @@
       "text": "Informations complémentaires..."
     },
     {
+      "file": "src/app/api/dev/test-email/route.ts",
+      "line": 10,
+      "column": 39,
+      "kind": "api-message",
+      "text": "Not found"
+    },
+    {
+      "file": "src/app/api/dev/test-email/route.ts",
+      "line": 16,
+      "column": 16,
+      "kind": "api-message",
+      "text": "DEV_TEST_EMAIL non configuré dans .env"
+    },
+    {
+      "file": "src/app/api/dev/test-email/route.ts",
+      "line": 43,
+      "column": 14,
+      "kind": "api-message",
+      "text": "Type invalide. Utilise ?type=welcome ou ?type=subscription"
+    },
+    {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
       "line": 101,
       "column": 16,
@@ -514,14 +535,14 @@
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
-      "line": 41,
+      "line": 42,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de tentatives. Réessayez plus tard."
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
-      "line": 60,
+      "line": 61,
       "column": 39,
       "kind": "api-message",
       "text": "Un compte existe déjà pour cet email."
@@ -997,28 +1018,28 @@
     },
     {
       "file": "src/app/api/v1/payments/clictopay/callback/route.ts",
-      "line": 126,
+      "line": 163,
       "column": 39,
       "kind": "api-message",
       "text": "Erreur traitement callback."
     },
     {
       "file": "src/app/api/v1/payments/clictopay/callback/route.ts",
-      "line": 82,
+      "line": 83,
       "column": 41,
       "kind": "api-message",
       "text": "Accès refusé."
     },
     {
       "file": "src/app/api/v1/payments/clictopay/callback/route.ts",
-      "line": 91,
+      "line": 92,
       "column": 41,
       "kind": "api-message",
       "text": "Signature invalide."
     },
     {
       "file": "src/app/api/v1/payments/clictopay/callback/route.ts",
-      "line": 98,
+      "line": 99,
       "column": 41,
       "kind": "api-message",
       "text": "Paramètres manquants."

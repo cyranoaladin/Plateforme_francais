@@ -10,8 +10,13 @@ ALTER TABLE "ActivationCode" ADD COLUMN IF NOT EXISTS "batchId" TEXT;
 ALTER TABLE "ActivationCode" ADD COLUMN IF NOT EXISTS "orderRef" TEXT;
 ALTER TABLE "ActivationCode" ADD COLUMN IF NOT EXISTS "notes" TEXT;
 
--- Migrate data: copy code to codeHash where codeHash is null
-UPDATE "ActivationCode" SET "codeHash" = "code" WHERE "codeHash" IS NULL AND "code" IS NOT NULL;
+-- Migrate data: copy code to codeHash where codeHash is null (only if code column exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'ActivationCode' AND column_name = 'code') THEN
+    UPDATE "ActivationCode" SET "codeHash" = "code" WHERE "codeHash" IS NULL AND "code" IS NOT NULL;
+  END IF;
+END $$;
 
 -- Set status based on usedCount
 UPDATE "ActivationCode" SET "status" = CASE WHEN "usedCount" > 0 THEN 'REDEEMED' ELSE 'CREATED' END WHERE "status" IS NULL OR "status" = 'CREATED';
@@ -42,9 +47,15 @@ ALTER TABLE "ActivationCode" ALTER COLUMN "plan" TYPE TEXT USING "plan"::TEXT;
 UPDATE "ActivationCode" SET "durationDays" = 30 WHERE "durationDays" IS NULL;
 ALTER TABLE "ActivationCode" ALTER COLUMN "durationDays" SET NOT NULL;
 
--- Make legacy 'code' column nullable and drop unique constraint to avoid
--- NOT NULL / UNIQUE violations when creating new rows via Prisma (which uses codeHash)
-ALTER TABLE "ActivationCode" ALTER COLUMN "code" DROP NOT NULL;
-ALTER TABLE "ActivationCode" ALTER COLUMN "code" SET DEFAULT '';
-ALTER TABLE "ActivationCode" DROP CONSTRAINT IF EXISTS "ActivationCode_code_key";
+-- Handle legacy 'code' column if it exists (drop constraints, make nullable, etc.)
+DO $$
+BEGIN
+  -- Only run these if the 'code' column still exists (legacy tables)
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'ActivationCode' AND column_name = 'code') THEN
+    -- Make legacy 'code' column nullable and drop unique constraint
+    ALTER TABLE "ActivationCode" ALTER COLUMN "code" DROP NOT NULL;
+    ALTER TABLE "ActivationCode" ALTER COLUMN "code" SET DEFAULT '';
+    ALTER TABLE "ActivationCode" DROP CONSTRAINT IF EXISTS "ActivationCode_code_key";
+  END IF;
+END $$;
 DROP INDEX IF EXISTS "ActivationCode_code_idx";
