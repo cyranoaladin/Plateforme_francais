@@ -1,29 +1,0 @@
-=== docker ps (compose-ingestor-1) ===
-CONTAINER ID                                                       IMAGE              COMMAND                                        CREATED          STATUS                      PORTS                       NAMES
-326b95f5cda9e8843ab60168e94a4f801452205c6ce83772c1ce6c20737587d6   compose-ingestor   "uvicorn api:app --host 0.0.0.0 --port 8001"   48 minutes ago   Up 48 minutes (unhealthy)   127.0.0.1:18001->8001/tcp   compose-ingestor-1
-
-=== docker inspect (compose-ingestor-1) key fields ===
-Name=/compose-ingestor-1\nImage=compose-ingestor\nCreated=2026-03-19T19:47:43.250923721Z\nState=running\nHealth=unhealthy\nPorts={"8001/tcp":[{"HostIp":"127.0.0.1","HostPort":"18001"}]}\n
-
-=== docker inspect healthcheck config ===
-{"Test":["CMD-SHELL","python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8001/health', timeout=5)\" || exit 1"],"Interval":30000000000,"Timeout":10000000000,"StartPeriod":30000000000,"Retries":5}
-
-=== last 200 lines logs (compose-ingestor-1) ===
-
-=== curl upstream via host mapping (127.0.0.1:18001) verbose ===
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 127.0.0.1:18001...
-* Connected to 127.0.0.1 (127.0.0.1) port 18001
-> GET /health HTTP/1.1
-> Host: 127.0.0.1:18001
-> User-Agent: curl/8.5.0
-> Accept: */*
-> 
-  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0* Operation timed out after 3002 milliseconds with 0 bytes received
-  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
-* Closing connection
-curl: (28) Operation timed out after 3002 milliseconds with 0 bytes received
-
-=== curl from inside container to 127.0.0.1:8001/health ===
-curl: (28) Operation timed out after 3002 milliseconds with 0 bytes received

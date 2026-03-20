@@ -1,6 +1,0 @@
-== .release.env ==
-
-== netlify/vercel artifacts ==
-
-== health local ==
-{"status":"ok","checks":{"db":"ok","app":"ok"},"timestamp":"2026-03-19T23:15:39.096Z","release":{"gitSha":"unknown","buildTime":"2026-03-19T23:11:06.286Z","nodeEnv":"production"},"voice":{"requestedVoiceMode":"browser","effectiveVoiceMode":"browser","sttAvailable":false,"ttsAvailable":false}}

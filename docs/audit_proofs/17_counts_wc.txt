@@ -1,6 +1,0 @@
-   232 docs/audit_proofs/10_test_files.txt
-  1435 docs/audit_proofs/11_test_occurrences.txt
-   705 docs/audit_proofs/12_skills.txt
-   196 docs/audit_proofs/13_mcp_refs.txt
-    20 docs/audit_proofs/19b_mcp_tools_list.txt
-  2588 total

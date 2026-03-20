@@ -1,111 +1,125 @@
-# Nexus EAF Platform [![CI/CD](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml)
+# Nexus Réussite — Préparation EAF Bac Français 2026
 
-Dernière mise à jour: 8 mars 2026
+[![CI/CD](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml)
 
-Plateforme Next.js de préparation EAF (atelier écrit, atelier oral, tuteur IA, parcours, espace enseignant) avec orchestration LLM, RAG hybride, sécurité applicative et pipeline CI/CD multi-gates. Production-ready avec audit exhaustif phases 1-8 complété.
+Plateforme de préparation aux Épreuves Anticipées de Français (EAF) avec ateliers IA, correction de copies, simulation d'oral officiel et tuteur pédagogique avec corpus sourcé.
 
-## État actuel vérifié
+**Production** : [eaf.nexusreussite.academy](https://eaf.nexusreussite.academy)
 
-- Stack: Next.js 16.1.6, React 19, TypeScript, Prisma, PostgreSQL/pgvector, Redis.
-- API: 47 routes `src/app/api/v1/**/route.ts`.
-- Tests présents:
-  - 169 fichiers totaux dans `tests/` (dont 1 fixture)
-  - 168 fichiers classés par suites de tests.
-- Exécution locale `npm run test:unit -- --coverage` (5 mars 2026):
-  - `135` fichiers de tests exécutés
-  - `938` tests passés
-  - couverture globale: `47.48%` lignes
-  - gate coverage CI (commande `npx vitest run tests/unit --coverage`): `45.66%` lignes
-  - gate coverage actif en mode progressif (lignes >= 45), cible long terme `85/90/80/85`.
+## Stack technique
 
-## Correctifs critiques déjà appliqués
+| Composant | Technologie |
+|-----------|------------|
+| Framework | Next.js 16.2, React 19, TypeScript strict |
+| Base de données | PostgreSQL 16 + pgvector (Prisma 6) |
+| Cache | Redis |
+| LLM | Mistral (primaire) + Gemini/OpenAI (fallback) |
+| RAG | Ingestor Docker + pgvector local |
+| MCP Server | 20 outils pédagogiques |
+| Email | Nodemailer SMTP (Hostinger port 587) + React Email |
+| Déploiement | VPS, PM2, Nginx, scripts/deploy.sh |
+| CI/CD | GitHub Actions (6 gates) |
+| CSS | Tailwind CSS 4 |
 
-### Phase 1 (P0) - Mars 2026
-- **Unification des quotas billing** (source unique `plan-catalog.ts`): `src/lib/billing/plan-catalog.ts`, `gating.ts`, `quotas.ts`, `usage.ts`.
-- **Middleware Next.js** de protection des routes avec CSP nonce: `middleware.ts`.
-- **Forgot/reset password** complet avec email transactionnel: `/api/v1/auth/forgot-password`, `/api/v1/auth/reset-password`.
-- **Fichier .env.example** documenté avec toutes les variables requises.
-- **Rôle unique élève** à l'inscription publique (admin via script séparé).
-- **Index composite Chunk** pour performance RAG: `@@index([oeuvre, parcours])`, `@@index([sourceType, authorityLevel])`.
+## Plans
 
-### Phases antérieures
-- Fin des scores hardcodés en atelier oral: `src/app/atelier-oral/page.tsx` utilise la finalisation réelle `/api/v1/oral/session/:id/end`.
-- Quotas LLM par skill et utilisateur: `src/lib/security/llm-rate-limiter.ts` (rpm + daily, fail-closed).
-- Validation upload par magic bytes + sanitation nom de fichier: `src/lib/security/file-validator.ts`.
-- CSP renforcée:
-  - baseline headers: `next.config.ts`
-  - nonce runtime + CSP appliquée dans `middleware.ts`.
-- Timeout RAG externe: valeur par défaut 8s (`RAG_TIMEOUT_MS=8000`) dans `src/lib/rag/external-client.ts`.
-- Worker correction avec retry exponentiel et statut erreur final: `src/lib/epreuves/worker.ts`.
-- Sorties LLM validées par schémas + fallback: `src/lib/llm/orchestrator.ts`.
+| Plan | Prix | Oral | Corrections | Tuteur |
+|------|------|------|-------------|--------|
+| **Freemium** | 0 TND | 1/mois | 2/mois | 3/jour |
+| **Premium** | 99 TND/mois | 10/semaine | 20/mois | 100/jour |
+| **Masterium** | 129 TND/mois | Illimité | Illimité | Illimité |
 
-## Fonctionnalités "niveau exhaustif" implémentées
+**Paiement au lancement** : virement bancaire ou espèces → l'admin génère un code d'activation → l'élève le saisit sur la plateforme.
 
-### SaaS & Commercial (Phase 2)
-- **Email de bienvenue** automatique à l'inscription: `src/app/api/v1/auth/register/route.ts`.
-- **Paywall Banner** intégré dans tous les ateliers: `src/components/billing/PaywallBanner.tsx`.
-- **Hook useQuotaCheck** pour vérification quota temps réel: `src/hooks/useQuotaCheck.ts`.
-- **Route billing status** pour affichage abonnement: `/api/v1/billing/status`.
-- **Route check-quota** pour validation avant action: `/api/v1/billing/check-quota`.
+## Fonctionnalités
 
-### Sécurité & Production (Phase 3, 5)
-- **Session cleanup cron** avec authentification Bearer: `/api/v1/cron/session-cleanup`.
-- **Health check enrichi** (DB + app status): `/api/v1/health`.
-- **Dockerfile multi-stage** pour déploiement conteneurisé.
-- **Rate limiting** sur routes critiques (tuteur, oral, quiz, billing).
+- **Atelier Écrit** : génération de sujets EAF, dépôt de copie (PDF/photo), correction IA rubrique par rubrique
+- **Atelier Oral** : simulation officielle 4 phases (lecture /2, explication /8, grammaire /2, entretien /8)
+- **Atelier Langue** : exercices de grammaire adaptatifs
+- **Quiz** : quiz thématiques avec scoring et explications
+- **Tuteur IA** : guidage pédagogique avec citations RAG (BO, Eduscol, rapports de jury)
+- **Bibliothèque** : 548 ressources (annales, œuvres, vidéos, documents, rapports jury)
+- **Carnet** : notes personnelles par œuvre
+- **Descriptif** : gestion du descriptif de lecture pour l'oral
 
-### UI/UX Commercial (Phase 7)
-- **Page 404** personnalisée: `src/app/not-found.tsx`.
-- **Loading skeletons** cohérents: `src/app/loading.tsx`.
-- **Mentions légales & CGU** complètes: `src/app/mentions-legales/page.tsx`.
-- **Métadonnées SEO** optimisées dans `src/app/layout.tsx`.
+## Rôles utilisateur
 
-### Fonctionnalités avancées
-- Annotation interactive de copie:
-  - mapping annotation->zones: `src/lib/correction/annotation-mapper.ts`
-  - endpoint fichier copie: `src/app/api/v1/epreuves/copies/[copieId]/file/route.ts`
-  - UI overlay interactive: `src/app/atelier-ecrit/correction/[copieId]/page.tsx`
-- Simulation examinateur dialoguant avancée:
-  - API jury avec profil examinateur + mémoire de conversation: `src/app/api/v1/oral/jury-respond/route.ts`
-  - UI profil + relance contextualisée: `src/app/atelier-oral/page.tsx`
+| Rôle | Description |
+|------|------------|
+| **Élève** | Profil principal, obligatoire. Accès à tous les ateliers. |
+| **Parent** | Facultatif. Suivi de progression de ses enfants. |
+| **Enseignant** | Facultatif. Suivi de classe via code enseignant. |
+| **Admin** | Gestion des utilisateurs, codes d'activation, paiements manuels. |
 
 ## Démarrage rapide
 
 ```bash
-npm install
-cp .env.example .env
+# Installation
+npm ci
 npx prisma generate
-# Activer pgvector (une fois par base)
-psql "$DATABASE_URL" -c "CREATE EXTENSION IF NOT EXISTS vector;"
-# Développement local
-npx prisma migrate dev
-# Production: npx prisma migrate deploy
-npm run db:seed
+
+# Configuration
+cp .env.example .env
+# Remplir les variables dans .env
+
+# Base de données
+npx prisma migrate deploy
+npx tsx scripts/seed.ts
+
+# Développement
 npm run dev
 ```
 
-## Commandes principales
+## Commandes
+
+| Commande | Description |
+|----------|------------|
+| `npm run dev` | Serveur de développement |
+| `npm run build` | Build production |
+| `npm run test:unit` | Tests unitaires (162 fichiers, 1128 tests) |
+| `npm run lint` | ESLint |
+| `npx knip` | Détection code mort |
+| `npm run ci:fr-copy` | Contrôle du français |
+| `npm run mcp:build` | Build du serveur MCP |
+| `npm run email:dev` | Preview des templates email |
+
+## Déploiement production
 
 ```bash
-npm run lint
-npm run typecheck
-npm run test:unit
-npm run test:e2e
-npm run test:contracts
-npm run test:mutation
+bash scripts/deploy.sh root@88.99.254.59
 ```
 
-## Documentation canonique
+Le script synchronise le code, installe les dépendances, exécute les migrations Prisma, build Next.js et redémarre PM2.
 
-Utiliser en priorité:
+Vérification post-deploy :
+```bash
+curl -s https://eaf.nexusreussite.academy/api/v1/health
+```
 
-- `docs/DOCUMENTATION_AUDIT_COMPLETE_INDEX.md`
-- `docs/AUDIT_REPORT_COMPLETE.md`
-- `docs/ARCHITECTURE_SYSTEM_DETAILED.md`
-- `docs/SECURITY_COMPLIANCE_COMPLETE.md`
-- `docs/TESTS_QUALITY_COMPLETE.md`
-- `docs/APIS_INTEGRATIONS_COMPLETE.md`
-- `docs/TECHNICAL_SPECIFICATIONS_COMPLETE.md`
-- `docs/DEPLOYMENT_INFRASTRUCTURE_COMPLETE.md`
+## Documentation
 
-Les anciens rapports ponctuels sont conservés en archive et ne font plus foi pour audit.
+| Document | Contenu |
+|----------|---------|
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Architecture technique |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Guide de déploiement |
+| [docs/PLANS_AND_BILLING.md](docs/PLANS_AND_BILLING.md) | Plans, quotas et facturation |
+| [docs/EMAIL_SETUP.md](docs/EMAIL_SETUP.md) | Configuration email SMTP |
+| [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | Guide de contribution |
+| [docs/GUIDE_ELEVE.md](docs/GUIDE_ELEVE.md) | Guide utilisateur élève |
+| [docs/GUIDE_ENSEIGNANT.md](docs/GUIDE_ENSEIGNANT.md) | Guide enseignant |
+| [docs/RUNBOOK_PROD.md](docs/RUNBOOK_PROD.md) | Runbook opérationnel |
+
+## Sécurité
+
+- Authentification par session (cookies HttpOnly, Secure, SameSite=lax)
+- CSRF double-submit token
+- CSP avec nonce dynamique
+- HSTS preload
+- Rate limiting (Redis)
+- RBAC par rôle (élève, parent, enseignant, admin)
+- Protection des mineurs (RGPD, pas de publicité ciblée)
+- Branch protection GitHub (enforce_admins activé)
+
+## Licence
+
+Propriétaire — © 2026 Nexus Réussite. Tous droits réservés.

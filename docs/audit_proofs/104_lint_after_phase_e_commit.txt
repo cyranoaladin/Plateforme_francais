@@ -1,1 +1,0 @@
-lint: OK (exit 0)

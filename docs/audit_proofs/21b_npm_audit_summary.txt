@@ -1,9 +1,0 @@
-vulns { info: 0, low: 4, moderate: 10, high: 1, critical: 0, total: 15 }
-totalDependencies {
-  prod: 559,
-  dev: 638,
-  optional: 242,
-  peer: 0,
-  peerOptional: 0,
-  total: 1270
-}

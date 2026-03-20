@@ -1,6 +1,0 @@
-tests/e2e/onboarding.spec.ts:23:  if (!registered) { test.skip(); return; }
-tests/e2e/onboarding.spec.ts:28:  if (page.url().includes('/login')) { test.skip(); return; }
-tests/e2e/onboarding.spec.ts:39:  if (!step2Loaded) { test.skip(); return; }
-tests/e2e/flows.spec.ts:54:  if (!result) { test.skip(); return; }
-tests/e2e/flows.spec.ts:59:  if (page.url().includes('/login')) { test.skip(); return; }
-tests/e2e/flows.spec.ts:75:  if (!step2Loaded) { test.skip(); return; }
