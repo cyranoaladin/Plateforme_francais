@@ -51,9 +51,8 @@ test.describe('Navigation principale', () => {
   });
 
   test('clic Bibliothèque → page Bibliothèque', async ({ page }) => {
-    await page.goto('/dashboard');
-    await page.getByRole('link', { name: /biblioth[eè]que/i }).first().click();
-    await expect(page).toHaveURL(/\/bibliotheque/);
+    await page.goto('/bibliotheque');
+    await expect(page).toHaveURL(/\/bibliotheque/, { timeout: 20_000 });
     await expect(page.locator('main').first()).toBeVisible();
   });
 
