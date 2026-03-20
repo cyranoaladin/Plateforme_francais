@@ -48,8 +48,8 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
   }
 
   return (
-    <div className="h-64 w-full min-w-0">
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="h-64 w-full min-w-0" style={{ minHeight: 160, minWidth: 200 }}>
+      <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={160}>
         <LineChart data={data} margin={{ top: 8, right: 12, left: -12, bottom: 0 }}>
           <defs>
             <linearGradient id="progression-commentaire" x1="0" x2="1" y1="0" y2="0">
