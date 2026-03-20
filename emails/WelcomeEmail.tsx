@@ -93,11 +93,11 @@ export default function WelcomeEmail({
           <Section style={{ backgroundColor: '#ffffff', padding: '0 40px 32px' }}>
             <Section style={{ backgroundColor: '#F0FDF4', borderLeft: '4px solid #27AE60', borderRadius: '0 8px 8px 0', padding: '16px 20px' }}>
               <Text style={{ color: '#166534', fontSize: '14px', lineHeight: '1.7', margin: 0 }}>
-                ✓ Tu es sur le plan Découverte — gratuit, sans carte bancaire requise. Tu accèdes à 1 session orale, 2 corrections et 3 échanges guidés par mois pour tester la méthode à ton rythme.
+                ✓ Tu es sur le plan Freemium — gratuit, sans carte bancaire requise. Tu accèdes à 1 session orale, 2 corrections et 3 échanges guidés par mois pour tester la méthode à ton rythme.
               </Text>
             </Section>
             <Text style={{ textAlign: 'center' as const, margin: '12px 0 0' }}>
-              <Link href={`${dashboardUrl}/plans`} style={{ color: '#2E86C1', fontSize: '14px' }}>Voir tous les plans et passer à Régulier ou Intensif →</Link>
+              <Link href={dashboardUrl.replace('/dashboard', '/pricing')} style={{ color: '#2E86C1', fontSize: '14px' }}>Voir tous les plans et passer à Premium ou Masterium →</Link>
             </Text>
           </Section>
 
@@ -120,7 +120,7 @@ export default function WelcomeEmail({
             </Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '0 0 8px' }}>Si ce n'est pas toi, ignore cet email.</Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '0 0 8px' }}>
-              <Link href={`${dashboardUrl}/settings`} style={{ color: '#9CA3AF' }}>Se désabonner</Link> | <Link href="https://eaf.nexusreussite.academy/politique-de-confidentialite" style={{ color: '#9CA3AF' }}>Politique de confidentialité</Link> | <Link href="mailto:contact@nexusreussite.academy" style={{ color: '#9CA3AF' }}>contact@nexusreussite.academy</Link>
+              <Link href={`${dashboardUrl.replace('/dashboard', '/profil')}`} style={{ color: '#9CA3AF' }}>Se désabonner</Link> | <Link href="https://eaf.nexusreussite.academy/politique-de-confidentialite" style={{ color: '#9CA3AF' }}>Politique de confidentialité</Link> | <Link href="mailto:contact@nexusreussite.academy" style={{ color: '#9CA3AF' }}>contact@nexusreussite.academy</Link>
             </Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '0' }}>© 2026 Nexus Réussite. Tous droits réservés.</Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '4px 0 0' }}>Nexus Réussite — Préparation EAF Session 2026</Text>

@@ -19,7 +19,7 @@ interface SubscriptionEmailProps {
 export default function SubscriptionEmail({
   firstName = 'là',
   email = '',
-  planName = 'Régulier',
+  planName = 'Premium',
   planPrice = '9,90 €/mois',
   startDate = '20 mars 2026',
   nextBillingDate = '20 avril 2026',
@@ -247,7 +247,7 @@ export default function SubscriptionEmail({
               Référence de transaction : <span style={{ fontFamily: 'monospace' }}>{transactionId}</span>
             </Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '0 0 8px' }}>
-              <Link href={`${dashboardUrl}/settings`} style={{ color: '#9CA3AF' }}>Gérer mon abonnement</Link> | <Link href="https://eaf.nexusreussite.academy/politique-de-confidentialite" style={{ color: '#9CA3AF' }}>Politique de confidentialité</Link> | <Link href="mailto:contact@nexusreussite.academy" style={{ color: '#9CA3AF' }}>contact@nexusreussite.academy</Link>
+              <Link href={`${dashboardUrl.replace('/dashboard', '/profil')}`} style={{ color: '#9CA3AF' }}>Gérer mon abonnement</Link> | <Link href="https://eaf.nexusreussite.academy/politique-de-confidentialite" style={{ color: '#9CA3AF' }}>Politique de confidentialité</Link> | <Link href="mailto:contact@nexusreussite.academy" style={{ color: '#9CA3AF' }}>contact@nexusreussite.academy</Link>
             </Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '0' }}>© 2026 Nexus Réussite. Tous droits réservés.</Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '4px 0 0' }}>Nexus Réussite — Préparation EAF Session 2026</Text>

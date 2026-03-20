@@ -13,7 +13,7 @@ export async function sendWelcomeEmail(user: {
 }) {
   return sendEmail({
     to: user.email,
-    subject: `Bienvenue sur Nexus Réussite, ${user.firstName} 🎓`,
+    subject: `Bienvenue sur Nexus Réussite, ${user.firstName}`,
     react: React.createElement(WelcomeEmail, {
       firstName: user.firstName,
       email: user.email,
@@ -106,7 +106,7 @@ export async function sendSubscriptionConfirmationEmail(data: {
 
   return sendEmail({
     to: data.user.email,
-    subject: `✓ Ton plan ${config.name} est actif — Nexus Réussite`,
+    subject: `Ton plan ${config.name} est actif — Nexus Réussite`,
     react: React.createElement(SubscriptionEmail, {
       firstName: data.user.firstName,
       email: data.user.email,
