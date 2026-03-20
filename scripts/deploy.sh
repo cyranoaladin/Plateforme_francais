@@ -61,7 +61,7 @@ ssh "$SSH_TARGET" "[ -L $APP_DIR/ressources ] && rm -f $APP_DIR/ressources || tr
 
 # --- 2. Install dependencies on server ---
 echo "[2/8] Installation des dépendances..."
-ssh "$SSH_TARGET" "cd $APP_DIR && npm ci --production=false"
+ssh "$SSH_TARGET" "cd $APP_DIR && npm ci --production=false --no-audit --no-fund"
 
 # --- 3. Install MCP server dependencies ---
 echo "[3/8] Installation des dépendances MCP..."

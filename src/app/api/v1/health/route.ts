@@ -24,11 +24,20 @@ function getEffectiveVoiceMode(): string {
 function readLocalReleaseValue(fileName: string): string | null {
   try {
     const appRoot = process.env.APP_ROOT?.trim();
-    const baseDir = appRoot ? path.resolve(appRoot) : process.cwd();
-    const filePath = path.join(baseDir, fileName);
-    if (!fs.existsSync(filePath)) return null;
-    const raw = fs.readFileSync(filePath, 'utf8').trim();
-    return raw || null;
+    const candidates = [
+      // Preferred: deployment root (VPS)
+      ...(appRoot ? [path.join(path.resolve(appRoot), fileName)] : []),
+      // Standalone runtime cwd (PM2 process cwd)
+      path.join(process.cwd(), fileName),
+    ];
+
+    for (const filePath of candidates) {
+      if (!fs.existsSync(filePath)) continue;
+      const raw = fs.readFileSync(filePath, 'utf8').trim();
+      if (raw) return raw;
+    }
+
+    return null;
   } catch {
     return null;
   }
@@ -60,9 +69,9 @@ export async function GET() {
       checks,
       timestamp: new Date().toISOString(),
       release: {
-        gitSha: process.env.BUILD_GIT_SHA ?? readLocalReleaseValue('.git_sha') ?? 'unknown',
-        buildTime: process.env.BUILD_TIME ?? readLocalReleaseValue('.build_time') ?? 'unknown',
-        nodeEnv: process.env.NODE_ENV ?? 'unknown',
+        gitSha: readLocalReleaseValue('.git_sha') ?? 'unknown',
+        buildTime: readLocalReleaseValue('.build_time') ?? 'unknown',
+        nodeEnv: process.env['NODE_ENV'] ?? 'unknown',
       },
       voice: {
         requestedVoiceMode: getRequestedVoiceMode(),
