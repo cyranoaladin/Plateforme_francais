@@ -6,6 +6,8 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { redeemActivationCode, RedeemError } from '@/lib/billing/redeem';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { parseJsonBody } from '@/lib/validation/request';
+import { redeemCodeBodySchema } from '@/lib/validation/schemas';
 
 /**
  * POST /api/v1/billing/redeem-code
@@ -47,24 +49,10 @@ export async function POST(request: Request) {
       );
     }
 
-    let body: { code?: string };
-    try {
-      body = (await request.json()) as { code?: string };
-    } catch {
-      return NextResponse.json(
-        { error: 'Corps de requête invalide.', code: 'INVALID_BODY' },
-        { status: 400 },
-      );
-    }
+    const parsed = await parseJsonBody(request, redeemCodeBodySchema);
+    if (!parsed.success) return parsed.response;
 
-    if (!body.code || typeof body.code !== 'string' || body.code.trim().length === 0) {
-      return NextResponse.json(
-        { error: 'Le champ "code" est requis.', code: 'MISSING_CODE' },
-        { status: 400 },
-      );
-    }
-
-    const result = await redeemActivationCode(auth.user.id, body.code);
+    const result = await redeemActivationCode(auth.user.id, parsed.data.code);
 
     logger.info(
       { userId: auth.user.id, plan: result.plan, endsAt: result.endsAt },

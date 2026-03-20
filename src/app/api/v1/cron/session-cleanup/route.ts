@@ -11,8 +11,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Configuration serveur manquante.' }, { status: 500 });
   }
 
-  const authHeader = request.headers.get('authorization') ?? '';
-  const secret = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
+  const secret = request.headers.get('x-cron-secret')
+    ?? (request.headers.get('authorization')?.startsWith('Bearer ') ? request.headers.get('authorization')!.slice(7) : '');
 
   if (
     secret.length !== expected.length ||

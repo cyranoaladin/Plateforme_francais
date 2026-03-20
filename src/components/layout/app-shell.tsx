@@ -21,7 +21,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const isStandalonePage =
     PUBLIC_STANDALONE_PATHS.has(pathname) ||
     pathname === '/onboarding' ||
-    pathname.startsWith('/paiement/');
+    pathname.startsWith('/paiement/') ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/enseignant') ||
+    pathname.startsWith('/parent');
   const shouldTrackLearningActivity = !isStandalonePage;
 
   if (isStandalonePage) {

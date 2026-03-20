@@ -194,6 +194,10 @@ export const descriptifUpsertSchema = z.object({
 
 export type DescriptifTexteItem = z.infer<typeof descriptifTexteItemSchema>;
 
+export const redeemCodeBodySchema = z.object({
+  code: z.string().trim().min(1, 'Le champ "code" est requis.').max(64),
+});
+
 export const carnetEntrySchema = z.object({
   oeuvre: z.string().trim().min(1).max(200),
   auteur: z.string().trim().min(1).max(100),

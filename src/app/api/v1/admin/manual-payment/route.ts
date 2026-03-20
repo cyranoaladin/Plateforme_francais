@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { validateCsrf } from '@/lib/security/csrf';
+import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
 import type { SubscriptionPlan } from '@prisma/client';
@@ -24,6 +25,11 @@ export async function POST(request: Request) {
   const csrfError = await validateCsrf(request);
   if (csrfError) {
     return csrfError;
+  }
+
+  const rl = await checkRateLimit({ request, key: `admin:manual-payment:${auth.user.id}`, limit: 10, windowMs: 60_000 });
+  if (!rl.allowed) {
+    return NextResponse.json({ error: 'Trop de requêtes.' }, { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } });
   }
 
   const parsed = await parseJsonBody(request, manualPaymentSchema);

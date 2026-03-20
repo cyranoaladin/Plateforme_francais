@@ -51,8 +51,41 @@ export interface RessourcesData {
 import rawRessources from './ressources-scan.json';
 export const RESSOURCES_DATA = rawRessources as RessourcesData;
 
-/** Toutes les ressources triées par catégorie */
-export const RESSOURCES: EafResource[] = RESSOURCES_DATA.resources;
+/**
+ * IDs de ressources Documents_Extraits à reléguer en fin de liste.
+ * Ces documents administratifs ne doivent pas occuper les slots FREE
+ * à la place de contenus pédagogiques utiles aux élèves.
+ */
+const DEMOTED_DOCUMENT_IDS = new Set([
+  'Documents_Extraits_Certificat_QualiopiCned_20242027',
+  'Documents_Extraits_certification-qualiopi-digischool',
+  'Documents_Extraits_CNED_CGV_CGU_2026_V01',
+  'Documents_Extraits_Consignes_Mannequin_Challenge',
+  'Documents_Extraits_Document_Extrait_-',
+]);
+
+function editorialSort(resources: EafResource[]): EafResource[] {
+  const byCategory: Record<string, EafResource[]> = {};
+  for (const r of resources) {
+    (byCategory[r.category] ??= []).push(r);
+  }
+  for (const cat of Object.keys(byCategory)) {
+    byCategory[cat].sort((a, b) => {
+      const aD = DEMOTED_DOCUMENT_IDS.has(a.id) ? 1 : 0;
+      const bD = DEMOTED_DOCUMENT_IDS.has(b.id) ? 1 : 0;
+      if (aD !== bD) return aD - bD;
+      return a.title.localeCompare(b.title, 'fr');
+    });
+  }
+  const ordered: EafResource[] = [];
+  for (const cat of ['Annales_EAF', 'Oeuvres', 'Videos', 'Documents_Extraits', 'eaf_rapport_jury']) {
+    if (byCategory[cat]) ordered.push(...byCategory[cat]);
+  }
+  return ordered;
+}
+
+/** Toutes les ressources triées par catégorie avec pondération éditoriale */
+export const RESSOURCES: EafResource[] = editorialSort(RESSOURCES_DATA.resources);
 
 /** Ressources filtrées par catégorie */
 export function getRessourcesByCategory(category: ResourceCategory): EafResource[] {

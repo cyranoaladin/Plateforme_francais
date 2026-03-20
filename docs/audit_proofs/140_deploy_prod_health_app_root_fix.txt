@@ -1,0 +1,250 @@
+=========================================
+  Nexus Réussite EAF — Deployment
+  Target: root@88.99.254.59
+  Domain: eaf.nexusreussite.academy
+  Branch: main
+=========================================
+[0/8] Vérifications locales...
+  ✅ Connexion SSH OK
+[1/8] Synchronisation du code vers le serveur...
+sending incremental file list
+deleting .git_sha
+deleting .build_time
+./
+.gitignore
+AUDIT_FINAL_RESULTS.md
+ecosystem.config.cjs
+knip.json
+middleware.ts
+package-lock.json
+package.json
+.github/workflows/
+.github/workflows/ci-cd.yml
+deleting .windsurf_audit_logs/e2e_tests.txt
+deleting .windsurf_audit_logs/40_prod_home_headers.txt
+deleting .windsurf_audit_logs/40_prod_home.html
+deleting .windsurf_audit_logs/31_prod_login_headers.txt
+deleting .windsurf_audit_logs/30_prod_home_headers.txt
+deleting .windsurf_audit_logs/22_vitest_full.txt
+deleting .windsurf_audit_logs/22_vitest.txt
+deleting .windsurf_audit_logs/21_build.txt
+deleting .windsurf_audit_logs/20_tsc.txt
+deleting .windsurf_audit_logs/11_test_files.txt
+deleting .windsurf_audit_logs/03_git_diff_stat.txt
+deleting .windsurf_audit_logs/02_git_log.txt
+deleting .windsurf_audit_logs/01_git_status.txt
+.windsurf_audit_logs/
+UI_UX/
+UI_UX/01_WINDSURF_PROMPT.md
+UI_UX/03_CAHIER_DES_CHARGES.md
+config/
+config/fr-copy-banned-phrases.json
+config/fr-copy-baseline.json
+docs/
+docs/05_ARBORESCENCE_COMPLETE.md
+docs/CLAUDE_GAP_MATRIX.md
+docs/GUIDE_DEPLOIEMENT_PREPROD.md
+docs/RAPPORT_FINAL_HONNETE_QUALITE.md
+docs/audit_inputs/
+docs/audit_inputs/AUDIT_BRIEF.md
+docs/audit_inputs/CAHIER_CHARGES_V3.md
+docs/audit_inputs/CAHIER_CHARGES_V4.md
+docs/audit_inputs/CAHIER_CHARGES_WINDSURF_AUDIT_2E_PASSE.md
+docs/audit_inputs/CLAUDE_AUDIT_PROMPTS.md
+docs/audit_inputs/KNOWN_RISKS.md
+docs/audit_inputs/REMEDIATION_BACKLOG.md
+docs/audit_inputs/VERIFICATION_CHECKLIST.md
+docs/audit_proofs/
+docs/audit_proofs/100_typecheck_after_mcp_toolcount_fix.txt
+docs/audit_proofs/101_mcp_transport_http_toolcount_fix.ts.txt
+docs/audit_proofs/102_mcp_server_tool_definitions_export.ts.txt
+docs/audit_proofs/103_phase_e_prod_synthesis.md
+docs/audit_proofs/104_lint_after_phase_e_commit.txt
+docs/audit_proofs/105_typecheck_after_phase_e_commit.txt
+docs/audit_proofs/106_unit_after_phase_e_commit.txt
+docs/audit_proofs/107_test_ops_full_run.txt
+docs/audit_proofs/108_test_e2e_after_mocks.txt
+docs/audit_proofs/109_test_ops_after_e2e_mocks.txt
+docs/audit_proofs/10_test_files.txt
+docs/audit_proofs/10b_test_spec_count.txt
+docs/audit_proofs/110_test_contracts_auth_debug_final_v3.txt
+docs/audit_proofs/110_test_contracts_teacher_rbac_debug_final_v5.txt
+docs/audit_proofs/111_test_visual_after_auth_setup_fix.txt
+docs/audit_proofs/111_test_visual_update_snapshots.txt
+docs/audit_proofs/11_test_occurrences.txt
+docs/audit_proofs/120_prod_health_postdeploy.json
+docs/audit_proofs/121_prod_admin_headers_postdeploy.txt
+docs/audit_proofs/122_prod_admin_api_unauth_postdeploy.txt
+docs/audit_proofs/123_prod_server_artifacts_postdeploy.txt
+docs/audit_proofs/124_deploy_prod_release_env_fix.txt
+docs/audit_proofs/125_prod_health_gitsha_fixed.json
+docs/audit_proofs/126_prod_server_release_env_and_health.txt
+docs/audit_proofs/127_deploy_prod_update_env_fix.txt
+docs/audit_proofs/12_skills.txt
+docs/audit_proofs/130_deploy_prod_gitsha_files.txt
+docs/audit_proofs/133_deploy_prod_full_after_npmci_fix.txt
+docs/audit_proofs/13_mcp_refs.txt
+docs/audit_proofs/140_deploy_prod_health_app_root_fix.txt
+docs/audit_proofs/14_package_scripts.txt
+docs/audit_proofs/15b_pages_count.txt
+docs/audit_proofs/15c_routes_count.txt
+docs/audit_proofs/17_counts_wc.txt
+docs/audit_proofs/18_test_occurrences_summary.json
+docs/audit_proofs/18c_skips_in_tests.txt
+docs/audit_proofs/18d_skips_in_tests_wc.txt
+docs/audit_proofs/19b_mcp_tools_list.txt
+docs/audit_proofs/19c_mcp_tools_list_wc.txt
+docs/audit_proofs/19d_mcp_tools_list_head.txt
+docs/audit_proofs/20_npm_ci.txt
+docs/audit_proofs/21_npm_audit.json
+docs/audit_proofs/21b_npm_audit_summary.txt
+docs/audit_proofs/22_npm_audit_fix.txt
+docs/audit_proofs/23_npm_audit_fix_force.txt
+docs/audit_proofs/23b_npm_audit_after.json
+docs/audit_proofs/23c_npm_audit_after_summary.txt
+docs/audit_proofs/24_knip.txt
+docs/audit_proofs/24_prisma_generate.txt
+docs/audit_proofs/25_tsc.txt
+docs/audit_proofs/26_lint.txt
+docs/audit_proofs/27_build.txt
+docs/audit_proofs/28_vitest_all.txt
+docs/audit_proofs/29_mcp_test.txt
+docs/audit_proofs/30_versions_after_audit_fix.json
+docs/audit_proofs/31_vitest_unit.txt
+docs/audit_proofs/32_contracts.txt
+docs/audit_proofs/32_contracts_public.txt
+docs/audit_proofs/33_build_ci_after_contract_fixes.txt
+docs/audit_proofs/34_contracts_public_rerun.txt
+docs/audit_proofs/35_contracts_public_rerun2.txt
+docs/audit_proofs/36_contracts_public_rerun3.txt
+docs/audit_proofs/37_contracts_public_rerun4.txt
+docs/audit_proofs/38_contracts_public_positive.txt
+docs/audit_proofs/39_contracts_public_rerun5.txt
+docs/audit_proofs/40_contracts_public_fuzzing_positive.txt
+docs/audit_proofs/41_contracts_public_fuzzing_positive2.txt
+docs/audit_proofs/42_contracts_public_fuzzing_positive3.txt
+docs/audit_proofs/43_contracts_public_fuzzing_positive4.txt
+docs/audit_proofs/44_contracts_public_fuzzing_positive5.txt
+docs/audit_proofs/45_vitest_unit_after_nullbyte.txt
+docs/audit_proofs/46_build_ci_after_nullbyte.txt
+docs/audit_proofs/47_contracts_public_after_nullbyte_fix.txt
+docs/audit_proofs/48_contracts_public_no_x00.txt
+docs/audit_proofs/49_contracts_auth.txt
+docs/audit_proofs/50_contracts_teacher_rbac.txt
+docs/audit_proofs/51_contracts_teacher_comment_rbac.txt
+docs/audit_proofs/52_contracts_teacher_export_rbac.txt
+docs/audit_proofs/53_playwright_e2e.txt
+docs/audit_proofs/54_playwright_visual.txt
+docs/audit_proofs/55_playwright_install.txt
+docs/audit_proofs/56_playwright_visual_after_install.txt
+docs/audit_proofs/57_playwright_visual_update.txt
+docs/audit_proofs/58_playwright_visual_rerun.txt
+docs/audit_proofs/60_ci_workflows_ls.txt
+docs/audit_proofs/61_ci_cd_workflow_tail.txt
+docs/audit_proofs/62_ci_jobs_list.txt
+docs/audit_proofs/63_ci_run_steps_grep.txt
+docs/audit_proofs/64_ci_cd_workflow_full.yml
+docs/audit_proofs/70_prod_health.json
+docs/audit_proofs/71_prod_health_headers.txt
+docs/audit_proofs/72_prod_home_headers.txt
+docs/audit_proofs/73_prod_login_headers.txt
+docs/audit_proofs/74_local_head_short.txt
+docs/audit_proofs/75_prod_sha_lookup.txt
+docs/audit_proofs/76_prod_rag_health.json
+docs/audit_proofs/77_prod_mcp_health.json
+docs/audit_proofs/78_prod_ressources_headers.txt
+docs/audit_proofs/79_prod_dashboard_headers.txt
+docs/audit_proofs/80_prod_rag_health_headers.txt
+docs/audit_proofs/81_rag_api_health.txt
+docs/audit_proofs/82_rag_api_health_headers.txt
+docs/audit_proofs/83_mcp_tools_names_unique.txt
+docs/audit_proofs/84_mcp_tools_names_unique_count.txt
+docs/audit_proofs/85_api_mcp_health_route.ts.txt
+docs/audit_proofs/86_mcp_server_transport_http_health.ts.txt
+docs/audit_proofs/87_api_mcp_health_route_fixed.ts.txt
+docs/audit_proofs/88_typecheck_after_mcp_health_fix.txt
+docs/audit_proofs/89_prod_rag_incident_summary.md
+docs/audit_proofs/90_ssh_rag_diagnostic_bundle.txt
+docs/audit_proofs/91_ssh_rag_nginx_vhost_and_upstream.txt
+docs/audit_proofs/92_ssh_rag_upstream_18001_and_docker_health.txt
+docs/audit_proofs/93_ssh_rag_compose_ingestor_debug.txt
+docs/audit_proofs/94_ssh_rag_ingestor_runtime_probe.txt
+docs/audit_proofs/95_ssh_rag_ingestor_deep_debug.txt
+docs/audit_proofs/96_ssh_rag_ingestor_health_route_and_socket_probe.txt
+docs/audit_proofs/97_ssh_rag_ingestor_health_hang_investigation.txt
+docs/audit_proofs/98_ssh_rag_ingestor_api_py_middleware_and_listen_probe.txt
+docs/audit_proofs/98_ssh_rag_ingestor_socket_and_api_probe_fixed.txt
+packages/mcp-server/
+packages/mcp-server/package.json
+packages/mcp-server/src/
+packages/mcp-server/src/server.ts
+packages/mcp-server/src/transport-http.ts
+scripts/
+scripts/check-fr-copy.ts
+scripts/deploy.sh
+scripts/pw_webserver_local.ts
+scripts/run-all-tests.sh
+scripts/seed.ts
+src/app/api/mcp/health/
+src/app/api/mcp/health/route.ts
+src/app/api/v1/health/
+src/app/api/v1/health/route.ts
+src/app/api/v1/oral/jury-respond/
+src/app/api/v1/oral/jury-respond/route.ts
+src/app/mentions-legales/
+src/app/mentions-legales/page.tsx
+src/lib/
+src/lib/e2e/
+src/lib/e2e/playwright-db.ts
+src/lib/oral/
+src/lib/oral/examiner-context.ts
+src/lib/oral/rag-context.ts
+src/lib/oral/remote-audio.ts
+src/lib/validation/
+src/lib/validation/request.ts
+tests/contracts/
+tests/contracts/bootstrap-roles.mjs
+tests/contracts/openapi.auth.yaml
+tests/contracts/openapi.public.yaml
+tests/contracts/openapi.teacher.allowed.yaml
+tests/contracts/openapi.teacher.forbidden.yaml
+tests/contracts/run-schemathesis-auth.sh
+tests/contracts/run-schemathesis-teacher-rbac.sh
+tests/contracts/run-schemathesis.sh
+tests/e2e/
+tests/e2e/admin.spec.ts
+tests/e2e/atelier-oral.spec.ts
+tests/e2e/platform.spec.ts
+tests/unit/validation/
+tests/unit/validation/request.test.ts
+tests/visual/
+tests/visual/auth.setup.ts
+tests/visual/connected-visual.spec.ts-snapshots/
+tests/visual/connected-visual.spec.ts-snapshots/connected-atelier-ecrit-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-atelier-ecrit-dark-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-carnet-dark-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-dashboard-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-dashboard-dark-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-mon-parcours-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-mon-parcours-dark-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-profil-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-profil-dark-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-quiz-connected-visual-linux.png
+tests/visual/connected-visual.spec.ts-snapshots/connected-quiz-dark-connected-visual-linux.png
+tests/visual/mobile-visual.spec.ts-snapshots/
+tests/visual/mobile-visual.spec.ts-snapshots/mobile-connected-atelier-ecrit-mobile-visual-linux.png
+tests/visual/mobile-visual.spec.ts-snapshots/mobile-connected-dashboard-mobile-visual-linux.png
+tests/visual/mobile-visual.spec.ts-snapshots/mobile-connected-mon-parcours-mobile-visual-linux.png
+tests/visual/mobile-visual.spec.ts-snapshots/mobile-contact-mobile-visual-linux.png
+tests/visual/mobile-visual.spec.ts-snapshots/mobile-landing-mobile-visual-linux.png
+tests/visual/mobile-visual.spec.ts-snapshots/mobile-login-mobile-visual-linux.png
+tests/visual/visual-regression.spec.ts-snapshots/
+tests/visual/visual-regression.spec.ts-snapshots/landing-dark-public-visual-linux.png
+tests/visual/visual-regression.spec.ts-snapshots/landing-public-visual-linux.png
+tests/visual/visual-regression.spec.ts-snapshots/pricing-public-visual-linux.png
+
+sent 91,271 bytes  received 113,098 bytes  58,391.14 bytes/sec
+total size is 41,551,575  speedup is 203.32
+  ✅ Code synchronisé
+[1b/8] Préparation du volume ressources durable (symlink après build)...
+[2/8] Installation des dépendances...

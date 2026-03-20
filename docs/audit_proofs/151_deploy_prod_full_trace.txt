@@ -1,0 +1,24 @@
+=========================================
+  Nexus Réussite EAF — Deployment
+  Target: root@88.99.254.59
+  Domain: eaf.nexusreussite.academy
+  Branch: main
+=========================================
+[0/8] Vérifications locales...
+  ✅ Connexion SSH OK
+[1/8] Synchronisation du code vers le serveur...
+sending incremental file list
+./
+package-lock.json
+package.json
+docs/audit_proofs/
+docs/audit_proofs/149_deploy_prod_pm2_reads_marker_files.txt
+docs/audit_proofs/151_deploy_prod_full_trace.txt
+packages/mcp-server/
+packages/mcp-server/package.json
+
+sent 120,659 bytes  received 5,365 bytes  50,409.60 bytes/sec
+total size is 41,568,442  speedup is 329.85
+  ✅ Code synchronisé
+[1b/8] Préparation du volume ressources durable (symlink après build)...
+[2/8] Installation des dépendances...

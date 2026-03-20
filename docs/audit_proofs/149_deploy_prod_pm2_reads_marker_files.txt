@@ -1,0 +1,23 @@
+=========================================
+  Nexus Réussite EAF — Deployment
+  Target: root@88.99.254.59
+  Domain: eaf.nexusreussite.academy
+  Branch: main
+=========================================
+[0/8] Vérifications locales...
+  ✅ Connexion SSH OK
+[1/8] Synchronisation du code vers le serveur...
+sending incremental file list
+deleting .git_sha
+deleting .build_time
+./
+ecosystem.config.cjs
+docs/audit_proofs/
+docs/audit_proofs/143_deploy_prod_health_app_root_fix_retry.txt
+docs/audit_proofs/149_deploy_prod_pm2_reads_marker_files.txt
+
+sent 83,564 bytes  received 599 bytes  33,665.20 bytes/sec
+total size is 41,563,861  speedup is 493.85
+  ✅ Code synchronisé
+[1b/8] Préparation du volume ressources durable (symlink après build)...
+[2/8] Installation des dépendances...
