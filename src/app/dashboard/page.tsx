@@ -453,17 +453,18 @@ export default function Dashboard() {
         </div>
       )}
       {(planId === 'FREE' || planId === 'PREMIUM') && (
-        <section className="rounded-[24px] border border-[var(--accent-bronze)]/20 bg-[linear-gradient(135deg,#fff8ef_0%,#f5eadb_100%)] px-6 py-5">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <section className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-6 py-5 shadow-[0_4px_20px_rgba(124,58,237,0.3)]">
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_0%,transparent_60%)]" />
+          <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-3">
-              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--accent-bronze)]" />
+              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-white/80" />
               <div>
-                <p className="text-sm font-semibold text-[var(--navy)]">
+                <p className="text-sm font-bold text-white">
                   {planId === 'FREE'
                     ? 'Tu utilises le plan Freemium — certains ateliers et ressources sont limités.'
                     : 'Tu utilises le plan Premium — passe au Masterium pour un accès total.'}
                 </p>
-                <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+                <p className="mt-1 text-sm leading-6 text-white/70">
                   {planId === 'FREE'
                     ? 'Passe au Premium pour débloquer l\u2019oral illimité, la bibliothèque complète et l\u2019analyse de copies.'
                     : 'Le Masterium inclut l\u2019historique complet, le support prioritaire et le parcours adaptatif avancé.'}
@@ -472,7 +473,7 @@ export default function Dashboard() {
             </div>
             <Link
               href="/pricing"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[var(--navy-dark)]"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-[#7c3aed] shadow-lg transition hover:bg-white/90 hover:shadow-xl"
             >
               {planId === 'FREE' ? 'Passer au Premium' : 'Passer au Masterium'}
               <ArrowRight className="h-4 w-4" />

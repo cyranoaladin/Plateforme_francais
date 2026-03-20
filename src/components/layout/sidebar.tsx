@@ -316,16 +316,17 @@ export function Sidebar() {
           <div className="mx-4 mb-3">
             <Link
               href="/pricing"
-              className="group flex items-center gap-3 rounded-[20px] border border-[var(--accent-bronze)]/20 bg-[linear-gradient(135deg,#fff8ef_0%,#f5eadb_100%)] px-4 py-3.5 transition-all hover:border-[var(--accent-bronze)]/40 hover:shadow-[var(--shadow-md)]"
+              className="group relative flex items-center gap-3 overflow-hidden rounded-[20px] bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-4 py-3.5 shadow-[0_4px_20px_rgba(124,58,237,0.35)] transition-all hover:shadow-[0_6px_28px_rgba(124,58,237,0.5)] hover:-translate-y-0.5"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--accent-bronze)]/12 text-[var(--accent-bronze)]">
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.12)_0%,transparent_50%)]" />
+              <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-white/20 text-white">
                 <Sparkles className="h-[18px] w-[18px]" />
               </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-[var(--navy)]">
+              <div className="relative min-w-0 flex-1">
+                <p className="text-sm font-bold text-white">
                   {planId === 'FREE' ? 'Passer au Premium' : 'Passer au Masterium'}
                 </p>
-                <p className="text-xs text-[var(--navy-muted)]">
+                <p className="text-xs text-white/75">
                   {planId === 'FREE'
                     ? 'Oral illimité, bibliothèque complète'
                     : 'Accès total, historique, support prioritaire'}
