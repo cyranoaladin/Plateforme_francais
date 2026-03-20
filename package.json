@@ -30,7 +30,7 @@
     "db:seed:media": "tsx scripts/ingest-media-catalog.ts",
     "scheduler": "tsx src/lib/cron/scheduler.ts",
     "mcp:dev": "cd packages/mcp-server && tsx watch src/index.ts",
-    "email:dev": "npx email dev --dir emails --port 3001",
+    "email:dev": "npx react-email dev --dir emails --port 3001",
     "mcp:build": "cd packages/mcp-server && tsc",
     "mcp:start": "cd packages/mcp-server && node dist/index.js",
     "mcp:inspect": "cd packages/mcp-server && npx @modelcontextprotocol/inspector tsx src/index.ts",
@@ -105,7 +105,6 @@
     "react-markdown": "^10.1.0",
     "recharts": "^3.7.0",
     "rehype-highlight": "^7.0.2",
-    "resend": "^6.9.4",
     "tailwind-merge": "^3.5.0",
     "web-push": "^3.6.7",
     "zod": "^3.23.8"

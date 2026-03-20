@@ -33,7 +33,8 @@
         "audit-ci",
         "wait-on",
         "snyk",
-        "artillery"
+        "artillery",
+        "react-email"
       ],
       "ignore": [
         "src/lib/agents/avocat-diable.ts",
