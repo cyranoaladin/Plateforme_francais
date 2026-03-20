@@ -87,14 +87,14 @@ export default function AdminDashboard() {
   const [codes, setCodes] = useState<ActivationCode[]>([]);
 
   // Formulaire génération code
-  const [newCodePlan, setNewCodePlan] = useState<'PREMIUM' | 'PRO' | 'MAX'>('PREMIUM');
+  const [newCodePlan, setNewCodePlan] = useState<'PREMIUM' | 'PRO'>('PREMIUM');
   const [newCodeDuration, setNewCodeDuration] = useState('30');
   const [generatingCode, setGeneratingCode] = useState(false);
   const [lastGeneratedCode, setLastGeneratedCode] = useState<string | null>(null);
 
   // Formulaire paiement manuel
   const [selectedUserId, setSelectedUserId] = useState('');
-  const [paymentPlan, setPaymentPlan] = useState<'PREMIUM' | 'PRO' | 'MAX'>('PREMIUM');
+  const [paymentPlan, setPaymentPlan] = useState<'PREMIUM' | 'PRO'>('PREMIUM');
   const [paymentAmount, setPaymentAmount] = useState('99000');
   const [paymentMethod, setPaymentMethod] = useState<'VIREMENT' | 'ESPECES' | 'AUTRE'>('VIREMENT');
   const [paymentReference, setPaymentReference] = useState('');
@@ -161,7 +161,7 @@ export default function AdminDashboard() {
         },
         body: JSON.stringify({
           plan: newCodePlan,
-          durationDays: newCodePlan === 'MAX' ? undefined : parseInt(newCodeDuration),
+          durationDays: parseInt(newCodeDuration),
         }),
       });
 
@@ -228,8 +228,8 @@ export default function AdminDashboard() {
   const planColors: Record<string, string> = {
     FREE: 'bg-gray-100 text-gray-800',
     PREMIUM: 'bg-blue-100 text-blue-800',
-    PRO: 'bg-purple-100 text-purple-800',
-    MAX: 'bg-gold-100 text-gold-800',
+    PRO: 'bg-purple-100 text-purple-800', // Masterium
+    MAX: 'bg-purple-100 text-purple-800', // Masterium Lifetime (legacy)
   };
 
   const statusColors: Record<string, string> = {
@@ -470,12 +470,11 @@ export default function AdminDashboard() {
                       <label className="block text-sm font-medium mb-2">Plan</label>
                       <select
                         value={newCodePlan}
-                        onChange={(e) => setNewCodePlan(e.target.value as 'PREMIUM' | 'PRO' | 'MAX')}
+                        onChange={(e) => setNewCodePlan(e.target.value as 'PREMIUM' | 'PRO')}
                         className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
                         <option value="PREMIUM">Premium (99 TND/mois)</option>
                         <option value="PRO">Masterium (129 TND/mois)</option>
-                        <option value="MAX">Masterium Lifetime (149 TND)</option>
                       </select>
                     </div>
                     <div>
@@ -484,7 +483,7 @@ export default function AdminDashboard() {
                         type="number"
                         value={newCodeDuration}
                         onChange={(e) => setNewCodeDuration(e.target.value)}
-                        disabled={newCodePlan === 'MAX'}
+                        disabled={false}
                         placeholder="30"
                       />
                     </div>
@@ -595,15 +594,14 @@ export default function AdminDashboard() {
                       <select
                         value={paymentPlan}
                         onChange={(e) => {
-                          const plan = e.target.value as 'PREMIUM' | 'PRO' | 'MAX';
+                          const plan = e.target.value as 'PREMIUM' | 'PRO';
                           setPaymentPlan(plan);
-                          setPaymentAmount(plan === 'PREMIUM' ? '99000' : plan === 'PRO' ? '129000' : '149000');
+                          setPaymentAmount(plan === 'PREMIUM' ? '99000' : '129000');
                         }}
                         className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
                         <option value="PREMIUM">Premium (99 TND/mois)</option>
                         <option value="PRO">Masterium (129 TND/mois)</option>
-                        <option value="MAX">Masterium Lifetime (149 TND)</option>
                       </select>
                     </div>
 

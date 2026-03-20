@@ -540,7 +540,9 @@ export default function PricingPage() {
                         return;
                       }
                       track({ name: 'pricing_plan_select', props: { plan: plan.id } });
-                      startCheckout(plan.checkoutPlan, plan.id);
+                      // Go live: virement/espèces → WhatsApp
+                      const msg = encodeURIComponent(`Bonjour, je souhaite activer le plan ${plan.title} (${plan.priceTND} ${plan.period}). Merci de m'envoyer les instructions de paiement.`);
+                      window.open(`https://wa.me/21699192829?text=${msg}`, '_blank');
                     }}
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
                       plan.highlighted
@@ -607,7 +609,7 @@ export default function PricingPage() {
                   type="text"
                   value={codeInput}
                   onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
-                  placeholder="NEXUS-XXXX-XXXX-XXXX"
+                  placeholder="EAF-XXXX-XXXX-XXXX"
                   className="flex-1 rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm font-mono tracking-wider text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
                   maxLength={25}
                   disabled={codeLoading}

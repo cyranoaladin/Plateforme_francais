@@ -1014,9 +1014,9 @@ export default function HomePage() {
               <Link href="/login?mode=register" onClick={() => track({ name: 'cta_click', props: { cta: 'final_register', path: '/' } })} className="btn-gold">
                 Créer mon espace gratuit <ArrowRight className="h-4 w-4" />
               </Link>
-              <button type="button" onClick={() => { track({ name: 'cta_click', props: { cta: 'final_premium', path: '/' } }); void startCheckout('PREMIUM', 'PREMIUM'); }} className="btn-outline-white">
-                <Send className="h-4 w-4" /> Passer directement à Premium
-              </button>
+              <a href="https://wa.me/21699192829?text=Bonjour%2C%20je%20souhaite%20activer%20le%20plan%20Premium.%20Merci%20de%20m%27envoyer%20les%20instructions%20de%20paiement." target="_blank" rel="noopener noreferrer" onClick={() => track({ name: 'cta_click', props: { cta: 'final_premium_whatsapp', path: '/' } })} className="btn-outline-white">
+                <Send className="h-4 w-4" /> Passer à Premium
+              </a>
               <a href="#plans" className="inline-flex items-center justify-center rounded-full px-4 py-3 text-sm font-semibold text-white/60 transition-colors hover:text-white">
                 Revoir les plans
               </a>
