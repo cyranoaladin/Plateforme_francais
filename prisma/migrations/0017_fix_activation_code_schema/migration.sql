@@ -42,6 +42,9 @@ ALTER TABLE "ActivationCode" ALTER COLUMN "plan" TYPE TEXT USING "plan"::TEXT;
 UPDATE "ActivationCode" SET "durationDays" = 30 WHERE "durationDays" IS NULL;
 ALTER TABLE "ActivationCode" ALTER COLUMN "durationDays" SET NOT NULL;
 
--- Make legacy 'code' column nullable to avoid NOT NULL constraint on new rows
+-- Make legacy 'code' column nullable and drop unique constraint to avoid
+-- NOT NULL / UNIQUE violations when creating new rows via Prisma (which uses codeHash)
 ALTER TABLE "ActivationCode" ALTER COLUMN "code" DROP NOT NULL;
 ALTER TABLE "ActivationCode" ALTER COLUMN "code" SET DEFAULT '';
+ALTER TABLE "ActivationCode" DROP CONSTRAINT IF EXISTS "ActivationCode_code_key";
+DROP INDEX IF EXISTS "ActivationCode_code_idx";
