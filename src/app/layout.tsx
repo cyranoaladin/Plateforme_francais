@@ -27,8 +27,26 @@ const merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: "Nexus Réussite — Préparation EAF",
-  description: "Plateforme complète de préparation à l\u2019EAF avec parcours personnalisé, corpus officiel et suivi de progression en Première voie générale",
+  title: "Nexus Réussite — Préparation EAF Bac Français 2026",
+  description: "Prépare ton Bac de Français avec Nexus : correction de copies, simulation d'oral officiel, tuteur IA avec sources citées. Inscris-toi gratuitement.",
+  keywords: ['bac français', 'EAF', 'préparation bac', 'oral français', 'correction copie', 'Première générale', 'bac 2026'],
+  openGraph: {
+    title: "Nexus Réussite — Préparation EAF 2026",
+    description: "Correction de copies, simulation d'oral, tuteur IA avec corpus officiel. Commence gratuitement.",
+    url: 'https://eaf.nexusreussite.academy',
+    siteName: 'Nexus Réussite',
+    locale: 'fr_FR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Nexus Réussite — Préparation EAF 2026",
+    description: "Correction de copies IA, simulation d'oral officiel.",
+  },
+  robots: { index: true, follow: true },
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 // Force dynamic rendering - required for ThemeProvider with Context
