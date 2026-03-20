@@ -43,6 +43,20 @@ const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
 };
 
+/** Strip leaked prompt artifacts, RAG citations, and internal instructions from LLM output. */
+function sanitizeLlmText(text: string): string {
+  return text
+    // Remove [Ressource: ...] or [Source: ...] citations
+    .replace(/\[Ressource\s*:[^\]]*\]/gi, '')
+    .replace(/\[Source\s*:[^\]]*\]/gi, '')
+    // Remove unicode escape sequences that weren't parsed
+    .replace(/\\u([0-9a-fA-F]{4})/g, (_m, hex) => String.fromCharCode(parseInt(hex, 16)))
+    // Collapse multiple spaces/newlines left by removals
+    .replace(/  +/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 const PROCESSING_STEPS = ['Lecture attentive de ta copie...', 'Analyse des points de méthode et de contenu...', 'Rédaction de ton bilan personnalisé...'];
 
 const STUDIO_STEPS = [
@@ -367,9 +381,9 @@ export default function AtelierEcritPage() {
             ) : (
               <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_280px]">
                 <div className="rounded-[24px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 shadow-[var(--shadow-sm)]">
-                  <p className="text-sm font-semibold text-[var(--navy)]">{epreuve.sujet}</p>
-                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--navy-mid)]">{epreuve.texte}</p>
-                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--text-secondary)]">{epreuve.consignes}</p>
+                  <p className="text-sm font-semibold text-[var(--navy)]">{sanitizeLlmText(epreuve.sujet)}</p>
+                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--navy-mid)]">{sanitizeLlmText(epreuve.texte)}</p>
+                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--text-secondary)]">{sanitizeLlmText(epreuve.consignes)}</p>
                 </div>
                 <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
                   <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--teal)]">Barème</p>
@@ -577,7 +591,7 @@ export default function AtelierEcritPage() {
           {epreuve && (
             <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--card)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Sujet actif</p>
-              <p className="mt-3 text-sm font-semibold leading-7 text-[var(--navy)]">{epreuve.sujet}</p>
+              <p className="mt-3 text-sm font-semibold leading-7 text-[var(--navy)]">{sanitizeLlmText(epreuve.sujet)}</p>
               <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                 {epreuve.generatedAt ? `Généré le ${new Date(epreuve.generatedAt).toLocaleDateString('fr-FR')}` : 'Sujet prêt à être travaillé.'}
               </p>

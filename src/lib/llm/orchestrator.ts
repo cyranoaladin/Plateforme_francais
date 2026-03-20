@@ -23,6 +23,7 @@ const SKILLS_WITHOUT_MEDIA: ReadonlySet<Skill> = new Set([
   'ecrit_baremage',
   'support_produit',
   'correcteur',
+  'coach_ecrit',
 ]);
 
 export type OrchestrateInput = {

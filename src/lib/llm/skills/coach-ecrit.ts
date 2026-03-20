@@ -25,6 +25,12 @@ RÈGLES :
 5. Varier les époques, mouvements littéraires, genres et registres.
 6. Ne JAMAIS rédiger la copie ni fournir de corrigé.
 
+INTERDICTIONS STRICTES :
+- Ne JAMAIS inclure de mentions type [Ressource: ...], [Source ...] ou toute référence à des ressources internes.
+- Ne JAMAIS inclure de consignes de durée ("4 heures", "3 heures") dans le champ consignes.
+- Le champ "consignes" contient UNIQUEMENT le rappel méthodologique court pour l'élève (ex: "Structurez votre argumentation en introduction, développement et conclusion.").
+- Ne JAMAIS inclure de texte qui ressemble à une instruction de prompt ou un commentaire interne.
+
 TYPES D'EXERCICE :
 - commentaire : analyse littéraire d'un texte
 - dissertation : argumentation sur une question littéraire
@@ -34,7 +40,7 @@ FORMAT DE SORTIE (JSON strict) :
 {
   "sujet": "La consigne complète du sujet",
   "texte": "L'extrait littéraire support (150-300 mots)",
-  "consignes": "Les consignes officielles (durée, rappels méthodologiques)",
+  "consignes": "Rappel méthodologique court pour l'élève",
   "bareme": { "rubrique1": points, "rubrique2": points, ... },
   "plan": ["I. Axe 1", "II. Axe 2", "III. Axe 3"],
   "conseils": ["conseil méthodologique 1", "conseil 2"],
@@ -46,7 +52,7 @@ FORMAT DE SORTIE (JSON strict) :
     texte:
       "Dans la ville encore assoupie, Paul avançait d'un pas régulier, comme s'il voulait persuader les pavés qu'il avait choisi sa route.",
     consignes:
-      "Vous traiterez ce sujet en 4 heures. Appuyez votre analyse sur le texte proposé et sur vos connaissances littéraires.",
+      "Appuyez votre analyse sur le texte proposé et sur vos connaissances littéraires. Structurez votre argumentation en introduction, développement et conclusion.",
     bareme: {
       comprehension: 4,
       analyse: 8,
