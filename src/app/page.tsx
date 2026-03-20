@@ -862,7 +862,7 @@ export default function HomePage() {
               <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">Si un code d'activation t'a été envoyé, active ton plan ici sans repasser par le checkout.</p>
               {isAuthenticated ? (
                 <form onSubmit={redeemCode} className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <input type="text" value={codeInput} onChange={(e) => setCodeInput(e.target.value.toUpperCase())} placeholder="NEXUS-PRO-XXXX-XXXX" className="flex-1 rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm font-mono tracking-wider text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20" maxLength={25} disabled={codeLoading} />
+                  <input type="text" value={codeInput} onChange={(e) => setCodeInput(e.target.value.toUpperCase())} placeholder="EAF-XXXX-XXXX-XXXX" className="flex-1 rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm font-mono tracking-wider text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20" maxLength={25} disabled={codeLoading} />
                   <button type="submit" disabled={codeLoading || !codeInput.trim()} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-colors hover:bg-[var(--navy-dark)] disabled:cursor-not-allowed disabled:opacity-50">
                     {codeLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}{codeLoading ? 'Activation...' : 'Activer'}
                   </button>

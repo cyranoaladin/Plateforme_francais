@@ -473,9 +473,9 @@ export default function AdminDashboard() {
                         onChange={(e) => setNewCodePlan(e.target.value as 'PREMIUM' | 'PRO' | 'MAX')}
                         className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
-                        <option value="PREMIUM">PREMIUM (99 TND/mois)</option>
-                        <option value="PRO">PRO (129 TND/mois)</option>
-                        <option value="MAX">MAX (Lifetime)</option>
+                        <option value="PREMIUM">Premium (99 TND/mois)</option>
+                        <option value="PRO">Masterium (129 TND/mois)</option>
+                        <option value="MAX">Masterium Lifetime (149 TND)</option>
                       </select>
                     </div>
                     <div>
@@ -601,9 +601,9 @@ export default function AdminDashboard() {
                         }}
                         className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
-                        <option value="PREMIUM">PREMIUM (99 TND/mois)</option>
-                        <option value="PRO">PRO (129 TND/mois)</option>
-                        <option value="MAX">MAX (149 TND lifetime)</option>
+                        <option value="PREMIUM">Premium (99 TND/mois)</option>
+                        <option value="PRO">Masterium (129 TND/mois)</option>
+                        <option value="MAX">Masterium Lifetime (149 TND)</option>
                       </select>
                     </div>
 

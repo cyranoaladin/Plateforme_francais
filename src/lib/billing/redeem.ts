@@ -165,7 +165,7 @@ export async function redeemActivationCode(
     return {
       plan: finalPlan,
       endsAt,
-      message: `Plan ${finalPlan} activé pour ${daysLabel}. Valable jusqu'au ${endsAt.toLocaleDateString('fr-FR')}.`,
+      message: `Plan ${PLAN_CATALOG[finalPlan as PlanId]?.label ?? finalPlan} activé pour ${daysLabel}. Valable jusqu'au ${endsAt.toLocaleDateString('fr-FR')}.`,
     };
   });
 }
