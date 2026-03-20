@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-20T15:49:58.141Z",
+  "generatedAt": "2026-03-20T19:44:13.905Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -209,21 +209,21 @@
       "line": 476,
       "column": 49,
       "kind": "jsx-text",
-      "text": "PREMIUM (99 TND/mois)"
+      "text": "Premium (99 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
       "line": 477,
       "column": 45,
       "kind": "jsx-text",
-      "text": "PRO (129 TND/mois)"
+      "text": "Masterium (129 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
       "line": 478,
       "column": 45,
       "kind": "jsx-text",
-      "text": "MAX (Lifetime)"
+      "text": "Masterium Lifetime (149 TND)"
     },
     {
       "file": "src/app/admin/page.tsx",
@@ -342,21 +342,21 @@
       "line": 604,
       "column": 49,
       "kind": "jsx-text",
-      "text": "PREMIUM (99 TND/mois)"
+      "text": "Premium (99 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
       "line": 605,
       "column": 45,
       "kind": "jsx-text",
-      "text": "PRO (129 TND/mois)"
+      "text": "Masterium (129 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
       "line": 606,
       "column": 45,
       "kind": "jsx-text",
-      "text": "MAX (149 TND lifetime)"
+      "text": "Masterium Lifetime (149 TND)"
     },
     {
       "file": "src/app/admin/page.tsx",
@@ -4448,7 +4448,7 @@
     },
     {
       "file": "src/app/layout.tsx",
-      "line": 58,
+      "line": 76,
       "column": 61,
       "kind": "jsx-text",
       "text": "Aller au contenu principal"
@@ -5498,21 +5498,21 @@
     },
     {
       "file": "src/app/page.tsx",
-      "line": 1010,
+      "line": 1015,
       "column": 17,
       "kind": "jsx-text",
       "text": "Créer mon espace gratuit"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 1013,
+      "line": 1018,
       "column": 46,
       "kind": "jsx-text",
       "text": "Passer directement à Premium"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 1016,
+      "line": 1021,
       "column": 17,
       "kind": "jsx-text",
       "text": "Revoir les plans"
@@ -5820,196 +5820,196 @@
     },
     {
       "file": "src/app/page.tsx",
-      "line": 818,
+      "line": 823,
       "column": 85,
       "kind": "jsx-text",
       "text": "Redirection..."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 833,
+      "line": 838,
       "column": 74,
       "kind": "jsx-text",
       "text": "Fonctionnalité"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 834,
+      "line": 839,
       "column": 86,
       "kind": "jsx-text",
       "text": "Freemium"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 835,
+      "line": 840,
       "column": 86,
       "kind": "jsx-text",
       "text": "Premium"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 836,
+      "line": 841,
       "column": 86,
       "kind": "jsx-text",
       "text": "Masterium"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 858,
+      "line": 863,
       "column": 109,
       "kind": "jsx-text",
       "text": "Activation"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 859,
+      "line": 864,
       "column": 127,
       "kind": "jsx-text",
       "text": "Activer avec un code"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 862,
+      "line": 867,
       "column": 82,
       "kind": "jsx-text",
       "text": "Si un code d'activation t'a été envoyé, active ton plan ici sans repasser par le checkout."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 865,
+      "line": 870,
       "column": 129,
       "kind": "jsx-prop",
-      "text": "NEXUS-PRO-XXXX-XXXX"
+      "text": "EAF-XXXX-XXXX-XXXX"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 872,
+      "line": 877,
       "column": 122,
       "kind": "jsx-text",
       "text": "pour rattacher le code à ton compte."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 872,
+      "line": 877,
       "column": 94,
       "kind": "jsx-text",
       "text": "Connecte-toi d'abord"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 883,
+      "line": 888,
       "column": 110,
       "kind": "jsx-text",
       "text": "Paiement alternatif"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 884,
+      "line": 889,
       "column": 119,
       "kind": "jsx-text",
       "text": "Flouci & virement bancaire"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 887,
+      "line": 892,
       "column": 68,
       "kind": "jsx-text",
       "text": "Le virement bancaire est disponible avec activation manuelle du plan. Flouci sera disponible prochainement. Contacte-nous pour recevoir les coordonnées bancaires."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 889,
+      "line": 894,
       "column": 180,
       "kind": "jsx-text",
       "text": "Flouci — bientôt disponible"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 890,
+      "line": 895,
       "column": 246,
       "kind": "jsx-text",
       "text": "Envoyer la référence virement"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 900,
+      "line": 905,
       "column": 17,
       "kind": "jsx-prop",
       "text": "Passe à la vitesse supérieure avec Premium ou Masterium."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 919,
+      "line": 924,
       "column": 26,
       "kind": "jsx-text",
       "text": "Questions fréquentes"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 921,
+      "line": 926,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tout ce que tu veux savoir avant de commencer."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 923,
+      "line": 928,
       "column": 91,
       "kind": "jsx-text",
       "text": "Méthode, sources, sécurité, accessibilité, paiement — les réponses honnêtes sont ici."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 926,
+      "line": 931,
       "column": 115,
       "kind": "jsx-text",
       "text": "Besoin d'aller plus loin ?"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 927,
+      "line": 932,
       "column": 68,
       "kind": "jsx-text",
       "text": "Compare les plans, choisis l'offre adaptée à ton rythme de travail et commence à progresser."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 930,
+      "line": 935,
       "column": 19,
       "kind": "jsx-text",
       "text": "Voir les offres"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 932,
+      "line": 937,
       "column": 129,
       "kind": "jsx-text",
       "text": "Revoir les plans et tarifs"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 957,
+      "line": 962,
       "column": 25,
       "kind": "jsx-text",
       "text": "Passage à l&#39;action"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 960,
+      "line": 965,
       "column": 19,
       "kind": "jsx-text",
       "text": "Commence gratuitement, progresse à ton rythme, et décide ensuite."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 963,
+      "line": 968,
       "column": 19,
       "kind": "jsx-text",
       "text": "Inscription gratuite, mise en route en 3 minutes, premiers ateliers accessibles immédiatement. Tu paies seulement quand tu en as vraiment besoin."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 969,
+      "line": 974,
       "column": 101,
       "kind": "jsx-text",
       "text": "Dès l&#39;entrée"
