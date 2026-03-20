@@ -23,6 +23,7 @@ import {
   Settings,
   Quote,
   Type,
+  Sparkles,
 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
@@ -106,6 +107,8 @@ export function Sidebar() {
   const [globalScore, setGlobalScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [badgeCount, setBadgeCount] = useState(0);
+  const [planId, setPlanId] = useState<string>('FREE');
+  const [planLabel, setPlanLabel] = useState<string>('Freemium');
   const [mobileThemeOpen, setMobileThemeOpen] = useState(false);
   const mobileThemeRef = useRef<HTMLDivElement>(null);
 
@@ -130,15 +133,24 @@ export function Sidebar() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [meResponse, timelineResponse] = await Promise.all([
+        const [meResponse, timelineResponse, billingResponse] = await Promise.all([
           fetch('/api/v1/auth/me'),
           fetch('/api/v1/memory/timeline?limit=200'),
+          fetch('/api/v1/billing/status'),
         ]);
 
         if (meResponse.ok) {
           const meData = (await meResponse.json()) as AuthMe;
           setMe(meData);
           setBadgeCount(meData.profile.badges?.length ?? 0);
+        }
+
+        if (billingResponse.ok) {
+          const billingData = await billingResponse.json() as { subscription?: { plan?: string; label?: string } };
+          if (billingData?.subscription?.plan) {
+            setPlanId(billingData.subscription.plan);
+            setPlanLabel(billingData.subscription.label ?? billingData.subscription.plan);
+          }
         }
 
         if (timelineResponse.ok) {
@@ -299,6 +311,30 @@ export function Sidebar() {
           ))}
         </nav>
 
+        {/* ─── Upgrade CTA (FREE & PREMIUM only) ─── */}
+        {(planId === 'FREE' || planId === 'PREMIUM') && (
+          <div className="mx-4 mb-3">
+            <Link
+              href="/pricing"
+              className="group flex items-center gap-3 rounded-[20px] border border-[var(--accent-bronze)]/20 bg-[linear-gradient(135deg,#fff8ef_0%,#f5eadb_100%)] px-4 py-3.5 transition-all hover:border-[var(--accent-bronze)]/40 hover:shadow-[var(--shadow-md)]"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--accent-bronze)]/12 text-[var(--accent-bronze)]">
+                <Sparkles className="h-[18px] w-[18px]" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-[var(--navy)]">
+                  {planId === 'FREE' ? 'Passer au Premium' : 'Passer au Masterium'}
+                </p>
+                <p className="text-xs text-[var(--navy-muted)]">
+                  {planId === 'FREE'
+                    ? 'Oral illimité, bibliothèque complète'
+                    : 'Accès total, historique, support prioritaire'}
+                </p>
+              </div>
+            </Link>
+          </div>
+        )}
+
         <div className="border-t border-[var(--border-light)] p-4 space-y-3">
           {/* ─── Theme Selector (3-state pill) ─── */}
           <div className="flex items-center justify-center rounded-full border border-[var(--border-light)] bg-[var(--surface-cream)] p-1 shadow-[var(--shadow-xs)]">
@@ -351,7 +387,15 @@ export function Sidebar() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-[var(--navy)] truncate">{me?.profile.displayName ?? 'Élève'}</p>
-              <p className="text-xs text-[var(--navy-muted)]">Espace connecté EAF</p>
+              <p className="text-xs text-[var(--navy-muted)]">
+                <span className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] ${
+                  planId === 'FREE' ? 'bg-[var(--navy)]/8 text-[var(--navy-muted)]'
+                  : planId === 'PREMIUM' ? 'bg-[var(--teal)]/12 text-[var(--teal)]'
+                  : 'bg-[var(--accent-bronze)]/12 text-[var(--accent-bronze)]'
+                }`}>
+                  {planLabel}
+                </span>
+              </p>
             </div>
           </div>
         </div>

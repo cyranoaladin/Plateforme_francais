@@ -317,11 +317,18 @@ export default function Dashboard() {
     phaseAction: string;
     coefficient: number;
   } | null>(null);
+  const [planId, setPlanId] = useState<string>('FREE');
 
   useEffect(() => {
     fetch('/api/v1/exam-info')
       .then(r => r.ok ? r.json() : null)
-      .then(data => data && setExamInfo(data))
+      .then(d => d && setExamInfo(d))
+      .catch(() => null);
+    fetch('/api/v1/billing/status')
+      .then(r => r.ok ? r.json() : null)
+      .then((d: { subscription?: { plan?: string } } | null) => {
+        if (d?.subscription?.plan) setPlanId(d.subscription.plan);
+      })
       .catch(() => null);
   }, []);
 
@@ -445,6 +452,35 @@ export default function Dashboard() {
           <p className="mt-3 text-xs leading-relaxed text-white/60 sm:text-sm">{examInfo.phaseAction}</p>
         </div>
       )}
+      {(planId === 'FREE' || planId === 'PREMIUM') && (
+        <section className="rounded-[24px] border border-[var(--accent-bronze)]/20 bg-[linear-gradient(135deg,#fff8ef_0%,#f5eadb_100%)] px-6 py-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-3">
+              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--accent-bronze)]" />
+              <div>
+                <p className="text-sm font-semibold text-[var(--navy)]">
+                  {planId === 'FREE'
+                    ? 'Tu utilises le plan Freemium — certains ateliers et ressources sont limités.'
+                    : 'Tu utilises le plan Premium — passe au Masterium pour un accès total.'}
+                </p>
+                <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+                  {planId === 'FREE'
+                    ? 'Passe au Premium pour débloquer l\u2019oral illimité, la bibliothèque complète et l\u2019analyse de copies.'
+                    : 'Le Masterium inclut l\u2019historique complet, le support prioritaire et le parcours adaptatif avancé.'}
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/pricing"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[var(--navy-dark)]"
+            >
+              {planId === 'FREE' ? 'Passer au Premium' : 'Passer au Masterium'}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </section>
+      )}
+
       <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-4 text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] sm:rounded-[38px] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[44%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_68%)] blur-2xl lg:block" />
         <div className="absolute left-[-8%] top-[-16%] h-48 w-48 rounded-full bg-[rgba(216,163,99,0.18)] blur-3xl" />
