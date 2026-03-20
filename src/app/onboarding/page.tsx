@@ -159,7 +159,7 @@ export default function OnboardingPage() {
   const [customOeuvre, setCustomOeuvre] = useState('');
   const [oeuvreSearch, setOeuvreSearch] = useState('');
   const [classCode, setClassCode] = useState('');
-  const [oeuvreEntretien, setOeuvreEntretien] = useState('');
+  const [oeuvresEntretien, setOeuvresEntretien] = useState<string[]>([]);
   const [welcomeMessage, setWelcomeMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -271,7 +271,7 @@ export default function OnboardingPage() {
           selectedOeuvres: allSelectedOeuvres,
           weakSignals,
           classCode: classCode || undefined,
-          oeuvreChoisieEntretien: oeuvreEntretien || undefined,
+          oeuvreChoisieEntretien: oeuvresEntretien[0] || undefined,
         },
       });
 
@@ -560,31 +560,39 @@ export default function OnboardingPage() {
 
                   {allSelectedOeuvres.length > 0 && (
                     <div className="rounded-[24px] border border-[var(--teal)]/20 bg-[var(--teal)]/5 p-5">
-                      <p className="text-sm font-semibold text-[var(--navy)]">Ton œuvre d{'’'}entretien oral</p>
-                      <p className="mt-1 text-xs text-[var(--text-muted)]">Œuvre intégrale pour la 2e partie de l{'’'}oral (8 points sur 20).</p>
+                      <p className="text-sm font-semibold text-[var(--navy)]">{"Tes œuvres pour l\u2019entretien oral"}</p>
+                      <p className="mt-1 text-xs text-[var(--text-muted)]">{"Coche les œuvres que tu souhaites travailler pour la 2e partie de l\u2019oral (8 pts/20). La première cochée sera ton œuvre principale."}</p>
                       <div className="mt-3 space-y-2">
                         {allSelectedOeuvres.map((title) => {
                           const found = OEUVRES.find((o) => o.title === title);
                           const authorName = found?.author ?? '';
+                          const isChecked = oeuvresEntretien.includes(title);
+                          const isPrimary = oeuvresEntretien[0] === title;
                           return (
                             <label
                               key={'entretien-' + title}
                               className={'flex items-center gap-3 rounded-2xl border px-4 py-3 cursor-pointer transition-colors ' + (
-                                oeuvreEntretien === title
+                                isChecked
                                   ? 'border-[var(--teal)] bg-[var(--teal)]/10'
                                   : 'border-[var(--border-strong)] bg-[var(--card)] hover:border-[var(--teal)]/40'
                               )}
                             >
                               <input
-                                type="radio"
-                                name="oeuvreEntretien"
+                                type="checkbox"
                                 value={title}
-                                checked={oeuvreEntretien === title}
-                                onChange={() => setOeuvreEntretien(title)}
+                                checked={isChecked}
+                                onChange={() => {
+                                  setOeuvresEntretien((prev) =>
+                                    prev.includes(title)
+                                      ? prev.filter((o) => o !== title)
+                                      : [...prev, title],
+                                  );
+                                }}
                                 className="accent-[var(--teal)]"
                               />
                               <span className="text-sm font-medium text-[var(--navy)]">{title}</span>
                               {authorName && <span className="text-xs text-[var(--text-placeholder)]">{authorName}</span>}
+                              {isPrimary && <span className="ml-auto rounded-full bg-[var(--teal)]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--teal)]">Principale</span>}
                             </label>
                           );
                         })}
