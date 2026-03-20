@@ -26,6 +26,7 @@ enum SubscriptionPlan {
   FREE
   PREMIUM
   PRO
+  MAX
   MONTHLY
   LIFETIME
 }
