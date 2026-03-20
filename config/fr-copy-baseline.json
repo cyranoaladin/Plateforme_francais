@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-20T20:47:48.362Z",
+  "generatedAt": "2026-03-20T21:06:42.579Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -4483,248 +4483,262 @@
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 434,
+      "line": 437,
       "column": 13,
       "kind": "jsx-text",
       "text": "Se connecter"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 443,
+      "line": 446,
       "column": 13,
       "kind": "jsx-text",
       "text": "Créer un compte"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 453,
+      "line": 452,
+      "column": 108,
+      "kind": "jsx-text",
+      "text": "Je me connecte en tant que"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 475,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Connecte-toi avec l'email que ton enfant a renseigné lors de son inscription. Tu verras la progression de tous les élèves qui t'ont ajouté."
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 480,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Connecte-toi avec ton email professionnel. Tu verras tous les élèves qui ont rejoint ta classe avec ton code enseignant."
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 492,
       "column": 17,
       "kind": "jsx-text",
       "text": "Prénom ou nom affiché"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 460,
+      "line": 499,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Ton prénom"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 467,
+      "line": 506,
       "column": 15,
       "kind": "jsx-text",
       "text": "Email"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 478,
+      "line": 517,
       "column": 27,
       "kind": "jsx-prop",
       "text": "prenom@exemple.fr"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 482,
+      "line": 521,
       "column": 108,
       "kind": "jsx-prop",
       "text": "Mot de passe"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 484,
+      "line": 523,
       "column": 128,
       "kind": "jsx-prop",
       "text": "Confirmer le mot de passe"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 488,
+      "line": 527,
       "column": 111,
       "kind": "jsx-prop",
       "text": "Confirmer le mot de passe"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 499,
+      "line": 538,
       "column": 149,
       "kind": "jsx-text",
       "text": "Conditions d’utilisation"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 499,
+      "line": 538,
       "column": 181,
       "kind": "jsx-text",
       "text": "et la"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 499,
+      "line": 538,
       "column": 21,
       "kind": "jsx-text",
       "text": "J’accepte les"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 499,
+      "line": 538,
       "column": 326,
       "kind": "jsx-text",
       "text": "Politique de confidentialité"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 511,
+      "line": 550,
       "column": 27,
       "kind": "jsx-text",
       "text": "ai moins de 15 ans. Un consentement parental est nécessaire."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 519,
-      "column": 21,
+      "line": 556,
+      "column": 107,
       "kind": "jsx-text",
-      "text": "Email du parent / responsable légal"
+      "text": "Facultatif — Liens parent et enseignant"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 527,
+      "line": 558,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Tu peux ajouter les emails de ton parent et/ou de ton enseignant. Ils pourront suivre ta progression sans accéder à tes copies."
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 563,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Email du parent"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 571,
       "column": 33,
       "kind": "jsx-prop",
       "text": "parent@email.com"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 531,
+      "line": 577,
       "column": 21,
       "kind": "jsx-text",
-      "text": "Ce champ est requis pour les moins de 15 ans dans le cadre RGPD."
+      "text": "Email de l'enseignant"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 580,
+      "line": 585,
+      "column": 33,
+      "kind": "jsx-prop",
+      "text": "enseignant@etablissement.fr"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 634,
       "column": 15,
       "kind": "jsx-text",
       "text": "Mot de passe oublié ?"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 588,
+      "line": 642,
       "column": 17,
       "kind": "jsx-text",
       "text": "Problème de connexion ?"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 592,
+      "line": 646,
       "column": 19,
       "kind": "jsx-text",
       "text": "Vérifie ton email et ton mot de passe. En cas d"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 592,
+      "line": 646,
       "column": 71,
       "kind": "jsx-text",
       "text": "erreur persistante, rafraîchis la page ou utilise « Mot de passe oublié ». Tu peux aussi nous contacter sur WhatsApp au +216 99 19 28 29."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 604,
+      "line": 658,
       "column": 15,
       "kind": "jsx-text",
       "text": "Retour à la connexion"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 608,
+      "line": 662,
       "column": 17,
       "kind": "jsx-text",
       "text": "Besoin d"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 608,
+      "line": 662,
       "column": 30,
       "kind": "jsx-text",
       "text": "aide ?"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 615,
+      "line": 669,
       "column": 19,
       "kind": "jsx-text",
       "text": "Contacte-nous sur WhatsApp"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 617,
+      "line": 671,
       "column": 22,
       "kind": "jsx-text",
       "text": "pour une réinitialisation rapide."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 626,
+      "line": 680,
       "column": 17,
       "kind": "jsx-text",
       "text": "Après inscription, tu configures tes œuvres et ton niveau en quelques minutes, puis tu accèdes directement à tes premiers ateliers."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 634,
+      "line": 688,
       "column": 13,
       "kind": "jsx-text",
       "text": "Accueil"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 638,
+      "line": 692,
       "column": 13,
       "kind": "jsx-text",
       "text": "Tarifs"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 642,
+      "line": 696,
       "column": 13,
       "kind": "jsx-text",
       "text": "FAQ"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 646,
+      "line": 700,
       "column": 13,
       "kind": "jsx-text",
       "text": "Mentions légales"
-    },
-    {
-      "file": "src/app/login/page.tsx",
-      "line": 667,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Espace sécurisé"
-    },
-    {
-      "file": "src/app/login/page.tsx",
-      "line": 672,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Retour accueil"
-    },
-    {
-      "file": "src/app/login/page.tsx",
-      "line": 675,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Voir les tarifs"
-    },
-    {
-      "file": "src/app/login/page.tsx",
-      "line": 681,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Démarrer gratuitement"
     },
     {
       "file": "src/app/login/page.tsx",
@@ -4732,6 +4746,34 @@
       "column": 9,
       "kind": "jsx-text",
       "text": "Trop de tentatives. Réessaie dans"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 721,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Espace sécurisé"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 726,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Retour accueil"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 729,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Voir les tarifs"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 735,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Démarrer gratuitement"
     },
     {
       "file": "src/app/mentions-legales/page.tsx",
