@@ -142,7 +142,7 @@ class ExternalRAGClient {
       const response = await fetch(`${this.baseUrl}/health`, {
         method: 'GET',
         headers: this.headers(),
-        signal: AbortSignal.timeout(10_000),
+        signal: AbortSignal.timeout(5_000),
       });
 
       if (!response.ok) {
@@ -154,8 +154,24 @@ class ExternalRAGClient {
         status: 'healthy',
         ...data,
       };
-    } catch (error) {
-      logger.warn({ error, baseUrl: this.baseUrl }, '[ExternalRAG] health_check_failed');
+    } catch {
+      // HTTP health may hang during model loading; fall back to TCP port check
+      try {
+        const url = new URL(this.baseUrl);
+        const net = await import('net');
+        const reachable = await new Promise<boolean>((resolve) => {
+          const sock = new net.Socket();
+          sock.setTimeout(3_000);
+          sock.once('connect', () => { sock.destroy(); resolve(true); });
+          sock.once('error', () => { sock.destroy(); resolve(false); });
+          sock.once('timeout', () => { sock.destroy(); resolve(false); });
+          sock.connect(Number(url.port) || 80, url.hostname);
+        });
+        if (reachable) {
+          return { status: 'healthy' };
+        }
+      } catch { /* ignore */ }
+      logger.warn({ baseUrl: this.baseUrl }, '[ExternalRAG] health_check_failed');
       return { status: 'unhealthy' };
     }
   }
