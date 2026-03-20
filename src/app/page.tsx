@@ -811,7 +811,12 @@ export default function HomePage() {
                     disabled={(isAuthenticated && isCurrent) || (isAuthenticated && !plan.checkoutPlan) || pendingPlan !== null}
                     onClick={() => {
                       if (!isAuthenticated) { window.location.assign('/login?mode=register'); return; }
-                      if (plan.checkoutPlan) { track({ name: 'pricing_plan_select', props: { plan: plan.id } }); void startCheckout(plan.checkoutPlan, plan.id); }
+                      if (plan.checkoutPlan) {
+                        track({ name: 'pricing_plan_select', props: { plan: plan.id } });
+                        // Go live: virement/espèces → WhatsApp pour instructions
+                        const msg = encodeURIComponent(`Bonjour, je souhaite activer le plan ${plan.title} (${plan.priceTND} ${plan.period}). Merci de m'envoyer les instructions de paiement.`);
+                        window.open(`https://wa.me/21699192829?text=${msg}`, '_blank');
+                      }
                     }}
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${plan.highlighted ? 'bg-gradient-to-r from-[var(--gold)] to-[var(--gold-deep)] text-[var(--navy-dark)] shadow-gold hover:-translate-y-0.5' : 'bg-[var(--navy)] text-white hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]'}`}
                   >
