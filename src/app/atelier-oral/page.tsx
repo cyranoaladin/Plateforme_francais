@@ -19,6 +19,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
+import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { createAudioRecorder, type BrowserAudioRecorder } from '@/lib/oral/audio-recorder';
 import { createBrowserStt } from '@/lib/stt/browser';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
@@ -963,7 +964,7 @@ export default function AtelierOralPage() {
                     <div className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[16px] border border-[var(--border-success-soft)] bg-[var(--card)] p-4">
                       {juryTurns.slice(-6).map((turn, idx) => (
                         <p key={`${turn.role}-${idx}`} className="text-sm leading-7 text-[var(--text-body)]">
-                          <span className="font-semibold text-[var(--navy)]">{turn.role === 'jury' ? 'Examinateur' : 'Toi'} :</span> {turn.content}
+                          <span className="font-semibold text-[var(--navy)]">{turn.role === 'jury' ? 'Examinateur' : 'Toi'} :</span> {turn.role === 'jury' ? sanitizeLlmText(turn.content) : turn.content}
                         </p>
                       ))}
                     </div>
@@ -1011,14 +1012,14 @@ export default function AtelierOralPage() {
                           {item.score}/{item.max}
                         </span>
                       </div>
-                      <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{item.feedback}</p>
+                      <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{sanitizeLlmText(item.feedback)}</p>
 
                       {item.points_forts.length > 0 && (
                         <div className="mt-4 rounded-[16px] border border-[var(--border-success-soft)] bg-[var(--success-bg)] p-3">
                           <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--teal)]">Points forts</p>
                           <ul className="space-y-1 text-xs leading-6 text-[var(--text-body)]">
                             {item.points_forts.map((point) => (
-                              <li key={point} className="flex gap-2"><Star className="mt-1 h-3.5 w-3.5 shrink-0 text-[var(--teal)]" /> <span>{point}</span></li>
+                              <li key={point} className="flex gap-2"><Star className="mt-1 h-3.5 w-3.5 shrink-0 text-[var(--teal)]" /> <span>{sanitizeLlmText(point)}</span></li>
                             ))}
                           </ul>
                         </div>
@@ -1029,7 +1030,7 @@ export default function AtelierOralPage() {
                           <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--gold-deep)]">Axes d’amélioration</p>
                           <ul className="space-y-1 text-xs leading-6 text-[var(--gold-contrast)]">
                             {item.axes.map((axis) => (
-                              <li key={axis} className="flex gap-2"><AlertCircle className="mt-1 h-3.5 w-3.5 shrink-0 text-[var(--gold-deep)]" /> <span>{axis}</span></li>
+                              <li key={axis} className="flex gap-2"><AlertCircle className="mt-1 h-3.5 w-3.5 shrink-0 text-[var(--gold-deep)]" /> <span>{sanitizeLlmText(axis)}</span></li>
                             ))}
                           </ul>
                         </div>
@@ -1040,7 +1041,7 @@ export default function AtelierOralPage() {
                           <Volume2 className="h-3.5 w-3.5" />
                           Écouter
                         </button>
-                        {item.relance && <span className="text-xs font-medium text-[var(--teal)]">Relance de l’examinateur : {item.relance}</span>}
+                        {item.relance && <span className="text-xs font-medium text-[var(--teal)]">Relance de l’examinateur : {sanitizeLlmText(item.relance)}</span>}
                       </div>
                     </div>
                   );
@@ -1092,7 +1093,7 @@ export default function AtelierOralPage() {
                   {data.note}
                   <span className="text-sm text-[var(--text-icon)]">/{data.max}</span>
                 </p>
-                <p className="mt-3 text-xs leading-6 text-[var(--navy-muted)]">{data.commentaire}</p>
+                <p className="mt-3 text-xs leading-6 text-[var(--navy-muted)]">{sanitizeLlmText(data.commentaire)}</p>
               </div>
             ))}
           </div>
@@ -1100,11 +1101,11 @@ export default function AtelierOralPage() {
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Bilan global</p>
-              <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{bilan.bilan_global}</p>
+              <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{sanitizeLlmText(bilan.bilan_global)}</p>
             </div>
             <div className="rounded-[24px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-5">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--gold-deep)]">Conseil final</p>
-              <p className="mt-3 text-sm leading-7 text-[var(--gold-contrast)]">{bilan.conseil_final}</p>
+              <p className="mt-3 text-sm leading-7 text-[var(--gold-contrast)]">{sanitizeLlmText(bilan.conseil_final)}</p>
             </div>
           </div>
 

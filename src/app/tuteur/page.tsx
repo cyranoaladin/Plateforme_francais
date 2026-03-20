@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { Badge, Button } from '@/components/ui';
 import { StateNotice } from '@/components/ui/state-notice';
 
@@ -278,7 +279,7 @@ function TuteurPageContent() {
                         role={message.role === 'assistant' ? 'status' : undefined}
                         aria-live={message.role === 'assistant' ? 'polite' : undefined}
                       >
-                        <p className="whitespace-pre-line text-sm leading-7">{message.content}</p>
+                        <p className="whitespace-pre-line text-sm leading-7">{message.role === 'assistant' ? sanitizeLlmText(message.content) : message.content}</p>
 
                         {message.role === 'assistant' && message.citations && message.citations.length > 0 && (
                           <div className="mt-4 space-y-2 border-t border-[var(--border-warm-soft)] pt-4">

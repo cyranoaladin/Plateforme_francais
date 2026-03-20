@@ -21,6 +21,7 @@ import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Badge, Button, Input } from '@/components/ui';
 import { StateNotice } from '@/components/ui/state-notice';
+import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 
 type EpreuveType = 'commentaire' | 'dissertation' | 'contraction_essai';
 
@@ -42,20 +43,6 @@ type CopieCreatePayload = {
 const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
 };
-
-/** Strip leaked prompt artifacts, RAG citations, and internal instructions from LLM output. */
-function sanitizeLlmText(text: string): string {
-  return text
-    // Remove [Ressource: ...] or [Source: ...] citations
-    .replace(/\[Ressource\s*:[^\]]*\]/gi, '')
-    .replace(/\[Source\s*:[^\]]*\]/gi, '')
-    // Remove unicode escape sequences that weren't parsed
-    .replace(/\\u([0-9a-fA-F]{4})/g, (_m, hex) => String.fromCharCode(parseInt(hex, 16)))
-    // Collapse multiple spaces/newlines left by removals
-    .replace(/  +/g, ' ')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
-}
 
 const PROCESSING_STEPS = ['Lecture attentive de ta copie...', 'Analyse des points de méthode et de contenu...', 'Rédaction de ton bilan personnalisé...'];
 

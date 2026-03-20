@@ -18,6 +18,7 @@ import { StateNotice } from '@/components/ui/state-notice';
 import { Button, Textarea } from '@/components/ui';
 import { buildLangueExerciseSeries } from '@/lib/langue/exercise-bank';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 
 type Exercise = {
   id: string;
@@ -370,11 +371,11 @@ export default function AtelierLangue() {
               <section className="rounded-[24px] border border-[var(--border-light)] bg-white/85 p-5 shadow-[var(--shadow-sm)] md:p-6">
                 <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-bronze)]">Phrase à analyser</p>
                 <p style={EDITORIAL_HEADING} className="mt-4 text-2xl leading-10 tracking-[-0.02em] text-[var(--navy)] md:text-3xl">
-                  « {currentExercise.sentence} »
+                  « {sanitizeLlmText(currentExercise.sentence)} »
                 </p>
                 <div className="mt-5 rounded-[22px] border border-[var(--border-info-box)] bg-[var(--surface-info-box)] p-4">
                   <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--text-caption)]">Question d’oral</p>
-                  <p className="mt-2 text-sm leading-7 text-[var(--navy-mid)]">{currentExercise.question}</p>
+                  <p className="mt-2 text-sm leading-7 text-[var(--navy-mid)]">{sanitizeLlmText(currentExercise.question)}</p>
                 </div>
               </section>
 
@@ -438,7 +439,7 @@ export default function AtelierLangue() {
                           {feedback.score}/{feedback.max}
                         </span>
                       </div>
-                      <p className="mt-4 text-sm leading-7 text-[var(--navy-mid)]">{feedback.message}</p>
+                      <p className="mt-4 text-sm leading-7 text-[var(--navy-mid)]">{sanitizeLlmText(feedback.message)}</p>
                     </div>
 
                     {feedback.missing.length > 0 && (
@@ -451,7 +452,7 @@ export default function AtelierLangue() {
                           {feedback.missing.map((item) => (
                             <li key={item} className="flex gap-2">
                               <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--gold-deep)]" />
-                              <span>{item}</span>
+                              <span>{sanitizeLlmText(item)}</span>
                             </li>
                           ))}
                         </ul>
@@ -463,7 +464,7 @@ export default function AtelierLangue() {
                         <Star className="h-4 w-4" />
                         Correction attendue
                       </p>
-                      <p className="mt-3 text-sm leading-7 text-[var(--navy-mid)]">{currentExercise.correction}</p>
+                      <p className="mt-3 text-sm leading-7 text-[var(--navy-mid)]">{sanitizeLlmText(currentExercise.correction)}</p>
                     </div>
 
                     <div className="flex justify-end">

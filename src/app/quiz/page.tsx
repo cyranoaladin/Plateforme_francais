@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { BookOpen, Brain, GraduationCap, Sparkles, Target } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { Button } from '@/components/ui';
 import { StateNotice } from '@/components/ui/state-notice';
 
@@ -355,7 +356,7 @@ export default function QuizPage() {
                       {index + 1}
                     </div>
                     <div className="flex-1">
-                      <h2 className="text-base font-semibold leading-7 text-[var(--navy)]">{question.enonce}</h2>
+                      <h2 className="text-base font-semibold leading-7 text-[var(--navy)]">{sanitizeLlmText(question.enonce)}</h2>
                       <div className="mt-4 grid gap-2">
                         {question.options.map((option, optionIndex) => {
                           const checked = answers[question.id] === optionIndex;
@@ -375,14 +376,14 @@ export default function QuizPage() {
                                 disabled={submitted}
                                 className="mr-2"
                               />
-                              {option}
+                              {sanitizeLlmText(option)}
                             </label>
                           );
                         })}
                       </div>
                       {submitted && (
                         <div className="mt-4 rounded-[20px] border border-[var(--border-success)] bg-[var(--success-bg)] p-4 text-sm leading-7 text-[var(--navy-mid)]">
-                          {question.explication}
+                          {sanitizeLlmText(question.explication)}
                         </div>
                       )}
                     </div>

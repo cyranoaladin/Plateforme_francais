@@ -371,8 +371,8 @@ export function formatMediaContextForPrompt(entries: MediaEntry[]): string {
     lines.push(`  → Référence interne : ${entry.sourceRef}`);
   }
 
-  lines.push('Instruction : si une de ces ressources est pertinente, mentionne-la par son titre exact.');
-  lines.push('             Ne jamais citer une URL. Toujours citer : [Ressource: titre].');
+  lines.push('Instruction : si une de ces ressources est pertinente, mentionne-la naturellement dans le texte par son titre exact.');
+  lines.push('             Ne jamais citer une URL. Ne jamais utiliser le format [Ressource: ...] ou [Source: ...]. Intègre le titre directement dans la phrase.');
 
   return lines.join('\n');
 }
