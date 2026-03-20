@@ -125,7 +125,7 @@ export function WhyNexus() {
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Différenciation utile</p>
                   <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
-                    Là où un outil généraliste s\u2019arrête à une réponse, Nexus construit une continuité de travail.
+                    Là où un outil généraliste s'arrête à une réponse, Nexus construit une continuité de travail.
                   </h3>
                 </div>
                 <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[var(--border-warm)]">

@@ -254,11 +254,11 @@ export default function AtelierEcritPage() {
               Atelier écrit
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Un studio d\u2019entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF.
+              Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
               Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser
-              entre dix écrans. L\u2019interface suit un seul objectif : te faire passer d\u2019une intention floue à un rapport exploitable.
+              entre dix écrans. L'interface suit un seul objectif : te faire passer d'une intention floue à un rapport exploitable.
             </p>
           </div>
 
@@ -312,10 +312,10 @@ export default function AtelierEcritPage() {
               <div className="flex-1">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Étape 1</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
-                  Génère un sujet d{'\u2019'}épreuve blanche.
+                  Génère un sujet d'épreuve blanche.
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
-                  Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l\u2019œuvre ou au thème que tu veux réactiver.
+                  Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l'œuvre ou au thème que tu veux réactiver.
                 </p>
               </div>
             </div>
@@ -401,7 +401,7 @@ export default function AtelierEcritPage() {
                   Déposer ma copie
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
-                  Une photo nette ou un PDF propre suffit. Le studio suit l\u2019upload, puis bascule vers l\u2019analyse sans changer de contexte.
+                  Une photo nette ou un PDF propre suffit. Le studio suit l'upload, puis bascule vers l'analyse sans changer de contexte.
                 </p>
               </div>
             </div>
@@ -489,7 +489,7 @@ export default function AtelierEcritPage() {
                     {selectedFile.type === 'application/pdf' && (
                       <div className="mt-4 inline-flex items-center gap-2 rounded-[16px] bg-[var(--success-bg)] px-4 py-3 text-sm text-[var(--teal)]">
                         <FileText className="h-4 w-4" />
-                        PDF prêt à l\u2019envoi
+                        PDF prêt à l'envoi
                       </div>
                     )}
                   </div>
@@ -571,7 +571,7 @@ export default function AtelierEcritPage() {
               </div>
             </div>
             <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-              Le bon usage de l\u2019atelier écrit n\u2019est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante.
+              Le bon usage de l'atelier écrit n'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante.
             </p>
           </section>
 

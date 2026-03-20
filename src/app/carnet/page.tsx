@@ -136,7 +136,7 @@ export default function CarnetPage() {
               Un lieu pour garder les œuvres vivantes, pas seulement les résumer.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
-              Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l\u2019entretien et à retrouver vite une matière personnelle quand il faut reparler d\u2019une œuvre.
+              Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l'entretien et à retrouver vite une matière personnelle quand il faut reparler d'une œuvre.
             </p>
           </div>
 
@@ -172,7 +172,7 @@ export default function CarnetPage() {
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Nouvelle entrée</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
-                  Noter pendant que c\u2019est encore vivant
+                  Noter pendant que c'est encore vivant
                 </h2>
               </div>
             </div>
