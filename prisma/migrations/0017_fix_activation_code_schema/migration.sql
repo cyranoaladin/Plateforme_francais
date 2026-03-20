@@ -41,3 +41,7 @@ ALTER TABLE "ActivationCode" ALTER COLUMN "plan" TYPE TEXT USING "plan"::TEXT;
 -- Make durationDays NOT NULL with default
 UPDATE "ActivationCode" SET "durationDays" = 30 WHERE "durationDays" IS NULL;
 ALTER TABLE "ActivationCode" ALTER COLUMN "durationDays" SET NOT NULL;
+
+-- Make legacy 'code' column nullable to avoid NOT NULL constraint on new rows
+ALTER TABLE "ActivationCode" ALTER COLUMN "code" DROP NOT NULL;
+ALTER TABLE "ActivationCode" ALTER COLUMN "code" SET DEFAULT '';
