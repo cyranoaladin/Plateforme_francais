@@ -44,7 +44,7 @@ export async function POST(request: Request) {
   await setSessionCookie(session.token);
   await setRoleCookie(user.role);
 
-  const response = NextResponse.json({ ok: true }, { status: 200 });
+  const response = NextResponse.json({ ok: true, role: user.role }, { status: 200 });
   await ensureCsrfCookie(response);
   return response;
 }

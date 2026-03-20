@@ -278,7 +278,7 @@ function AuthCard() {
       }
 
       const endpoint = mode === 'login' ? '/api/v1/auth/login' : '/api/v1/auth/register';
-      await apiFetch(endpoint, {
+      const loginResponse = await apiFetch<{ ok: boolean; role?: string }>(endpoint, {
         method: 'POST',
         json: {
           email,
@@ -303,8 +303,22 @@ function AuthCard() {
         return;
       }
 
+      // Role-based routing after login
+      const role = loginResponse.role ?? 'eleve';
+      const ROLE_HOME: Record<string, string> = {
+        admin: '/admin',
+        enseignant: '/enseignant',
+        parent: '/parent',
+      };
+
+      if (ROLE_HOME[role]) {
+        router.push(ROLE_HOME[role]);
+        router.refresh();
+        return;
+      }
+
+      // Élève: check onboarding, then redirect
       const rawRedirect = searchParams.get('redirect') || '/dashboard';
-      // Validate redirect: must be a relative path starting with /, not //
       const redirectTo = (rawRedirect.startsWith('/') && !rawRedirect.startsWith('//')) ? rawRedirect : '/dashboard';
       try {
         const profile = await apiFetch<ProfilePayload>('/api/v1/student/profile');
