@@ -69,8 +69,8 @@ export async function GET() {
       checks,
       timestamp: new Date().toISOString(),
       release: {
-        gitSha: readLocalReleaseValue('.git_sha') ?? 'unknown',
-        buildTime: readLocalReleaseValue('.build_time') ?? 'unknown',
+        gitSha: readLocalReleaseValue('.git_sha') ?? process.env['BUILD_GIT_SHA'] ?? 'unknown',
+        buildTime: readLocalReleaseValue('.build_time') ?? process.env['BUILD_TIME'] ?? 'unknown',
         nodeEnv: process.env['NODE_ENV'] ?? 'unknown',
       },
       voice: {
