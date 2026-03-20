@@ -64,8 +64,12 @@ export async function apiFetch<T>(
     let msg = 'Une erreur est survenue.';
     let code: string | undefined;
     try {
-      const data = (await res.json()) as { error?: string; message?: string; code?: string };
+      const data = (await res.json()) as { error?: string; message?: string; code?: string; details?: string[] };
       msg = data?.error ?? data?.message ?? msg;
+      // Append validation details if present (Zod errors)
+      if (data?.details?.length) {
+        msg = data.details.join(' ');
+      }
       code = data?.code;
     } catch {
       // Response may not be JSON
