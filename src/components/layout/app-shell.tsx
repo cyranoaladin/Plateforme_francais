@@ -43,7 +43,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <ThemeProvider>
         <TrackingProvider />
         <Sidebar />
-        <main className="flex-1 md:ml-72 relative min-h-screen pb-20 md:pb-0">{children}</main>
+        <main className="flex-1 md:ml-72 md:mr-64 relative min-h-screen pb-20 md:pb-0">{children}</main>
       </ThemeProvider>
     </>
   );

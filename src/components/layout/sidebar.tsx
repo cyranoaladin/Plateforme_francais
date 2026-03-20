@@ -210,7 +210,7 @@ export function Sidebar() {
 
   return (
     <>
-      {/* ─── Desktop Sidebar ─── */}
+      {/* ─── Desktop LEFT Sidebar (branding, stats, user, upgrade) ─── */}
       <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 flex-col border-r border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm)_0%,var(--surface-sand)_100%)] shadow-[var(--shadow-md)] z-10">
         <div className="border-b border-[var(--border-light)] px-5 py-5">
           <div className="rounded-[var(--radius-xl)] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,var(--surface-parchment)_100%)] p-4 shadow-[var(--shadow-sm)]">
@@ -274,42 +274,7 @@ export function Sidebar() {
           </div>
         </div>
 
-        <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
-          {navSections.map((section) => (
-            <section key={section.label}>
-              <div className="mb-3 px-2">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">{section.label}</p>
-                <p className="mt-1 text-xs leading-5 text-[var(--navy-muted)]">{section.description}</p>
-              </div>
-              <div className="space-y-1.5">
-                {section.items.map((item) => {
-                  const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
-                  return (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className={`group flex items-center gap-3 rounded-[20px] border px-4 py-3 text-sm transition-all ${
-                        isActive
-                          ? 'border-[var(--navy)]/10 bg-[var(--navy)] text-white shadow-[var(--shadow-md)]'
-                          : 'border-transparent bg-[var(--card)]/55 text-[var(--navy-muted)] hover:border-[var(--border-default)] hover:bg-[var(--card)] hover:text-[var(--navy)]'
-                      }`}
-                    >
-                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-lg)] ${
-                        isActive ? 'bg-white/12 text-white' : 'bg-[var(--navy)]/8 text-[var(--navy)]'
-                      }`}>
-                        <item.icon className="h-[18px] w-[18px]" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className={`font-semibold ${isActive ? 'text-white' : 'text-[var(--navy)]'}`}>{item.name}</p>
-                        <p className={`text-xs ${isActive ? 'text-white/70' : 'text-[var(--navy-muted)]'}`}>{item.hint}</p>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </section>
-          ))}
-        </nav>
+        <div className="flex-1" />
 
         {/* ─── Upgrade CTA (FREE & PREMIUM only) ─── */}
         {(planId === 'FREE' || planId === 'PREMIUM') && (
@@ -400,6 +365,50 @@ export function Sidebar() {
             </div>
           </div>
         </div>
+      </aside>
+
+      {/* ─── Desktop RIGHT Sidebar (navigation) ─── */}
+      <aside className="hidden md:flex fixed inset-y-0 right-0 w-64 flex-col border-l border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,var(--surface-warm)_100%)] shadow-[var(--shadow-md)] z-10">
+        <div className="px-4 pt-5 pb-3">
+          <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Navigation</p>
+          <p className="mt-1 text-xs leading-5 text-[var(--navy-muted)]">Accès rapide aux ateliers et outils.</p>
+        </div>
+        <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-2">
+          {navSections.map((section) => (
+            <section key={section.label}>
+              <div className="mb-2 px-2">
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--accent-bronze)]">{section.label}</p>
+                <p className="mt-0.5 text-[11px] leading-4 text-[var(--navy-muted)]">{section.description}</p>
+              </div>
+              <div className="space-y-1">
+                {section.items.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={`group flex items-center gap-2.5 rounded-[16px] border px-3 py-2.5 text-sm transition-all ${
+                        isActive
+                          ? 'border-[var(--navy)]/10 bg-[var(--navy)] text-white shadow-[var(--shadow-sm)]'
+                          : 'border-transparent bg-[var(--card)]/50 text-[var(--navy-muted)] hover:border-[var(--border-default)] hover:bg-[var(--card)] hover:text-[var(--navy)]'
+                      }`}
+                    >
+                      <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--radius-md)] ${
+                        isActive ? 'bg-white/12 text-white' : 'bg-[var(--navy)]/8 text-[var(--navy)]'
+                      }`}>
+                        <item.icon className="h-4 w-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className={`text-sm font-semibold leading-tight ${isActive ? 'text-white' : 'text-[var(--navy)]'}`}>{item.name}</p>
+                        <p className={`text-[11px] leading-tight ${isActive ? 'text-white/65' : 'text-[var(--navy-muted)]'}`}>{item.hint}</p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </nav>
       </aside>
 
       {/* ─── Mobile Bottom Navigation ─── */}
