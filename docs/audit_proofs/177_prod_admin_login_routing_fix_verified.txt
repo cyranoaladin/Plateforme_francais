@@ -1,0 +1,15 @@
+]633;E;{   echo "=== STEP 1: CSRF ==="\x3b   curl -sS -m 10 -c /tmp/eaf_ft_cookies.txt https://eaf.nexusreussite.academy/api/v1/csrf 2>&1\x3b   CSRF=$(grep eaf_csrf /tmp/eaf_ft_cookies.txt | awk '{print $NF}')\x3b   echo ""\x3b   echo "CSRF obtained: ${CSRF:0:10}..."\x3b    echo ""\x3b   echo "=== STEP 2: LOGIN ADMIN ==="\x3b   curl -sS -m 10 -X POST     -b /tmp/eaf_ft_cookies.txt -c /tmp/eaf_ft_cookies.txt     -H "Content-Type: application/json"     -H "X-CSRF-Token: $CSRF"     -d '{"email":"admin@eaf.local","password":"AdminTest2026!"}'     https://eaf.nexusreussite.academy/api/v1/auth/login 2>&1\x3b   echo ""\x3b    echo ""\x3b   echo "=== STEP 3: /admin WITH SESSION ==="\x3b   curl -sS -m 10 -b /tmp/eaf_ft_cookies.txt -o /dev/null -w "HTTP_CODE=%{http_code} REDIRECT=%{redirect_url}" https://eaf.nexusreussite.academy/admin 2>&1\x3b   echo ""\x3b    echo ""\x3b   echo "=== STEP 4: /api/v1/admin/users WITH SESSION ==="\x3b   curl -sS -m 10 -b /tmp/eaf_ft_cookies.txt https://eaf.nexusreussite.academy/api/v1/admin/users 2>&1 | head -c 300\x3b   echo ""\x3b    echo ""\x3b   echo "=== STEP 5: /admin WITHOUT SESSION ==="\x3b   curl -sS -m 10 -o /dev/null -w "HTTP_CODE=%{http_code} REDIRECT=%{redirect_url}" https://eaf.nexusreussite.academy/admin 2>&1\x3b   echo ""\x3b } > /tmp/eaf_full_test.txt 2>&1;031affc6-c5ee-40d9-b032-65a4237aee47]633;C=== STEP 1: CSRF ===
+{"csrfToken":"a34cdb25facffc953ce5ac20a92aee0a3e24563d7bc8e305"}
+CSRF obtained: a34cdb25fa...
+
+=== STEP 2: LOGIN ADMIN ===
+{"ok":true,"role":"admin"}
+
+=== STEP 3: /admin WITH SESSION ===
+HTTP_CODE=200 REDIRECT=
+
+=== STEP 4: /api/v1/admin/users WITH SESSION ===
+{"users":[{"id":"215e4385-cbe7-4e70-8836-df525ed93aec","email":"jean@eaf.local","role":"eleve","createdAt":"2026-03-20T00:21:51.703Z","subscription":null,"profile":{"globalLevel":"INSUFFISANT","classLevel":"Première générale","voie":"GENERALE"},"payments":[]},{"id":"7c5bf3a3-b935-477f-8e64-e44038
+
+=== STEP 5: /admin WITHOUT SESSION ===
+HTTP_CODE=307 REDIRECT=https://eaf.nexusreussite.academy/login?redirect=%2Fadmin
