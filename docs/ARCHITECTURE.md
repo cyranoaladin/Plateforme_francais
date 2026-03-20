@@ -1,104 +1,78 @@
-# Architecture technique — Nexus Réussite EAF
+# Architecture technique
 
 ## Structure du projet
 
 ```
-eaf_platform/
-├── src/app/                    # Pages et API routes (Next.js App Router)
-│   ├── api/v1/                 # 65+ endpoints REST
-│   ├── admin/                  # Dashboard admin
-│   ├── atelier-ecrit/          # Atelier écrit + correction
-│   ├── atelier-oral/           # Simulation oral EAF
-│   ├── atelier-langue/         # Exercices grammaire
-│   ├── bibliotheque/           # Bibliothèque 548 ressources
-│   ├── dashboard/              # Tableau de bord élève
-│   ├── login/                  # Inscription + connexion
-│   ├── onboarding/             # Configuration initiale du parcours
-│   ├── pricing/                # Page tarifs
-│   └── ...                     # Autres pages (profil, carnet, tuteur, etc.)
-├── src/lib/                    # Logique métier
-│   ├── auth/                   # Sessions, CSRF, guards
-│   ├── billing/                # Plans, quotas, codes d'activation
-│   ├── llm/                    # Router LLM, skills, orchestrateur
-│   ├── oral/                   # Logique orale (scoring, service)
-│   ├── rag/                    # Client RAG externe + search local
-│   ├── memory/                 # Mémoire élève, signaux faibles
-│   └── security/               # Rate limiting, sanitization
-├── src/components/             # Composants React réutilisables
-├── packages/mcp-server/        # Serveur MCP (20 outils pédagogiques)
-├── emails/                     # Templates React Email
-├── prisma/                     # Schéma + 18 migrations
-├── tests/                      # Unit, E2E, contracts, visual
-├── scripts/                    # Deploy, seed, scan-ressources
-└── config/                     # FR copy baseline, banned phrases
+src/
+  app/                  # Next.js App Router (pages + API routes)
+    (ateliers)/         # Pages des 4 ateliers (ecrit, oral, langue, quiz)
+    admin/              # Interface admin (codes, paiements, monitoring)
+    api/v1/             # Routes API REST (/health, /auth, /billing, /llm, etc.)
+  components/           # Composants React reutilisables
+  lib/                  # Logique metier
+    auth/               # Session, CSRF, middleware d'authentification
+    billing/            # Plan catalog, quotas, usage tracking, activation codes
+    llm/                # Routeur LLM multi-provider, 30 skills specialisees
+    rag/                # Client RAG, recherche semantique
+    email/              # Envoi SMTP, templates
+    db/                 # Client Prisma, helpers base de donnees
+  data/                 # Donnees statiques (scan ressources, config oeuvres)
+  scripts/              # Scripts CLI (generation codes, migration, deploy)
+packages/
+  mcp-server/           # Serveur MCP autonome (20 outils pour agents IA)
+prisma/
+  schema.prisma         # Schema de la base de donnees
+  migrations/           # 19 migrations Prisma
+emails/                 # Templates React Email (verification, reset, etc.)
+scripts/                # Scripts d'exploitation (deploy.sh, etc.)
 ```
 
-## Base de données
+## Base de donnees
 
-- **PostgreSQL 16** avec extension pgvector pour la recherche vectorielle
-- **Prisma 6** comme ORM (32 modèles, 21 enums)
-- **Redis** pour le rate limiting, les quotas billing et BullMQ (file de correction)
+PostgreSQL avec Prisma 6 comme ORM. Le schema (`prisma/schema.prisma`) definit les tables principales :
 
-### Modèles principaux
+- `User`, `Session`, `Account` -- authentification et profils
+- `Plan`, `Subscription`, `ActivationCode` -- facturation
+- `OralSession`, `WrittenSubmission`, `QuizAttempt` -- travail eleve
+- `Resource`, `ResourceCategory` -- bibliotheque pedagogique
+- `LlmUsage`, `RagQuery` -- tracking consommation IA
 
-| Modèle | Description |
-|--------|------------|
-| User | Compte utilisateur (email, rôle, hash mot de passe) |
-| StudentProfile | Profil élève (œuvres, niveau, scores, badges) |
-| Subscription | Abonnement actif (plan, dates, statut) |
-| ActivationCode | Codes d'activation générés par l'admin |
-| PaymentTransaction | Transactions de paiement |
-| OralSession | Sessions d'oral (4 phases, scores) |
-| MemoryEvent | Événements d'apprentissage (timeline) |
-| Evaluation | Évaluations et scores |
-| DescriptifTexte | Descriptif de lecture pour l'oral |
-| CarnetEntry | Notes du carnet de lecture |
+L'extension `pgvector` est activee pour le fallback RAG local (embeddings stockes en base).
 
 ## LLM et IA
 
-### Router LLM (`src/lib/llm/router.ts`)
+Le routeur LLM (`src/lib/llm/router.ts`) gere le dispatch vers les providers :
 
-- **Provider primaire** : Mistral (5 tiers de modèles)
-- **Fallback** : Gemini → OpenAI → Ollama
-- **Circuit breaker** : 3 erreurs / 5 min → bascule
-- **12+ skills** : tuteur_libre, quiz_maitre, examinateur_virtuel, coach_ecrit, langue_generator, etc.
+- **Tier 1** : Mistral raisonnement (magistral-medium)
+- **Tier 2** : Mistral standard (mistral-small)
+- **Tier 3** : Ollama local (llama3.1:70b)
+- **Fallback** : Gemini, OpenAI
 
-### RAG (`src/lib/rag/`)
+Chaque skill dans `src/lib/llm/skills/` encapsule un prompt systeme, un modele de reponse et une logique de validation. Exemples : `correcteur.ts` (correction de copies), `coach-oral.ts` (simulation entretien), `quiz-maitre.ts` (generation de quiz).
 
-- **Externe** : ingestor Docker (ChromaDB + Ollama embeddings)
-- **Local** : pgvector avec BM25 lexical
-- **Hybride** : RRF reranking, authority levels A-D
-- **Corpus** : BO, Eduscol, rapports de jury EAF, œuvres au programme
+## RAG (Retrieval-Augmented Generation)
 
-### MCP Server (`packages/mcp-server/`)
+Deux modes de fonctionnement :
 
-- 20 outils pédagogiques exposés via le protocole MCP
-- Health endpoint : `/api/mcp/health`
-- PM2 process : `eaf-mcp` sur port 3100
+1. **Ingesteur externe** : conteneur Docker qui indexe les ressources PDF et repond via API REST (`RAG_API_URL`). Mode principal en production.
+2. **Fallback pgvector** : embeddings stockes dans PostgreSQL, recherche par similarite cosinus. Utilise si l'ingesteur est indisponible.
+
+Configuration : variables `RAG_*` dans `.env`.
 
 ## Email
 
-- **Transport** : SMTP Hostinger (port 587, STARTTLS)
-- **Templates** : React Email (`emails/WelcomeEmail.tsx`, `emails/SubscriptionEmail.tsx`)
-- **Déclenchement** : fire-and-forget avec retry 3x (backoff exponentiel)
-- **DNS** : SPF + DKIM + DMARC configurés
+Envoi via SMTP Hostinger (port 587/465). Les templates sont definis avec React Email dans `emails/`. Le service d'envoi se trouve dans `src/lib/email/`.
 
-## Sécurité
+## Facturation
 
-- Sessions : cookies HttpOnly + Secure + SameSite=lax
-- CSRF : double-submit token (cookie + header)
-- CSP : nonce dynamique par requête
-- HSTS : max-age=63072000, includeSubDomains, preload
-- Rate limiting : Redis (fail-closed en production)
-- Sanitization : null byte, path traversal, LLM output
-- RBAC : 4 rôles (élève, parent, enseignant, admin)
+Source de verite : `src/lib/billing/plan-catalog.ts`. Trois plans enumeres (FREE, PREMIUM, PRO) avec quotas et feature flags. Le suivi de consommation passe par `src/lib/billing/usage.ts`. Les codes d'activation sont haches (SHA-256 + pepper) et stockes en base.
 
-## CI/CD
+Voir [PLANS_AND_BILLING.md](PLANS_AND_BILLING.md) pour le detail des quotas.
 
-Pipeline GitHub Actions avec 6 gates :
-1. Analyse statique (TSC, ESLint, Knip, FR copy, npm audit)
-2. Tests unitaires (162 fichiers, 1128 tests)
-3. Tests intégration (Prisma + PostgreSQL)
-4. Tests E2E (Playwright Chromium, 97+ specs)
-5. Sécurité (GitLeaks, CodeQL, Snyk)
-6. Deploy production (blue-green)
+## MCP Server
+
+Serveur MCP autonome dans `packages/mcp-server/`. Expose 20 outils pour les agents IA (consultation de ressources, interrogation de la base, execution de skills LLM). Communique via HTTP (`MCP_SERVER_URL`), authentifie par `MCP_API_KEY`.
+
+## Authentification
+
+Session server-side stockee en base. Le cookie de session est HttpOnly, SameSite=Lax, Secure en production. La protection CSRF utilise le pattern double-submit cookie. Middleware dans `src/lib/auth/`.

@@ -1,72 +1,77 @@
-# Plans et facturation — Nexus Réussite EAF
+# Plans et facturation
 
-## Plans disponibles
+## Les 3 plans
 
-| Plan | Label visible | ID technique | Prix |
-|------|--------------|-------------|------|
-| Freemium | Freemium | FREE | 0 TND |
-| Premium | Premium | PREMIUM | 99 TND/mois |
-| Masterium | Masterium | PRO | 129 TND/mois |
+| Critere | Freemium | Premium | Masterium |
+|---------|----------|---------|-----------|
+| **ID technique** | `FREE` | `PREMIUM` | `PRO` |
+| **Prix** | 0 TND | 99 TND/mois | 129 TND/mois |
+| **Cycle** | gratuit | mensuel | mensuel |
 
-> Les IDs techniques (FREE, PREMIUM, PRO) ne sont jamais visibles côté utilisateur.
+Les identifiants techniques (`FREE`, `PREMIUM`, `PRO`) sont utilises dans le code et la base de donnees. Les noms affiches aux utilisateurs sont Freemium, Premium et Masterium.
+
+Un plan `MAX` existe dans le code mais est masque et non disponible au lancement.
 
 ## Quotas par plan
 
-| Fonctionnalité | Freemium | Premium | Masterium |
-|----------------|----------|---------|-----------|
-| Sessions orales | 1/mois | 10/semaine | Illimité |
-| Corrections écrites | 2/mois | 20/mois | Illimité |
-| Échanges tuteur | 3/jour | 100/jour | Illimité |
-| OCR copies | Bloqué | 20/mois | 50/mois |
-| Quiz | 1/jour | 30/jour | Illimité |
-| Bibliothèque | Échantillon | Complète | Complète |
-| Rapport PDF oral | Non | Oui | Oui |
-| Recherche avancée corpus | Non | Non | Oui |
-| Support prioritaire | Non | Non | Oui |
+| Quota | Freemium | Premium | Masterium |
+|-------|----------|---------|-----------|
+| Sessions orales | 1/mois | 10/semaine | illimite |
+| Corrections ecrites | 2/mois | 20/mois | illimite |
+| Questions tuteur | 3/jour | 100/jour | illimite |
+| OCR copies | 0 | 20/mois | 50/mois |
+| Tokens LLM | 5 000/jour | 50 000/jour | 200 000/jour |
+| Recherches RAG | 50/jour | 500/jour | illimite |
+| Quiz par jour | 1/jour | 30/jour | illimite |
 
-## Flux de paiement (go live)
+## Feature flags par plan
 
-Le paiement actif au lancement est **manuel** :
+| Feature | Freemium | Premium | Masterium |
+|---------|----------|---------|-----------|
+| Rapport PDF oral | non | oui | oui |
+| Historique rapports oral | non | non | oui |
+| Repetition espacee | basic | advanced | ai |
+| Tableau de bord parent | non | oui | oui |
+| Support | FAQ | email | prioritaire |
+| Parcours adaptatif | non | oui | oui |
+| Avocat du diable | non | oui | oui |
+| Graph RAG | non | non | oui |
+| Bibliotheque complete | non | oui | oui |
 
-1. L'utilisateur contacte Nexus Réussite via **WhatsApp (+216 99 19 28 29)** ou par email
-2. Il effectue un **virement bancaire** ou paie en **espèces**
-3. L'**admin** valide le paiement et génère un **code d'activation** depuis `/admin`
-4. L'admin communique le code à l'utilisateur
-5. L'utilisateur saisit le code sur la page `/pricing` (section "Activation")
-6. Le plan s'active automatiquement avec la durée configurée
+## Flux de paiement
 
-### Génération de codes (admin)
+Au lancement, le paiement est manuel :
 
-L'admin accède à `/admin` > onglet "Codes d'activation" :
-- Sélectionne le plan : Premium ou Masterium
-- Définit la durée (30, 90, 365 jours)
-- Le code est généré au format `EAF-XXXX...` (affiché une seule fois)
-- Le code est hashé en base de données (non récupérable après affichage)
+1. L'eleve contacte l'equipe et effectue un virement bancaire ou un paiement en especes.
+2. L'administrateur se connecte a la page `/admin`.
+3. L'administrateur genere un code d'activation en selectionnant le plan et la duree.
+4. Le code est affiche une seule fois en clair (format : `EAF-XXXXXXXXXXXX`).
+5. L'administrateur communique le code a l'eleve.
+6. L'eleve saisit le code sur la plateforme pour activer son plan.
 
-### Activation de code (utilisateur)
+Un flux ClicToPay (paiement en ligne) est pre-cable dans le code (`src/app/api/v1/payments/clictopay/`) mais n'est pas actif au lancement.
 
-- Page `/pricing` → section "Activation avec un code"
-- L'utilisateur saisit le code reçu
-- Le plan s'active immédiatement
-- Message de confirmation avec la date de fin
+## Details techniques
 
-### Cas d'erreur gérés
+### Source de verite
 
-| Cas | Message |
-|-----|---------|
-| Code invalide | "Code introuvable. Vérifie la saisie." |
-| Code déjà utilisé | "Ce code a déjà été utilisé." |
-| Code expiré | "Ce code a expiré." |
+Le fichier `src/lib/billing/plan-catalog.ts` definit les plans, quotas et flags. Toute modification de plan doit se faire dans ce fichier.
 
-## Configuration technique
+### Codes d'activation
 
-Le système de plans est défini dans :
-- `src/lib/billing/plan-catalog.ts` — définition des plans, quotas et labels
-- `src/lib/billing/usage.ts` — vérification et consommation des quotas
-- `src/lib/billing/quotas.ts` — messages paywall
-- `src/lib/billing/library-gating.ts` — gating bibliothèque freemium
-- `src/lib/billing/redeem.ts` — logique de redemption des codes
+- Generation : `src/scripts/generate-activation-codes.ts` (CLI) ou `/admin` (UI)
+- Format : `EAF` suivi de 12 caracteres hexadecimaux
+- Stockage : le code est hache (SHA-256 avec pepper `BILLING_CODE_PEPPER`) avant insertion en base
+- Le code en clair n'est jamais stocke ; il est affiche une seule fois a la generation
+- Redemption : `src/lib/billing/redeem.ts`
 
-## Méthodes de paiement futures
+### Suivi de consommation
 
-ClicToPay (carte bancaire tunisienne) et Flouci sont prévus mais **non actifs** au lancement. Les CTA payants redirigent vers WhatsApp.
+Le fichier `src/lib/billing/usage.ts` verifie les quotas a chaque appel API facture. Quand un quota est atteint, l'API retourne une erreur 429 avec le detail du quota depasse.
+
+### Administration
+
+La page `/admin` permet de :
+- Generer des codes d'activation (choix du plan et de la duree)
+- Voir les codes generes et leur statut (utilise/non utilise)
+- Gerer les paiements manuels

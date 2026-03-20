@@ -1,106 +1,117 @@
-# Déploiement — Nexus Réussite EAF
+# Guide de deploiement
 
-## Prérequis
+## Pre-requis
 
-- Accès SSH à `root@88.99.254.59`
-- Node.js 20+
-- PostgreSQL 16 (Docker sur le serveur, port 5433)
-- Redis (port 6379)
-- Nginx configuré pour `eaf.nexusreussite.academy`
+- Acces SSH : `root@88.99.254.59`
+- Node.js 20 installe sur le serveur
+- PostgreSQL en cours d'execution
+- Redis en cours d'execution
+- Fichier `.env` configure sur le serveur (`/root/eaf_platform/.env`)
 
-## Déployer
+## Deployer
 
 ```bash
 bash scripts/deploy.sh root@88.99.254.59
 ```
 
-### Ce que fait le script
+Le script effectue les operations suivantes :
 
-1. **Rsync** du code vers `/opt/eaf_platform` (exclut .git, node_modules, .next, .env)
-2. **npm ci** sur le serveur
-3. **Prisma generate + migrate deploy**
-4. **Build Next.js** (standalone mode)
-5. **Build MCP server** (TypeScript)
-6. **Restaure le symlink** ressources → `/srv/eaf_ressources`
-7. **PM2 restart** avec `--update-env`
-
-### Vérification post-deploy
-
-```bash
-curl -s https://eaf.nexusreussite.academy/api/v1/health
-# Doit retourner: {"status":"ok","release":{"gitSha":"..."},...}
-
-ssh root@88.99.254.59 "pm2 status"
-# eaf-nextjs, eaf-mcp, eaf-worker doivent être "online"
-```
+1. `rsync` du code source vers le serveur (exclut `node_modules`, `.next`, `.git`)
+2. `npm ci --production` sur le serveur
+3. `npx prisma generate` puis `npx prisma migrate deploy`
+4. `npm run build` (build Next.js)
+5. `pm2 restart` de l'application avec `--update-env`
+6. Injection de `BUILD_GIT_SHA` et `BUILD_TIME` pour le endpoint `/api/v1/health`
 
 ## Variables d'environnement
 
-Le fichier `/opt/eaf_platform/.env` doit contenir :
+Le fichier `.env` sur le serveur doit contenir ces variables (voir `.env.example` pour les valeurs par defaut) :
 
-```env
-# Database
-DATABASE_URL=postgresql://user:pass@localhost:5433/eaf_prod
-DIRECT_URL=postgresql://user:pass@localhost:5433/eaf_prod
+### Base de donnees
+- `DATABASE_URL`
+- `DIRECT_URL`
 
-# Auth
-SESSION_SECRET=...
-CSRF_SECRET=...
-COOKIE_SECURE=true
+### Redis
+- `REDIS_URL`
 
-# App
-NODE_ENV=production
-NEXT_PUBLIC_APP_URL=https://eaf.nexusreussite.academy
-NEXT_PUBLIC_API_URL=https://eaf.nexusreussite.academy/api/v1
+### Authentification
+- `SESSION_SECRET`
+- `CSRF_SECRET`
+- `CRON_SECRET`
+- `COOKIE_SECURE` (mettre `true` en production)
 
-# LLM
-MISTRAL_API_KEY=...
+### LLM
+- `LLM_ROUTER_ENABLED`
+- `MISTRAL_API_KEY`
+- `GEMINI_API_KEY` (optionnel, fallback)
+- `OPENAI_API_KEY` (optionnel, fallback)
+- `LLM_PROVIDER_ORDER`
+- `LLM_TIMEOUT_MS`
 
-# Email SMTP
-SMTP_HOST=smtp.hostinger.com
-SMTP_PORT=587
-SMTP_USER=contact@nexusreussite.academy
-SMTP_PASS=...
-EMAIL_FROM=Nexus Réussite <contact@nexusreussite.academy>
-EMAIL_REPLY_TO=contact@nexusreussite.academy
+### RAG
+- `RAG_API_URL`
+- `RAG_API_TOKEN`
+- `RAG_COLLECTION`
 
-# Redis
-REDIS_URL=redis://localhost:6379
+### Email
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `EMAIL_FROM`
 
-# RAG
-RAG_API_URL=http://127.0.0.1:18001
+### Paiement (ClicToPay)
+- `CLICTOPAY_USERNAME`
+- `CLICTOPAY_PASSWORD`
+- `CLICTOPAY_API_BASE_URL`
+- `CLICTOPAY_PUBLIC_BASE_URL`
+- `CLICTOPAY_WEBHOOK_SECRET`
+
+### Application
+- `NEXT_PUBLIC_APP_URL` (mettre `https://eaf.nexusreussite.academy`)
+- `NODE_ENV` (mettre `production`)
+- `LOG_LEVEL`
+
+### MCP Server
+- `MCP_SERVER_URL`
+- `MCP_API_KEY`
+
+## Verification post-deploiement
+
+```bash
+# Verifier que l'application repond
+curl https://eaf.nexusreussite.academy/api/v1/health
+
+# Verifier le statut PM2
+ssh root@88.99.254.59 "pm2 status"
+
+# Consulter les logs
+ssh root@88.99.254.59 "pm2 logs --lines 50"
 ```
 
-## Services PM2
-
-| Service | Description | Port |
-|---------|------------|------|
-| eaf-nextjs | Application Next.js | 3000 |
-| eaf-mcp | Serveur MCP | 3100 |
-| eaf-worker | Worker BullMQ (corrections) | - |
-
-## Infrastructure Docker
-
-| Container | Description | Port |
-|-----------|------------|------|
-| nexus-postgres-db | PostgreSQL 16 | 5433 |
-| compose-ingestor-1 | RAG ingestor | 18001 |
-| compose-chroma-1 | ChromaDB | 8000 |
-| compose-ollama-1 | Ollama (embeddings) | 11434 |
+Le endpoint `/api/v1/health` retourne un JSON avec :
+- `status` : "ok" ou "degraded"
+- `gitSha` : hash du commit deploye
+- `buildTime` : horodatage du build
 
 ## Rollback
 
+En cas de probleme apres un deploiement :
+
 ```bash
-# 1. Revenir au commit précédent
+# Sur la machine locale, revenir au commit precedent
 git revert HEAD
 
-# 2. Redéployer
+# Redeployer
 bash scripts/deploy.sh root@88.99.254.59
-
-# 3. Vérifier
-curl -s https://eaf.nexusreussite.academy/api/v1/health
 ```
 
-## Ressources
+Pour un rollback immediat sans nouveau commit :
 
-Les ressources pédagogiques (548 fichiers) sont stockées dans `/srv/eaf_ressources` sur le serveur, liées via symlink `/opt/eaf_platform/ressources`. Elles ne sont pas dans le dépôt git.
+```bash
+ssh root@88.99.254.59 "cd /root/eaf_platform && git checkout <commit-hash> && npm ci && npx prisma migrate deploy && npm run build && pm2 restart all --update-env"
+```
+
+## Nginx
+
+Nginx sert de reverse proxy devant PM2. La configuration se trouve dans `/etc/nginx/sites-available/` sur le serveur. Le certificat SSL est gere par Let's Encrypt (certbot).
