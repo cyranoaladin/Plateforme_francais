@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-20T20:39:12.808Z",
+  "generatedAt": "2026-03-20T20:47:48.362Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -5484,521 +5484,514 @@
     },
     {
       "file": "src/app/page.tsx",
-      "line": 1015,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Créer mon espace gratuit"
-    },
-    {
-      "file": "src/app/page.tsx",
-      "line": 1018,
-      "column": 46,
-      "kind": "jsx-text",
-      "text": "Passer à Premium"
-    },
-    {
-      "file": "src/app/page.tsx",
-      "line": 1021,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Revoir les plans"
-    },
-    {
-      "file": "src/app/page.tsx",
-      "line": 358,
+      "line": 336,
       "column": 23,
       "kind": "jsx-text",
       "text": "Bac de Français — Programme officiel"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 362,
+      "line": 340,
       "column": 17,
       "kind": "jsx-text",
       "text": "Parcours EAF complet"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 367,
+      "line": 345,
       "column": 17,
       "kind": "jsx-text",
       "text": "Prépare ton Bac de Français avec méthode, les bonnes sources et un vrai suivi."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 376,
+      "line": 354,
       "column": 19,
       "kind": "jsx-text",
       "text": "Commencer gratuitement"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 383,
+      "line": 361,
       "column": 19,
       "kind": "jsx-text",
       "text": "Découvrir la méthode"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 424,
+      "line": 402,
       "column": 26,
       "kind": "jsx-text",
       "text": "La méthode"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 426,
+      "line": 404,
       "column": 15,
       "kind": "jsx-text",
       "text": "Une méthode en 3 étapes pour progresser concrètement."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 429,
+      "line": 407,
       "column": 15,
       "kind": "jsx-text",
       "text": "Diagnostic, production, correction, relance : chaque séance s'enchaîne logiquement pour que tu progresses vraiment d'une semaine à l'autre."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 432,
+      "line": 410,
       "column": 105,
       "kind": "jsx-text",
       "text": "Ce que la plateforme garantit"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 443,
+      "line": 421,
       "column": 17,
       "kind": "jsx-text",
       "text": "Configurer mon parcours"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 446,
+      "line": 424,
       "column": 17,
       "kind": "jsx-text",
       "text": "Voir les tarifs"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 466,
+      "line": 444,
       "column": 115,
       "kind": "jsx-text",
       "text": "Côté élève"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 470,
+      "line": 448,
       "column": 116,
       "kind": "jsx-text",
       "text": "Côté Nexus"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 489,
+      "line": 467,
       "column": 17,
       "kind": "jsx-prop",
       "text": "Prêt à tester la méthode ?"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 511,
+      "line": 489,
       "column": 28,
       "kind": "jsx-text",
       "text": "Ateliers EAF"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 513,
+      "line": 491,
       "column": 17,
       "kind": "jsx-text",
       "text": "Tout ce qu'il faut pour réussir l'EAF, organisé par usage réel."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 516,
+      "line": 494,
       "column": 97,
       "kind": "jsx-text",
       "text": "Quatre ateliers complémentaires qui couvrent l'ensemble de l'épreuve : écrit, oral, langue et corpus."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 547,
+      "line": 525,
       "column": 32,
       "kind": "jsx-text",
       "text": "Coaching intégré"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 549,
+      "line": 527,
       "column": 21,
       "kind": "jsx-text",
       "text": "Ta progression en un coup d'oeil."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 552,
+      "line": 530,
       "column": 21,
       "kind": "jsx-text",
       "text": "Un suivi continu qui te montre exactement où tu en es et ce qu'il reste à travailler."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 557,
+      "line": 535,
       "column": 75,
       "kind": "jsx-text",
       "text": "Progression globale"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 594,
+      "line": 572,
       "column": 30,
       "kind": "jsx-text",
       "text": "Fil directeur"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 595,
+      "line": 573,
       "column": 125,
       "kind": "jsx-text",
       "text": "Un fil conducteur de la copie à la révision."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 625,
+      "line": 603,
       "column": 30,
       "kind": "jsx-text",
       "text": "Pourquoi Nexus Réussite"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 627,
+      "line": 605,
       "column": 19,
       "kind": "jsx-text",
       "text": "Conçu pour l'élève, rassurant pour les parents, crédible pour les profs."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 630,
+      "line": 608,
       "column": 19,
       "kind": "jsx-text",
       "text": "Chaque décision pédagogique est pensée pour que l'élève progresse, que le parent comprenne la méthode et que l'enseignant reconnaisse un cadre sérieux."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 647,
+      "line": 625,
       "column": 21,
       "kind": "jsx-text",
       "text": "Essayer gratuitement"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 649,
+      "line": 627,
       "column": 242,
       "kind": "jsx-text",
       "text": "Voir les tarifs"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 655,
+      "line": 633,
       "column": 112,
       "kind": "jsx-text",
       "text": "Ce qui change pour toi"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 657,
+      "line": 635,
       "column": 23,
       "kind": "jsx-text",
       "text": "Ce qui distingue Nexus d'un simple chatbot."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 660,
+      "line": 638,
       "column": 151,
       "kind": "jsx-text",
       "text": "comparaison"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 668,
+      "line": 646,
       "column": 103,
       "kind": "jsx-text",
       "text": "Outil généraliste"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 672,
+      "line": 650,
       "column": 113,
       "kind": "jsx-text",
       "text": "Nexus Réussite"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 701,
+      "line": 679,
       "column": 17,
       "kind": "jsx-text",
       "text": "Engagements non négociables"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 704,
+      "line": 682,
       "column": 17,
       "kind": "jsx-text",
       "text": "Tes données, ton travail et ta confiance sont protégés."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 707,
+      "line": 685,
       "column": 83,
       "kind": "jsx-text",
       "text": "Cadre pédagogique strict, sources vérifiables, sessions sécurisées et respect des données personnelles : voici nos engagements concrets."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 721,
+      "line": 699,
       "column": 57,
       "kind": "jsx-text",
       "text": "Garantie Nexus"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 723,
+      "line": 701,
       "column": 115,
       "kind": "jsx-text",
       "text": "Nos garanties concrètes pour chaque élève."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 734,
+      "line": 712,
       "column": 19,
       "kind": "jsx-text",
       "text": "Commencer gratuitement"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 755,
+      "line": 733,
       "column": 28,
       "kind": "jsx-text",
       "text": "Plans et tarifs"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 757,
+      "line": 735,
       "column": 17,
       "kind": "jsx-text",
       "text": "Choisis le rythme qui correspond à ta préparation."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 761,
+      "line": 739,
       "column": 15,
       "kind": "jsx-text",
       "text": "Commence gratuitement pour tester la méthode. Passe à un plan supérieur quand ton rythme de travail le demande."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 792,
+      "line": 763,
       "column": 62,
       "kind": "jsx-text",
       "text": "Recommandé"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 823,
-      "column": 85,
-      "kind": "jsx-text",
-      "text": "Redirection..."
-    },
-    {
-      "file": "src/app/page.tsx",
-      "line": 838,
+      "line": 807,
       "column": 74,
       "kind": "jsx-text",
       "text": "Fonctionnalité"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 839,
+      "line": 808,
       "column": 86,
       "kind": "jsx-text",
       "text": "Freemium"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 840,
+      "line": 809,
       "column": 86,
       "kind": "jsx-text",
       "text": "Premium"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 841,
+      "line": 810,
       "column": 86,
       "kind": "jsx-text",
       "text": "Masterium"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 863,
+      "line": 832,
       "column": 109,
       "kind": "jsx-text",
       "text": "Activation"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 864,
+      "line": 833,
       "column": 127,
       "kind": "jsx-text",
       "text": "Activer avec un code"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 867,
+      "line": 836,
       "column": 82,
       "kind": "jsx-text",
       "text": "Si un code d'activation t'a été envoyé, active ton plan ici sans repasser par le checkout."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 870,
+      "line": 839,
       "column": 129,
       "kind": "jsx-prop",
       "text": "EAF-XXXX-XXXX-XXXX"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 877,
+      "line": 846,
       "column": 122,
       "kind": "jsx-text",
       "text": "pour rattacher le code à ton compte."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 877,
+      "line": 846,
       "column": 94,
       "kind": "jsx-text",
       "text": "Connecte-toi d'abord"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 888,
+      "line": 857,
       "column": 110,
       "kind": "jsx-text",
       "text": "Paiement alternatif"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 889,
+      "line": 858,
       "column": 119,
       "kind": "jsx-text",
       "text": "Flouci & virement bancaire"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 892,
+      "line": 861,
       "column": 68,
       "kind": "jsx-text",
       "text": "Le virement bancaire est disponible avec activation manuelle du plan. Flouci sera disponible prochainement. Contacte-nous pour recevoir les coordonnées bancaires."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 894,
+      "line": 863,
       "column": 180,
       "kind": "jsx-text",
       "text": "Flouci — bientôt disponible"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 895,
+      "line": 864,
       "column": 246,
       "kind": "jsx-text",
       "text": "Envoyer la référence virement"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 905,
+      "line": 874,
       "column": 17,
       "kind": "jsx-prop",
       "text": "Passe à la vitesse supérieure avec Premium ou Masterium."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 924,
+      "line": 893,
       "column": 26,
       "kind": "jsx-text",
       "text": "Questions fréquentes"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 926,
+      "line": 895,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tout ce que tu veux savoir avant de commencer."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 928,
+      "line": 897,
       "column": 91,
       "kind": "jsx-text",
       "text": "Méthode, sources, sécurité, accessibilité, paiement — les réponses honnêtes sont ici."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 931,
+      "line": 900,
       "column": 115,
       "kind": "jsx-text",
       "text": "Besoin d'aller plus loin ?"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 932,
+      "line": 901,
       "column": 68,
       "kind": "jsx-text",
       "text": "Compare les plans, choisis l'offre adaptée à ton rythme de travail et commence à progresser."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 935,
+      "line": 904,
       "column": 19,
       "kind": "jsx-text",
       "text": "Voir les offres"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 937,
+      "line": 906,
       "column": 129,
       "kind": "jsx-text",
       "text": "Revoir les plans et tarifs"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 962,
+      "line": 931,
       "column": 25,
       "kind": "jsx-text",
       "text": "Passage à l&#39;action"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 965,
+      "line": 934,
       "column": 19,
       "kind": "jsx-text",
       "text": "Commence gratuitement, progresse à ton rythme, et décide ensuite."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 968,
+      "line": 937,
       "column": 19,
       "kind": "jsx-text",
       "text": "Inscription gratuite, mise en route en 3 minutes, premiers ateliers accessibles immédiatement. Tu paies seulement quand tu en as vraiment besoin."
     },
     {
       "file": "src/app/page.tsx",
-      "line": 974,
+      "line": 943,
       "column": 101,
       "kind": "jsx-text",
       "text": "Dès l&#39;entrée"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 984,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Créer mon espace gratuit"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 987,
+      "column": 46,
+      "kind": "jsx-text",
+      "text": "Passer à Premium"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 990,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Revoir les plans"
     },
     {
       "file": "src/app/paiement/confirmation/page.tsx",

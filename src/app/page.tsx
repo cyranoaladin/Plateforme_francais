@@ -42,7 +42,6 @@ const EDITORIAL_HEADING = {
 
 /* ─── Types billing ─── */
 type SubscriptionPlan = 'FREE' | 'PREMIUM' | 'PRO';
-type CheckoutPlan = 'PREMIUM' | 'PRO';
 type BillingStatusPayload = {
   authenticated?: boolean;
   subscription: { plan: SubscriptionPlan; status: string; currentPeriodEnd: string | null };
@@ -115,14 +114,14 @@ const PLANS = [
   {
     id: 'PREMIUM' as SubscriptionPlan, title: 'Premium', priceTND: '99 TND', period: '/ mois',
     bullets: ['10 sessions orales / semaine', '20 corrections écrites / mois', '100 échanges guidés / jour', 'Analyse de copies : 20 / mois', 'Parcours personnalisé', 'Rapport PDF oral', 'Bibliothèque complète'],
-    cta: 'Passer à Premium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PREMIUM' as CheckoutPlan, highlighted: true,
+    cta: 'Passer à Premium', ctaDisabledLabel: 'Plan actuel', highlighted: true,
     kicker: 'La préparation complète pour réussir ton EAF.',
     note: "Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.",
   },
   {
     id: 'PRO' as SubscriptionPlan, title: 'Masterium', priceTND: '129 TND', period: '/ mois',
     bullets: ['Oral illimité', 'Corrections écrites illimitées', 'Accompagnement guidé illimité', 'Analyse de copies : 50 / mois', 'Volume de travail illimité', 'Recherche avancée dans le corpus', 'Historique oral complet', 'Support prioritaire'],
-    cta: 'Passer à Masterium', ctaDisabledLabel: 'Plan actuel', checkoutPlan: 'PRO' as CheckoutPlan, highlighted: false,
+    cta: 'Passer à Masterium', ctaDisabledLabel: 'Plan actuel', highlighted: false,
     kicker: "Pour viser la mention et travailler sans limite.",
     note: "Aucune limite sur les quotas. Pour ceux qui travaillent intensément et veulent une préparation maximale.",
   },
@@ -261,8 +260,6 @@ export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [billing, setBilling] = useState<BillingStatusPayload | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [pendingPlan, setPendingPlan] = useState<CheckoutPlan | null>(null);
-  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [codeInput, setCodeInput] = useState('');
   const [codeLoading, setCodeLoading] = useState(false);
   const [codeSuccess, setCodeSuccess] = useState<{ plan: string; message: string } | null>(null);
@@ -287,25 +284,6 @@ export default function HomePage() {
   }, []);
 
   const currentPlan = billing?.subscription.plan ?? 'FREE';
-
-  const startCheckout = async (plan: CheckoutPlan, planId: string) => {
-    if (!isAuthenticated) {
-      track({ name: 'pricing_checkout_click', props: { plan: `${planId}_guest_redirect` } });
-      window.location.assign('/login?mode=register');
-      return;
-    }
-    setCheckoutError(null);
-    setPendingPlan(plan);
-    track({ name: 'pricing_checkout_click', props: { plan: planId } });
-    try {
-      const payload = await apiFetch<{ checkoutUrl?: string }>('/api/v1/payments/clictopay/init', { method: 'POST', json: { plan } });
-      if (!payload.checkoutUrl) throw { status: 500, message: 'URL de paiement introuvable.' };
-      window.location.assign(payload.checkoutUrl);
-    } catch (err) {
-      setCheckoutError(isApiError(err) ? err.message : 'Paiement indisponible. Réessaie dans quelques minutes.');
-      setPendingPlan(null);
-    }
-  };
 
   const redeemCode = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -762,16 +740,9 @@ export default function HomePage() {
             </p>
           </div>
 
-          {checkoutError ? (
-            <div className="mt-6 flex items-start gap-3 rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
-              <span>{checkoutError}</span>
-            </div>
-          ) : null}
-
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {PLANS.map((plan) => {
               const isCurrent = isAuthenticated && plan.id === currentPlan;
-              const isLoadingPlan = pendingPlan !== null && plan.checkoutPlan === pendingPlan;
               const accent = plan.highlighted
                 ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-xl)]'
                 : isCurrent ? 'border-[var(--teal)] bg-[var(--surface-warm)] text-[var(--navy)]'
@@ -808,20 +779,18 @@ export default function HomePage() {
                   </ul>
                   <button
                     type="button"
-                    disabled={(isAuthenticated && isCurrent) || (isAuthenticated && !plan.checkoutPlan) || pendingPlan !== null}
+                    disabled={isAuthenticated && isCurrent}
                     onClick={() => {
                       if (!isAuthenticated) { window.location.assign('/login?mode=register'); return; }
-                      if (plan.checkoutPlan) {
+                      if (plan.id !== 'FREE') {
                         track({ name: 'pricing_plan_select', props: { plan: plan.id } });
-                        // Go live: virement/espèces → WhatsApp pour instructions
                         const msg = encodeURIComponent(`Bonjour, je souhaite activer le plan ${plan.title} (${plan.priceTND} ${plan.period}). Merci de m'envoyer les instructions de paiement.`);
                         window.open(`https://wa.me/21699192829?text=${msg}`, '_blank');
                       }
                     }}
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${plan.highlighted ? 'bg-gradient-to-r from-[var(--gold)] to-[var(--gold-deep)] text-[var(--navy-dark)] shadow-gold hover:-translate-y-0.5' : 'bg-[var(--navy)] text-white hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]'}`}
                   >
-                    {isLoadingPlan ? <><Loader2 className="h-4 w-4 animate-spin" /> Redirection...</>
-                      : !isAuthenticated ? (plan.id === 'FREE' ? 'Essayer gratuitement' : 'Choisir ce plan')
+                    {!isAuthenticated ? (plan.id === 'FREE' ? 'Essayer gratuitement' : 'Choisir ce plan')
                       : isCurrent ? plan.ctaDisabledLabel
                       : plan.cta}
                   </button>
