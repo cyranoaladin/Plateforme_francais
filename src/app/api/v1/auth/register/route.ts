@@ -9,7 +9,8 @@ import {
 import { type StudentProfile } from '@/lib/auth/types';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createUser, findUserByEmail } from '@/lib/db/repositories/userRepo';
-import { sendTransactionalEmail } from '@/lib/email/client';
+import { sendWelcomeEmail } from '@/lib/email/service';
+import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { ensureCsrfCookie } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
@@ -102,24 +103,23 @@ export async function POST(request: Request) {
   await setSessionCookie(session.token);
   await setRoleCookie('eleve');
 
-  void sendTransactionalEmail({
-    to: email,
-    subject: 'Bienvenue sur Nexus EAF !',
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto;">
-        <h2 style="color: #17324D;">Bienvenue sur Nexus EAF !</h2>
-        <p>Bonjour ${displayName || 'Élève'},</p>
-        <p>Ton compte est prêt. Tu peux commencer ton onboarding et configurer ton parcours de préparation à l'EAF dès maintenant.</p>
-        <p style="text-align: center; margin: 24px 0;">
-          <a href="${process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy'}/onboarding"
-             style="background: #0F766E; color: white; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: bold;">
-            Commencer mon onboarding
-          </a>
-        </p>
-        <p style="color: #888; font-size: 13px;">— L'équipe Nexus EAF</p>
-      </div>
-    `,
-  }).catch(() => undefined);
+  // Fire-and-forget: l'inscription réussit même si l'email échoue
+  const firstName = (displayName || '').trim().split(' ')[0] || 'là';
+  sendWelcomeEmail({ firstName, email })
+    .then((result) => {
+      if (!result.success) {
+        logger.warn(
+          { userId, error: result.error },
+          'Échec envoi email de bienvenue (non bloquant)',
+        );
+      }
+    })
+    .catch((err) => {
+      logger.error(
+        { err, userId },
+        'Erreur inattendue envoi email bienvenue',
+      );
+    });
 
   const response = NextResponse.json({ ok: true }, { status: 201 });
   await ensureCsrfCookie(response);

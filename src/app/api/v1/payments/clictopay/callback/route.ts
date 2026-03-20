@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { applyClicToPayStatusToTransaction } from '@/lib/payments/clictopay';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
+import { sendSubscriptionConfirmationEmail } from '@/lib/email/service';
 
 /* ─── IP Allowlist ─── */
 const CLICTOPAY_IP_ALLOWLIST = (process.env.CLICTOPAY_IP_ALLOWLIST ?? '')
@@ -120,6 +121,42 @@ export async function POST(request: Request) {
     });
 
     logger.info({ orderRef, orderId, status: result.status }, 'clictopay.callback.received');
+
+    // Fire-and-forget: envoyer email de confirmation si paiement accepté
+    if (result.status === 'ACCEPTED') {
+      try {
+        const tx = orderRef
+          ? await prisma.paymentTransaction.findUnique({ where: { orderRef }, select: { userId: true } })
+          : await prisma.paymentTransaction.findFirst({ where: { providerRef: orderId }, select: { userId: true } });
+        if (tx?.userId) {
+          const userForEmail = await prisma.user.findUnique({
+            where: { id: tx.userId },
+            select: { email: true },
+          });
+          const sub = await prisma.subscription.findUnique({
+            where: { userId: tx.userId },
+            select: { plan: true },
+          });
+          if (userForEmail && sub) {
+            const firstName = userForEmail.email.split('@')[0] ?? 'là';
+            const nextBilling = new Date();
+            nextBilling.setDate(nextBilling.getDate() + 30);
+            sendSubscriptionConfirmationEmail({
+              user: { firstName, email: userForEmail.email },
+              plan: sub.plan as 'MONTHLY' | 'LIFETIME' | 'PREMIUM' | 'PRO' | 'MAX',
+              transactionId: orderRef ?? orderId ?? 'N/A',
+              startDate: new Date(),
+              nextBillingDate: nextBilling,
+            }).catch((err) => {
+              logger.error({ err }, 'Erreur email confirmation souscription');
+            });
+          }
+        }
+      } catch {
+        // Non-blocking
+      }
+    }
+
     return NextResponse.json({ ok: true, status: result.status });
   } catch (error) {
     logger.error({ error }, 'clictopay.callback.error');
