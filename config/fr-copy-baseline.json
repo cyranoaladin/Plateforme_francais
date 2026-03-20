@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-20T15:18:05.119Z",
+  "generatedAt": "2026-03-20T15:31:43.899Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -5414,77 +5414,56 @@
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 563,
-      "column": 79,
+      "line": 595,
+      "column": 182,
       "kind": "jsx-text",
-      "text": "Ton œuvre d"
+      "text": "Principale"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 563,
-      "column": 95,
-      "kind": "jsx-text",
-      "text": "entretien oral"
-    },
-    {
-      "file": "src/app/onboarding/page.tsx",
-      "line": 564,
-      "column": 119,
-      "kind": "jsx-text",
-      "text": "oral (8 points sur 20)."
-    },
-    {
-      "file": "src/app/onboarding/page.tsx",
-      "line": 564,
-      "column": 76,
-      "kind": "jsx-text",
-      "text": "Œuvre intégrale pour la 2e partie de l"
-    },
-    {
-      "file": "src/app/onboarding/page.tsx",
-      "line": 612,
+      "line": 620,
       "column": 79,
       "kind": "jsx-text",
       "text": "Réglage initial pour prioriser les prochains ateliers."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 630,
+      "line": 638,
       "column": 35,
       "kind": "jsx-text",
       "text": "Fragile"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 631,
+      "line": 639,
       "column": 35,
       "kind": "jsx-text",
       "text": "Solide"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 639,
+      "line": 647,
       "column": 111,
       "kind": "jsx-text",
       "text": "Priorisation détectée"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 660,
+      "line": 668,
       "column": 19,
       "kind": "jsx-text",
       "text": "Retour"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 663,
+      "line": 671,
       "column": 67,
       "kind": "jsx-text",
       "text": "Étape"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 663,
+      "line": 671,
       "column": 80,
       "kind": "jsx-text",
       "text": "sur 3"
