@@ -87,7 +87,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob:`,
     `media-src 'self' blob:`,
-    `connect-src 'self' https://ipay.clictopay.com`,
+    `connect-src 'self'`,
     `frame-ancestors 'none'`,
     `base-uri 'self'`,
     `form-action 'self'`,

@@ -23,8 +23,6 @@ import { TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE } from '@/lib/payments/availabili
 
 type SubscriptionPlan = 'FREE' | 'PREMIUM' | 'PRO';
 type PaymentStatus = 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
-type CheckoutPlan = 'PREMIUM' | 'PRO';
-
 type BillingStatusPayload = {
   authenticated?: boolean;
   subscription: {
@@ -50,7 +48,7 @@ type PlanCard = {
   bullets: string[];
   cta: string;
   ctaDisabledLabel: string;
-  checkoutPlan?: CheckoutPlan;
+  checkoutPlan?: string;
   highlighted: boolean;
   kicker: string;
   note: string;
@@ -259,16 +257,6 @@ export default function PricingPage() {
     if (!billing?.lastPayment) return null;
     return `${(billing.lastPayment.amountMillimes / 1000).toFixed(3)} ${billing.lastPayment.currency}`;
   }, [billing?.lastPayment]);
-
-  const startCheckout = (_plan: CheckoutPlan, planId: string) => {
-    setError(TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE);
-    track({
-      name: 'pricing_checkout_click',
-      props: {
-        plan: isAuthenticated ? planId : `${planId}_guest`,
-      },
-    });
-  };
 
   const redeemCode = async (event: React.FormEvent) => {
     event.preventDefault();

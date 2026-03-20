@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-20T21:06:42.579Z",
+  "generatedAt": "2026-03-20T23:16:43.955Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -6618,553 +6618,553 @@
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 320,
+      "line": 308,
       "column": 15,
       "kind": "jsx-text",
       "text": "Plans 2026"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 325,
+      "line": 313,
       "column": 15,
       "kind": "jsx-text",
       "text": "Retour accueil"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 328,
+      "line": 316,
       "column": 15,
       "kind": "jsx-text",
       "text": "Se connecter"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 334,
+      "line": 322,
       "column": 15,
       "kind": "jsx-text",
       "text": "Comparer les plans"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 344,
+      "line": 332,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tarification claire, sans promesse floue"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 351,
+      "line": 339,
       "column": 15,
       "kind": "jsx-text",
       "text": "Choisis le bon rythme de travail,"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 352,
+      "line": 340,
       "column": 58,
       "kind": "jsx-text",
       "text": "puis laisse le produit faire le reste."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 356,
+      "line": 344,
       "column": 15,
       "kind": "jsx-text",
       "text": "Compare les plans, comprends les quotas, vois les alternatives de paiement et décide seulement après avoir compris ce que chaque niveau débloque vraiment."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 364,
+      "line": 352,
       "column": 17,
       "kind": "jsx-text",
       "text": "Choisir mon offre"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 371,
+      "line": 359,
       "column": 17,
       "kind": "jsx-text",
       "text": "Essayer gratuitement"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 387,
+      "line": 375,
       "column": 108,
       "kind": "jsx-text",
       "text": "Ton statut"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 389,
+      "line": 377,
       "column": 19,
       "kind": "jsx-text",
       "text": "Une facturation lisible, même avant paiement."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 393,
+      "line": 381,
       "column": 17,
       "kind": "jsx-text",
       "text": "Facturation en TND"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 401,
+      "line": 389,
       "column": 66,
       "kind": "jsx-text",
       "text": "Chargement du statut..."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 406,
+      "line": 394,
       "column": 93,
       "kind": "jsx-text",
       "text": "Mode visiteur"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 407,
+      "line": 395,
       "column": 72,
       "kind": "jsx-text",
       "text": "Aucun compte connecté"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 410,
+      "line": 398,
       "column": 23,
       "kind": "jsx-text",
       "text": "Tu peux comparer les plans librement. Le compte gratuit n’intervient qu’au moment utile, pas avant."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 416,
+      "line": 404,
       "column": 93,
       "kind": "jsx-text",
       "text": "Plan actif"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 420,
+      "line": 408,
       "column": 93,
       "kind": "jsx-text",
       "text": "Statut"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 425,
+      "line": 413,
       "column": 95,
       "kind": "jsx-text",
       "text": "Échéance"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 434,
+      "line": 422,
       "column": 87,
       "kind": "jsx-text",
       "text": "Dernier paiement"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 437,
+      "line": 425,
       "column": 61,
       "kind": "jsx-text",
       "text": "Aucun paiement requis pour commencer"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 438,
+      "line": 426,
       "column": 24,
       "kind": "jsx-text",
       "text": "Le plan Freemium permet déjà de configurer ton parcours, de tester les premiers ateliers et de découvrir la méthode."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 445,
+      "line": 433,
       "column": 91,
       "kind": "jsx-text",
       "text": "· Ref."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 449,
+      "line": 437,
       "column": 62,
       "kind": "jsx-text",
       "text": "Aucun paiement récent enregistré."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 457,
+      "line": 445,
       "column": 109,
       "kind": "jsx-text",
       "text": "Devise et moyens de paiement"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 458,
+      "line": 446,
       "column": 61,
       "kind": "jsx-text",
       "text": "Facturation en TND. Virement bancaire et WhatsApp actifs. Paiement carte et Flouci bientôt disponibles."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 461,
+      "line": 449,
       "column": 19,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 478,
+      "line": 466,
       "column": 95,
       "kind": "jsx-text",
       "text": "Plans"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 480,
+      "line": 468,
       "column": 17,
       "kind": "jsx-text",
       "text": "Trois rythmes, trois plafonds, une seule logique de valeur."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 484,
+      "line": 472,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le but n’est pas de noyer l’offre. Il est de rendre le choix simple, défendable et rapide pour l’élève comme pour le parent qui paie."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 509,
+      "line": 497,
       "column": 25,
       "kind": "jsx-text",
       "text": "Recommandé"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 571,
+      "line": 559,
       "column": 97,
       "kind": "jsx-text",
       "text": "Aide à la décision"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 573,
+      "line": 561,
       "column": 19,
       "kind": "jsx-text",
       "text": "La bonne offre dépend du rythme, pas d’un argument marketing vide."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 595,
+      "line": 583,
       "column": 107,
       "kind": "jsx-text",
       "text": "Activation"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 597,
+      "line": 585,
       "column": 19,
       "kind": "jsx-text",
       "text": "Activer avec un code"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 603,
+      "line": 591,
       "column": 15,
       "kind": "jsx-text",
       "text": "Si un code d’activation t’a été envoyé, active ton plan ici sans repasser par le checkout ni ressaisir un paiement."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 612,
+      "line": 600,
       "column": 31,
       "kind": "jsx-prop",
       "text": "EAF-XXXX-XXXX-XXXX"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 628,
+      "line": 616,
       "column": 120,
       "kind": "jsx-text",
       "text": "pour rattacher le code à ton compte, puis reviens ici pour l’activer."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 628,
+      "line": 616,
       "column": 92,
       "kind": "jsx-text",
       "text": "Connecte-toi d’abord"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 652,
+      "line": 640,
       "column": 108,
       "kind": "jsx-text",
       "text": "Paiement alternatif"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 654,
+      "line": 642,
       "column": 19,
       "kind": "jsx-text",
       "text": "Commander un code en Tunisie"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 660,
+      "line": 648,
       "column": 15,
       "kind": "jsx-text",
       "text": "Pour l’instant, les abonnements payants s’activent par virement bancaire ou via WhatsApp. Flouci et le paiement carte reviendront dès que leurs intégrations seront finalisées."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 668,
+      "line": 656,
       "column": 69,
       "kind": "jsx-text",
       "text": "Paiement Flouci"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 670,
+      "line": 658,
       "column": 23,
       "kind": "jsx-text",
       "text": "Flouci est prévu mais pas encore actif en production. Si tu veux activer ton plan maintenant, utilise plutôt le virement bancaire ci-dessous."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 678,
+      "line": 666,
       "column": 25,
       "kind": "jsx-text",
       "text": "Flouci bientôt disponible"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 685,
+      "line": 673,
       "column": 25,
       "kind": "jsx-text",
       "text": "Paiement Flouci — bientôt"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 689,
+      "line": 677,
       "column": 23,
       "kind": "jsx-text",
       "text": "Pour activer le plan maintenant, utilise le virement bancaire avec l’email du compte ou ton identifiant utilisateur en référence."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 704,
+      "line": 692,
       "column": 69,
       "kind": "jsx-text",
       "text": "Virement bancaire"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 705,
+      "line": 693,
       "column": 74,
       "kind": "jsx-text",
       "text": "Ajoute l’email du compte ou l’identifiant utilisateur en motif. Le plan est activé après vérification du règlement."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 719,
+      "line": 707,
       "column": 25,
       "kind": "jsx-text",
       "text": "Envoyer la référence"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 731,
+      "line": 719,
       "column": 19,
       "kind": "jsx-text",
       "text": "Facturation en dinar tunisien. Premium = 99 TND/mois. Masterium = 129 TND/mois. Le code d’activation est envoyé après confirmation du virement bancaire ou via WhatsApp."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 745,
+      "line": 733,
       "column": 105,
       "kind": "jsx-text",
       "text": "Canal actif"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 747,
+      "line": 735,
       "column": 19,
       "kind": "jsx-text",
       "text": "Souscrire via WhatsApp"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 753,
+      "line": 741,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tu préfères être accompagné directement ? Envoie-nous un message WhatsApp pour choisir ton plan, poser tes questions et recevoir ton code d’activation."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 758,
+      "line": 746,
       "column": 107,
       "kind": "jsx-text",
       "text": "Numéro WhatsApp"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 761,
+      "line": 749,
       "column": 19,
       "kind": "jsx-text",
       "text": "Disponible pour répondre à tes questions sur les plans, t’aider à choisir et finaliser ton abonnement."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 765,
+      "line": 753,
       "column": 107,
       "kind": "jsx-text",
       "text": "Comment ça marche"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 767,
+      "line": 755,
       "column": 208,
       "kind": "jsx-text",
       "text": "Envoie &quot;Bonjour&quot; sur WhatsApp"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 768,
+      "line": 756,
       "column": 208,
       "kind": "jsx-text",
       "text": "Choisis ton plan (Premium ou Masterium)"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 769,
+      "line": 757,
       "column": 208,
       "kind": "jsx-text",
       "text": "Reçois ton code d’activation"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 782,
+      "line": 770,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ouvrir WhatsApp"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 790,
+      "line": 778,
       "column": 17,
       "kind": "jsx-text",
       "text": "Envoyer un message pré-rempli"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 797,
+      "line": 785,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 806,
+      "line": 794,
       "column": 95,
       "kind": "jsx-text",
       "text": "Comparaison détaillée"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 808,
+      "line": 796,
       "column": 17,
       "kind": "jsx-text",
       "text": "Les quotas sont visibles, donc la décision reste rationnelle."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 813,
+      "line": 801,
       "column": 15,
       "kind": "jsx-text",
       "text": "Compare en 30 secondes"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 821,
+      "line": 809,
       "column": 74,
       "kind": "jsx-text",
       "text": "Fonctionnalité"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 822,
+      "line": 810,
       "column": 86,
       "kind": "jsx-text",
       "text": "Freemium"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 823,
+      "line": 811,
       "column": 86,
       "kind": "jsx-text",
       "text": "Premium"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 824,
+      "line": 812,
       "column": 86,
       "kind": "jsx-text",
       "text": "Masterium"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 843,
+      "line": 831,
       "column": 93,
       "kind": "jsx-text",
       "text": "FAQ facturation"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 845,
+      "line": 833,
       "column": 15,
       "kind": "jsx-text",
       "text": "Les questions d’argent doivent être traitées aussi clairement que le reste."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 848,
+      "line": 836,
       "column": 15,
       "kind": "jsx-text",
       "text": "Si la page est bonne, elle coupe court aux hésitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 852,
+      "line": 840,
       "column": 106,
       "kind": "jsx-text",
       "text": "Prêt à passer à l’action ?"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 854,
+      "line": 842,
       "column": 17,
       "kind": "jsx-text",
       "text": "La préparation sérieuse commence avec Premium."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 857,
+      "line": 845,
       "column": 17,
       "kind": "jsx-text",
       "text": "Le plan Freemium donne un aperçu de la méthode de travail. Premium débloque le rythme nécessaire pour progresser réellement avant l'épreuve."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 861,
+      "line": 849,
       "column": 19,
       "kind": "jsx-text",
       "text": "Comparer les plans"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 865,
+      "line": 853,
       "column": 19,
       "kind": "jsx-text",
       "text": "Retour à l’accueil"
