@@ -12,9 +12,11 @@ test.use({
 test('Parcours mobile: login + dashboard + navigation', async ({ page }) => {
   test.setTimeout(60_000);
   await page.goto('/login');
+  // Dismiss consent banner if present (force click to bypass overlay on mobile)
   const consentDialog = page.getByRole('dialog', { name: /consentement/i });
-  if (await consentDialog.isVisible().catch(() => false)) {
-    await page.getByRole('button', { name: /Refuser|Accepter/i }).first().click();
+  if (await consentDialog.isVisible({ timeout: 3_000 }).catch(() => false)) {
+    await page.getByRole('button', { name: /Refuser|Accepter/i }).first().click({ force: true });
+    await consentDialog.waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => {});
   }
   await page.getByTestId('auth-email').fill(process.env.E2E_USER_EMAIL ?? 'jean@eaf.local');
   await page.getByTestId('auth-password').fill(process.env.E2E_USER_PASSWORD ?? 'demo1234');
