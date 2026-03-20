@@ -176,7 +176,7 @@ describe('formatMediaContextForPrompt', () => {
     const entries: MediaEntry[] = MEDIA_CATALOG.slice(0, 3);
     const result = formatMediaContextForPrompt(entries);
     expect(result).toContain('Ne jamais citer une URL');
-    expect(result).toContain('[Ressource: titre]');
+    expect(result).toContain('Ne jamais utiliser le format [Ressource: ...]');
   });
 
   it('limite à 5 entrées maximum', () => {
