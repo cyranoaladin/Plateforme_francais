@@ -18,8 +18,13 @@ BEGIN
   END IF;
 END $$;
 
--- Set status based on usedCount
-UPDATE "ActivationCode" SET "status" = CASE WHEN "usedCount" > 0 THEN 'REDEEMED' ELSE 'CREATED' END WHERE "status" IS NULL OR "status" = 'CREATED';
+-- Set status based on usedCount (only if legacy usedCount column exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'ActivationCode' AND column_name = 'usedCount') THEN
+    EXECUTE 'UPDATE "ActivationCode" SET "status" = CASE WHEN "usedCount" > 0 THEN ''REDEEMED'' ELSE ''CREATED'' END WHERE "status" IS NULL OR "status" = ''CREATED''';
+  END IF;
+END $$;
 
 -- Make codeHash NOT NULL and add unique constraint if not exists
 ALTER TABLE "ActivationCode" ALTER COLUMN "codeHash" SET NOT NULL;
@@ -40,8 +45,16 @@ DO $$ BEGIN
   END IF;
 END $$;
 
--- Cast plan column to TEXT if it's SubscriptionPlan enum
-ALTER TABLE "ActivationCode" ALTER COLUMN "plan" TYPE TEXT USING "plan"::TEXT;
+-- Cast plan column to TEXT if it's not already TEXT
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'ActivationCode' AND column_name = 'plan' AND data_type != 'text'
+  ) THEN
+    ALTER TABLE "ActivationCode" ALTER COLUMN "plan" TYPE TEXT USING "plan"::TEXT;
+  END IF;
+END $$;
 
 -- Make durationDays NOT NULL with default
 UPDATE "ActivationCode" SET "durationDays" = 30 WHERE "durationDays" IS NULL;
