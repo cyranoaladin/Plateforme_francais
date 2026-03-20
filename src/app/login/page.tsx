@@ -75,6 +75,13 @@ function RateLimitNotice({ retryAfterSec }: { retryAfterSec: number }) {
   );
 }
 
+const PASSWORD_RULES = [
+  { test: (v: string) => v.length >= 8, label: '8 caractères minimum' },
+  { test: (v: string) => /[a-z]/.test(v), label: 'Une minuscule' },
+  { test: (v: string) => /[A-Z]/.test(v), label: 'Une majuscule' },
+  { test: (v: string) => /[0-9]/.test(v), label: 'Un chiffre' },
+];
+
 function PasswordField({
   id,
   value,
@@ -82,6 +89,7 @@ function PasswordField({
   label,
   testId,
   autoComplete,
+  showRules,
 }: {
   id: string;
   value: string;
@@ -89,6 +97,7 @@ function PasswordField({
   label: string;
   testId?: string;
   autoComplete?: string;
+  showRules?: boolean;
 }) {
   const [show, setShow] = useState(false);
 
@@ -118,6 +127,25 @@ function PasswordField({
           {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>
       </div>
+      {showRules && value.length > 0 && (
+        <ul className="mt-2 space-y-1">
+          {PASSWORD_RULES.map((rule) => {
+            const pass = rule.test(value);
+            return (
+              <li key={rule.label} className="flex items-center gap-2 text-xs">
+                {pass ? (
+                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-[var(--teal)]" />
+                ) : (
+                  <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-[var(--text-muted)]" />
+                )}
+                <span className={pass ? 'text-[var(--teal)]' : 'text-[var(--text-muted)]'}>
+                  {rule.label}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }
@@ -451,7 +479,7 @@ function AuthCard() {
             />
           </div>
 
-          {mode !== 'forgot' && <PasswordField id="password" value={password} onChange={setPassword} label="Mot de passe" testId="auth-password" autoComplete={mode === 'register' ? 'new-password' : 'current-password'} />}
+          {mode !== 'forgot' && <PasswordField id="password" value={password} onChange={setPassword} label="Mot de passe" testId="auth-password" autoComplete={mode === 'register' ? 'new-password' : 'current-password'} showRules={mode === 'register'} />}
 
           {mode === 'reset' && <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le mot de passe" autoComplete="new-password" />}
 
