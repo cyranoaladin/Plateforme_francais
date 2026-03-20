@@ -220,7 +220,9 @@ function AuthCard() {
   const [displayName, setDisplayName] = useState('');
   const [isMinor, setIsMinor] = useState(false);
   const [parentEmail, setParentEmail] = useState('');
+  const [teacherEmail, setTeacherEmail] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [loginRole, setLoginRole] = useState<'eleve' | 'parent' | 'enseignant'>('eleve');
   const [showHelp, setShowHelp] = useState(false);
   const [resetToken, setResetToken] = useState('');
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -317,7 +319,8 @@ function AuthCard() {
                 acceptedCgu: acceptTerms,
                 cguVersion: '2026-03',
                 isMinor,
-                ...(isMinor && parentEmail ? { parentEmail } : {}),
+                ...(parentEmail ? { parentEmail } : {}),
+                ...(teacherEmail ? { teacherEmail } : {}),
               }
             : {}),
         },
@@ -444,6 +447,42 @@ function AuthCard() {
           </button>
         </div>
 
+        {mode === 'login' && (
+          <div className="mt-4">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[var(--accent-bronze)]">Je me connecte en tant que</p>
+            <div className="flex gap-2">
+              {([
+                { value: 'eleve' as const, label: 'Élève', icon: '📚' },
+                { value: 'parent' as const, label: 'Parent', icon: '👨‍👩‍👧' },
+                { value: 'enseignant' as const, label: 'Enseignant', icon: '🎓' },
+              ]).map(({ value, label, icon }) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setLoginRole(value)}
+                  className={`flex-1 rounded-[var(--radius-lg)] border px-3 py-2.5 text-sm font-semibold transition-all ${
+                    loginRole === value
+                      ? 'border-[var(--teal)] bg-[var(--teal)]/8 text-[var(--navy)]'
+                      : 'border-[var(--border-strong)] bg-[var(--card)] text-[var(--text-secondary)] hover:border-[var(--teal)]/40'
+                  }`}
+                >
+                  <span className="mr-1.5">{icon}</span> {label}
+                </button>
+              ))}
+            </div>
+            {loginRole === 'parent' && (
+              <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">
+                Connecte-toi avec l'email que ton enfant a renseigné lors de son inscription. Tu verras la progression de tous les élèves qui t'ont ajouté.
+              </p>
+            )}
+            {loginRole === 'enseignant' && (
+              <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">
+                Connecte-toi avec ton email professionnel. Tu verras tous les élèves qui ont rejoint ta classe avec ton code enseignant.
+              </p>
+            )}
+          </div>
+        )}
+
         {rateLimitSec !== null && rateLimitSec > 0 ? <div className="mt-5"><RateLimitNotice retryAfterSec={rateLimitSec} /></div> : null}
 
         <form ref={formRef} onSubmit={handleSubmit} className="mt-5 space-y-4">
@@ -513,10 +552,15 @@ function AuthCard() {
                 </label>
               </div>
 
-              {isMinor ? (
+              <div className="rounded-[var(--radius-xl)] border border-[var(--border-light)] bg-[var(--surface-warm)] p-4 space-y-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent-bronze)]">Facultatif — Liens parent et enseignant</p>
+                <p className="text-xs leading-5 text-[var(--text-muted)]">
+                  Tu peux ajouter les emails de ton parent et/ou de ton enseignant. Ils pourront suivre ta progression sans accéder à tes copies.
+                  {isMinor ? ' (Obligatoire pour les moins de 15 ans.)' : ''}
+                </p>
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-[var(--navy)]" htmlFor="parentEmail">
-                    Email du parent / responsable légal
+                  <label className="mb-1 block text-sm font-semibold text-[var(--navy)]" htmlFor="parentEmail">
+                    Email du parent
                   </label>
                   <input
                     id="parentEmail"
@@ -527,11 +571,21 @@ function AuthCard() {
                     placeholder="parent@email.com"
                     required={isMinor}
                   />
-                  <p className="mt-2 text-xs leading-6 text-[var(--text-muted)]">
-                    Ce champ est requis pour les moins de 15 ans dans le cadre RGPD.
-                  </p>
                 </div>
-              ) : null}
+                <div>
+                  <label className="mb-1 block text-sm font-semibold text-[var(--navy)]" htmlFor="teacherEmail">
+                    Email de l'enseignant
+                  </label>
+                  <input
+                    id="teacherEmail"
+                    type="email"
+                    value={teacherEmail}
+                    onChange={(e) => setTeacherEmail(e.target.value)}
+                    className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
+                    placeholder="enseignant@etablissement.fr"
+                  />
+                </div>
+              </div>
             </>
           ) : null}
 

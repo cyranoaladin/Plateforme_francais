@@ -14,6 +14,7 @@ export type StudentProfile = {
   oeuvreChoisieEntretien?: string;
   isMinor?: boolean;
   parentEmail?: string | null;
+  teacherEmail?: string | null;
   cguAcceptedAt?: string;
   cguVersion?: string;
 };

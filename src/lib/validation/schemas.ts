@@ -20,6 +20,7 @@ export const registerBodySchema = z.object({
   cguVersion: z.string().trim().min(1).max(20).default('2026-03'),
   isMinor: z.boolean().default(false),
   parentEmail: z.string().trim().email().optional(),
+  teacherEmail: z.string().trim().email().optional(),
 }).refine(
   (data) => !data.isMinor || (data.parentEmail && data.parentEmail.length > 0),
   { message: 'Email parental requis pour les mineurs de moins de 15 ans.', path: ['parentEmail'] },

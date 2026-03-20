@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
   const email = parsed.data.email.trim().toLowerCase();
   const displayName = parsed.data.displayName?.trim() ?? '';
-  const { acceptedCgu, cguVersion, isMinor, parentEmail } = parsed.data;
+  const { acceptedCgu, cguVersion, isMinor, parentEmail, teacherEmail } = parsed.data;
 
   const existing = await findUserByEmail(email);
   if (existing) {
@@ -79,6 +79,7 @@ export async function POST(request: Request) {
       displayName: displayName || DEFAULT_PROFILE.displayName,
       isMinor: isMinor ?? false,
       parentEmail: parentEmail ?? null,
+      teacherEmail: teacherEmail ?? null,
       cguAcceptedAt: new Date().toISOString(),
       cguVersion,
     },
