@@ -79,7 +79,6 @@ export function Hero() {
 
         {/* Product preview */}
         <div id="demo" className="mx-auto mt-12 max-w-3xl">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/oral-simulator-preview.svg"
             width={720}

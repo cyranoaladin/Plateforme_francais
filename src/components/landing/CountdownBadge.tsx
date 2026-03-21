@@ -14,10 +14,9 @@ interface CountdownBadgeProps {
 }
 
 export function CountdownBadge({ className }: CountdownBadgeProps) {
-  const [days, setDays] = useState<number | null>(null);
+  const [days, setDays] = useState(calcDays);
 
   useEffect(() => {
-    setDays(calcDays());
     const id = setInterval(() => setDays(calcDays()), 60_000);
     return () => clearInterval(id);
   }, []);
