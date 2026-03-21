@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T12:23:08.556Z",
+  "generatedAt": "2026-03-21T12:37:40.599Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -5592,7 +5592,7 @@
       "line": 1149,
       "column": 15,
       "kind": "jsx-text",
-      "text": "La seule plateforme qui combine coach agrégé + IA pédagogique pour préparer efficacement les Épreuves Anticipées de Français."
+      "text": "La plateforme IA qui prépare les Épreuves Anticipées de Français avec le corpus officiel, la mémoire de ta progression et des corrections sourcées."
     },
     {
       "file": "src/app/page.tsx",
@@ -5795,7 +5795,7 @@
       "line": 412,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Nexus combine coach agrégé + IA pédagogique. Prépare les 4 objets d'étude : Littérature d'idées, Théâtre, Roman, Poésie. Corrections en 3 min, oral noté au barème officiel /2 /8 /2 /8."
+      "text": "Nexus est une IA pédagogique entraînée sur le corpus officiel EAF : BO, Eduscol, rapports de jury. Elle prépare les 4 objets d'étude et corrige tes copies en 3 min, avec oral noté au barème officiel /2 /8 /2 /8."
     },
     {
       "file": "src/app/page.tsx",
@@ -6271,7 +6271,7 @@
       "line": 980,
       "column": 15,
       "kind": "jsx-text",
-      "text": "✓ Nexus Réussite = les sources officielles du Bac + la pédagogie d'un agrégé + la rapidité de l'IA"
+      "text": "✓ Nexus Réussite = sources officielles du Bac + IA pédagogique + mémoire de progression"
     },
     {
       "file": "src/app/page.tsx",
@@ -8183,244 +8183,6 @@
       "column": 76,
       "kind": "jsx-text",
       "text": "Thème"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 19,
-      "column": 72,
-      "kind": "jsx-text",
-      "text": "Nexus Réussite"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 20,
-      "column": 62,
-      "kind": "jsx-text",
-      "text": "Session 2026"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 29,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Une préparation EAF exigeante, lisible et commercialement honnête."
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 32,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Nexus Réussite rassemble écrit, oral, langue et corpus documentaire dans un parcours structuré cohérent avec le programme officiel, conçu pour faire produire l&#x2019;élève, pas pour le remplacer."
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 38,
-      "column": 100,
-      "kind": "jsx-text",
-      "text": "Navigation"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 40,
-      "column": 103,
-      "kind": "jsx-text",
-      "text": "La méthode"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 41,
-      "column": 101,
-      "kind": "jsx-text",
-      "text": "Ateliers"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 42,
-      "column": 91,
-      "kind": "jsx-text",
-      "text": "Plans"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 43,
-      "column": 89,
-      "kind": "jsx-text",
-      "text": "FAQ"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 44,
-      "column": 105,
-      "kind": "jsx-text",
-      "text": "Mentions légales"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 45,
-      "column": 96,
-      "kind": "jsx-text",
-      "text": "Contact"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 50,
-      "column": 100,
-      "kind": "jsx-text",
-      "text": "Engagements"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 52,
-      "column": 109,
-      "kind": "jsx-text",
-      "text": "Anti-copie par design"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 53,
-      "column": 101,
-      "kind": "jsx-text",
-      "text": "Sources internes visibles"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 54,
-      "column": 102,
-      "kind": "jsx-text",
-      "text": "RGPD et comptes mineurs protégés"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 55,
-      "column": 106,
-      "kind": "jsx-text",
-      "text": "Pas de publicité ciblée"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 60,
-      "column": 100,
-      "kind": "jsx-text",
-      "text": "Contact"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 62,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "contact@nexusreussite.academy"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 65,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Voir les tarifs"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 70,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Créer un compte gratuit"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 78,
-      "column": 14,
-      "kind": "jsx-text",
-      "text": "&copy;"
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 78,
-      "column": 48,
-      "kind": "jsx-text",
-      "text": "Nexus Réussite. Tous droits réservés."
-    },
-    {
-      "file": "src/components/public/PublicFooter.tsx",
-      "line": 79,
-      "column": 14,
-      "kind": "jsx-text",
-      "text": "Produit pédagogique commercial, sans publicité ciblée sur les comptes mineurs."
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 109,
-      "column": 24,
-      "kind": "jsx-prop",
-      "text": "Menu"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 135,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Se connecter"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 145,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Créer mon espace"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 155,
-      "column": 95,
-      "kind": "jsx-text",
-      "text": "Inscription gratuite"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 156,
-      "column": 72,
-      "kind": "jsx-text",
-      "text": "3 min · aucun paiement requis"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 163,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "Commencer"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 48,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Nexus Réussite"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 51,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Session 2026"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 63,
-      "column": 73,
-      "kind": "jsx-prop",
-      "text": "Navigation principale"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 86,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Se connecter"
-    },
-    {
-      "file": "src/components/public/PublicHeader.tsx",
-      "line": 97,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Créer mon espace"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
