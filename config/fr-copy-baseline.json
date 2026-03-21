@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T23:09:21.981Z",
+  "generatedAt": "2026-03-21T23:16:43.202Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -5463,21 +5463,21 @@
     },
     {
       "file": "src/app/page.tsx",
-      "line": 56,
+      "line": 57,
       "column": 15,
       "kind": "jsx-prop",
       "text": "Essayer une correction gratuite →"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 70,
+      "line": 71,
       "column": 15,
       "kind": "jsx-prop",
       "text": "Commencer gratuitement →"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 80,
+      "line": 81,
       "column": 15,
       "kind": "jsx-prop",
       "text": "Tester Nexus maintenant →"
