@@ -19,7 +19,6 @@ import {
 } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
-import { TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE } from '@/lib/payments/availability';
 
 type SubscriptionPlan = 'FREE' | 'PREMIUM' | 'PRO';
 type PaymentStatus = 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
@@ -159,12 +158,12 @@ const BILLING_FAQ = [
     a: 'Oui, à tout moment. Compare les offres sur cette page et choisis le plan adapté à ton rythme de travail.',
   },
   {
-    q: 'Comment fonctionne le paiement ?',
-    a: 'Pour le moment, les abonnements payants sont activés par virement bancaire ou via WhatsApp (+216 99 19 28 29). Le paiement carte et Flouci seront réactivés dès que leur implémentation sera finalisée.',
+    q: 'Comment fonctionne le paiement ?',
+    a: 'Les abonnements payants sont activés par virement bancaire ou via WhatsApp (+216 99 19 28 29). Tu reçois un code d\u2019activation après confirmation du règlement.',
   },
   {
-    q: "Et si je n’ai pas de carte bancaire\u00A0?",
-    a: 'Le virement bancaire couvre ce cas immédiatement. Tu peux aussi souscrire via WhatsApp au +216 99 19 28 29. Ajoute l\u2019email du compte ou l\u2019identifiant utilisateur en référence pour accélérer l\u2019activation.',
+    q: 'Comment recevoir mon code d\u2019activation\u00A0?',
+    a: 'Effectue un virement bancaire avec l\u2019email de ton compte en référence, ou contacte-nous via WhatsApp au +216 99 19 28 29. Le code est envoyé après vérification du règlement.',
   },
 ];
 
@@ -588,7 +587,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-              Si un code d’activation t’a été envoyé, active ton plan ici sans repasser par le checkout ni ressaisir un paiement.
+              Si un code d'activation t'a été envoyé, active ton plan directement ici.
             </p>
 
             {isAuthenticated ? (
@@ -653,29 +652,10 @@ export default function PricingPage() {
                 <div className="flex items-start gap-3">
                   <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
                   <div>
-                    <p className="text-sm font-semibold text-white">Paiement en ligne</p>
+                    <p className="text-sm font-semibold text-white">Modes de paiement actifs</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">
-                      Le paiement en ligne par carte n'est pas encore disponible. Pour activer ton plan maintenant, utilise le virement bancaire ci-dessous.
+                      Les abonnements s'activent par virement bancaire ou via WhatsApp. Ajoute l'email du compte ou ton identifiant utilisateur en référence pour accélérer l'activation.
                     </p>
-                    <div className="mt-4 flex flex-wrap gap-3">
-                      <button
-                        type="button"
-                        onClick={() => setError(TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE)}
-                        disabled
-                        className="inline-flex cursor-not-allowed items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/40"
-                      >
-                        Paiement carte — indisponible
-                      </button>
-                    </div>
-                    <p className="mt-3 text-xs leading-6 text-slate-300">
-                      Pour activer le plan maintenant, utilise le virement bancaire avec l’email du compte ou ton identifiant utilisateur en référence.
-                    </p>
-                    {error ? (
-                      <div className="mt-4 flex items-start gap-3 rounded-[16px] border border-white/10 bg-white/10 p-3 text-sm text-white" role="alert">
-                        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
-                        <span>{error}</span>
-                      </div>
-                    ) : null}
                   </div>
                 </div>
               </div>
