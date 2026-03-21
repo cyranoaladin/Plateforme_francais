@@ -55,7 +55,7 @@ const colorMap: Record<Testimonial['color'], { bg: string; text: string; badge: 
 
 export function TestimonialsSection() {
   return (
-    <section className="bg-gray-50 py-14 sm:py-20">
+    <section className="overflow-x-hidden bg-gray-50 py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
           Ils ont transformé leurs notes

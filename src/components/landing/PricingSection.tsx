@@ -78,7 +78,7 @@ const faqs: FaqItem[] = [
 
 export function PricingSection() {
   return (
-    <section id="tarifs" className="bg-gray-50 py-14 sm:py-20">
+    <section id="tarifs" className="overflow-x-hidden bg-gray-50 py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
           Tarifs simples, résultats concrets
