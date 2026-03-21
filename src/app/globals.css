@@ -137,9 +137,9 @@
   /* ─── Semantic aliases (Tailwind compat) ──────────── */
   --background: #F8F9FB;
   --foreground: var(--text-heading);
-  --muted: #ece2d3;
+  --muted: #F1F5F9;
   --muted-foreground: var(--text-muted);
-  --card: var(--surface-ivory);
+  --card: #FFFFFF;
   --card-foreground: var(--text-heading);
   --primary: var(--teal);
   --primary-foreground: #ffffff;
@@ -147,8 +147,8 @@
   --secondary-foreground: #ffffff;
   --accent: #d97706;
   --accent-foreground: #ffffff;
-  --border: var(--border-default);
-  --input: #efe5d8;
+  --border: #E2E8F0;
+  --input: #F1F5F9;
 
   /* ─── Radii ───────────────────────────────────────── */
   --radius-sm: 6px;

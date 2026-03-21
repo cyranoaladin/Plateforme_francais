@@ -684,9 +684,9 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="mt-6 h-80 min-w-0" style={{ minHeight: 200, minWidth: 200 }}>
+          <div className="mt-6 min-w-0">
             {chartsReady ? (
-              <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={200}>
+              <ResponsiveContainer width="100%" height={320} minWidth={200}>
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="var(--border-strong)" />
                   <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: 'var(--text-chart)' }} />
