@@ -88,8 +88,7 @@ export function PricingSection() {
         </p>
 
         {/* Plan cards */}
-        <div className="mt-12 overflow-hidden sm:overflow-visible">
-        <div className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-4 snap-x snap-mandatory sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
+        <div className="mt-12 flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
           {plans.map((plan) => (
             <div
               key={plan.name}
@@ -150,7 +149,6 @@ export function PricingSection() {
               </p>
             </div>
           ))}
-        </div>
         </div>
 
         {/* FAQ */}
