@@ -32,7 +32,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <>
         <ThemeProvider>
           {shouldTrackLearningActivity && <TrackingProvider />}
-          <main className="flex-1 relative min-h-screen">{children}</main>
+          <main className="flex-1 relative min-h-screen w-full min-w-0">{children}</main>
         </ThemeProvider>
       </>
     );
