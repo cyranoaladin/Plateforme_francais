@@ -73,7 +73,7 @@ export default async function RootLayout({
         />
         <link rel="preload" href="/assets/oral-simulator-preview.svg" as="image" type="image/svg+xml" fetchPriority="high" />
       </head>
-      <body className="font-sans antialiased min-h-screen bg-background text-foreground flex">
+      <body className="font-sans antialiased min-h-screen max-w-[100vw] overflow-x-hidden bg-background text-foreground flex">
         <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
         <WebVitalsReporter />
         <AppShell><main id="main-content">{children}</main></AppShell>
