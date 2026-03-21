@@ -1,415 +1,415 @@
 {
-  "generatedAt": "2026-03-21T18:56:33.741Z",
+  "generatedAt": "2026-03-21T19:11:59.370Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
-      "line": 270,
+      "line": 268,
       "column": 13,
       "kind": "jsx-text",
       "text": "Dashboard Admin"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 273,
+      "line": 271,
       "column": 13,
       "kind": "jsx-text",
       "text": "Gestion des utilisateurs, abonnements et paiements"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 297,
+      "line": 295,
       "column": 13,
       "kind": "jsx-text",
       "text": "Vue d'ensemble"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 308,
+      "line": 306,
       "column": 13,
       "kind": "jsx-text",
       "text": "Utilisateurs"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 319,
+      "line": 317,
       "column": 13,
       "kind": "jsx-text",
       "text": "Codes d'activation"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 330,
+      "line": 328,
       "column": 13,
       "kind": "jsx-text",
       "text": "Paiements manuels"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 347,
+      "line": 345,
       "column": 77,
       "kind": "jsx-text",
       "text": "Utilisateurs"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 357,
+      "line": 355,
       "column": 77,
       "kind": "jsx-text",
       "text": "Abonnements actifs"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 367,
+      "line": 365,
       "column": 77,
       "kind": "jsx-text",
       "text": "Paiements en attente"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 377,
+      "line": 375,
       "column": 77,
       "kind": "jsx-text",
       "text": "Revenu total"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 378,
+      "line": 376,
       "column": 99,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 386,
+      "line": 384,
       "column": 58,
       "kind": "jsx-text",
       "text": "Répartition par plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 392,
+      "line": 390,
       "column": 40,
       "kind": "jsx-text",
       "text": "utilisateur"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 400,
+      "line": 398,
       "column": 58,
       "kind": "jsx-text",
       "text": "Derniers paiements"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 405,
+      "line": 403,
       "column": 63,
       "kind": "jsx-text",
       "text": "Email"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 406,
+      "line": 404,
       "column": 63,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 407,
+      "line": 405,
       "column": 63,
       "kind": "jsx-text",
       "text": "Montant"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 408,
+      "line": 406,
       "column": 63,
       "kind": "jsx-text",
       "text": "Statut"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 409,
+      "line": 407,
       "column": 63,
       "kind": "jsx-text",
       "text": "Date"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 419,
+      "line": 417,
       "column": 100,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 438,
+      "line": 436,
       "column": 56,
       "kind": "jsx-text",
       "text": "Liste des utilisateurs"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 443,
+      "line": 441,
       "column": 61,
       "kind": "jsx-text",
       "text": "Email"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 444,
+      "line": 442,
       "column": 61,
       "kind": "jsx-text",
       "text": "Rôle"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 445,
+      "line": 443,
       "column": 61,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 446,
+      "line": 444,
       "column": 61,
       "kind": "jsx-text",
       "text": "Statut"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 447,
+      "line": 445,
       "column": 61,
       "kind": "jsx-text",
       "text": "Inscription"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 463,
+      "line": 461,
       "column": 78,
       "kind": "jsx-text",
       "text": "Aucun"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 490,
+      "line": 488,
       "column": 58,
       "kind": "jsx-text",
       "text": "Générer un code d'activation"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 493,
+      "line": 491,
       "column": 73,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 499,
+      "line": 497,
       "column": 49,
       "kind": "jsx-text",
       "text": "Premium (99 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 500,
+      "line": 498,
       "column": 45,
       "kind": "jsx-text",
       "text": "Masterium (129 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 504,
+      "line": 502,
       "column": 73,
       "kind": "jsx-text",
       "text": "Durée (jours)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 527,
+      "line": 525,
       "column": 75,
       "kind": "jsx-text",
       "text": "✅ Code généré avec succès !"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 530,
+      "line": 528,
       "column": 68,
       "kind": "jsx-text",
       "text": "Copiez ce code et communiquez-le à l'utilisateur :"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 542,
+      "line": 540,
       "column": 25,
       "kind": "jsx-text",
       "text": "Copier"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 545,
+      "line": 543,
       "column": 64,
       "kind": "jsx-text",
       "text": "⚠️ Ce code ne sera plus affiché. Assurez-vous de le sauvegarder."
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 550,
+      "line": 548,
       "column": 58,
       "kind": "jsx-text",
       "text": "Codes d'activation"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 555,
+      "line": 553,
       "column": 63,
       "kind": "jsx-text",
       "text": "Hash (8 premiers)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 556,
+      "line": 554,
       "column": 63,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 557,
+      "line": 555,
       "column": 63,
       "kind": "jsx-text",
       "text": "Durée"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 558,
+      "line": 556,
       "column": 63,
       "kind": "jsx-text",
       "text": "Statut"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 559,
+      "line": 557,
       "column": 63,
       "kind": "jsx-text",
       "text": "Créé le"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 560,
+      "line": 558,
       "column": 63,
       "kind": "jsx-text",
       "text": "Utilisé le"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 596,
+      "line": 594,
       "column": 56,
       "kind": "jsx-text",
       "text": "Valider un paiement manuel"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 599,
+      "line": 597,
       "column": 71,
       "kind": "jsx-text",
       "text": "Utilisateur"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 605,
+      "line": 603,
       "column": 40,
       "kind": "jsx-text",
       "text": "Sélectionner un utilisateur"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 616,
+      "line": 614,
       "column": 73,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 626,
+      "line": 624,
       "column": 49,
       "kind": "jsx-text",
       "text": "Premium (99 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 627,
+      "line": 625,
       "column": 45,
       "kind": "jsx-text",
       "text": "Masterium (129 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 632,
+      "line": 630,
       "column": 73,
       "kind": "jsx-text",
       "text": "Montant (millimes)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 640,
+      "line": 638,
       "column": 71,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 647,
+      "line": 645,
       "column": 73,
       "kind": "jsx-text",
       "text": "Méthode de paiement"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 653,
+      "line": 651,
       "column": 50,
       "kind": "jsx-text",
       "text": "Virement bancaire"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 654,
+      "line": 652,
       "column": 49,
       "kind": "jsx-text",
       "text": "Espèces"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 655,
+      "line": 653,
       "column": 47,
       "kind": "jsx-text",
       "text": "Autre"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 660,
+      "line": 658,
       "column": 73,
       "kind": "jsx-text",
       "text": "Référence *"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 665,
+      "line": 663,
       "column": 37,
       "kind": "jsx-prop",
       "text": "REF-2026-001"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 671,
+      "line": 669,
       "column": 71,
       "kind": "jsx-text",
       "text": "Notes (optionnel)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 677,
+      "line": 675,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Informations complémentaires..."
@@ -1001,48 +1001,6 @@
       "column": 39,
       "kind": "api-message",
       "text": "Champ audio manquant."
-    },
-    {
-      "file": "src/app/api/v1/payments/clictopay/callback/route.ts",
-      "line": 11,
-      "column": 14,
-      "kind": "api-message",
-      "text": "Paiement carte désactivé. Utilisez le virement bancaire ou contactez-nous via WhatsApp."
-    },
-    {
-      "file": "src/app/api/v1/payments/clictopay/init/route.ts",
-      "line": 14,
-      "column": 14,
-      "kind": "api-message",
-      "text": "Paiement carte désactivé. Utilisez le virement bancaire ou contactez-nous via WhatsApp."
-    },
-    {
-      "file": "src/app/api/v1/payments/clictopay/public-status/route.ts",
-      "line": 18,
-      "column": 18,
-      "kind": "api-message",
-      "text": "Paramètre orderRef ou orderId requis."
-    },
-    {
-      "file": "src/app/api/v1/payments/clictopay/public-status/route.ts",
-      "line": 27,
-      "column": 18,
-      "kind": "api-message",
-      "text": "Transaction introuvable."
-    },
-    {
-      "file": "src/app/api/v1/payments/clictopay/public-status/route.ts",
-      "line": 43,
-      "column": 16,
-      "kind": "api-message",
-      "text": "Impossible de vérifier le statut du paiement."
-    },
-    {
-      "file": "src/app/api/v1/payments/clictopay/status/route.ts",
-      "line": 69,
-      "column": 16,
-      "kind": "api-message",
-      "text": "Impossible de charger le statut de facturation."
     },
     {
       "file": "src/app/api/v1/quiz/evaluate/route.ts",
@@ -5526,304 +5484,59 @@
     },
     {
       "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 132,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Retour paiement ClicToPay"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 138,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "La transaction est revenue sur la plateforme. Cet écran t&#x2019;indique immédiatement si ton plan est actif, en attente, ou s&#x2019;il faut relancer proprement."
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 144,
-      "column": 85,
-      "kind": "jsx-text",
-      "text": "Statut"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 148,
-      "column": 111,
-      "kind": "jsx-text",
-      "text": "Référence"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 152,
-      "column": 111,
-      "kind": "jsx-text",
-      "text": "API publique"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 167,
-      "column": 112,
-      "kind": "jsx-text",
-      "text": "Lecture du retour"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 177,
-      "column": 114,
-      "kind": "jsx-text",
-      "text": "Étape"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 185,
-      "column": 108,
-      "kind": "jsx-text",
-      "text": "Actions utiles"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 198,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Rafraîchir le statut"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 204,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Se connecter"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 212,
-      "column": 108,
-      "kind": "jsx-text",
-      "text": "Trace technique"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 215,
-      "column": 67,
-      "kind": "jsx-text",
-      "text": "Référence de commande"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 220,
-      "column": 69,
-      "kind": "jsx-text",
-      "text": "Endpoint de vérification"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 228,
-      "column": 99,
-      "kind": "jsx-text",
-      "text": "Ce qui suit"
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 230,
-      "column": 112,
-      "kind": "jsx-text",
-      "text": "Le tableau de bord et la page tarifaire restent la source de vérité côté produit."
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 231,
-      "column": 112,
-      "kind": "jsx-text",
-      "text": "En cas de statut en attente, la situation se débloque en général sans nouvelle action bancaire."
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 232,
-      "column": 112,
-      "kind": "jsx-text",
-      "text": "Si le statut reste incohérent, conserve la référence et passe par le support."
-    },
-    {
-      "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 31,
+      "line": 19,
       "column": 11,
       "kind": "jsx-text",
-      "text": "Retour accueil"
+      "text": "Paiement confirmé"
     },
     {
       "file": "src/app/paiement/confirmation/page.tsx",
-      "line": 37,
+      "line": 23,
       "column": 11,
       "kind": "jsx-text",
-      "text": "Mon espace"
+      "text": "Ton plan a été activé avec succès. Tu peux maintenant accéder à toutes les fonctionnalités de ton abonnement."
     },
     {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 104,
-      "column": 114,
+      "file": "src/app/paiement/confirmation/page.tsx",
+      "line": 32,
+      "column": 13,
       "kind": "jsx-text",
-      "text": "Étape"
+      "text": "Accéder au tableau de bord"
     },
     {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 112,
-      "column": 108,
-      "kind": "jsx-text",
-      "text": "Actions utiles"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 118,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Réessayer"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 125,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Se connecter"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 131,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Retour à l&#x2019;accueil"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 140,
-      "column": 108,
-      "kind": "jsx-text",
-      "text": "Référence de retour"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 144,
-      "column": 69,
-      "kind": "jsx-text",
-      "text": "Référence transmise"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 148,
-      "column": 22,
-      "kind": "jsx-text",
-      "text": "Aucune référence n&#x2019;a été transmise dans l&#x2019;URL de retour."
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 159,
-      "column": 103,
-      "kind": "jsx-text",
-      "text": "Réassurance"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 161,
-      "column": 21,
-      "kind": "jsx-text",
-      "text": "Aucun montant n&#x2019;a été débité tant que la transaction n&#x2019;est pas acceptée. En cas de doute, la page tarifaire et ton espace connecté restent les deux écrans de vérification utiles."
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 175,
-      "column": 88,
-      "kind": "jsx-text",
-      "text": "Chargement…"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 20,
-      "column": 11,
+      "file": "src/app/paiement/confirmation/page.tsx",
+      "line": 39,
+      "column": 13,
       "kind": "jsx-text",
       "text": "Retour accueil"
     },
     {
       "file": "src/app/paiement/refus/page.tsx",
-      "line": 26,
+      "line": 17,
       "column": 11,
-      "kind": "jsx-text",
-      "text": "Mon espace"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 53,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Paiement refusé"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 56,
-      "column": 17,
       "kind": "jsx-text",
       "text": "Paiement non abouti"
     },
     {
       "file": "src/app/paiement/refus/page.tsx",
-      "line": 59,
-      "column": 17,
+      "line": 21,
+      "column": 11,
       "kind": "jsx-text",
-      "text": "La transaction n'a pas été validée. Aucun abonnement n'est activé pour le moment, mais tu peux reprendre proprement depuis les offres ou vérifier la référence de retour."
+      "text": "La transaction n&apos;a pas été validée. Aucun abonnement n&apos;est activé pour le moment. Tu peux réessayer ou nous contacter par WhatsApp pour finaliser ton inscription."
     },
     {
       "file": "src/app/paiement/refus/page.tsx",
-      "line": 65,
-      "column": 85,
+      "line": 31,
+      "column": 13,
       "kind": "jsx-text",
-      "text": "Statut"
+      "text": "Voir les offres"
     },
     {
       "file": "src/app/paiement/refus/page.tsx",
-      "line": 66,
-      "column": 59,
+      "line": 38,
+      "column": 13,
       "kind": "jsx-text",
-      "text": "Paiement refusé"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 69,
-      "column": 111,
-      "kind": "jsx-text",
-      "text": "Montant"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 70,
-      "column": 70,
-      "kind": "jsx-text",
-      "text": "Aucun débit confirmé"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 73,
-      "column": 111,
-      "kind": "jsx-text",
-      "text": "Référence"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 88,
-      "column": 112,
-      "kind": "jsx-text",
-      "text": "Lecture du retour"
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 90,
-      "column": 21,
-      "kind": "jsx-text",
-      "text": "L'abonnement n'a pas été activé."
-    },
-    {
-      "file": "src/app/paiement/refus/page.tsx",
-      "line": 95,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Le prestataire a renvoyé un refus ou un échec de transaction. Tant que le statut final n'est pas accepté, la plateforme reste sur le plan actuel."
+      "text": "Retour accueil"
     },
     {
       "file": "src/app/parent/page.tsx",
