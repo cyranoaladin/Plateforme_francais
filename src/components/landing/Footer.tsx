@@ -3,6 +3,7 @@
  * Dependencies: next/link
  */
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 
@@ -61,7 +62,17 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Col 1: Brand */}
           <div>
-            <p className="text-lg font-bold text-white">Nexus Réussite</p>
+            <div className="flex items-center gap-2 mb-1">
+              <Image
+                src="/images/logo_nexus_reussite_nav.webp"
+                alt=""
+                width={40}
+                height={40}
+                className="h-9 w-9 object-contain"
+                aria-hidden="true"
+              />
+              <span className="text-lg font-bold text-white">Nexus Réussite</span>
+            </div>
             <p className="mt-3 text-sm leading-relaxed">
               IA pédagogique entraînée sur le corpus officiel EAF.
               Préparation complète au Bac de Français 2026 pour les élèves
