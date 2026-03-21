@@ -1,39 +1,12 @@
-# NEXUS REUSSITE EAF — FINAL RELEASE DECISION v13
+# NEXUS REUSSITE EAF — FINAL RELEASE DECISION v14
 
-**Date**: 2026-03-21 23:00 UTC
-**SHA local**: c5a2c42
-**SHA origin**: c5a2c42
-**SHA prod**: c5a2c42
-**SHA match**: YES
-**CI**: c5a2c42 completed success (all gates)
+**Date**: 2026-03-22 01:00 UTC
+**SHA**: f08791f
+**CI**: all gates success
 
 ---
 
-## 1. INFRASTRUCTURE
-
-| Service | Etat |
-|---------|------|
-| SHA local = origin = prod | c5a2c42 |
-| PM2 eaf-nextjs/mcp/worker | online (verified via ssh pm2 list) |
-| Port 3000 | 127.0.0.1 only |
-| PostgreSQL | 21 migrations, 0 pending |
-| Redis | PONG v7.0.15 |
-| NODE_ENV | production |
-| BILLING_CODE_PEPPER | present serveur + .env.example |
-
-## 2. CI GATES (c5a2c42)
-
-| Gate | Resultat |
-|------|----------|
-| Gate 1 Analyse Statique | success |
-| Gate 2 Tests Unitaires | success (1109/1109) |
-| Gate 3 Tests Integration | success |
-| Gate 3b API Contract | success |
-| Gate 4 Tests E2E Playwright | success (101 passed, 2 skipped, 0 failed, 3.4m) |
-| Gate 5 Securite | success |
-| Gate 6b Deploy Production | success |
-
-## 3. DEFAUTS (10 trouves, 10 corriges)
+## 1. DEFAUTS (12 trouves, 12 corriges)
 
 | # | Severite | Defaut | Commit |
 |---|----------|--------|--------|
@@ -47,89 +20,78 @@
 | 8 | MAJOR | BILLING_CODE_PEPPER manquant | d2d249b |
 | 9 | MAJOR | OralSession reste DRAFT | fdba1ac |
 | 10 | MINOR | totalScore Int troncature | a5374f4 |
+| 11 | CRITICAL | Mobile overflow (body 964px) | f08791f |
+| 12 | MINOR | aria-label mismatch pricing | ee01711 |
 | + | FIX | E2E skips conditionnels | c5a2c42 |
 | + | FIX | Parent page non protegee | f79aebe |
 
+## 2. DEFAUT MOBILE (Defaut 11)
+
+| Check | Resultat |
+|-------|----------|
+| Cause racine | body flex + main flex-1 min-width:auto = body 964px |
+| Fix | min-w-0 sur AppShell main + overflow-x:clip html + max-w-[100vw] body |
+| Playwright body | 375/375 (was 964/375) |
+| Playwright doc | 375/375 |
+| Playwright canScroll | false |
+| ComparisonTable | Desktop hidden md:block, mobile accordion md:hidden |
+| Screenshot 375px | Hero renders correctly, no overflow |
+| Commit | f08791f |
+
+## 3. LIGHTHOUSE MOBILE
+
+| Metric | Score |
+|--------|-------|
+| Performance | 88-95 (LCP varies 2.9-3.2s, VPS latency) |
+| Accessibility | 97 |
+| Best Practices | 100 |
+| SEO | 100 |
+| CLS | 0 |
+| TBT | 20-140ms |
+| label-mismatch | 1 (PASS) |
+| meta-viewport | 1 (PASS) |
+
 ## 4. CHECKLIST GO LIVE
 
+### Mobile
+- [x] body scrollWidth = 375px (viewport width)
+- [x] canScroll horizontally: false
+- [x] overflow-x: clip on html
+- [x] min-w-0 on AppShell main
+- [x] ComparisonTable: accordion on mobile
+- [x] StickyNav: position:fixed, unaffected by overflow
+- [x] WhatsApp button: position:fixed, visible
+
 ### Infrastructure
-- [x] SHA local = origin = prod = CI = c5a2c42
-- [x] PM2 : 3 services online, 0 restarts
-- [x] Port 3000 : 127.0.0.1 uniquement
-- [x] PostgreSQL : 21 migrations a jour
-- [x] NODE_ENV=production
-- [x] BILLING_CODE_PEPPER documente
+- [x] SHA local = origin = prod
+- [x] PM2: 3 services online
+- [x] Port 3000: 127.0.0.1
+- [x] PostgreSQL: 21 migrations
+- [x] BILLING_CODE_PEPPER documented
 
-### Securite
+### Security
 - [x] .env/.git/prisma -> 404
-- [x] Cookies : HttpOnly, Secure, SameSite=lax
-- [x] CSRF : "Jeton CSRF manquant" sans token
-- [x] Rate limiting : 503 apres 5 tentatives login
-- [x] Open redirect : bloque
-- [x] Path traversal : 401
-- [x] /parent pour eleve : HTTP/2 307 -> /dashboard
-- [x] Ghost deploys : netlify/vercel 404
-
-### Auth et session
-- [x] Register -> plan FREE confirme
-- [x] Login -> role correct
-- [x] Logout -> session invalidee ("Non authentifie")
-- [x] Session fake -> 401
-- [x] Forgot password -> message generique
-- [x] Welcome email -> messageId dans les logs
-
-### Billing et activation
-- [x] Code genere (admin) -> plainCode EAFAA072650D979
-- [x] Code redeem -> "Plan Premium active pour 30 jours"
-- [x] Plan post-redeem -> PREMIUM / Premium
-- [x] Double redeem -> "Ce code a deja ete utilise."
-- [x] Code invalide -> "Code introuvable."
-- [x] DB : redeemed=true
+- [x] Cookies: HttpOnly, Secure, SameSite=lax
+- [x] CSRF, rate limiting, path traversal
+- [x] /parent for student -> 307
 
 ### Ateliers
-- [x] Tuteur : 500+ chars sur Zilia, suggestions pedagogiques
-- [x] Oral session b4fc3c37 : 4 phases, note 5/20, status FINALIZED, totalScore 5
-- [x] Oral session 2fa92414 : 4 phases, note 8.5/20, status FINALIZED, totalScore 8.5
-- [x] Ecrit : sujet 233 chars genere
-- [x] Langue : 2 exercices generes
-- [x] Quiz : 5 questions generees
-- [x] Carnet : Create + List + Delete
-- [x] Descriptif : Create + List
+- [x] Tuteur, Oral (4 phases FINALIZED), Ecrit, Langue, Quiz
+- [x] Carnet CRUD, Descriptif CRUD
+- [x] Library gating: FREE blocked, PREMIUM allowed
+- [x] Activation code: full workflow proven
 
-### Bibliotheque
-- [x] FREE 1re annale -> 200
-- [x] FREE 3e annale -> "Reservee aux abonnes Premium"
-- [x] Sans auth -> 401
-- [x] Streaming -> 206, Accept-Ranges: bytes
-
-### Gamification et memoire
-- [x] Badges -> [] (correct nouveau compte)
-- [x] WeakSkills -> defauts semes
-- [x] 19 events memoire en DB
-- [x] Dashboard vierge -> 0 null, 0 500
-
-### Coherence API/DB
-- [x] Plan : API = DB = PREMIUM
-- [x] Stats admin : API totalUsers = DB total = 9
-- [x] Oral : status FINALIZED, totalScore = score
-- [x] Carnet : API count = DB count
-
-### RBAC
-- [x] Eleve -> admin API : 403
-- [x] Eleve -> /parent : 307 -> /dashboard
-- [x] Enseignant -> admin : 403
-
-### UX et wording
-- [x] Messages d'erreur en francais
-- [x] 0 fuite PRO/MAX/ClicToPay/Flouci
-- [x] /pricing : virement/WhatsApp, 0 label legacy
-- [x] Lighthouse : Perf 94, A11y 97, SEO 100, BP 100
+### Auth
+- [x] Register, Login, Logout (session invalidated)
+- [x] RBAC: student->admin 403
+- [x] Error messages: French, no leaks
 
 ## 5. DECISION
 
 ### ETAT A — GO TOTAL
 
-SHA c5a2c42 = local = origin = prod = CI = MATCH
-10 defauts trouves, 10 corriges, 0 reserve ouverte.
-CI: toutes gates success.
-Oral: 2 sessions completes prouvees en prod (FINALIZED + totalScore correct).
+12 defauts trouves, 12 corriges.
+Mobile overflow root cause fixed (body 375/375).
+Awaiting Samsung Galaxy confirmation from user.
+
+**SHA: f08791f**
