@@ -43,7 +43,14 @@ export function normalizeCode(raw: string): string {
  * Hash a normalized code with pepper (SHA-256).
  */
 export function hashCode(normalized: string): string {
-  const pepper = process.env.BILLING_CODE_PEPPER ?? 'eaf-default-pepper-change-me';
+  const pepper = process.env.BILLING_CODE_PEPPER;
+  if (!pepper) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('BILLING_CODE_PEPPER is required in production');
+    }
+    // Dev-only fallback — never used in production
+    return crypto.createHash('sha256').update('eaf-dev-only-pepper' + normalized).digest('hex');
+  }
   return crypto.createHash('sha256').update(pepper + normalized).digest('hex');
 }
 

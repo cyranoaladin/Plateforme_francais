@@ -3,6 +3,7 @@ const mandatoryVars = [
   'MISTRAL_API_KEY',
   'SESSION_SECRET',
   'NEXT_PUBLIC_API_URL',
+  'BILLING_CODE_PEPPER',
 ];
 
 let missing = 0;

@@ -82,7 +82,13 @@ function normalizeCode(raw: string): string {
 }
 
 function hashCode(normalized: string): string {
-  const pepper = process.env.BILLING_CODE_PEPPER ?? 'eaf-default-pepper-change-me';
+  const pepper = process.env.BILLING_CODE_PEPPER;
+  if (!pepper) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('BILLING_CODE_PEPPER is required in production');
+    }
+    return crypto.createHash('sha256').update('eaf-dev-only-pepper' + normalized).digest('hex');
+  }
   return crypto.createHash('sha256').update(pepper + normalized).digest('hex');
 }
 
