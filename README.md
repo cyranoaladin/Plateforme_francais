@@ -100,6 +100,9 @@ curl -s https://eaf.nexusreussite.academy/api/v1/health
 
 | Document | Contenu |
 |----------|---------|
+| [docs/COMPLETE_GUIDE.md](docs/COMPLETE_GUIDE.md) | **Guide complet exhaustif** (START HERE) |
+| [docs/API_REFERENCE.md](docs/API_REFERENCE.md) | Référence API REST complète |
+| [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md) | Schéma base de données (40+ tables) |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Architecture technique |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Guide de déploiement |
 | [docs/PLANS_AND_BILLING.md](docs/PLANS_AND_BILLING.md) | Plans, quotas et facturation |
@@ -107,7 +110,7 @@ curl -s https://eaf.nexusreussite.academy/api/v1/health
 | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | Guide de contribution |
 | [docs/GUIDE_ELEVE.md](docs/GUIDE_ELEVE.md) | Guide utilisateur élève |
 | [docs/GUIDE_ENSEIGNANT.md](docs/GUIDE_ENSEIGNANT.md) | Guide enseignant |
-| [docs/RUNBOOK_PROD.md](docs/RUNBOOK_PROD.md) | Runbook opérationnel |
+| [docs/RUNBOOK_PRODUCTION.md](docs/RUNBOOK_PRODUCTION.md) | Runbook opérationnel |
 
 ## Sécurité
 
