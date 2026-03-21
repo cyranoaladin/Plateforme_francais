@@ -103,7 +103,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
 }
 
 /** Paths that must never be served — return 404 immediately. */
-const BLOCKED_PATHS = ['.env', '.git', 'prisma/', '.antigravity/', '.windsurfrules'];
+const BLOCKED_PATHS = ['.env', '.git', 'prisma/', '.antigravity/', '.windsurfrules', 'ecosystem.config'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
