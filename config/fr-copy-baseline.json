@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T21:15:19.785Z",
+  "generatedAt": "2026-03-21T22:51:31.317Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -7711,7 +7711,7 @@
     {
       "file": "src/components/landing/WorkshopTabs.tsx",
       "line": 102,
-      "column": 80,
+      "column": 98,
       "kind": "jsx-prop",
       "text": "Les 4 ateliers EAF"
     },
