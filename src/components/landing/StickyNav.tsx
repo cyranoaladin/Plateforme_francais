@@ -5,6 +5,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 
@@ -26,13 +27,14 @@ export function StickyNav() {
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:h-16 sm:px-6">
         <Link href="/" className="flex items-center gap-2" aria-label="Nexus Réussite — Accueil">
-          <span className="text-sapphire-700">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M14 6C14 6 8 5 4 7V22C8 20 14 21 14 21V6Z" fill="currentColor" opacity="0.9"/>
-              <path d="M14 6C14 6 20 5 24 7V22C20 20 14 21 14 21V6Z" fill="currentColor" opacity="0.7"/>
-              <path d="M14 3L14.6 4.8H16.5L15 5.9L15.6 7.7L14 6.6L12.4 7.7L13 5.9L11.5 4.8H13.4L14 3Z" fill="currentColor"/>
-            </svg>
-          </span>
+          <Image
+            src="/images/logo_nexus_reussite.png"
+            alt=""
+            width={32}
+            height={32}
+            className="h-7 w-7 object-contain sm:h-8 sm:w-8"
+            aria-hidden="true"
+          />
           <span className="text-base font-bold text-gray-900 sm:text-lg">
             Nexus Réussite
           </span>
