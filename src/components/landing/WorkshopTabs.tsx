@@ -109,10 +109,11 @@ export function WorkshopTabs() {
         </p>
 
         {/* Tab list */}
+        <div className="mt-8 overflow-hidden sm:overflow-visible">
         <div
           role="tablist"
           aria-label="Ateliers disponibles"
-          className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
+          className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
         >
           {WORKSHOPS.map((w) => (
             <button
@@ -137,6 +138,7 @@ export function WorkshopTabs() {
               )}
             </button>
           ))}
+        </div>
         </div>
 
         {/* Tab panels */}
