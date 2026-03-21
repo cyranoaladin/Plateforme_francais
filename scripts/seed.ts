@@ -135,7 +135,7 @@ async function seedUser(data: SeedUser) {
       oeuvreChoisieEntretien: data.oeuvreChoisieEntretien,
       preferredObjects: ['Poésie', 'Roman'],
       weakSkills: data.weakSkills,
-      eafDate: new Date('2026-06-11'),
+      eafDate: new Date('2026-06-08'),
     },
   });
 

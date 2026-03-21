@@ -95,8 +95,8 @@ export default function LandingPage() {
   const router = useRouter();
   const [openFAQ, setOpenFAQ] = useState<number | null>(0);
 
-  // Calcul des jours restants avant EAF 2026 (épreuve écrite le 11 juin 2026)
-  const joursRestants = Math.ceil((new Date('2026-06-11').getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+  // Calcul des jours restants avant EAF 2026 (épreuve écrite le 8 juin 2026 en Tunisie)
+  const joursRestants = Math.ceil((new Date('2026-06-08').getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
@@ -416,7 +416,7 @@ export default function LandingPage() {
             <div className="flex flex-wrap gap-4 mb-8 text-sm">
               <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
                 <Award className="w-4 h-4 text-emerald-400" />
-                <span>Écrit le 11 juin 2026</span>
+                <span>Écrit le 8 juin 2026</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
                 <Clock className="w-4 h-4 text-emerald-400" />

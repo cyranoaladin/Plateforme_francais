@@ -125,7 +125,7 @@ export function Sidebar() {
   }, [mobileThemeOpen]);
 
   const joursAvantEAF = useMemo(() => {
-    const EAF_DATE = new Date('2026-06-11T08:00:00');
+    const EAF_DATE = new Date('2026-06-08T08:00:00');
     const now = new Date();
     return Math.max(0, Math.ceil((EAF_DATE.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
   }, []);
