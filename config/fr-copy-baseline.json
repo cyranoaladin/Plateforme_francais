@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T18:42:23.995Z",
+  "generatedAt": "2026-03-21T18:47:10.364Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -7633,73 +7633,73 @@
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 108,
+      "line": 105,
+      "column": 94,
+      "kind": "jsx-text",
+      "text": "Les ateliers"
+    },
+    {
+      "file": "src/components/landing/Footer.tsx",
+      "line": 119,
       "column": 94,
       "kind": "jsx-text",
       "text": "Contact &amp; Légal"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 113,
+      "line": 124,
       "column": 19,
       "kind": "jsx-text",
       "text": "contact@nexusreussite.academy"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 119,
+      "line": 130,
       "column": 19,
       "kind": "jsx-text",
       "text": "+216 99 19 28 29 (WhatsApp)"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 124,
+      "line": 135,
       "column": 23,
       "kind": "jsx-text",
       "text": "Lun–Sam, 9h–18h (Tunis)"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 141,
+      "line": 152,
       "column": 11,
       "kind": "jsx-text",
       "text": "© 2026 Nexus Réussite. Tous droits réservés. — Préparation EAF Session 2026."
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 64,
-      "column": 57,
+      "line": 74,
+      "column": 62,
       "kind": "jsx-text",
       "text": "Nexus Réussite"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 66,
+      "line": 77,
       "column": 15,
       "kind": "jsx-text",
       "text": "IA pédagogique entraînée sur le corpus officiel EAF. Préparation complète au Bac de Français 2026 pour les élèves du réseau AEFE et de Tunisie."
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 74,
+      "line": 85,
       "column": 15,
       "kind": "jsx-text",
       "text": "98% de mention AB ou plus"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 80,
+      "line": 91,
       "column": 94,
       "kind": "jsx-text",
       "text": "Liens rapides"
-    },
-    {
-      "file": "src/components/landing/Footer.tsx",
-      "line": 94,
-      "column": 94,
-      "kind": "jsx-text",
-      "text": "Les ateliers"
     },
     {
       "file": "src/components/landing/FooterCTA.tsx",
