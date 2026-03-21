@@ -356,7 +356,7 @@ model OralSession {
   transcript       String?
   score            Float?
   maxScore         Float?
-  totalScore       Int?              // /20, null before finalization
+  totalScore       Float?            // /20, null before finalization
   feedback         Json?
   pdfUrl           String?
   prepStartedAt    DateTime?
