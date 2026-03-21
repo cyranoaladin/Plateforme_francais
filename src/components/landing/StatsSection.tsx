@@ -37,7 +37,7 @@ const STATS: Stat[] = [
     unit: '%',
     prefix: '',
     label: 'de mention (AB et plus)',
-    sub: 'Sur 1 200 élèves Premium jan–mars 2025',
+    sub: 'Élèves Premium, session 2025',
     decimals: 0,
   },
 ];

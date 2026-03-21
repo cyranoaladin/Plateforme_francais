@@ -66,7 +66,7 @@ export default function HomePage() {
         </div>
 
         <InlineCTA
-          headline="1 200 élèves ont déjà progressé. Et toi ?"
+          headline="Ceux qui s'y sont mis ont progressé. C'est ton tour."
           cta="Commencer gratuitement →"
           href={ROUTES.register}
           className="bg-gray-50"
