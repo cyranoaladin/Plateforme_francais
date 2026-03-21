@@ -130,7 +130,7 @@ export function WorkshopTabs() {
             >
               {w.label}
               {w.badge && (
-                <span className="rounded-full bg-yellow-400 px-2 py-0.5 text-xs font-semibold text-yellow-900">
+                <span className="rounded-full bg-gold-100 px-2 py-0.5 text-xs font-semibold text-gold-700">
                   <span className="sm:hidden">★</span>
                   <span className="hidden sm:inline">{w.badge}</span>
                 </span>
