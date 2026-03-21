@@ -166,7 +166,7 @@ export function DashboardToggle() {
 
             {/* Next step */}
             <p className="mt-4 text-sm italic text-gray-500">
-              Prochaine étape : travailler l&apos;introduction de la dissertation
+              Continuer l&apos;entraînement oral pour consolider la fluidité d&apos;expression.
             </p>
           </div>
         </div>

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+html { scroll-behavior: smooth; }
+
 /* ═══════════════════════════════════════════════════════════
    NEXUS RÉUSSITE — Design System CSS Foundation
    Single source of truth for CSS custom properties.

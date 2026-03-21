@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#5B21B6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="600" y="220" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="700" fill="#FFFFFF" text-anchor="middle">Nexus Réussite</text>
+  <text x="600" y="300" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="500" fill="#E9D5FF" text-anchor="middle">Passe de 10 à 17+ à l'oral EAF 2026</text>
+  <text x="600" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="400" fill="#C4B5FD" text-anchor="middle">Freemium gratuit • Sources BO 2026 • Anti-copie</text>
+  <rect x="490" y="440" width="220" height="44" rx="22" fill="#FFFFFF" opacity="0.95"/>
+  <text x="600" y="468" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#7C3AED" text-anchor="middle">⭐ 98% de mention</text>
+</svg>
