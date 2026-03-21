@@ -4,6 +4,7 @@
  */
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { CountdownBadge } from './CountdownBadge';
 
@@ -76,34 +77,16 @@ export function Hero() {
           ))}
         </div>
 
-        {/* Product preview placeholder */}
+        {/* Product preview */}
         <div id="demo" className="mx-auto mt-12 max-w-3xl">
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-sm">
-            <div className="flex items-center gap-2 border-b border-white/10 bg-white/5 px-4 py-3">
-              <div className="h-3 w-3 rounded-full bg-red-400" />
-              <div className="h-3 w-3 rounded-full bg-yellow-400" />
-              <div className="h-3 w-3 rounded-full bg-green-400" />
-              <span className="ml-3 text-xs text-gray-400">Atelier Oral — Nexus Réussite</span>
-            </div>
-            <div className="p-6 sm:p-8">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-violet-400">Simulation officielle EAF</p>
-                  <p className="mt-1 text-lg font-bold text-white">Oral sur Lettres d&apos;une Péruvienne — Graffigny</p>
-                </div>
-                <span className="rounded-lg bg-orange-500 px-3 py-1 text-sm font-bold text-white">
-                  /2 /8 /2 /8
-                </span>
-              </div>
-              <div className="mt-4 rounded-xl border border-white/10 bg-white/5 p-4">
-                <p className="text-sm leading-relaxed text-gray-300">
-                  &quot;Comment Zilia déconstruit-elle la vision que les Européens ont de leur propre civilisation ?
-                  Analyse les lettres 18 et 29 pour montrer le renversement du regard.&quot;
-                </p>
-                <p className="mt-2 text-xs text-gray-500">Sources : BO 2026, Rapport jury 2025</p>
-              </div>
-            </div>
-          </div>
+          <Image
+            src="/assets/oral-simulator-preview.svg"
+            width={720}
+            height={460}
+            alt="Simulation d'oral EAF Nexus Réussite — notation officielle /2 /8 /2 /8"
+            priority={true}
+            className="w-full rounded-2xl shadow-2xl"
+          />
         </div>
       </div>
     </section>

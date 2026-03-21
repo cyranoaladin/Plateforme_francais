@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420">
+  <!-- Shadow -->
+  <rect x="4" y="4" width="636" height="416" rx="16" fill="#E5E7EB" opacity="0.5"/>
+  <!-- Card -->
+  <rect x="0" y="0" width="640" height="420" rx="16" fill="#FFFFFF" stroke="#F3F4F6" stroke-width="1"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="640" height="52" rx="16" fill="#7C3AED"/>
+  <rect x="0" y="16" width="640" height="36" fill="#7C3AED"/>
+  <text x="24" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="600" fill="#FFFFFF">Vue élève</text>
+  <text x="616" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#EDE9FE" text-anchor="end">En progression</text>
+
+  <!-- Profile -->
+  <circle cx="44" cy="84" r="20" fill="#EDE9FE"/>
+  <text x="44" y="89" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#7C3AED" text-anchor="middle">SL</text>
+  <text x="76" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#111827">Sarah L.</text>
+  <text x="76" y="96" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#9CA3AF">Première — Français EAF</text>
+  <rect x="460" y="70" width="156" height="28" rx="14" fill="#F5F3FF" stroke="#EDE9FE" stroke-width="1"/>
+  <text x="538" y="89" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#7C3AED" text-anchor="middle">Objectif : 14/20</text>
+
+  <!-- Progress bar -->
+  <text x="24" y="136" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#4B5563">Progression vers l'objectif</text>
+  <text x="616" y="136" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#7C3AED" text-anchor="end">67%</text>
+  <rect x="24" y="146" width="592" height="10" rx="5" fill="#F3F4F6"/>
+  <rect x="24" y="146" width="396" height="10" rx="5" fill="#7C3AED"/>
+
+  <!-- 3 counters -->
+  <rect x="24" y="176" width="186" height="72" rx="12" fill="#EFF6FF"/>
+  <text x="117" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="#2563EB" text-anchor="middle">12</text>
+  <text x="117" y="232" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#4B5563" text-anchor="middle">Corrections</text>
+
+  <rect x="224" y="176" width="186" height="72" rx="12" fill="#F5F3FF"/>
+  <text x="317" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="#7C3AED" text-anchor="middle">5</text>
+  <text x="317" y="232" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#4B5563" text-anchor="middle">Oraux</text>
+
+  <rect x="424" y="176" width="192" height="72" rx="12" fill="#F0FDF4"/>
+  <text x="520" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="#16A34A" text-anchor="middle">+2.3</text>
+  <text x="520" y="232" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#4B5563" text-anchor="middle">Progression (pts)</text>
+
+  <!-- Next session card -->
+  <rect x="24" y="268" width="592" height="130" rx="12" fill="#F5F3FF" stroke="#EDE9FE" stroke-width="1"/>
+  <text x="44" y="296" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#7C3AED" text-transform="uppercase" letter-spacing="1">PROCHAINE SÉANCE</text>
+  <text x="44" y="322" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="600" fill="#111827">Oral sur Discours de la servitude volontaire</text>
+  <text x="44" y="344" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#4B5563">La Boétie</text>
+  <text x="44" y="372" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#9CA3AF">Parcours : Défendre et entretenir la liberté</text>
+  <rect x="460" y="330" width="140" height="36" rx="18" fill="#7C3AED"/>
+  <text x="530" y="353" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Commencer →</text>
+</svg>

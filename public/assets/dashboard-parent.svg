@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420">
+  <!-- Shadow -->
+  <rect x="4" y="4" width="636" height="416" rx="16" fill="#E5E7EB" opacity="0.5"/>
+  <!-- Card -->
+  <rect x="0" y="0" width="640" height="420" rx="16" fill="#FFFFFF" stroke="#F3F4F6" stroke-width="1"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="640" height="52" rx="16" fill="#5B21B6"/>
+  <rect x="0" y="16" width="640" height="36" fill="#5B21B6"/>
+  <text x="24" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="600" fill="#FFFFFF">Vue parent</text>
+  <text x="616" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#DDD6FE" text-anchor="end">Suivi détaillé</text>
+
+  <!-- Title -->
+  <text x="24" y="84" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#111827">Suivi de Sarah L.</text>
+  <text x="24" y="102" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#9CA3AF">Évolution des notes — 4 dernières semaines</text>
+
+  <!-- Bar chart -->
+  <g transform="translate(160, 120)">
+    <!-- Bar S1: 11/20 = 33px -->
+    <rect x="0" y="27" width="36" height="33" rx="4" fill="#DDD6FE"/>
+    <text x="18" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#9CA3AF" text-anchor="middle">S1</text>
+    <text x="18" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" fill="#4B5563" text-anchor="middle">11</text>
+
+    <!-- Bar S2: 12/20 = 36px -->
+    <rect x="48" y="24" width="36" height="36" rx="4" fill="#DDD6FE"/>
+    <text x="66" y="21" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#9CA3AF" text-anchor="middle">S2</text>
+    <text x="66" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" fill="#4B5563" text-anchor="middle">12</text>
+
+    <!-- Bar S3: 13.5/20 = 40.5px -->
+    <rect x="96" y="19" width="36" height="41" rx="4" fill="#DDD6FE"/>
+    <text x="114" y="16" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#9CA3AF" text-anchor="middle">S3</text>
+    <text x="114" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" fill="#4B5563" text-anchor="middle">13.5</text>
+
+    <!-- Bar S4: 14/20 = 42px (violet-600) -->
+    <rect x="144" y="18" width="36" height="42" rx="4" fill="#7C3AED"/>
+    <text x="162" y="15" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#9CA3AF" text-anchor="middle">S4</text>
+    <text x="162" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#7C3AED" text-anchor="middle">14</text>
+  </g>
+
+  <!-- +2 points caption -->
+  <text x="320" y="218" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#16A34A" text-anchor="middle">+2 points en 4 semaines ↑</text>
+
+  <!-- Activity badges -->
+  <rect x="24" y="240" width="592" height="44" rx="10" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1"/>
+  <circle cx="46" cy="262" r="8" fill="#16A34A"/>
+  <text x="46" y="266" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">✓</text>
+  <text x="64" y="267" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#111827">Niveau en grammaire amélioré de 20%</text>
+
+  <rect x="24" y="296" width="592" height="44" rx="10" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <circle cx="46" cy="318" r="8" fill="#2563EB"/>
+  <text x="46" y="322" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">✓</text>
+  <text x="64" y="314" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="#111827">Correction dissertation — 14/20</text>
+  <text x="64" y="330" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#9CA3AF">Hier</text>
+
+  <!-- Next step -->
+  <rect x="24" y="356" width="592" height="44" rx="10" fill="#F3F4F6"/>
+  <text x="44" y="374" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#4B5563">Prochaine étape</text>
+  <text x="44" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#6B7280" font-style="italic">Continuer l'entraînement oral pour consolider la fluidité.</text>
+</svg>

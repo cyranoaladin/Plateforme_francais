@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="460" viewBox="0 0 720 460">
+  <!-- Shadow -->
+  <rect x="4" y="4" width="716" height="456" rx="16" fill="#D1D5DB" opacity="0.3"/>
+  <!-- Card -->
+  <rect x="0" y="0" width="720" height="460" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Browser bar -->
+  <rect x="0" y="0" width="720" height="44" rx="16" fill="#F3F4F6"/>
+  <rect x="0" y="16" width="720" height="28" fill="#F3F4F6"/>
+  <circle cx="20" cy="22" r="6" fill="#FF5F57"/>
+  <circle cx="38" cy="22" r="6" fill="#FEBC2E"/>
+  <circle cx="56" cy="22" r="6" fill="#28C840"/>
+  <text x="82" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#9CA3AF">Atelier Oral — Nexus Réussite</text>
+
+  <!-- Body gradient -->
+  <rect x="0" y="44" width="720" height="416" rx="0" fill="#F8FAFF"/>
+  <rect x="0" y="444" width="720" height="16" rx="16" fill="#F8FAFF"/>
+
+  <!-- Badge EAF -->
+  <rect x="28" y="64" width="200" height="26" rx="13" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <text x="128" y="82" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#2563EB" text-anchor="middle">Simulation officielle EAF</text>
+
+  <!-- Title -->
+  <text x="28" y="118" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" fill="#111827">Oral sur Lettres d'une Péruvienne — Graffigny</text>
+
+  <!-- Badge orange -->
+  <rect x="560" y="64" width="136" height="32" rx="8" fill="#F97316"/>
+  <text x="628" y="85" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">Noté /2 /8 /2 /8</text>
+
+  <!-- Tutor card -->
+  <rect x="28" y="140" width="664" height="160" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Avatar circle -->
+  <circle cx="60" cy="172" r="20" fill="#EDE9FE"/>
+  <!-- Brain icon simplified -->
+  <path d="M52 172c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8-8-3.6-8-8z" fill="#7C3AED" opacity="0.6"/>
+  <circle cx="60" cy="170" r="3" fill="#7C3AED"/>
+  <path d="M57 175c0 0 3-2 6 0" stroke="#7C3AED" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <text x="92" y="168" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#111827">Tuteur IA</text>
+  <text x="92" y="186" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="400" fill="#9CA3AF">Sources : BO 2026, Rapport jury 2025</text>
+
+  <!-- Quote -->
+  <text x="48" y="218" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#374151" font-style="italic">
+    <tspan x="48" dy="0">"Comment Zilia déconstruit-elle la vision que les Européens</tspan>
+    <tspan x="48" dy="18">ont de leur propre civilisation ? Analyse les lettres 18</tspan>
+    <tspan x="48" dy="18">et 29 pour montrer le renversement du regard."</tspan>
+  </text>
+
+  <!-- Divider -->
+  <line x1="28" y1="310" x2="692" y2="310" stroke="#F3F4F6" stroke-width="1"/>
+
+  <!-- Footer -->
+  <!-- Red dot -->
+  <circle cx="48" cy="336" r="5" fill="#EF4444"/>
+  <text x="62" y="340" font-family="monospace" font-size="13" font-weight="500" fill="#4B5563">Préparation : 18:42</text>
+
+  <!-- Button -->
+  <rect x="480" y="320" width="212" height="40" rx="20" fill="#7C3AED"/>
+  <text x="586" y="345" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Commencer le passage →</text>
+
+  <!-- Floating badge -->
+  <rect x="440" y="386" width="260" height="52" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <rect x="444" y="389" width="252" height="46" rx="10" fill="#FFFFFF"/>
+  <circle cx="462" cy="404" r="4" fill="#16A34A"/>
+  <text x="478" y="400" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="#111827">Session d'oral simulée</text>
+  <text x="478" y="416" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="400" fill="#16A34A">avec transcription et notation en temps réel</text>
+</svg>
