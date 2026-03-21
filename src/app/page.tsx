@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -23,8 +23,7 @@ import {
   Shield,
   Award,
   Star,
-  Play,
-  ArrowRight
+  Play
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -104,10 +103,280 @@ export default function LandingPage() {
   };
 
   // ============================================================================
-  // SECTION 1: HERO
+  // DATA: RÉSULTATS CONCRETS
   // ============================================================================
-  const Hero = () => (
-    <section className="min-h-screen bg-gradient-to-br from-[#1e3a5f] via-[#264969] to-[#2d5a87] text-white relative overflow-hidden">
+  const stats = [
+    { icon: TrendingUp, value: '+4.2', label: 'points en moyenne à l\'oral', sublabel: '(passage de 11.8 à 16.0/20)', color: 'emerald' },
+    { icon: Clock, value: '3 min', label: 'temps moyen de correction', sublabel: 'contre 48h chez un prof particulier', color: 'blue' },
+    { icon: Target, value: '98%', label: 'taux de mention', sublabel: '(Assez Bien et supérieur)', color: 'emerald' },
+    { icon: Library, value: '548', label: 'ressources', sublabel: 'BO, rapports jury, analyses d\'oeuvres à jour', color: 'blue' },
+  ];
+
+  // ============================================================================
+  // DATA: MÉTHODE EN 3 ÉTAPES
+  // ============================================================================
+  const steps = [
+    {
+      number: '01',
+      icon: Target,
+      title: 'Diagnostic express',
+      description: 'En 5 minutes, notre IA analyse ton niveau réel sur les 5 compétences EAF : analyse de texte, argumentation, expression orale, maîtrise linguistique, culture littéraire.',
+      outcome: 'Tu sais exactement par où commencer et quoi travailler en priorité.',
+      color: 'blue'
+    },
+    {
+      number: '02',
+      icon: FileText,
+      title: 'Production guidée',
+      description: 'Tu rédiges des vrais sujets EAF tirés des annales. Le tuteur IA ne te donne JAMAIS la réponse. Il te guide avec des questions, des pistes, des exemples des corpus officiels (BO, Eduscol, rapports de jury).',
+      outcome: 'Tu construis TON raisonnement, pas celui d\'une machine.',
+      color: 'emerald'
+    },
+    {
+      number: '03',
+      icon: CheckCircle,
+      title: 'Correction immédiate',
+      description: 'En 3 minutes, reçois une correction rubrique par rubrique avec : note /20 et détail par compétence, annotations sur chaque erreur, explications des points à améliorer, rappel des règles du BO.',
+      outcome: 'Tu comprends TES erreurs spécifiques, pas des généralités.',
+      color: 'orange'
+    }
+  ];
+
+  // ============================================================================
+  // DATA: LES 4 ATELIERS EAF
+  // ============================================================================
+  const workshops = [
+    {
+      badge: 'Corrections 24h/24',
+      badgeColor: 'blue',
+      icon: BookOpen,
+      title: 'Atelier Écrit',
+      subtitle: 'Sujets générés à partir des annales 2015-2025',
+      features: [
+        'Sujets de dissertation conformes au BO',
+        'Textes argumentatifs avec corpus officiels',
+        'Dépose ta copie (photo ou PDF)',
+        'Correction en 3 min avec barème /20',
+        'Feedback rubrique par rubrique'
+      ],
+      borderColor: 'border-blue-500',
+      bgColor: 'bg-blue-50'
+    },
+    {
+      badge: 'Le plus utilisé par nos élèves',
+      badgeColor: 'emerald',
+      icon: Mic,
+      title: 'Atelier Oral',
+      subtitle: 'Simulation complète au barème officiel /2 /8 /2 /8',
+      features: [
+        'Tirage au sort des oeuvres (même aléatoire que le bac)',
+        'Préparation 30 min avec minuteur',
+        'Passage 10 min enregistrable',
+        'Notation /2 /8 /2 /8 comme le vrai bac',
+        'Bilan PDF avec points forts et axes progrès'
+      ],
+      borderColor: 'border-emerald-500',
+      bgColor: 'bg-emerald-50',
+      featured: true
+    },
+    {
+      badge: 'Points rapides à gagner',
+      badgeColor: 'purple',
+      icon: Languages,
+      title: 'Atelier Langue',
+      subtitle: 'Grammaire et expression ciblées sur TES erreurs',
+      features: [
+        'Exercices adaptés à ton niveau réel',
+        'Rappel des règles du BO 2026',
+        'Entraînement sur les fautes fréquentes',
+        'Quiz rapides entre deux révisions',
+        'Progression mesurée compétence par compétence'
+      ],
+      borderColor: 'border-purple-500',
+      bgColor: 'bg-purple-50'
+    },
+    {
+      badge: 'Révision efficace',
+      badgeColor: 'orange',
+      icon: HelpCircle,
+      title: 'Atelier Quiz',
+      subtitle: 'Teste tes connaissances sur les oeuvres',
+      features: [
+        'Questions sur les oeuvres du programme',
+        'Citations à identifier (auteur, contexte, sens)',
+        'Thèmes et personnages',
+        'Niveau adaptatif (plus tu réussis, plus c\'est exigeant)',
+        'Suivi des erreurs pour revoir tes points faibles'
+      ],
+      borderColor: 'border-orange-500',
+      bgColor: 'bg-orange-50'
+    }
+  ];
+
+  // ============================================================================
+  // DATA: PREUVE SOCIALE
+  // ============================================================================
+  const testimonials = [
+    {
+      name: 'Mehdi K.',
+      school: 'Lycée Pierre Mendès France, Tunis',
+      before: '8/20 à l\'oral blanc',
+      after: '16/20 à l\'EAF → Mention Bien',
+      quote: 'J\'avais peur de l\'oral, je bafouillais dès que je voyais un examinateur. Avec Nexus, j\'ai fait 8 simulations réelles. Le jour J, j\'étais habitué au stress. Le tuteur ne me donnait jamais la réponse, mais me guidait pour que JE trouve. Résultat: 16/20 et mention Bien.',
+      details: 'Utilisateur Premium pendant 4 mois • 12 oraux simulés • 45 corrections effectuées',
+      initials: 'MK',
+      color: 'blue'
+    },
+    {
+      name: 'Sarah L.',
+      school: 'Lycée International, Lyon',
+      before: 'Dissertations à 9/20',
+      after: '14/20 en moyenne → Mention Assez Bien',
+      quote: 'Je croyais que ChatGPT m\'aiderait, mais je recopiais sans comprendre. Sur Nexus, le tuteur me demandait des questions, me faisait chercher dans les rapports de jury. J\'ai appris à STRUCTURER ma pensée, pas à la recopier. Ma mère voit mes progrès en direct sur son dashboard.',
+      details: 'Utilisatrice Masterium pendant 3 mois • 28 corrections • Dashboard parent actif',
+      initials: 'SL',
+      color: 'emerald'
+    },
+    {
+      name: 'Youssef B.',
+      school: 'Lycée Carthage Présidence, Tunis',
+      before: 'Grammaire "catastrophique" selon sa prof',
+      after: '0 faute d\'orthographe à l\'EAF',
+      quote: 'Mes fautes de français me coûtaient des points bêtes. L\'atelier Langue m\'a fait travailler EXACTEMENT là où j\'avais des lacunes. Pas de théorie inutile, juste des exercices sur mes erreurs. L\'oral a été ma force parce que j\'étais préparé au format /2 /8 /2 /8.',
+      details: 'Utilisateur Premium pendant 5 mois • Atelier Langue quotidien • 18 oraux simulés',
+      initials: 'YB',
+      color: 'purple'
+    }
+  ];
+
+  // ============================================================================
+  // DATA: POURQUOI NEXUS RÉUSSITE
+  // ============================================================================
+  const comparisonFeatures = [
+    { name: 'Sources', chatbot: 'Internet générique, pas sourcé', nexus: 'BO 2026, Eduscol, rapports de jury officiels', winner: 'nexus' },
+    { name: 'Correction', chatbot: 'Fait la rédaction à ta place', nexus: 'Guide sans jamais rédiger, tu produis toi-même', winner: 'nexus' },
+    { name: 'Barème EAF', chatbot: 'Pas adapté au format spécifique', nexus: 'Oral noté /2 /8 /2 /8 comme le vrai bac', winner: 'nexus' },
+    { name: 'Anti-copie', chatbot: 'Facilement détectable par l\'IA du bac', nexus: 'Parcours personnalisé impossible à copier', winner: 'nexus' },
+    { name: 'Rapidité', chatbot: 'Réponses génériques longues', nexus: 'Corrections en 3 minutes, 24h/24', winner: 'nexus' },
+    { name: 'Suivi', chatbot: 'Pas de suivi de progression', nexus: 'Dashboard parent + évolution mois par mois', winner: 'nexus' },
+    { name: 'Expertise', chatbot: 'IA générique', nexus: 'Coach agrégé + IA pédagogique combinés', winner: 'nexus' },
+    { name: 'Prix', chatbot: 'Gratuit ou abonnement générique', nexus: 'À partir de 0 TND, Premium 99 TND', winner: 'nexus' },
+  ];
+
+  // ============================================================================
+  // DATA: TARIFS
+  // ============================================================================
+  const plans = [
+    {
+      name: 'Freemium',
+      badge: 'Pour tester',
+      badgeColor: 'gray',
+      price: '0',
+      period: 'Gratuit, sans limite de temps',
+      features: [
+        '1 oral/mois (simulation complète /2 /8 /2 /8)',
+        '2 corrections/mois',
+        '3 questions/jour au tuteur IA',
+        'Accès bibliothèque limité (20% des ressources)',
+        'Quiz adaptatif'
+      ],
+      cta: 'Commencer gratuitement →',
+      ctaStyle: 'outline',
+      borderColor: 'border-gray-200'
+    },
+    {
+      name: 'Premium',
+      badge: '⭐ RECOMMANDÉ PAR NOS ÉLÈVES',
+      badgeColor: 'emerald',
+      price: '99',
+      period: 'Par mois',
+      subperiod: 'Sans engagement • Résiliation immédiate',
+      features: [
+        '10 oraux/semaine (illimité pratiquement)',
+        '20 corrections/mois',
+        '100 questions/jour au tuteur IA',
+        'Bibliothèque complète (548 ressources)',
+        'Rapports PDF de progression',
+        'Dashboard parent',
+        'Support email prioritaire',
+        'Parcours adaptatif IA'
+      ],
+      cta: 'Choisir Premium',
+      ctaStyle: 'solid',
+      featured: true,
+      borderColor: 'border-emerald-500'
+    },
+    {
+      name: 'Masterium',
+      badge: 'Excellence',
+      badgeColor: 'yellow',
+      price: '129',
+      period: 'Par mois',
+      subperiod: 'Sans engagement • Pour les mentions Très Bien',
+      features: [
+        'Oral illimité (toutes simulations)',
+        'Corrections illimitées',
+        'Questions illimitées au tuteur IA',
+        'Bibliothèque complète + accès anticipé',
+        'Rapports PDF détaillés + historique',
+        'Dashboard parent avancé',
+        'Support prioritaire (réponse < 4h)',
+        'Parcours ultra-personnalisé',
+        'Mode "Avocat du diable"'
+      ],
+      cta: 'Choisir Masterium →',
+      ctaStyle: 'outline',
+      borderColor: 'border-yellow-400'
+    }
+  ];
+
+  // ============================================================================
+  // DATA: FAQ
+  // ============================================================================
+  const faqs = [
+    {
+      question: 'Est-ce que l\'IA me rédige mes copies ?',
+      answer: 'NON. C\'est fondamental : notre tuteur IA pose des questions, donne des pistes, cite les sources officielles, mais ne rédige JAMAIS à ta place. Tu dois produire, c\'est la seule façon d\'apprendre. L\'anti-copie est dans notre ADN.'
+    },
+    {
+      question: 'Les corrections sont-elles fiables ?',
+      answer: 'Oui. Nos algorithmes s\'appuient sur les rapports de jury officiels et le barème EAF. Chaque correction est structurée comme le ferait un professeur agrégé : rubrique par rubrique, avec des exemples concrets et des pistes d\'amélioration.'
+    },
+    {
+      question: 'Comment ça marche pour l\'oral ?',
+      answer: 'Tu choisis une oeuvre (ou on tire au sort), tu as 30 min de préparation avec le texte, puis 10 min de passage enregistrable. Tu reçois une note /2 /8 /2 /8 avec un bilan détaillé et un PDF. C\'est le vrai format EAF.'
+    },
+    {
+      question: 'Mes parents peuvent-ils suivre ma progression ?',
+      answer: 'Oui, avec les plans Premium et Masterium. Ils ont un dashboard avec tes notes, ton temps d\'entraînement, tes progrès par compétence. C\'est rassurant pour eux, motivant pour toi.'
+    },
+    {
+      question: 'Combien de temps faut-il s\'entraîner par jour ?',
+      answer: '30 minutes par jour suffisent pour progresser significativement. Notre IA adapte les exercices à TON niveau, donc pas de temps perdu sur des choses que tu maîtrises déjà.'
+    },
+    {
+      question: 'C\'est vraiment différent de ChatGPT ?',
+      answer: 'Complètement. ChatGPT a été entraîné sur Internet générique. Nexus Réussite intègre uniquement les sources officielles (BO, Eduscol, rapports de jury). De plus, notre IA ne te donne pas les réponses, elle t\'apprend à réfléchir.'
+    },
+    {
+      question: 'Je suis en Tunisie, ça marche pour moi ?',
+      answer: 'Absolument. Nombreux de nos élèves sont en Tunisie (Lycée Pierre Mendès France, Carthage Présidence, etc.). Le programme EAF est identique. Paiement par virement ou espèces, activation sous 2h ouvrées.'
+    },
+    {
+      question: 'Puis-je annuler mon abonnement ?',
+      answer: 'Oui, à tout moment. Pas d\'engagement, pas de pénalité. Tu restes Premium jusqu\'à la fin de la période payée.'
+    }
+  ];
+
+  // ============================================================================
+  // RENDER
+  // ============================================================================
+  return (
+    <main className="min-h-screen">
+      {/* ================================================================== */}
+      {/* SECTION 1: HERO */}
+      {/* ================================================================== */}
+      <section className="min-h-screen bg-gradient-to-br from-[#1e3a5f] via-[#264969] to-[#2d5a87] text-white relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-400 rounded-full blur-3xl" />
@@ -252,20 +521,10 @@ export default function LandingPage() {
         </div>
       </div>
     </section>
-  );
 
-  // ============================================================================
-  // SECTION 2: RÉSULTATS CONCRETS
-  // ============================================================================
-  const Results = () => {
-    const stats = [
-      { icon: TrendingUp, value: '+4.2', label: 'points en moyenne à l\'oral', sublabel: '(passage de 11.8 à 16.0/20)', color: 'emerald' },
-      { icon: Clock, value: '3 min', label: 'temps moyen de correction', sublabel: 'contre 48h chez un prof particulier', color: 'blue' },
-      { icon: Target, value: '98%', label: 'taux de mention', sublabel: '(Assez Bien et supérieur)', color: 'emerald' },
-      { icon: Library, value: '548', label: 'ressources', sublabel: 'BO, rapports jury, analyses d\'œuvres à jour', color: 'blue' },
-    ];
-
-    return (
+      {/* ================================================================== */}
+      {/* SECTION 2: RÉSULTATS CONCRETS */}
+      {/* ================================================================== */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <motion.div
@@ -371,41 +630,10 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-    );
-  };
 
-  // ============================================================================
-  // SECTION 3: MÉTHODE EN 3 ÉTAPES
-  // ============================================================================
-  const Method = () => {
-    const steps = [
-      {
-        number: '01',
-        icon: Target,
-        title: 'Diagnostic express',
-        description: 'En 5 minutes, notre IA analyse ton niveau réel sur les 5 compétences EAF : analyse de texte, argumentation, expression orale, maîtrise linguistique, culture littéraire.',
-        outcome: 'Tu sais exactement par où commencer et quoi travailler en priorité.',
-        color: 'blue'
-      },
-      {
-        number: '02',
-        icon: FileText,
-        title: 'Production guidée',
-        description: 'Tu rédiges des vrais sujets EAF tirés des annales. Le tuteur IA ne te donne JAMAIS la réponse. Il te guide avec des questions, des pistes, des exemples des corpus officiels (BO, Eduscol, rapports de jury).',
-        outcome: 'Tu construis TON raisonnement, pas celui d\'une machine.',
-        color: 'emerald'
-      },
-      {
-        number: '03',
-        icon: CheckCircle,
-        title: 'Correction immédiate',
-        description: 'En 3 minutes, reçois une correction rubrique par rubrique avec : note /20 et détail par compétence, annotations sur chaque erreur, explications des points à améliorer, rappel des règles du BO.',
-        outcome: 'Tu comprends TES erreurs spécifiques, pas des généralités.',
-        color: 'orange'
-      }
-    ];
-
-    return (
+      {/* ================================================================== */}
+      {/* SECTION 3: MÉTHODE EN 3 ÉTAPES */}
+      {/* ================================================================== */}
       <section className="py-24 bg-blue-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <motion.div
@@ -452,82 +680,10 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-    );
-  };
 
-  // ============================================================================
-  // SECTION 4: LES 4 ATELIERS EAF
-  // ============================================================================
-  const Workshops = () => {
-    const workshops = [
-      {
-        badge: 'Corrections 24h/24',
-        badgeColor: 'blue',
-        icon: BookOpen,
-        title: 'Atelier Écrit',
-        subtitle: 'Sujets générés à partir des annales 2015-2025',
-        features: [
-          'Sujets de dissertation conformes au BO',
-          'Textes argumentatifs avec corpus officiels',
-          'Dépose ta copie (photo ou PDF)',
-          'Correction en 3 min avec barème /20',
-          'Feedback rubrique par rubrique'
-        ],
-        borderColor: 'border-blue-500',
-        bgColor: 'bg-blue-50'
-      },
-      {
-        badge: 'Le plus utilisé par nos élèves',
-        badgeColor: 'emerald',
-        icon: Mic,
-        title: 'Atelier Oral',
-        subtitle: 'Simulation complète au barème officiel /2 /8 /2 /8',
-        features: [
-          'Tirage au sort des œuvres (même aléatoire que le bac)',
-          'Préparation 30 min avec minuteur',
-          'Passage 10 min enregistrable',
-          'Notation /2 /8 /2 /8 comme le vrai bac',
-          'Bilan PDF avec points forts et axes progrès'
-        ],
-        borderColor: 'border-emerald-500',
-        bgColor: 'bg-emerald-50',
-        featured: true
-      },
-      {
-        badge: 'Points rapides à gagner',
-        badgeColor: 'purple',
-        icon: Languages,
-        title: 'Atelier Langue',
-        subtitle: 'Grammaire et expression ciblées sur TES erreurs',
-        features: [
-          'Exercices adaptés à ton niveau réel',
-          'Rappel des règles du BO 2026',
-          'Entraînement sur les fautes fréquentes',
-          'Quiz rapides entre deux révisions',
-          'Progression mesurée compétence par compétence'
-        ],
-        borderColor: 'border-purple-500',
-        bgColor: 'bg-purple-50'
-      },
-      {
-        badge: 'Révision efficace',
-        badgeColor: 'orange',
-        icon: HelpCircle,
-        title: 'Atelier Quiz',
-        subtitle: 'Teste tes connaissances sur les œuvres',
-        features: [
-          'Questions sur les œuvres du programme',
-          'Citations à identifier (auteur, contexte, sens)',
-          'Thèmes et personnages',
-          'Niveau adaptatif (plus tu réussis, plus c\'est exigeant)',
-          'Suivi des erreurs pour revoir tes points faibles'
-        ],
-        borderColor: 'border-orange-500',
-        bgColor: 'bg-orange-50'
-      }
-    ];
-
-    return (
+      {/* ================================================================== */}
+      {/* SECTION 4: LES 4 ATELIERS EAF */}
+      {/* ================================================================== */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <motion.div
@@ -584,14 +740,11 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-    );
-  };
 
-  // ============================================================================
-  // SECTION 5: MOCKUPS PLATEFORME (Dashboards)
-  // ============================================================================
-  const Dashboards = () => (
-    <section className="py-24 bg-gray-50">
+      {/* ================================================================== */}
+      {/* SECTION 5: MOCKUPS PLATEFORME (Dashboards) */}
+      {/* ================================================================== */}
+      <section className="py-24 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <motion.div
           initial="initial"
@@ -711,46 +864,10 @@ export default function LandingPage() {
         </p>
       </div>
     </section>
-  );
 
-  // ============================================================================
-  // SECTION 6: PREUVE SOCIALE
-  // ============================================================================
-  const Testimonials = () => {
-    const testimonials = [
-      {
-        name: 'Mehdi K.',
-        school: 'Lycée Pierre Mendès France, Tunis',
-        before: '8/20 à l\'oral blanc',
-        after: '16/20 à l\'EAF → Mention Bien',
-        quote: 'J\'avais peur de l\'oral, je bafouillais dès que je voyais un examinateur. Avec Nexus, j\'ai fait 8 simulations réelles. Le jour J, j\'étais habitué au stress. Le tuteur ne me donnait jamais la réponse, mais me guidait pour que JE trouve. Résultat: 16/20 et mention Bien.',
-        details: 'Utilisateur Premium pendant 4 mois • 12 oraux simulés • 45 corrections effectuées',
-        initials: 'MK',
-        color: 'blue'
-      },
-      {
-        name: 'Sarah L.',
-        school: 'Lycée International, Lyon',
-        before: 'Dissertations à 9/20',
-        after: '14/20 en moyenne → Mention Assez Bien',
-        quote: 'Je croyais que ChatGPT m\'aiderait, mais je recopiais sans comprendre. Sur Nexus, le tuteur me demandait des questions, me faisait chercher dans les rapports de jury. J\'ai appris à STRUCTURER ma pensée, pas à la recopier. Ma mère voit mes progrès en direct sur son dashboard.',
-        details: 'Utilisatrice Masterium pendant 3 mois • 28 corrections • Dashboard parent actif',
-        initials: 'SL',
-        color: 'emerald'
-      },
-      {
-        name: 'Youssef B.',
-        school: 'Lycée Carthage Présidence, Tunis',
-        before: 'Grammaire "catastrophique" selon sa prof',
-        after: '0 faute d\'orthographe à l\'EAF',
-        quote: 'Mes fautes de français me coûtaient des points bêtes. L\'atelier Langue m\'a fait travailler EXACTEMENT là où j\'avais des lacunes. Pas de théorie inutile, juste des exercices sur mes erreurs. L\'oral a été ma force parce que j\'étais préparé au format /2 /8 /2 /8.',
-        details: 'Utilisateur Premium pendant 5 mois • Atelier Langue quotidien • 18 oraux simulés',
-        initials: 'YB',
-        color: 'purple'
-      }
-    ];
-
-    return (
+      {/* ================================================================== */}
+      {/* SECTION 6: PREUVE SOCIALE */}
+      {/* ================================================================== */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <motion.div
@@ -812,25 +929,10 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-    );
-  };
 
-  // ============================================================================
-  // SECTION 7: POURQUOI NEXUS RÉUSSITE
-  // ============================================================================
-  const Comparison = () => {
-    const features = [
-      { name: 'Sources', chatbot: 'Internet générique, pas sourcé', nexus: 'BO 2026, Eduscol, rapports de jury officiels', winner: 'nexus' },
-      { name: 'Correction', chatbot: 'Fait la rédaction à ta place', nexus: 'Guide sans jamais rédiger, tu produis toi-même', winner: 'nexus' },
-      { name: 'Barème EAF', chatbot: 'Pas adapté au format spécifique', nexus: 'Oral noté /2 /8 /2 /8 comme le vrai bac', winner: 'nexus' },
-      { name: 'Anti-copie', chatbot: 'Facilement détectable par l\'IA du bac', nexus: 'Parcours personnalisé impossible à copier', winner: 'nexus' },
-      { name: 'Rapidité', chatbot: 'Réponses génériques longues', nexus: 'Corrections en 3 minutes, 24h/24', winner: 'nexus' },
-      { name: 'Suivi', chatbot: 'Pas de suivi de progression', nexus: 'Dashboard parent + évolution mois par mois', winner: 'nexus' },
-      { name: 'Expertise', chatbot: 'IA générique', nexus: 'Coach agrégé + IA pédagogique combinés', winner: 'nexus' },
-      { name: 'Prix', chatbot: 'Gratuit ou abonnement générique', nexus: 'À partir de 0 TND, Premium 99 TND', winner: 'nexus' },
-    ];
-
-    return (
+      {/* ================================================================== */}
+      {/* SECTION 7: POURQUOI NEXUS RÉUSSITE */}
+      {/* ================================================================== */}
       <section className="py-24 bg-[#1e3a5f] text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <motion.div
@@ -859,7 +961,7 @@ export default function LandingPage() {
               <div className="text-gray-300 text-center">Chatbot générique</div>
               <div className="text-emerald-400 text-center">Nexus Réussite</div>
             </div>
-            {features.map((feature, index) => (
+            {comparisonFeatures.map((feature, index) => (
               <div key={index} className="grid grid-cols-3 gap-4 p-4 border-b border-white/5 hover:bg-white/5 transition-colors items-center">
                 <div className="font-medium">{feature.name}</div>
                 <div className="text-gray-400 text-sm text-center">{feature.chatbot}</div>
@@ -886,78 +988,10 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-    );
-  };
 
-  // ============================================================================
-  // SECTION 8: TARIFS
-  // ============================================================================
-  const Pricing = () => {
-    const plans = [
-      {
-        name: 'Freemium',
-        badge: 'Pour tester',
-        badgeColor: 'gray',
-        price: '0',
-        period: 'Gratuit, sans limite de temps',
-        features: [
-          '1 oral/mois (simulation complète /2 /8 /2 /8)',
-          '2 corrections/mois',
-          '3 questions/jour au tuteur IA',
-          'Accès bibliothèque limité (20% des ressources)',
-          'Quiz adaptatif'
-        ],
-        cta: 'Commencer gratuitement →',
-        ctaStyle: 'outline',
-        borderColor: 'border-gray-200'
-      },
-      {
-        name: 'Premium',
-        badge: '⭐ RECOMMANDÉ PAR NOS ÉLÈVES',
-        badgeColor: 'emerald',
-        price: '99',
-        period: 'Par mois',
-        subperiod: 'Sans engagement • Résiliation immédiate',
-        features: [
-          '10 oraux/semaine (illimité pratiquement)',
-          '20 corrections/mois',
-          '100 questions/jour au tuteur IA',
-          'Bibliothèque complète (548 ressources)',
-          'Rapports PDF de progression',
-          'Dashboard parent',
-          'Support email prioritaire',
-          'Parcours adaptatif IA'
-        ],
-        cta: 'Choisir Premium',
-        ctaStyle: 'solid',
-        featured: true,
-        borderColor: 'border-emerald-500'
-      },
-      {
-        name: 'Masterium',
-        badge: 'Excellence',
-        badgeColor: 'yellow',
-        price: '129',
-        period: 'Par mois',
-        subperiod: 'Sans engagement • Pour les mentions Très Bien',
-        features: [
-          'Oral illimité (toutes simulations)',
-          'Corrections illimitées',
-          'Questions illimitées au tuteur IA',
-          'Bibliothèque complète + accès anticipé',
-          'Rapports PDF détaillés + historique',
-          'Dashboard parent avancé',
-          'Support prioritaire (réponse < 4h)',
-          'Parcours ultra-personnalisé',
-          'Mode "Avocat du diable"'
-        ],
-        cta: 'Choisir Masterium →',
-        ctaStyle: 'outline',
-        borderColor: 'border-yellow-400'
-      }
-    ];
-
-    return (
+      {/* ================================================================== */}
+      {/* SECTION 8: TARIFS */}
+      {/* ================================================================== */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <motion.div
@@ -1046,49 +1080,10 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-    );
-  };
 
-  // ============================================================================
-  // SECTION 9: FAQ
-  // ============================================================================
-  const FAQ = () => {
-    const faqs = [
-      {
-        question: 'Est-ce que l\'IA me rédige mes copies ?',
-        answer: 'NON. C\'est fondamental : notre tuteur IA pose des questions, donne des pistes, cite les sources officielles, mais ne rédige JAMAIS à ta place. Tu dois produire, c\'est la seule façon d\'apprendre. L\'anti-copie est dans notre ADN.'
-      },
-      {
-        question: 'Les corrections sont-elles fiables ?',
-        answer: 'Oui. Nos algorithmes s\'appuient sur les rapports de jury officiels et le barème EAF. Chaque correction est structurée comme le ferait un professeur agrégé : rubrique par rubrique, avec des exemples concrets et des pistes d\'amélioration.'
-      },
-      {
-        question: 'Comment ça marche pour l\'oral ?',
-        answer: 'Tu choisis une œuvre (ou on tire au sort), tu as 30 min de préparation avec le texte, puis 10 min de passage enregistrable. Tu reçois une note /2 /8 /2 /8 avec un bilan détaillé et un PDF. C\'est le vrai format EAF.'
-      },
-      {
-        question: 'Mes parents peuvent-ils suivre ma progression ?',
-        answer: 'Oui, avec les plans Premium et Masterium. Ils ont un dashboard avec tes notes, ton temps d\'entraînement, tes progrès par compétence. C\'est rassurant pour eux, motivant pour toi.'
-      },
-      {
-        question: 'Combien de temps faut-il s\'entraîner par jour ?',
-        answer: '30 minutes par jour suffisent pour progresser significativement. Notre IA adapte les exercices à TON niveau, donc pas de temps perdu sur des choses que tu maîtrises déjà.'
-      },
-      {
-        question: 'C\'est vraiment différent de ChatGPT ?',
-        answer: 'Complètement. ChatGPT a été entraîné sur Internet générique. Nexus Réussite intègre uniquement les sources officielles (BO, Eduscol, rapports de jury). De plus, notre IA ne te donne pas les réponses, elle t\'apprend à réfléchir.'
-      },
-      {
-        question: 'Je suis en Tunisie, ça marche pour moi ?',
-        answer: 'Absolument. Nombreux de nos élèves sont en Tunisie (Lycée Pierre Mendès France, Carthage Présidence, etc.). Le programme EAF est identique. Paiement par virement ou espèces, activation sous 2h ouvrées.'
-      },
-      {
-        question: 'Puis-je annuler mon abonnement ?',
-        answer: 'Oui, à tout moment. Pas d\'engagement, pas de pénalité. Tu restes Premium jusqu\'à la fin de la période payée.'
-      }
-    ];
-
-    return (
+      {/* ================================================================== */}
+      {/* SECTION 9: FAQ */}
+      {/* ================================================================== */}
       <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <motion.div
@@ -1140,14 +1135,11 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-    );
-  };
 
-  // ============================================================================
-  // SECTION 10: FOOTER
-  // ============================================================================
-  const Footer = () => (
-    <footer className="bg-[#0f172a] text-gray-300 py-16">
+      {/* ================================================================== */}
+      {/* SECTION 10: FOOTER */}
+      {/* ================================================================== */}
+      <footer className="bg-[#0f172a] text-gray-300 py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Colonne 1: Logo + Description */}
@@ -1233,23 +1225,6 @@ export default function LandingPage() {
         </div>
       </div>
     </footer>
-  );
-
-  // ============================================================================
-  // RENDER
-  // ============================================================================
-  return (
-    <main className="min-h-screen">
-      <Hero />
-      <Results />
-      <Method />
-      <Workshops />
-      <Dashboards />
-      <Testimonials />
-      <Comparison />
-      <Pricing />
-      <FAQ />
-      <Footer />
     </main>
   );
 }
