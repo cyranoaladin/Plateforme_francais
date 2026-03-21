@@ -78,9 +78,9 @@ const faqs: FaqItem[] = [
 
 export function PricingSection() {
   return (
-    <section id="tarifs" className="bg-gray-50 py-20">
+    <section id="tarifs" className="bg-gray-50 py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-3xl font-bold text-gray-900 sm:text-4xl">
+        <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
           Tarifs simples, résultats concrets
         </h2>
         <p className="mt-3 text-center text-gray-600">
@@ -88,13 +88,13 @@ export function PricingSection() {
         </p>
 
         {/* Plan cards */}
-        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="-mx-4 mt-12 flex gap-4 overflow-x-auto px-4 pb-4 snap-x snap-mandatory sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
           {plans.map((plan) => (
             <div
               key={plan.name}
               className={
-                'relative flex flex-col rounded-2xl bg-white p-6 shadow-md ' +
-                (plan.featured ? 'border-2 border-sapphire-700 shadow-lg' : 'border border-gray-200')
+                'relative flex min-w-[280px] flex-col rounded-2xl bg-white p-6 shadow-md snap-center sm:min-w-0 ' +
+                (plan.featured ? 'ring-2 ring-sapphire-700 sm:border-2 sm:border-sapphire-700 sm:ring-0 shadow-lg' : 'border border-gray-200')
               }
             >
               {plan.featured && (
