@@ -23,9 +23,17 @@ async function registerAndLogin(page: Page): Promise<{ email: string; password: 
 
   // In CI without real auth backend, registration may not work
   const navigated = await page.waitForURL(/(?!.*\/login)/, { timeout: 20_000 }).then(() => true).catch(() => false);
-  if (!navigated) return null;
+  if (navigated) return { email, password };
 
-  return { email, password };
+  // Fallback: login with seed account if registration failed
+  await page.goto('/login');
+  await page.getByTestId('auth-email').fill('eleve.free@eaf.local');
+  await page.getByTestId('auth-password').fill('FreeTest2026!');
+  await page.getByTestId('auth-submit').click();
+  const fallback = await page.waitForURL(/(?!.*\/login)/, { timeout: 10_000 }).then(() => true).catch(() => false);
+  if (!fallback) return null;
+
+  return { email: 'eleve.free@eaf.local', password: 'FreeTest2026!' };
 }
 
 test('upload copie puis polling jusqu au statut done', async ({ page }) => {

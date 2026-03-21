@@ -13,8 +13,15 @@ async function registerAndLogin(page: Page): Promise<boolean> {
   await page.locator('input[type="checkbox"]').first().check();
   await page.getByTestId('auth-submit').click();
 
-  // In CI without real auth backend, registration may not work
-  return page.waitForURL(/(?!.*\/login)/, { timeout: 20_000 }).then(() => true).catch(() => false);
+  const registered = await page.waitForURL(/(?!.*\/login)/, { timeout: 20_000 }).then(() => true).catch(() => false);
+  if (registered) return true;
+
+  // Fallback: login with seed account if registration failed
+  await page.goto('/login');
+  await page.getByTestId('auth-email').fill('eleve.free@eaf.local');
+  await page.getByTestId('auth-password').fill('FreeTest2026!');
+  await page.getByTestId('auth-submit').click();
+  return page.waitForURL(/(?!.*\/login)/, { timeout: 10_000 }).then(() => true).catch(() => false);
 }
 
 test('Inscription → onboarding wizard → dashboard personnalisé', async ({ page }) => {
