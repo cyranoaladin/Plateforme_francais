@@ -89,7 +89,6 @@
     "@react-pdf/renderer": "^4.3.2",
     "bullmq": "^5.70.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.38.0",
     "highlight.js": "^11.11.1",
     "ioredis": "^5.9.3",
     "lucide-react": "^0.575.0",
