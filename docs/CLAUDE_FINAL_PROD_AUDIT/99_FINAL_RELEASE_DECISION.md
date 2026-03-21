@@ -1,9 +1,9 @@
-# NEXUS REUSSITE EAF — FINAL RELEASE DECISION v8
+# NEXUS REUSSITE EAF — FINAL RELEASE DECISION v9
 
 **Date**: 2026-03-21 22:55 UTC
-**SHA local**: `64e3b15`
-**SHA origin**: `64e3b15`
-**SHA prod**: `64e3b15`
+**SHA local**: `f69c12d`
+**SHA origin**: `f69c12d`
+**SHA prod**: `f69c12d`
 **SHA match**: YES
 
 ---
@@ -25,7 +25,7 @@ E2E skips are conditional guards (`if (!registered) { test.skip(); }`) — they 
 ## 2. CHECKLIST GO LIVE
 
 ### Infrastructure
-- [x] SHA local = origin = prod = `64e3b15`
+- [x] SHA local = origin = prod = `f69c12d`
 - [x] PM2: eaf-nextjs, eaf-mcp, eaf-worker all online, 0 restarts
 - [x] Port 3000: `127.0.0.1` only
 - [x] PostgreSQL: 20 migrations, 0 pending
@@ -122,5 +122,5 @@ E2E skips are conditional guards (`if (!registered) { test.skip(); }`) — they 
 
 All conditions met. Zero exceptions. Zero open defects.
 
-**SHA: `64e3b15`**
+**SHA: `f69c12d`**
 **Deployed: 2026-03-21 22:55 UTC**
