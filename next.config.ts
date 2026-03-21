@@ -40,11 +40,13 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   // Disable React strict mode to avoid context issues in error boundaries
   reactStrictMode: false,
-  // Allow SVG in next/image with XSS protection
+  // Image optimization: SVG support + modern formats
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [],
   },
   // Remove X-Powered-By header (information disclosure)
   poweredByHeader: false,
@@ -77,11 +79,6 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-  images: {
-    formats: ['image/avif', 'image/webp'],
-    remotePatterns: [],
-  },
-  // S'assurer que le dossier ressources est surveillé
 }
 
 export default nextConfig
