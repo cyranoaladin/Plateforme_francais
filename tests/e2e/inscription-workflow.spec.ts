@@ -409,6 +409,8 @@ test.describe('Navigation post-login', () => {
 
   test('le lien "Connexion" sur la page d accueil mène à /login', async ({ page }) => {
     await page.goto('/');
+    // StickyNav only appears after scrolling past 80px
+    await page.evaluate(() => window.scrollBy(0, 200));
     const loginLink = page.getByRole('link', { name: /connexion|se connecter|login/i }).first();
     await expect(loginLink).toBeVisible({ timeout: 10_000 });
     await loginLink.click();
