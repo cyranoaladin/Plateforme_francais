@@ -312,12 +312,6 @@
     linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
 }
 
-/* ─── Dark mode surface-dark override ─────────────── */
-.dark .surface-dark {
-  background: var(--dark-800);
-  color: #e2e8f0;
-}
-
 @theme inline {
   /* ─── Encre & Lumière palette ────────────────────── */
   --color-ink-950: #060D1F;
@@ -403,33 +397,6 @@ body {
   font-family: var(--font-display);
 }
 
-/* ─── Utility: card surface ──────────────────────────── */
-.surface-card {
-  background: var(--card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xs);
-}
-
-.surface-elevated {
-  background: var(--card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-
-.surface-elevated:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-.surface-dark {
-  background: var(--navy);
-  color: #f7f2ea;
-  border-radius: var(--radius-xl);
-}
-
 /* ═══════════════════════════════════════════════════════════
    Accessibility (WCAG 2.1 AA)
    ═══════════════════════════════════════════════════════════ */
@@ -488,53 +455,6 @@ body {
   font-family: var(--font-serif);
 }
 
-/* ─── Gold CTA Button ─────────────────────────────── */
-.btn-gold {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.75rem;
-  border-radius: 9999px;
-  font-weight: 700;
-  font-size: 1rem;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
-  color: var(--navy-dark);
-  box-shadow: 0 8px 24px rgba(212, 168, 83, 0.35);
-  transition: all 200ms ease;
-}
-.btn-gold:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(212, 168, 83, 0.45);
-}
-
-/* ─── Outline Button ──────────────────────────────── */
-.btn-outline-white {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.75rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  font-size: 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-  transition: all 200ms ease;
-}
-.btn-outline-white:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* ─── Card Hover ──────────────────────────────────── */
-.card-hover {
-  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-}
-
 /* ─── Badge Gold ──────────────────────────────────── */
 .badge-gold {
   display: inline-flex;
@@ -545,78 +465,6 @@ body {
   font-weight: 700;
   background: var(--gold);
   color: var(--navy-dark);
-}
-
-/* ─── Badge French ────────────────────────────────── */
-.badge-french {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-/* ─── French Flag Inline ──────────────────────────── */
-.french-flag-inline {
-  display: inline-flex;
-  gap: 2px;
-}
-.french-flag-inline span {
-  width: 6px;
-  height: 12px;
-  border-radius: 1px;
-}
-.french-flag-inline .fb { background: var(--french-blue); }
-.french-flag-inline .fw { background: var(--french-white); }
-.french-flag-inline .fr { background: var(--french-red); }
-
-/* ─── Hero Gradient ───────────────────────────────── */
-.bg-hero-gradient {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
-}
-
-/* ─── Gold Text Gradient ──────────────────────────── */
-.text-gold-gradient {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ─── Animated Particles ──────────────────────────── */
-@keyframes float-particle {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
-  50% { transform: translateY(-12px) scale(1.1); opacity: 0.3; }
-}
-.particle {
-  animation: float-particle 3s ease-in-out infinite;
-}
-.particle-red { background: var(--french-red); }
-.particle-gold { background: var(--gold); }
-.particle-delay-1 { animation-delay: 500ms; }
-.particle-delay-2 { animation-delay: 1000ms; }
-.particle-delay-3 { animation-delay: 1500ms; }
-.particle-delay-4 { animation-delay: 2000ms; }
-
-/* ─── Fade Up Animation ───────────────────────────── */
-@keyframes fadeUpNew {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-up {
-  animation: fadeUpNew 0.6s ease-out forwards;
-}
-
-/* ─── French Border Left Accent ───────────────────── */
-.border-french-left {
-  border-left: 4px solid;
-  border-image: linear-gradient(180deg, var(--french-blue) 0%, var(--french-blue) 33%, var(--french-white) 33%, var(--french-white) 66%, var(--french-red) 66%, var(--french-red) 100%) 1;
 }
 
 /* ─── Gold Shadow ─────────────────────────────────── */
