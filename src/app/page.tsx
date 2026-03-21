@@ -95,8 +95,8 @@ export default function LandingPage() {
   const router = useRouter();
   const [openFAQ, setOpenFAQ] = useState<number | null>(0);
 
-  // Calcul des jours restants avant EAF 2026 (environ début juin 2026)
-  const joursRestants = Math.ceil((new Date('2026-06-05').getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+  // Calcul des jours restants avant EAF 2026 (épreuve écrite le 11 juin 2026)
+  const joursRestants = Math.ceil((new Date('2026-06-11').getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
@@ -402,21 +402,21 @@ export default function LandingPage() {
               J-{joursRestants} avant l'épreuve EAF 2026
             </motion.div>
 
-            {/* H1 - Exact text as specified */}
+            {/* H1 - Updated for 2026 program */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              EAF 2026 : passe de 10 à 17+ à l'oral et décroche la mention avec la seule méthode qui te fait vraiment produire
+              EAF 2026 : passe de 10 à 17+ à l'oral avec les 12 œuvres du programme — La Boétie, Fontenelle, Graffigny, Corneille, Musset, Sarraute...
             </h1>
 
-            {/* Subtitle - Exact text as specified */}
+            {/* Subtitle - Updated for 2026 */}
             <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-              Nexus combine coach agrégé + IA pédagogique. Corrections en 3 min, oral noté au barème officiel, parcours sur mesure. Zéro rédaction à ta place. Sources BO & Eduscol garanties.
+              Nexus combine coach agrégé + IA pédagogique. Prépare les 4 objets d'étude : Littérature d'idées, Théâtre, Roman, Poésie. Corrections en 3 min, oral noté au barème officiel /2 /8 /2 /8.
             </p>
 
             {/* Trust Badges */}
             <div className="flex flex-wrap gap-4 mb-8 text-sm">
               <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
                 <Award className="w-4 h-4 text-emerald-400" />
-                <span>98% de mention</span>
+                <span>Écrit le 11 juin 2026</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
                 <Clock className="w-4 h-4 text-emerald-400" />
@@ -478,7 +478,7 @@ export default function LandingPage() {
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Simulation officielle EAF</span>
-                    <h3 className="text-lg font-bold text-gray-900 mt-1">Oral sur Candide - Voltaire</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mt-1">Oral sur Lettres d'une Péruvienne - Graffigny</h3>
                   </div>
                   <div className="bg-orange-500 text-white px-3 py-1 rounded-lg text-sm font-bold">
                     Noté /2 /8 /2 /8
@@ -496,7 +496,7 @@ export default function LandingPage() {
                     </div>
                   </div>
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    "Comment Voltaire critique-t-il l'optimisme de Leibniz dans ce passage ? Identifie les éléments qui montrent l'échec de la philosophie de Pangloss."
+                    "Comment Zilia déconstruit-elle la vision que les Européens ont de leur propre civilisation ? Analyse les lettres 18 et 29 pour montrer le renversement du regard."
                   </p>
                 </div>
                 
@@ -812,8 +812,8 @@ export default function LandingPage() {
 
               <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl p-4">
                 <p className="text-sm mb-2">Prochaine session recommandée</p>
-                <p className="font-semibold">Oral sur Candide</p>
-                <p className="text-xs text-emerald-100">Préparation estimée: 35 min</p>
+                <p className="font-semibold">Oral sur Discours de la servitude volontaire - La Boétie</p>
+                <p className="text-xs text-emerald-100">Parcours: Défendre et entretenir la liberté</p>
               </div>
             </div>
           </motion.div>
