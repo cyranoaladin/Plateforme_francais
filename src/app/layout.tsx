@@ -16,7 +16,7 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
 });
 
 const merriweather = Merriweather({
@@ -71,8 +71,6 @@ export default async function RootLayout({
             __html: `(function(){try{var s=localStorage.getItem('eaf_theme');if(s==='dark'||(s!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
           }}
         />
-        {/* Preload hero SVG for LCP optimization */}
-        <link rel="preload" href="/assets/oral-simulator-preview.svg" as="image" type="image/svg+xml" />
       </head>
       <body className="font-sans antialiased min-h-screen bg-background text-foreground flex">
         <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
