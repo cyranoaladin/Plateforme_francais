@@ -55,11 +55,11 @@ function ComparisonColumn({
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10">
       <div className={`px-5 py-3 text-sm font-semibold ${headerClass}`}>{title}</div>
-      <div className="space-y-4 bg-white/5 p-5">
+      <div className="space-y-4 bg-white/5 p-4 sm:p-5">
         {items.map((item, i) => (
           <div key={i} className="flex items-start gap-3">
             <Icon />
-            <span className="text-sm leading-relaxed text-gray-300">{item}</span>
+            <span className="text-sm leading-snug text-gray-300">{item}</span>
           </div>
         ))}
       </div>
@@ -69,13 +69,13 @@ function ComparisonColumn({
 
 export function AntiChatGPTBanner() {
   return (
-    <section className="bg-ink-950 px-4 py-20" aria-label="Pourquoi pas ChatGPT ?">
+    <section className="bg-ink-950 px-4 py-14 sm:py-20" aria-label="Pourquoi pas ChatGPT ?">
       <div className="mx-auto max-w-4xl">
         <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-sapphire-500">
           Pourquoi pas ChatGPT ?
         </p>
 
-        <h2 className="mb-6 text-center text-3xl font-bold leading-tight text-white sm:text-4xl">
+        <h2 className="mb-6 text-center text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
           ChatGPT rédige.{' '}
           <span className="text-sapphire-500">Nexus t&apos;apprend.</span>
         </h2>
@@ -96,7 +96,7 @@ export function AntiChatGPTBanner() {
         <div className="text-center">
           <Link
             href={ROUTES.register}
-            className="inline-flex items-center gap-2 rounded-full bg-sapphire-700 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-sapphire-700/30 transition-colors hover:bg-sapphire-600"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sapphire-700 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-sapphire-700/30 transition-colors hover:bg-sapphire-600 sm:w-auto"
           >
             Essayer gratuitement — sans carte bancaire →
           </Link>
