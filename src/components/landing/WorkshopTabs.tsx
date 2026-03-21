@@ -139,7 +139,7 @@ export function WorkshopTabs() {
 
         {/* Tab panels */}
         <div
-          className="relative mt-8 min-h-[200px]"
+          className="relative mt-8 min-h-[220px]"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -152,9 +152,8 @@ export function WorkshopTabs() {
                 id={`panel-${w.id}`}
                 aria-labelledby={`tab-${w.id}`}
                 aria-hidden={!isActive}
-                hidden={!isActive}
                 className={`transition-opacity duration-200 ${
-                  isActive ? 'opacity-100' : 'pointer-events-none absolute inset-0 opacity-0'
+                  isActive ? 'opacity-100 relative' : 'pointer-events-none absolute inset-0 opacity-0'
                 }`}
               >
                 <ul className="mb-8 space-y-3">
