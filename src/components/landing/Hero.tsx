@@ -85,8 +85,10 @@ export function Hero() {
             width={720}
             height={460}
             alt="Simulation d'oral EAF Nexus Réussite — notation officielle /2 /8 /2 /8"
+            fetchPriority="high"
+            decoding="async"
             className="w-full rounded-2xl shadow-2xl"
-            loading="eager"
+            style={{ aspectRatio: '720/460' }}
           />
         </div>
       </div>
