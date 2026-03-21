@@ -38,8 +38,6 @@ const PUBLIC_API_PATHS = new Set([
   '/api/v1/exam-info',
   '/api/v1/ressources',
   '/api/v1/metrics/vitals',
-  '/api/v1/payments/clictopay/callback',
-  '/api/v1/payments/clictopay/public-status',
   '/api/mcp/health',
 ]);
 
@@ -104,8 +102,17 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
   return response;
 }
 
+/** Paths that must never be served — return 404 immediately. */
+const BLOCKED_PATHS = ['.env', '.git', 'prisma/', '.antigravity/', '.windsurfrules'];
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Block access to sensitive dotfiles and config
+  const lowerPath = pathname.toLowerCase();
+  if (BLOCKED_PATHS.some(p => lowerPath.startsWith('/' + p) || lowerPath === '/' + p)) {
+    return new NextResponse('Not Found', { status: 404 });
+  }
 
   if (pathname.startsWith('/api/v1/')) {
     const method = request.method.toUpperCase();
