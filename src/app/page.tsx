@@ -259,7 +259,7 @@ export default function LandingPage() {
     { name: 'Anti-copie', chatbot: 'Facilement détectable par l\'IA du bac', nexus: 'Parcours personnalisé impossible à copier', winner: 'nexus' },
     { name: 'Rapidité', chatbot: 'Réponses génériques longues', nexus: 'Corrections en 3 minutes, 24h/24', winner: 'nexus' },
     { name: 'Suivi', chatbot: 'Pas de suivi de progression', nexus: 'Dashboard parent + évolution mois par mois', winner: 'nexus' },
-    { name: 'Expertise', chatbot: 'IA générique', nexus: 'Coach agrégé + IA pédagogique combinés', winner: 'nexus' },
+    { name: 'Expertise', chatbot: 'IA générique', nexus: 'IA pédagogique entraînée sur le corpus officiel EAF', winner: 'nexus' },
     { name: 'Prix', chatbot: 'Gratuit ou abonnement générique', nexus: 'À partir de 0 TND, Premium 99 TND', winner: 'nexus' },
   ];
 
@@ -340,7 +340,7 @@ export default function LandingPage() {
     },
     {
       question: 'Les corrections sont-elles fiables ?',
-      answer: 'Oui. Nos algorithmes s\'appuient sur les rapports de jury officiels et le barème EAF. Chaque correction est structurée comme le ferait un professeur agrégé : rubrique par rubrique, avec des exemples concrets et des pistes d\'amélioration.'
+      answer: 'Oui. Notre IA s\'appuie sur les rapports de jury officiels, le BO et le barème EAF. Chaque correction est structurée rubrique par rubrique, avec des exemples concrets et des pistes d\'amélioration, en citant systématiquement ses sources.'
     },
     {
       question: 'Comment ça marche pour l\'oral ?',
@@ -409,7 +409,7 @@ export default function LandingPage() {
 
             {/* Subtitle - Updated for 2026 */}
             <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-              Nexus combine coach agrégé + IA pédagogique. Prépare les 4 objets d'étude : Littérature d'idées, Théâtre, Roman, Poésie. Corrections en 3 min, oral noté au barème officiel /2 /8 /2 /8.
+              Nexus est une IA pédagogique entraînée sur le corpus officiel EAF : BO, Eduscol, rapports de jury. Elle prépare les 4 objets d'étude et corrige tes copies en 3 min, avec oral noté au barème officiel /2 /8 /2 /8.
             </p>
 
             {/* Trust Badges */}
@@ -977,7 +977,7 @@ export default function LandingPage() {
             className="text-center mt-12"
           >
             <p className="text-emerald-400 font-semibold text-lg mb-6">
-              ✓ Nexus Réussite = les sources officielles du Bac + la pédagogie d'un agrégé + la rapidité de l'IA
+              ✓ Nexus Réussite = sources officielles du Bac + IA pédagogique + mémoire de progression
             </p>
             <button
               onClick={() => router.push('/login?mode=register')}
@@ -1146,7 +1146,7 @@ export default function LandingPage() {
           <div>
             <h3 className="text-2xl font-bold text-white mb-4">Nexus Réussite</h3>
             <p className="text-sm leading-relaxed mb-4">
-              La seule plateforme qui combine coach agrégé + IA pédagogique pour préparer efficacement les Épreuves Anticipées de Français.
+              La plateforme IA qui prépare les Épreuves Anticipées de Français avec le corpus officiel, la mémoire de ta progression et des corrections sourcées.
             </p>
             <div className="flex items-center gap-2 text-emerald-400 text-sm">
               <Award className="w-4 h-4" />
