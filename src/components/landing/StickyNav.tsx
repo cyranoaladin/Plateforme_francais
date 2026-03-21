@@ -6,6 +6,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
 
 export function StickyNav() {
   const [visible, setVisible] = useState(false);
@@ -36,11 +37,11 @@ export function StickyNav() {
           <a href="#tarifs" className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900">
             Tarifs
           </a>
-          <Link href="/login" className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900">
+          <Link href={ROUTES.login} className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-900">
             Connexion
           </Link>
           <Link
-            href="/login?mode=register"
+            href={ROUTES.register}
             className="rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-violet-700 hover:scale-105"
             aria-label="Commencer gratuitement"
           >
@@ -50,7 +51,7 @@ export function StickyNav() {
 
         {/* Mobile CTA only */}
         <Link
-          href="/login?mode=register"
+          href={ROUTES.register}
           className="rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-violet-700 md:hidden"
           aria-label="Commencer gratuitement"
         >

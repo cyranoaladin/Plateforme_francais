@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
 
 interface Plan {
   name: string;
@@ -131,7 +132,7 @@ export function PricingSection() {
               </ul>
 
               <Link
-                href="/login?mode=register"
+                href={ROUTES.register}
                 aria-label={'S&apos;inscrire au plan ' + plan.name}
                 className={
                   'mt-6 block rounded-xl py-3 text-center text-sm font-semibold transition-colors ' +
@@ -189,7 +190,7 @@ export function PricingSection() {
         <p className="mt-10 text-center text-sm text-gray-500">
           Pas encore prêt ?{' '}
           <Link
-            href="/login?mode=register"
+            href={ROUTES.register}
             className="font-medium text-violet-600 underline hover:text-violet-700"
           >
             Le Freemium est gratuit pour toujours &rarr;

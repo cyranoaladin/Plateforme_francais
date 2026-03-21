@@ -57,6 +57,14 @@ function AnimatedNumber({ stat }: { stat: Stat }) {
       ([entry]) => {
         if (entry.isIntersecting && !animated.current) {
           animated.current = true;
+
+          // Respect prefers-reduced-motion
+          const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (prefersReduced) {
+            setDisplay(stat.value.toFixed(stat.decimals));
+            return;
+          }
+
           const duration = 1200;
           const start = performance.now();
 

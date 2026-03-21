@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
+import { ROUTES } from '@/lib/routes';
 
 export function WhatsAppButton() {
   return (
     <a
-      href="https://wa.me/21699192829"
+      href={ROUTES.whatsapp}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contacter via WhatsApp"

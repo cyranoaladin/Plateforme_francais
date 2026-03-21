@@ -14,6 +14,7 @@ import { InlineCTA } from '@/components/landing/InlineCTA';
 import { FooterCTA } from '@/components/landing/FooterCTA';
 import { WhatsAppButton } from '@/components/landing/WhatsAppButton';
 import { Footer } from '@/components/landing/Footer';
+import { ROUTES } from '@/lib/routes';
 
 const BASE_URL = 'https://eaf.nexusreussite.academy';
 
@@ -53,7 +54,7 @@ export default function HomePage() {
         <InlineCTA
           headline="Tu veux voir ce que ça donne sur une vraie copie ?"
           cta="Essayer une correction gratuite →"
-          href="/login?mode=register"
+          href={ROUTES.register}
           className="bg-white"
         />
 
@@ -67,7 +68,7 @@ export default function HomePage() {
         <InlineCTA
           headline="1 200 élèves ont déjà progressé. Et toi ?"
           cta="Commencer gratuitement →"
-          href="/login?mode=register"
+          href={ROUTES.register}
           className="bg-gray-50"
         />
 
@@ -77,7 +78,7 @@ export default function HomePage() {
         <InlineCTA
           headline="Toujours en train de comparer ? L'essai est gratuit."
           cta="Tester Nexus maintenant →"
-          href="/login?mode=register"
+          href={ROUTES.register}
           className="bg-white"
         />
 

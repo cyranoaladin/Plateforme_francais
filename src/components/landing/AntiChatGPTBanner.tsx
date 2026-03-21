@@ -4,6 +4,7 @@
  */
 
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
 
 const CHATGPT_ITEMS = [
   "Rédige à ta place — copie détectable par le correcteur",
@@ -94,7 +95,7 @@ export function AntiChatGPTBanner() {
 
         <div className="text-center">
           <Link
-            href="/login?mode=register"
+            href={ROUTES.register}
             className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-violet-900/30 transition-colors hover:bg-violet-500"
             aria-label="Commencer gratuitement sur Nexus Réussite"
           >

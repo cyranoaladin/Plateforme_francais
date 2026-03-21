@@ -6,6 +6,7 @@
 
 import { useRef, useState } from 'react';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
 
 interface Workshop {
   id: string;
@@ -27,7 +28,7 @@ const WORKSHOPS: Workshop[] = [
       'Bilan PDF avec points forts et axes de progrès',
     ],
     cta: 'Simuler un oral gratuit →',
-    href: '/login?mode=register&atelier=oral',
+    href: ROUTES.registerOral,
   },
   {
     id: 'ecrit',
@@ -39,7 +40,7 @@ const WORKSHOPS: Workshop[] = [
       'Feedback rubrique par rubrique avec note /20',
     ],
     cta: 'Corriger une dissertation →',
-    href: '/login?mode=register&atelier=ecrit',
+    href: ROUTES.registerEcrit,
   },
   {
     id: 'langue',
@@ -51,7 +52,7 @@ const WORKSHOPS: Workshop[] = [
       'Progression mesurée compétence par compétence',
     ],
     cta: 'Travailler ma grammaire →',
-    href: '/login?mode=register&atelier=langue',
+    href: ROUTES.registerLangue,
   },
   {
     id: 'quiz',
@@ -63,7 +64,7 @@ const WORKSHOPS: Workshop[] = [
       'Suivi des erreurs pour cibler tes révisions',
     ],
     cta: 'Tester mes connaissances →',
-    href: '/login?mode=register&atelier=quiz',
+    href: ROUTES.registerQuiz,
   },
 ];
 

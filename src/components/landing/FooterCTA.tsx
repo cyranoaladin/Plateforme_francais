@@ -4,6 +4,7 @@
  */
 import Link from 'next/link';
 import { CountdownBadge } from './CountdownBadge';
+import { ROUTES } from '@/lib/routes';
 
 export function FooterCTA() {
   return (
@@ -29,7 +30,7 @@ export function FooterCTA() {
         </p>
 
         <Link
-          href="/login?mode=register"
+          href={ROUTES.register}
           className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-violet-600 shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-violet-600"
           aria-label="Commencer gratuitement sur Nexus Réussite — sans carte bancaire"
         >

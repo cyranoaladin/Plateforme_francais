@@ -4,28 +4,29 @@
  */
 
 import Link from 'next/link';
+import { ROUTES } from '@/lib/routes';
 
 const QUICK_LINKS = [
   { label: 'Accueil', href: '/' },
   { label: 'Tarifs', href: '/pricing' },
-  { label: 'Connexion', href: '/login' },
-  { label: 'Inscription', href: '/login?mode=register' },
+  { label: 'Connexion', href: ROUTES.login },
+  { label: 'Inscription', href: ROUTES.register },
   { label: 'Contact', href: '/contact' },
 ];
 
 const WORKSHOP_LINKS = [
-  { label: 'Atelier Oral', href: '/login?mode=register&atelier=oral' },
-  { label: 'Atelier Écrit', href: '/login?mode=register&atelier=ecrit' },
-  { label: 'Atelier Langue', href: '/login?mode=register&atelier=langue' },
-  { label: 'Quiz adaptatif', href: '/login?mode=register&atelier=quiz' },
-  { label: 'Tuteur IA', href: '/login?mode=register' },
-  { label: 'Bibliothèque', href: '/login?mode=register' },
+  { label: 'Atelier Oral', href: ROUTES.registerOral },
+  { label: 'Atelier Écrit', href: ROUTES.registerEcrit },
+  { label: 'Atelier Langue', href: ROUTES.registerLangue },
+  { label: 'Quiz adaptatif', href: ROUTES.registerQuiz },
+  { label: 'Tuteur IA', href: ROUTES.register },
+  { label: 'Bibliothèque', href: ROUTES.register },
 ];
 
 const LEGAL_LINKS = [
-  { label: 'Mentions légales', href: '/mentions-legales' },
-  { label: 'CGU', href: '/cgu' },
-  { label: 'Politique de confidentialité', href: '/politique-de-confidentialite' },
+  { label: 'Mentions légales', href: ROUTES.legal },
+  { label: 'CGU', href: ROUTES.terms },
+  { label: 'Politique de confidentialité', href: ROUTES.privacy },
 ];
 
 function EmailIcon() {
@@ -114,7 +115,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <PhoneIcon />
-                <a href="https://wa.me/21699192829" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
+                <a href={ROUTES.whatsapp} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
                   +216 99 19 28 29 (WhatsApp)
                 </a>
               </li>

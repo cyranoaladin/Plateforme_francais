@@ -7,6 +7,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { CountdownBadge } from './CountdownBadge';
+import { ROUTES } from '@/lib/routes';
 
 const TRUST_ITEMS = [
   'Pas de carte bancaire',
@@ -48,7 +49,7 @@ export function Hero() {
         {/* CTAs */}
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <Link
-            href="/login?mode=register"
+            href={ROUTES.register}
             className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-violet-600/30 transition-all hover:scale-105 hover:bg-violet-700"
             aria-label="Commencer gratuitement"
           >
