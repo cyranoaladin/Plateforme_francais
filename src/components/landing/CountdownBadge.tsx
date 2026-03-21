@@ -7,18 +7,15 @@
 import { useEffect, useState } from 'react';
 
 const EAF_DATE = new Date('2026-06-08T08:00:00');
+const calcDays = () => Math.max(0, Math.ceil((EAF_DATE.getTime() - Date.now()) / 86_400_000));
 
 export function CountdownBadge() {
-  const [days, setDays] = useState<number | null>(null);
+  const [days, setDays] = useState(calcDays);
 
   useEffect(() => {
-    const calc = () => Math.max(0, Math.ceil((EAF_DATE.getTime() - Date.now()) / 86_400_000));
-    setDays(calc());
-    const interval = setInterval(() => setDays(calc()), 60_000);
+    const interval = setInterval(() => setDays(calcDays()), 60_000);
     return () => clearInterval(interval);
   }, []);
-
-  if (days === null) return null;
 
   return (
     <div
