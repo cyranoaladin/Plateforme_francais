@@ -55,22 +55,22 @@ const colorMap: Record<Testimonial['color'], { bg: string; text: string; badge: 
 
 export function TestimonialsSection() {
   return (
-    <section className="bg-gray-50 py-20">
+    <section className="bg-gray-50 py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-3xl font-bold text-gray-900 sm:text-4xl">
+        <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
           Ils ont transformé leurs notes
         </h2>
         <p className="mt-3 text-center text-gray-600">
           Des résultats concrets, vérifiables, reproductibles.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="-mx-4 mt-12 flex gap-4 overflow-x-auto px-4 pb-4 snap-x snap-mandatory sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
           {testimonials.map((t) => {
             const colors = colorMap[t.color];
             return (
               <div
                 key={t.initials}
-                className="flex flex-col rounded-2xl bg-white p-6 shadow-md"
+                className="flex min-w-[300px] shrink-0 flex-col rounded-2xl bg-white p-6 shadow-md snap-center sm:min-w-0 sm:shrink"
               >
                 {/* Avatar + name */}
                 <div className="flex items-center gap-3">
