@@ -92,6 +92,7 @@
 
 12 defauts trouves, 12 corriges.
 Mobile overflow root cause fixed (body 375/375).
-Awaiting Samsung Galaxy confirmation from user.
+Samsung Galaxy confirmation: overflow disparu, WhatsApp visible
+et fonctionnel. Confirme par Shark le 2026-03-22.
 
 **SHA: f08791f**
