@@ -41,6 +41,7 @@ enum SubscriptionStatus {
 
 enum PaymentProvider {
   CLICTOPAY
+  MANUAL
 }
 
 enum PaymentStatus {
