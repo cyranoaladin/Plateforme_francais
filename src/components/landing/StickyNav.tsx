@@ -28,10 +28,10 @@ export function StickyNav() {
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:h-16 sm:px-6">
         <Link href="/" className="flex items-center gap-2" aria-label="Nexus Réussite — Accueil">
           <Image
-            src="/images/logo_nexus_reussite.png"
+            src="/images/logo_nexus_reussite_nav.webp"
             alt=""
-            width={32}
-            height={32}
+            width={96}
+            height={96}
             className="h-7 w-7 object-contain sm:h-8 sm:w-8"
             aria-hidden="true"
           />
