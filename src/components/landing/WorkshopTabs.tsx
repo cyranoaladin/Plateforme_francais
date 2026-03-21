@@ -99,9 +99,9 @@ export function WorkshopTabs() {
   };
 
   return (
-    <section id="ateliers" className="bg-white px-4 py-20" aria-label="Les 4 ateliers EAF">
+    <section id="ateliers" className="bg-white px-4 py-14 sm:py-20" aria-label="Les 4 ateliers EAF">
       <div className="mx-auto max-w-3xl">
-        <h2 className="text-center text-3xl font-bold leading-tight text-gray-900 sm:text-4xl">
+        <h2 className="text-center text-2xl font-bold leading-tight text-gray-900 sm:text-3xl lg:text-4xl">
           4 ateliers pour maîtriser chaque épreuve
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-base text-gray-500">
@@ -112,7 +112,7 @@ export function WorkshopTabs() {
         <div
           role="tablist"
           aria-label="Ateliers disponibles"
-          className="mt-8 flex gap-2 overflow-x-auto pb-1 scrollbar-none"
+          className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
         >
           {WORKSHOPS.map((w) => (
             <button
@@ -122,7 +122,7 @@ export function WorkshopTabs() {
               aria-controls={`panel-${w.id}`}
               id={`tab-${w.id}`}
               onClick={() => setActive(w.id)}
-              className={`flex shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
+              className={`flex min-h-[44px] shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
                 active === w.id
                   ? 'bg-sapphire-700 text-white shadow-md'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -131,7 +131,8 @@ export function WorkshopTabs() {
               {w.label}
               {w.badge && (
                 <span className="rounded-full bg-yellow-400 px-2 py-0.5 text-xs font-semibold text-yellow-900">
-                  {w.badge}
+                  <span className="sm:hidden">★</span>
+                  <span className="hidden sm:inline">{w.badge}</span>
                 </span>
               )}
             </button>
@@ -140,7 +141,7 @@ export function WorkshopTabs() {
 
         {/* Tab panels */}
         <div
-          className="relative mt-8 min-h-[220px]"
+          className="relative mt-8 min-h-[180px] sm:min-h-[220px]"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
