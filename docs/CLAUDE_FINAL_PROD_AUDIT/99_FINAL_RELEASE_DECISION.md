@@ -86,13 +86,40 @@
 - [x] RBAC: student->admin 403
 - [x] Error messages: French, no leaks
 
-## 5. DECISION
+## 5. SWEEP FINAL — 2026-03-22
+
+| Check | Result |
+|-------|--------|
+| SHA match | 3247f39 = local = origin = prod |
+| PM2 | 3 services online |
+| Port 3000 | 127.0.0.1 |
+| Migrations | 21 applied, 0 pending |
+| Redis | PONG |
+| TSC | 0 errors |
+| ESLint | 0 errors |
+| Knip | 0 issues |
+| Unit tests | 1109/1109 (100%) |
+| fr-copy | passes |
+| npm audit | 0 high/critical |
+| Sensitive files | all 404 (incl. package.json, ecosystem.config) |
+| CSRF | active |
+| Rate limiting | active |
+| ClicToPay | 0 references |
+| PRO/MAX user | 0 references |
+| MAX admin | 0 references |
+| MCP | healthy, 20 tools |
+| totalScore | double precision |
+| Login error | "Email ou mot de passe incorrect." |
+| Lighthouse | Perf 88, A11y 97, BP 100, SEO 100 |
+
+Defauts sweep: 2 found (ecosystem.config.cjs + package.json exposed), 2 fixed.
+
+## 6. DECISION
 
 ### ETAT A — GO TOTAL
 
-12 defauts trouves, 12 corriges.
-Mobile overflow root cause fixed (body 375/375).
-Samsung Galaxy confirmation: overflow disparu, WhatsApp visible
-et fonctionnel. Confirme par Shark le 2026-03-22.
+13 defauts trouves, 13 corriges, 0 reserve.
+Samsung Galaxy confirme par Shark le 2026-03-22.
+Sweep final: tous blocs verts.
 
-**SHA: f08791f**
+**SHA: 3247f39**
