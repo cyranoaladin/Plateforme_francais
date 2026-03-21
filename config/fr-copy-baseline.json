@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T15:43:06.025Z",
+  "generatedAt": "2026-03-21T18:21:55.554Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -5505,21 +5505,21 @@
     },
     {
       "file": "src/app/page.tsx",
-      "line": 34,
+      "line": 56,
       "column": 15,
       "kind": "jsx-prop",
       "text": "Essayer une correction gratuite →"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 51,
+      "line": 70,
       "column": 15,
       "kind": "jsx-prop",
       "text": "Commencer gratuitement →"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 65,
+      "line": 80,
       "column": 15,
       "kind": "jsx-prop",
       "text": "Tester Nexus maintenant →"
@@ -7339,59 +7339,52 @@
     },
     {
       "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 71,
-      "column": 60,
+      "line": 72,
+      "column": 68,
       "kind": "jsx-prop",
       "text": "Pourquoi pas ChatGPT ?"
     },
     {
       "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 74,
+      "line": 75,
       "column": 11,
       "kind": "jsx-text",
       "text": "Pourquoi pas ChatGPT ?"
     },
     {
       "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 78,
+      "line": 79,
       "column": 11,
       "kind": "jsx-text",
       "text": "ChatGPT rédige."
     },
     {
       "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 79,
-      "column": 45,
+      "line": 80,
+      "column": 47,
       "kind": "jsx-text",
       "text": "Nexus t&apos;apprend."
     },
     {
       "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 83,
+      "line": 84,
       "column": 11,
       "kind": "jsx-text",
       "text": "Un élève qui copie-colle ChatGPT est immédiatement repéré par le correcteur — et sanctionné. Nexus ne rédige jamais : il pose des questions, cite les sources officielles, et te force à construire TON raisonnement. Le résultat est inimitable, parce qu&apos;il vient de toi."
     },
     {
       "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 91,
+      "line": 92,
       "column": 35,
       "kind": "jsx-prop",
       "text": "ChatGPT / IA générique"
     },
     {
       "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 92,
+      "line": 93,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Nexus Réussite"
-    },
-    {
-      "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 99,
-      "column": 24,
-      "kind": "jsx-prop",
-      "text": "Commencer gratuitement sur Nexus Réussite"
     },
     {
       "file": "src/components/landing/ComparisonTable.tsx",
@@ -7403,7 +7396,7 @@
     {
       "file": "src/components/landing/ComparisonTable.tsx",
       "line": 116,
-      "column": 67,
+      "column": 69,
       "kind": "jsx-text",
       "text": "Nexus :&nbsp;"
     },
@@ -7444,17 +7437,17 @@
     },
     {
       "file": "src/components/landing/CountdownBadge.tsx",
-      "line": 32,
-      "column": 16,
+      "line": 47,
+      "column": 45,
       "kind": "jsx-text",
-      "text": "avant l&apos;épreuve EAF 2026"
+      "text": "J-"
     },
     {
       "file": "src/components/landing/CountdownBadge.tsx",
-      "line": 32,
-      "column": 7,
+      "line": 47,
+      "column": 54,
       "kind": "jsx-text",
-      "text": "J-"
+      "text": "avant l&apos;épreuve EAF 2026"
     },
     {
       "file": "src/components/landing/DashboardToggle.tsx",
@@ -7545,7 +7538,7 @@
       "line": 169,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Prochaine étape : travailler l&apos;introduction de la dissertation"
+      "text": "Continuer l&apos;entraînement oral pour consolider la fluidité d&apos;expression."
     },
     {
       "file": "src/components/landing/DashboardToggle.tsx",
@@ -7640,115 +7633,136 @@
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 107,
+      "line": 108,
       "column": 94,
       "kind": "jsx-text",
       "text": "Contact &amp; Légal"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 112,
+      "line": 113,
       "column": 19,
       "kind": "jsx-text",
       "text": "contact@nexusreussite.academy"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 118,
+      "line": 119,
       "column": 19,
       "kind": "jsx-text",
       "text": "+216 99 19 28 29 (WhatsApp)"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 123,
+      "line": 124,
       "column": 23,
       "kind": "jsx-text",
       "text": "Lun–Sam, 9h–18h (Tunis)"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 140,
+      "line": 141,
       "column": 11,
       "kind": "jsx-text",
       "text": "© 2026 Nexus Réussite. Tous droits réservés. — Préparation EAF Session 2026."
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 63,
+      "line": 64,
       "column": 57,
       "kind": "jsx-text",
       "text": "Nexus Réussite"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 65,
+      "line": 66,
       "column": 15,
       "kind": "jsx-text",
       "text": "IA pédagogique entraînée sur le corpus officiel EAF. Préparation complète au Bac de Français 2026 pour les élèves du réseau AEFE et de Tunisie."
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 73,
+      "line": 74,
       "column": 15,
       "kind": "jsx-text",
       "text": "98% de mention AB ou plus"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 79,
+      "line": 80,
       "column": 94,
       "kind": "jsx-text",
       "text": "Liens rapides"
     },
     {
       "file": "src/components/landing/Footer.tsx",
-      "line": 93,
+      "line": 94,
       "column": 94,
       "kind": "jsx-text",
       "text": "Les ateliers"
     },
     {
-      "file": "src/components/landing/Hero.tsx",
-      "line": 100,
-      "column": 19,
+      "file": "src/components/landing/FooterCTA.tsx",
+      "line": 13,
+      "column": 18,
+      "kind": "jsx-prop",
+      "text": "Dernière chance — inscription gratuite"
+    },
+    {
+      "file": "src/components/landing/FooterCTA.tsx",
+      "line": 21,
+      "column": 11,
       "kind": "jsx-text",
-      "text": "&quot;Comment Zilia déconstruit-elle la vision que les Européens ont de leur propre civilisation ? Analyse les lettres 18 et 29 pour montrer le renversement du regard.&quot;"
+      "text": "Le meilleur moment pour commencer,"
+    },
+    {
+      "file": "src/components/landing/FooterCTA.tsx",
+      "line": 23,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "c&apos;est maintenant."
+    },
+    {
+      "file": "src/components/landing/FooterCTA.tsx",
+      "line": 27,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Chaque jour sans entraînement, c&apos;est un point de moins à l&apos;oral. Le Freemium est gratuit, sans carte bancaire, et tu peux commencer en 3 minutes."
+    },
+    {
+      "file": "src/components/landing/FooterCTA.tsx",
+      "line": 36,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Commencer gratuitement — sans carte bancaire →"
+    },
+    {
+      "file": "src/components/landing/FooterCTA.tsx",
+      "line": 40,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Freemium illimité en temps • Aucun engagement"
     },
     {
       "file": "src/components/landing/Hero.tsx",
-      "line": 103,
-      "column": 59,
-      "kind": "jsx-text",
-      "text": "Sources : BO 2026, Rapport jury 2025"
-    },
-    {
-      "file": "src/components/landing/Hero.tsx",
-      "line": 33,
+      "line": 34,
       "column": 11,
       "kind": "jsx-text",
       "text": "Passe de 10 à 17+ à l&apos;oral EAF."
     },
     {
       "file": "src/components/landing/Hero.tsx",
-      "line": 36,
+      "line": 37,
       "column": 13,
       "kind": "jsx-text",
       "text": "En 3 minutes de correction, pas 48h."
     },
     {
       "file": "src/components/landing/Hero.tsx",
-      "line": 42,
+      "line": 43,
       "column": 11,
       "kind": "jsx-text",
       "text": "Nexus est l&apos;IA pédagogique entraînée sur le BO 2026 et les rapports de jury officiels. Elle simule l&apos;oral /2 /8 /2 /8, corrige tes dissertations et ne rédige jamais à ta place."
-    },
-    {
-      "file": "src/components/landing/Hero.tsx",
-      "line": 52,
-      "column": 24,
-      "kind": "jsx-prop",
-      "text": "Commencer gratuitement"
     },
     {
       "file": "src/components/landing/Hero.tsx",
@@ -7763,27 +7777,6 @@
       "column": 13,
       "kind": "jsx-text",
       "text": "Voir la démo en 45s"
-    },
-    {
-      "file": "src/components/landing/Hero.tsx",
-      "line": 86,
-      "column": 60,
-      "kind": "jsx-text",
-      "text": "Atelier Oral — Nexus Réussite"
-    },
-    {
-      "file": "src/components/landing/Hero.tsx",
-      "line": 91,
-      "column": 98,
-      "kind": "jsx-text",
-      "text": "Simulation officielle EAF"
-    },
-    {
-      "file": "src/components/landing/Hero.tsx",
-      "line": 92,
-      "column": 68,
-      "kind": "jsx-text",
-      "text": "Oral sur Lettres d&apos;une Péruvienne — Graffigny"
     },
     {
       "file": "src/components/landing/MethodSteps.tsx",
@@ -7801,49 +7794,49 @@
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 101,
+      "line": 102,
       "column": 19,
       "kind": "jsx-text",
       "text": "&#11088; Recommandé"
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 147,
+      "line": 148,
       "column": 17,
       "kind": "jsx-text",
       "text": "Sans engagement &bull; Résiliation immédiate"
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 155,
+      "line": 156,
       "column": 71,
       "kind": "jsx-text",
       "text": "Questions fréquentes"
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 190,
+      "line": 191,
       "column": 11,
       "kind": "jsx-text",
       "text": "Pas encore prêt ?"
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 195,
+      "line": 196,
       "column": 13,
       "kind": "jsx-text",
       "text": "Le Freemium est gratuit pour toujours &rarr;"
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 83,
+      "line": 84,
       "column": 11,
       "kind": "jsx-text",
       "text": "Tarifs simples, résultats concrets"
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 86,
+      "line": 87,
       "column": 11,
       "kind": "jsx-text",
       "text": "Choisissez la formule adaptée à vos objectifs."
@@ -7885,80 +7878,73 @@
     },
     {
       "file": "src/components/landing/StatsSection.tsx",
-      "line": 95,
-      "column": 59,
+      "line": 103,
+      "column": 76,
       "kind": "jsx-prop",
       "text": "Résultats mesurables"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 24,
+      "line": 25,
       "column": 18,
       "kind": "jsx-prop",
       "text": "Navigation principale"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 27,
-      "column": 79,
+      "line": 28,
+      "column": 71,
       "kind": "jsx-prop",
       "text": "Nexus Réussite — Accueil"
-    },
-    {
-      "file": "src/components/landing/StickyNav.tsx",
-      "line": 28,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "Nexus Réussite"
-    },
-    {
-      "file": "src/components/landing/StickyNav.tsx",
-      "line": 34,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Ateliers"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
       "line": 37,
       "column": 13,
       "kind": "jsx-text",
-      "text": "Tarifs"
+      "text": "Nexus Réussite"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 40,
+      "line": 44,
       "column": 13,
       "kind": "jsx-text",
-      "text": "Connexion"
-    },
-    {
-      "file": "src/components/landing/StickyNav.tsx",
-      "line": 45,
-      "column": 24,
-      "kind": "jsx-prop",
-      "text": "Commencer gratuitement"
+      "text": "Ateliers"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
       "line": 47,
       "column": 13,
       "kind": "jsx-text",
+      "text": "Tarifs"
+    },
+    {
+      "file": "src/components/landing/StickyNav.tsx",
+      "line": 50,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Connexion"
+    },
+    {
+      "file": "src/components/landing/StickyNav.tsx",
+      "line": 56,
+      "column": 13,
+      "kind": "jsx-text",
       "text": "Commencer gratuitement →"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 55,
+      "line": 64,
       "column": 22,
       "kind": "jsx-prop",
       "text": "Commencer gratuitement"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 57,
+      "line": 66,
       "column": 11,
       "kind": "jsx-text",
-      "text": "Commencer →"
+      "text": "Commencer"
     },
     {
       "file": "src/components/landing/TestimonialsSection.tsx",
@@ -8004,35 +7990,35 @@
     },
     {
       "file": "src/components/landing/WhatsAppButton.tsx",
-      "line": 11,
+      "line": 12,
       "column": 18,
       "kind": "jsx-prop",
       "text": "Contacter via WhatsApp"
     },
     {
       "file": "src/components/landing/WorkshopTabs.tsx",
-      "line": 101,
-      "column": 71,
+      "line": 102,
+      "column": 80,
       "kind": "jsx-prop",
       "text": "Les 4 ateliers EAF"
     },
     {
       "file": "src/components/landing/WorkshopTabs.tsx",
-      "line": 104,
+      "line": 105,
       "column": 11,
       "kind": "jsx-text",
       "text": "4 ateliers pour maîtriser chaque épreuve"
     },
     {
       "file": "src/components/landing/WorkshopTabs.tsx",
-      "line": 107,
+      "line": 108,
       "column": 11,
       "kind": "jsx-text",
       "text": "Chaque atelier reproduit les conditions réelles de l&apos;examen."
     },
     {
       "file": "src/components/landing/WorkshopTabs.tsx",
-      "line": 113,
+      "line": 114,
       "column": 22,
       "kind": "jsx-prop",
       "text": "Ateliers disponibles"
