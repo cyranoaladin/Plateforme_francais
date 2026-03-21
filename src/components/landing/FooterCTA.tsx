@@ -9,7 +9,7 @@ import { ROUTES } from '@/lib/routes';
 export function FooterCTA() {
   return (
     <section
-      className="bg-sapphire-700 px-4 py-20 text-center"
+      className="bg-sapphire-700 px-6 py-16 text-center sm:py-20"
       aria-label="Dernière chance — inscription gratuite"
     >
       <div className="mx-auto max-w-2xl">
@@ -17,7 +17,7 @@ export function FooterCTA() {
           <CountdownBadge className="border-sapphire-500 bg-sapphire-600 text-white [&_svg]:text-white" />
         </div>
 
-        <h2 className="mb-4 text-3xl font-bold leading-tight text-white sm:text-4xl">
+        <h2 className="mb-4 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
           Le meilleur moment pour commencer,
           <br />
           c&apos;est maintenant.
@@ -31,7 +31,7 @@ export function FooterCTA() {
 
         <Link
           href={ROUTES.register}
-          className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-sapphire-700 shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-sapphire-700"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-sapphire-700 shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-sapphire-700 sm:w-auto"
         >
           Commencer gratuitement — sans carte bancaire →
         </Link>
