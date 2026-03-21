@@ -143,34 +143,39 @@ export function WorkshopTabs() {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {WORKSHOPS.map((w) => (
-            <div
-              key={w.id}
-              role="tabpanel"
-              id={`panel-${w.id}`}
-              aria-labelledby={`tab-${w.id}`}
-              hidden={active !== w.id}
-              className={`transition-opacity duration-200 ${
-                active === w.id ? 'opacity-100' : 'pointer-events-none absolute inset-0 opacity-0'
-              }`}
-            >
-              <ul className="mb-8 space-y-3">
-                {w.highlights.map((h, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckIcon />
-                    <span className="text-base text-gray-700">{h}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href={w.href}
-                className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-700"
-                aria-label={`${w.cta} — atelier ${w.label}`}
+          {WORKSHOPS.map((w) => {
+            const isActive = active === w.id;
+            return (
+              <div
+                key={w.id}
+                role="tabpanel"
+                id={`panel-${w.id}`}
+                aria-labelledby={`tab-${w.id}`}
+                aria-hidden={!isActive}
+                hidden={!isActive}
+                className={`transition-opacity duration-200 ${
+                  isActive ? 'opacity-100' : 'pointer-events-none absolute inset-0 opacity-0'
+                }`}
               >
-                {w.cta}
-              </Link>
-            </div>
-          ))}
+                <ul className="mb-8 space-y-3">
+                  {w.highlights.map((h, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckIcon />
+                      <span className="text-base text-gray-700">{h}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href={w.href}
+                  tabIndex={isActive ? 0 : -1}
+                  className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-700"
+                  aria-label={`${w.cta} — atelier ${w.label}`}
+                >
+                  {w.cta}
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
