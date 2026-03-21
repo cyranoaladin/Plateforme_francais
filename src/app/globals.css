@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 
 /* ═══════════════════════════════════════════════════════════
    NEXUS RÉUSSITE — Design System CSS Foundation
