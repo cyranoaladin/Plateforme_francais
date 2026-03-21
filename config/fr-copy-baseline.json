@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T18:27:38.384Z",
+  "generatedAt": "2026-03-21T18:42:23.995Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -7885,63 +7885,63 @@
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 25,
+      "line": 26,
       "column": 18,
       "kind": "jsx-prop",
       "text": "Navigation principale"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 28,
+      "line": 29,
       "column": 71,
       "kind": "jsx-prop",
       "text": "Nexus Réussite — Accueil"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 37,
+      "line": 39,
       "column": 13,
       "kind": "jsx-text",
       "text": "Nexus Réussite"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 44,
+      "line": 46,
       "column": 13,
       "kind": "jsx-text",
       "text": "Ateliers"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 47,
+      "line": 49,
       "column": 13,
       "kind": "jsx-text",
       "text": "Tarifs"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 50,
+      "line": 52,
       "column": 13,
       "kind": "jsx-text",
       "text": "Connexion"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 56,
+      "line": 58,
       "column": 13,
       "kind": "jsx-text",
       "text": "Commencer gratuitement →"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 64,
+      "line": 66,
       "column": 22,
       "kind": "jsx-prop",
       "text": "Commencer gratuitement"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 66,
+      "line": 68,
       "column": 11,
       "kind": "jsx-text",
       "text": "Commencer"
