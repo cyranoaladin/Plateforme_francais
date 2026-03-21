@@ -605,7 +605,7 @@ export default function AdminDashboard() {
                       <option value="">Sélectionner un utilisateur</option>
                       {users.map((user) => (
                         <option key={user.id} value={user.id}>
-                          {user.email} ({user.subscription?.plan || 'FREE'})
+                          {user.email} ({planLabels[user.subscription?.plan || 'FREE'] || 'Freemium'})
                         </option>
                       ))}
                     </select>
