@@ -19,13 +19,13 @@ export function StickyNav() {
 
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 border-b border-gray-200/60 bg-white/90 backdrop-blur-md transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b border-gray-200/60 bg-white/90 backdrop-blur-md transition-all duration-200 ease-out will-change-transform ${
         visible ? 'translate-y-0 opacity-100 shadow-sm' : '-translate-y-full opacity-0'
       }`}
       aria-label="Navigation principale"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-        <Link href="/" className="text-lg font-bold text-gray-900" aria-label="Nexus Réussite — Accueil">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:h-16 sm:px-6">
+        <Link href="/" className="text-base font-bold text-gray-900 sm:text-lg" aria-label="Nexus Réussite — Accueil">
           Nexus Réussite
         </Link>
 
