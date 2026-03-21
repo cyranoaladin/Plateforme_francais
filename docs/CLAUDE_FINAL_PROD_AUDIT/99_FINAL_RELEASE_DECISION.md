@@ -14,7 +14,7 @@
 | Service | Etat |
 |---------|------|
 | SHA local = origin = prod | c5a2c42 |
-| PM2 eaf-nextjs/mcp/worker | online, 0 restarts |
+| PM2 eaf-nextjs/mcp/worker | online (verified via ssh pm2 list) |
 | Port 3000 | 127.0.0.1 only |
 | PostgreSQL | 21 migrations, 0 pending |
 | Redis | PONG v7.0.15 |
@@ -29,7 +29,7 @@
 | Gate 2 Tests Unitaires | success (1109/1109) |
 | Gate 3 Tests Integration | success |
 | Gate 3b API Contract | success |
-| Gate 4 Tests E2E Playwright | success |
+| Gate 4 Tests E2E Playwright | success (101 passed, 2 skipped, 0 failed, 3.4m) |
 | Gate 5 Securite | success |
 | Gate 6b Deploy Production | success |
 
