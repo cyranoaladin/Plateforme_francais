@@ -135,7 +135,7 @@
   --dark-800: #1e293b;
 
   /* ─── Semantic aliases (Tailwind compat) ──────────── */
-  --background: #F9F8FF;
+  --background: #F8F9FB;
   --foreground: var(--text-heading);
   --muted: #ece2d3;
   --muted-foreground: var(--text-muted);
@@ -304,13 +304,6 @@
   --shadow-gold: 0 8px 24px rgba(212, 175, 55, 0.15);
 }
 
-/* ─── Dark mode body gradient ──────────────────────── */
-.dark body {
-  background-image:
-    radial-gradient(circle at top right, rgba(20, 184, 166, 0.06), transparent 34%),
-    radial-gradient(circle at top left, rgba(185, 120, 50, 0.04), transparent 28%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-}
 
 @theme inline {
   /* ─── Encre & Lumière palette ────────────────────── */
@@ -374,17 +367,13 @@ html.theme-ready {
 }
 
 html.theme-ready body {
-  transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  background-image:
-    radial-gradient(circle at top right, rgba(15, 118, 110, 0.08), transparent 34%),
-    radial-gradient(circle at top left, rgba(185, 120, 50, 0.06), transparent 28%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
 }
 
 ::selection {
