@@ -40,6 +40,12 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   // Disable React strict mode to avoid context issues in error boundaries
   reactStrictMode: false,
+  // Allow SVG in next/image with XSS protection
+  images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
   // Remove X-Powered-By header (information disclosure)
   poweredByHeader: false,
   turbopack: {
