@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 
 type View = 'student' | 'parent';
@@ -111,13 +110,6 @@ export function DashboardToggle() {
                 Défendre et entretenir la liberté
               </p>
             </div>
-            <Image
-              src="/assets/dashboard-student.svg"
-              width={640}
-              height={420}
-              alt="Dashboard élève Nexus Réussite"
-              className="mt-4 w-full rounded-xl"
-            />
           </div>
 
           {/* Parent panel */}
@@ -176,13 +168,6 @@ export function DashboardToggle() {
             <p className="mt-4 text-sm italic text-gray-500">
               Prochaine étape : travailler l&apos;introduction de la dissertation
             </p>
-            <Image
-              src="/assets/dashboard-parent.svg"
-              width={640}
-              height={420}
-              alt="Dashboard parent Nexus Réussite"
-              className="mt-4 w-full rounded-xl"
-            />
           </div>
         </div>
       </div>
