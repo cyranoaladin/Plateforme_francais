@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description: "L'IA pédagogique entraînée sur le BO 2026 et les rapports de jury. Oral simulé, correction en 3 min, anti-copie.",
     url: BASE_URL,
     siteName: 'Nexus Réussite',
-    images: [{ url: '/assets/og-cover.svg', width: 1200, height: 630, alt: 'Nexus Réussite — Préparation EAF 2026' }],
+    images: [{ url: '/assets/og-cover.png', width: 1200, height: 630, alt: 'Nexus Réussite — Préparation EAF 2026' }],
     locale: 'fr_FR',
     type: 'website',
   },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Nexus Réussite — Prépare l'EAF avec l'IA officielle",
     description: "Simulation d'oral /2 /8 /2 /8, correction en 3 min. Freemium gratuit, sans carte bancaire.",
-    images: ['/assets/og-cover.svg'],
+    images: ['/assets/og-cover.png'],
   },
   robots: { index: true, follow: true },
 };
