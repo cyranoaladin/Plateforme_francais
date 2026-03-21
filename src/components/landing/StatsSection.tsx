@@ -89,7 +89,7 @@ function AnimatedNumber({ stat }: { stat: Stat }) {
 
   return (
     <div ref={ref} className="rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm">
-      <p className="tabular-nums text-4xl font-bold text-violet-600">
+      <p className="tabular-nums text-4xl font-bold text-sapphire-700">
         {stat.prefix}{display}{stat.unit}
       </p>
       <p className="mt-2 text-base font-medium text-gray-800">{stat.label}</p>

@@ -60,7 +60,7 @@ export function MethodSteps() {
             <div key={step.title} className="flex flex-1 items-start">
               <div className="flex flex-col items-center text-center">
                 {/* Icon circle */}
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-100 text-violet-600">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-sapphire-50 text-sapphire-700">
                   {step.icon}
                 </div>
 
@@ -70,7 +70,7 @@ export function MethodSteps() {
                 />
 
                 {step.badge && (
-                  <span className="mt-2 inline-block rounded-full bg-violet-100 px-3 py-0.5 text-xs font-semibold text-violet-700">
+                  <span className="mt-2 inline-block rounded-full bg-sapphire-50 px-3 py-0.5 text-xs font-semibold text-sapphire-700">
                     {step.badge}
                   </span>
                 )}
@@ -83,7 +83,7 @@ export function MethodSteps() {
               {/* Dotted connector */}
               {i < steps.length - 1 && (
                 <div className="mt-7 flex flex-1 items-center px-2">
-                  <div className="h-0 w-full border-t-2 border-dashed border-violet-200" />
+                  <div className="h-0 w-full border-t-2 border-dashed border-sapphire-100" />
                 </div>
               )}
             </div>
@@ -96,11 +96,11 @@ export function MethodSteps() {
             <div key={step.title} className="flex gap-4">
               {/* Icon + vertical line */}
               <div className="flex flex-col items-center">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-violet-100 text-violet-600">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sapphire-50 text-sapphire-700">
                   {step.icon}
                 </div>
                 {i < steps.length - 1 && (
-                  <div className="mt-2 h-full w-0 border-l-2 border-dashed border-violet-200" />
+                  <div className="mt-2 h-full w-0 border-l-2 border-dashed border-sapphire-100" />
                 )}
               </div>
 
@@ -111,7 +111,7 @@ export function MethodSteps() {
                   dangerouslySetInnerHTML={{ __html: step.title }}
                 />
                 {step.badge && (
-                  <span className="mt-1 inline-block rounded-full bg-violet-100 px-3 py-0.5 text-xs font-semibold text-violet-700">
+                  <span className="mt-1 inline-block rounded-full bg-sapphire-50 px-3 py-0.5 text-xs font-semibold text-sapphire-700">
                     {step.badge}
                   </span>
                 )}

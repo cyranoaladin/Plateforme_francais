@@ -15,7 +15,7 @@ export function InlineCTA({ headline, cta, href, className }: InlineCTAProps) {
       <Link
         href={href}
         aria-label={cta}
-        className="mt-4 inline-block rounded-xl bg-violet-600 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-700"
+        className="mt-4 inline-block rounded-xl bg-sapphire-700 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-sapphire-700"
       >
         {cta}
       </Link>

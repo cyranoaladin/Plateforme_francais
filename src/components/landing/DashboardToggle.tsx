@@ -28,7 +28,7 @@ export function DashboardToggle() {
               className={
                 'rounded-full px-6 py-2 text-sm font-medium transition-colors ' +
                 (view === 'student'
-                  ? 'bg-violet-600 text-white shadow'
+                  ? 'bg-sapphire-700 text-white shadow'
                   : 'text-gray-700 hover:text-gray-900')
               }
             >
@@ -42,7 +42,7 @@ export function DashboardToggle() {
               className={
                 'rounded-full px-6 py-2 text-sm font-medium transition-colors ' +
                 (view === 'parent'
-                  ? 'bg-violet-600 text-white shadow'
+                  ? 'bg-sapphire-700 text-white shadow'
                   : 'text-gray-700 hover:text-gray-900')
               }
             >
@@ -61,7 +61,7 @@ export function DashboardToggle() {
             }
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-sm font-bold text-violet-700">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sapphire-50 text-sm font-bold text-sapphire-700">
                 SL
               </div>
               <div>
@@ -74,11 +74,11 @@ export function DashboardToggle() {
             <div className="mt-6">
               <div className="flex items-center justify-between text-sm">
                 <span className="font-medium text-gray-700">Objectif : 14/20</span>
-                <span className="font-semibold text-violet-600">67 %</span>
+                <span className="font-semibold text-sapphire-700">67 %</span>
               </div>
               <div className="mt-2 h-3 w-full overflow-hidden rounded-full bg-gray-200">
                 <div
-                  className="h-full rounded-full bg-violet-600 transition-all"
+                  className="h-full rounded-full bg-sapphire-700 transition-all"
                   style={{ width: '67%' }}
                 />
               </div>
@@ -86,23 +86,23 @@ export function DashboardToggle() {
 
             {/* Counters grid */}
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div className="rounded-xl bg-violet-50 p-4 text-center">
-                <p className="text-2xl font-bold text-violet-700">12</p>
+              <div className="rounded-xl bg-sapphire-50 p-4 text-center">
+                <p className="text-2xl font-bold text-sapphire-700">12</p>
                 <p className="text-sm text-gray-600">Corrections</p>
               </div>
-              <div className="rounded-xl bg-violet-50 p-4 text-center">
-                <p className="text-2xl font-bold text-violet-700">5</p>
+              <div className="rounded-xl bg-sapphire-50 p-4 text-center">
+                <p className="text-2xl font-bold text-sapphire-700">5</p>
                 <p className="text-sm text-gray-600">Oraux</p>
               </div>
-              <div className="rounded-xl bg-violet-50 p-4 text-center">
+              <div className="rounded-xl bg-sapphire-50 p-4 text-center">
                 <p className="text-2xl font-bold text-green-600">+2.3 pts</p>
                 <p className="text-sm text-gray-600">Progression</p>
               </div>
             </div>
 
             {/* Next session card */}
-            <div className="mt-6 rounded-xl border border-violet-200 bg-violet-50/50 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-violet-600">
+            <div className="mt-6 rounded-xl border border-sapphire-100 bg-sapphire-50/50 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-sapphire-700">
                 Prochaine séance
               </p>
               <p className="mt-1 font-medium text-gray-900">La Boétie</p>
@@ -139,10 +139,10 @@ export function DashboardToggle() {
                 role="img"
               >
                 {/* Bars — max value 20, max height 60px, y offset 10 */}
-                <rect x="15" y={10 + 60 * (1 - 11 / 20)} width="30" height={60 * (11 / 20)} rx="4" className="fill-violet-200" />
-                <rect x="60" y={10 + 60 * (1 - 12 / 20)} width="30" height={60 * (12 / 20)} rx="4" className="fill-violet-200" />
-                <rect x="105" y={10 + 60 * (1 - 13.5 / 20)} width="30" height={60 * (13.5 / 20)} rx="4" className="fill-violet-200" />
-                <rect x="150" y={10 + 60 * (1 - 14 / 20)} width="30" height={60 * (14 / 20)} rx="4" className="fill-violet-600" />
+                <rect x="15" y={10 + 60 * (1 - 11 / 20)} width="30" height={60 * (11 / 20)} rx="4" className="fill-sapphire-100" />
+                <rect x="60" y={10 + 60 * (1 - 12 / 20)} width="30" height={60 * (12 / 20)} rx="4" className="fill-sapphire-100" />
+                <rect x="105" y={10 + 60 * (1 - 13.5 / 20)} width="30" height={60 * (13.5 / 20)} rx="4" className="fill-sapphire-100" />
+                <rect x="150" y={10 + 60 * (1 - 14 / 20)} width="30" height={60 * (14 / 20)} rx="4" className="fill-sapphire-700" />
                 {/* Labels */}
                 <text x="30" y="78" textAnchor="middle" className="fill-gray-500 text-[9px]">11</text>
                 <text x="75" y="78" textAnchor="middle" className="fill-gray-500 text-[9px]">12</text>

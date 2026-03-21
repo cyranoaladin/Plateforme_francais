@@ -16,10 +16,10 @@ const TRUST_ITEMS = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-violet-950 px-4 pb-16 pt-20 text-white sm:px-6 sm:pb-24 sm:pt-28 lg:pb-32 lg:pt-36">
+    <section className="relative overflow-hidden bg-gradient-to-br from-ink-950 via-ink-900 to-ink-900 px-4 pb-16 pt-20 text-white sm:px-6 sm:pb-24 sm:pt-28 lg:pb-32 lg:pt-36">
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full bg-violet-600/20 blur-3xl" />
+        <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full bg-sapphire-700/20 blur-3xl" />
         <div className="absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-blue-500/15 blur-3xl" />
       </div>
 
@@ -33,7 +33,7 @@ export function Hero() {
         <h1 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
           Passe de 10 à 17+ à l&apos;oral EAF.
           <br />
-          <span className="bg-gradient-to-r from-violet-400 to-violet-300 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-sapphire-500 to-sapphire-300 bg-clip-text text-transparent">
             En 3 minutes de correction, pas 48h.
           </span>
         </h1>
@@ -49,7 +49,7 @@ export function Hero() {
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <Link
             href={ROUTES.register}
-            className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-violet-600/30 transition-all hover:scale-105 hover:bg-violet-700"
+            className="inline-flex items-center gap-2 rounded-full bg-sapphire-700 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-sapphire-700/30 transition-all hover:scale-105 hover:bg-sapphire-700"
             aria-label="Commencer gratuitement"
           >
             Commencer gratuitement — 3 min

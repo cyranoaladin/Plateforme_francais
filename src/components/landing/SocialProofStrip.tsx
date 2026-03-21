@@ -14,7 +14,7 @@ function StarIcon() {
 
 function TransformationBadge({ before, after }: { before: number; after: number }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-sm font-semibold text-violet-700">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-sapphire-100 bg-sapphire-50 px-3 py-1 text-sm font-semibold text-sapphire-700">
       {before}/20 → {after}/20
     </span>
   );

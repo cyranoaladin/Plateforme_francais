@@ -56,7 +56,7 @@ function ClockIcon() {
 
 export function Footer() {
   return (
-    <footer className="bg-gray-950 px-4 py-16 text-gray-400">
+    <footer className="bg-ink-950 px-4 py-16 text-gray-400">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Col 1: Brand */}

@@ -70,7 +70,7 @@ const WORKSHOPS: Workshop[] = [
 
 function CheckIcon() {
   return (
-    <svg className="mt-0.5 h-5 w-5 shrink-0 text-violet-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <svg className="mt-0.5 h-5 w-5 shrink-0 text-sapphire-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
     </svg>
   );
@@ -124,7 +124,7 @@ export function WorkshopTabs() {
               onClick={() => setActive(w.id)}
               className={`flex shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-medium transition-colors ${
                 active === w.id
-                  ? 'bg-violet-600 text-white shadow-md'
+                  ? 'bg-sapphire-700 text-white shadow-md'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -168,7 +168,7 @@ export function WorkshopTabs() {
                 <Link
                   href={w.href}
                   tabIndex={isActive ? 0 : -1}
-                  className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-700"
+                  className="inline-flex items-center gap-2 rounded-full bg-sapphire-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-sapphire-700"
                   aria-label={`${w.cta} — atelier ${w.label}`}
                 >
                   {w.cta}

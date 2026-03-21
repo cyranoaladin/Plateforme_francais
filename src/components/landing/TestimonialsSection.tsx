@@ -4,7 +4,7 @@ interface Testimonial {
   initials: string;
   name: string;
   school: string;
-  color: 'violet' | 'blue' | 'teal';
+  color: 'sapphire' | 'blue' | 'teal';
   before: string;
   after: string;
   mention: string;
@@ -16,7 +16,7 @@ const testimonials: Testimonial[] = [
     initials: 'MK',
     name: 'Mehdi K.',
     school: 'Lycée Pierre Mendès France Tunis',
-    color: 'violet',
+    color: 'sapphire',
     before: '8/20',
     after: '16/20',
     mention: 'Mention Bien',
@@ -48,7 +48,7 @@ const testimonials: Testimonial[] = [
 ];
 
 const colorMap: Record<Testimonial['color'], { bg: string; text: string; badge: string }> = {
-  violet: { bg: 'bg-violet-100', text: 'text-violet-700', badge: 'bg-violet-100 text-violet-700' },
+  sapphire: { bg: 'bg-sapphire-50', text: 'text-sapphire-700', badge: 'bg-sapphire-50 text-sapphire-700' },
   blue: { bg: 'bg-blue-100', text: 'text-blue-700', badge: 'bg-blue-100 text-blue-700' },
   teal: { bg: 'bg-teal-100', text: 'text-teal-700', badge: 'bg-teal-100 text-teal-700' },
 };

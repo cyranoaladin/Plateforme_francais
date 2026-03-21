@@ -63,10 +63,10 @@ export function ComparisonTable() {
                 <th className="border-b border-gray-200 pb-3 pr-4 font-semibold text-gray-500">
                   Critère
                 </th>
-                <th className="border-b border-gray-200 pb-3 pr-4 font-semibold text-red-600">
+                <th className="border-b border-gray-200 pb-3 pr-4 font-semibold text-gold-600">
                   ChatGPT
                 </th>
-                <th className="border-b border-gray-200 pb-3 font-semibold text-violet-600">
+                <th className="border-b border-gray-200 pb-3 font-semibold text-sapphire-700">
                   Nexus
                 </th>
               </tr>
@@ -109,11 +109,11 @@ export function ComparisonTable() {
               </summary>
               <div className="space-y-2 px-4 pb-4 text-sm">
                 <div>
-                  <span className="font-semibold text-red-600">ChatGPT :&nbsp;</span>
+                  <span className="font-semibold text-gold-600">ChatGPT :&nbsp;</span>
                   <span className="text-gray-600">{row.chatgpt}</span>
                 </div>
                 <div>
-                  <span className="font-semibold text-violet-600">Nexus :&nbsp;</span>
+                  <span className="font-semibold text-sapphire-700">Nexus :&nbsp;</span>
                   <span className="text-gray-900">{row.nexus}</span>
                 </div>
               </div>

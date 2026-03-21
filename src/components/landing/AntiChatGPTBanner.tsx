@@ -22,7 +22,7 @@ const NEXUS_ITEMS = [
 
 function XIcon() {
   return (
-    <svg className="mt-0.5 h-4 w-4 shrink-0 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <svg className="mt-0.5 h-4 w-4 shrink-0 text-gold-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
     </svg>
   );
@@ -30,7 +30,7 @@ function XIcon() {
 
 function CheckIcon() {
   return (
-    <svg className="mt-0.5 h-4 w-4 shrink-0 text-violet-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <svg className="mt-0.5 h-4 w-4 shrink-0 text-sapphire-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
     </svg>
   );
@@ -47,8 +47,8 @@ function ComparisonColumn({
 }) {
   const headerClass =
     variant === 'danger'
-      ? 'bg-red-950 text-red-300 border-b border-red-800'
-      : 'bg-violet-950 text-violet-300 border-b border-violet-700 ring-1 ring-violet-600';
+      ? 'bg-gold-950 text-gold-300 border-b border-gold-800'
+      : 'bg-ink-900 text-sapphire-300 border-b border-sapphire-700 ring-1 ring-sapphire-700';
 
   const Icon = variant === 'danger' ? XIcon : CheckIcon;
 
@@ -69,15 +69,15 @@ function ComparisonColumn({
 
 export function AntiChatGPTBanner() {
   return (
-    <section className="bg-gray-950 px-4 py-20" aria-label="Pourquoi pas ChatGPT ?">
+    <section className="bg-ink-950 px-4 py-20" aria-label="Pourquoi pas ChatGPT ?">
       <div className="mx-auto max-w-4xl">
-        <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-violet-400">
+        <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-sapphire-500">
           Pourquoi pas ChatGPT ?
         </p>
 
         <h2 className="mb-6 text-center text-3xl font-bold leading-tight text-white sm:text-4xl">
           ChatGPT rédige.{' '}
-          <span className="text-violet-400">Nexus t&apos;apprend.</span>
+          <span className="text-sapphire-500">Nexus t&apos;apprend.</span>
         </h2>
 
         <p className="mx-auto mb-12 max-w-2xl text-center text-base leading-relaxed text-gray-300 sm:text-lg">
@@ -96,7 +96,7 @@ export function AntiChatGPTBanner() {
         <div className="text-center">
           <Link
             href={ROUTES.register}
-            className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-violet-900/30 transition-colors hover:bg-violet-500"
+            className="inline-flex items-center gap-2 rounded-full bg-sapphire-700 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-sapphire-700/30 transition-colors hover:bg-sapphire-600"
             aria-label="Commencer gratuitement sur Nexus Réussite"
           >
             Essayer gratuitement — sans carte bancaire →

@@ -94,11 +94,11 @@ export function PricingSection() {
               key={plan.name}
               className={
                 'relative flex flex-col rounded-2xl bg-white p-6 shadow-md ' +
-                (plan.featured ? 'border-2 border-violet-600 shadow-lg' : 'border border-gray-200')
+                (plan.featured ? 'border-2 border-sapphire-700 shadow-lg' : 'border border-gray-200')
               }
             >
               {plan.featured && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 px-4 py-1 text-xs font-semibold text-white">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-sapphire-700 px-4 py-1 text-xs font-semibold text-white">
                   &#11088; Recommandé
                 </span>
               )}
@@ -115,7 +115,7 @@ export function PricingSection() {
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2 text-sm text-gray-700">
                     <svg
-                      className="mt-0.5 h-4 w-4 shrink-0 text-violet-600"
+                      className="mt-0.5 h-4 w-4 shrink-0 text-sapphire-700"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       aria-hidden="true"
@@ -137,7 +137,7 @@ export function PricingSection() {
                 className={
                   'mt-6 block rounded-xl py-3 text-center text-sm font-semibold transition-colors ' +
                   (plan.featured
-                    ? 'bg-violet-600 text-white hover:bg-violet-700'
+                    ? 'bg-sapphire-700 text-white hover:bg-sapphire-700'
                     : 'bg-gray-100 text-gray-900 hover:bg-gray-200')
                 }
               >
@@ -191,7 +191,7 @@ export function PricingSection() {
           Pas encore prêt ?{' '}
           <Link
             href={ROUTES.register}
-            className="font-medium text-violet-600 underline hover:text-violet-700"
+            className="font-medium text-sapphire-700 underline hover:text-sapphire-700"
           >
             Le Freemium est gratuit pour toujours &rarr;
           </Link>
