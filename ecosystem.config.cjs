@@ -76,6 +76,7 @@ const webEnv = withProductionDefaults(
   {
     APP_ROOT: appRoot,
     RESSOURCES_ROOT: '/srv/eaf_ressources',
+    HOSTNAME: '127.0.0.1',
     PORT: 3000,
   },
   {
