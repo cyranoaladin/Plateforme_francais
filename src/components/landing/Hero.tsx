@@ -4,7 +4,6 @@
  */
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { CountdownBadge } from './CountdownBadge';
 import { ROUTES } from '@/lib/routes';
@@ -80,13 +79,14 @@ export function Hero() {
 
         {/* Product preview */}
         <div id="demo" className="mx-auto mt-12 max-w-3xl">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/assets/oral-simulator-preview.svg"
             width={720}
             height={460}
             alt="Simulation d'oral EAF Nexus Réussite — notation officielle /2 /8 /2 /8"
-            priority={true}
             className="w-full rounded-2xl shadow-2xl"
+            loading="eager"
           />
         </div>
       </div>
