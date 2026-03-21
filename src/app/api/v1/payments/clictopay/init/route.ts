@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server';
+import { validateCsrf } from '@/lib/security/csrf';
 
 /**
  * POST /api/v1/payments/clictopay/init
  * DISABLED — ClicToPay payment is not active at go-live.
  * Returns 503 Service Unavailable with manual payment instructions.
  */
-export async function POST(_request: Request) {
+export async function POST(request: Request) {
+  const csrfError = await validateCsrf(request);
+  if (csrfError) return csrfError;
   return NextResponse.json(
     {
       error: 'Paiement carte désactivé. Utilisez le virement bancaire ou contactez-nous via WhatsApp.',
