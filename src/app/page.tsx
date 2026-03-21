@@ -44,7 +44,6 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <link rel="preload" href="/assets/oral-simulator-preview.svg" as="image" type="image/svg+xml" />
       <StickyNav />
 
       <main>
