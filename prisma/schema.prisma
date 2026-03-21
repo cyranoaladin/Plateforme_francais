@@ -134,6 +134,12 @@ model StudentProfile {
   personaPreference   ExamPersona @default(NEUTRE)
   globalLevel         SkillLevel  @default(INSUFFISANT)
   globalLevelUpdatedAt DateTime?
+  // RGPD Parental Consent
+  parentEmail         String?
+  parentConsentToken  String?     @unique
+  parentConsentStatus String      @default("pending") // pending | granted | refused | withdrawn
+  parentConsentDate   DateTime?
+  parentConsentIpHash String?
   // Relations ADDENDUM
   skillMapEntries     SkillMapEntry[]
   weakSkillEntries    WeakSkillEntry[]

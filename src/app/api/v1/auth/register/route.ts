@@ -10,6 +10,8 @@ import { type StudentProfile } from '@/lib/auth/types';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createUser, findUserByEmail } from '@/lib/db/repositories/userRepo';
 import { sendWelcomeEmail } from '@/lib/email/service';
+import { generateConsentToken, sendParentalConsentEmail } from '@/lib/email/parental-consent';
+import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { ensureCsrfCookie } from '@/lib/security/csrf';
@@ -82,6 +84,9 @@ export async function POST(request: Request) {
       teacherEmail: teacherEmail ?? null,
       cguAcceptedAt: new Date().toISOString(),
       cguVersion,
+      // RGPD: Generate consent token if minor with parent email
+      parentConsentToken: (isMinor && parentEmail) ? generateConsentToken() : null,
+      parentConsentStatus: (isMinor && parentEmail) ? 'pending' : null,
     },
   });
 
@@ -104,8 +109,9 @@ export async function POST(request: Request) {
   await setSessionCookie(session.token);
   await setRoleCookie('eleve');
 
-  // Fire-and-forget: l'inscription réussit même si l'email échoue
   const firstName = (displayName || '').trim().split(' ')[0] || 'là';
+  
+  // Send welcome email to student
   sendWelcomeEmail({ firstName, email })
     .then((result) => {
       if (!result.success) {
@@ -121,6 +127,35 @@ export async function POST(request: Request) {
         'Erreur inattendue envoi email bienvenue',
       );
     });
+
+  // RGPD: Send parental consent email if minor with parent email
+  if (isMinor && parentEmail) {
+    const profile = await prisma.studentProfile.findUnique({
+      where: { userId },
+      select: { parentConsentToken: true },
+    });
+
+    if (profile?.parentConsentToken) {
+      sendParentalConsentEmail({
+        parentEmail,
+        studentEmail: email,
+        studentName: displayName || firstName,
+        consentToken: profile.parentConsentToken,
+      }).then((result) => {
+        if (!result.success) {
+          logger.warn(
+            { userId, parentEmail, error: result.error },
+            'Échec envoi email consentement parental (non bloquant)',
+          );
+        }
+      }).catch((err) => {
+        logger.error(
+          { err, userId, parentEmail },
+          'Erreur inattendue envoi email consentement parental',
+        );
+      });
+    }
+  }
 
   const response = NextResponse.json({ ok: true }, { status: 201 });
   await ensureCsrfCookie(response);

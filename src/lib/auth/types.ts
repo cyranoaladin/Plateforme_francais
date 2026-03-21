@@ -17,6 +17,11 @@ export type StudentProfile = {
   teacherEmail?: string | null;
   cguAcceptedAt?: string;
   cguVersion?: string;
+  // RGPD Parental Consent
+  parentConsentToken?: string | null;
+  parentConsentStatus?: string | null;
+  parentConsentDate?: string | null;
+  parentConsentIpHash?: string | null;
 };
 
 export type MemoryEventType =

@@ -244,6 +244,22 @@ export default function AdminDashboard() {
     PENDING: 'bg-yellow-100 text-yellow-800',
     ACCEPTED: 'bg-green-100 text-green-800',
     REFUSED: 'bg-red-100 text-red-800',
+    CANCELLED: 'bg-gray-100 text-gray-800',
+    PAUSED: 'bg-orange-100 text-orange-800',
+  };
+
+  const statusLabels: Record<string, string> = {
+    ACTIVE: 'Actif',
+    PENDING: 'En attente',
+    ACCEPTED: 'Accepté',
+    REFUSED: 'Refusé',
+    CANCELLED: 'Annulé',
+    PAUSED: 'En pause',
+    INACTIVE: 'Inactif',
+    CREATED: 'Créé',
+    DELIVERED: 'Distribué',
+    REDEEMED: 'Utilisé',
+    REVOKED: 'Révoqué',
   };
 
   return (
@@ -402,7 +418,7 @@ export default function AdminDashboard() {
                             </td>
                             <td className="py-2 px-4">{(payment.amountMillimes / 1000).toFixed(2)} TND</td>
                             <td className="py-2 px-4">
-                              <Badge className={statusColors[payment.status]}>{payment.status}</Badge>
+                              <Badge className={statusColors[payment.status]}>{statusLabels[payment.status] || payment.status}</Badge>
                             </td>
                             <td className="py-2 px-4">
                               {new Date(payment.createdAt).toLocaleDateString('fr-FR')}
@@ -450,7 +466,7 @@ export default function AdminDashboard() {
                           <td className="py-2 px-4">
                             {user.subscription ? (
                               <Badge className={statusColors[user.subscription.status]}>
-                                {user.subscription.status}
+                                {statusLabels[user.subscription.status] || user.subscription.status}
                               </Badge>
                             ) : (
                               <span className="text-[var(--text-secondary)]">-</span>
@@ -556,7 +572,7 @@ export default function AdminDashboard() {
                             </td>
                             <td className="py-2 px-4">
                               <Badge className={code.status === 'REDEEMED' ? 'bg-green-100 text-green-800' : code.status === 'CREATED' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}>
-                                {code.status}
+                                {statusLabels[code.status] || code.status}
                               </Badge>
                             </td>
                             <td className="py-2 px-4">

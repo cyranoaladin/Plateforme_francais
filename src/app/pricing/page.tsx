@@ -222,7 +222,7 @@ export default function PricingPage() {
 
     const load = async () => {
       try {
-        const payload = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status', {
+        const payload = await apiFetch<BillingStatusPayload>('/api/v1/billing/status', {
           redirectOnUnauthorized: false,
         });
         setBilling(payload);
@@ -277,7 +277,7 @@ export default function PricingPage() {
       track({ name: 'pricing_code_redeem_success', props: { plan: res.plan } });
 
       try {
-        const updated = await apiFetch<BillingStatusPayload>('/api/v1/payments/clictopay/status');
+        const updated = await apiFetch<BillingStatusPayload>('/api/v1/billing/status');
         setBilling(updated);
       } catch {
         // noop
@@ -361,7 +361,7 @@ export default function PricingPage() {
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2.5">
-              {['Aucun paiement avant essai', 'Virement bancaire actif', 'WhatsApp actif', 'Carte bientôt disponible', 'Flouci bientôt disponible'].map((item) => (
+              {['Aucun paiement avant essai', 'Virement bancaire actif', 'WhatsApp actif'].map((item) => (
                 <span key={item} className="rounded-full border border-[var(--border-strong)] bg-[var(--card)]/75 px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)]">
                   {item}
                 </span>
@@ -443,7 +443,7 @@ export default function PricingPage() {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Devise et moyens de paiement</p>
-                  <p className="mt-1 text-sm font-semibold">Facturation en TND. Virement bancaire et WhatsApp actifs. Paiement carte et Flouci bientôt disponibles.</p>
+                  <p className="mt-1 text-sm font-semibold">Facturation en TND. Virement bancaire et WhatsApp actifs.</p>
                 </div>
                 <div className="rounded-full bg-[var(--navy)] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--surface-parchment)]">
                   TND
@@ -645,7 +645,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-slate-200">
-              Pour l’instant, les abonnements payants s’activent par virement bancaire ou via WhatsApp. Flouci et le paiement carte reviendront dès que leurs intégrations seront finalisées.
+              Pour l'instant, les abonnements payants s'activent par virement bancaire ou via WhatsApp.
             </p>
 
             <div className="mt-6 space-y-3">
@@ -653,24 +653,18 @@ export default function PricingPage() {
                 <div className="flex items-start gap-3">
                   <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
                   <div>
-                    <p className="text-sm font-semibold text-white">Paiement Flouci</p>
+                    <p className="text-sm font-semibold text-white">Paiement en ligne</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">
-                      Flouci est prévu mais pas encore actif en production. Si tu veux activer ton plan maintenant, utilise plutôt le virement bancaire ci-dessous.
+                      Le paiement en ligne par carte n'est pas encore disponible. Pour activer ton plan maintenant, utilise le virement bancaire ci-dessous.
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
                       <button
                         type="button"
                         onClick={() => setError(TEMPORARY_PAYMENT_UNAVAILABLE_MESSAGE)}
-                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--navy)] transition hover:bg-[var(--surface-warm-section)]"
-                      >
-                        Flouci bientôt disponible
-                      </button>
-                      <button
-                        type="button"
                         disabled
                         className="inline-flex cursor-not-allowed items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/40"
                       >
-                        Paiement Flouci — bientôt
+                        Paiement carte — indisponible
                       </button>
                     </div>
                     <p className="mt-3 text-xs leading-6 text-slate-300">
