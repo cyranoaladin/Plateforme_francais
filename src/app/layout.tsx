@@ -72,7 +72,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased min-h-screen overflow-x-hidden bg-background text-foreground flex">
+      <body className="font-sans antialiased min-h-screen bg-background text-foreground flex">
         <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
         <WebVitalsReporter />
         <AppShell><main id="main-content">{children}</main></AppShell>

@@ -99,7 +99,7 @@ export function WorkshopTabs() {
   };
 
   return (
-    <section id="ateliers" className="overflow-x-hidden bg-white px-4 py-14 sm:py-20" aria-label="Les 4 ateliers EAF">
+    <section id="ateliers" className="bg-white px-4 py-14 sm:py-20" aria-label="Les 4 ateliers EAF">
       <div className="mx-auto max-w-3xl">
         <h2 className="text-center text-2xl font-bold leading-tight text-gray-900 sm:text-3xl lg:text-4xl">
           4 ateliers pour maîtriser chaque épreuve
