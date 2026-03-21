@@ -229,14 +229,12 @@ export default function AdminDashboard() {
     FREE: 'Freemium',
     PREMIUM: 'Premium',
     PRO: 'Masterium',
-    MAX: 'Masterium Lifetime',
   };
 
   const planColors: Record<string, string> = {
     FREE: 'bg-gray-100 text-gray-800',
     PREMIUM: 'bg-blue-100 text-blue-800',
-    PRO: 'bg-purple-100 text-purple-800', // Masterium
-    MAX: 'bg-purple-100 text-purple-800', // Masterium Lifetime
+    PRO: 'bg-sapphire-100 text-sapphire-700',
   };
 
   const statusColors: Record<string, string> = {
