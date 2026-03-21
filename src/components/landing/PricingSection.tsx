@@ -133,7 +133,6 @@ export function PricingSection() {
 
               <Link
                 href={ROUTES.register}
-                aria-label={'S&apos;inscrire au plan ' + plan.name}
                 className={
                   'mt-6 block rounded-xl py-3 text-center text-sm font-semibold transition-colors ' +
                   (plan.featured

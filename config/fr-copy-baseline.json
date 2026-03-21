@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T23:05:38.512Z",
+  "generatedAt": "2026-03-21T23:09:21.981Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -7514,28 +7514,28 @@
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 148,
+      "line": 147,
       "column": 17,
       "kind": "jsx-text",
       "text": "Sans engagement &bull; Résiliation immédiate"
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 156,
+      "line": 155,
       "column": 71,
       "kind": "jsx-text",
       "text": "Questions fréquentes"
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 191,
+      "line": 190,
       "column": 11,
       "kind": "jsx-text",
       "text": "Pas encore prêt ?"
     },
     {
       "file": "src/components/landing/PricingSection.tsx",
-      "line": 196,
+      "line": 195,
       "column": 13,
       "kind": "jsx-text",
       "text": "Le Freemium est gratuit pour toujours &rarr;"
