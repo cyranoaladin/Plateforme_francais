@@ -44,7 +44,7 @@ const rows: Row[] = [
   },
 ];
 
-export default function ComparisonTable() {
+export function ComparisonTable() {
   return (
     <section className="bg-white py-20">
       <div className="mx-auto max-w-5xl px-4">

@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 type View = 'student' | 'parent';
 
-export default function DashboardToggle() {
+export function DashboardToggle() {
   const [view, setView] = useState<View>('student');
 
   return (

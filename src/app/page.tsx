@@ -3,14 +3,15 @@ import { Hero } from '@/components/landing/Hero';
 import { SocialProofStrip } from '@/components/landing/SocialProofStrip';
 import { StatsSection } from '@/components/landing/StatsSection';
 import { AntiChatGPTBanner } from '@/components/landing/AntiChatGPTBanner';
-import MethodSteps from '@/components/landing/MethodSteps';
+import { MethodSteps } from '@/components/landing/MethodSteps';
 import { WorkshopTabs } from '@/components/landing/WorkshopTabs';
-import DashboardToggle from '@/components/landing/DashboardToggle';
-import TestimonialsSection from '@/components/landing/TestimonialsSection';
-import ComparisonTable from '@/components/landing/ComparisonTable';
-import PricingSection from '@/components/landing/PricingSection';
-import InlineCTA from '@/components/landing/InlineCTA';
-import WhatsAppButton from '@/components/landing/WhatsAppButton';
+import { DashboardToggle } from '@/components/landing/DashboardToggle';
+import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
+import { ComparisonTable } from '@/components/landing/ComparisonTable';
+import { PricingSection } from '@/components/landing/PricingSection';
+import { InlineCTA } from '@/components/landing/InlineCTA';
+import { WhatsAppButton } from '@/components/landing/WhatsAppButton';
+import { Footer } from '@/components/landing/Footer';
 
 export default function HomePage() {
   return (
@@ -72,6 +73,9 @@ export default function HomePage() {
         {/* 10. Tarifs + FAQ */}
         <PricingSection />
       </main>
+
+      {/* Footer */}
+      <Footer />
 
       {/* WhatsApp sticky — mobile only */}
       <WhatsAppButton />

@@ -43,7 +43,7 @@ const steps: Step[] = [
   },
 ];
 
-export default function MethodSteps() {
+export function MethodSteps() {
   return (
     <section className="bg-white py-20">
       <div className="mx-auto max-w-5xl px-4">

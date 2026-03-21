@@ -53,7 +53,7 @@ const colorMap: Record<Testimonial['color'], { bg: string; text: string; badge: 
   teal: { bg: 'bg-teal-100', text: 'text-teal-700', badge: 'bg-teal-100 text-teal-700' },
 };
 
-export default function TestimonialsSection() {
+export function TestimonialsSection() {
   return (
     <section className="bg-gray-50 py-20">
       <div className="mx-auto max-w-6xl px-4">

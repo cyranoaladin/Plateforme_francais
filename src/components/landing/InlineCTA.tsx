@@ -8,7 +8,7 @@ interface InlineCTAProps {
   className?: string;
 }
 
-export default function InlineCTA({ headline, cta, href, className }: InlineCTAProps) {
+export function InlineCTA({ headline, cta, href, className }: InlineCTAProps) {
   return (
     <div className={'py-14 text-center ' + (className ?? '')}>
       <p className="text-lg font-semibold text-gray-900 sm:text-xl">{headline}</p>

@@ -75,7 +75,7 @@ const faqs: FaqItem[] = [
   },
 ];
 
-export default function PricingSection() {
+export function PricingSection() {
   return (
     <section id="tarifs" className="bg-gray-50 py-20">
       <div className="mx-auto max-w-6xl px-4">
