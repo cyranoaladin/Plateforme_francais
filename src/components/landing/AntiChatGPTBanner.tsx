@@ -97,7 +97,6 @@ export function AntiChatGPTBanner() {
           <Link
             href={ROUTES.register}
             className="inline-flex items-center gap-2 rounded-full bg-sapphire-700 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-sapphire-700/30 transition-colors hover:bg-sapphire-600"
-            aria-label="Commencer gratuitement sur Nexus Réussite"
           >
             Essayer gratuitement — sans carte bancaire →
           </Link>

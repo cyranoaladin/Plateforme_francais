@@ -50,7 +50,6 @@ export function Hero() {
           <Link
             href={ROUTES.register}
             className="inline-flex items-center gap-2 rounded-full bg-sapphire-700 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-sapphire-700/30 transition-all hover:scale-105 hover:bg-sapphire-700"
-            aria-label="Commencer gratuitement"
           >
             Commencer gratuitement — 3 min
           </Link>

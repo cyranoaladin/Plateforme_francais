@@ -32,7 +32,6 @@ export function FooterCTA() {
         <Link
           href={ROUTES.register}
           className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-sapphire-700 shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-sapphire-700"
-          aria-label="Commencer gratuitement sur Nexus Réussite — sans carte bancaire"
         >
           Commencer gratuitement — sans carte bancaire →
         </Link>

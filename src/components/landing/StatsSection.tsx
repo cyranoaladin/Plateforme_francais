@@ -93,7 +93,7 @@ function AnimatedNumber({ stat }: { stat: Stat }) {
         {stat.prefix}{display}{stat.unit}
       </p>
       <p className="mt-2 text-base font-medium text-gray-800">{stat.label}</p>
-      <p className="mt-1 text-sm text-gray-400">{stat.sub}</p>
+      <p className="mt-1 text-sm text-gray-500">{stat.sub}</p>
     </div>
   );
 }

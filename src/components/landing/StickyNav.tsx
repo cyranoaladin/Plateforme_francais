@@ -43,7 +43,6 @@ export function StickyNav() {
           <Link
             href={ROUTES.register}
             className="rounded-full bg-sapphire-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-sapphire-700 hover:scale-105"
-            aria-label="Commencer gratuitement"
           >
             Commencer gratuitement →
           </Link>
@@ -55,7 +54,7 @@ export function StickyNav() {
           className="rounded-full bg-sapphire-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-sapphire-700 md:hidden"
           aria-label="Commencer gratuitement"
         >
-          Commencer →
+          Commencer
         </Link>
       </div>
     </nav>

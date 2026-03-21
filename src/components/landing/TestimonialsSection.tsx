@@ -109,7 +109,7 @@ export function TestimonialsSection() {
 
                 {/* Stats footer */}
                 <div className="mt-4 border-t border-gray-100 pt-3">
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-gray-500">
                     {t.before} &rarr; {t.after}
                   </p>
                 </div>

@@ -155,7 +155,7 @@ export function DashboardToggle() {
             <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-green-50 px-4 py-2 text-sm">
               <span className="font-semibold text-green-700">14/20</span>
               <span className="text-gray-600">Dissertation</span>
-              <span className="text-xs text-gray-400">Hier</span>
+              <span className="text-xs text-gray-500">Hier</span>
             </div>
 
             {/* Grammar gain */}

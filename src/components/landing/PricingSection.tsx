@@ -144,7 +144,7 @@ export function PricingSection() {
                 {plan.price === '0 TND' ? 'Commencer gratuitement' : 'Choisir ' + plan.name}
               </Link>
 
-              <p className="mt-3 text-center text-xs text-gray-400">
+              <p className="mt-3 text-center text-xs text-gray-500">
                 Sans engagement &bull; Résiliation immédiate
               </p>
             </div>
