@@ -114,6 +114,12 @@ export function middleware(request: NextRequest) {
     return new NextResponse('Not Found', { status: 404 });
   }
 
+  // Parent page: redirect to dashboard (no parent accounts in production yet)
+  if (pathname === '/parent' || pathname.startsWith('/parent/')) {
+    const dashUrl = new URL('/dashboard', request.url);
+    return NextResponse.redirect(dashUrl);
+  }
+
   if (pathname.startsWith('/api/v1/')) {
     const method = request.method.toUpperCase();
     const allowedMethodsByPath: Record<string, Set<string>> = {

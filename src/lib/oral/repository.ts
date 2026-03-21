@@ -187,6 +187,8 @@ export async function finalizeOralSession(input: {
         } as Prisma.InputJsonValue,
         score: input.score,
         maxScore: input.maxScore,
+        totalScore: input.score,
+        status: 'FINALIZED',
         endedAt: new Date(),
       },
     });
