@@ -8,9 +8,9 @@ export function DashboardToggle() {
   const [view, setView] = useState<View>('student');
 
   return (
-    <section className="bg-gray-50 py-20">
-      <div className="mx-auto max-w-4xl px-4">
-        <h2 className="text-center text-3xl font-bold text-gray-900 sm:text-4xl">
+    <section className="bg-gray-50 py-14 sm:py-20">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
+        <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
           Un tableau de bord pour chacun
         </h2>
         <p className="mt-3 text-center text-gray-600">

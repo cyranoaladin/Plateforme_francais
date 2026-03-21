@@ -22,7 +22,7 @@ function TransformationBadge({ before, after }: { before: number; after: number 
 
 export function SocialProofStrip() {
   return (
-    <section aria-label="Preuve sociale rapide" className="bg-white px-4 py-10">
+    <section aria-label="Preuve sociale rapide" className="bg-white px-4 py-8 sm:px-6 sm:py-10">
       <div className="mx-auto max-w-2xl">
         {/* Badge global */}
         <div className="mb-6 flex justify-center">

@@ -100,7 +100,7 @@ function AnimatedNumber({ stat }: { stat: Stat }) {
 
 export function StatsSection() {
   return (
-    <section className="bg-gray-50 px-4 py-16" aria-label="Résultats mesurables">
+    <section className="bg-gray-50 px-4 py-12 sm:px-6 sm:py-16" aria-label="Résultats mesurables">
       <div className="mx-auto max-w-4xl">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           {STATS.map((stat) => (
