@@ -1,6 +1,6 @@
 import {
   Html, Head, Body, Container, Section,
-  Button, Text, Heading, Hr, Preview,
+  Button, Text, Heading, Hr, Preview, Img, Link,
 } from '@react-email/components';
 import * as React from 'react';
 
@@ -22,9 +22,10 @@ export default function ParentNotificationEmail({
       <Body style={{ backgroundColor: '#F7F8FA', fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif", margin: 0, padding: 0 }}>
         <Container style={{ maxWidth: '600px', margin: '0 auto' }}>
           {/* HEADER */}
-          <Section style={{ backgroundColor: '#1E3A5F', padding: '32px 40px', borderRadius: '8px 8px 0 0' }}>
-            <Text style={{ color: '#ffffff', fontSize: '22px', fontWeight: 700, margin: 0 }}>Nexus Réussite</Text>
-            <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: '13px', margin: '4px 0 0' }}>Préparation EAF — Session 2026</Text>
+          <Section style={{ backgroundColor: '#1E3A5F', padding: '24px 40px', borderRadius: '8px 8px 0 0', textAlign: 'center' as const }}>
+            <Link href="https://eaf.nexusreussite.academy">
+              <Img src="https://eaf.nexusreussite.academy/images/logo_email.png" alt="Nexus Réussite — Préparation EAF 2026" width={200} style={{ maxWidth: '200px', height: 'auto', display: 'block', margin: '0 auto' }} />
+            </Link>
           </Section>
 
           {/* CONTENT */}
