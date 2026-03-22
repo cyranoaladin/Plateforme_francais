@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T16:20:27.075Z",
+  "generatedAt": "2026-03-22T16:37:33.260Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -413,27 +413,6 @@
       "column": 35,
       "kind": "jsx-prop",
       "text": "Informations complémentaires..."
-    },
-    {
-      "file": "src/app/api/dev/test-email/route.ts",
-      "line": 10,
-      "column": 39,
-      "kind": "api-message",
-      "text": "Not found"
-    },
-    {
-      "file": "src/app/api/dev/test-email/route.ts",
-      "line": 16,
-      "column": 16,
-      "kind": "api-message",
-      "text": "DEV_TEST_EMAIL non configuré dans .env"
-    },
-    {
-      "file": "src/app/api/dev/test-email/route.ts",
-      "line": 43,
-      "column": 14,
-      "kind": "api-message",
-      "text": "Type invalide. Utilise ?type=welcome ou ?type=subscription"
     },
     {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
