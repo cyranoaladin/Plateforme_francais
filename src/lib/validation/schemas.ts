@@ -1,33 +1,61 @@
 import { z } from 'zod';
 
+// Force all Zod error messages to French
+z.setErrorMap((issue, ctx) => {
+  switch (issue.code) {
+    case 'invalid_type':
+      if (issue.expected === 'string') return { message: 'Ce champ doit être du texte.' };
+      if (issue.expected === 'number') return { message: 'Ce champ doit être un nombre.' };
+      if (issue.expected === 'boolean') return { message: 'Ce champ doit être vrai ou faux.' };
+      return { message: `Type attendu : ${issue.expected}.` };
+    case 'too_small':
+      if (issue.type === 'string') return { message: `Ce champ doit contenir au moins ${issue.minimum} caractère(s).` };
+      if (issue.type === 'number') return { message: `La valeur doit être au moins ${issue.minimum}.` };
+      if (issue.type === 'array') return { message: `Au moins ${issue.minimum} élément(s) requis.` };
+      return { message: ctx.defaultError };
+    case 'too_big':
+      if (issue.type === 'string') return { message: `Ce champ ne doit pas dépasser ${issue.maximum} caractère(s).` };
+      if (issue.type === 'number') return { message: `La valeur ne doit pas dépasser ${issue.maximum}.` };
+      return { message: ctx.defaultError };
+    case 'invalid_string':
+      if (issue.validation === 'email') return { message: 'Adresse e-mail invalide.' };
+      if (issue.validation === 'url') return { message: 'URL invalide.' };
+      return { message: 'Format invalide.' };
+    case 'invalid_enum_value':
+      return { message: `Valeur non autorisée. Options : ${issue.options.join(', ')}.` };
+    default:
+      return { message: ctx.defaultError };
+  }
+});
+
 export const passwordSchema = z.string()
   .min(8, 'Le mot de passe doit contenir au moins 8 caractères.')
-  .max(128)
+  .max(128, 'Le mot de passe ne doit pas dépasser 128 caractères.')
   .regex(/[a-z]/, 'Au moins une minuscule.')
   .regex(/[A-Z]/, 'Au moins une majuscule.')
   .regex(/[0-9]/, 'Au moins un chiffre.');
 
 export const loginBodySchema = z.object({
-  email: z.string().trim().email(),
+  email: z.string().trim().email('Adresse e-mail invalide.'),
   password: z.string().min(1),
 });
 
 export const registerBodySchema = z.object({
-  email: z.string().trim().email(),
+  email: z.string().trim().email('Adresse e-mail invalide.'),
   password: passwordSchema,
   displayName: z.string().trim().min(1).max(120).optional(),
   acceptedCgu: z.boolean().refine((v) => v === true, { message: 'Vous devez accepter les CGU.' }),
   cguVersion: z.string().trim().min(1).max(20).default('2026-03'),
   isMinor: z.boolean().default(false),
-  parentEmail: z.string().trim().email().optional(),
-  teacherEmail: z.string().trim().email().optional(),
+  parentEmail: z.string().trim().email('Adresse e-mail invalide.').optional(),
+  teacherEmail: z.string().trim().email('Adresse e-mail invalide.').optional(),
 }).refine(
   (data) => !data.isMinor || (data.parentEmail && data.parentEmail.length > 0),
   { message: 'Email parental requis pour les mineurs de moins de 15 ans.', path: ['parentEmail'] },
 );
 
 export const forgotPasswordBodySchema = z.object({
-  email: z.string().trim().email(),
+  email: z.string().trim().email('Adresse e-mail invalide.'),
 });
 
 export const resetPasswordBodySchema = z.object({
