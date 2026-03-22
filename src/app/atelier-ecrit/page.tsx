@@ -2,10 +2,6 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
-
-// Force dynamic rendering - this page uses client-only hooks
-export const dynamic = 'force-dynamic';
-export const dynamicParams = true;
 import {
   Camera,
   ChevronRight,
