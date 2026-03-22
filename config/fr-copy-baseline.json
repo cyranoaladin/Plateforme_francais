@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T19:09:04.797Z",
+  "generatedAt": "2026-03-22T19:45:08.964Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -1480,203 +1480,203 @@
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 376,
+      "line": 378,
       "column": 103,
       "kind": "jsx-text",
       "text": "Barème"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 381,
+      "line": 383,
       "column": 66,
       "kind": "jsx-text",
       "text": "pts"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 386,
+      "line": 388,
       "column": 21,
       "kind": "jsx-text",
       "text": "Changer de sujet"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 399,
+      "line": 401,
       "column": 101,
       "kind": "jsx-text",
       "text": "Étape 2"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 401,
+      "line": 403,
       "column": 19,
       "kind": "jsx-text",
       "text": "Déposer ma copie"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 404,
+      "line": 406,
       "column": 19,
       "kind": "jsx-text",
       "text": "Une photo nette ou un PDF propre suffit. Le studio suit l'upload, puis bascule vers l'analyse sans changer de contexte."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 414,
+      "line": 416,
       "column": 74,
       "kind": "jsx-text",
       "text": "Ta copie est entre de bonnes mains"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 416,
+      "line": 418,
       "column": 72,
       "kind": "jsx-text",
       "text": "Cela prend généralement entre 30 secondes et 2 minutes."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 431,
+      "line": 433,
       "column": 81,
       "kind": "jsx-text",
       "text": "Dépose ta copie ici"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 432,
+      "line": 434,
       "column": 76,
       "kind": "jsx-text",
       "text": "PDF, JPG, PNG ou WEBP (Max 20MB)"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 442,
+      "line": 444,
       "column": 23,
       "kind": "jsx-text",
       "text": "Choisir un fichier"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 453,
+      "line": 455,
       "column": 23,
       "kind": "jsx-text",
       "text": "Photo"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 457,
+      "line": 459,
       "column": 32,
       "kind": "jsx-prop",
       "text": "Sélectionner un fichier de copie"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 465,
+      "line": 467,
       "column": 32,
       "kind": "jsx-prop",
       "text": "Prendre une photo de copie"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 480,
+      "line": 482,
       "column": 129,
       "kind": "jsx-text",
       "text": "MB"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 492,
+      "line": 494,
       "column": 25,
       "kind": "jsx-text",
       "text": "PDF prêt à l'envoi"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 500,
+      "line": 502,
       "column": 71,
       "kind": "jsx-text",
       "text": "Envoi en cours…"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 515,
+      "line": 517,
       "column": 19,
       "kind": "jsx-text",
       "text": "Lancer la correction détaillée"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 525,
+      "line": 527,
       "column": 74,
       "kind": "jsx-text",
       "text": "Ton rapport de correction est prêt"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 526,
+      "line": 528,
       "column": 99,
       "kind": "jsx-text",
       "text": "Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 532,
+      "line": 534,
       "column": 21,
       "kind": "jsx-text",
       "text": "Voir mon rapport"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 539,
+      "line": 541,
       "column": 21,
       "kind": "jsx-text",
       "text": "Préparer le retravail avec le guidage"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 549,
+      "line": 551,
       "column": 97,
       "kind": "jsx-text",
       "text": "Cadre de travail"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 569,
+      "line": 571,
       "column": 73,
       "kind": "jsx-text",
       "text": "Pourquoi cette page existe"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 570,
+      "line": 572,
       "column": 64,
       "kind": "jsx-text",
       "text": "Écrire, déposer, corriger, puis retravailler"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 574,
+      "line": 576,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le bon usage de l'atelier écrit n'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 580,
+      "line": 582,
       "column": 108,
       "kind": "jsx-text",
       "text": "Sujet actif"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 589,
+      "line": 591,
       "column": 17,
       "kind": "jsx-text",
       "text": "Questionner le sujet avec le guidage"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 604,
+      "line": 606,
       "column": 13,
       "kind": "jsx-text",
       "text": "Badge débloqué :"

@@ -19,7 +19,7 @@ Tu génères des sujets d'épreuve blanche EAF variés, originaux et conformes a
 
 RÈGLES :
 1. Chaque sujet doit être UNIQUE — ne jamais proposer deux fois le même sujet.
-2. Le texte support doit être un extrait littéraire réaliste (150-300 mots), cohérent avec l'œuvre ou le thème demandé.
+2. Le texte support dépend du type d'exercice (voir ci-dessous).
 3. Le sujet (consigne) doit être précis et exploitable par un élève de Première.
 4. Le barème doit totaliser 20 points, réparti en rubriques pertinentes selon le type d'exercice.
 5. Varier les époques, mouvements littéraires, genres et registres.
@@ -30,21 +30,20 @@ INTERDICTIONS STRICTES :
 - Ne JAMAIS inclure de consignes de durée ("4 heures", "3 heures") dans le champ consignes.
 - Le champ "consignes" contient UNIQUEMENT le rappel méthodologique court pour l'élève (ex: "Structurez votre argumentation en introduction, développement et conclusion.").
 - Ne JAMAIS inclure de texte qui ressemble à une instruction de prompt ou un commentaire interne.
+- Ne JAMAIS générer d'exemple de réponse, d'amorce rhétorique, de début de dissertation, de modèle d'introduction ou de texte ressemblant à une copie d'élève.
+- Le champ "texte" ne doit JAMAIS contenir de texte argumentatif, de discours, d'essai ou de rédaction. Il contient UNIQUEMENT un extrait littéraire d'auteur (roman, théâtre, poésie, essai publié).
 
-TYPES D'EXERCICE :
-- commentaire : analyse littéraire d'un texte
-- dissertation : argumentation sur une question littéraire
-- contraction_essai : contraction de texte + essai argumentatif
+TYPES D'EXERCICE ET CONTENU DU CHAMP "texte" :
+- commentaire : le champ "texte" contient un extrait littéraire d'auteur (150-300 mots), avec titre de l'œuvre et nom de l'auteur.
+- dissertation : le champ "texte" contient une COURTE citation d'auteur (1-3 phrases maximum) servant de support à la question. Si aucune citation n'est pertinente, mettre une chaîne vide "".
+- contraction_essai : le champ "texte" contient le texte argumentatif à contracter (300-500 mots), issu d'un essai ou article réel.
 
 FORMAT DE SORTIE (JSON strict) :
 {
-  "sujet": "La consigne complète du sujet",
-  "texte": "L'extrait littéraire support (150-300 mots)",
+  "sujet": "La consigne complète du sujet (question posée à l'élève)",
+  "texte": "L'extrait littéraire ou citation — voir règles par type ci-dessus",
   "consignes": "Rappel méthodologique court pour l'élève",
-  "bareme": { "rubrique1": points, "rubrique2": points, ... },
-  "plan": ["I. Axe 1", "II. Axe 2", "III. Axe 3"],
-  "conseils": ["conseil méthodologique 1", "conseil 2"],
-  "vigilance": ["piège à éviter 1", "piège 2"]
+  "bareme": { "rubrique1": points, "rubrique2": points, ... }
 }`,
   outputSchema: schema,
   fallback: {

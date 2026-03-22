@@ -369,7 +369,9 @@ export default function AtelierEcritPage() {
               <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_280px]">
                 <div className="rounded-[24px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 shadow-[var(--shadow-sm)]">
                   <p className="text-sm font-semibold text-[var(--navy)]">{sanitizeLlmText(epreuve.sujet)}</p>
-                  <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--navy-mid)]">{sanitizeLlmText(epreuve.texte)}</p>
+                  {sanitizeLlmText(epreuve.texte).length > 0 && (
+                    <p className="mt-4 whitespace-pre-line text-sm italic leading-7 text-[var(--navy-mid)]">{sanitizeLlmText(epreuve.texte)}</p>
+                  )}
                   <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--text-secondary)]">{sanitizeLlmText(epreuve.consignes)}</p>
                 </div>
                 <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
