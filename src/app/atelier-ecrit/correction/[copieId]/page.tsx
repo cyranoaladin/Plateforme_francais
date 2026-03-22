@@ -283,25 +283,32 @@ export default function CorrectionCopiePage() {
                 <h2 className="text-lg font-semibold text-[var(--navy)]">Rubriques</h2>
               </div>
             </div>
-            <div className="mt-5 space-y-4">
+            <div className="mt-5 space-y-5">
               {correction.rubriques.map((item) => {
-                const width = Math.max(0, Math.min(100, Math.round((item.note / item.max) * 100)));
+                const pct = Math.max(0, Math.min(100, Math.round((item.note / item.max) * 100)));
+                const barColor = pct >= 75 ? 'bg-[var(--teal)]' : pct >= 50 ? 'bg-[var(--gold-deep)]' : 'bg-[var(--error-muted)]';
+                const scoreColor = pct >= 75 ? 'text-[var(--teal)]' : pct >= 50 ? 'text-[var(--gold-deep)]' : 'text-[var(--error-muted)]';
                 return (
-                  <article key={`${item.titre}-${item.max}`} className="rounded-[22px] border border-[var(--surface-sand)] bg-[var(--card)] p-4 shadow-[var(--shadow-sm)]">
-                    <div className="flex items-center justify-between gap-3 text-sm">
-                      <span className="font-semibold text-[var(--navy)]">{item.titre}</span>
-                      <span className="font-semibold text-[var(--navy)]">{item.note}/{item.max}</span>
+                  <article key={`${item.titre}-${item.max}`} className="rounded-[22px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 shadow-[var(--shadow-sm)]">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="text-sm font-semibold text-[var(--navy)]">{item.titre}</span>
+                      <span className={`rounded-full border px-3 py-1 text-sm font-bold ${scoreColor} ${pct >= 75 ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)]' : pct >= 50 ? 'border-[var(--border-warning-soft)] bg-[var(--warning-bg)]' : 'border-[var(--error-border)] bg-[var(--error-bg)]'}`}>
+                        {item.note}/{item.max}
+                      </span>
                     </div>
-                    <div className="mt-3 h-2 overflow-hidden rounded-full bg-[var(--surface-warm-accent)]">
-                      <div className="h-2 rounded-full bg-[var(--navy)]" style={{ width: `${width}%` }} />
+                    <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-[var(--surface-warm-accent)]">
+                      <div className={`h-2.5 rounded-full transition-all duration-500 ${barColor}`} style={{ width: `${pct}%` }} />
                     </div>
-                    <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{sanitizeLlmText(item.appreciation)}</p>
+                    <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--navy-mid)]">{sanitizeLlmText(item.appreciation)}</p>
                     {item.conseils.length > 0 && (
-                      <ul className="mt-3 space-y-2 text-xs leading-6 text-[var(--text-caption)]">
-                        {item.conseils.map((conseil) => (
-                          <li key={conseil} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--gold-muted)]" /> <span>{sanitizeLlmText(conseil)}</span></li>
-                        ))}
-                      </ul>
+                      <div className="mt-4 rounded-[16px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-3.5">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--gold-deep)]">Conseils pour progresser</p>
+                        <ul className="mt-2 space-y-2 text-sm leading-6 text-[var(--gold-contrast)]">
+                          {item.conseils.map((conseil) => (
+                            <li key={conseil} className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--gold-deep)]" /> <span>{sanitizeLlmText(conseil)}</span></li>
+                          ))}
+                        </ul>
+                      </div>
                     )}
                   </article>
                 );
@@ -309,18 +316,25 @@ export default function CorrectionCopiePage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-6 shadow-[var(--shadow-lg)] md:p-7">
-            <details className="group">
-              <summary className="flex min-h-[44px] cursor-pointer items-center gap-3 text-lg font-semibold text-[var(--navy)]">
+          {correction.corrige_type && (
+            <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-6 shadow-[var(--shadow-lg)] md:p-7">
+              <div className="flex items-center gap-3">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/8 text-[var(--teal)]">
                   <Quote className="h-5 w-5" />
                 </div>
-                <span className="flex-1">Voir le corrigé type</span>
-                <span className="text-sm font-normal text-[var(--text-caption)] transition-transform group-open:rotate-90">&#9654;</span>
-              </summary>
-              <p className="mt-4 whitespace-pre-line rounded-[16px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 text-sm leading-7 text-[var(--navy-mid)]">{sanitizeLlmText(correction.corrige_type)}</p>
-            </details>
-          </section>
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Plan de référence</p>
+                  <h2 className="text-lg font-semibold text-[var(--navy)]">Corrigé type</h2>
+                </div>
+              </div>
+              <div className="mt-5 whitespace-pre-line rounded-[16px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 text-sm leading-7 text-[var(--navy-mid)]">
+                {sanitizeLlmText(correction.corrige_type)}
+              </div>
+              <p className="mt-3 text-xs italic text-[var(--text-caption)]">
+                Ce plan indicatif montre une structure possible — il ne constitue pas l'unique réponse valide.
+              </p>
+            </section>
+          )}
         </section>
 
         <aside className="space-y-6">
@@ -393,9 +407,22 @@ export default function CorrectionCopiePage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-6 shadow-[var(--shadow-md)] md:p-7">
-            <h2 className="flex items-center gap-2 text-lg font-semibold text-[var(--navy)]"><Flame className="h-5 w-5 text-[var(--gold-deep)]" /> Lettre du professeur</h2>
-            <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--gold-contrast)]">{sanitizeLlmText(correction.conseil_final)}</p>
+          <section className="relative overflow-hidden rounded-[24px] border border-[var(--border-warning-soft)] bg-[var(--warning-bg)] p-6 shadow-[var(--shadow-md)] md:p-7">
+            <div className="absolute right-[-8%] top-[-20%] h-32 w-32 rounded-full bg-[rgba(216,163,99,0.18)] blur-3xl" />
+            <div className="relative">
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--gold-deep)]/12 text-[var(--gold-deep)]">
+                  <Flame className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--gold-deep)]">Conseil personnalisé</p>
+                  <h2 className="text-lg font-semibold text-[var(--navy)]">Lettre du professeur</h2>
+                </div>
+              </div>
+              <div className="mt-5 rounded-[16px] border border-[var(--gold-muted)]/30 bg-white/50 p-5">
+                <p className="whitespace-pre-line text-sm leading-8 text-[var(--navy-mid)]">{sanitizeLlmText(correction.conseil_final)}</p>
+              </div>
+            </div>
           </section>
 
           <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--card)] p-5 shadow-[var(--shadow-md)]">
