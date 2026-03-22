@@ -4,6 +4,7 @@ import ParentNotificationEmail from '../../../emails/ParentNotificationEmail';
 import TeacherNotificationEmail from '../../../emails/TeacherNotificationEmail';
 import SubscriptionEmail from '../../../emails/SubscriptionEmail';
 import React from 'react';
+import { formatPlanLabel } from '@/lib/billing/plan-catalog';
 
 const APP_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
@@ -117,7 +118,7 @@ export async function sendSubscriptionConfirmationEmail(data: {
     },
   };
 
-  const config = planConfig[data.plan] ?? planConfig.PREMIUM;
+  const config = planConfig[data.plan] ?? { ...planConfig.PREMIUM, name: formatPlanLabel(data.plan) };
   const fmt = (d: Date) =>
     d.toLocaleDateString('fr-FR', {
       day: 'numeric',

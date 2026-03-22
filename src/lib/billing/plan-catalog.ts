@@ -214,3 +214,21 @@ export function comparePlans(a: PlanId, b: PlanId): number {
   const order: Record<PlanId, number> = { FREE: 0, PREMIUM: 1, PRO: 2, MAX: 3 };
   return order[a] - order[b];
 }
+
+/**
+ * Conversion des identifiants techniques en libellés commerciaux.
+ * Utiliser cette fonction PARTOUT où le plan est affiché à un utilisateur.
+ * Jamais afficher les valeurs brutes FREE/PRO/MAX/PREMIUM.
+ */
+export function formatPlanLabel(plan: string): string {
+  const labels: Record<string, string> = {
+    FREE: 'Freemium',
+    PREMIUM: 'Premium',
+    PRO: 'Masterium',
+    MAX: 'Masterium',
+    MONTHLY: 'Premium',
+    LIFETIME: 'Masterium',
+    MASTERIUM: 'Masterium',
+  };
+  return labels[plan.toUpperCase()] ?? plan;
+}

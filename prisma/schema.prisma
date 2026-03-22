@@ -536,7 +536,7 @@ model PaymentTransaction {
   id               String          @id @default(uuid())
   userId           String
   user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  provider         PaymentProvider @default(CLICTOPAY)
+  provider         PaymentProvider @default(MANUAL)
   status           PaymentStatus   @default(PENDING)
   plan             SubscriptionPlan
   amountMillimes   Int

@@ -16,7 +16,7 @@ Plateforme de préparation aux Épreuves Anticipées de Français (EAF) avec ate
 | LLM | Mistral (primaire) + Gemini/OpenAI (fallback) |
 | RAG | Ingestor Docker + pgvector local |
 | MCP Server | 20 outils pédagogiques |
-| Email | Nodemailer SMTP (Hostinger port 587) + React Email |
+| Email | Nodemailer SMTP (Hostinger port 465) + React Email |
 | Déploiement | VPS, PM2, Nginx, scripts/deploy.sh |
 | CI/CD | GitHub Actions (6 gates) |
 | CSS | Tailwind CSS 4 |
@@ -76,7 +76,7 @@ npm run dev
 |----------|------------|
 | `npm run dev` | Serveur de développement |
 | `npm run build` | Build production |
-| `npm run test:unit` | Tests unitaires (162 fichiers, 1128 tests) |
+| `npm run test:unit` | Tests unitaires (159 fichiers, 1106 tests) |
 | `npm run lint` | ESLint |
 | `npx knip` | Détection code mort |
 | `npm run ci:fr-copy` | Contrôle du français |
