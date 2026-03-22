@@ -49,6 +49,8 @@ rsync -avz --delete \
   --exclude='.antigravity' \
   --exclude='*.log' \
   --exclude='*.tsbuildinfo' \
+  --exclude='docs/eaf_arborescence_prod*.txt' \
+  --exclude='docs/eaf_arbo_*.txt' \
   -e ssh \
   ./ "$SSH_TARGET:$APP_DIR/"
 
