@@ -162,7 +162,6 @@ export async function POST(request: Request) {
     sendParentNotificationEmail({
       parentEmail,
       studentFirstName: firstName,
-      studentClass: DEFAULT_PROFILE.classLevel,
     }).then((result) => {
       if (result.success) {
         logger.info({ emailId: result.id, to: parentEmail, type: 'parent-notification' }, 'E-mail parent envoyé avec succès');
@@ -179,8 +178,7 @@ export async function POST(request: Request) {
     sendTeacherNotificationEmail({
       teacherEmail,
       studentFirstName: firstName,
-      studentLastName: displayName.split(' ').slice(1).join(' '),
-      studentClass: DEFAULT_PROFILE.classLevel,
+      studentLastName: displayName.split(' ').slice(1).join(' ').trim() || undefined,
     }).then((result) => {
       if (result.success) {
         logger.info({ emailId: result.id, to: teacherEmail, type: 'teacher-notification' }, 'E-mail enseignant envoyé avec succès');

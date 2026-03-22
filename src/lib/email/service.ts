@@ -65,7 +65,7 @@ export async function sendTeacherNotificationEmail(params: {
 // ── Email #4 : Confirmation de souscription ─────────────────────
 export async function sendSubscriptionConfirmationEmail(data: {
   user: { firstName: string; email: string };
-  plan: 'MONTHLY' | 'LIFETIME' | 'PREMIUM' | 'PRO' | 'MAX';
+  plan: 'FREE' | 'PREMIUM' | 'PRO';
   transactionId: string;
   startDate: Date;
   nextBillingDate: Date;
@@ -83,28 +83,16 @@ export async function sendSubscriptionConfirmationEmail(data: {
       };
     }
   > = {
-    // Legacy mappings (deprecated but kept for compatibility)
-    MONTHLY: {
-      name: 'Premium',
-      price: '99 TND/mois',
+    FREE: {
+      name: 'Freemium',
+      price: 'Gratuit',
       limits: {
-        oraux: '10 / semaine',
-        corrections: '20 / mois',
-        echanges: '100 / jour',
-        analyses: '20 / mois',
+        oraux: '1 / semaine',
+        corrections: '2 / mois',
+        echanges: '3 / jour',
+        analyses: '1 / mois',
       },
     },
-    LIFETIME: {
-      name: 'Masterium',
-      price: '129 TND/mois',
-      limits: {
-        oraux: 'Illimité',
-        corrections: 'Illimité',
-        echanges: 'Illimité',
-        analyses: '50 / mois',
-      },
-    },
-    // Current mappings (aligned with UI)
     PREMIUM: {
       name: 'Premium',
       price: '99 TND/mois',
@@ -125,19 +113,9 @@ export async function sendSubscriptionConfirmationEmail(data: {
         analyses: '50 / mois',
       },
     },
-    MAX: {
-      name: 'Masterium Lifetime',
-      price: '149 TND',
-      limits: {
-        oraux: 'Illimité',
-        corrections: 'Illimité',
-        echanges: 'Illimité',
-        analyses: '50 / mois',
-      },
-    },
   };
 
-  const config = planConfig[data.plan] ?? planConfig.MONTHLY;
+  const config = planConfig[data.plan] ?? planConfig.PREMIUM;
   const fmt = (d: Date) =>
     d.toLocaleDateString('fr-FR', {
       day: 'numeric',
