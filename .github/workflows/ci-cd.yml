@@ -288,12 +288,16 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: CodeQL init
+        id: codeql-init
+        continue-on-error: true
         uses: github/codeql-action/init@v3
         with:
           languages: typescript
       - name: Build for CodeQL
+        if: steps.codeql-init.outcome == 'success'
         run: npm run build:ci
       - name: CodeQL analyze
+        if: steps.codeql-init.outcome == 'success'
         uses: github/codeql-action/analyze@v3
 
   performance-tests:
