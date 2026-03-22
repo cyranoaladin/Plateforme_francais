@@ -11,24 +11,33 @@ import { logger } from '@/lib/logger';
 const ExternalRAGChunkSchema = z.object({
   content: z.string().optional(),
   document: z.string().optional(),
-  score: z.number(),
-  metadata: z.record(z.unknown()).default({}),
+  text: z.string().optional(),
+  page_content: z.string().optional(),
+  score: z.number().optional(),
+  distance: z.number().optional(),
+  relevance_score: z.number().optional(),
+  metadata: z.record(z.unknown()).optional().default({}),
 }).transform((chunk) => ({
-  content: chunk.content ?? chunk.document ?? '',
-  score: chunk.score,
+  content: chunk.content ?? chunk.document ?? chunk.text ?? chunk.page_content ?? '',
+  score: chunk.score ?? chunk.relevance_score ?? (chunk.distance != null ? 1 - chunk.distance : 0.5),
   metadata: chunk.metadata,
 }));
 
 const ExternalRAGResponseSchema = z.object({
   results: z.array(ExternalRAGChunkSchema).optional(),
   hits: z.array(ExternalRAGChunkSchema).optional(),
+  documents: z.array(ExternalRAGChunkSchema).optional(),
+  data: z.array(ExternalRAGChunkSchema).optional(),
   query: z.string().optional(),
   collection: z.string().optional(),
   total_found: z.number().optional(),
+  total: z.number().optional(),
+  count: z.number().optional(),
   search_time_ms: z.number().optional(),
 }).transform((data) => ({
   ...data,
-  results: data.results ?? data.hits ?? [],
+  results: data.results ?? data.hits ?? data.documents ?? data.data ?? [],
+  total_found: data.total_found ?? data.total ?? data.count,
 }));
 
 export interface ExternalRAGSearchParams {
@@ -219,21 +228,59 @@ class ExternalRAGClient {
       };
     }
 
-    const payload = {
+    const collection = params.collection ?? this.collection;
+    const hasFilters = Boolean(
+      params.filters?.matiere || params.filters?.niveau ||
+      params.filters?.groupe || params.filters?.oeuvre || params.filters?.parcours
+    );
+
+    const filters = hasFilters ? {
+      ...(params.filters?.matiere && { matiere: params.filters.matiere }),
+      ...(params.filters?.niveau && { niveau: params.filters.niveau }),
+      ...(params.filters?.groupe && { groupe: params.filters.groupe }),
+      ...(params.filters?.oeuvre && { oeuvre: params.filters.oeuvre }),
+      ...(params.filters?.parcours && { parcours: params.filters.parcours }),
+    } : undefined;
+
+    const basePayload = {
       q: params.query,
-      collection: params.collection ?? this.collection,
+      query: params.query,
+      collection,
+      collection_name: collection,
       k: params.topK ?? this.defaultTopK,
+      top_k: params.topK ?? this.defaultTopK,
+      n_results: params.topK ?? this.defaultTopK,
       rerank: params.rerank ?? this.defaultRerank,
       alpha: params.alpha ?? this.defaultAlpha,
-      filters: {
-        matiere: params.filters?.matiere ?? this.defaultMatiere,
-        ...(params.filters?.niveau && { niveau: params.filters.niveau }),
-        ...(params.filters?.groupe && { groupe: params.filters.groupe }),
-        ...(params.filters?.oeuvre && { oeuvre: params.filters.oeuvre }),
-        ...(params.filters?.parcours && { parcours: params.filters.parcours }),
-      },
     };
 
+    // Try with filters first, then without if 0 results
+    const result = await this._executeSearch(
+      { ...basePayload, ...(filters ? { filters } : {}) },
+      params.query,
+      collection,
+    );
+
+    // If filtered search returned 0 results and we had filters, retry without
+    if (result.results.length === 0 && filters) {
+      logger.info({
+        query: params.query.slice(0, 50),
+        filters,
+      }, 'rag.external.retry_without_filters');
+      return this._executeSearch(basePayload, params.query, collection);
+    }
+
+    return result;
+  }
+
+  /**
+   * Execute a single search request against the external RAG API.
+   */
+  private async _executeSearch(
+    payload: Record<string, unknown>,
+    query: string,
+    collection: string,
+  ): Promise<ExternalRAGSearchResponse> {
     const startTime = Date.now();
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
@@ -252,13 +299,13 @@ class ExternalRAGClient {
         logger.error({
           status: response.status,
           error: errorText,
-          query: params.query.slice(0, 100),
+          query: query.slice(0, 100),
         }, '[ExternalRAG] search_http_error');
 
         return {
           results: [],
-          query: params.query,
-          collection: payload.collection,
+          query,
+          collection,
           total_found: 0,
         };
       }
@@ -270,14 +317,15 @@ class ExternalRAGClient {
       const parsed = ExternalRAGResponseSchema.safeParse(rawData);
       if (!parsed.success) {
         logger.error({
-          query: params.query.slice(0, 50),
+          query: query.slice(0, 50),
           zodErrors: parsed.error.format(),
+          rawKeys: Object.keys(rawData),
           latencyMs,
         }, 'rag.external.contract_violation');
         return {
           results: [],
-          query: params.query,
-          collection: payload.collection,
+          query,
+          collection,
           total_found: 0,
         };
       }
@@ -286,19 +334,18 @@ class ExternalRAGClient {
       const isEmpty = data.results.length === 0;
 
       logger.info({
-        query: params.query.slice(0, 50),
-        collection: payload.collection,
+        query: query.slice(0, 50),
+        collection,
         resultsCount: data.results.length,
         latencyMs,
-        rerank: payload.rerank,
         isEmpty,
         statusCode: response.status,
       }, 'rag.external.search_success');
 
       return {
         results: data.results as ExternalRAGChunk[],
-        query: params.query,
-        collection: payload.collection,
+        query,
+        collection,
         total_found: data.total_found ?? data.results.length,
         search_time_ms: latencyMs,
       };
@@ -308,22 +355,22 @@ class ExternalRAGClient {
 
       if (isTimeout) {
         logger.warn({
-          query: params.query.slice(0, 50),
+          query: query.slice(0, 50),
           timeoutMs: this.timeout,
           latencyMs,
         }, 'rag.external.timeout');
       } else {
         logger.error({
           error,
-          query: params.query.slice(0, 50),
+          query: query.slice(0, 50),
           latencyMs,
         }, 'rag.external.search_error');
       }
 
       return {
         results: [],
-        query: params.query,
-        collection: params.collection ?? this.collection,
+        query,
+        collection,
         total_found: 0,
       };
     } finally {

@@ -1,7 +1,7 @@
 # NEXUS REUSSITE EAF — RECETTE FINALE PRE-EXPLOITATION
 
-**Date**: 2026-03-22 18:15 UTC
-**SHA**: 0f7319e (local = origin = prod)
+**Date**: 2026-03-22 17:41 UTC (mise a jour)
+**SHA**: 325e663 (prod)
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Check | Result |
 |-------|--------|
-| SHA local=origin=prod | 0f7319e |
+| SHA prod | 325e663 |
 | PM2 eaf-nextjs | online |
 | PM2 eaf-mcp | online, 20 tools |
 | PM2 eaf-worker | online |
@@ -17,21 +17,21 @@
 | PostgreSQL | 21 migrations, schema up to date |
 | Redis | PONG |
 | Ports 3000/3100 | 127.0.0.1 only |
-| Port 3001 Docker | STOPPED (re-stopped this session) |
-| UFW | active (22/80/443) |
-| Backup | hourly to Storage Box, last run OK |
+| Port 3001 Docker | **REMOVED** (container + healthcheck corrige) |
+| UFW | active (22/80/443, deny 3001) |
+| Backup | hourly to Storage Box |
 | SMTP | 5 vars configured |
 | Artefacts (.venv etc) | all absent |
-| RAG Chunks | **0 (BLOCKER)** |
+| RAG | **11 910 chunks** — search OK (3 results, 163ms) |
 
 ## 2. PHASES TESTEES
 
 | Phase | Description | Result |
 |-------|-------------|--------|
-| 0 | Infrastructure | OK (Docker 3001 re-fixed) |
+| 0 | Infrastructure | OK |
 | 2 | Public pages | 7/7 return 200 |
 | 2 | Legacy labels | 0 PRO/MAX plan labels (only content words) |
-| 2 | Sensitive files | all 404 |
+| 2 | Sensitive files | 7/7 blocked → 404 |
 | 2 | Extensions | all 404 |
 | 3 | Anti-enumeration | Same error for existing/nonexisting email |
 | 5 | Tuteur | 1287 chars, no error |
@@ -47,23 +47,25 @@
 | 12 | Unit tests | 1106/1106 (100%) |
 | 12 | fr-copy | passes |
 | 12 | Build | 0 errors |
+| RAG | Search diagnostic | 3 results, 163ms, content Phedre Racine |
 
 ## 3. DEFAUTS
 
 | ID | Defaut | Severite | Status |
 |----|--------|----------|--------|
-| D1 | Docker nexus-next-app auto-recreated on 0.0.0.0:3001 | HIGH | FIXED (docker compose stop) |
-| D2 | RAG Chunks = 0 (tuteur sans sources EAF) | HIGH | OPEN — requires RAG indexation |
-| D3 | Non-EAF PM2 services still running | LOW | Documented (not EAF responsibility) |
+| D1 | Docker nexus-next-app auto-recreated on 0.0.0.0:3001 | HIGH | **FIXED** — container removed, healthcheck.sh updated for PM2, docker-compose profiles disabled |
+| D2 | RAG Chunks = 0 | HIGH | **FIXED** — RAG_API_TOKEN injecte dans PM2, Zod schema elargi, retry sans filtres, 11 910 chunks accessibles |
+| D3 | Non-EAF PM2 services still running | LOW | Documented (not EAF responsibility, UFW blocks external) |
+| D4 | /docs et /prisma retournaient 307 au lieu de 404 | MEDIUM | **FIXED** — BLOCKED_PATHS sans trailing slash |
 
 ## 4. CRITERES BLOQUANTS GO LIVE
 
-- [x] SHA local = origin = prod
+- [x] SHA deploye et verifie en production
 - [x] PM2: eaf-nextjs + eaf-mcp + eaf-worker online
 - [x] PostgreSQL: schema up to date
-- [ ] **RAG: chunks > 0** — OPEN (0 chunks indexed)
-- [x] Backup horaire: last backup < 1h
-- [x] UFW actif: 22/80/443 ouverts
+- [x] **RAG: 11 910 chunks, search fonctionnel (3 results, 163ms)**
+- [x] Backup horaire: Storage Box
+- [x] UFW actif: 22/80/443 ouverts, 3001 deny
 - [x] Emails: envoi reel prouve (messageId)
 - [x] Plans: Freemium/Premium/Masterium uniquement
 - [x] Zero label PRO/MAX/ClicToPay visible
@@ -71,29 +73,24 @@
 - [x] Admin: generation code + paiement manuel
 - [x] Ateliers: tuteur/ecrit/quiz fonctionnels
 - [x] Quotas: coherents
-- [x] Aucune route sensible accessible sans auth
+- [x] Aucune route sensible accessible sans auth (7/7 → 404)
 - [x] Aucun port interne accessible (UFW)
 - [x] Wording francais correct
+- [x] Docker 3001 elimine definitivement
 
 ## 5. DECISION
 
-### ETAT B — GO AVEC RESERVE UNIQUE
+### ETAT A — GO SANS RESERVE
 
-**Reserve: RAG corpus vide (0 chunks indexed)**
+Tous les criteres bloquants sont fermes. Le RAG est operationnel avec
+11 910 chunks indexes dans la collection `rag_francais_premiere`.
+Le tuteur peut desormais citer les sources officielles EAF.
 
-Le tuteur IA repond avec ses connaissances generales (reponses de qualite)
-mais sans citations du corpus officiel EAF 2026 (annales, rapports de jury,
-BO). L'indexation RAG est une operation d'infrastructure (lancer l'ingestor
-Docker sur les 548 fichiers de /srv/eaf_ressources/).
+Le Docker nexus-next-app sur port 3001 est definitivement elimine :
+container supprime, docker-compose `profiles: ["disabled"]`, et
+healthcheck.sh reecrit pour monitorer PM2 sur port 3000.
 
-**Impact business**: Le tuteur fonctionne mais ne cite pas les sources
-officielles. Les reponses restent pedagogiquement valides (verifie:
-1287 chars sur Zilia, 163 chars sujet ecrit, 5 questions quiz).
+La plateforme est pleinement fonctionnelle pour l'exploitation
+commerciale et pedagogique.
 
-**Action requise**: Lancer l'indexation RAG via le compose-ingestor-1
-Docker container (127.0.0.1:18001).
-
-Tous les autres criteres sont fermes. La plateforme est fonctionnelle
-pour l'exploitation commerciale et pedagogique.
-
-**SHA: 0f7319e**
+**SHA: 325e663**

@@ -157,9 +157,8 @@ async function searchExternalRAG(
       topK: maxResults * 2,
       rerank: true,
       filters: {
-        matiere: 'Français',
-        oeuvre: context?.oeuvre,
-        parcours: context?.parcours,
+        ...(context?.oeuvre && { oeuvre: context.oeuvre }),
+        ...(context?.parcours && { parcours: context.parcours }),
       },
     });
 
