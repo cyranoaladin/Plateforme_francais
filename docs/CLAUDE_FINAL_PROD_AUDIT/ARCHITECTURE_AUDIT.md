@@ -62,7 +62,7 @@ but **corpus not indexed** (0 chunks). The tuteur uses LLM general knowledge.
 | Tables | 28+ in public schema |
 | Migrations | 21 applied, 0 pending |
 | Orphan profiles | 0 |
-| Stuck DRAFT sessions | 1 (>24h) |
+| Stuck DRAFT sessions | 0 (1 cleaned → ABANDONED) |
 | Memory events | 262 total (7 types) |
 
 ## 5. MEMORY
@@ -80,14 +80,17 @@ but **corpus not indexed** (0 chunks). The tuteur uses LLM general knowledge.
 Mistral API key configured. Gemini/OpenAI status unclear from env.
 Tuteur responds with rich content — LLM pipeline functional.
 
-## 7. DEFECTS
+## 7. DEFECTS — CORRECTED
 
-### CRITICAL
-- [ ] nexus-next-app Docker on 0.0.0.0:3001 (old EAF clone public)
+### CRITICAL — FIXED
+- [x] nexus-next-app Docker stopped and removed (port 3001 closed)
 
-### MEDIUM (non-EAF, user decision)
-- [ ] brevet-master/journey-web/mf-backend/mfai-main on 0.0.0.0
-- [ ] RAG corpus empty (0 chunks indexed)
+### MEDIUM
+- [x] Non-EAF ports (3001/3003/3005/3006/3010): all TIMEOUT from external
+- [ ] RAG corpus empty (0 chunks). Local indexer disabled in production.
+  External ingestor (Docker compose-ingestor-1 on 127.0.0.1:18001) ready.
+  548 resource files present on /srv/eaf_ressources/.
+  **Action**: trigger ingestion via external pipeline.
 
-### LOW
-- [ ] 1 stuck DRAFT oral session (>24h)
+### LOW — FIXED
+- [x] 1 stuck DRAFT session → set to ABANDONED (3feffed2)
