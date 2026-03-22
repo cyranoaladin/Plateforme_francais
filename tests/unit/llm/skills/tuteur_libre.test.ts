@@ -11,6 +11,6 @@ describe('skill tuteur_libre', () => {
     const prompt = skillConfigs.tuteur_libre.prompt.toLowerCase();
     expect(prompt).toContain('citation');
     expect(prompt).toContain('liens externes');
-    expect(prompt).toContain('refuse poliment');
+    expect(prompt).toContain('ne peux pas rédiger');
   });
 });
