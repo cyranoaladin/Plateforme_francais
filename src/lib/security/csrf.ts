@@ -36,13 +36,13 @@ export async function validateCsrf(request: Request) {
   const headerToken = request.headers.get(CSRF_HEADER);
 
   if (!cookieToken || !headerToken) {
-    return NextResponse.json({ error: 'Jeton CSRF manquant.' }, { status: 403 });
+    return NextResponse.json({ error: 'Ta session a expiré. Recharge la page pour continuer.', code: 'CSRF_INVALID' }, { status: 403 });
   }
 
   const left = Buffer.from(createHash('sha256').update(cookieToken).digest('hex'));
   const right = Buffer.from(createHash('sha256').update(headerToken).digest('hex'));
   if (left.length !== right.length || !timingSafeEqual(left, right)) {
-    return NextResponse.json({ error: 'Jeton CSRF invalide.' }, { status: 403 });
+    return NextResponse.json({ error: 'Ta session a expiré. Recharge la page pour continuer.', code: 'CSRF_INVALID' }, { status: 403 });
   }
 
   return null;
