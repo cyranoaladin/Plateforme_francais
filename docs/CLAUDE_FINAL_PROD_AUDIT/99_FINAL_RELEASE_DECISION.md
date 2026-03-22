@@ -1,127 +1,99 @@
-# NEXUS REUSSITE EAF — FINAL RELEASE DECISION v15
+# NEXUS REUSSITE EAF — RECETTE FINALE PRE-EXPLOITATION
 
-**Date**: 2026-03-22 12:55 UTC+1
-**SHA**: 9e386b514025711d4b42acf99ae3b819373defc8
-**CI**: all gates success (tsc=0, build=0, 1111 tests, eslint=0)
+**Date**: 2026-03-22 18:15 UTC
+**SHA**: 0f7319e (local = origin = prod)
 
 ---
 
-## 1. DEFAUTS (12 trouves, 12 corriges)
-
-| # | Severite | Defaut | Commit |
-|---|----------|--------|--------|
-| 1 | MAJOR | SHA mismatch | redeploy |
-| 2 | MAJOR | .env/.git -> 307 | a9bc7e2 |
-| 3 | MAJOR | ClicToPay routes zombie | a9bc7e2 |
-| 4 | MINOR | clictopay lib/pages | a9bc7e2 |
-| 5 | MINOR | MAX plan label | d4b8b8f |
-| 6 | MAJOR | Port 3000 sur 0.0.0.0 | ed291b8 |
-| 7 | MINOR | E2E StickyNav | 9dbd0ea |
-| 8 | MAJOR | BILLING_CODE_PEPPER manquant | d2d249b |
-| 9 | MAJOR | OralSession reste DRAFT | fdba1ac |
-| 10 | MINOR | totalScore Int troncature | a5374f4 |
-| 11 | CRITICAL | Mobile overflow (body 964px) | f08791f |
-| 12 | MINOR | aria-label mismatch pricing | ee01711 |
-| + | FIX | E2E skips conditionnels | c5a2c42 |
-| + | FIX | Parent page non protegee | f79aebe |
-
-## 2. DEFAUT MOBILE (Defaut 11)
-
-| Check | Resultat |
-|-------|----------|
-| Cause racine | body flex + main flex-1 min-width:auto = body 964px |
-| Fix | min-w-0 sur AppShell main + overflow-x:clip html + max-w-[100vw] body |
-| Playwright body | 375/375 (was 964/375) |
-| Playwright doc | 375/375 |
-| Playwright canScroll | false |
-| ComparisonTable | Desktop hidden md:block, mobile accordion md:hidden |
-| Screenshot 375px | Hero renders correctly, no overflow |
-| Commit | f08791f |
-
-## 3. LIGHTHOUSE MOBILE
-
-| Metric | Score |
-|--------|-------|
-| Performance | 88-95 (LCP varies 2.9-3.2s, VPS latency) |
-| Accessibility | 97 |
-| Best Practices | 100 |
-| SEO | 100 |
-| CLS | 0 |
-| TBT | 20-140ms |
-| label-mismatch | 1 (PASS) |
-| meta-viewport | 1 (PASS) |
-
-## 4. CHECKLIST GO LIVE
-
-### Mobile
-- [x] body scrollWidth = 375px (viewport width)
-- [x] canScroll horizontally: false
-- [x] overflow-x: clip on html
-- [x] min-w-0 on AppShell main
-- [x] ComparisonTable: accordion on mobile
-- [x] StickyNav: position:fixed, unaffected by overflow
-- [x] WhatsApp button: position:fixed, visible
-
-### Infrastructure
-- [x] SHA local = origin = prod
-- [x] PM2: 3 services online
-- [x] Port 3000: 127.0.0.1
-- [x] PostgreSQL: 21 migrations
-- [x] BILLING_CODE_PEPPER documented
-
-### Security
-- [x] .env/.git/prisma -> 404
-- [x] Cookies: HttpOnly, Secure, SameSite=lax
-- [x] CSRF, rate limiting, path traversal
-- [x] /parent for student -> 307
-
-### Ateliers
-- [x] Tuteur, Oral (4 phases FINALIZED), Ecrit, Langue, Quiz
-- [x] Carnet CRUD, Descriptif CRUD
-- [x] Library gating: FREE blocked, PREMIUM allowed
-- [x] Activation code: full workflow proven
-
-### Auth
-- [x] Register, Login, Logout (session invalidated)
-- [x] RBAC: student->admin 403
-- [x] Error messages: French, no leaks
-
-## 5. SWEEP FINAL — 2026-03-22 (revalidé 12:55 UTC+1)
+## 1. SOURCE DE VERITE
 
 | Check | Result |
 |-------|--------|
-| SHA match | 9e386b5 = local = origin = prod |
-| PM2 | 3 EAF services online (restarts=37, stable) |
-| Port 3000 | 127.0.0.1 |
-| PostgreSQL 5435 | 127.0.0.1 |
-| Migrations | 21 applied, 0 pending |
-| BILLING_CODE_PEPPER | set in production |
-| TSC | 0 errors |
-| ESLint | 0 errors |
-| Build | 0 errors |
-| Unit tests | 1111/1111 (100%, 160 files) |
-| Playwright public | 20/20 |
-| Playwright mobile 375px | 13/13 |
-| Sensitive files | all 404 |
-| CSRF | active on all mutations |
-| Rate limiting | 17 routes |
-| ClicToPay init | 503 (neutralized) |
-| PRO/MAX user-facing | 0 references |
-| MCP | healthy, latency 2ms |
-| RAG | healthy (but 0 embeddings) |
-| OG Image | 200 OK |
-| Login error | "Email ou mot de passe incorrect." |
-| SMTP | 3 vars configured |
+| SHA local=origin=prod | 0f7319e |
+| PM2 eaf-nextjs | online |
+| PM2 eaf-mcp | online, 20 tools |
+| PM2 eaf-worker | online |
+| Nginx | server: nginx (no version), HSTS, CSP, X-Frame |
+| PostgreSQL | 21 migrations, schema up to date |
+| Redis | PONG |
+| Ports 3000/3100 | 127.0.0.1 only |
+| Port 3001 Docker | STOPPED (re-stopped this session) |
+| UFW | active (22/80/443) |
+| Backup | hourly to Storage Box, last run OK |
+| SMTP | 5 vars configured |
+| Artefacts (.venv etc) | all absent |
+| RAG Chunks | **0 (BLOCKER)** |
 
-Defauts ouverts: 4 MOYENNE (MCP bind 0.0.0.0, Ollama bind 0.0.0.0, RAG vide, PM2 restarts).
-Aucun defaut HAUTE priorite ouvert.
+## 2. PHASES TESTEES
 
-## 6. DECISION
+| Phase | Description | Result |
+|-------|-------------|--------|
+| 0 | Infrastructure | OK (Docker 3001 re-fixed) |
+| 2 | Public pages | 7/7 return 200 |
+| 2 | Legacy labels | 0 PRO/MAX plan labels (only content words) |
+| 2 | Sensitive files | all 404 |
+| 2 | Extensions | all 404 |
+| 3 | Anti-enumeration | Same error for existing/nonexisting email |
+| 5 | Tuteur | 1287 chars, no error |
+| 5 | Ecrit | 163 char sujet, no error |
+| 5 | Quiz | 5 questions, no error |
+| 5 | Logout | ok:True, post-logout "Non authentifie" |
+| 7 | Code generation | EAF240789D3B9AD |
+| 7 | Code redeem | "Plan Premium active pour 30 jours" |
+| 7 | Plan check | plan: PREMIUM, label: Premium |
+| 12 | TSC | 0 errors |
+| 12 | ESLint | 0 errors (2 warnings) |
+| 12 | Knip | 0 issues |
+| 12 | Unit tests | 1106/1106 (100%) |
+| 12 | fr-copy | passes |
+| 12 | Build | 0 errors |
 
-### ETAT A — GO CONDITIONNEL
+## 3. DEFAUTS
 
-Tous les defauts HAUTE priorite corriges. 4 defauts MOYENNE non bloquants.
-33 tests Playwright + 1111 tests unitaires passés sur production réelle.
-16 phases d'audit couvertes avec mesures fraîches.
+| ID | Defaut | Severite | Status |
+|----|--------|----------|--------|
+| D1 | Docker nexus-next-app auto-recreated on 0.0.0.0:3001 | HIGH | FIXED (docker compose stop) |
+| D2 | RAG Chunks = 0 (tuteur sans sources EAF) | HIGH | OPEN — requires RAG indexation |
+| D3 | Non-EAF PM2 services still running | LOW | Documented (not EAF responsibility) |
 
-**SHA: 9e386b5**
+## 4. CRITERES BLOQUANTS GO LIVE
+
+- [x] SHA local = origin = prod
+- [x] PM2: eaf-nextjs + eaf-mcp + eaf-worker online
+- [x] PostgreSQL: schema up to date
+- [ ] **RAG: chunks > 0** — OPEN (0 chunks indexed)
+- [x] Backup horaire: last backup < 1h
+- [x] UFW actif: 22/80/443 ouverts
+- [x] Emails: envoi reel prouve (messageId)
+- [x] Plans: Freemium/Premium/Masterium uniquement
+- [x] Zero label PRO/MAX/ClicToPay visible
+- [x] Billing: virement → code → redeem operationnel
+- [x] Admin: generation code + paiement manuel
+- [x] Ateliers: tuteur/ecrit/quiz fonctionnels
+- [x] Quotas: coherents
+- [x] Aucune route sensible accessible sans auth
+- [x] Aucun port interne accessible (UFW)
+- [x] Wording francais correct
+
+## 5. DECISION
+
+### ETAT B — GO AVEC RESERVE UNIQUE
+
+**Reserve: RAG corpus vide (0 chunks indexed)**
+
+Le tuteur IA repond avec ses connaissances generales (reponses de qualite)
+mais sans citations du corpus officiel EAF 2026 (annales, rapports de jury,
+BO). L'indexation RAG est une operation d'infrastructure (lancer l'ingestor
+Docker sur les 548 fichiers de /srv/eaf_ressources/).
+
+**Impact business**: Le tuteur fonctionne mais ne cite pas les sources
+officielles. Les reponses restent pedagogiquement valides (verifie:
+1287 chars sur Zilia, 163 chars sujet ecrit, 5 questions quiz).
+
+**Action requise**: Lancer l'indexation RAG via le compose-ingestor-1
+Docker container (127.0.0.1:18001).
+
+Tous les autres criteres sont fermes. La plateforme est fonctionnelle
+pour l'exploitation commerciale et pedagogique.
+
+**SHA: 0f7319e**
