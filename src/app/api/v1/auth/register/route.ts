@@ -9,7 +9,7 @@ import {
 import { type StudentProfile } from '@/lib/auth/types';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createUser, findUserByEmail } from '@/lib/db/repositories/userRepo';
-import { sendWelcomeEmail } from '@/lib/email/service';
+import { sendWelcomeEmail, sendParentNotificationEmail, sendTeacherNotificationEmail } from '@/lib/email/service';
 import { generateConsentToken, sendParentalConsentEmail } from '@/lib/email/parental-consent';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
@@ -155,6 +155,41 @@ export async function POST(request: Request) {
         );
       });
     }
+  }
+
+  // Notification email parent (non bloquant)
+  if (parentEmail) {
+    sendParentNotificationEmail({
+      parentEmail,
+      studentFirstName: firstName,
+      studentClass: DEFAULT_PROFILE.classLevel,
+    }).then((result) => {
+      if (result.success) {
+        logger.info({ emailId: result.id, to: parentEmail, type: 'parent-notification' }, 'E-mail parent envoyé avec succès');
+      } else {
+        logger.warn({ to: parentEmail, error: result.error, type: 'parent-notification' }, 'Échec envoi e-mail parent (non bloquant)');
+      }
+    }).catch((err) => {
+      logger.error({ err, to: parentEmail, type: 'parent-notification' }, 'Erreur inattendue envoi e-mail parent');
+    });
+  }
+
+  // Notification email enseignant (non bloquant)
+  if (teacherEmail) {
+    sendTeacherNotificationEmail({
+      teacherEmail,
+      studentFirstName: firstName,
+      studentLastName: displayName.split(' ').slice(1).join(' '),
+      studentClass: DEFAULT_PROFILE.classLevel,
+    }).then((result) => {
+      if (result.success) {
+        logger.info({ emailId: result.id, to: teacherEmail, type: 'teacher-notification' }, 'E-mail enseignant envoyé avec succès');
+      } else {
+        logger.warn({ to: teacherEmail, error: result.error, type: 'teacher-notification' }, 'Échec envoi e-mail enseignant (non bloquant)');
+      }
+    }).catch((err) => {
+      logger.error({ err, to: teacherEmail, type: 'teacher-notification' }, 'Erreur inattendue envoi e-mail enseignant');
+    });
   }
 
   const response = NextResponse.json({ ok: true }, { status: 201 });
