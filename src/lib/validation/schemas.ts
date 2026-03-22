@@ -140,6 +140,8 @@ export const studentProfileBodySchema = z.object({
   badges: z.array(z.string().trim().min(1).max(120)).optional(),
   preferredObjects: z.array(z.string().trim().min(1).max(120)).optional(),
   weakSkills: z.array(z.string().trim().min(1).max(120)).optional(),
+  parentEmail: z.string().trim().email('Adresse e-mail invalide.').optional().nullable(),
+  teacherEmail: z.string().trim().email('Adresse e-mail invalide.').optional().nullable(),
 });
 
 export const parcoursGenerateBodySchema = z.object({

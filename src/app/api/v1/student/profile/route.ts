@@ -4,6 +4,8 @@ import { type StudentProfile } from '@/lib/auth/types';
 import { listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
+import { sendParentNotificationEmail, sendTeacherNotificationEmail } from '@/lib/email/service';
+import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -106,6 +108,9 @@ export async function PUT(request: Request) {
     weakSkills: parsed.data.weakSkills ?? auth.user.profile.weakSkills,
   };
 
+  const oldParentEmail = auth.user.profile.parentEmail as string | null | undefined;
+  const oldTeacherEmail = auth.user.profile.teacherEmail as string | null | undefined;
+
   await updateUserProfile(auth.user.id, nextProfile);
 
   await createMemoryEventRecord(
@@ -114,6 +119,32 @@ export async function PUT(request: Request) {
       feature: 'profile_update',
     }),
   );
+
+  // Send notification if parentEmail was added or changed
+  const newParentEmail = nextProfile.parentEmail as string | null | undefined;
+  if (newParentEmail && newParentEmail !== oldParentEmail) {
+    sendParentNotificationEmail({
+      parentEmail: newParentEmail,
+      studentFirstName: nextProfile.displayName?.split(' ')[0] ?? '',
+    }).then((r) => {
+      if (r.success) logger.info({ emailId: r.id, type: 'parent-notification-profile' }, 'E-mail parent envoyé depuis mise à jour profil');
+    }).catch((err) => {
+      logger.error({ err, type: 'parent-notification-profile' }, 'Échec envoi e-mail parent depuis profil');
+    });
+  }
+
+  // Send notification if teacherEmail was added or changed
+  const newTeacherEmail = nextProfile.teacherEmail as string | null | undefined;
+  if (newTeacherEmail && newTeacherEmail !== oldTeacherEmail) {
+    sendTeacherNotificationEmail({
+      teacherEmail: newTeacherEmail,
+      studentFirstName: nextProfile.displayName?.split(' ')[0] ?? '',
+    }).then((r) => {
+      if (r.success) logger.info({ emailId: r.id, type: 'teacher-notification-profile' }, 'E-mail enseignant envoyé depuis mise à jour profil');
+    }).catch((err) => {
+      logger.error({ err, type: 'teacher-notification-profile' }, 'Échec envoi e-mail enseignant depuis profil');
+    });
+  }
 
   return NextResponse.json(nextProfile, { status: 200 });
 }
