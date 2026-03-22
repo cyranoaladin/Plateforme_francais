@@ -1,7 +1,7 @@
 # NEXUS REUSSITE EAF — RECETTE FINALE PRE-EXPLOITATION
 
-**Date**: 2026-03-22 23:30 UTC (DEFINITIF)
-**SHA**: 3cd7186 (local = origin = prod)
+**Date**: 2026-03-23 00:00 UTC (RECETTE COMPLÈTE 99/99)
+**SHA**: 2c219a7 (local = origin = prod)
 
 ---
 
@@ -93,4 +93,4 @@ healthcheck.sh reecrit pour monitorer PM2 sur port 3000.
 La plateforme est pleinement fonctionnelle pour l'exploitation
 commerciale et pedagogique.
 
-**SHA: 3cd7186**
+**SHA: 2c219a7**
