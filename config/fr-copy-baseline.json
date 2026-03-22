@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T22:55:21.050Z",
+  "generatedAt": "2026-03-22T23:55:07.024Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -577,7 +577,7 @@
     },
     {
       "file": "src/app/api/v1/billing/status/route.ts",
-      "line": 9,
+      "line": 10,
       "column": 39,
       "kind": "api-message",
       "text": "Non authentifié."
