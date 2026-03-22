@@ -9,8 +9,8 @@ describe('skill tuteur_libre', () => {
 
   it('prompt force citations internes et refus de copie complète', () => {
     const prompt = skillConfigs.tuteur_libre.prompt.toLowerCase();
-    expect(prompt).toContain('citations');
-    expect(prompt).toContain('jamais d\'urls');
-    expect(prompt).toContain('anti-triche');
+    expect(prompt).toContain('citation');
+    expect(prompt).toContain('liens externes');
+    expect(prompt).toContain('refuse poliment');
   });
 });

@@ -8,6 +8,7 @@ import { createEpreuve } from '@/lib/epreuves/repository';
 import { type EpreuveType } from '@/lib/epreuves/types';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { searchOfficialReferences, formatRagContextForPrompt } from '@/lib/rag/search';
 import { QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { validateCsrf } from '@/lib/security/csrf';
@@ -76,17 +77,29 @@ export async function POST(request: Request) {
   }
 
   const ocrQuota = billing.config.quotas.OCR_COPIES;
-  if (ocrQuota && ocrQuota.limit === 0) {
-    return NextResponse.json(
-      {
-        error: `Le dépôt de copies n'est pas inclus dans le plan ${PLAN_DISPLAY_LABELS[billing.planId]}. Passe à Premium ou Masterium pour déposer tes copies et recevoir une correction détaillée.`,
-        code: 'QUOTA_EXCEEDED',
-        upgradeUrl: '/pricing',
-        plan: billing.planId,
-      },
-      { status: 402 },
-    );
+  if (ocrQuota) {
+    const ocrAvailability = await checkBillingQuota(auth.user.id, 'OCR_COPIES', ocrQuota);
+    if (!ocrAvailability.allowed) {
+      return NextResponse.json(
+        {
+          error: `Tu as atteint la limite de copies (${ocrQuota.limit} par mois, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour déposer plus de copies.`,
+          code: 'QUOTA_EXCEEDED',
+          upgradeUrl: '/pricing',
+          plan: billing.planId,
+        },
+        { status: 402 },
+      );
+    }
   }
+
+  // Fetch RAG context for subject generation (texts, jury reports, methodology)
+  const ragQuery = parsed.data.oeuvre
+    ? `sujet ${type} ${parsed.data.oeuvre} ${parsed.data.theme ?? ''}`
+    : `sujet ${type} EAF baccalauréat français ${parsed.data.theme ?? ''}`;
+  const ragResults = await searchOfficialReferences(ragQuery, 4, {
+    oeuvre: parsed.data.oeuvre,
+  });
+  const ragContext = formatRagContextForPrompt(ragResults);
 
   let result: unknown;
   try {
@@ -95,8 +108,10 @@ export async function POST(request: Request) {
       userId: auth.user.id,
       workId: parsed.data.oeuvre,
       userQuery: `Génère un sujet de type ${type}. Oeuvre: ${parsed.data.oeuvre ?? 'libre'}. Thème: ${parsed.data.theme ?? 'libre'}.`,
-      context:
-        `La sortie JSON doit inclure: sujet, texte, consignes, bareme en points sur 20. Type demandé: ${type}.`,
+      context: [
+        `Type demandé: ${type}.`,
+        ragContext.length > 0 ? `Sources RAG disponibles:\n${ragContext}` : '',
+      ].filter(Boolean).join('\n\n'),
     });
   } catch (error) {
     if (error instanceof QuotaExceededError) {

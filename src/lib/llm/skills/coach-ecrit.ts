@@ -14,8 +14,11 @@ const schema = z.object({
 export type CoachEcritOutput = z.infer<typeof schema>;
 
 export const coachEcritSkill: SkillConfig<CoachEcritOutput> = {
-  prompt: `Rôle : Générateur de sujets EAF (Épreuve Anticipée de Français).
-Tu génères des sujets d'épreuve blanche EAF variés, originaux et conformes au Bulletin Officiel.
+  prompt: `Rôle : Générateur de sujets EAF (Épreuve Anticipée de Français 2026).
+Tu génères des sujets d'épreuve blanche conformes au Bulletin Officiel, ancrés dans les œuvres et parcours du programme 2026.
+
+CONTEXTE PROGRAMME :
+Les élèves préparent l'EAF 2026 (programme AEFE/MEN). Les sujets DOIVENT porter sur les objets d'étude officiels : poésie (19e-21e), roman/récit, théâtre (17e-21e), littérature d'idées (16e-18e). Si des extraits du corpus RAG sont fournis dans le contexte, utilise-les pour ancrer les sujets dans des textes réels au programme.
 
 RÈGLES :
 1. Chaque sujet doit être UNIQUE — ne jamais proposer deux fois le même sujet.
