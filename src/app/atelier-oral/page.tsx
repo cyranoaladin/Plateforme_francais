@@ -250,6 +250,7 @@ export default function AtelierOralPage() {
   });
   const [bilan, setBilan] = useState<BilanResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [upgradeUrl, setUpgradeUrl] = useState<string | null>(null);
   const [badgeToasts, setBadgeToasts] = useState<string[]>([]);
   const [examinerProfile, setExaminerProfile] = useState<ExaminerProfile>('NEUTRE');
   const [juryTurns, setJuryTurns] = useState<JuryTurn[]>([]);
@@ -326,6 +327,7 @@ export default function AtelierOralPage() {
       });
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
+        if (errData.upgradeUrl) setUpgradeUrl(errData.upgradeUrl);
         throw new Error(errData.error || 'Impossible de démarrer la session orale.');
       }
       const payload = (await response.json()) as SessionPayload;
@@ -594,8 +596,13 @@ export default function AtelierOralPage() {
       </section>
 
       {error && (
-        <div data-testid="error-alert" className="rounded-[24px] border border-[#f0c7bf] bg-[var(--error-bg)] px-5 py-4 text-sm text-[var(--error-text-bright)]" role="alert">
-          {error}
+        <div data-testid="error-alert" className="space-y-3 rounded-[24px] border border-[#f0c7bf] bg-[var(--error-bg)] px-5 py-4 text-sm text-[var(--error-text-bright)]" role="alert">
+          <p>{error}</p>
+          {upgradeUrl && (
+            <Link href={upgradeUrl} className="inline-flex items-center gap-2 rounded-2xl bg-[var(--sapphire)] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.02]">
+              Découvrir les plans
+            </Link>
+          )}
         </div>
       )}
 

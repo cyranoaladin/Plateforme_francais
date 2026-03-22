@@ -75,6 +75,7 @@ export default function QuizPage() {
 
   const [badgeToasts, setBadgeToasts] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [upgradeUrl, setUpgradeUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [activeThemeLabel, setActiveThemeLabel] = useState<string | null>(null);
 
@@ -118,8 +119,9 @@ export default function QuizPage() {
       });
 
       if (!response.ok) {
-        const body = (await response.json().catch(() => ({}))) as { error?: string };
+        const body = (await response.json().catch(() => ({}))) as { error?: string; upgradeUrl?: string };
         setError(body.error ?? 'La génération du quiz n\'a pas abouti. Réessaie dans un instant.');
+        if (body.upgradeUrl) setUpgradeUrl(body.upgradeUrl);
         return;
       }
       const payload = (await response.json()) as { questions: QuizQuestion[]; theme?: string };
@@ -230,12 +232,19 @@ export default function QuizPage() {
       </section>
 
       {error && (
-        <StateNotice
-          title="Le quiz n’a pas pu être généré"
-          description={error}
-          variant="error"
-          icon={Brain}
-        />
+        <div className="space-y-3">
+          <StateNotice
+            title={upgradeUrl ? "Limite de ton plan atteinte" : "Le quiz n’a pas pu être généré"}
+            description={error}
+            variant={upgradeUrl ? "warning" : "error"}
+            icon={Brain}
+          />
+          {upgradeUrl && (
+            <Link href={upgradeUrl} className="inline-flex items-center gap-2 rounded-2xl bg-[var(--sapphire)] px-5 py-3 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.02]">
+              Découvrir les plans
+            </Link>
+          )}
+        </div>
       )}
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">

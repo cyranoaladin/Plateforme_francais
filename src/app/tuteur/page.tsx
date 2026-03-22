@@ -92,8 +92,10 @@ function TuteurPageContent() {
       });
 
       if (!response.ok) {
-        const errBody = await response.json().catch(() => ({}));
-        throw new Error(errBody.error || 'Échec de réponse du guidage.');
+        const errBody = await response.json().catch(() => ({} as Record<string, unknown>));
+        const errMsg = (errBody.error as string) || 'Échec de réponse du guidage.';
+        const upgradeHint = errBody.upgradeUrl ? '\n\n→ Découvre les plans sur la page Tarifs pour continuer.' : '';
+        throw new Error(errMsg + upgradeHint);
       }
 
       const payload = (await response.json()) as {
