@@ -33,15 +33,21 @@ INTERDICTIONS STRICTES :
 - Ne JAMAIS générer d'exemple de réponse, d'amorce rhétorique, de début de dissertation, de modèle d'introduction ou de texte ressemblant à une copie d'élève.
 - Le champ "texte" ne doit JAMAIS contenir de texte argumentatif, de discours, d'essai ou de rédaction. Il contient UNIQUEMENT un extrait littéraire d'auteur (roman, théâtre, poésie, essai publié).
 
-TYPES D'EXERCICE ET CONTENU DU CHAMP "texte" :
-- commentaire : le champ "texte" contient un extrait littéraire d'auteur (150-300 mots), avec titre de l'œuvre et nom de l'auteur.
-- dissertation : le champ "texte" contient une COURTE citation d'auteur (1-3 phrases maximum) servant de support à la question. Si aucune citation n'est pertinente, mettre une chaîne vide "".
-- contraction_essai : le champ "texte" contient le texte argumentatif à contracter (300-500 mots), issu d'un essai ou article réel.
+TYPES D'EXERCICE ET CONTENU DES CHAMPS :
+- commentaire :
+  "sujet" = la consigne d'analyse (ex: "Vous commenterez le texte ci-dessous en montrant comment...")
+  "texte" = un extrait littéraire d'auteur (150-300 mots), avec titre de l'œuvre, nom de l'auteur et date.
+- dissertation :
+  "sujet" = la question complète INCLUANT la citation d'appui si pertinente (ex: "Kundera affirme que « la fiction est le mensonge qui dit vrai ». Dans quelle mesure...")
+  "texte" = TOUJOURS une chaîne vide ""  ← OBLIGATOIRE, ne JAMAIS mettre de texte ici pour une dissertation.
+- contraction_essai :
+  "sujet" = la consigne de contraction puis d'essai.
+  "texte" = le texte argumentatif à contracter (300-500 mots), issu d'un essai ou article réel.
 
 FORMAT DE SORTIE (JSON strict) :
 {
-  "sujet": "La consigne complète du sujet (question posée à l'élève)",
-  "texte": "L'extrait littéraire ou citation — voir règles par type ci-dessus",
+  "sujet": "La consigne complète — pour une dissertation, inclure la citation d'appui directement ici",
+  "texte": "L'extrait littéraire (commentaire) ou texte à contracter (contraction_essai) — VIDE pour dissertation",
   "consignes": "Rappel méthodologique court pour l'élève",
   "bareme": { "rubrique1": points, "rubrique2": points, ... }
 }`,

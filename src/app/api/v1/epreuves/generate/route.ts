@@ -81,7 +81,7 @@ export async function POST(request: Request) {
       workId: parsed.data.oeuvre,
       userQuery: `Génère un sujet de type ${type}. Oeuvre: ${parsed.data.oeuvre ?? 'libre'}. Thème: ${parsed.data.theme ?? 'libre'}.`,
       context:
-        'La sortie JSON doit inclure: sujet, texte, consignes (durée 4h, rappel barème), bareme en points sur 20.',
+        `La sortie JSON doit inclure: sujet, texte, consignes, bareme en points sur 20. Type demandé: ${type}.`,
     });
   } catch (error) {
     if (error instanceof QuotaExceededError) {
@@ -99,11 +99,15 @@ export async function POST(request: Request) {
     bareme: Record<string, number>;
   };
 
+  // For dissertations, texte must be empty — any citation belongs in the sujet field.
+  // This is a server-side safeguard in case the LLM ignores the prompt instruction.
+  const texte = type === 'dissertation' ? '' : generation.texte;
+
   const epreuve = await createEpreuve({
     userId: auth.user.id,
     type,
     sujet: generation.sujet,
-    texte: generation.texte,
+    texte,
     consignes: generation.consignes,
     bareme: generation.bareme,
   });
