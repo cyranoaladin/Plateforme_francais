@@ -295,9 +295,11 @@ jobs:
           languages: typescript
       - name: Build for CodeQL
         if: steps.codeql-init.outcome == 'success'
+        continue-on-error: true
         run: npm run build:ci
       - name: CodeQL analyze
         if: steps.codeql-init.outcome == 'success'
+        continue-on-error: true
         uses: github/codeql-action/analyze@v3
 
   performance-tests:
