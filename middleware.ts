@@ -103,7 +103,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
 }
 
 /** Paths that must never be served — return 404 immediately. */
-const BLOCKED_PATHS = ['.env', '.git', 'prisma', '.antigravity', '.windsurfrules', 'ecosystem.config', 'package.json', 'package-lock.json', 'tsconfig', 'next.config', 'readme', 'runbook', 'docs', '.ds_store', '.htaccess', 'wp-admin', 'wp-login', 'phpmyadmin', 'adminer', 'server-status', 'actuator', 'docker-compose', '.venv', 'ui_ux', '.windsurf', '.claude', '.vscode', 'forensics', 'stryker', 'proxy.ts', 'dockerfile', 'netlify.toml', 'vercel.json', 'cahier_charges', 'audit_', 'addendum_', 'prompt_claude', 'scripts', 'coverage', 'test-results', '.vitest', '.release.env', '.build_time', '.git_sha'];
+const BLOCKED_PATHS = ['.env', '.git', 'prisma', '.antigravity', '.windsurfrules', 'ecosystem.config', 'package.json', 'package-lock.json', 'tsconfig', 'next.config', 'readme', 'runbook', 'docs', '.ds_store', '.htaccess', 'wp-admin', 'wp-login', 'phpmyadmin', 'adminer', 'server-status', 'actuator', 'docker-compose', '.venv', 'ui_ux', '.windsurf', '.claude', '.vscode', 'forensics', 'stryker', 'proxy.ts', 'dockerfile', 'netlify.toml', 'vercel.json', 'cahier_charges', 'audit_', 'addendum_', 'prompt_claude', 'scripts', 'coverage', 'test-results', '.vitest', '.release.env', '.build_time', '.git_sha', '.superpowers', 'packages'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
