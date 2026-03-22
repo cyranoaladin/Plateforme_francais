@@ -108,9 +108,13 @@ const BLOCKED_PATHS = ['.env', '.git', 'prisma/', '.antigravity/', '.windsurfrul
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Block access to sensitive dotfiles and config
+  // Block access to sensitive dotfiles, config, and dangerous extensions
   const lowerPath = pathname.toLowerCase();
   if (BLOCKED_PATHS.some(p => lowerPath.startsWith('/' + p) || lowerPath === '/' + p)) {
+    return new NextResponse('Not Found', { status: 404 });
+  }
+  // Block dangerous file extensions
+  if (/\.(log|sh|py|sql|dump|bak|backup|old|orig|swp|env)$/i.test(pathname)) {
     return new NextResponse('Not Found', { status: 404 });
   }
 
