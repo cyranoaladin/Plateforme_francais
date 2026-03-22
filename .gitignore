@@ -61,3 +61,36 @@ next-env.d.ts
 .vitest-unit-report.json
 forensics/
 eaf.code-workspace
+
+# IDE and local tools
+.claude/
+.vscode/
+.windsurf/
+.windsurf_audit_logs/
+*.code-workspace
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Snapshots and forensics
+forensics/
+tests/visual/*-snapshots/
+eaf_arborescence_*.txt
+
+# Temp files
+*.bak
+*.backup
+*.old
+*.orig
+*.swp
+.DS_Store
+
+# Internal docs not for prod
+UI_UX/
+docs/V3_0_*/
+docs/WINDSURF_*/
+docs/FINAL_*/
+docs/golden_tests_*/
