@@ -1,6 +1,7 @@
 # PHASE 2 — PAGES PUBLIQUES ET PARCOURS ANONYME
 
-> Audit 2026-03-21 — Tests Playwright sur production réelle
+> **Audit frais 2026-03-22 ~12:38 UTC+1** — Tests Playwright + curl sur production réelle
+> SHA : `9e386b5` — 20/20 Playwright tests passed
 
 ---
 

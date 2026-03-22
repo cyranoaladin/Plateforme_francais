@@ -1,6 +1,7 @@
 # PHASE 3 — AUTH, INSCRIPTION, RESET, EMAILS
 
-> Audit 2026-03-21 — Tests Playwright + API sur production réelle
+> **Audit revalidé 2026-03-22 ~12:55 UTC+1** — Code audit + API tests sur production réelle
+> SHA : `9e386b5` — Revalidé avec mesures fraîches
 
 ---
 

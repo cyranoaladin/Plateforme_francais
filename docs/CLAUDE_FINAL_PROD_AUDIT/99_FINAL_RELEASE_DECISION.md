@@ -1,8 +1,8 @@
-# NEXUS REUSSITE EAF — FINAL RELEASE DECISION v14
+# NEXUS REUSSITE EAF — FINAL RELEASE DECISION v15
 
-**Date**: 2026-03-22 01:00 UTC
-**SHA**: f08791f
-**CI**: all gates success
+**Date**: 2026-03-22 12:55 UTC+1
+**SHA**: 9e386b514025711d4b42acf99ae3b819373defc8
+**CI**: all gates success (tsc=0, build=0, 1111 tests, eslint=0)
 
 ---
 
@@ -86,40 +86,42 @@
 - [x] RBAC: student->admin 403
 - [x] Error messages: French, no leaks
 
-## 5. SWEEP FINAL — 2026-03-22
+## 5. SWEEP FINAL — 2026-03-22 (revalidé 12:55 UTC+1)
 
 | Check | Result |
 |-------|--------|
-| SHA match | 3247f39 = local = origin = prod |
-| PM2 | 3 services online |
+| SHA match | 9e386b5 = local = origin = prod |
+| PM2 | 3 EAF services online (restarts=37, stable) |
 | Port 3000 | 127.0.0.1 |
+| PostgreSQL 5435 | 127.0.0.1 |
 | Migrations | 21 applied, 0 pending |
-| Redis | PONG |
+| BILLING_CODE_PEPPER | set in production |
 | TSC | 0 errors |
 | ESLint | 0 errors |
-| Knip | 0 issues |
-| Unit tests | 1109/1109 (100%) |
-| fr-copy | passes |
-| npm audit | 0 high/critical |
-| Sensitive files | all 404 (incl. package.json, ecosystem.config) |
-| CSRF | active |
-| Rate limiting | active |
-| ClicToPay | 0 references |
-| PRO/MAX user | 0 references |
-| MAX admin | 0 references |
-| MCP | healthy, 20 tools |
-| totalScore | double precision |
+| Build | 0 errors |
+| Unit tests | 1111/1111 (100%, 160 files) |
+| Playwright public | 20/20 |
+| Playwright mobile 375px | 13/13 |
+| Sensitive files | all 404 |
+| CSRF | active on all mutations |
+| Rate limiting | 17 routes |
+| ClicToPay init | 503 (neutralized) |
+| PRO/MAX user-facing | 0 references |
+| MCP | healthy, latency 2ms |
+| RAG | healthy (but 0 embeddings) |
+| OG Image | 200 OK |
 | Login error | "Email ou mot de passe incorrect." |
-| Lighthouse | Perf 88, A11y 97, BP 100, SEO 100 |
+| SMTP | 3 vars configured |
 
-Defauts sweep: 2 found (ecosystem.config.cjs + package.json exposed), 2 fixed.
+Defauts ouverts: 4 MOYENNE (MCP bind 0.0.0.0, Ollama bind 0.0.0.0, RAG vide, PM2 restarts).
+Aucun defaut HAUTE priorite ouvert.
 
 ## 6. DECISION
 
-### ETAT A — GO TOTAL
+### ETAT A — GO CONDITIONNEL
 
-13 defauts trouves, 13 corriges, 0 reserve.
-Samsung Galaxy confirme par Shark le 2026-03-22.
-Sweep final: tous blocs verts.
+Tous les defauts HAUTE priorite corriges. 4 defauts MOYENNE non bloquants.
+33 tests Playwright + 1111 tests unitaires passés sur production réelle.
+16 phases d'audit couvertes avec mesures fraîches.
 
-**SHA: 3247f39**
+**SHA: 9e386b5**

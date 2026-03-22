@@ -1,6 +1,6 @@
 # PHASE 11 — SÉCURITÉ ET ROBUSTESSE
 
-> Audit 2026-03-21 — Tests Playwright + code review sur production
+> **Audit revalidé 2026-03-22** — Code audit + prod tests, SHA `9e386b5`
 
 ---
 

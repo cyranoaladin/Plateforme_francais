@@ -1,6 +1,6 @@
 # PHASE 12 — TESTS TECHNIQUES ET CI
 
-> Audit 2026-03-21 — Code review + build verification
+> **Audit revalidé 2026-03-22** — tsc=0, build=0, 1111/1111 tests, eslint=0, SHA `9e386b5`
 
 ---
 

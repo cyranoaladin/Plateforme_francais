@@ -1,6 +1,6 @@
 # PHASE 10 — COHÉRENCE FRONT / BACK / DB
 
-> Audit 2026-03-21 — Code review
+> **Audit revalidé 2026-03-22** — Code audit + prod tests, SHA `9e386b5`
 
 ---
 

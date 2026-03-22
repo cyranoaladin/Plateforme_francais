@@ -1,6 +1,7 @@
 # PHASE 1 — INVENTAIRE EXHAUSTIF DES SURFACES
 
-> Audit 2026-03-21 — Contre-expertise finale
+> **Audit frais 2026-03-22 ~12:30 UTC+1** — Contre-expertise finale intégrale
+> SHA : `9e386b514025711d4b42acf99ae3b819373defc8`
 
 ---
 

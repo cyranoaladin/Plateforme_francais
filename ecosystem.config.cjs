@@ -98,6 +98,7 @@ const mcpRuntimeEnv = withProductionDefaults(
   {
     MCP_TRANSPORT: 'http',
     MCP_PORT: 3100,
+    MCP_HTTP_BIND: '127.0.0.1',
   },
   mcpEnv,
 );
@@ -116,7 +117,7 @@ module.exports = {
       env_production: webEnv,
       instances: 1,
       exec_mode: 'fork',
-      max_memory_restart: '512M',
+      max_memory_restart: '1G',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       error_file: '/var/log/pm2/eaf-nextjs-error.log',
       out_file: '/var/log/pm2/eaf-nextjs-out.log',

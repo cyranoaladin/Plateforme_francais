@@ -1,6 +1,6 @@
 # PHASE 5 — ATELIERS ÉLÈVE BOUT EN BOUT
 
-> Audit 2026-03-21 — Code review + API tests sur production
+> **Audit revalidé 2026-03-22** — Code audit + prod tests, SHA `9e386b5`
 
 ---
 

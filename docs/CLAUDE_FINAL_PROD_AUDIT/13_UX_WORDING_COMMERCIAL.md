@@ -1,6 +1,6 @@
 # PHASE 13 — UX, WORDING, CLARTÉ COMMERCIALE
 
-> Audit 2026-03-21 — Playwright screenshots + code review
+> **Audit revalidé 2026-03-22** — 0 anglicisme, 0 label leak, SHA `9e386b5`
 
 ---
 

@@ -33,7 +33,9 @@ export async function sendParentNotificationEmail(params: {
 }) {
   return sendEmail({
     to: params.parentEmail,
-    subject: `[Nexus Réussite] Votre enfant ${params.studentFirstName || 'votre enfant'} vient de rejoindre la plateforme EAF`,
+    subject: params.studentFirstName
+      ? `[Nexus Réussite] Votre enfant ${params.studentFirstName} vient de rejoindre la plateforme EAF`
+      : `[Nexus Réussite] Votre enfant vient de rejoindre la plateforme EAF`,
     react: React.createElement(ParentNotificationEmail, {
       studentFirstName: params.studentFirstName || '',
       studentClass: params.studentClass ?? 'Première générale',
