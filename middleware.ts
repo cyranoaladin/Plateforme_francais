@@ -103,7 +103,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
 }
 
 /** Paths that must never be served — return 404 immediately. */
-const BLOCKED_PATHS = ['.env', '.git', 'prisma/', '.antigravity/', '.windsurfrules', 'ecosystem.config', 'package.json', 'package-lock.json', 'tsconfig', 'next.config'];
+const BLOCKED_PATHS = ['.env', '.git', 'prisma/', '.antigravity/', '.windsurfrules', 'ecosystem.config', 'package.json', 'package-lock.json', 'tsconfig', 'next.config', 'readme', 'README', 'RUNBOOK', 'docs/', '.DS_Store', '.htaccess', 'wp-admin', 'wp-login', 'phpMyAdmin', 'phpmyadmin', 'adminer', 'server-status', 'actuator', 'docker-compose'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
