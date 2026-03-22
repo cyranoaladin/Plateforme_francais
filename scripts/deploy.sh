@@ -130,6 +130,7 @@ ssh "$SSH_TARGET" "cd $APP_DIR && if [ -d .next/standalone ]; then cp -f .git_sh
 # --- 6. Build MCP server ---
 echo "[6/8] Build MCP server..."
 ssh "$SSH_TARGET" "cd $APP_DIR && npm run mcp:build"
+ssh "$SSH_TARGET" "find $APP_DIR/packages/mcp-server/dist \( -name '*.js.map' -o -name '*.d.ts.map' \) -delete 2>/dev/null || true"
 
 # --- 7. Setup Nginx + SSL (first run only) ---
 if [ "$FIRST_RUN" = "--first-run" ]; then
