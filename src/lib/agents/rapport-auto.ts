@@ -41,13 +41,23 @@ async function generateNarrative(input: {
   adherenceRate: number;
   topErrors: string[];
 }): Promise<{ prediction: string; nextWeekFocus: string[] }> {
-  const prompt = `Tu es l'agent rapport_auto.
-Contrainte: pas d'inférence émotionnelle, pas de score psychologique.
-Retourne JSON:
-{"prediction":"...","nextWeekFocus":["...", "..."]}
-Contexte:
-- adherenceRate: ${Math.round(input.adherenceRate * 100)}%
-- erreurs récurrentes: ${input.topErrors.join(', ') || 'aucune'}`;
+  const prompt = `Tu es l'agent de rapport hebdomadaire EAF 2026 — tu rédiges un bilan de progression factuel et exploitable.
+
+DONNÉES DE LA SEMAINE :
+- Taux d'adhérence au planning : ${Math.round(input.adherenceRate * 100)}%
+- Erreurs récurrentes : ${input.topErrors.join(', ') || 'aucune identifiée'}
+
+EXIGENCES DU RAPPORT :
+1. "prediction" (200-400 mots) : bilan factuel de la semaine basé sur les données réelles. Identifie les progrès, les stagnations et les risques. Cite les erreurs récurrentes par nom. Propose 2-3 actions concrètes pour la semaine suivante avec exercices précis (œuvre + type d'exercice + durée). Ton : encourageant mais factuel, jamais vague.
+2. "nextWeekFocus" : 3-5 objectifs mesurables pour la semaine suivante (ex: "Reprendre l'explication linéaire sur Phèdre Acte I scène 3 — cibler les procédés rhétoriques").
+
+INTERDICTIONS :
+- Pas d'inférence émotionnelle ni de score psychologique
+- Pas de formule creuse ("Continue comme ça", "Tu es sur la bonne voie") sans ancrage dans les données
+- Pas de recommandation générique sans nommer l'exercice précis
+
+Retourne un JSON strict :
+{"prediction":"bilan 200-400 mots","nextWeekFocus":["objectif 1", "objectif 2", "objectif 3"]}`;
   const messages: ProviderChatMessage[] = [{ role: 'user', content: prompt }];
   const provider = await getRouterProvider('rapport_auto', estimateTokens(messages));
 

@@ -487,3 +487,69 @@ function getWeekLabel(date: Date): string {
   friday.setDate(monday.getDate() + 4)
   return `Semaine du ${monday.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })} au ${friday.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}`
 }
+
+// ─── MCP Tool: get_programme_2026 ───────────────────────────────
+export const GetProgramme2026Schema = z.object({
+  objet_etude: z.enum(['poesie', 'roman', 'theatre', 'litterature_idees', 'tous']).optional().default('tous'),
+})
+
+export async function getProgramme2026(input: z.infer<typeof GetProgramme2026Schema>) {
+  const oeuvres = [
+    { titre: 'Phèdre', auteur: 'Jean Racine', genre: 'Tragédie', siecle: '17e', objet_etude: 'theatre', parcours: 'Passion et tragédie', themes: ['passion', 'culpabilité', 'fatalité'] },
+    { titre: 'Les Fleurs du mal', auteur: 'Charles Baudelaire', genre: 'Poésie', siecle: '19e', objet_etude: 'poesie', parcours: 'Alchimie poétique : la boue et l\'or', themes: ['spleen', 'idéal', 'modernité'] },
+    { titre: 'La Déclaration des droits de la femme', auteur: 'Olympe de Gouges', genre: 'Littérature d\'idées', siecle: '18e', objet_etude: 'litterature_idees', parcours: 'Écrire et combattre pour l\'égalité', themes: ['égalité', 'droits', 'engagement'] },
+    { titre: 'Manon Lescaut', auteur: 'Abbé Prévost', genre: 'Roman', siecle: '18e', objet_etude: 'roman', parcours: 'Personnages en marge, plaisirs et souffrance', themes: ['passion', 'marginalité', 'sacrifice'] },
+  ]
+  const filtered = input.objet_etude === 'tous' ? oeuvres : oeuvres.filter(o => o.objet_etude === input.objet_etude)
+  const examDate = new Date('2026-06-08')
+  return { oeuvres: filtered, jours_avant_examen: Math.max(0, Math.ceil((examDate.getTime() - Date.now()) / 86400000)) }
+}
+
+// ─── MCP Tool: get_exam_calendar ────────────────────────────────
+export const GetExamCalendarSchema = z.object({})
+
+export async function getExamCalendar() {
+  const now = Date.now()
+  const oral = new Date('2026-06-08').getTime()
+  const ecrit = new Date('2026-06-15').getTime()
+  const resultats = new Date('2026-07-10').getTime()
+  const joursOral = Math.max(0, Math.ceil((oral - now) / 86400000))
+  const phase = joursOral > 60 ? 'fondations' : joursOral > 15 ? 'sprint_intensif' : joursOral > 0 ? 'sprint_final' : 'examen_passe'
+  return {
+    oral: { date: '2026-06-08', jours_restants: joursOral, phase },
+    ecrit: { date: '2026-06-15', jours_restants: Math.max(0, Math.ceil((ecrit - now) / 86400000)) },
+    resultats: { date: '2026-07-10', jours_restants: Math.max(0, Math.ceil((resultats - now) / 86400000)) },
+    conseil: joursOral > 60 ? 'Phase fondations : 30-45 min/jour' : joursOral > 15 ? 'Phase intensive : 1h-1h30/jour' : 'Sprint final : consolider uniquement',
+  }
+}
+
+// ─── MCP Tool: get_weak_skills ──────────────────────────────────
+export const GetWeakSkillsSchema = z.object({
+  studentId: z.string().min(1),
+  limit: z.number().int().min(1).max(10).optional().default(5),
+})
+
+export async function getWeakSkills(input: z.infer<typeof GetWeakSkillsSchema>) {
+  const db = getDb()
+  const profile = await db.studentProfile.findUnique({ where: { userId: input.studentId }, select: { weakSkills: true } })
+  const weakSkills = (profile?.weakSkills as unknown as Array<{ skill: string; level: number; oeuvre?: string }>) ?? []
+  return { studentId: input.studentId, weak_skills: weakSkills.slice(0, input.limit), total: weakSkills.length }
+}
+
+// ─── MCP Tool: get_recent_activity ──────────────────────────────
+export const GetRecentActivitySchema = z.object({
+  studentId: z.string().min(1),
+  days: z.number().int().min(1).max(30).optional().default(7),
+})
+
+export async function getRecentActivity(input: z.infer<typeof GetRecentActivitySchema>) {
+  const db = getDb()
+  const since = new Date()
+  since.setDate(since.getDate() - (input.days ?? 7))
+  const [orals, copies, events] = await Promise.all([
+    db.oralSession.count({ where: { userId: input.studentId, createdAt: { gte: since } } }),
+    db.copieDeposee.count({ where: { userId: input.studentId, createdAt: { gte: since } } }),
+    db.memoryEvent.count({ where: { userId: input.studentId, createdAt: { gte: since } } }),
+  ])
+  return { studentId: input.studentId, periode_jours: input.days ?? 7, sessions_oral: orals, copies_deposees: copies, interactions_total: events, regularite: orals + copies >= 3 ? 'régulier' : orals + copies >= 1 ? 'irrégulier' : 'absent' }
+}

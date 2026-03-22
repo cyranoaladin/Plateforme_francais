@@ -53,11 +53,21 @@ export async function generateDueRevisionExercise(studentId: string): Promise<{
   };
 
   try {
-    const prompt = `Crée un micro-exercice de révision ciblé.
-Erreur: ${first.errorType}
-Contexte: ${first.example}
-Corrigé attendu: ${first.correction}
-Format JSON: {"prompt":"...","expected":"..."}`;
+    const prompt = `Tu es un professeur de Français EAF 2026. Crée un micro-exercice de révision ciblé (2-3 minutes) pour corriger une erreur récurrente de l'élève.
+
+ERREUR IDENTIFIÉE : ${first.errorType}
+EXEMPLE DANS LA COPIE : "${first.example}"
+CORRECTION ATTENDUE : "${first.correction}"
+
+EXIGENCES :
+- Le "prompt" doit être un exercice concret et court (1-3 phrases) que l'élève peut résoudre en 2 minutes
+- L'exercice doit cibler EXACTEMENT l'erreur identifiée (pas un exercice générique)
+- Le "expected" doit être la réponse correcte attendue (1-3 phrases)
+- Si l'erreur porte sur un procédé stylistique → demander d'identifier le procédé dans un extrait
+- Si l'erreur porte sur la méthode → demander de reformuler un passage selon la méthode correcte
+- Si l'erreur porte sur la langue → proposer une phrase à corriger
+
+Format JSON strict : {"prompt":"exercice ciblé","expected":"réponse attendue"}`;
     const messages: ProviderChatMessage[] = [{ role: 'user', content: prompt }];
     const provider = await getRouterProvider('rappel_agent', estimateTokens(messages));
     const completion = await provider.generateContent(messages, {

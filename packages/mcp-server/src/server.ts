@@ -49,6 +49,10 @@ import {
   LogRuleEventSchema, logRuleEvent,
   GetSubscriptionSchema, getSubscription,
   GetUsageSchema, getUsage,
+  GetProgramme2026Schema, getProgramme2026,
+  getExamCalendar,
+  GetWeakSkillsSchema, getWeakSkills,
+  GetRecentActivitySchema, getRecentActivity,
 } from './tools/all-tools.js'
 
 // Ressources
@@ -384,6 +388,46 @@ export const TOOL_DEFINITIONS = [
       required: ['studentId'],
     },
   },
+  // --- Programme & Calendrier ---
+  {
+    name: 'eaf_get_programme_2026',
+    description: 'Liste complète des œuvres au programme EAF 2026 avec parcours associés, thèmes et jours restants avant l\'examen.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        objet_etude: { type: 'string', enum: ['poesie', 'roman', 'theatre', 'litterature_idees', 'tous'], default: 'tous' },
+      },
+    },
+  },
+  {
+    name: 'eaf_get_exam_calendar',
+    description: 'Calendrier EAF 2026 avec compte à rebours dynamique (oral, écrit, résultats) et phase de préparation recommandée.',
+    inputSchema: { type: 'object', properties: {} },
+  },
+  {
+    name: 'eaf_get_weak_skills',
+    description: 'Retourne les compétences les plus fragiles d\'un élève pour cibler la remédiation.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        studentId: { type: 'string' },
+        limit: { type: 'number', minimum: 1, maximum: 10, default: 5 },
+      },
+      required: ['studentId'],
+    },
+  },
+  {
+    name: 'eaf_get_recent_activity',
+    description: 'Résumé des activités d\'un élève sur les N derniers jours : sessions, copies, quiz, régularité.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        studentId: { type: 'string' },
+        days: { type: 'number', minimum: 1, maximum: 30, default: 7 },
+      },
+      required: ['studentId'],
+    },
+  },
 ]
 
 // ============================================================
@@ -442,6 +486,14 @@ async function routeTool(name: string, args: Record<string, unknown>, agentSkill
       return getSubscription(GetSubscriptionSchema.parse(args))
     case 'eaf_get_usage':
       return getUsage(GetUsageSchema.parse(args))
+    case 'eaf_get_programme_2026':
+      return getProgramme2026(GetProgramme2026Schema.parse(args))
+    case 'eaf_get_exam_calendar':
+      return getExamCalendar()
+    case 'eaf_get_weak_skills':
+      return getWeakSkills(GetWeakSkillsSchema.parse(args))
+    case 'eaf_get_recent_activity':
+      return getRecentActivity(GetRecentActivitySchema.parse(args))
     default:
       throw new McpError(ErrorCode.MethodNotFound, `Outil inconnu : ${name}`)
   }
