@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
 import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
+import { getResetMessage } from '@/lib/billing/quota-messages';
 import { consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { searchOfficialReferences } from '@/lib/rag/search';
@@ -61,6 +62,7 @@ export async function POST(request: Request) {
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
             plan: billing.planId,
+            reset_info: getResetMessage('day'),
           },
           { status: 402 },
         );

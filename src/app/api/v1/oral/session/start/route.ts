@@ -8,6 +8,7 @@ import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
 import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
+import { getResetMessage } from '@/lib/billing/quota-messages';
 import { consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionStartBodySchema } from '@/lib/validation/schemas';
@@ -66,6 +67,7 @@ export async function POST(request: Request) {
               code: 'QUOTA_EXCEEDED',
               upgradeUrl: '/pricing',
               plan: billing.planId,
+              reset_info: getResetMessage(oralQuota.period),
             },
             { status: 402 },
           );

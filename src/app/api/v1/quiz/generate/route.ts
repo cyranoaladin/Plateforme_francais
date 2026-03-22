@@ -6,6 +6,7 @@ import { getMediaForAgent, formatMediaContextForPrompt, type MediaEntry } from '
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
 import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
+import { getResetMessage } from '@/lib/billing/quota-messages';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { getThemeConfig } from '@/lib/quiz/theme-mapping';
@@ -75,6 +76,7 @@ export async function POST(request: Request) {
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
             plan: billing.planId,
+            reset_info: getResetMessage('day'),
           },
           { status: 402 },
         );
