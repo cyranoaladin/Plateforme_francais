@@ -22,9 +22,9 @@ export default function ParentNotificationEmail({
       <Body style={{ backgroundColor: '#F7F8FA', fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif", margin: 0, padding: 0 }}>
         <Container style={{ maxWidth: '600px', margin: '0 auto' }}>
           {/* HEADER */}
-          <Section style={{ backgroundColor: '#1E3A5F', padding: '24px 40px', borderRadius: '8px 8px 0 0', textAlign: 'center' as const }}>
-            <Link href="https://eaf.nexusreussite.academy">
-              <Img src="https://eaf.nexusreussite.academy/images/logo_email.png" alt="Nexus Réussite — Préparation EAF 2026" width={200} style={{ maxWidth: '200px', height: 'auto', display: 'block', margin: '0 auto' }} />
+          <Section style={{ backgroundColor: '#ffffff', padding: '20px 40px 16px', borderRadius: '8px 8px 0 0', textAlign: 'center' as const, borderBottom: '3px solid #E63946' }}>
+            <Link href="https://nexusreussite.academy" style={{ display: 'inline-block' }}>
+              <Img src="https://eaf.nexusreussite.academy/images/logo_slogan_nexus_email.png" alt="Nexus Réussite — Viser. Atteindre. Dépasser." width={220} style={{ maxWidth: '220px', height: 'auto', display: 'block', margin: '0 auto' }} />
             </Link>
           </Section>
 

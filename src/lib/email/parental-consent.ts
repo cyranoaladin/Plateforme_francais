@@ -27,8 +27,8 @@ export async function sendParentalConsentEmail({
       subject: `Consentement parent requis — Inscription de ${studentName} sur Nexus Réussite`,
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
-          <div style="background: #1E3A5F; padding: 24px 40px; border-radius: 8px 8px 0 0; text-align: center;">
-            <a href="https://eaf.nexusreussite.academy"><img src="https://eaf.nexusreussite.academy/images/logo_email.png" alt="Nexus Réussite" width="200" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" /></a>
+          <div style="background: #ffffff; padding: 20px 40px 16px; border-radius: 8px 8px 0 0; text-align: center; border-bottom: 3px solid #E63946;">
+            <a href="https://nexusreussite.academy" style="display: inline-block;"><img src="https://eaf.nexusreussite.academy/images/logo_slogan_nexus_email.png" alt="Nexus Réussite — Viser. Atteindre. Dépasser." width="220" style="max-width: 220px; height: auto; display: block; margin: 0 auto;" /></a>
           </div>
           <h1 style="color: #0f172a; font-size: 24px; padding: 24px 40px 0;">Demande de consentement parental</h1>
           
