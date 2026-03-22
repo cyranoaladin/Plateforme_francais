@@ -49,6 +49,10 @@ rsync -avz --delete \
   --exclude='.antigravity' \
   --exclude='*.log' \
   --exclude='*.tsbuildinfo' \
+  --exclude='*.js.map' \
+  --exclude='*.d.ts.map' \
+  --exclude='packages/mcp-server/dist/' \
+  --exclude='packages/mcp-server/node_modules/' \
   --exclude='docs/eaf_arborescence_prod*.txt' \
   --exclude='docs/eaf_arbo_*.txt' \
   -e ssh \
@@ -57,7 +61,7 @@ rsync -avz --delete \
 echo "  ✅ Code synchronisé"
 
 echo "[1a/8] Nettoyage artefacts non-production..."
-ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv .vscode .windsurf .windsurf_audit_logs .windsurfrules .superpowers forensics .claude UI_UX .env.test .vitest-unit-report.json coverage test-results 2>/dev/null; find packages/mcp-server/dist -name '*.js.map' -o -name '*.d.ts.map' 2>/dev/null | xargs rm -f; rm -f commit-and-push.sh create-pr-branch.sh test-admin.sh test-manual-flow.sh eaf.code-workspace proxy.ts stryker.conf.json tsconfig.tsbuildinfo 2>/dev/null; rm -f *.log 2>/dev/null; echo '  ✅ Artefacts nettoyés'"
+ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv .vscode .windsurf .windsurf_audit_logs .windsurfrules .superpowers forensics .claude UI_UX .env.test .vitest-unit-report.json coverage test-results 2>/dev/null; find packages/mcp-server/dist \\( -name '*.js.map' -o -name '*.d.ts.map' \\) -exec rm -f {} + 2>/dev/null || true; rm -f commit-and-push.sh create-pr-branch.sh test-admin.sh test-manual-flow.sh eaf.code-workspace proxy.ts stryker.conf.json tsconfig.tsbuildinfo 2>/dev/null; rm -f *.log 2>/dev/null; echo '  ✅ Artefacts nettoyés'"
 
 echo "[1b/8] Préparation du volume ressources durable (symlink après build)..."
 ssh "$SSH_TARGET" "mkdir -p $RESSOURCES_DIR"
