@@ -271,7 +271,14 @@ export async function POST(request: Request) {
 
   return NextResponse.json(
     {
-      answer: generated.answer ?? 'Je n\'ai pas assez de sources pour répondre précisément. Reformule ta question.',
+      answer: generated.answer || (() => {
+        const lowerMsg = userMessage.toLowerCase();
+        const antitricheKw = ['rédige', 'écris-moi', 'fais-moi', 'copie complète', 'corrigé complet', 'dissertation complète', 'commentaire complet', 'intégral', 'en entier', 'à ma place'];
+        if (antitricheKw.some(kw => lowerMsg.includes(kw))) {
+          return 'Je ne peux pas rédiger ce texte à ta place — c\'est à toi de le faire pour progresser. Voici comment je peux t\'aider : formule d\'abord une problématique sur le sujet, puis construisons ensemble un plan en 3 parties avec une amorce pour chacune.';
+        }
+        return 'Je n\'ai pas assez de sources pour répondre précisément. Reformule ta question en précisant l\'œuvre ou le thème.';
+      })(),
       citations,
       suggestions:
         generated.suggestions?.slice(0, 3) ?? [
