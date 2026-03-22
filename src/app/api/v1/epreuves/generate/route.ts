@@ -57,6 +57,8 @@ export async function POST(request: Request) {
     throw error;
   }
 
+  // Check both WRITTEN_CORRECTIONS and OCR_COPIES upfront so the user knows
+  // BEFORE writing their essay if they can actually submit it.
   const writtenQuota = billing.config.quotas.WRITTEN_CORRECTIONS;
   if (writtenQuota) {
     const availability = await checkBillingQuota(auth.user.id, 'WRITTEN_CORRECTIONS', writtenQuota);
@@ -71,6 +73,19 @@ export async function POST(request: Request) {
         { status: 402 },
       );
     }
+  }
+
+  const ocrQuota = billing.config.quotas.OCR_COPIES;
+  if (ocrQuota && ocrQuota.limit === 0) {
+    return NextResponse.json(
+      {
+        error: `Le dépôt de copies n'est pas inclus dans le plan ${PLAN_DISPLAY_LABELS[billing.planId]}. Passe à Premium ou Masterium pour déposer tes copies et recevoir une correction détaillée.`,
+        code: 'QUOTA_EXCEEDED',
+        upgradeUrl: '/pricing',
+        plan: billing.planId,
+      },
+      { status: 402 },
+    );
   }
 
   let result: unknown;

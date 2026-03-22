@@ -82,7 +82,19 @@ function uploadCopieWithProgress(input: {
 
     xhr.onload = () => {
       if (xhr.status < 200 || xhr.status >= 300) {
-        reject(new Error('Le dépôt de la copie n\'a pas abouti. Vérifie le format du fichier et réessaie.'));
+        try {
+          const body = JSON.parse(xhr.responseText);
+          if (xhr.status === 402 && body.error) {
+            const err = new Error(body.error);
+            (err as Error & { upgradeUrl?: string; code?: string }).upgradeUrl = body.upgradeUrl;
+            (err as Error & { code?: string }).code = body.code;
+            reject(err);
+            return;
+          }
+          reject(new Error(body.error || 'Le dépôt de la copie n\'a pas abouti.'));
+        } catch {
+          reject(new Error('Le dépôt de la copie n\'a pas abouti. Vérifie le format du fichier et réessaie.'));
+        }
         return;
       }
 
@@ -106,6 +118,7 @@ export default function AtelierEcritPage() {
   const [epreuve, setEpreuve] = useState<EpreuvePayload | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [upgradeUrl, setUpgradeUrl] = useState<string | null>(null);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -157,7 +170,13 @@ export default function AtelierEcritPage() {
       });
 
       if (!response.ok) {
-        throw new Error('La génération du sujet n\'a pas abouti. Réessaie dans quelques instants.');
+        const errBody = await response.json().catch(() => ({}));
+        if (response.status === 402 && errBody.error) {
+          const err = new Error(errBody.error);
+          (err as Error & { upgradeUrl?: string }).upgradeUrl = errBody.upgradeUrl;
+          throw err;
+        }
+        throw new Error(errBody.error || 'La génération du sujet n\'a pas abouti. Réessaie dans quelques instants.');
       }
 
       const payload = (await response.json()) as EpreuvePayload;
@@ -168,6 +187,8 @@ export default function AtelierEcritPage() {
       setUploadProgress(0);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Un problème inattendu est survenu. Réessaie.');
+      const maybeUpgrade = (cause as Error & { upgradeUrl?: string })?.upgradeUrl;
+      if (maybeUpgrade) setUpgradeUrl(maybeUpgrade);
     } finally {
       setIsGenerating(false);
     }
@@ -230,6 +251,8 @@ export default function AtelierEcritPage() {
       });
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Le dépôt de la copie a rencontré un problème. Vérifie ta connexion et réessaie.');
+      const maybeUpgrade = (cause as Error & { upgradeUrl?: string })?.upgradeUrl;
+      if (maybeUpgrade) setUpgradeUrl(maybeUpgrade);
     } finally {
       setIsUploading(false);
     }
@@ -274,12 +297,22 @@ export default function AtelierEcritPage() {
       </section>
 
       {error && (
-        <StateNotice
-          title="Un souci est survenu"
-          description={error}
-          variant="warning"
-          icon={PenTool}
-        />
+        <div className="space-y-3">
+          <StateNotice
+            title={upgradeUrl ? 'Limite de ton plan atteinte' : 'Un souci est survenu'}
+            description={error}
+            variant="warning"
+            icon={PenTool}
+          />
+          {upgradeUrl && (
+            <Link
+              href={upgradeUrl}
+              className="inline-flex items-center gap-2 rounded-2xl bg-[var(--sapphire)] px-5 py-3 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.02]"
+            >
+              Découvrir les plans <ChevronRight className="h-4 w-4" />
+            </Link>
+          )}
+        </div>
       )}
 
       <section className="grid gap-4 md:grid-cols-3">

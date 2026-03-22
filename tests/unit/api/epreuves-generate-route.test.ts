@@ -16,6 +16,29 @@ vi.mock('@/lib/epreuves/repository', () => ({
   createEpreuve: vi.fn(),
 }));
 
+vi.mock('@/lib/billing/context', () => ({
+  getBillingContext: vi.fn().mockResolvedValue({
+    planId: 'PRO',
+    isActive: true,
+    config: {
+      id: 'PRO',
+      label: 'Masterium',
+      priceTnd: 129,
+      billingCycle: 'monthly',
+      quotas: {
+        WRITTEN_CORRECTIONS: { limit: 999, period: 'month' },
+        OCR_COPIES: { limit: 50, period: 'month' },
+      },
+      flags: {},
+    },
+  }),
+  BillingContextUnavailableError: class extends Error {},
+}));
+
+vi.mock('@/lib/billing/usage', () => ({
+  checkQuota: vi.fn().mockResolvedValue({ allowed: true, current: 0, limit: 999, remaining: 999 }),
+}));
+
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { createEpreuve } from '@/lib/epreuves/repository';

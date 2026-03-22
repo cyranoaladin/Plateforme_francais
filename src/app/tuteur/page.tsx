@@ -92,7 +92,8 @@ function TuteurPageContent() {
       });
 
       if (!response.ok) {
-        throw new Error('Échec de réponse du guidage.');
+        const errBody = await response.json().catch(() => ({}));
+        throw new Error(errBody.error || 'Échec de réponse du guidage.');
       }
 
       const payload = (await response.json()) as {
