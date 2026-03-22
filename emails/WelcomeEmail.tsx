@@ -12,7 +12,7 @@ interface WelcomeEmailProps {
 }
 
 export default function WelcomeEmail({
-  firstName = 'là',
+  firstName = '',
   email = '',
   dashboardUrl = 'https://eaf.nexusreussite.academy/dashboard',
   profileSetupUrl = 'https://eaf.nexusreussite.academy/onboarding',
@@ -33,7 +33,7 @@ export default function WelcomeEmail({
           <Section style={{ backgroundColor: '#ffffff', padding: '40px 40px 24px', textAlign: 'center' as const }}>
             <Text style={{ fontSize: '48px', margin: '0 0 16px' }}>🎓</Text>
             <Heading as="h1" style={{ color: '#1E3A5F', fontSize: '28px', fontWeight: 700, margin: '0 0 8px', textAlign: 'center' as const }}>
-              Bienvenue, {firstName} !
+              {firstName ? `Bienvenue, ${firstName}\u00A0!` : 'Bienvenue\u00A0!'}
             </Heading>
             <Text style={{ color: '#4A5568', fontSize: '16px', margin: '0 0 32px', textAlign: 'center' as const }}>
               Ton espace de préparation au Bac de Français est prêt.

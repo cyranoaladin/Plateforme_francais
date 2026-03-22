@@ -125,7 +125,7 @@ export async function PUT(request: Request) {
   if (newParentEmail && newParentEmail !== oldParentEmail) {
     sendParentNotificationEmail({
       parentEmail: newParentEmail,
-      studentFirstName: nextProfile.displayName?.trim().split(' ')[0] || 'là',
+      studentFirstName: nextProfile.displayName?.trim().split(' ')[0] || '',
     }).then((r) => {
       if (r.success) logger.info({ emailId: r.id, type: 'parent-notification-profile' }, 'E-mail parent envoyé depuis mise à jour profil');
     }).catch((err) => {
@@ -138,7 +138,7 @@ export async function PUT(request: Request) {
   if (newTeacherEmail && newTeacherEmail !== oldTeacherEmail) {
     sendTeacherNotificationEmail({
       teacherEmail: newTeacherEmail,
-      studentFirstName: nextProfile.displayName?.trim().split(' ')[0] || 'là',
+      studentFirstName: nextProfile.displayName?.trim().split(' ')[0] || '',
     }).then((r) => {
       if (r.success) logger.info({ emailId: r.id, type: 'teacher-notification-profile' }, 'E-mail enseignant envoyé depuis mise à jour profil');
     }).catch((err) => {

@@ -33,9 +33,9 @@ export async function sendParentNotificationEmail(params: {
 }) {
   return sendEmail({
     to: params.parentEmail,
-    subject: `[Nexus Réussite] Votre enfant ${params.studentFirstName} vient de rejoindre la plateforme EAF`,
+    subject: `[Nexus Réussite] Votre enfant ${params.studentFirstName || 'votre enfant'} vient de rejoindre la plateforme EAF`,
     react: React.createElement(ParentNotificationEmail, {
-      studentFirstName: params.studentFirstName,
+      studentFirstName: params.studentFirstName || '',
       studentClass: params.studentClass ?? 'Première générale',
       platformUrl: APP_URL,
     }),
@@ -49,12 +49,12 @@ export async function sendTeacherNotificationEmail(params: {
   studentLastName?: string;
   studentClass?: string;
 }) {
-  const fullName = [params.studentFirstName, params.studentLastName].filter(Boolean).join(' ');
+  const fullName = [params.studentFirstName, params.studentLastName].filter(Boolean).join(' ') || 'un(e) élève';
   return sendEmail({
     to: params.teacherEmail,
     subject: `[Nexus Réussite] Votre élève ${fullName} s'est inscrit(e) sur la plateforme EAF`,
     react: React.createElement(TeacherNotificationEmail, {
-      studentFirstName: params.studentFirstName,
+      studentFirstName: params.studentFirstName || '',
       studentLastName: params.studentLastName ?? '',
       studentClass: params.studentClass ?? 'Première générale',
       platformUrl: APP_URL,

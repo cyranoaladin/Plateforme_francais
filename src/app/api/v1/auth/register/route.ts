@@ -109,7 +109,7 @@ export async function POST(request: Request) {
   await setSessionCookie(session.token);
   await setRoleCookie('eleve');
 
-  const firstName = (displayName || '').trim().split(' ')[0] || 'là';
+  const firstName = (displayName || '').trim().split(/\s+/)[0]?.trim() || '';
   
   // Send welcome email to student
   sendWelcomeEmail({ firstName, email })
