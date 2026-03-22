@@ -3,6 +3,7 @@ name: "Nexus EAF - CI/CD Pipeline"
 permissions:
   contents: read
   security-events: write
+  actions: read
 
 on:
   workflow_dispatch:
