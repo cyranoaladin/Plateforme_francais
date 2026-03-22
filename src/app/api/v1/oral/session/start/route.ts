@@ -63,7 +63,7 @@ export async function POST(request: Request) {
         if (err instanceof QuotaExceededError) {
           return NextResponse.json(
             {
-              error: `Tu as atteint la limite incluse pour l'oral (${err.limit} sessions par semaine, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Tes données restent en place. Passe au plan supérieur pour relancer une simulation tout de suite.`,
+              error: `Tu as atteint la limite incluse pour l'oral (${err.limit} sessions par ${oralQuota.period === 'day' ? 'jour' : oralQuota.period === 'week' ? 'semaine' : 'mois'}, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Tes données restent en place. Passe au plan supérieur pour relancer une simulation tout de suite.`,
               code: 'QUOTA_EXCEEDED',
               upgradeUrl: '/pricing',
               plan: billing.planId,
