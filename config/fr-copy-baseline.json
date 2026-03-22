@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T21:50:58.488Z",
+  "generatedAt": "2026-03-22T22:55:21.050Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -612,14 +612,14 @@
     },
     {
       "file": "src/app/api/v1/chat/route.ts",
-      "line": 47,
+      "line": 48,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de messages. Réessayez dans quelques secondes."
     },
     {
       "file": "src/app/api/v1/chat/route.ts",
-      "line": 63,
+      "line": 64,
       "column": 18,
       "kind": "api-message",
       "text": "La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes."
@@ -745,35 +745,35 @@
     },
     {
       "file": "src/app/api/v1/epreuves/[epreuveId]/copie/route.ts",
-      "line": 44,
+      "line": 45,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de soumissions. Réessayez dans 1 heure."
     },
     {
       "file": "src/app/api/v1/epreuves/[epreuveId]/copie/route.ts",
-      "line": 53,
+      "line": 54,
       "column": 39,
       "kind": "api-message",
       "text": "Ressource non disponible."
     },
     {
       "file": "src/app/api/v1/epreuves/[epreuveId]/copie/route.ts",
-      "line": 60,
+      "line": 61,
       "column": 39,
       "kind": "api-message",
       "text": "Fichier manquant."
     },
     {
       "file": "src/app/api/v1/epreuves/[epreuveId]/copie/route.ts",
-      "line": 76,
+      "line": 77,
       "column": 41,
       "kind": "api-message",
       "text": "Type de fichier non supporté."
     },
     {
       "file": "src/app/api/v1/epreuves/[epreuveId]/copie/route.ts",
-      "line": 87,
+      "line": 88,
       "column": 18,
       "kind": "api-message",
       "text": "La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes."
@@ -808,14 +808,14 @@
     },
     {
       "file": "src/app/api/v1/epreuves/generate/route.ts",
-      "line": 32,
+      "line": 33,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de générations d'épreuves. Réessaie dans quelques minutes."
     },
     {
       "file": "src/app/api/v1/epreuves/generate/route.ts",
-      "line": 54,
+      "line": 55,
       "column": 18,
       "kind": "api-message",
       "text": "La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes."
@@ -962,14 +962,14 @@
     },
     {
       "file": "src/app/api/v1/oral/session/start/route.ts",
-      "line": 39,
+      "line": 40,
       "column": 18,
       "kind": "api-message",
       "text": "Trop de sessions orales. Réessayez dans 1 heure."
     },
     {
       "file": "src/app/api/v1/oral/session/start/route.ts",
-      "line": 50,
+      "line": 51,
       "column": 20,
       "kind": "api-message",
       "text": "La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes."
@@ -1004,28 +1004,28 @@
     },
     {
       "file": "src/app/api/v1/quiz/generate/route.ts",
-      "line": 156,
+      "line": 158,
       "column": 16,
       "kind": "api-message",
       "text": "Impossible de générer le quiz. Réessayez."
     },
     {
       "file": "src/app/api/v1/quiz/generate/route.ts",
-      "line": 178,
+      "line": 180,
       "column": 16,
       "kind": "api-message",
       "text": "Le générateur de quiz n'a pas pu produire de questions. Réessayez."
     },
     {
       "file": "src/app/api/v1/quiz/generate/route.ts",
-      "line": 37,
+      "line": 38,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de quiz générés. Réessaie dans quelques minutes."
     },
     {
       "file": "src/app/api/v1/quiz/generate/route.ts",
-      "line": 59,
+      "line": 60,
       "column": 18,
       "kind": "api-message",
       "text": "La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes."
@@ -1046,14 +1046,14 @@
     },
     {
       "file": "src/app/api/v1/rag/search/route.ts",
-      "line": 33,
+      "line": 34,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de recherches. Réessayez dans quelques secondes."
     },
     {
       "file": "src/app/api/v1/rag/search/route.ts",
-      "line": 45,
+      "line": 46,
       "column": 18,
       "kind": "api-message",
       "text": "Vérification de l’abonnement momentanément indisponible."
@@ -1151,14 +1151,14 @@
     },
     {
       "file": "src/app/api/v1/tuteur/message/route.ts",
-      "line": 39,
+      "line": 40,
       "column": 18,
       "kind": "api-message",
       "text": "La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes."
     },
     {
       "file": "src/app/api/v1/tuteur/message/route.ts",
-      "line": 74,
+      "line": 76,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de messages. Réessayez dans quelques minutes."
