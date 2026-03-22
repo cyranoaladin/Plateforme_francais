@@ -49,7 +49,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 /**
- * Inline badge / tag for the Nexus Reussite EAF platform.
+ * Inline badge / tag for the Nexus Réussite EAF platform.
  *
  * Seven variants cover status colours (success, warning, error, info),
  * the default neutral cream, a premium gold gradient, and a solid navy.

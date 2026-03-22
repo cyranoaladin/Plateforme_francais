@@ -48,7 +48,7 @@ export interface SelectProps
 }
 
 /**
- * Styled select dropdown for the Nexus Reussite EAF platform.
+ * Styled select dropdown for the Nexus Réussite EAF platform.
  *
  * Renders a native `<select>` element with consistent styling, a custom
  * chevron icon, label, error/hint messaging, and three sizes.

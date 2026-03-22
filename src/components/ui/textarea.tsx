@@ -41,7 +41,7 @@ export interface TextareaProps
 }
 
 /**
- * Styled textarea for the Nexus Reussite EAF platform.
+ * Styled textarea for the Nexus Réussite EAF platform.
  *
  * Mirrors the Input component API: label, error/hint messaging, optional icon,
  * three sizes, and `forwardRef` support.

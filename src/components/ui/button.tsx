@@ -58,7 +58,7 @@ export interface ButtonProps
 }
 
 /**
- * Premium button component for the Nexus Reussite EAF platform.
+ * Premium button component for the Nexus Réussite EAF platform.
  *
  * Supports five visual variants (`primary`, `secondary`, `ghost`, `danger`,
  * `gold`) and three sizes. Handles loading state with an animated spinner.

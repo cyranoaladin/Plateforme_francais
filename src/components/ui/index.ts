@@ -1,5 +1,5 @@
 /**
- * Nexus Reussite EAF — Shared UI Components
+ * Nexus Réussite EAF — Shared UI Components
  * ==========================================
  * Barrel export for all reusable UI primitives.
  *

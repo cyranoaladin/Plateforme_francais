@@ -47,7 +47,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Versatile card container for the Nexus Reussite EAF platform.
+ * Versatile card container for the Nexus Réussite EAF platform.
  *
  * Five variants cover common surface needs: default resting cards, elevated
  * hover-lift cards, outlined containers, dark contrast panels, and premium

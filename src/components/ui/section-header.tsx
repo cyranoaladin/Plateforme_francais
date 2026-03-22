@@ -34,7 +34,7 @@ export interface SectionHeaderProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 /**
- * Editorial section header for the Nexus Reussite EAF platform.
+ * Editorial section header for the Nexus Réussite EAF platform.
  *
  * Uses the Playfair Display serif typeface for a scholarly, premium feel.
  * Supports left or center alignment and three size presets.

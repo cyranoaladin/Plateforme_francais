@@ -39,7 +39,7 @@ export interface InputProps
 }
 
 /**
- * Styled text input for the Nexus Reussite EAF platform.
+ * Styled text input for the Nexus Réussite EAF platform.
  *
  * Supports label, error/hint messaging, optional leading icon, and three
  * sizes. Uses `forwardRef` for seamless integration with form libraries.
