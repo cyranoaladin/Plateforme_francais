@@ -54,6 +54,9 @@ rsync -avz --delete \
 
 echo "  ✅ Code synchronisé"
 
+echo "[1a/8] Nettoyage artefacts non-production..."
+ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv .vscode .windsurf .windsurf_audit_logs forensics .claude UI_UX .env.test .vitest-unit-report.json 2>/dev/null; rm -f commit-and-push.sh create-pr-branch.sh test-admin.sh test-manual-flow.sh eaf.code-workspace proxy.ts stryker.conf.json 2>/dev/null; rm -f *.log 2>/dev/null; echo '  ✅ Artefacts nettoyés'"
+
 echo "[1b/8] Préparation du volume ressources durable (symlink après build)..."
 ssh "$SSH_TARGET" "mkdir -p $RESSOURCES_DIR"
 # Retirer le symlink temporairement pour que Turbopack ne le traverse pas pendant le build
