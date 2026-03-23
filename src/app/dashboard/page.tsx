@@ -54,13 +54,13 @@ const SKILL_META = [
   {
     key: 'grammaire' as const,
     label: 'Grammaire',
-    accent: 'bg-[var(--color-amber-300)]',
+    accent: 'bg-[var(--c-accent)]',
     copy: 'Verrouiller les notions qui coûtent des points trop rapidement.',
   },
   {
     key: 'lectureCursive' as const,
     label: 'Lecture cursive',
-    accent: 'bg-[var(--color-indigo-500)]',
+    accent: 'bg-[var(--c-reward)]',
     copy: 'Réactiver les œuvres pour qu’elles restent disponibles à l’oral.',
   },
 ];
@@ -473,7 +473,7 @@ export default function Dashboard() {
             </div>
             <Link
               href="/pricing"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-[var(--color-indigo-600)] shadow-lg transition hover:bg-white/90 hover:shadow-xl"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--c-accent)] px-6 py-3 text-sm font-bold text-[var(--text-on-accent)] shadow-lg transition hover:bg-[var(--c-accent-hover)] hover:shadow-xl"
             >
               {planId === 'FREE' ? 'Passer au Premium' : 'Passer au Masterium'}
               <ArrowRight className="h-4 w-4" />
@@ -656,7 +656,7 @@ export default function Dashboard() {
       </section>
 
       {data.error ? (
-        <div className="rounded-[24px] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-5 text-sm text-[var(--error-dark)] shadow-[var(--shadow-md)]">
+        <div className="rounded-[24px] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-5 text-sm text-[var(--c-accent-text)] shadow-[var(--shadow-md)]">
           <div className="flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--error-text)]/10 text-[var(--error-text)]">
               <AlertTriangle className="h-4 w-4" />
