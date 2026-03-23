@@ -246,9 +246,21 @@ function formatActivity(event: { type: string; feature: string; createdAt: strin
   const feature = event.feature.replace(/_/g, ' ');
   const date = new Date(event.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
 
-  if (event.type === 'evaluation') return { label: `Évaluation ${feature}`, date };
-  if (event.type === 'navigation') return { label: `Passage par ${feature}`, date };
-  return { label: feature, date };
+  const FEATURE_LABELS: Record<string, string> = {
+    'page view': 'Consultation',
+    'epreuve generate': 'Génération de sujet',
+    'tuteur message': 'Message au tuteur',
+    'oral session': 'Session orale',
+    'quiz generate': 'Quiz',
+    'parcours generate': 'Parcours',
+  };
+  const displayFeature = FEATURE_LABELS[feature] ?? feature;
+
+  if (event.type === 'evaluation') return { label: `Évaluation ${displayFeature}`, date };
+  if (event.type === 'navigation') return { label: `Consultation ${displayFeature}`, date };
+  if (event.type === 'interaction') return { label: displayFeature, date };
+  if (event.type === 'discussion') return { label: `Échange ${displayFeature}`, date };
+  return { label: displayFeature, date };
 }
 
 function formatCountdown(value: number | null, label: string) {

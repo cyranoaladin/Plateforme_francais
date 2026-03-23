@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-23T06:42:05.831Z",
+  "generatedAt": "2026-03-23T06:49:38.003Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -3720,266 +3720,266 @@
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 455,
+      "line": 467,
       "column": 92,
       "kind": "jsx-text",
       "text": "J-"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 456,
+      "line": 468,
       "column": 81,
       "kind": "jsx-text",
       "text": "— Coefficient"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 501,
+      "line": 513,
       "column": 15,
       "kind": "jsx-text",
       "text": "Ton tableau de bord EAF"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 508,
+      "line": 520,
       "column": 33,
       "kind": "jsx-text",
       "text": ", ton tableau de bord doit toujours déboucher sur une action exploitable."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 512,
+      "line": 524,
       "column": 109,
       "kind": "jsx-text",
       "text": ". Le signal du moment indique de remettre d’abord"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 513,
+      "line": 525,
       "column": 75,
       "kind": "jsx-text",
       "text": "au centre, à partir de l’historique réel des séances et des attendus EAF, puis seulement ensuite d’élargir."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 519,
+      "line": 531,
       "column": 17,
       "kind": "jsx-text",
       "text": "Point fort courant:"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 522,
+      "line": 534,
       "column": 17,
       "kind": "jsx-text",
       "text": "Angle à retendre:"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 525,
+      "line": 537,
       "column": 17,
       "kind": "jsx-text",
       "text": "Niveau moyen:"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 528,
+      "line": 540,
       "column": 17,
       "kind": "jsx-text",
       "text": "Dernier passage:"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 534,
+      "line": 546,
       "column": 54,
       "kind": "jsx-text",
       "text": "Le profil n’est pas encore entièrement personnalisé."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 536,
+      "line": 548,
       "column": 19,
       "kind": "jsx-text",
       "text": "Finaliser la configuration permettra d’ancrer ton tableau de bord sur les œuvres, le niveau déclaré et les priorités à travailler."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 542,
+      "line": 554,
       "column": 19,
       "kind": "jsx-text",
       "text": "Reprendre la configuration"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 578,
+      "line": 590,
       "column": 17,
       "kind": "jsx-text",
       "text": "Rituel recommandé aujourd’hui"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 626,
+      "line": 638,
       "column": 112,
       "kind": "jsx-text",
       "text": "Fenêtre d’épreuve"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 650,
+      "line": 662,
       "column": 112,
       "kind": "jsx-text",
       "text": "Cap du moment"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 657,
+      "line": 669,
       "column": 19,
       "kind": "jsx-text",
       "text": "Ouvrir l’action prioritaire"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 673,
+      "line": 685,
       "column": 68,
       "kind": "jsx-text",
       "text": "Un souci temporaire nous empêche d&apos;afficher toutes les données"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 675,
+      "line": 687,
       "column": 68,
       "kind": "jsx-text",
       "text": "Rafraîchis la page dans quelques instants ou poursuis ta session normalement."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 685,
+      "line": 697,
       "column": 100,
       "kind": "jsx-text",
       "text": "Boussole"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 687,
+      "line": 699,
       "column": 17,
       "kind": "jsx-text",
       "text": "Une lecture visuelle rapide de tes quatre grands axes."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 691,
+      "line": 703,
       "column": 15,
       "kind": "jsx-text",
       "text": "Moyenne"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 708,
+      "line": 720,
       "column": 17,
       "kind": "jsx-text",
       "text": "Préparation de la boussole..."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 725,
+      "line": 737,
       "column": 100,
       "kind": "jsx-text",
       "text": "Trajectoire"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 727,
+      "line": 739,
       "column": 17,
       "kind": "jsx-text",
       "text": "La progression doit être lisible, pas seulement ressentie."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 742,
+      "line": 754,
       "column": 17,
       "kind": "jsx-text",
       "text": "Préparation de la trajectoire..."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 747,
+      "line": 759,
       "column": 82,
       "kind": "jsx-text",
       "text": "Actualisation des données de progression en cours..."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 755,
+      "line": 767,
       "column": 100,
       "kind": "jsx-text",
       "text": "Cartographie fine"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 757,
+      "line": 769,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ce que tu tiens bien, et ce qu’il faut remettre sous tension."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 764,
+      "line": 776,
       "column": 15,
       "kind": "jsx-text",
       "text": "Voir le parcours"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 790,
+      "line": 802,
       "column": 103,
       "kind": "jsx-text",
       "text": "Points de vigilance remontés"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 800,
+      "line": 812,
       "column": 82,
       "kind": "jsx-text",
       "text": "Aucun point de vigilance particulier sur la période récente. Continue sur ta lancée."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 809,
+      "line": 821,
       "column": 98,
       "kind": "jsx-text",
       "text": "Activité récente"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 826,
+      "line": 838,
       "column": 80,
       "kind": "jsx-text",
       "text": "Ton fil d&apos;activité est encore vierge"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 828,
+      "line": 840,
       "column": 21,
       "kind": "jsx-text",
       "text": "Dès que tu lanceras un premier atelier ou un quiz, tes sessions apparaîtront ici pour suivre ta progression au fil des jours."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 836,
+      "line": 848,
       "column": 104,
       "kind": "jsx-text",
       "text": "Lanceur"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 838,
+      "line": 850,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le bon tableau de bord réduit la décision à un prochain geste clair."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 841,
+      "line": 853,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tu ne dois pas quitter cet écran avec une intention floue. Choisis un bloc, lance-le, puis reviens lire ce que la session a réellement déplacé."

@@ -234,7 +234,7 @@ export function getExamPhase(daysUntilExam: number): {
     return {
       phase: "fondations",
       label: "Phase Fondations",
-      action: "Priorité : mini-séances quotidiennes (10-20 min), construire la SkillMap, alimenter l'ErrorBank.",
+      action: "Priorité : mini-séances quotidiennes (10-20 min), construire la carte des compétences, alimenter la banque d'erreurs.",
     };
   }
   if (daysUntilExam > 7) {
@@ -248,7 +248,7 @@ export function getExamPhase(daysUntilExam: number): {
     return {
       phase: "simulation_2",
       label: "Phase Simulation 2",
-      action: "Simulation J-7 obligatoire. Stratégie temps, checklists méthodo, révision ErrorBank.",
+      action: "Simulation J-7 obligatoire. Stratégie temps, checklists méthodo, révision de la banque d'erreurs.",
     };
   }
   return {
