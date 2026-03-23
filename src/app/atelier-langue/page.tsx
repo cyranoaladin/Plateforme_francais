@@ -293,20 +293,20 @@ export default function AtelierLangue() {
             </Button>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[24px] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-5 shadow-[var(--shadow-md)]">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-success)]/10 text-[var(--c-success)]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/10 text-[var(--c-primary)]">
                 <Target className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Méthode attendue</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Méthode attendue</p>
                 <h2 className="mt-2 text-lg font-semibold text-[var(--c-primary)]">Ce que l’examinateur veut entendre</h2>
               </div>
             </div>
             <div className="mt-4 space-y-3">
               {METHOD_MARKERS.map((marker, index) => (
-                <div key={marker} className="rounded-[20px] border border-[var(--border-success)] bg-white/85 px-4 py-3 text-sm text-[var(--text-body)]">
-                  <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--c-success)]/10 text-xs font-bold text-[var(--c-success)]">
+                <div key={marker} className="rounded-[20px] border border-[var(--border-primary)] bg-white/85 px-4 py-3 text-sm text-[var(--text-body)]">
+                  <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--c-primary)]/10 text-xs font-bold text-[var(--c-primary)]">
                     {index + 1}
                   </span>
                   {marker}

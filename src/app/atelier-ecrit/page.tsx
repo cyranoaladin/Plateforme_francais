@@ -576,15 +576,15 @@ export default function AtelierEcritPage() {
         </div>
 
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Cadre de travail</p>
+          <section className="rounded-[24px] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-5 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Cadre de travail</p>
             <div className="mt-4 space-y-3">
               {[
                 'Utilise un sujet à la fois pour garder une correction lisible.',
                 'Privilégie des photos nettes, plates, bien éclairées.',
                 'Relis le rapport immédiatement pour transformer les conseils en prochaine action.',
               ].map((item) => (
-                <div key={item} className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
+                <div key={item} className="rounded-[16px] border border-[var(--border-primary)] bg-[var(--bg-surface)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
                   {item}
                 </div>
               ))}

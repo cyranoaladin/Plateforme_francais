@@ -184,15 +184,15 @@ function TuteurPageContent() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Mode opératoire</p>
+          <section className="rounded-[24px] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-5 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Mode opératoire</p>
             <div className="mt-4 space-y-3">
               {OPERATING_RULES.map((rule) => {
                 const Icon = rule.icon;
                 return (
-                  <div key={rule.title} className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)]/85 p-4">
+                  <div key={rule.title} className="rounded-[16px] border border-[var(--border-primary)] bg-[var(--bg-surface)]/85 p-4">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--c-success)]/10 text-[var(--c-success)]">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--c-primary)]/10 text-[var(--c-primary)]">
                         <Icon className="h-4 w-4" />
                       </div>
                       <p className="text-sm font-semibold text-[var(--c-primary)]">{rule.title}</p>
