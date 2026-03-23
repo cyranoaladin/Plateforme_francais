@@ -211,42 +211,42 @@ export function Sidebar() {
   return (
     <>
       {/* ─── Desktop LEFT Sidebar (branding, stats, user, upgrade) ─── */}
-      <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 flex-col border-r border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm)_0%,var(--surface-sand)_100%)] shadow-[var(--shadow-md)] z-10">
-        <div className="border-b border-[var(--border-light)] px-5 py-5">
-          <div className="rounded-[var(--radius-xl)] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,var(--surface-parchment)_100%)] p-4 shadow-[var(--shadow-sm)]">
+      <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 flex-col border-r border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface-secondary)_0%,var(--border-default)_100%)] shadow-[var(--shadow-md)] z-10">
+        <div className="border-b border-[var(--border-default)] px-5 py-5">
+          <div className="rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-page)_100%)] p-4 shadow-[var(--shadow-sm)]">
             <div className="flex items-center gap-3">
               <img
                 src="/images/logo_nexus_reussite.png"
                 alt="Nexus Réussite"
-                className="h-14 w-14 object-contain rounded-full border border-[var(--border-light)] bg-[var(--card)] p-1.5"
+                className="h-14 w-14 object-contain rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] p-1.5"
               />
               <div className="min-w-0">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Nexus Réussite</p>
-                <p className="mt-1 text-sm font-semibold text-[var(--navy)]">Tableau de bord EAF</p>
-                <p className="text-xs text-[var(--navy-muted)]">Travail guidé, progression lisible, matière exploitable.</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Nexus Réussite</p>
+                <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">Tableau de bord EAF</p>
+                <p className="text-xs text-[var(--text-secondary)]">Travail guidé, progression lisible, matière exploitable.</p>
               </div>
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-2">
-              <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--card)]/85 p-2.5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">J-EAF</p>
-                <p className="mt-1 text-base font-bold text-[var(--navy)]">{joursAvantEAF !== null ? joursAvantEAF : '--'}</p>
+              <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]/85 p-2.5 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">J-EAF</p>
+                <p className="mt-1 text-base font-bold text-[var(--c-primary)]">{joursAvantEAF !== null ? joursAvantEAF : '--'}</p>
               </div>
-              <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--card)]/85 p-2.5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">Streak</p>
-                <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--navy)]">
+              <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]/85 p-2.5 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">Streak</p>
+                <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--c-primary)]">
                   <Flame className="h-3.5 w-3.5 text-[var(--accent)]" /> {streak}
                 </p>
               </div>
-              <div className="rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--card)]/85 p-2.5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-warm)]">Badges</p>
-                <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--navy)]">
+              <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]/85 p-2.5 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">Badges</p>
+                <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--c-primary)]">
                   <Award className="h-3.5 w-3.5 text-[var(--badge-gold)]" /> {badgeCount}
                 </p>
               </div>
             </div>
 
-            <div className="mt-4 rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--success-bg)] p-3.5">
+            <div className="mt-4 rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-3.5">
               <div className="flex items-center gap-3">
                 <div className="relative h-12 w-12 shrink-0">
                   <svg viewBox="0 0 36 36" className="h-12 w-12 -rotate-90">
@@ -263,11 +263,11 @@ export function Sidebar() {
                       strokeLinecap="round"
                     />
                   </svg>
-                  <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-[var(--navy)]">{globalScore}</div>
+                  <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-[var(--c-primary)]">{globalScore}</div>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-[var(--navy)]">Trajectoire actuelle</p>
-                  <p className="text-xs leading-5 text-[var(--navy-muted)]">Objectif visé : {me?.profile.targetScore ?? '14/20'}.</p>
+                  <p className="text-sm font-semibold text-[var(--c-primary)]">Trajectoire actuelle</p>
+                  <p className="text-xs leading-5 text-[var(--text-secondary)]">Objectif visé : {me?.profile.targetScore ?? '14/20'}.</p>
                 </div>
               </div>
             </div>
@@ -301,9 +301,9 @@ export function Sidebar() {
           </div>
         )}
 
-        <div className="border-t border-[var(--border-light)] p-4 space-y-3">
+        <div className="border-t border-[var(--border-default)] p-4 space-y-3">
           {/* ─── Theme Selector (3-state pill) ─── */}
-          <div className="flex items-center justify-center rounded-full border border-[var(--border-light)] bg-[var(--surface-cream)] p-1 shadow-[var(--shadow-xs)]">
+          <div className="flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--surface-cream)] p-1 shadow-[var(--shadow-xs)]">
             {([
               { pref: 'system' as const, icon: Monitor, label: 'Système' },
               { pref: 'light' as const, icon: Sun, label: 'Clair' },
@@ -314,7 +314,7 @@ export function Sidebar() {
                 onClick={() => setTheme(pref)}
                 className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium transition-all duration-[var(--transition-base)] ${
                   preference === pref
-                    ? 'bg-[var(--card)] text-[var(--text-heading)] shadow-[var(--shadow-sm)]'
+                    ? 'bg-[var(--bg-surface)] text-[var(--text-heading)] shadow-[var(--shadow-sm)]'
                     : 'text-[var(--text-muted)] hover:text-[var(--text-body)]'
                 }`}
                 title={label}
@@ -331,7 +331,7 @@ export function Sidebar() {
             <button
               aria-label="Paramètres"
               onClick={() => router.push('/profil')}
-              className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--card)]/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
+              className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--bg-surface)]/80 p-2.5 text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
             >
               <Settings className="w-4 h-4" />
             </button>
@@ -339,7 +339,7 @@ export function Sidebar() {
             <button
               aria-label="Se déconnecter"
               onClick={handleLogout}
-              className="ml-auto min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--card)]/80 p-2.5 text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
+              className="ml-auto min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--bg-surface)]/80 p-2.5 text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -348,16 +348,16 @@ export function Sidebar() {
           <div className="flex items-center gap-3 p-2 rounded-[var(--radius-md)] hover:bg-muted/50 transition-colors cursor-pointer group"
             onClick={() => router.push('/profil')}
           >
-            <div className="w-10 h-10 rounded-full bg-[var(--navy)]/12 flex items-center justify-center text-[var(--navy)] font-bold text-sm shrink-0 group-hover:ring-2 ring-[var(--navy)]/20 transition-all">
+            <div className="w-10 h-10 rounded-full bg-[var(--c-primary)]/12 flex items-center justify-center text-[var(--c-primary)] font-bold text-sm shrink-0 group-hover:ring-2 ring-[var(--c-primary)]/20 transition-all">
               {initials}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-[var(--navy)] truncate">{me?.profile.displayName ?? 'Élève'}</p>
-              <p className="text-xs text-[var(--navy-muted)]">
+              <p className="text-sm font-semibold text-[var(--c-primary)] truncate">{me?.profile.displayName ?? 'Élève'}</p>
+              <p className="text-xs text-[var(--text-secondary)]">
                 <span className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] ${
-                  planId === 'FREE' ? 'bg-[var(--navy)]/8 text-[var(--navy-muted)]'
-                  : planId === 'PREMIUM' ? 'bg-[var(--teal)]/12 text-[var(--teal)]'
-                  : 'bg-[var(--accent-bronze)]/12 text-[var(--accent-bronze)]'
+                  planId === 'FREE' ? 'bg-[var(--c-primary)]/8 text-[var(--text-secondary)]'
+                  : planId === 'PREMIUM' ? 'bg-[var(--c-success)]/12 text-[var(--c-success)]'
+                  : 'bg-[var(--c-reward)]/12 text-[var(--c-reward)]'
                 }`}>
                   {planLabel}
                 </span>
@@ -368,17 +368,17 @@ export function Sidebar() {
       </aside>
 
       {/* ─── Desktop RIGHT Sidebar (navigation) ─── */}
-      <aside className="hidden md:flex fixed inset-y-0 right-0 w-64 flex-col border-l border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,var(--surface-warm)_100%)] shadow-[var(--shadow-md)] z-10">
+      <aside className="hidden md:flex fixed inset-y-0 right-0 w-64 flex-col border-l border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)] shadow-[var(--shadow-md)] z-10">
         <div className="px-4 pt-5 pb-3">
-          <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Navigation</p>
-          <p className="mt-1 text-xs leading-5 text-[var(--navy-muted)]">Accès rapide aux ateliers et outils.</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Navigation</p>
+          <p className="mt-1 text-xs leading-5 text-[var(--text-secondary)]">Accès rapide aux ateliers et outils.</p>
         </div>
         <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-2">
           {navSections.map((section) => (
             <section key={section.label}>
               <div className="mb-2 px-2">
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--accent-bronze)]">{section.label}</p>
-                <p className="mt-0.5 text-[11px] leading-4 text-[var(--navy-muted)]">{section.description}</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--c-reward)]">{section.label}</p>
+                <p className="mt-0.5 text-[11px] leading-4 text-[var(--text-secondary)]">{section.description}</p>
               </div>
               <div className="space-y-1">
                 {section.items.map((item) => {
@@ -389,18 +389,18 @@ export function Sidebar() {
                       href={item.href}
                       className={`group flex items-center gap-2.5 rounded-[16px] border px-3 py-2.5 text-sm transition-all ${
                         isActive
-                          ? 'border-[var(--navy)]/10 bg-[var(--navy)] text-white shadow-[var(--shadow-sm)]'
-                          : 'border-transparent bg-[var(--card)]/50 text-[var(--navy-muted)] hover:border-[var(--border-default)] hover:bg-[var(--card)] hover:text-[var(--navy)]'
+                          ? 'border-[var(--c-primary)]/10 bg-[var(--c-primary)] text-white shadow-[var(--shadow-sm)]'
+                          : 'border-transparent bg-[var(--bg-surface)]/50 text-[var(--text-secondary)] hover:border-[var(--border-default)] hover:bg-[var(--bg-surface)] hover:text-[var(--c-primary)]'
                       }`}
                     >
                       <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--radius-md)] ${
-                        isActive ? 'bg-white/12 text-white' : 'bg-[var(--navy)]/8 text-[var(--navy)]'
+                        isActive ? 'bg-white/12 text-white' : 'bg-[var(--c-primary)]/8 text-[var(--c-primary)]'
                       }`}>
                         <item.icon className="h-4 w-4" />
                       </div>
                       <div className="min-w-0">
-                        <p className={`text-sm font-semibold leading-tight ${isActive ? 'text-white' : 'text-[var(--navy)]'}`}>{item.name}</p>
-                        <p className={`text-[11px] leading-tight ${isActive ? 'text-white/65' : 'text-[var(--navy-muted)]'}`}>{item.hint}</p>
+                        <p className={`text-sm font-semibold leading-tight ${isActive ? 'text-white' : 'text-[var(--c-primary)]'}`}>{item.name}</p>
+                        <p className={`text-[11px] leading-tight ${isActive ? 'text-white/65' : 'text-[var(--text-secondary)]'}`}>{item.hint}</p>
                       </div>
                     </Link>
                   );
@@ -412,7 +412,7 @@ export function Sidebar() {
       </aside>
 
       {/* ─── Mobile Bottom Navigation ─── */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-[var(--border-default)] bg-[var(--surface-ivory)]/96 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-md shadow-[var(--shadow-md)]">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 border-t border-[var(--border-default)] bg-[var(--bg-surface)]/96 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-md shadow-[var(--shadow-md)]">
         <div className="flex gap-1.5 overflow-x-auto">
           {mobileNavItems.map((item) => {
             const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
@@ -423,8 +423,8 @@ export function Sidebar() {
                 aria-label={item.name}
                 className={`flex min-h-[48px] min-w-[48px] flex-1 flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
                   active
-                    ? 'bg-[var(--navy)] text-white shadow-[var(--shadow-md)]'
-                    : 'text-[var(--navy-muted)] active:bg-[var(--card)] active:text-[var(--navy)]'
+                    ? 'bg-[var(--c-primary)] text-white shadow-[var(--shadow-md)]'
+                    : 'text-[var(--text-secondary)] active:bg-[var(--bg-surface)] active:text-[var(--c-primary)]'
                 }`}
               >
                 <item.icon className="h-5 w-5" />
@@ -439,15 +439,15 @@ export function Sidebar() {
               onClick={() => setMobileThemeOpen((prev) => !prev)}
               className={`flex min-h-[48px] min-w-[48px] w-full flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
                 mobileThemeOpen
-                  ? 'bg-[var(--navy)] text-white shadow-[var(--shadow-md)]'
-                  : 'text-[var(--navy-muted)] active:bg-[var(--card)] active:text-[var(--navy)]'
+                  ? 'bg-[var(--c-primary)] text-white shadow-[var(--shadow-md)]'
+                  : 'text-[var(--text-secondary)] active:bg-[var(--bg-surface)] active:text-[var(--c-primary)]'
               }`}
             >
               {preference === 'dark' ? <Moon className="h-5 w-5" /> : preference === 'light' ? <Sun className="h-5 w-5" /> : <Monitor className="h-5 w-5" />}
               <span className="mt-0.5 text-[10px] font-bold leading-tight">Thème</span>
             </button>
             {mobileThemeOpen && (
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--card)] p-1.5 shadow-[var(--shadow-lg)] min-w-[180px]">
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-1.5 shadow-[var(--shadow-md)] min-w-[180px]">
                 {([
                   { pref: 'system' as const, icon: Monitor, label: 'Système' },
                   { pref: 'light' as const, icon: Sun, label: 'Clair' },
@@ -459,7 +459,7 @@ export function Sidebar() {
                     className={`flex w-full items-center gap-2.5 rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium transition-all duration-[var(--transition-base)] ${
                       preference === pref
                         ? 'bg-[var(--surface-cream)] text-[var(--text-heading)]'
-                        : 'text-[var(--text-muted)] hover:bg-[var(--surface-warm)] hover:text-[var(--text-body)]'
+                        : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-secondary)] hover:text-[var(--text-body)]'
                     }`}
                     aria-pressed={preference === pref}
                   >

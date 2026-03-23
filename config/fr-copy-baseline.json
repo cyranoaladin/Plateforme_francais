@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-22T23:55:07.024Z",
+  "generatedAt": "2026-03-23T00:12:12.637Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -3819,14 +3819,14 @@
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 618,
-      "column": 108,
+      "column": 112,
       "kind": "jsx-text",
       "text": "Fenêtre d’épreuve"
     },
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 642,
-      "column": 108,
+      "column": 112,
       "kind": "jsx-text",
       "text": "Cap du moment"
     },
@@ -3840,14 +3840,14 @@
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 665,
-      "column": 102,
+      "column": 107,
       "kind": "jsx-text",
       "text": "afficher toutes les données"
     },
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 665,
-      "column": 63,
+      "column": 68,
       "kind": "jsx-text",
       "text": "Un souci temporaire nous empêche d"
     },
@@ -3861,7 +3861,7 @@
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 677,
-      "column": 95,
+      "column": 100,
       "kind": "jsx-text",
       "text": "Boussole"
     },
@@ -3889,7 +3889,7 @@
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 717,
-      "column": 95,
+      "column": 100,
       "kind": "jsx-text",
       "text": "Trajectoire"
     },
@@ -3917,7 +3917,7 @@
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 747,
-      "column": 95,
+      "column": 100,
       "kind": "jsx-text",
       "text": "Cartographie fine"
     },
@@ -3952,21 +3952,21 @@
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 801,
-      "column": 93,
+      "column": 98,
       "kind": "jsx-text",
       "text": "Activité récente"
     },
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 818,
-      "column": 75,
+      "column": 80,
       "kind": "jsx-text",
       "text": "Ton fil d"
     },
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 818,
-      "column": 89,
+      "column": 94,
       "kind": "jsx-text",
       "text": "activité est encore vierge"
     },
@@ -3980,7 +3980,7 @@
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 828,
-      "column": 100,
+      "column": 104,
       "kind": "jsx-text",
       "text": "Lanceur"
     },
@@ -7753,21 +7753,21 @@
     {
       "file": "src/components/layout/sidebar.tsx",
       "line": 224,
-      "column": 110,
+      "column": 105,
       "kind": "jsx-text",
       "text": "Nexus Réussite"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
       "line": 225,
-      "column": 78,
+      "column": 83,
       "kind": "jsx-text",
       "text": "Tableau de bord EAF"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
       "line": 226,
-      "column": 65,
+      "column": 69,
       "kind": "jsx-text",
       "text": "Travail guidé, progression lisible, matière exploitable."
     },
@@ -7795,14 +7795,14 @@
     {
       "file": "src/components/layout/sidebar.tsx",
       "line": 269,
-      "column": 75,
+      "column": 80,
       "kind": "jsx-text",
       "text": "Trajectoire actuelle"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
       "line": 270,
-      "column": 77,
+      "column": 81,
       "kind": "jsx-text",
       "text": "Objectif visé :"
     },
@@ -7823,14 +7823,14 @@
     {
       "file": "src/components/layout/sidebar.tsx",
       "line": 373,
-      "column": 104,
+      "column": 99,
       "kind": "jsx-text",
       "text": "Navigation"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
       "line": 374,
-      "column": 74,
+      "column": 78,
       "kind": "jsx-text",
       "text": "Accès rapide aux ateliers et outils."
     },

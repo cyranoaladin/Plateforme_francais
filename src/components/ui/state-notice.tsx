@@ -15,38 +15,38 @@ type StateNoticeProps = {
 
 const VARIANT_STYLES: Record<NoticeVariant, { shell: string; iconBox: string; text: string; defaultIcon: LucideIcon }> = {
   info: {
-    shell: 'border-[var(--border-light)] bg-[var(--info-bg)]',
-    iconBox: 'bg-[var(--navy)]/10 text-[var(--navy)]',
-    text: 'text-[var(--navy-mid)]',
+    shell: 'border-[var(--border-default)] bg-[var(--info-bg)]',
+    iconBox: 'bg-[var(--c-primary)]/10 text-[var(--c-primary)]',
+    text: 'text-[var(--text-body)]',
     defaultIcon: Info,
   },
   success: {
-    shell: 'border-[var(--border-success)] bg-[var(--success-bg)]',
-    iconBox: 'bg-[var(--teal)]/10 text-[var(--teal)]',
-    text: 'text-[var(--navy-mid)]',
+    shell: 'border-[var(--border-success)] bg-[var(--bg-success)]',
+    iconBox: 'bg-[var(--c-success)]/10 text-[var(--c-success)]',
+    text: 'text-[var(--text-body)]',
     defaultIcon: CheckCircle2,
   },
   warning: {
-    shell: 'border-[var(--surface-sand)] bg-[var(--warning-bg)]',
-    iconBox: 'bg-[var(--gold-deep)]/10 text-[var(--gold-deep)]',
-    text: 'text-[var(--gold-contrast)]',
+    shell: 'border-[var(--border-default)] bg-[var(--bg-reward)]',
+    iconBox: 'bg-[var(--c-reward)]/10 text-[var(--c-reward)]',
+    text: 'text-[var(--text-reward-on-subtle)]',
     defaultIcon: AlertTriangle,
   },
   error: {
-    shell: 'border-[var(--error-border)] bg-[var(--error-bg)]',
+    shell: 'border-[var(--border-accent)] bg-[var(--c-accent-subtle)]',
     iconBox: 'bg-[var(--error-text)]/10 text-[var(--error-text)]',
-    text: 'text-[var(--gold-contrast)]',
+    text: 'text-[var(--text-reward-on-subtle)]',
     defaultIcon: AlertTriangle,
   },
   loading: {
-    shell: 'border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-ivory)_0%,var(--surface-warm)_100%)]',
-    iconBox: 'bg-[var(--navy)]/10 text-[var(--navy)]',
-    text: 'text-[var(--navy-muted)]',
+    shell: 'border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)]',
+    iconBox: 'bg-[var(--c-primary)]/10 text-[var(--c-primary)]',
+    text: 'text-[var(--text-secondary)]',
     defaultIcon: Loader2,
   },
   empty: {
-    shell: 'border-dashed border-[var(--border-strong)] bg-[var(--surface-warm)]',
-    iconBox: 'bg-[var(--accent-bronze)]/10 text-[var(--accent-bronze)]',
+    shell: 'border-dashed border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]',
+    iconBox: 'bg-[var(--c-reward)]/10 text-[var(--c-reward)]',
     text: 'text-[var(--text-secondary)]',
     defaultIcon: Info,
   },
@@ -73,7 +73,7 @@ export function StateNotice({
           <Icon className={`h-5 w-5 ${variant === 'loading' ? 'animate-spin' : ''}`} />
         </div>
         <div className={`min-w-0 flex-1 ${visual.text}`}>
-          <h3 className="text-base font-semibold text-[var(--navy)]">{title}</h3>
+          <h3 className="text-base font-semibold text-[var(--c-primary)]">{title}</h3>
           {description ? <p className="mt-1.5 text-sm leading-7">{description}</p> : null}
           {action ? <div className="mt-4">{action}</div> : null}
         </div>
