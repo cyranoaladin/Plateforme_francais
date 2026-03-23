@@ -113,6 +113,8 @@
   --text-reward-on-subtle:   var(--color-amber-700);
 
   /* Bordures */
+  --border-default:  var(--color-slate-200);
+  --border-strong:   var(--color-slate-300);
   --border-primary:  var(--color-indigo-200);
   --border-success:  var(--color-emerald-200);
   --border-accent:   var(--color-coral-200);
@@ -152,6 +154,8 @@
     --text-accent-on-subtle:   var(--color-coral-300);
     --text-reward-on-subtle:   var(--color-amber-300);
 
+    --border-default:  var(--color-slate-700);
+    --border-strong:   var(--color-slate-600);
     --border-primary:  var(--color-indigo-700);
     --border-success:  var(--color-emerald-700);
     --border-accent:   var(--color-coral-600);

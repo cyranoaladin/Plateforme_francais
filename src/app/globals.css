@@ -69,15 +69,6 @@ html { overflow-x: clip; }
   --surface-info-box: #f4f8fb;
 
   /* ─── Borders — Nouvelle Charte ─────────────────────────────────────── */
-  --border-default: #dfd2bf;
-  --border-strong: #D1D5DB;   /* Nouvelle charte */
-  --border-warm: #d7c4aa;
-  --border-sand: #dfd1bc;
-  --border-success: #d8e8e3;
-  --border-warm-mid: #e8dcc8;
-  --border-warm-soft: #efe3d2;
-  --border-disabled: #e0ddd8;
-  --border-info-box: #dfe7ef;
 
   /* ─── Text — Nouvelle Charte ────────────────────────────────────────── */
   --text-heading: #1A1D23;    /* Noir Doux */
@@ -185,15 +176,6 @@ html { overflow-x: clip; }
   --surface-info-box: #172030;
 
   /* ─── Borders — lighter for dark backgrounds ───────── */
-  --border-default: #3b4a5c;
-  --border-strong: #475569;
-  --border-warm: #3d4d5f;
-  --border-sand: #3b4a5c;
-  --border-success: #1a4a3e;
-  --border-warm-mid: #3d4d5f;
-  --border-warm-soft: #334155;
-  --border-disabled: #2d3a48;
-  --border-info-box: #2a3a4d;
 
   /* ─── Text — brighter for dark backgrounds ─────────── */
   --text-heading: #f1f5f9;
