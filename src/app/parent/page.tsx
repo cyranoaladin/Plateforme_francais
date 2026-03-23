@@ -49,12 +49,33 @@ function formatCountdown(value: number | null, fallback: string) {
   return `J-${value}`;
 }
 
+function averageScoreValue(scores: {
+  oral: number | null;
+  ecrit: number | null;
+  grammaire: number | null;
+  lectureCursive: number | null;
+}) {
+  const values = Object.values(scores).filter((value): value is number => typeof value === 'number');
+
+  if (values.length === 0) {
+    return null;
+  }
+
+  return Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1));
+}
+
+function formatScoreLabel(value: number | null) {
+  if (value === null) {
+    return 'Diagnostic à lancer';
+  }
+
+  return `${value.toFixed(1)} / 20`;
+}
+
 export default function ParentDashboard() {
   const data = useDashboard();
 
-  const averageScore = Number(
-    ((data.scores.oral + data.scores.ecrit + data.scores.grammaire + data.scores.lectureCursive) / 4).toFixed(1),
-  );
+  const averageScore = averageScoreValue(data.scores);
 
   const skillEntries = Object.entries(data.scores).map(([key, score]) => ({
     key,
@@ -62,8 +83,14 @@ export default function ParentDashboard() {
     score,
   }));
 
-  const strongestSkill = skillEntries.reduce((prev, current) => (current.score > prev.score ? current : prev), skillEntries[0]);
-  const weakestSkill = skillEntries.reduce((prev, current) => (current.score < prev.score ? current : prev), skillEntries[0]);
+  const strongestSkill = skillEntries.reduce(
+    (prev, current) => ((current.score ?? 0) > (prev.score ?? 0) ? current : prev),
+    skillEntries[0],
+  );
+  const weakestSkill = skillEntries.reduce(
+    (prev, current) => ((current.score ?? 0) < (prev.score ?? 0) ? current : prev),
+    skillEntries[0],
+  );
   const weakSignals = Object.entries(data.weakSignals).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
   const progressionData = data.weeklyProgression.map((item) => ({
@@ -83,7 +110,7 @@ export default function ParentDashboard() {
       score: scoreFromEvent(event),
     }));
 
-  const parentAdvice = {
+  const parentAdvice = data.hasEvaluationData ? {
     oral: {
       title: 'Mettre l’oral au centre cette semaine',
       detail: 'Demander une prise de parole courte mais régulière aide souvent plus qu’un long débrief occasionnel.',
@@ -108,6 +135,10 @@ export default function ParentDashboard() {
     title: 'Maintenir un rythme régulier',
     detail: 'La stabilité compte plus que les pics d’intensité.',
     action: 'Conserver des créneaux simples et répétables.',
+  } : {
+    title: 'Obtenir un premier repère fiable',
+    detail: 'Avant d’interpréter une tendance, il faut une première séance évaluée pour sortir des impressions floues.',
+    action: 'Inviter l’élève à lancer un premier atelier noté cette semaine.',
   };
 
   return (
@@ -132,13 +163,13 @@ export default function ParentDashboard() {
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Moyenne actuelle&nbsp;: <strong>{averageScore} / 20</strong>
+                Moyenne actuelle&nbsp;: <strong>{formatScoreLabel(averageScore)}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Point fort&nbsp;: <strong>{strongestSkill.label}</strong>
+                Point fort&nbsp;: <strong>{data.hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Focus semaine&nbsp;: <strong>{weakestSkill.label}</strong>
+                Focus semaine&nbsp;: <strong>{data.hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>
               </span>
             </div>
 
@@ -161,7 +192,7 @@ export default function ParentDashboard() {
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
             {[
-              { label: 'Moyenne', value: `${averageScore} / 20`, icon: GraduationCap },
+              { label: 'Moyenne', value: formatScoreLabel(averageScore), icon: GraduationCap },
               { label: 'Sessions', value: `${data.totalSessions}`, icon: CheckCircle2 },
               { label: 'Série', value: `${data.streak} jours`, icon: Flame },
               { label: 'Écrit', value: formatCountdown(data.countdownEcrit, 'date non renseignée'), icon: CalendarDays },
@@ -207,7 +238,7 @@ export default function ParentDashboard() {
               <div key={skill.key}>
                 <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
                   <span className="text-[var(--c-primary)]">{skill.label}</span>
-                  <span className="text-[var(--text-muted)]">{skill.score.toFixed(1)} / 20</span>
+                  <span className="text-[var(--text-muted)]">{formatScoreLabel(skill.score)}</span>
                 </div>
                 <div className="h-2.5 rounded-full bg-[var(--border-default)]">
                   <div
@@ -220,7 +251,7 @@ export default function ParentDashboard() {
                             ? 'bg-[var(--c-primary)]'
                             : 'bg-[var(--c-primary)]'
                     }`}
-                    style={{ width: `${(skill.score / 20) * 100}%` }}
+                    style={{ width: `${((skill.score ?? 0) / 20) * 100}%` }}
                   />
                 </div>
               </div>

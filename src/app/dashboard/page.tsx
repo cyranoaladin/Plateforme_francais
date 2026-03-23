@@ -223,6 +223,36 @@ const LAUNCHPAD = [
   },
 ];
 
+const EMPTY_FOCUS_COPY = {
+  eyebrow: 'Cap à lancer',
+  title: 'Aucun signal fiable pour l’instant: il faut une première séance notée.',
+  detail: 'Le tableau de bord affichera de vrais axes de force et de tension après un premier atelier évalué.',
+};
+
+const EMPTY_FOCUS_ACTIONS = [
+  {
+    title: 'Démarrer un oral blanc',
+    detail: 'Créer un premier repère concret sur la lecture, l’explication et l’entretien.',
+    duration: '15 min',
+    href: '/atelier-oral',
+    icon: Mic,
+  },
+  {
+    title: 'Lancer un premier écrit',
+    detail: 'Obtenir un signal utile sur la méthode et la structure dès la première copie.',
+    duration: '20 min',
+    href: '/atelier-ecrit',
+    icon: PenTool,
+  },
+  {
+    title: 'Ouvrir le tuteur',
+    detail: 'Débloquer une première difficulté avant d’installer de mauvais réflexes.',
+    duration: '8 min',
+    href: '/tuteur',
+    icon: MessageSquare,
+  },
+];
+
 function extractEventScore(event: {
   feature: string;
   path?: string;
@@ -301,6 +331,29 @@ function describeMomentum(current: number | null, previous: number | null) {
   };
 }
 
+function averageScoreValue(scores: {
+  oral: number | null;
+  ecrit: number | null;
+  grammaire: number | null;
+  lectureCursive: number | null;
+}) {
+  const values = Object.values(scores).filter((value): value is number => typeof value === 'number');
+
+  if (values.length === 0) {
+    return null;
+  }
+
+  return Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1));
+}
+
+function formatScoreLabel(value: number | null) {
+  if (value === null) {
+    return 'Diagnostic à lancer';
+  }
+
+  return `${value.toFixed(1)} / 20`;
+}
+
 function buildSeries(feature: string, path?: string): 'commentaire' | 'dissertation' | 'oral' {
   const text = `${feature} ${path ?? ''}`.toLowerCase();
 
@@ -354,21 +407,23 @@ export default function Dashboard() {
   }, []);
 
   const weakestSkill = SKILL_META.reduce(
-    (prev, curr) => (data.scores[curr.key] < data.scores[prev.key] ? curr : prev),
+    (prev, curr) => ((data.scores[curr.key] ?? 0) < (data.scores[prev.key] ?? 0) ? curr : prev),
     SKILL_META[0],
   );
   const strongestSkill = SKILL_META.reduce(
-    (prev, curr) => (data.scores[curr.key] > data.scores[prev.key] ? curr : prev),
+    (prev, curr) => ((data.scores[curr.key] ?? 0) > (data.scores[prev.key] ?? 0) ? curr : prev),
     SKILL_META[0],
   );
 
-  const radarData = SKILL_META.map((skill) => ({ skill: skill.label, score: data.scores[skill.key] }));
-  const focusCopy = FOCUS_COPY[weakestSkill.key] ?? FOCUS_COPY.ecrit;
-  const weakSignals = Object.entries(data.weakSignals).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const radarData = SKILL_META.map((skill) => ({
+    skill: skill.label,
+    score: data.scores[skill.key] ?? 0,
+    rawScore: data.scores[skill.key],
+  }));
+  const focusCopy = data.hasEvaluationData ? (FOCUS_COPY[weakestSkill.key] ?? FOCUS_COPY.ecrit) : EMPTY_FOCUS_COPY;
+  const weakSignals = data.hasEvaluationData ? Object.entries(data.weakSignals).sort((a, b) => b[1] - a[1]).slice(0, 5) : [];
   const recentActivity = data.timeline.slice(0, 5).map(formatActivity);
-  const averageScore = Number(
-    (SKILL_META.reduce((sum, skill) => sum + data.scores[skill.key], 0) / SKILL_META.length).toFixed(1),
-  );
+  const averageScore = averageScoreValue(data.scores);
 
   const progressionData = useMemo(() => {
     const buckets = new Map<
@@ -446,11 +501,11 @@ export default function Dashboard() {
 
   const focusActions = useMemo(
     () =>
-      (ACTIONS[weakestSkill.key] ?? ACTIONS.ecrit).map((action) => ({
+      (data.hasEvaluationData ? (ACTIONS[weakestSkill.key] ?? ACTIONS.ecrit) : EMPTY_FOCUS_ACTIONS).map((action) => ({
         ...action,
         href: action.href === '/tuteur' ? tutorHref : action.href,
       })),
-    [tutorHref, weakestSkill.key],
+    [data.hasEvaluationData, tutorHref, weakestSkill.key],
   );
 
   const latestProgressScore = data.weeklyProgression.at(-1)?.score ?? null;
@@ -515,23 +570,32 @@ export default function Dashboard() {
             </h1>
 
             <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
-              {formatCountdown(data.countdownEcrit, 'Écrit')}. {formatCountdown(data.countdownOral, 'Oral')}. Le signal du moment indique de remettre
-              d’abord <strong>{weakestSkill.label.toLowerCase()}</strong> au centre, à partir de l’historique réel des séances et des attendus EAF,
-              puis seulement ensuite d’élargir.
+              {data.hasEvaluationData ? (
+                <>
+                  {formatCountdown(data.countdownEcrit, 'Écrit')}. {formatCountdown(data.countdownOral, 'Oral')}. Le signal du moment indique de
+                  remettre d’abord <strong>{weakestSkill.label.toLowerCase()}</strong> au centre, à partir de l’historique réel des séances et des
+                  attendus EAF, puis seulement ensuite d’élargir.
+                </>
+              ) : (
+                <>
+                  {formatCountdown(data.countdownEcrit, 'Écrit')}. {formatCountdown(data.countdownOral, 'Oral')}. Lance un premier atelier noté pour
+                  faire émerger des repères fiables: forces, points à retendre et trajectoire réelle.
+                </>
+              )}
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Point fort courant: <strong>{strongestSkill.label}</strong>
+                Point fort courant: <strong>{data.hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Angle à retendre: <strong>{weakestSkill.label}</strong>
+                Angle à retendre: <strong>{data.hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Niveau moyen: <strong>{averageScore} / 20</strong>
+                Niveau moyen: <strong>{formatScoreLabel(averageScore)}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Dernier passage: <strong>{recentActivity[0]?.date ?? 'pas encore de session'}</strong>
+                Dernier passage: <strong>{recentActivity[0]?.date ?? 'pas encore de séance'}</strong>
               </span>
             </div>
 
@@ -560,7 +624,7 @@ export default function Dashboard() {
                   value: data.onboardingCompleted ? 'Activée' : 'À terminer',
                   icon: CheckCircle2,
                 },
-                { label: 'Repère fort', value: strongestSkill.label, icon: GraduationCap },
+                { label: 'Repère fort', value: data.hasEvaluationData ? strongestSkill.label : 'À construire', icon: GraduationCap },
               ].map((item) => (
                 <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                   <div className="flex items-center gap-3">
@@ -655,7 +719,11 @@ export default function Dashboard() {
               <div className="rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Cap du moment</p>
                 <p className="mt-4 text-2xl font-semibold leading-tight text-white">{focusCopy.eyebrow}</p>
-                <p className="mt-3 text-sm leading-7 text-slate-200">{weakestSkill.copy}</p>
+                <p className="mt-3 text-sm leading-7 text-slate-200">
+                  {data.hasEvaluationData
+                    ? weakestSkill.copy
+                    : 'Les axes prioritaires se préciseront après une première évaluation exploitable.'}
+                </p>
                 <Link
                   href={ritualLead.href}
                   className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[var(--bg-page)] transition-colors hover:text-[var(--color-amber-300)]"
@@ -694,7 +762,7 @@ export default function Dashboard() {
               </h2>
             </div>
             <div className="shrink-0 self-start rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-muted)]">
-              Moyenne {averageScore} / 20
+              Moyenne {formatScoreLabel(averageScore)}
             </div>
           </div>
 
@@ -719,7 +787,7 @@ export default function Dashboard() {
           <div className="mt-5 flex flex-wrap gap-2.5">
             {radarData.map((item) => (
               <span key={item.skill} className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-secondary)]">
-                {item.skill}: {item.score.toFixed(1)} / 20
+                {item.skill}: {formatScoreLabel(item.rawScore)}
               </span>
             ))}
           </div>
@@ -782,10 +850,10 @@ export default function Dashboard() {
                       <span className={skill.textColor}>{skill.label}</span>
                       <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{skill.copy}</p>
                     </div>
-                    <span className="shrink-0 text-[var(--text-muted)]">{score.toFixed(1)} / 20</span>
+                    <span className="shrink-0 text-[var(--text-muted)]">{formatScoreLabel(score)}</span>
                   </div>
                   <div className="h-2.5 w-full rounded-full bg-[var(--border-default)]">
-                    <div className="h-2.5 rounded-full" style={{ width: `${(score / 20) * 100}%`, background: skill.barColor }} />
+                    <div className="h-2.5 rounded-full" style={{ width: `${((score ?? 0) / 20) * 100}%`, background: skill.barColor }} />
                   </div>
                 </div>
               );
@@ -803,7 +871,11 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : (
-              <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">Aucun point de vigilance particulier sur la période récente. Continue sur ta lancée.</p>
+              <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
+                {data.hasEvaluationData
+                  ? 'Aucun point de vigilance particulier sur la période récente. Continue sur ta lancée.'
+                  : 'Aucun point de vigilance exploitable pour l’instant. Lance un premier atelier pour faire apparaître les zones à travailler.'}
+              </p>
             )}
           </div>
 

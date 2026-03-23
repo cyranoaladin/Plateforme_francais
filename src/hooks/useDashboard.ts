@@ -25,10 +25,10 @@ type TimelineResponse = {
 };
 
 type SkillScores = {
-  oral: number;
-  ecrit: number;
-  grammaire: number;
-  lectureCursive: number;
+  oral: number | null;
+  ecrit: number | null;
+  grammaire: number | null;
+  lectureCursive: number | null;
 };
 
 export type DashboardMetrics = {
@@ -47,15 +47,16 @@ export type DashboardMetrics = {
   countdownDays: number | null;
   countdownEcrit: number | null;
   countdownOral: number | null;
+  hasEvaluationData: boolean;
   isLoading: boolean;
   error: string | null;
 };
 
-const DEFAULT_SCORES: SkillScores = {
-  oral: 10,
-  ecrit: 10,
-  grammaire: 10,
-  lectureCursive: 10,
+const EMPTY_SCORES: SkillScores = {
+  oral: null,
+  ecrit: null,
+  grammaire: null,
+  lectureCursive: null,
 };
 
 function clampScore(value: number): number {
@@ -135,6 +136,96 @@ function computeStreak(events: MemoryEvent[]): number {
   return streak;
 }
 
+function averageBucket(values: number[]): number | null {
+  if (values.length === 0) {
+    return null;
+  }
+
+  return clampScore(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
+export function computeDashboardMetricsFromTimeline(
+  data: TimelineResponse | null,
+  isLoading: boolean = false,
+  error: string | null = null,
+): DashboardMetrics {
+  const timeline = data?.timeline ?? [];
+
+  const scoreBuckets: Record<keyof SkillScores, number[]> = {
+    oral: [],
+    ecrit: [],
+    grammaire: [],
+    lectureCursive: [],
+  };
+
+  const weeklyScores = new Map<string, number[]>();
+
+  for (const event of timeline) {
+    if (event.type !== 'evaluation') {
+      continue;
+    }
+
+    const score = eventToScore(event);
+    if (score === null) {
+      continue;
+    }
+
+    const skill = resolveSkill(event);
+    scoreBuckets[skill].push(score);
+
+    const key = weekKey(new Date(event.createdAt));
+    const current = weeklyScores.get(key) ?? [];
+    current.push(score);
+    weeklyScores.set(key, current);
+  }
+
+  const scores: SkillScores = {
+    oral: averageBucket(scoreBuckets.oral),
+    ecrit: averageBucket(scoreBuckets.ecrit),
+    grammaire: averageBucket(scoreBuckets.grammaire),
+    lectureCursive: averageBucket(scoreBuckets.lectureCursive),
+  };
+
+  const weeklyProgression = Array.from(weeklyScores.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([week, values]) => ({
+      week,
+      score: clampScore(values.reduce((sum, value) => sum + value, 0) / values.length),
+    }));
+
+  const hasEvaluationData = Object.values(scores).some((value) => typeof value === 'number');
+
+  return {
+    scores: hasEvaluationData ? scores : EMPTY_SCORES,
+    weakSignals: data?.weakSignals ?? {},
+    lastActivity: timeline[0]?.createdAt ?? null,
+    totalSessions: timeline.filter((event) => event.type === 'navigation').length,
+    streak: computeStreak(timeline),
+    weeklyProgression,
+    timeline,
+    displayName: data?.profile.displayName ?? 'Élève',
+    onboardingCompleted: data?.profile.onboardingCompleted ?? false,
+    eafDate: data?.profile.eafDate ?? null,
+    selectedOeuvres: data?.profile.selectedOeuvres ?? [],
+    oeuvreChoisieEntretien: data?.profile.oeuvreChoisieEntretien ?? null,
+    countdownDays:
+      data?.profile.eafDate
+        ? Math.max(
+            0,
+            Math.ceil(
+              (new Date(data.profile.eafDate).getTime() - new Date().getTime()) /
+                (1000 * 60 * 60 * 24),
+            ),
+          )
+        : null,
+    countdownEcrit: Math.max(0, Math.ceil((new Date('2026-06-08T08:00:00').getTime() - Date.now()) / 86_400_000)),
+    countdownOral: Math.max(0, Math.ceil((new Date('2026-06-19T00:00:00').getTime() - Date.now()) / 86_400_000)),
+    hasEvaluationData,
+    isLoading,
+    error,
+  };
+}
+
 export function useDashboard(): DashboardMetrics {
   const [data, setData] = useState<TimelineResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -176,88 +267,5 @@ export function useDashboard(): DashboardMetrics {
     void load();
   }, []);
 
-  return useMemo(() => {
-    const timeline = data?.timeline ?? [];
-
-    const scoreBuckets: Record<keyof SkillScores, number[]> = {
-      oral: [],
-      ecrit: [],
-      grammaire: [],
-      lectureCursive: [],
-    };
-
-    const weeklyScores = new Map<string, number[]>();
-
-    for (const event of timeline) {
-      if (event.type !== 'evaluation') {
-        continue;
-      }
-
-      const score = eventToScore(event);
-      if (score === null) {
-        continue;
-      }
-
-      const skill = resolveSkill(event);
-      scoreBuckets[skill].push(score);
-
-      const key = weekKey(new Date(event.createdAt));
-      const current = weeklyScores.get(key) ?? [];
-      current.push(score);
-      weeklyScores.set(key, current);
-    }
-
-    const scores: SkillScores = {
-      oral: scoreBuckets.oral.length
-        ? clampScore(scoreBuckets.oral.reduce((a, b) => a + b, 0) / scoreBuckets.oral.length)
-        : DEFAULT_SCORES.oral,
-      ecrit: scoreBuckets.ecrit.length
-        ? clampScore(scoreBuckets.ecrit.reduce((a, b) => a + b, 0) / scoreBuckets.ecrit.length)
-        : DEFAULT_SCORES.ecrit,
-      grammaire: scoreBuckets.grammaire.length
-        ? clampScore(scoreBuckets.grammaire.reduce((a, b) => a + b, 0) / scoreBuckets.grammaire.length)
-        : DEFAULT_SCORES.grammaire,
-      lectureCursive: scoreBuckets.lectureCursive.length
-        ? clampScore(
-            scoreBuckets.lectureCursive.reduce((a, b) => a + b, 0) / scoreBuckets.lectureCursive.length,
-          )
-        : DEFAULT_SCORES.lectureCursive,
-    };
-
-    const weeklyProgression = Array.from(weeklyScores.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([week, values]) => ({
-        week,
-        score: clampScore(values.reduce((a, b) => a + b, 0) / values.length),
-      }));
-
-    return {
-      scores,
-      weakSignals: data?.weakSignals ?? {},
-      lastActivity: timeline[0]?.createdAt ?? null,
-      totalSessions: timeline.filter((event) => event.type === 'navigation').length,
-      streak: computeStreak(timeline),
-      weeklyProgression,
-      timeline,
-      displayName: data?.profile.displayName ?? 'Élève',
-      onboardingCompleted: data?.profile.onboardingCompleted ?? false,
-      eafDate: data?.profile.eafDate ?? null,
-      selectedOeuvres: data?.profile.selectedOeuvres ?? [],
-      oeuvreChoisieEntretien: data?.profile.oeuvreChoisieEntretien ?? null,
-      countdownDays:
-        data?.profile.eafDate
-          ? Math.max(
-              0,
-              Math.ceil(
-                (new Date(data.profile.eafDate).getTime() - new Date().getTime()) /
-                  (1000 * 60 * 60 * 24),
-              ),
-            )
-          : null,
-      countdownEcrit: Math.max(0, Math.ceil((new Date('2026-06-08T08:00:00').getTime() - Date.now()) / 86_400_000)),
-      countdownOral: Math.max(0, Math.ceil((new Date('2026-06-19T00:00:00').getTime() - Date.now()) / 86_400_000)),
-      isLoading,
-      error,
-    };
-  }, [data, error, isLoading]);
+  return useMemo(() => computeDashboardMetricsFromTimeline(data, isLoading, error), [data, error, isLoading]);
 }
