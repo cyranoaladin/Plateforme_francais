@@ -5,8 +5,9 @@ import { PLAN_CATALOG } from '@/lib/billing/plan-catalog';
 describe('Billing Quotas V2', () => {
   describe('PLAN_CATALOG quotas', () => {
     it('FREE has limited quotas', () => {
-      expect(PLAN_CATALOG.FREE.quotas.ORAL_SESSIONS.limit).toBe(2);
+      expect(PLAN_CATALOG.FREE.quotas.ORAL_SESSIONS.limit).toBe(1);
       expect(PLAN_CATALOG.FREE.quotas.WRITTEN_CORRECTIONS.limit).toBe(2);
+      expect(PLAN_CATALOG.FREE.quotas.TUTOR_QUESTIONS.limit).toBe(3);
       expect(PLAN_CATALOG.FREE.flags.ORAL_PDF_REPORT).toBe(false);
     });
 
@@ -41,7 +42,7 @@ describe('Billing Quotas V2', () => {
   describe('buildPaywallMessage', () => {
     it('generates FREE plan paywall message', () => {
       const msg = buildPaywallMessage('FREE', 'ORAL_SESSIONS');
-      expect(msg).toContain('2');
+      expect(msg).toContain('1');
       expect(msg).toContain('Premium');
       expect(msg).toContain('mois');
     });
