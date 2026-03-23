@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-23T13:43:03.046Z",
+  "generatedAt": "2026-03-23T14:50:48.799Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -1329,7 +1329,7 @@
       "line": 334,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Ce plan indicatif montre une structure possible — il ne constitue pas l'unique réponse valide."
+      "text": "Ce plan indicatif montre une structure possible — il ne constitue pas l\\'unique réponse valide."
     },
     {
       "file": "src/app/atelier-ecrit/correction/[copieId]/page.tsx",
@@ -1406,14 +1406,14 @@
       "line": 276,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF."
+      "text": "Un studio d\\'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
       "line": 279,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser entre dix écrans. L'interface suit un seul objectif : te faire passer d'une intention floue à un rapport exploitable."
+      "text": "Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser entre dix écrans. L\\'interface suit un seul objectif : te faire passer d\\'une intention floue à un rapport exploitable."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1441,14 +1441,14 @@
       "line": 344,
       "column": 19,
       "kind": "jsx-text",
-      "text": "Génère un sujet d'épreuve blanche."
+      "text": "Génère un sujet d\\'épreuve blanche."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
       "line": 347,
       "column": 19,
       "kind": "jsx-text",
-      "text": "Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l'œuvre ou au thème que tu veux réactiver."
+      "text": "Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l\\'œuvre ou au thème que tu veux réactiver."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1497,14 +1497,14 @@
       "line": 379,
       "column": 27,
       "kind": "jsx-prop",
-      "text": "Th\\u00e8me (optionnel)"
+      "text": "Thème (optionnel)"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
       "line": 383,
       "column": 33,
       "kind": "jsx-prop",
-      "text": "Ex: la m\\u00e9moire"
+      "text": "Ex: la mémoire"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1546,7 +1546,7 @@
       "line": 435,
       "column": 19,
       "kind": "jsx-text",
-      "text": "Une photo nette ou un PDF propre suffit. Le studio suit l'upload, puis bascule vers l'analyse sans changer de contexte."
+      "text": "Une photo nette ou un PDF propre suffit. Le studio suit l\\'upload, puis bascule vers l\\'analyse sans changer de contexte."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1616,7 +1616,7 @@
       "line": 523,
       "column": 25,
       "kind": "jsx-text",
-      "text": "PDF prêt à l'envoi"
+      "text": "PDF prêt à l\\'envoi"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1686,7 +1686,7 @@
       "line": 605,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Le bon usage de l'atelier écrit n'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante."
+      "text": "Le bon usage de l\\'atelier écrit n\\'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1882,7 +1882,7 @@
       "line": 394,
       "column": 31,
       "kind": "jsx-prop",
-      "text": "R\\u00e9dige ton analyse grammaticale compl\\u00e8te ici..."
+      "text": "Rédige ton analyse grammaticale complète ici..."
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
@@ -1966,7 +1966,7 @@
       "line": 1062,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L'espace oral est conçu pour rendre cette discipline plus facile."
+      "text": "Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L\\'espace oral est conçu pour rendre cette discipline plus facile."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
@@ -3289,7 +3289,7 @@
       "line": 139,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l'entretien et à retrouver vite une matière personnelle quand il faut reparler d'une œuvre."
+      "text": "Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l\\'entretien et à retrouver vite une matière personnelle quand il faut reparler d\\'une œuvre."
     },
     {
       "file": "src/app/carnet/page.tsx",
@@ -3338,7 +3338,7 @@
       "line": 175,
       "column": 19,
       "kind": "jsx-text",
-      "text": "Noter pendant que c'est encore vivant"
+      "text": "Noter pendant que c\\'est encore vivant"
     },
     {
       "file": "src/app/carnet/page.tsx",
@@ -3387,7 +3387,7 @@
       "line": 219,
       "column": 29,
       "kind": "jsx-prop",
-      "text": "Ex : m\\u00e9moire, enfance, nature"
+      "text": "Ex : mémoire, enfance, nature"
     },
     {
       "file": "src/app/carnet/page.tsx",
@@ -3401,7 +3401,7 @@
       "line": 227,
       "column": 29,
       "kind": "jsx-prop",
-      "text": "Note ta citation, r\\u00e9action ou observation ici..."
+      "text": "Note ta citation, réaction ou observation ici..."
     },
     {
       "file": "src/app/carnet/page.tsx",
@@ -3646,7 +3646,7 @@
       "line": 154,
       "column": 32,
       "kind": "jsx-prop",
-      "text": "Message envoy\\u00e9"
+      "text": "Message envoyé"
     },
     {
       "file": "src/app/contact/page.tsx",
@@ -4080,7 +4080,7 @@
       "line": 278,
       "column": 67,
       "kind": "jsx-text",
-      "text": "\\u0153uvre"
+      "text": "œuvre"
     },
     {
       "file": "src/app/descriptif/page.tsx",
@@ -4094,14 +4094,14 @@
       "line": 281,
       "column": 107,
       "kind": "jsx-prop",
-      "text": "Titre du texte (ex\\u00a0: Acte I, sc\\u00e8ne 1)"
+      "text": "Titre du texte (ex : Acte I, scène 1)"
     },
     {
       "file": "src/app/descriptif/page.tsx",
       "line": 282,
       "column": 115,
       "kind": "jsx-prop",
-      "text": "Premi\\u00e8res lignes (optionnel)"
+      "text": "Premières lignes (optionnel)"
     },
     {
       "file": "src/app/descriptif/page.tsx",
@@ -6075,7 +6075,7 @@
       "line": 592,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Si un code d'activation t'a été envoyé, active ton plan directement ici."
+      "text": "Si un code d\\'activation t'a été envoyé, active ton plan directement ici."
     },
     {
       "file": "src/app/pricing/page.tsx",
@@ -6117,7 +6117,7 @@
       "line": 649,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Pour l'instant, les abonnements payants s'activent par virement bancaire ou via WhatsApp."
+      "text": "Pour l\\'instant, les abonnements payants s\\'activent par virement bancaire ou via WhatsApp."
     },
     {
       "file": "src/app/pricing/page.tsx",
@@ -6131,7 +6131,7 @@
       "line": 659,
       "column": 23,
       "kind": "jsx-text",
-      "text": "Les abonnements s'activent par virement bancaire ou via WhatsApp. Ajoute l'email du compte ou ton identifiant utilisateur en référence pour accélérer l'activation."
+      "text": "Les abonnements s\\'activent par virement bancaire ou via WhatsApp. Ajoute l\\'email du compte ou ton identifiant utilisateur en référence pour accélérer l\\'activation."
     },
     {
       "file": "src/app/pricing/page.tsx",
@@ -6334,7 +6334,7 @@
       "line": 821,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Le plan Freemium donne un aperçu de la méthode de travail. Premium débloque le rythme nécessaire pour progresser réellement avant l'épreuve."
+      "text": "Le plan Freemium donne un aperçu de la méthode de travail. Premium débloque le rythme nécessaire pour progresser réellement avant l\\'épreuve."
     },
     {
       "file": "src/app/pricing/page.tsx",
@@ -6964,7 +6964,7 @@
       "line": 346,
       "column": 31,
       "kind": "jsx-prop",
-      "text": "Exemple : ma probl\\u00e9matique est trop vague, comment la resserrer ?"
+      "text": "Exemple : ma problématique est trop vague, comment la resserrer ?"
     },
     {
       "file": "src/app/tuteur/page.tsx",
