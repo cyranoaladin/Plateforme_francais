@@ -148,6 +148,18 @@ function extractSkillSignals(payload: Record<string, unknown>): {
   };
 }
 
+function extractOutputTextForGuardrail(payload: Record<string, unknown>): string {
+  if (typeof payload.answer === 'string') {
+    return payload.answer;
+  }
+
+  if (typeof payload.content === 'string') {
+    return payload.content;
+  }
+
+  return '';
+}
+
 async function persistAgentMemory(input: {
   userId: string;
   skill: Skill;
@@ -284,7 +296,7 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
 
     const parsedRaw = JSON.parse(extractJsonBlock(rawText)) as Record<string, unknown>;
 
-    const textToValidate = String(parsedRaw.answer ?? parsedRaw.feedback ?? parsedRaw.content ?? '');
+    const textToValidate = extractOutputTextForGuardrail(parsedRaw);
     const finalCompliance = validateLlmOutput(textToValidate);
     if (!finalCompliance.allowed) {
       await trackLlmCall({

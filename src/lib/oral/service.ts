@@ -1,6 +1,7 @@
 import { EXTRAITS_OEUVRES } from '@/data/extraits-oeuvres';
 import { prisma } from '@/lib/db/client';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { fallbackSkillOutput, parseSkillOutput } from '@/lib/llm/skills';
 import { type Skill } from '@/lib/llm/skills/types';
 import { logger } from '@/lib/logger';
 import {
@@ -45,6 +46,25 @@ export type OralSessionResult = {
   conseil_final: string;
   citations?: Citation[];
 };
+
+function normalizePhaseEvaluation(phase: OralPhaseKey, skill: Skill, payload: unknown): PhaseEvaluation {
+  try {
+    const parsed = parseSkillOutput(skill, payload) as PhaseEvaluation;
+    return {
+      ...parsed,
+      score: clampPhaseScore(phase, parsed.score),
+      max: PHASE_MAX_SCORES[phase],
+    };
+  } catch (error) {
+    logger.warn({ error, phase, skill }, 'oral.evaluatePhase.invalid_payload');
+    const fallback = fallbackSkillOutput(skill) as PhaseEvaluation;
+    return {
+      ...fallback,
+      score: clampPhaseScore(phase, fallback.score),
+      max: PHASE_MAX_SCORES[phase],
+    };
+  }
+}
 
 /**
  * Pick an extrait based on the student's "Descriptif de lecture" for simulations.
@@ -150,13 +170,9 @@ export async function evaluateOralPhase(input: {
       userQuery: input.transcript,
       workId: effectiveWorkId,
       context: `Œuvre: ${input.oeuvre}\nExtrait: ${input.extrait}\nQuestion: ${input.questionGrammaire}\nDurée: ${input.duration}s${input.phase === 'ENTRETIEN' ? `\n\nŒuvre choisie par l'élève: ${input.oeuvreChoisieEntretien ?? 'Non renseignée'}` : ''}`,
-    }) as PhaseEvaluation;
+    });
 
-    return {
-      ...result,
-      score: clampPhaseScore(input.phase, result.score),
-      max: PHASE_MAX_SCORES[input.phase],
-    };
+    return normalizePhaseEvaluation(input.phase, skill, result);
   } catch (error) {
     logger.error({ error, phase: input.phase }, 'oral.evaluatePhase.failed');
     return {

@@ -153,4 +153,37 @@ describe('Orchestrateur', () => {
     expect(String(prompt)).toContain('Contexte mémoire élève');
     expect(String(prompt)).toContain('memoire active');
   });
+
+  it('ne bloque pas un feedback valide de coach_explication à cause du garde-fou de sortie', async () => {
+    generateContentMock.mockResolvedValueOnce({
+      text: JSON.stringify({
+        feedback: 'Introduction développement conclusion '.repeat(70),
+        score: 6,
+        max: 8,
+        points_forts: ['Structure claire', 'Analyse engagée', 'Citations présentes'],
+        axes: ['Préciser les effets', 'Ralentir sur les transitions', 'Nommer davantage les procédés'],
+      }),
+      model: 'mistral-small',
+      usage: { promptTokens: 120, completionTokens: 90, latencyMs: 220 },
+    });
+
+    const { orchestrate } = await import('@/lib/llm/orchestrator');
+    const result = await orchestrate({
+      skill: 'coach_explication',
+      userQuery: 'Voici mon explication orale sur le quipu.',
+      userId: 'user-test-1',
+      workId: "Lettres d'une Péruvienne",
+    });
+
+    expect(result).toMatchObject({
+      feedback: expect.any(String),
+      score: 6,
+      max: 8,
+      points_forts: expect.any(Array),
+      axes: expect.any(Array),
+    });
+    expect(result).not.toMatchObject({
+      blocked: true,
+    });
+  });
 });

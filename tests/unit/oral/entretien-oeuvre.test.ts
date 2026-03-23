@@ -15,6 +15,7 @@ vi.mock('@/lib/logger', () => ({
   logger: { warn: vi.fn(), info: vi.fn(), error: vi.fn() },
 }));
 
+import { orchestrate } from '@/lib/llm/orchestrator';
 import { evaluateOralPhase } from '@/lib/oral/service';
 
 describe('evaluateOralPhase — phase ENTRETIEN avec oeuvreChoisieEntretien', () => {
@@ -115,5 +116,35 @@ describe('evaluateOralPhase — phase GRAMMAIRE', () => {
     });
     expect(result.score).toBeLessThanOrEqual(8);
     expect(result.max).toBe(8);
+  });
+
+  it('retombe sur un fallback sûr quand l’orchestrateur renvoie un payload anti-triche bloqué', async () => {
+    vi.mocked(orchestrate).mockResolvedValueOnce({
+      blocked: true,
+      category: 'redaction_complete',
+      message: 'Je ne peux pas rédiger un texte complet à ta place.',
+      guidance: 'Je peux t’aider à construire un plan.',
+      score: null,
+      max: 8,
+    });
+
+    const result = await evaluateOralPhase({
+      phase: 'EXPLICATION',
+      transcript: 'Cet extrait montre que le quipu devient un support de mémoire.',
+      extrait: 'Extrait.',
+      questionGrammaire: '',
+      oeuvre: "Lettres d'une Péruvienne",
+      duration: 480,
+      userId: 'user-test',
+    });
+
+    expect(result).toMatchObject({
+      feedback: expect.any(String),
+      score: 0,
+      max: 8,
+      points_forts: [],
+      axes: expect.any(Array),
+    });
+    expect(result).not.toHaveProperty('blocked');
   });
 });
