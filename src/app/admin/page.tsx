@@ -13,6 +13,7 @@ import {
   DollarSign,
 } from 'lucide-react';
 import { Card, Button, Input, Badge } from '@/components/ui';
+import { getAdminDataLoadTargets, type AdminDashboardTab } from '@/lib/admin/dashboard-tab-data';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
 type User = {
@@ -79,7 +80,7 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'codes' | 'payments'>('overview');
+  const [activeTab, setActiveTab] = useState<AdminDashboardTab>('overview');
 
   const [stats, setStats] = useState<Stats | null>(null);
   const [recentPayments, setRecentPayments] = useState<Payment[]>([]);
@@ -106,7 +107,9 @@ export default function AdminDashboard() {
     setError(null);
 
     try {
-      if (activeTab === 'overview') {
+      const loadTargets = getAdminDataLoadTargets(activeTab);
+
+      if (loadTargets.stats) {
         const res = await fetch('/api/v1/admin/stats');
         if (!res.ok) {
           if (res.status === 401) {
@@ -122,13 +125,17 @@ export default function AdminDashboard() {
         const data = await res.json();
         setStats(data.stats);
         setRecentPayments(data.recentPayments);
-      } else if (activeTab === 'users') {
+      }
+
+      if (loadTargets.users) {
         const res = await fetch('/api/v1/admin/users');
         if (res.status === 401) { router.push('/login'); return; }
         if (!res.ok) throw new Error('Erreur lors du chargement des utilisateurs');
         const data = await res.json();
         setUsers(data.users);
-      } else if (activeTab === 'codes') {
+      }
+
+      if (loadTargets.codes) {
         const res = await fetch('/api/v1/admin/activation-codes');
         if (res.status === 401) { router.push('/login'); return; }
         if (!res.ok) throw new Error('Erreur lors du chargement des codes');
