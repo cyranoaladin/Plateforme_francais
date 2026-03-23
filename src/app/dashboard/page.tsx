@@ -773,13 +773,13 @@ export default function Dashboard() {
                 <div key={skill.key}>
                   <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
                     <div>
-                      <span className="text-[var(--c-primary)]">{skill.label}</span>
+                      <span className={skill.textColor}>{skill.label}</span>
                       <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{skill.copy}</p>
                     </div>
                     <span className="shrink-0 text-[var(--text-muted)]">{score.toFixed(1)} / 20</span>
                   </div>
                   <div className="h-2.5 w-full rounded-full bg-[var(--border-default)]">
-                    <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(score / 20) * 100}%` }} />
+                    <div className="h-2.5 rounded-full" style={{ width: `${(score / 20) * 100}%`, background: skill.barColor }} />
                   </div>
                 </div>
               );

@@ -40,27 +40,10 @@ html { overflow-x: clip; }
   --font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
 
   /* ─── Brand Colors — Nouvelle Charte Graphique 2026 ────────────────────────────────── */
-  --navy: #1E3A5F;        /* Bleu Académique (primaire) */
-  --navy-dark: #0F1F33;   /* Bleu Profond */
-  --navy-light: #4A7C9B;  /* Bleu Clair */
-  --navy-mid: #33536f;
-  --navy-muted: #5f7388;
-  --teal: #2D8A5E;        /* Vert Validation */
-  --teal-light: #14b8a6;
-  --gold: #D4A853;        /* Or Réussite */
-  --gold-deep: #B8943F;   /* Or Réussite gradient end */
-  --gold-muted: #E07B39;  /* Orange Accent */
-  --gold-contrast: #6b5735;
 
   /* ─── Pedagogical Accents ─────────────────────────── */
-  --accent-bronze: #9a6a37;
-  --accent-violet: #6b587d;
-  --accent-earth: #7a4b24;
 
   /* ─── Hover variants ─────────────────────────────── */
-  --navy-hover: #224464;
-  --teal-hover: #148b80;
-  --error-hover: #b33f30;
 
   /* ─── French Tricolor ────────────────────────────── */
   --french-blue: #002395;
@@ -78,35 +61,19 @@ html { overflow-x: clip; }
   /* ─── Surfaces — Nouvelle Charte ────────────────────────────────────── */
   --surface-white: #FAFBFC;   /* Blanc Cassé */
   --surface-light: #F0F2F5;   /* Gris Clair */
-  --surface-cream: #f4eee3;
-  --surface-ivory: #fffdf9;
-  --surface-warm: #fbf7ef;
-  --surface-paper: #fcfaf6;
   --surface-parchment: #f7f2ea;
-  --surface-sand: #eadbc5;
   --surface-navy-light: #eef3f8;
   --surface-premium: #fdf4e9;
-  --surface-warm-input: #fffaf4;
-  --surface-warm-section: #f8f1e7;
-  --surface-warm-accent: #efe7da;
-  --surface-warm-card: #fbf5ec;
-  --surface-warm-card-top: #fffdfa;
-  --surface-warm-empty: #fffaf2;
   --surface-teal-light: #eef9f6;
   --surface-violet-light: #f4eff8;
   --surface-info-box: #f4f8fb;
 
   /* ─── Borders — Nouvelle Charte ─────────────────────────────────────── */
-  --border-light: #E8EBF0;    /* Nouvelle charte */
   --border-default: #dfd2bf;
   --border-strong: #D1D5DB;   /* Nouvelle charte */
   --border-warm: #d7c4aa;
   --border-sand: #dfd1bc;
   --border-success: #d8e8e3;
-  --border-success-soft: #d3e7e1;
-  --border-success-vivid: #d6e8df;
-  --border-success-pale: #cfe2dc;
-  --border-warning-soft: #efd9b4;
   --border-warm-mid: #e8dcc8;
   --border-warm-soft: #efe3d2;
   --border-disabled: #e0ddd8;
@@ -117,7 +84,6 @@ html { overflow-x: clip; }
   --text-body: #3D4852;       /* Gris Foncé */
   --text-secondary: #5d7287;
   --text-muted: #8A94A6;      /* Gris Moyen */
-  --text-caption: #6d7e8d;
   --text-placeholder: #94a3b8;
   --text-placeholder-warm: #8b95a1;
   --text-warm: #7a6858;
@@ -132,24 +98,13 @@ html { overflow-x: clip; }
 
   /* ─── Status — Nouvelle Charte ──────────────────────────────────────── */
   --success: #2D8A5E;         /* Vert Validation */
-  --success-bg: #edf7f3;
   --success-text: #52716d;
   --warning: #b45309;
-  --warning-bg: #fff7ea;
   --warning-text: #9a5f25;
   --warning-border: #d9b98f;
-  --warning-bg-soft: #fff5e9;
   --error: #C44536;           /* Rouge Correction */
-  --error-bg: #fff0ed;
-  --error-dark: #8f2d2d;
-  --error-muted: #b65050;
-  --error-text: #b24838;
-  --error-text-bright: #c44f3c;
-  --error-border: #f1c8c0;
   --success-border-accent: #9cccaf;
   --success-text-dark: #25543d;
-  --success-bg-soft: #eef8f0;
-  --success-bg-pale: #f0fdf4;
   --info: #1d4ed8;
   --info-bg: #eff6ff;
 
@@ -212,62 +167,29 @@ html { overflow-x: clip; }
   --input: #1e293b;
 
   /* ─── Brand Colors — lighter for dark backgrounds ── */
-  --navy: #93b4d4;
-  --navy-dark: #7da3c8;
-  --navy-light: #a8c4de;
-  --navy-mid: #8fb0cf;
-  --navy-muted: #7a9bb8;
-  --teal: #14b8a6;
-  --teal-light: #2dd4bf;
-  --gold: #ecc94b;
-  --gold-deep: #d69e2e;
-  --gold-muted: #c8874e;
-  --gold-contrast: #d4b896;
 
   /* ─── Pedagogical Accents ──────────────────────────── */
-  --accent-bronze: #c89b6e;
-  --accent-violet: #a78bbd;
-  --accent-earth: #b07d4f;
 
   /* ─── Hover variants ───────────────────────────────── */
-  --navy-hover: #a8c4de;
-  --teal-hover: #2dd4bf;
-  --error-hover: #f87171;
 
   /* ─── Icon tones ───────────────────────────────────── */
   --icon-muted: #8b7a65;
   --badge-gold: #d4a017;
 
   /* ─── Surfaces — dark equivalents ──────────────────── */
-  --surface-cream: #1a2332;
-  --surface-ivory: #1e293b;
-  --surface-warm: #1c2736;
-  --surface-paper: #1e293b;
   --surface-parchment: #1a2535;
-  --surface-sand: #2a3444;
   --surface-navy-light: #1a2840;
   --surface-premium: #1f2a38;
-  --surface-warm-input: #1e2a3a;
-  --surface-warm-section: #1a2535;
-  --surface-warm-accent: #23303f;
-  --surface-warm-card: #1c2838;
-  --surface-warm-card-top: #1e2c3d;
-  --surface-warm-empty: #1c2736;
   --surface-teal-light: #0f2a28;
   --surface-violet-light: #1f1a2e;
   --surface-info-box: #172030;
 
   /* ─── Borders — lighter for dark backgrounds ───────── */
-  --border-light: #334155;
   --border-default: #3b4a5c;
   --border-strong: #475569;
   --border-warm: #3d4d5f;
   --border-sand: #3b4a5c;
   --border-success: #1a4a3e;
-  --border-success-soft: #1a4a3e;
-  --border-success-vivid: #1f5545;
-  --border-success-pale: #1a4a3e;
-  --border-warning-soft: #4a3520;
   --border-warm-mid: #3d4d5f;
   --border-warm-soft: #334155;
   --border-disabled: #2d3a48;
@@ -278,7 +200,6 @@ html { overflow-x: clip; }
   --text-body: #cbd5e1;
   --text-secondary: #94a3b8;
   --text-muted: #7a8fa5;
-  --text-caption: #8494a7;
   --text-placeholder: #64748b;
   --text-placeholder-warm: #6b7a8a;
   --text-warm: #b8a48e;
@@ -293,24 +214,13 @@ html { overflow-x: clip; }
 
   /* ─── Status ───────────────────────────────────────── */
   --success: #10b981;
-  --success-bg: #0f2a28;
   --success-text: #6ee7b7;
   --warning: #f59e0b;
-  --warning-bg: #2d1f0a;
   --warning-text: #fbbf24;
   --warning-border: #4a3520;
-  --warning-bg-soft: #2d1f0a;
   --error: #ef4444;
-  --error-bg: #2d1010;
-  --error-dark: #fca5a5;
-  --error-muted: #f87171;
-  --error-text: #fca5a5;
-  --error-text-bright: #f87171;
-  --error-border: #4a1515;
   --success-border-accent: #1a4a3e;
   --success-text-dark: #6ee7b7;
-  --success-bg-soft: #0f2a28;
-  --success-bg-pale: #0f2a28;
   --info: #60a5fa;
   --info-bg: #172040;
 
