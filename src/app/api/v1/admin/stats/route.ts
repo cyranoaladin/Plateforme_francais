@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
+import { countAdminVisiblePlans, toAdminVisibleSubscription } from '@/lib/admin/plan-visibility';
 
 export async function GET() {
   const { auth, errorResponse } = await requireUserRole('admin');
@@ -10,19 +11,22 @@ export async function GET() {
 
   try {
     const [
-      totalUsers,
-      activeSubscriptions,
+      users,
       pendingPayments,
       totalRevenue,
-      subscriptionsByPlan,
       recentPayments,
     ] = await Promise.all([
-      // Total utilisateurs
-      prisma.user.count(),
-
-      // Subscriptions actives
-      prisma.subscription.count({
-        where: { status: 'ACTIVE', plan: { not: 'FREE' } },
+      prisma.user.findMany({
+        select: {
+          subscription: {
+            select: {
+              plan: true,
+              status: true,
+              currentPeriodStart: true,
+              currentPeriodEnd: true,
+            },
+          },
+        },
       }),
 
       // Paiements en attente
@@ -34,12 +38,6 @@ export async function GET() {
       prisma.paymentTransaction.aggregate({
         where: { status: 'ACCEPTED' },
         _sum: { amountMillimes: true },
-      }),
-
-      // Répartition par plan
-      prisma.subscription.groupBy({
-        by: ['plan'],
-        _count: { plan: true },
       }),
 
       // Derniers paiements
@@ -63,17 +61,20 @@ export async function GET() {
       }),
     ]);
 
+    const visibleSubscriptions = users.map((user) => toAdminVisibleSubscription(user.subscription));
+    const subscriptionsByPlan = countAdminVisiblePlans(users.map((user) => user.subscription));
+    const activeSubscriptions = visibleSubscriptions.filter((subscription) =>
+      subscription.status === 'ACTIVE' && subscription.plan !== 'FREE',
+    ).length;
+
     return NextResponse.json(
       {
         stats: {
-          totalUsers,
+          totalUsers: users.length,
           activeSubscriptions,
           pendingPayments,
           totalRevenueTND: (totalRevenue._sum.amountMillimes || 0) / 1000,
-          subscriptionsByPlan: subscriptionsByPlan.map((s) => ({
-            plan: s.plan,
-            count: s._count.plan,
-          })),
+          subscriptionsByPlan,
         },
         recentPayments,
       },

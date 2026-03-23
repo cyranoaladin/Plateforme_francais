@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
+import { toAdminVisibleSubscription } from '@/lib/admin/plan-visibility';
 
 export async function GET() {
   const { auth, errorResponse } = await requireUserRole('admin');
@@ -45,7 +46,12 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json({ users }, { status: 200 });
+    return NextResponse.json({
+      users: users.map((user) => ({
+        ...user,
+        subscription: toAdminVisibleSubscription(user.subscription),
+      })),
+    }, { status: 200 });
   } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des utilisateurs.' },
