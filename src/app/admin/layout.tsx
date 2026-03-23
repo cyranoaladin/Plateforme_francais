@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getAuthenticatedUser } from '@/lib/auth/session';
 
-export default async function ParentLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ export default async function ParentLayout({
   if (!auth) {
     redirect('/login');
   }
-  if (auth.user.role !== 'parent' && auth.user.role !== 'admin') {
+  if (auth.user.role !== 'admin') {
     redirect('/dashboard');
   }
   return <>{children}</>;
