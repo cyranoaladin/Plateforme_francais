@@ -137,6 +137,36 @@ echo "  ✅ MCP build terminé (src/ et source maps supprimés)"
 # --- 7. Sync Nginx config + SSL (first run only for certbot) ---
 echo "[7/8] Synchronisation Nginx..."
 ssh "$SSH_TARGET" "cat > /etc/nginx/sites-available/$DOMAIN" < scripts/nginx-eaf.conf
+SSL_CERT_LINE="    ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;"
+SSL_KEY_LINE="    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;"
+ssh "$SSH_TARGET" "bash -s" <<EOF
+set -euo pipefail
+if [ -f /etc/letsencrypt/live/$DOMAIN/fullchain.pem ] && [ -f /etc/letsencrypt/live/$DOMAIN/privkey.pem ]; then
+  python3 - <<'PY'
+from pathlib import Path
+
+domain = "$DOMAIN"
+config_path = Path(f"/etc/nginx/sites-available/{domain}")
+text = config_path.read_text()
+
+replacements = {
+    f"    # ssl_certificate     /etc/letsencrypt/live/{domain}/fullchain.pem;":
+        """$SSL_CERT_LINE""",
+    f"    # ssl_certificate_key /etc/letsencrypt/live/{domain}/privkey.pem;":
+        """$SSL_KEY_LINE""",
+    "    # include /etc/letsencrypt/options-ssl-nginx.conf;":
+        "    include /etc/letsencrypt/options-ssl-nginx.conf;",
+    "    # ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;":
+        "    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;",
+}
+
+for source, target in replacements.items():
+    text = text.replace(source, target)
+
+config_path.write_text(text)
+PY
+fi
+EOF
 ssh "$SSH_TARGET" "ln -sfn /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN"
 
 if [ "$FIRST_RUN" = "--first-run" ]; then
