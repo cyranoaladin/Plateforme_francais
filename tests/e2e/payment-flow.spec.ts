@@ -38,10 +38,10 @@ test.describe('Payment Flow E2E', () => {
     // Navigate to pricing
     await page.goto('/pricing');
 
-    // Click on upgrade button (plans: Premium, Masterium)
-    const upgradeButtons = await page.getByRole('button', { name: /passer à premium|passer à masterium|choisir ce plan|essayer/i }).all();
-    if (upgradeButtons.length > 0) {
-      await upgradeButtons[0].click();
+    // Click on an enabled upgrade button (skip disabled current plan button)
+    const upgradeBtn = page.getByRole('button', { name: /passer à premium|passer à masterium|choisir ce plan/i }).first();
+    if (await upgradeBtn.count() > 0 && !(await upgradeBtn.isDisabled())) {
+      await upgradeBtn.click();
 
       // In CI, payment provider can be mocked/unavailable: either redirect starts or inline error is shown.
       await expect(page.locator('main').first()).toBeVisible({ timeout: 10_000 });

@@ -353,7 +353,7 @@ test.describe('API billing status', () => {
     expect(response.status()).toBe(200);
     const body = await response.json() as { subscription: { plan: string } };
     expect(body.subscription).toBeDefined();
-    expect(body.subscription.plan).toBe('FREE');
+    expect(body.subscription.plan).toBe('Freemium');
   });
 
   test('GET /api/v1/billing/status retourne le bon plan pour eleve.pro', async ({ page }) => {
@@ -362,8 +362,8 @@ test.describe('API billing status', () => {
     expect(response.status()).toBe(200);
     const body = await response.json() as { subscription: { plan: string } };
     expect(body.subscription).toBeDefined();
-    // Plan may vary depending on seed data
-    expect(['FREE', 'PREMIUM', 'PRO']).toContain(body.subscription.plan);
+    // Plan labels are now commercial names (Freemium/Premium/Masterium)
+    expect(['Freemium', 'Premium', 'Masterium']).toContain(body.subscription.plan);
   });
 });
 
