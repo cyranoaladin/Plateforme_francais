@@ -32,6 +32,7 @@ import { Card } from '@/components/ui';
 import { ParcoursRecommandation } from '@/components/dashboard/parcours-recommandation';
 import { ProgressionChart } from '@/components/dashboard/progression-chart';
 import { useDashboard } from '@/hooks/useDashboard';
+import { getDashboardUpgradeState } from '@/lib/billing/dashboard-upgrade';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 
 const EDITORIAL_HEADING = {
@@ -456,6 +457,7 @@ export default function Dashboard() {
   const previousProgressScore = data.weeklyProgression.at(-2)?.score ?? null;
   const momentum = describeMomentum(latestProgressScore, previousProgressScore);
   const ritualLead = focusActions[0];
+  const upgradeState = getDashboardUpgradeState(planId);
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
@@ -472,30 +474,22 @@ export default function Dashboard() {
           <p className="mt-3 text-xs leading-relaxed text-white/60 sm:text-sm">{examInfo.phaseAction}</p>
         </div>
       )}
-      {planId && planId !== 'Masterium' && (
+      {upgradeState && (
         <section className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] px-6 py-5 shadow-[0_4px_20px_var(--shadow-md)]">
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_0%,transparent_60%)]" />
           <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-3">
               <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-white/80" />
               <div>
-                <p className="text-sm font-bold text-white">
-                  {planId === 'Freemium'
-                    ? 'Tu utilises le plan Freemium — certains ateliers et ressources sont limités.'
-                    : 'Tu utilises le plan Premium — passe au Masterium pour un accès total.'}
-                </p>
-                <p className="mt-1 text-sm leading-6 text-white/70">
-                  {planId === 'Freemium'
-                    ? 'Passe au Premium pour débloquer l\u2019oral illimité, la bibliothèque complète et l\u2019analyse de copies.'
-                    : 'Le Masterium inclut l\u2019historique complet, le support prioritaire et le parcours adaptatif avancé.'}
-                </p>
+                <p className="text-sm font-bold text-white">{upgradeState.title}</p>
+                <p className="mt-1 text-sm leading-6 text-white/70">{upgradeState.detail}</p>
               </div>
             </div>
             <Link
               href="/pricing"
               className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--c-accent)] px-6 py-3 text-sm font-bold text-[var(--text-on-accent)] shadow-lg transition hover:bg-[var(--c-accent-hover)] hover:shadow-xl"
             >
-              {planId === 'Freemium' ? 'Passer au Premium' : 'Passer au Masterium'}
+              {upgradeState.cta}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
