@@ -12,7 +12,7 @@ function cn(...inputs: Parameters<typeof clsx>) {
 
 const variantStyles = {
   default:
-    'bg-[var(--bg-surface)] text-[var(--text-heading)] border border-[var(--border-default)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xs)]',
+    'bg-[var(--bg-surface)] text-[var(--text-heading)] border border-[var(--border-default)] rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)]',
   elevated:
     'bg-[var(--bg-surface)] text-[var(--text-heading)] border border-[var(--border-default)] rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] transition-transform duration-[var(--transition-normal)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]',
   outlined:
@@ -20,7 +20,7 @@ const variantStyles = {
   dark:
     'bg-[var(--c-primary)] text-white border-0 rounded-[var(--radius-lg)]',
   premium:
-    'bg-[var(--bg-surface)] text-[var(--text-heading)] border-2 border-[var(--gold)]/30 rounded-[var(--radius-lg)] shadow-[var(--shadow-gold)]',
+    'bg-[var(--bg-surface)] text-[var(--text-heading)] border-2 border-[var(--c-reward)]/30 rounded-[var(--radius-lg)] shadow-[var(--shadow-md)]',
 } as const;
 
 const paddingStyles = {

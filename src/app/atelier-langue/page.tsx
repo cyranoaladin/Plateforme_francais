@@ -264,7 +264,7 @@ export default function AtelierLangue() {
             <select
               value={theme}
               onChange={(event) => setTheme(event.target.value as ThemeKey)}
-              className="mt-2 w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="mt-2 w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
               {THEME_OPTIONS.map((option) => (
@@ -373,7 +373,7 @@ export default function AtelierLangue() {
                 <p style={EDITORIAL_HEADING} className="mt-4 text-2xl leading-10 tracking-[-0.02em] text-[var(--c-primary)] md:text-3xl">
                   « {sanitizeLlmText(currentExercise.sentence)} »
                 </p>
-                <div className="mt-5 rounded-[22px] border border-[var(--border-info-box)] bg-[var(--surface-info-box)] p-4">
+                <div className="mt-5 rounded-[22px] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-4">
                   <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--text-muted)]">Question d’oral</p>
                   <p className="mt-2 text-sm leading-7 text-[var(--text-body)]">{sanitizeLlmText(currentExercise.question)}</p>
                 </div>

@@ -360,7 +360,7 @@ export default function AtelierEcritPage() {
                       id="epreuve-type"
                       value={type}
                       onChange={(event) => setType(event.target.value as EpreuveType)}
-                      className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                      className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                     >
                       <option value="commentaire">Commentaire</option>
                       <option value="dissertation">Dissertation</option>
@@ -443,7 +443,7 @@ export default function AtelierEcritPage() {
                   <Loader2 className="h-8 w-8 animate-spin text-[var(--c-success)]" />
                 </div>
                 <h3 className="text-lg font-semibold text-[var(--c-primary)]">Ta copie est entre de bonnes mains</h3>
-                <p className="mt-2 text-sm font-medium text-[var(--success-text)]">{PROCESSING_STEPS[processingStepIndex]}</p>
+                <p className="mt-2 text-sm font-medium text-[var(--text-success-on-subtle)]">{PROCESSING_STEPS[processingStepIndex]}</p>
                 <p className="mt-3 text-xs text-[var(--text-muted)]">Cela prend généralement entre 30 secondes et 2 minutes.</p>
               </div>
             ) : (
@@ -528,7 +528,7 @@ export default function AtelierEcritPage() {
 
                 {isUploading && (
                   <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
-                    <p className="text-sm text-[var(--success-text)]">Envoi en cours… {uploadProgress}%</p>
+                    <p className="text-sm text-[var(--text-success-on-subtle)]">Envoi en cours… {uploadProgress}%</p>
                     <div className="mt-3 h-2 overflow-hidden rounded-full bg-[var(--bg-surface)]/80">
                       <div className="h-2 rounded-full bg-[var(--c-success)] transition-all" style={{ width: `${uploadProgress}%` }} />
                     </div>
@@ -554,7 +554,7 @@ export default function AtelierEcritPage() {
                   <FileText className="h-8 w-8" />
                 </div>
                 <h3 className="text-lg font-semibold text-[var(--c-primary)]">Ton rapport de correction est prêt</h3>
-                <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-[var(--success-text)]">Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire.</p>
+                <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-[var(--text-success-on-subtle)]">Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire.</p>
                 <div className="mt-6 flex flex-col items-center gap-3">
                   <Link
                     href={`/atelier-ecrit/correction/${copieLink.copieId}?epreuveId=${copieLink.epreuveId}`}

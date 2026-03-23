@@ -22,7 +22,7 @@ const variantStyles = {
   info:
     'bg-[var(--info-bg)] text-[var(--info)] border border-[var(--info)]/20',
   premium:
-    'bg-gradient-to-r from-[var(--gold)]/10 to-[var(--color-amber-300)]/10 text-[var(--text-reward-on-subtle)] border border-[var(--gold)]/30',
+    'bg-gradient-to-r from-[var(--c-reward)]/10 to-[var(--color-amber-300)]/10 text-[var(--text-reward-on-subtle)] border border-[var(--c-reward)]/30',
   navy:
     'bg-[var(--c-primary)] text-white',
   outline:

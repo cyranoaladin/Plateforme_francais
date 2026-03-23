@@ -105,6 +105,8 @@
   /* Textes */
   --text-heading:    var(--color-slate-900);
   --text-body:       var(--color-slate-800);
+  --text-secondary:  var(--color-slate-500);
+  --text-muted:      var(--color-slate-400);
   --text-on-primary: #FFFFFF;
   --text-on-accent:  #FFFFFF;
   --text-primary-on-subtle:  var(--color-indigo-700);
@@ -121,10 +123,15 @@
   --border-reward:   var(--color-amber-200);
 
   /* Rayons */
-  --radius-xs: 6px;
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  18px;
   --radius-pill: 100px;
 
   /* Ombres */
+  --shadow-sm:    0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md:    0 4px 12px rgba(0,0,0,0.08);
   --shadow-focus: 0 0 0 3px var(--color-indigo-200);
 
   /* Transitions */
@@ -148,6 +155,8 @@
 
     --text-heading:    var(--color-slate-50);
     --text-body:       var(--color-slate-200);
+    --text-secondary:  var(--color-slate-400);
+    --text-muted:      var(--color-slate-500);
 
     --text-primary-on-subtle:  var(--color-indigo-300);
     --text-success-on-subtle:  var(--color-emerald-300);

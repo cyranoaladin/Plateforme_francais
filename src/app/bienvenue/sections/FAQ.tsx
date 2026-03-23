@@ -81,7 +81,7 @@ export function FAQ() {
           </p>
 
           <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)]">
-            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]">
+            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-slate-300)]">
               <MessageSquareText className="h-5 w-5" />
             </div>
             <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">

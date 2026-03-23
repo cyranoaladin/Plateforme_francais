@@ -102,7 +102,7 @@ export function WhyNexus() {
                 <Link
                   href="/pricing"
                   onClick={() => track({ name: 'cta_click', props: { cta: 'why_nexus_pricing', path: '/bienvenue' } })}
-                  className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-6 py-3.5 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:bg-[var(--surface-paper)]"
+                  className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-6 py-3.5 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
                 >
                   Voir les tarifs
                 </Link>

@@ -542,7 +542,7 @@ export default function Dashboard() {
             </div>
 
             {!data.onboardingCompleted ? (
-              <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-cream)] p-4 text-[var(--c-primary)] shadow-[var(--shadow-md)]">
+              <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)] shadow-[var(--shadow-md)]">
                 <p className="text-sm font-semibold">Le profil n’est pas encore entièrement personnalisé.</p>
                 <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">
                   Finaliser la configuration permettra d’ancrer ton tableau de bord sur les œuvres, le niveau déclaré et les priorités à travailler.
@@ -834,7 +834,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-6 text-center">
-                  <Clock3 className="h-10 w-10 text-[var(--icon-muted)]" />
+                  <Clock3 className="h-10 w-10 text-[var(--text-muted)]" />
                   <p className="text-sm font-semibold text-[var(--c-primary)]">Ton fil d&apos;activité est encore vierge</p>
                   <p className="max-w-sm text-sm leading-7 text-[var(--text-secondary)]">
                     Dès que tu lanceras un premier atelier ou un quiz, tes sessions apparaîtront ici pour suivre ta progression au fil des jours.

@@ -596,7 +596,7 @@ export default function AtelierOralPage() {
       </section>
 
       {error && (
-        <div data-testid="error-alert" className="space-y-3 rounded-[24px] border border-[#f0c7bf] bg-[var(--c-accent-subtle)] px-5 py-4 text-sm text-[var(--c-accent-text)]" role="alert">
+        <div data-testid="error-alert" className="space-y-3 rounded-[24px] border border-[var(--border-accent)] bg-[var(--c-accent-subtle)] px-5 py-4 text-sm text-[var(--c-accent-text)]" role="alert">
           <p>{error}</p>
           {upgradeUrl && (
             <Link href={upgradeUrl} className="inline-flex items-center gap-2 rounded-2xl bg-[var(--c-primary)] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.02]">
@@ -678,7 +678,7 @@ export default function AtelierOralPage() {
               <select
                 id="oeuvre-select"
                 data-testid="oeuvre-select"
-                className="w-full appearance-none rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus-visible:border-[var(--c-success)] focus-visible:ring-2 focus-visible:ring-[var(--c-success)]/20"
+                className="w-full appearance-none rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus-visible:border-[var(--c-success)] focus-visible:ring-2 focus-visible:ring-[var(--c-success)]/20"
                 value={oeuvre}
                 onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(event.target.value)}
               >
@@ -785,7 +785,7 @@ export default function AtelierOralPage() {
                 id="prep-notes"
                 value={prepNotes}
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setPrepNotes(event.target.value)}
-                className="min-h-60 w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-4 text-sm leading-7 text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder-warm)] focus-visible:border-[var(--c-success)] focus-visible:ring-2 focus-visible:ring-[var(--c-success)]/20"
+                className="min-h-60 w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-4 text-sm leading-7 text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-muted)] focus-visible:border-[var(--c-success)] focus-visible:ring-2 focus-visible:ring-[var(--c-success)]/20"
                 placeholder="Structure ton explication linéaire, prépare tes axes, note les procédés..."
               />
             </div>
@@ -823,7 +823,7 @@ export default function AtelierOralPage() {
                       }
                       className="mt-1 h-4 w-4 rounded border-[var(--border-success)] text-[var(--c-success)] focus:ring-[var(--c-success)]"
                     />
-                    <span className={prepChecklist.has(item.id) ? 'text-[var(--text-strikethrough)] line-through' : ''}>{item.label}</span>
+                    <span className={prepChecklist.has(item.id) ? 'text-[var(--text-muted)] line-through' : ''}>{item.label}</span>
                   </label>
                 ))}
               </div>
@@ -936,7 +936,7 @@ export default function AtelierOralPage() {
                   id="oral-transcript"
                   value={transcript}
                   onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setTranscript(event.target.value)}
-                  className="min-h-40 w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-4 text-sm leading-7 text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder-warm)] focus-visible:border-[var(--c-success)] focus-visible:ring-2 focus-visible:ring-[var(--c-success)]/20"
+                  className="min-h-40 w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-4 text-sm leading-7 text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-muted)] focus-visible:border-[var(--c-success)] focus-visible:ring-2 focus-visible:ring-[var(--c-success)]/20"
                   placeholder="Le transcript micro apparaît ici, tu peux le corriger avant envoi..."
                 />
               </div>
@@ -1082,7 +1082,7 @@ export default function AtelierOralPage() {
             <h2 style={EDITORIAL_HEADING} className="mt-2 text-4xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
               {bilan.note}/{bilan.maxNote}
             </h2>
-            <span className={`mt-4 inline-flex rounded-full px-4 py-2 text-sm font-semibold ${bilan.note >= 16 ? 'bg-[var(--bg-success)] text-[var(--c-success)]' : bilan.note >= 12 ? 'bg-[var(--surface-navy-light)] text-[var(--c-primary)]' : bilan.note >= 10 ? 'bg-[var(--bg-reward)] text-[var(--c-reward)]' : 'bg-[var(--c-accent-subtle)] text-[var(--c-accent-text)]'}`}>
+            <span className={`mt-4 inline-flex rounded-full px-4 py-2 text-sm font-semibold ${bilan.note >= 16 ? 'bg-[var(--bg-success)] text-[var(--c-success)]' : bilan.note >= 12 ? 'bg-[var(--bg-primary)] text-[var(--c-primary)]' : bilan.note >= 10 ? 'bg-[var(--bg-reward)] text-[var(--c-reward)]' : 'bg-[var(--c-accent-subtle)] text-[var(--c-accent-text)]'}`}>
               {bilan.mention}
             </span>
           </div>

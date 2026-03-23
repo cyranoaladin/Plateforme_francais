@@ -125,13 +125,13 @@ export function Hero() {
             <div className="rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--text-on-navy-soft)]">Ton tableau de bord</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-slate-300)]">Ton tableau de bord</p>
                   <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                     Une séance, des retours immédiatement exploitables.
                   </h2>
                 </div>
                 <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--bg-page)]">
-                  <Clock3 className="h-3.5 w-3.5 text-[var(--text-on-navy-soft)]" />
+                  <Clock3 className="h-3.5 w-3.5 text-[var(--color-slate-300)]" />
                   Session 2026
                 </div>
               </div>
@@ -158,7 +158,7 @@ export function Hero() {
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
                   <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <LibraryBig className="h-4 w-4 text-[var(--text-on-navy-soft)]" />
+                    <LibraryBig className="h-4 w-4 text-[var(--color-slate-300)]" />
                     Citations internes mobilisées
                   </div>
                   <ul className="mt-4 space-y-3 text-sm text-slate-200">
@@ -170,7 +170,7 @@ export function Hero() {
 
                 <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
                   <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                    <ChartColumn className="h-4 w-4 text-[var(--text-on-navy-soft)]" />
+                    <ChartColumn className="h-4 w-4 text-[var(--color-slate-300)]" />
                     Axes prioritaires de relance
                   </div>
                   <div className="mt-4 space-y-4">

@@ -268,18 +268,18 @@ export default function DescriptifPage() {
             </div>
 
             <div className="mt-6 space-y-3">
-              <select value={formObjet} onChange={(event) => { setFormObjet(event.target.value as ObjetEtude); setFormOeuvreIdx(0); }} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20">
+              <select value={formObjet} onChange={(event) => { setFormObjet(event.target.value as ObjetEtude); setFormOeuvreIdx(0); }} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20">
                 {OBJETS_ETUDE.map((objet) => <option key={objet.key} value={objet.key}>{objet.label}</option>)}
               </select>
-              <select value={formOeuvreIdx} onChange={(event) => setFormOeuvreIdx(Number(event.target.value))} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20">
+              <select value={formOeuvreIdx} onChange={(event) => setFormOeuvreIdx(Number(event.target.value))} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20">
                 {OEUVRES_PAR_OBJET[formObjet].map((oeuvre, index) => <option key={index} value={index}>{oeuvre.oeuvre} — {oeuvre.auteur}</option>)}
               </select>
-              <select value={formType} onChange={(event) => setFormType(event.target.value as TypeExtrait)} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20">
+              <select value={formType} onChange={(event) => setFormType(event.target.value as TypeExtrait)} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20">
                 <option value="extrait_oeuvre">Extrait d{'\u2019'}\u0153uvre</option>
                 <option value="extrait_parcours">Extrait du parcours</option>
               </select>
-              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex\u00a0: Acte I, sc\u00e8ne 1)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20" />
-              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premi\u00e8res lignes (optionnel)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20" />
+              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex\u00a0: Acte I, sc\u00e8ne 1)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20" />
+              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premi\u00e8res lignes (optionnel)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20" />
               <Button onClick={addTexte} disabled={!formTitre.trim()} icon={<Plus className="h-4 w-4" />} size="md" className="w-full">
                 Ajouter ce texte
               </Button>
@@ -338,7 +338,7 @@ export default function DescriptifPage() {
                             <div className="flex-1 min-w-0">
                               <p className="text-xs font-semibold text-[var(--c-primary)] truncate">{texte.oeuvre} — {texte.auteur}</p>
                               <p className="mt-1 text-sm font-medium text-[var(--text-body)] truncate">{texte.titre}</p>
-                              <Badge variant={texte.typeExtrait === 'extrait_oeuvre' ? 'info' : 'default'} size="sm" className={`mt-3 ${texte.typeExtrait !== 'extrait_oeuvre' ? 'bg-[var(--surface-violet-light)] text-[var(--c-primary)] border-[var(--c-primary)]/20' : ''}`}>
+                              <Badge variant={texte.typeExtrait === 'extrait_oeuvre' ? 'info' : 'default'} size="sm" className={`mt-3 ${texte.typeExtrait !== 'extrait_oeuvre' ? 'bg-[var(--bg-primary)] text-[var(--c-primary)] border-[var(--c-primary)]/20' : ''}`}>
                                 {texte.typeExtrait === 'extrait_oeuvre' ? 'Œuvre' : 'Parcours'}
                               </Badge>
                               {texte.premieresLignes ? (

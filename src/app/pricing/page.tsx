@@ -293,7 +293,7 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-screen overflow-x-clip bg-[var(--bg-surface-secondary)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[radial-gradient(circle_at_center_top,rgba(255,255,255,0.9),transparent_65%)]" />
       <div className="pointer-events-none absolute right-0 top-32 h-72 w-72 rounded-full bg-[var(--c-success)]/10 blur-3xl" />
       <div className="pointer-events-none absolute left-0 top-[38rem] h-72 w-72 rounded-full bg-[var(--color-amber-300)]/10 blur-3xl" />
@@ -438,7 +438,7 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <div className="mt-4 rounded-[24px] bg-[var(--surface-cream)] p-4 text-[var(--c-primary)]">
+            <div className="mt-4 rounded-[24px] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)]">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Devise et moyens de paiement</p>
@@ -597,7 +597,7 @@ export default function PricingPage() {
                   value={codeInput}
                   onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
                   placeholder="EAF-XXXX-XXXX-XXXX"
-                  className="flex-1 rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm font-mono tracking-wider text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                  className="flex-1 rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm font-mono tracking-wider text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                   maxLength={25}
                   disabled={codeLoading}
                 />
@@ -611,13 +611,13 @@ export default function PricingPage() {
                 </button>
               </form>
             ) : (
-              <div className="mt-6 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
+              <div className="mt-6 rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                 <Link href="/login" className="font-semibold text-[var(--c-primary)] underline">Connecte-toi d’abord</Link> pour rattacher le code à ton compte, puis reviens ici pour l’activer.
               </div>
             )}
 
             {codeSuccess ? (
-              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--success-border-accent)] bg-[var(--bg-success)] p-4 text-sm text-[var(--success-text-dark)]" role="status">
+              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--border-success)] bg-[var(--bg-success)] p-4 text-sm text-[var(--text-success-on-subtle)]" role="status">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{codeSuccess.message}</span>
               </div>
@@ -632,7 +632,7 @@ export default function PricingPage() {
 
           <article className="rounded-[24px] border border-[var(--c-primary)] bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-7">
             <div className="flex items-center gap-2">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-slate-300)]">
                 <Landmark className="h-5 w-5" />
               </div>
               <div>

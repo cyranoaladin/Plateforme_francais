@@ -194,7 +194,7 @@ export default function CarnetPage() {
                   id="carnet-type"
                   value={type}
                   onChange={(event) => setType(event.target.value as CarnetEntry['type'])}
-                  className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                  className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                 >
                   {TYPES.map((entryType) => (
                     <option key={entryType} value={entryType}>{TYPE_LABELS[entryType]}</option>

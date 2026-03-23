@@ -75,63 +75,63 @@ const TYPE_META: Record<
   oral: {
     label: 'Oral',
     tone: 'bg-[var(--c-success)] text-white',
-    softTone: 'border-[var(--c-success)]/16 bg-[var(--surface-teal-light)] text-[var(--c-success)]',
+    softTone: 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--text-success-on-subtle)]',
     icon: Mic,
   },
   grammaire: {
     label: 'Grammaire',
     tone: 'bg-[var(--color-amber-300)] text-white',
-    softTone: 'border-[var(--color-amber-300)]/16 bg-[var(--surface-premium)] text-[var(--warning-text)]',
+    softTone: 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
     icon: BrainCircuit,
   },
   langue: {
     label: 'Langue',
     tone: 'bg-[var(--color-amber-300)] text-white',
-    softTone: 'border-[var(--color-amber-300)]/16 bg-[var(--surface-premium)] text-[var(--warning-text)]',
+    softTone: 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
     icon: BrainCircuit,
   },
   ecrit: {
     label: 'Écrit',
     tone: 'bg-[var(--c-primary)] text-white',
-    softTone: 'border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] text-[var(--c-primary)]',
+    softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: PenTool,
   },
   lecture: {
     label: 'Lecture',
     tone: 'bg-[var(--c-primary)] text-white',
-    softTone: 'border-[var(--c-primary)]/16 bg-[var(--surface-violet-light)] text-[var(--c-primary)]',
+    softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: BookOpen,
   },
   revisions: {
     label: 'Révisions',
     tone: 'bg-[var(--c-primary)] text-white',
-    softTone: 'border-[var(--c-primary)]/16 bg-[var(--surface-violet-light)] text-[var(--c-primary)]',
+    softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: BookOpen,
   },
   fiches: {
     label: 'Fiches',
     tone: 'bg-[var(--c-primary)] text-white',
-    softTone: 'border-[var(--c-primary)]/16 bg-[var(--surface-violet-light)] text-[var(--c-primary)]',
+    softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: BookOpen,
   },
   quiz: {
     label: 'Quiz',
     tone: 'bg-[var(--c-primary)] text-white',
-    softTone: 'border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] text-[var(--c-primary)]',
+    softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: Sparkles,
   },
   organisation: {
     label: 'Organisation',
     tone: 'bg-[var(--color-amber-700)] text-white',
-    softTone: 'border-[var(--color-amber-700)]/16 bg-[var(--surface-premium)] text-[var(--color-amber-700)]',
+    softTone: 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
     icon: CalendarDays,
   },
 };
 
 const PRIORITY_META = {
-  high: 'border-[var(--color-amber-300)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]',
-  medium: 'border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] text-[var(--c-primary)]',
-  low: 'border-[var(--c-success)]/14 bg-[var(--surface-teal-light)] text-[var(--c-success)]',
+  high: 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
+  medium: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
+  low: 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--text-success-on-subtle)]',
 };
 
 function normalizeHref(href: string): string {
@@ -242,8 +242,8 @@ export default function MonParcoursPage() {
     return [
       { label: 'Écrit', score: profile.skillMap.ecrit, accent: 'bg-[var(--c-primary)]' },
       { label: 'Oral', score: profile.skillMap.oral, accent: 'bg-[var(--c-success)]' },
-      { label: 'Grammaire', score: profile.skillMap.grammaire, accent: 'bg-[var(--color-amber-300)]' },
-      { label: 'Lecture cursive', score: profile.skillMap.lectureCursive, accent: 'bg-[var(--c-primary)]' },
+      { label: 'Grammaire', score: profile.skillMap.grammaire, accent: 'bg-[var(--c-accent)]' },
+      { label: 'Lecture cursive', score: profile.skillMap.lectureCursive, accent: 'bg-[var(--c-reward)]' },
     ];
   }, [profile?.skillMap]);
 
@@ -282,8 +282,8 @@ export default function MonParcoursPage() {
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
       <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8 lg:p-10">
-        <div className="absolute inset-y-0 right-[-8%] hidden w-[40%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
-        <div className="absolute left-[-6%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--color-indigo-400)] opacity-25" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 right-6 h-20 w-20 rounded-full bg-[var(--color-indigo-700)] opacity-40" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.04fr_0.96fr] xl:items-start">
           <div>
@@ -329,7 +329,7 @@ export default function MonParcoursPage() {
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-placeholder)]">{item.label}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">{item.label}</p>
                     <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                   </div>
                 </div>
@@ -432,7 +432,7 @@ export default function MonParcoursPage() {
                         className={`transition-all ${
                           checked
                             ? 'border-[var(--c-success)]/24 bg-[var(--bg-success)] shadow-[var(--shadow-sm)]'
-                            : 'border-[var(--border-strong)] bg-[var(--surface-paper)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]'
+                            : 'border-[var(--border-strong)] bg-[var(--bg-surface)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]'
                         }`}
                       >
                         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -520,7 +520,7 @@ export default function MonParcoursPage() {
               </p>
             </div>
 
-            <div className="mt-5 rounded-[24px] border border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] p-4">
+            <div className="mt-5 rounded-[24px] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-4">
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-primary)]">
                 <Target className="h-4 w-4" />
                 Prochain bloc conseillé

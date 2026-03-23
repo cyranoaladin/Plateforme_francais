@@ -89,7 +89,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             id={selectId}
             disabled={disabled}
             className={cn(
-              'w-full appearance-none rounded-[var(--radius-md)] bg-[var(--surface-paper)] border transition-all duration-[var(--transition-normal)]',
+              'w-full appearance-none rounded-[var(--radius-md)] bg-[var(--bg-surface)] border transition-all duration-[var(--transition-normal)]',
               'focus:outline-none focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20',
               'disabled:opacity-60 disabled:cursor-not-allowed',
               error

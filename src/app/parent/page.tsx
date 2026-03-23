@@ -228,19 +228,19 @@ export default function ParentDashboard() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe fort</p>
               <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{strongestSkill.label}</p>
               <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">C’est le registre où la confiance peut servir de levier positif.</p>
             </div>
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe fragile</p>
               <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{weakestSkill.label}</p>
               <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">Le bon soutien familial consiste surtout à protéger un créneau calme sur cet axe.</p>
             </div>
           </div>
 
-          <div className="mt-8 rounded-[24px] border border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] p-4">
+          <div className="mt-8 rounded-[24px] border border-[var(--c-primary)]/14 bg-[var(--bg-primary)] p-4">
             <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-primary)]">
               <Target className="h-4 w-4" />
               Action concrète cette semaine
@@ -258,7 +258,7 @@ export default function ParentDashboard() {
                   La tendance hebdomadaire compte plus que l’impression du moment.
                 </h2>
               </div>
-              <div className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-2 text-sm font-semibold text-[var(--text-secondary)]">
+              <div className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-2 text-sm font-semibold text-[var(--text-secondary)]">
                 Objectif de repère&nbsp;: 12 / 20
               </div>
             </div>
@@ -273,7 +273,7 @@ export default function ParentDashboard() {
             <div className="mt-6 space-y-3">
               {recentEvaluations.length > 0 ? (
                 recentEvaluations.map((item) => (
-                  <article key={item.id} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <article key={item.id} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4">
                     <div className="flex items-center justify-between gap-3">
                       <div>
                         <p className="text-sm font-semibold text-[var(--c-primary)]">{item.feature}</p>
@@ -286,7 +286,7 @@ export default function ParentDashboard() {
                   </article>
                 ))
               ) : (
-                <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
+                <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                   Aucune évaluation suffisamment récente pour produire une lecture détaillée.
                 </div>
               )}
@@ -301,13 +301,13 @@ export default function ParentDashboard() {
           {weakSignals.length > 0 ? (
             <div className="mt-6 flex flex-wrap gap-2.5">
               {weakSignals.map(([skill, count]) => (
-                <span key={skill} className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-2 text-sm font-semibold text-[var(--c-primary)]">
+                <span key={skill} className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-primary)] px-4 py-2 text-sm font-semibold text-[var(--c-primary)]">
                   {skill} ({count})
                 </span>
               ))}
             </div>
           ) : (
-            <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
+            <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
               Aucun signal faible fort n’est remonté sur la fenêtre récente.
             </div>
           )}

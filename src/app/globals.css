@@ -39,13 +39,7 @@ html { overflow-x: clip; }
   --font-serif: var(--font-merriweather), "Merriweather", Georgia, serif;
   --font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
 
-  /* ─── Brand Colors — Nouvelle Charte Graphique 2026 ────────────────────────────────── */
-
-  /* ─── Pedagogical Accents ─────────────────────────── */
-
-  /* ─── Hover variants ─────────────────────────────── */
-
-  /* ─── French Tricolor ────────────────────────────── */
+  /* ─── French Tricolor (branding) ────────────────── */
   --french-blue: #002395;
   --french-white: #ffffff;
   --french-red: #ED2939;
@@ -54,197 +48,108 @@ html { overflow-x: clip; }
   --whatsapp: #25d366;
   --whatsapp-hover: #1fba59;
 
-  /* ─── Icon tones ────────────────────────────────── */
-  --icon-muted: #c0af96;
-  --badge-gold: #b8860b;
+  /* ─── Legacy compat (redirect to tokens.css — remove as files are migrated) ── */
+  --icon-muted: var(--text-muted);
+  --text-placeholder: var(--text-muted);
+  --text-placeholder-warm: var(--text-muted);
+  --text-chart: var(--text-secondary);
+  --text-chart-muted: var(--text-muted);
+  --text-icon: var(--text-muted);
+  --text-disabled: var(--color-slate-400);
+  --text-warm: var(--text-secondary);
+  --text-on-navy-muted: var(--color-slate-200);
+  --text-on-navy-soft: var(--color-slate-300);
+  --text-strikethrough: var(--text-muted);
+  --text-locked: var(--text-muted);
+  --badge-gold: var(--c-reward);
+  --success-text: var(--text-success-on-subtle);
+  --success-text-dark: var(--color-emerald-700);
+  --success-border-accent: var(--border-success);
+  --warning-text: var(--text-reward-on-subtle);
+  --warning-border: var(--border-reward);
+  --surface-cream: var(--bg-surface-secondary);
+  --surface-white: var(--bg-page);
+  --surface-light: var(--bg-surface-secondary);
+  --surface-parchment: var(--bg-surface-secondary);
+  --surface-navy-light: var(--bg-primary);
+  --surface-premium: var(--bg-reward);
+  --surface-teal-light: var(--bg-success);
+  --surface-violet-light: var(--bg-primary);
+  --surface-info-box: var(--bg-primary);
+  --surface-paper: var(--bg-surface);
+  --border-info-box: var(--border-primary);
+  --gold: var(--c-reward);
+  --navy-dark: var(--text-heading);
+  --dark-900: var(--color-slate-900);
+  --dark-800: var(--color-slate-800);
+  --shadow-xs: var(--shadow-sm);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.12);
+  --shadow-xl: 0 24px 56px rgba(0,0,0,0.16);
+  --shadow-gold: 0 8px 24px rgba(212,175,55,0.2);
 
-  /* ─── Surfaces — Nouvelle Charte ────────────────────────────────────── */
-  --surface-white: #FAFBFC;   /* Blanc Cassé */
-  --surface-light: #F0F2F5;   /* Gris Clair */
-  --surface-parchment: #f7f2ea;
-  --surface-navy-light: #eef3f8;
-  --surface-premium: #fdf4e9;
-  --surface-teal-light: #eef9f6;
-  --surface-violet-light: #f4eff8;
-  --surface-info-box: #f4f8fb;
-
-  /* ─── Borders — Nouvelle Charte ─────────────────────────────────────── */
-
-  /* ─── Text — Nouvelle Charte ────────────────────────────────────────── */
-  --text-heading: #1A1D23;    /* Noir Doux */
-  --text-body: #3D4852;       /* Gris Foncé */
-  --text-secondary: #5d7287;
-  --text-muted: #8A94A6;      /* Gris Moyen */
-  --text-placeholder: #94a3b8;
-  --text-placeholder-warm: #8b95a1;
-  --text-warm: #7a6858;
-  --text-on-navy-muted: #dfe8f0;
-  --text-on-navy-soft: #e4d4bd;
-  --text-disabled: #9a9590;
-  --text-icon: #7c8792;
-  --text-chart: #6b7280;
-  --text-chart-muted: #768390;
-  --text-strikethrough: #7f918d;
-  --text-locked: #8a8580;
-
-  /* ─── Status — Nouvelle Charte ──────────────────────────────────────── */
-  --success: #2D8A5E;         /* Vert Validation */
-  --success-text: #52716d;
-  --warning: #b45309;
-  --warning-text: #9a5f25;
-  --warning-border: #d9b98f;
-  --error: #C44536;           /* Rouge Correction */
-  --success-border-accent: #9cccaf;
-  --success-text-dark: #25543d;
-  --info: #1d4ed8;
-  --info-bg: #eff6ff;
-
-  /* ─── Dark surfaces ──────────────────────────────── */
-  --dark-900: #0f172a;
-  --dark-800: #1e293b;
+  /* ─── Status (semantic) ────────────────────────────── */
+  --success: var(--c-success);
+  --warning: var(--color-amber-600);
+  --error: var(--c-accent);
+  --info: var(--color-indigo-600);
+  --info-bg: var(--bg-primary);
 
   /* ─── Semantic aliases (Tailwind compat) ──────────── */
   --background: var(--bg-page);
   --foreground: var(--text-heading);
-  --muted: #F1F5F9;
+  --muted: var(--bg-surface-secondary);
   --muted-foreground: var(--text-muted);
-  --card: #FFFFFF;
+  --card: var(--bg-surface);
   --card-foreground: var(--text-heading);
-  --primary: var(--teal);
-  --primary-foreground: #ffffff;
+  --primary: var(--c-primary);
+  --primary-foreground: var(--text-on-primary);
   --secondary: var(--text-body);
-  --secondary-foreground: #ffffff;
-  --accent: #d97706;
-  --accent-foreground: #ffffff;
-  --border: #E2E8F0;
-  --input: #F1F5F9;
+  --secondary-foreground: var(--text-on-primary);
+  --accent: var(--c-accent);
+  --accent-foreground: var(--text-on-accent);
+  --border: var(--border-default);
+  --input: var(--bg-surface-secondary);
 
-  /* ─── Radii ───────────────────────────────────────── */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* ─── Radii (mirrors tokens.css) ──────────────────── */
   --radius-full: 9999px;
-
-  /* ─── Shadows ─────────────────────────────────────── */
-  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.16);
-  --shadow-gold: 0 8px 24px rgba(212, 175, 55, 0.2);
-
-  /* ─── Transitions ─────────────────────────────────── */
-  --transition-fast: 150ms ease-out;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease-in-out;
 }
 
 .dark {
-  /* ─── Semantic aliases ─────────────────────────────── */
-  --background: #0f172a;
-  --foreground: #e2e8f0;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --card: #1e293b;
-  --card-foreground: #e2e8f0;
-  --primary: #14b8a6;
-  --primary-foreground: #ffffff;
-  --secondary: #0f766e;
-  --secondary-foreground: #f8fafc;
-  --accent: #f59e0b;
-  --accent-foreground: #0f172a;
-  --border: #334155;
-  --input: #1e293b;
+  /* ─── Semantic aliases (dark) ─────────────────────── */
+  --background: var(--bg-page);
+  --foreground: var(--text-heading);
+  --muted: var(--bg-surface-secondary);
+  --muted-foreground: var(--text-muted);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-heading);
+  --primary: var(--c-primary);
+  --primary-foreground: var(--text-on-primary);
+  --secondary: var(--text-body);
+  --secondary-foreground: var(--color-slate-50);
+  --accent: var(--c-accent);
+  --accent-foreground: var(--text-on-accent);
+  --border: var(--border-default);
+  --input: var(--bg-surface-secondary);
 
-  /* ─── Brand Colors — lighter for dark backgrounds ── */
+  /* ─── Legacy compat (dark) ─────────────────────────── */
+  --icon-muted: var(--text-muted);
+  --text-placeholder: var(--text-muted);
+  --text-chart: var(--text-secondary);
+  --text-chart-muted: var(--text-muted);
+  --text-icon: var(--text-muted);
+  --text-disabled: var(--color-slate-600);
 
-  /* ─── Pedagogical Accents ──────────────────────────── */
-
-  /* ─── Hover variants ───────────────────────────────── */
-
-  /* ─── Icon tones ───────────────────────────────────── */
-  --icon-muted: #8b7a65;
-  --badge-gold: #d4a017;
-
-  /* ─── Surfaces — dark equivalents ──────────────────── */
-  --surface-parchment: #1a2535;
-  --surface-navy-light: #1a2840;
-  --surface-premium: #1f2a38;
-  --surface-teal-light: #0f2a28;
-  --surface-violet-light: #1f1a2e;
-  --surface-info-box: #172030;
-
-  /* ─── Borders — lighter for dark backgrounds ───────── */
-
-  /* ─── Text — brighter for dark backgrounds ─────────── */
-  --text-heading: #f1f5f9;
-  --text-body: #cbd5e1;
-  --text-secondary: #94a3b8;
-  --text-muted: #7a8fa5;
-  --text-placeholder: #64748b;
-  --text-placeholder-warm: #6b7a8a;
-  --text-warm: #b8a48e;
-  --text-on-navy-muted: #94a3b8;
-  --text-on-navy-soft: #b8a48e;
-  --text-disabled: #4a5568;
-  --text-icon: #8494a7;
-  --text-chart: #94a3b8;
-  --text-chart-muted: #7a8fa5;
-  --text-strikethrough: #64748b;
-  --text-locked: #64748b;
-
-  /* ─── Status ───────────────────────────────────────── */
-  --success: #10b981;
-  --success-text: #6ee7b7;
-  --warning: #f59e0b;
-  --warning-text: #fbbf24;
-  --warning-border: #4a3520;
-  --error: #ef4444;
-  --success-border-accent: #1a4a3e;
-  --success-text-dark: #6ee7b7;
-  --info: #60a5fa;
-  --info-bg: #172040;
-
-  /* ─── Dark surfaces ────────────────────────────────── */
-  --dark-900: #0f172a;
-  --dark-800: #1e293b;
-
-  /* ─── Shadows — stronger for dark mode ─────────────── */
-  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.35);
-  --shadow-xl: 0 24px 56px rgba(0, 0, 0, 0.4);
-  --shadow-gold: 0 8px 24px rgba(212, 175, 55, 0.15);
+  /* ─── Status (dark) ────────────────────────────────── */
+  --success: var(--c-success);
+  --warning: var(--color-amber-500);
+  --error: var(--color-coral-400);
+  --info: var(--color-indigo-400);
+  --info-bg: color-mix(in srgb, var(--color-indigo-900) 60%, transparent);
 }
 
 
 @theme inline {
-  /* ─── Encre & Lumière palette ────────────────────── */
-  --color-ink-950: #060D1F;
-  --color-ink-900: #0D1F3C;
-  --color-ink-800: #1A3560;
-  --color-ink-700: #1E4080;
-
-  --color-sapphire-700: #1D4ED8;
-  --color-sapphire-600: #2563EB;
-  --color-sapphire-500: #3B82F6;
-  --color-sapphire-400: #60A5FA;
-  --color-sapphire-300: #93BBFD;
-  --color-sapphire-100: #DBEAFE;
-  --color-sapphire-50: #EFF6FF;
-
-  --color-gold-700: #B45309;
-  --color-gold-600: #D97706;
-  --color-gold-500: #F59E0B;
-  --color-gold-100: #FEF3C7;
-  --color-gold-50: #FFFBEB;
-
-  --color-page: #F9F8FF;
-  --color-surface: #FFFFFF;
-
-  /* ─── Semantic aliases ───────────────────────────── */
+  /* ─── Semantic aliases for Tailwind ─────────────── */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
@@ -359,19 +264,3 @@ body {
   font-family: var(--font-serif);
 }
 
-/* ─── Badge Gold ──────────────────────────────────── */
-.badge-gold {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  background: var(--gold);
-  color: var(--navy-dark);
-}
-
-/* ─── Gold Shadow ─────────────────────────────────── */
-.shadow-gold {
-  box-shadow: 0 8px 24px rgba(212, 168, 83, 0.35);
-}

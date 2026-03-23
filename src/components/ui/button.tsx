@@ -23,7 +23,7 @@ const variantStyles = {
   danger:
     'bg-[var(--error)] text-white hover:brightness-90',
   gold:
-    'bg-gradient-to-r from-[var(--gold)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-gold)]',
+    'bg-gradient-to-r from-[var(--c-reward)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
   teal:
     'bg-[var(--c-success)] text-white hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
 } as const;

@@ -286,7 +286,7 @@ export default function BibliothequePage() {
       </section>
 
       {!hasFullAccess && (
-        <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(135deg,#fff8ef_0%,#f5eadb_100%)] px-6 py-5">
+        <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-reward)] px-6 py-5">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-3">
               <Lock className="mt-0.5 h-5 w-5 shrink-0 text-[var(--c-reward)]" />
@@ -353,7 +353,7 @@ export default function BibliothequePage() {
               onChange={(event) => setSearchQuery(event.target.value)}
               onKeyDown={handleSearchKeyDown}
               placeholder="Exemple : explication linéaire, problématique dissertation, Rimbaud, rapport jury..."
-              className="w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-11 py-4 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+              className="w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-11 py-4 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
             />
           </div>
           <Button
@@ -415,7 +415,7 @@ export default function BibliothequePage() {
                 Passages remontés pour “{searchQuery}”.
               </h2>
             </div>
-            <p className="text-sm text-[var(--success-text)]">{ragResults.length} résultats priorisés</p>
+            <p className="text-sm text-[var(--text-success-on-subtle)]">{ragResults.length} résultats priorisés</p>
           </div>
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
@@ -470,7 +470,7 @@ export default function BibliothequePage() {
                   return (
                     <article
                       key={resource.id}
-                      className={`group cursor-pointer rounded-[24px] border p-5 transition ${locked ? 'border-[var(--border-disabled)] bg-[linear-gradient(180deg,#f5f3ef_0%,#ece8e0_100%)] opacity-75' : 'border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] shadow-[var(--shadow-md)] hover:-translate-y-1 hover:border-[var(--c-primary)]/16 hover:shadow-[var(--shadow-md)]'}`}
+                      className={`group cursor-pointer rounded-[24px] border p-5 transition ${locked ? 'border-[var(--border-default)] bg-[var(--bg-surface-secondary)] opacity-75' : 'border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] shadow-[var(--shadow-md)] hover:-translate-y-1 hover:border-[var(--c-primary)]/16 hover:shadow-[var(--shadow-md)]'}`}
                       onClick={() => setSelectedResource(resource)}
                     >
                       <div className="flex items-start gap-4">
@@ -499,7 +499,7 @@ export default function BibliothequePage() {
                               </Badge>
                             )}
                           </div>
-                          <p className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${locked ? 'text-[var(--text-locked)]' : 'text-[var(--c-primary)] group-hover:text-[var(--c-primary-muted)]'}`}>
+                          <p className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${locked ? 'text-[var(--text-muted)]' : 'text-[var(--c-primary)] group-hover:text-[var(--c-primary-muted)]'}`}>
                             {formatResourceTitle(resource.title, resource.ext)}
                           </p>
                           <p className={`mt-2 line-clamp-3 text-sm leading-6 ${locked ? 'text-[var(--text-disabled)]' : 'text-[var(--text-secondary)]'}`}>
@@ -558,7 +558,7 @@ export default function BibliothequePage() {
           <div
             role="dialog"
             aria-modal="true"
-            className="h-screen w-full overflow-auto rounded-none border-0 bg-[var(--surface-paper)] p-6 shadow-2xl md:h-auto md:max-h-[88vh] md:max-w-3xl md:rounded-[24px] md:border md:border-[var(--border-default)] md:p-8"
+            className="h-screen w-full overflow-auto rounded-none border-0 bg-[var(--bg-surface)] p-6 shadow-2xl md:h-auto md:max-h-[88vh] md:max-w-3xl md:rounded-[24px] md:border md:border-[var(--border-default)] md:p-8"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4">

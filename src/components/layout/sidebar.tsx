@@ -235,13 +235,13 @@ export function Sidebar() {
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]/85 p-2.5 text-center">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">Streak</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--c-primary)]">
-                  <Flame className="h-3.5 w-3.5 text-[var(--accent)]" /> {streak}
+                  <Flame className="h-3.5 w-3.5 text-[var(--c-accent)]" /> {streak}
                 </p>
               </div>
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]/85 p-2.5 text-center">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">Badges</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--c-primary)]">
-                  <Award className="h-3.5 w-3.5 text-[var(--badge-gold)]" /> {badgeCount}
+                  <Award className="h-3.5 w-3.5 text-[var(--c-reward)]" /> {badgeCount}
                 </p>
               </div>
             </div>
@@ -281,7 +281,7 @@ export function Sidebar() {
           <div className="mx-4 mb-3">
             <Link
               href="/pricing"
-              className="group relative flex items-center gap-3 overflow-hidden rounded-[20px] bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-4 py-3.5 shadow-[0_4px_20px_rgba(124,58,237,0.35)] transition-all hover:shadow-[0_6px_28px_rgba(124,58,237,0.5)] hover:-translate-y-0.5"
+              className="group relative flex items-center gap-3 overflow-hidden rounded-[20px] bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] px-4 py-3.5 shadow-[var(--shadow-md)] transition-all hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5"
             >
               <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.12)_0%,transparent_50%)]" />
               <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-white/20 text-white">
@@ -303,7 +303,7 @@ export function Sidebar() {
 
         <div className="border-t border-[var(--border-default)] p-4 space-y-3">
           {/* ─── Theme Selector (3-state pill) ─── */}
-          <div className="flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--surface-cream)] p-1 shadow-[var(--shadow-xs)]">
+          <div className="flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-1 shadow-[var(--shadow-sm)]">
             {([
               { pref: 'system' as const, icon: Monitor, label: 'Système' },
               { pref: 'light' as const, icon: Sun, label: 'Clair' },
@@ -458,7 +458,7 @@ export function Sidebar() {
                     onClick={() => { setTheme(pref); setMobileThemeOpen(false); }}
                     className={`flex w-full items-center gap-2.5 rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium transition-all duration-[var(--transition-base)] ${
                       preference === pref
-                        ? 'bg-[var(--surface-cream)] text-[var(--text-heading)]'
+                        ? 'bg-[var(--bg-surface-secondary)] text-[var(--text-heading)]'
                         : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-secondary)] hover:text-[var(--text-body)]'
                     }`}
                     aria-pressed={preference === pref}
@@ -466,7 +466,7 @@ export function Sidebar() {
                     <Icon className="h-4 w-4" />
                     <span>{label}</span>
                     {preference === pref && (
-                      <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[var(--primary)]" />
+                      <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[var(--c-primary)]" />
                     )}
                   </button>
                 ))}

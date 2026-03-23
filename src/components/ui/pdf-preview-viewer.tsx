@@ -785,7 +785,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
         </div>
 
         {(isSearching || searchMessage || searchResults.length > 0) && (
-          <div className="rounded-[18px] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3">
+          <div className="rounded-[18px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--c-reward)]">Recherche dans le PDF</p>

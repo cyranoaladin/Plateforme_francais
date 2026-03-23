@@ -95,30 +95,30 @@ const SKILL_META = [
   {
     key: 'grammaire' as const,
     label: 'Grammaire',
-    accent: 'bg-[var(--color-amber-300)]',
+    accent: 'bg-[var(--c-accent)]',
     copy: 'Stabiliser les notions qui font perdre des points trop vite.',
     icon: BrainCircuit,
   },
   {
     key: 'lectureCursive' as const,
     label: 'Lecture cursive',
-    accent: 'bg-[var(--c-primary)]',
+    accent: 'bg-[var(--c-reward)]',
     copy: 'Garder les œuvres et leurs enjeux disponibles au moment utile.',
     icon: BookOpen,
   },
 ];
 
 const BADGE_STYLES = [
-  'from-[var(--c-primary)] to-[#315f88]',
-  'from-[var(--c-success)] to-[#43b9aa]',
-  'from-[var(--color-amber-700)] to-[#d6a15d]',
-  'from-[#503a64] to-[#9a88b0]',
+  'from-[var(--color-indigo-700)] to-[var(--color-indigo-400)]',
+  'from-[var(--color-emerald-700)] to-[var(--color-emerald-400)]',
+  'from-[var(--color-amber-700)] to-[var(--color-amber-400)]',
+  'from-[var(--color-coral-700)] to-[var(--color-coral-400)]',
 ];
 
 const PRIORITY_STYLE = {
-  high: 'border-[var(--color-amber-300)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]',
-  medium: 'border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] text-[var(--c-primary)]',
-  low: 'border-[var(--c-success)]/14 bg-[var(--surface-teal-light)] text-[var(--c-success)]',
+  high: 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
+  medium: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
+  low: 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--text-success-on-subtle)]',
 };
 
 function formatShortDate(date: string) {
@@ -221,8 +221,8 @@ export default function ProfilPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
       <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8 lg:p-10">
-        <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
-        <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--color-indigo-400)] opacity-25" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 right-6 h-20 w-20 rounded-full bg-[var(--color-indigo-700)] opacity-40" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
           <div>
@@ -283,7 +283,7 @@ export default function ProfilPage() {
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-placeholder)]">{item.label}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">{item.label}</p>
                     <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                   </div>
                 </div>
@@ -375,13 +375,13 @@ export default function ProfilPage() {
                 {topErrors.map((entry) => (
                   <article key={`${entry.type}-${entry.firstSeen}`} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <div className="flex items-start gap-4">
-                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--surface-premium)] text-[var(--color-amber-300)]">
+                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--bg-reward)] text-[var(--color-amber-300)]">
                         <AlertTriangle className="h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <p className="text-sm font-semibold text-[var(--c-primary)]">{entry.type}</p>
-                          <Badge variant="outline" size="sm" className="border-[var(--color-amber-300)]/18 font-bold uppercase tracking-[0.16em] text-[var(--warning-text)]">
+                          <Badge variant="outline" size="sm" className="border-[var(--border-reward)] font-bold uppercase tracking-[0.16em] text-[var(--text-reward-on-subtle)]">
                             {entry.count} occurrences
                           </Badge>
                         </div>

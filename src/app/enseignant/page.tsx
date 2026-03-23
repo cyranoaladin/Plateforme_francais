@@ -80,10 +80,10 @@ function statusLabel(status: string) {
 }
 
 function statusStyle(status: string) {
-  if (status === 'done') return 'border-[var(--c-success)]/16 bg-[var(--surface-teal-light)] text-[var(--c-success)]';
+  if (status === 'done') return 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--text-success-on-subtle)]';
   if (status === 'error') return 'border-[var(--c-accent-text)]/18 bg-[var(--c-accent-subtle)] text-[var(--c-accent-text)]';
-  if (status === 'processing') return 'border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] text-[var(--c-primary)]';
-  return 'border-[var(--color-amber-300)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]';
+  if (status === 'processing') return 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]';
+  return 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]';
 }
 
 export default function EnseignantPage() {
@@ -408,7 +408,7 @@ export default function EnseignantPage() {
             <div className="mt-8 space-y-4">
               {payload.copies.length > 0 ? (
                 payload.copies.map((copy) => (
-                  <article key={copy.copieId} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-5 shadow-[var(--shadow-sm)]">
+                  <article key={copy.copieId} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div>
                         <div className="flex flex-wrap items-center gap-2">
@@ -436,7 +436,7 @@ export default function EnseignantPage() {
                             [copy.copieId]: event.target.value,
                           }))
                         }
-                        className="min-h-24 w-full rounded-[16px] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4 text-sm text-[var(--c-primary)] outline-none transition-colors focus:border-[var(--c-success)]"
+                        className="min-h-24 w-full rounded-[16px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4 text-sm text-[var(--c-primary)] outline-none transition-colors focus:border-[var(--c-success)]"
                         placeholder="Ajouter un commentaire enseignant..."
                       />
                     </div>

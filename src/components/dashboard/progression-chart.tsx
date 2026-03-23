@@ -58,7 +58,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
             </linearGradient>
             <linearGradient id="progression-dissertation" x1="0" x2="1" y1="0" y2="0">
               <stop offset="0%" stopColor="var(--color-amber-300)" />
-              <stop offset="100%" stopColor="var(--gold)" />
+              <stop offset="100%" stopColor="var(--c-reward)" />
             </linearGradient>
             <linearGradient id="progression-oral" x1="0" x2="1" y1="0" y2="0">
               <stop offset="0%" stopColor="var(--c-success)" />

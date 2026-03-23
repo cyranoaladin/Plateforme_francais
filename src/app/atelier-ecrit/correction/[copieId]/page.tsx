@@ -377,7 +377,7 @@ export default function CorrectionCopiePage() {
                         return (
                           <div
                             key={`region-${idx}`}
-                            className={`absolute rounded-md border-2 transition-all ${selected ? 'border-[var(--c-primary)] bg-[var(--c-primary)]/12 shadow-md' : 'border-[var(--color-amber-300)]/70 bg-[#f4d6b8]/18'}`}
+                            className={`absolute rounded-md border-2 transition-all ${selected ? 'border-[var(--c-primary)] bg-[var(--c-primary)]/12 shadow-md' : 'border-[var(--color-amber-300)]/70 bg-[var(--bg-reward)]/18'}`}
                             style={{
                               top: `${region.topPct}%`,
                               left: `${region.leftPct}%`,

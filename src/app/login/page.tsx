@@ -114,7 +114,7 @@ function PasswordField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           autoComplete={autoComplete ?? 'current-password'}
-          className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 pr-11 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+          className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 pr-11 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
           required
           minLength={8}
         />
@@ -495,7 +495,7 @@ function AuthCard() {
                 id="displayName"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                 placeholder="Ton prénom"
               />
             </div>
@@ -511,7 +511,7 @@ function AuthCard() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+              className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
               required
               autoComplete="email"
               placeholder="prenom@exemple.fr"
@@ -567,7 +567,7 @@ function AuthCard() {
                     type="email"
                     value={parentEmail}
                     onChange={(e) => setParentEmail(e.target.value)}
-                    className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                    className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                     placeholder="parent@email.com"
                     required={isMinor}
                   />
@@ -581,7 +581,7 @@ function AuthCard() {
                     type="email"
                     value={teacherEmail}
                     onChange={(e) => setTeacherEmail(e.target.value)}
-                    className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                    className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                     placeholder="enseignant@etablissement.fr"
                   />
                 </div>
@@ -633,7 +633,7 @@ function AuthCard() {
             >
               Mot de passe oublié ?
             </button>
-            <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4">
+            <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
               <button
                 type="button"
                 onClick={() => setShowHelp((prev) => !prev)}
@@ -657,7 +657,7 @@ function AuthCard() {
             >
               Retour à la connexion
             </button>
-            <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4">
+            <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
               <p className="text-sm leading-7 text-[var(--text-secondary)]">
                 Besoin d{'’'}aide ?{' '}
                 <a
@@ -673,7 +673,7 @@ function AuthCard() {
             </div>
           </div>
         ) : (
-          <div className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-paper)] p-4">
+          <div className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
             <div className="flex items-start gap-3">
               <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--c-success)]" />
               <p className="text-sm leading-7 text-[var(--text-secondary)]">
