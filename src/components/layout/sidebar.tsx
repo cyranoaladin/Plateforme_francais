@@ -107,8 +107,9 @@ export function Sidebar() {
   const [globalScore, setGlobalScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [badgeCount, setBadgeCount] = useState(0);
-  const [planId, setPlanId] = useState<string>('FREE');
-  const [planLabel, setPlanLabel] = useState<string>('Freemium');
+  const [planId, setPlanId] = useState<string | null>(null);
+  const [planLabel, setPlanLabel] = useState<string>('');
+  const [planLoaded, setPlanLoaded] = useState(false);
   const [mobileThemeOpen, setMobileThemeOpen] = useState(false);
   const mobileThemeRef = useRef<HTMLDivElement>(null);
 
@@ -152,6 +153,7 @@ export function Sidebar() {
             setPlanLabel(billingData.subscription.label ?? billingData.subscription.plan);
           }
         }
+        setPlanLoaded(true);
 
         if (timelineResponse.ok) {
           const payload = (await timelineResponse.json()) as TimelinePayload;
@@ -165,7 +167,7 @@ export function Sidebar() {
           setStreak(computeStreak(payload.timeline.map((item) => item.createdAt)));
         }
       } catch {
-        // ignore
+        setPlanLoaded(true);
       }
     };
 
@@ -277,7 +279,7 @@ export function Sidebar() {
         <div className="flex-1" />
 
         {/* ─── Upgrade CTA (FREE & PREMIUM only) ─── */}
-        {(planId === 'FREE' || planId === 'PREMIUM') && (
+        {planLoaded && planId !== null && (planId === 'FREE' || planId === 'PREMIUM') && (
           <div className="mx-4 mb-3">
             <Link
               href="/pricing"
@@ -354,6 +356,7 @@ export function Sidebar() {
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-[var(--c-primary)] truncate">{me?.profile.displayName ?? 'Élève'}</p>
               <p className="text-xs text-[var(--text-secondary)]">
+                {planLoaded && planLabel && (
                 <span className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] ${
                   planId === 'FREE' ? 'bg-[var(--c-primary)]/8 text-[var(--text-secondary)]'
                   : planId === 'PREMIUM' ? 'bg-[var(--c-success)]/12 text-[var(--c-success)]'
@@ -361,6 +364,7 @@ export function Sidebar() {
                 }`}>
                   {planLabel}
                 </span>
+                )}
               </p>
             </div>
           </div>
