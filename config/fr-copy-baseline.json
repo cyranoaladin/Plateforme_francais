@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-23T00:35:05.738Z",
+  "generatedAt": "2026-03-23T00:47:34.582Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -3840,16 +3840,9 @@
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 665,
-      "column": 107,
-      "kind": "jsx-text",
-      "text": "afficher toutes les données"
-    },
-    {
-      "file": "src/app/dashboard/page.tsx",
-      "line": 665,
       "column": 68,
       "kind": "jsx-text",
-      "text": "Un souci temporaire nous empêche d"
+      "text": "Un souci temporaire nous empêche d&apos;afficher toutes les données"
     },
     {
       "file": "src/app/dashboard/page.tsx",
@@ -3961,14 +3954,7 @@
       "line": 818,
       "column": 80,
       "kind": "jsx-text",
-      "text": "Ton fil d"
-    },
-    {
-      "file": "src/app/dashboard/page.tsx",
-      "line": 818,
-      "column": 94,
-      "kind": "jsx-text",
-      "text": "activité est encore vierge"
+      "text": "Ton fil d&apos;activité est encore vierge"
     },
     {
       "file": "src/app/dashboard/page.tsx",

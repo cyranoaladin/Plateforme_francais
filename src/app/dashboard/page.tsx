@@ -42,25 +42,25 @@ const SKILL_META = [
   {
     key: 'ecrit' as const,
     label: 'Écrit',
-    accent: 'bg-[var(--c-primary)]',
+    accent: 'bg-[var(--bg-primary)]',
     copy: 'Structurer vite, sans perdre la tension de l’argumentation.',
   },
   {
     key: 'oral' as const,
     label: 'Oral',
-    accent: 'bg-[var(--c-success)]',
+    accent: 'bg-[var(--bg-success)]',
     copy: 'Garder une parole nette, mobile et assez solide pour tenir la relance.',
   },
   {
     key: 'grammaire' as const,
     label: 'Grammaire',
-    accent: 'bg-[var(--c-accent)]',
+    accent: 'bg-[var(--c-accent-subtle)]',
     copy: 'Verrouiller les notions qui coûtent des points trop rapidement.',
   },
   {
     key: 'lectureCursive' as const,
     label: 'Lecture cursive',
-    accent: 'bg-[var(--c-reward)]',
+    accent: 'bg-[var(--bg-reward)]',
     copy: 'Réactiver les œuvres pour qu’elles restent disponibles à l’oral.',
   },
 ];
@@ -662,7 +662,7 @@ export default function Dashboard() {
               <AlertTriangle className="h-4 w-4" />
             </div>
             <div>
-              <p className="font-semibold text-[var(--c-primary)]">Un souci temporaire nous empêche d{'’'}afficher toutes les données</p>
+              <p className="font-semibold text-[var(--c-primary)]">Un souci temporaire nous empêche d&apos;afficher toutes les données</p>
               <p className="mt-1 text-sm leading-7">{data.error}</p>
               <p className="mt-1 text-xs text-[var(--text-muted)]">Rafraîchis la page dans quelques instants ou poursuis ta session normalement.</p>
             </div>
@@ -815,7 +815,7 @@ export default function Dashboard() {
               ) : (
                 <div className="flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-6 text-center">
                   <Clock3 className="h-10 w-10 text-[var(--icon-muted)]" />
-                  <p className="text-sm font-semibold text-[var(--c-primary)]">Ton fil d{'’'}activité est encore vierge</p>
+                  <p className="text-sm font-semibold text-[var(--c-primary)]">Ton fil d&apos;activité est encore vierge</p>
                   <p className="max-w-sm text-sm leading-7 text-[var(--text-secondary)]">
                     Dès que tu lanceras un premier atelier ou un quiz, tes sessions apparaîtront ici pour suivre ta progression au fil des jours.
                   </p>
