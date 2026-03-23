@@ -65,7 +65,7 @@ export default function CarnetPage() {
 
   const submit = async () => {
     if (!oeuvre.trim() || !contenu.trim()) {
-      setError('\u0152uvre et contenu sont obligatoires.');
+      setError('Œuvre et contenu sont obligatoires.');
       return;
     }
     setSaving(true);
@@ -136,7 +136,7 @@ export default function CarnetPage() {
               Un lieu pour garder les œuvres vivantes, pas seulement les résumer.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
-              Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l'entretien et à retrouver vite une matière personnelle quand il faut reparler d'une œuvre.
+              Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l\'entretien et à retrouver vite une matière personnelle quand il faut reparler d\'une œuvre.
             </p>
           </div>
 
@@ -172,14 +172,14 @@ export default function CarnetPage() {
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Nouvelle entrée</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
-                  Noter pendant que c'est encore vivant
+                  Noter pendant que c\'est encore vivant
                 </h2>
               </div>
             </div>
 
             <div className="mt-6 space-y-4">
               <Input
-                label={'\u0152uvre'}
+                label={'Œuvre'}
                 id="carnet-oeuvre"
                 value={oeuvre}
                 onChange={(event) => setOeuvre(event.target.value)}
@@ -212,11 +212,11 @@ export default function CarnetPage() {
               />
               <Input
                 label="Mots-clés"
-                hint="S\u00e9par\u00e9s par virgules"
+                hint="Séparés par virgules"
                 id="carnet-tags"
                 value={tags}
                 onChange={(event) => setTags(event.target.value)}
-                placeholder="Ex : m\u00e9moire, enfance, nature"
+                placeholder="Ex : mémoire, enfance, nature"
                 size="md"
               />
               <Textarea
@@ -224,7 +224,7 @@ export default function CarnetPage() {
                 id="carnet-contenu"
                 value={contenu}
                 onChange={(event) => setContenu(event.target.value)}
-                placeholder="Note ta citation, r\u00e9action ou observation ici..."
+                placeholder="Note ta citation, réaction ou observation ici..."
                 rows={5}
                 size="md"
               />

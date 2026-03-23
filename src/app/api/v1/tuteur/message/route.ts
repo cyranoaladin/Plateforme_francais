@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       if (err instanceof BillingQuotaExceededError) {
         return NextResponse.json(
           {
-            error: `Tu as atteint la limite incluse pour le tuteur (${err.limit} messages par jour, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). La conversation n'est pas perdue. Passe au plan supérieur pour continuer maintenant.`,
+            error: `Tu as atteint la limite incluse pour le tuteur (${err.limit} messages par jour, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). La conversation n\'est pas perdue. Passe au plan supérieur pour continuer maintenant.`,
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
             plan: billing.planId,
@@ -112,7 +112,7 @@ export async function POST(request: Request) {
     if (wantsStream) {
       const encoder = new TextEncoder();
       const text =
-        "Je ne peux pas rédiger une copie complète à ta place. Je peux te guider étape par étape\u00a0: problématique, plan, puis amélioration paragraphe par paragraphe.";
+        "Je ne peux pas rédiger une copie complète à ta place. Je peux te guider étape par étape : problématique, plan, puis amélioration paragraphe par paragraphe.";
       const stream = new ReadableStream<Uint8Array>({
         start(controller) {
           for (const token of text.split(' ')) {
@@ -173,7 +173,7 @@ export async function POST(request: Request) {
     } catch (error) {
       if (error instanceof QuotaExceededError) {
         return NextResponse.json(
-          { error: `Limite atteinte pour ce type d'accompagnement (${error.scope}). Réessayez plus tard.` },
+          { error: `Limite atteinte pour ce type d\'accompagnement (${error.scope}). Réessayez plus tard.` },
           { status: 429 },
         );
       }
@@ -244,7 +244,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof QuotaExceededError) {
       return NextResponse.json(
-        { error: `Limite atteinte pour ce type d'accompagnement (${error.scope}). Réessayez plus tard.` },
+        { error: `Limite atteinte pour ce type d\'accompagnement (${error.scope}). Réessayez plus tard.` },
         { status: 429 },
       );
     }

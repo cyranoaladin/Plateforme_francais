@@ -46,17 +46,17 @@ const STUDIO_STEPS = [
   {
     index: '01',
     title: 'Générer un sujet crédible',
-    body: 'Choisis le format, précise l\u2019œuvre ou le thème si besoin, puis lance un sujet blanc exploitable immédiatement.',
+    body: 'Choisis le format, précise l\'œuvre ou le thème si besoin, puis lance un sujet blanc exploitable immédiatement.',
   },
   {
     index: '02',
     title: 'Déposer la copie',
-    body: 'Ajoute un PDF ou des photos propres. La plateforme suit l\u2019upload puis enclenche une lecture détaillée de la copie.',
+    body: 'Ajoute un PDF ou des photos propres. La plateforme suit l\'upload puis enclenche une lecture détaillée de la copie.',
   },
   {
     index: '03',
     title: 'Récupérer le rapport',
-    body: 'Une fois l\u2019analyse terminée, tu ouvres le rapport détaillé pour travailler le prochain axe utile.',
+    body: 'Une fois l\'analyse terminée, tu ouvres le rapport détaillé pour travailler le prochain axe utile.',
   },
 ];
 
@@ -273,11 +273,11 @@ export default function AtelierEcritPage() {
               Atelier écrit
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF.
+              Un studio d\'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
               Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser
-              entre dix écrans. L'interface suit un seul objectif : te faire passer d'une intention floue à un rapport exploitable.
+              entre dix écrans. L\'interface suit un seul objectif : te faire passer d\'une intention floue à un rapport exploitable.
             </p>
           </div>
 
@@ -341,10 +341,10 @@ export default function AtelierEcritPage() {
               <div className="flex-1">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Étape 1</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
-                  Génère un sujet d'épreuve blanche.
+                  Génère un sujet d\'épreuve blanche.
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
-                  Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l'œuvre ou au thème que tu veux réactiver.
+                  Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l\'œuvre ou au thème que tu veux réactiver.
                 </p>
               </div>
             </div>
@@ -368,7 +368,7 @@ export default function AtelierEcritPage() {
                     </select>
                   </div>
                   <Input
-                    label={'\u0152uvre (optionnel)'}
+                    label={'Œuvre (optionnel)'}
                     id="epreuve-oeuvre"
                     value={oeuvre}
                     onChange={(event) => setOeuvre(event.target.value)}
@@ -376,11 +376,11 @@ export default function AtelierEcritPage() {
                     size="md"
                   />
                   <Input
-                    label="Th\u00e8me (optionnel)"
+                    label="Thème (optionnel)"
                     id="epreuve-theme"
                     value={theme}
                     onChange={(event) => setTheme(event.target.value)}
-                    placeholder="Ex: la m\u00e9moire"
+                    placeholder="Ex: la mémoire"
                     size="md"
                   />
                 </div>
@@ -432,7 +432,7 @@ export default function AtelierEcritPage() {
                   Déposer ma copie
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
-                  Une photo nette ou un PDF propre suffit. Le studio suit l'upload, puis bascule vers l'analyse sans changer de contexte.
+                  Une photo nette ou un PDF propre suffit. Le studio suit l\'upload, puis bascule vers l\'analyse sans changer de contexte.
                 </p>
               </div>
             </div>
@@ -520,7 +520,7 @@ export default function AtelierEcritPage() {
                     {selectedFile.type === 'application/pdf' && (
                       <div className="mt-4 inline-flex items-center gap-2 rounded-[16px] bg-[var(--bg-success)] px-4 py-3 text-sm text-[var(--c-success)]">
                         <FileText className="h-4 w-4" />
-                        PDF prêt à l'envoi
+                        PDF prêt à l\'envoi
                       </div>
                     )}
                   </div>
@@ -602,7 +602,7 @@ export default function AtelierEcritPage() {
               </div>
             </div>
             <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-              Le bon usage de l'atelier écrit n'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante.
+              Le bon usage de l\'atelier écrit n\'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante.
             </p>
           </section>
 

@@ -98,7 +98,7 @@ const STEP_GUIDANCE: Record<OralStep, { title: string; body: string }> = {
   },
   ENTRETIEN: {
     title: 'Entretien examinateur',
-    body: 'Réponds nettement, repars de l\u2019œuvre choisie et garde une logique de dialogue plutôt qu\u2019une mini dissertation flottante.',
+    body: 'Réponds nettement, repars de l\'œuvre choisie et garde une logique de dialogue plutôt qu\'une mini dissertation flottante.',
   },
 };
 
@@ -115,24 +115,24 @@ const PASSAGE_DURATION_S = 20 * 60;
 const PREP_CHECKLIST = [
   { id: 'contexte', label: "Identifier le contexte de l’extrait (auteur, œuvre, mouvement)" },
   { id: 'mouvement', label: "Repérer les mouvements du texte et l’articulation des parties" },
-  { id: 'problematique', label: 'Formuler une problématique d\u2019analyse' },
+  { id: 'problematique', label: 'Formuler une problématique d\'analyse' },
   { id: 'procedes', label: 'Relever les procédés clés + citations à commenter' },
   { id: 'grammaire', label: 'Anticiper la question de grammaire (nature, fonction, analyse)' },
 ];
 
 const OEUVRES_PROGRAMME_2025_2026 = [
-  'Cahier de Douai \u2014 Arthur Rimbaud',
-  'La rage de l\u2019expression \u2014 Francis Ponge',
-  'Mes for\u00EAts \u2014 H\u00E9l\u00E8ne Dorion',
-  'Discours de la servitude volontaire \u2014 \u00C9tienne de La Bo\u00E9tie',
-  'Entretiens sur la pluralit\u00E9 des mondes \u2014 Fontenelle',
-  'Lettres d\u2019une P\u00E9ruvienne \u2014 Fran\u00E7oise de Graffigny',
-  'Le Menteur \u2014 Pierre Corneille',
-  'On ne badine pas avec l\u2019amour \u2014 Alfred de Musset',
-  'Pour un oui ou pour un non \u2014 Nathalie Sarraute',
-  'Manon Lescaut \u2014 Abb\u00E9 Pr\u00E9vost',
-  'La Peau de chagrin \u2014 Honor\u00E9 de Balzac',
-  'Sido suivi de Les Vrilles de la vigne \u2014 Colette',
+  'Cahier de Douai — Arthur Rimbaud',
+  'La rage de l\'expression — Francis Ponge',
+  'Mes forêts — Hélène Dorion',
+  'Discours de la servitude volontaire — Étienne de La Boétie',
+  'Entretiens sur la pluralité des mondes — Fontenelle',
+  'Lettres d\'une Péruvienne — Françoise de Graffigny',
+  'Le Menteur — Pierre Corneille',
+  'On ne badine pas avec l\'amour — Alfred de Musset',
+  'Pour un oui ou pour un non — Nathalie Sarraute',
+  'Manon Lescaut — Abbé Prévost',
+  'La Peau de chagrin — Honoré de Balzac',
+  'Sido suivi de Les Vrilles de la vigne — Colette',
 ];
 
 function speakText(text: string) {
@@ -992,7 +992,7 @@ export default function AtelierOralPage() {
                 </Button>
                 <div className="flex flex-col gap-1">
                   <p className="text-[10px] font-medium uppercase tracking-widest text-[var(--text-placeholder)]">{useServerVoice ? 'Mode vocal serveur' : 'Mode vocal navigateur'}</p>
-                  <p className="text-xs text-[var(--text-muted)]">{useServerVoice ? 'Ton audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par ton navigateur. Aucun audio n\u2019est envoyé à nos serveurs.'}</p>
+                  <p className="text-xs text-[var(--text-muted)]">{useServerVoice ? 'Ton audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par ton navigateur. Aucun audio n\'est envoyé à nos serveurs.'}</p>
                 </div>
               </div>
             </div>
@@ -1059,7 +1059,7 @@ export default function AtelierOralPage() {
             <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Principe de séance</p>
               <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L'espace oral est conçu pour rendre cette discipline plus facile.
+                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L\'espace oral est conçu pour rendre cette discipline plus facile.
               </p>
               <Link
                 href={oralTutorHref}

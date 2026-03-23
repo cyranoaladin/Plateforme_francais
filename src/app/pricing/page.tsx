@@ -113,7 +113,7 @@ const PLANS: PlanCard[] = [
     checkoutPlan: 'PREMIUM',
     highlighted: true,
     kicker: 'La préparation complète pour réussir ton EAF.',
-    note: 'Le meilleur point d\u2019équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
+    note: 'Le meilleur point d\'équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
   },
   {
     id: 'PRO',
@@ -152,7 +152,7 @@ const FEATURE_ROWS: Array<{ label: string; free: string; premium: string; pro: s
 
 const BILLING_FAQ = [
   {
-    q: "Que se passe-t-il si j’atteins un quota\u00A0?",
+    q: "Que se passe-t-il si j’atteins un quota ?",
     a: "La plateforme bloque l’action concernée, conserve ton travail et t’indique le plan utile pour reprendre sans repartir de zéro.",
   },
   {
@@ -161,18 +161,18 @@ const BILLING_FAQ = [
   },
   {
     q: 'Comment fonctionne le paiement ?',
-    a: 'Les abonnements payants sont activés par virement bancaire ou via WhatsApp (+216 99 19 28 29). Tu reçois un code d\u2019activation après confirmation du règlement.',
+    a: 'Les abonnements payants sont activés par virement bancaire ou via WhatsApp (+216 99 19 28 29). Tu reçois un code d\'activation après confirmation du règlement.',
   },
   {
-    q: 'Comment recevoir mon code d\u2019activation\u00A0?',
-    a: 'Effectue un virement bancaire avec l\u2019email de ton compte en référence, ou contacte-nous via WhatsApp au +216 99 19 28 29. Le code est envoyé après vérification du règlement.',
+    q: 'Comment recevoir mon code d\'activation ?',
+    a: 'Effectue un virement bancaire avec l\'email de ton compte en référence, ou contacte-nous via WhatsApp au +216 99 19 28 29. Le code est envoyé après vérification du règlement.',
   },
 ];
 
 const DECISION_GUIDES = [
   {
     title: 'Freemium',
-    body: 'Un aperçu pour juger la qualité du produit avant de s\u2019engager. Les quotas restent volontairement limités.',
+    body: 'Un aperçu pour juger la qualité du produit avant de s\'engager. Les quotas restent volontairement limités.',
   },
   {
     title: 'Premium — 99 TND/mois',
@@ -180,7 +180,7 @@ const DECISION_GUIDES = [
   },
   {
     title: 'Masterium — 129 TND/mois',
-    body: 'Zéro plafond sur l\u2019oral, l\u2019écrit et le quiz. Conçu pour une préparation intensive sans compromis.',
+    body: 'Zéro plafond sur l\'oral, l\'écrit et le quiz. Conçu pour une préparation intensive sans compromis.',
   },
 ];
 
@@ -589,7 +589,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-              Si un code d'activation t'a été envoyé, active ton plan directement ici.
+              Si un code d\'activation t'a été envoyé, active ton plan directement ici.
             </p>
 
             {isAuthenticated ? (
@@ -646,7 +646,7 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-slate-200">
-              Pour l'instant, les abonnements payants s'activent par virement bancaire ou via WhatsApp.
+              Pour l\'instant, les abonnements payants s\'activent par virement bancaire ou via WhatsApp.
             </p>
 
             <div className="mt-6 space-y-3">
@@ -656,7 +656,7 @@ export default function PricingPage() {
                   <div>
                     <p className="text-sm font-semibold text-white">Modes de paiement actifs</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">
-                      Les abonnements s'activent par virement bancaire ou via WhatsApp. Ajoute l'email du compte ou ton identifiant utilisateur en référence pour accélérer l'activation.
+                      Les abonnements s\'activent par virement bancaire ou via WhatsApp. Ajoute l\'email du compte ou ton identifiant utilisateur en référence pour accélérer l\'activation.
                     </p>
                   </div>
                 </div>
@@ -818,7 +818,7 @@ export default function PricingPage() {
                 La préparation sérieuse commence avec Premium.
               </h3>
               <p className="mt-3 text-sm leading-7 text-slate-200">
-                Le plan Freemium donne un aperçu de la méthode de travail. Premium débloque le rythme nécessaire pour progresser réellement avant l'épreuve.
+                Le plan Freemium donne un aperçu de la méthode de travail. Premium débloque le rythme nécessaire pour progresser réellement avant l\'épreuve.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link href="/login?mode=register" className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-5 py-3 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white">

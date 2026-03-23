@@ -151,7 +151,7 @@ export default function ContactPage() {
           </Button>
 
           {success ? (
-            <StateNotice title="Message envoy\u00e9" description={success} variant="success" />
+            <StateNotice title="Message envoyé" description={success} variant="success" />
           ) : null}
           {error ? (
             <StateNotice title="Erreur d’envoi" description={error} variant="error" />

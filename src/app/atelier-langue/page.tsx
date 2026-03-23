@@ -49,12 +49,12 @@ const THEME_OPTIONS: ThemeOption[] = [
   {
     value: 'mixte',
     label: 'Mixte',
-    eyebrow: 'Rotation compl\u00E8te',
-    description: 'Alterne syntaxe, relations logiques et syst\u00E8me verbal pour r\u00E9viser les trois axes du programme.',
+    eyebrow: 'Rotation complète',
+    description: 'Alterne syntaxe, relations logiques et système verbal pour réviser les trois axes du programme.',
   },
   {
     value: 'subordonnees',
-    label: 'Subordonn\u00E9es',
+    label: 'Subordonnées',
     eyebrow: 'Axe 1',
     description: 'Travaille les relatives, conjonctives, interrogatives indirectes et les fonctions dans la phrase complexe.',
   },
@@ -62,13 +62,13 @@ const THEME_OPTIONS: ThemeOption[] = [
     value: 'relations_logiques',
     label: 'Relations logiques',
     eyebrow: 'Axe 2',
-    description: 'Cause, cons\u00E9quence, opposition, concession, but et condition dans des phrases courtes d\u2019oral EAF.',
+    description: 'Cause, conséquence, opposition, concession, but et condition dans des phrases courtes d\'oral EAF.',
   },
   {
     value: 'systeme_verbal',
-    label: 'Syst\u00E8me verbal',
+    label: 'Système verbal',
     eyebrow: 'Axe 3',
-    description: 'Valeurs des temps, subjonctif, conditionnel et concordance pour s\u00E9curiser la r\u00E9ponse de grammaire.',
+    description: 'Valeurs des temps, subjonctif, conditionnel et concordance pour sécuriser la réponse de grammaire.',
   },
 ];
 
@@ -79,7 +79,7 @@ const EDITORIAL_HEADING = {
 const METHOD_MARKERS = [
   'Identifier le fait de langue exact',
   'Nommer avec la terminologie du programme',
-  'Interpr\u00E9ter l\u2019effet dans le contexte',
+  'Interpréter l\'effet dans le contexte',
 ];
 
 export default function AtelierLangue() {
@@ -114,7 +114,7 @@ export default function AtelierLangue() {
 
       if (!response.ok) {
         const body = (await response.json().catch(() => ({}))) as { error?: string };
-        throw new Error(body.error ?? 'Erreur de g\u00E9n\u00E9ration');
+        throw new Error(body.error ?? 'Erreur de génération');
       }
 
       const payload = (await response.json()) as { exercises: Exercise[] };
@@ -122,11 +122,11 @@ export default function AtelierLangue() {
         setExercises(payload.exercises);
       } else {
         setExercises(buildLangueExerciseSeries(selectedTheme, 5));
-        setLoadError('S\u00E9rie locale charg\u00E9e. Une nouvelle s\u00E9lection a \u00E9t\u00E9 compos\u00E9e depuis la banque interne.');
+        setLoadError('Série locale chargée. Une nouvelle sélection a été composée depuis la banque interne.');
       }
     } catch {
       setExercises(buildLangueExerciseSeries(selectedTheme, 5));
-      setLoadError('S\u00E9rie locale charg\u00E9e. Une nouvelle s\u00E9lection a \u00E9t\u00E9 compos\u00E9e depuis la banque interne.');
+      setLoadError('Série locale chargée. Une nouvelle sélection a été composée depuis la banque interne.');
     } finally {
       setIsLoading(false);
     }
@@ -186,7 +186,7 @@ export default function AtelierLangue() {
         max: 2,
         status: 'error',
         message:
-          'Impossible d\u2019évaluer ta réponse pour le moment. Réessaie dans quelques secondes.',
+          'Impossible d\'évaluer ta réponse pour le moment. Réessaie dans quelques secondes.',
         missing: [],
       });
     } finally {
@@ -391,7 +391,7 @@ export default function AtelierLangue() {
                 <Textarea
                   data-testid="langue-answer"
                   className="mt-5"
-                  placeholder="R\u00e9dige ton analyse grammaticale compl\u00e8te ici..."
+                  placeholder="Rédige ton analyse grammaticale complète ici..."
                   value={userAnswer}
                   onChange={(event) => setUserAnswer(event.target.value)}
                   disabled={feedback !== null}

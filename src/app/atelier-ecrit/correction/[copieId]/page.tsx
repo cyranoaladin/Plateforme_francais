@@ -42,7 +42,7 @@ const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
 };
 
-const PROCESSING_STEPS = ['Lecture de la copie...', 'Analyse litt\u00E9raire...', 'R\u00E9daction du bilan...'];
+const PROCESSING_STEPS = ['Lecture de la copie...', 'Analyse littéraire...', 'Rédaction du bilan...'];
 
 const ANNOTATION_STYLES = {
   erreur: 'border-[var(--border-accent)] bg-[var(--c-accent-subtle)] text-[var(--c-accent-text)]',
@@ -331,7 +331,7 @@ export default function CorrectionCopiePage() {
                 {sanitizeLlmText(correction.corrige_type)}
               </div>
               <p className="mt-3 text-xs italic text-[var(--text-muted)]">
-                Ce plan indicatif montre une structure possible — il ne constitue pas l'unique réponse valide.
+                Ce plan indicatif montre une structure possible — il ne constitue pas l\'unique réponse valide.
               </p>
             </section>
           )}

@@ -27,7 +27,7 @@ const EDITORIAL_HEADING = {
 };
 
 const STARTER_PROMPTS = [
-  'Donne-moi une m\u00E9thode courte pour l\u2019introduction de dissertation.',
+  'Donne-moi une méthode courte pour l\'introduction de dissertation.',
   'Comment analyser une métaphore dans un poème de Rimbaud ?',
   'Aide-moi à formuler une problématique sur Manon Lescaut.',
   'Je bloque sur la question de grammaire : comment repartir ?',
@@ -36,17 +36,17 @@ const STARTER_PROMPTS = [
 const OPERATING_RULES = [
   {
     title: 'Réponse cadrée EAF',
-    body: 'Le tuteur reste sur la m\u00E9thode, les \u0153uvres, la grammaire et les attendus r\u00E9els de l\u2019\u00E9preuve.',
+    body: 'Le tuteur reste sur la méthode, les œuvres, la grammaire et les attendus réels de l\'épreuve.',
     icon: Compass,
   },
   {
     title: 'Sources internes',
-    body: 'Les r\u00E9ponses s\u2019appuient sur les r\u00E9f\u00E9rences internes mobilis\u00E9es par la plateforme, pas sur un web ouvert flou.',
+    body: 'Les réponses s\'appuient sur les références internes mobilisées par la plateforme, pas sur un web ouvert flou.',
     icon: BookOpen,
   },
   {
     title: 'Anti-copie',
-    body: 'Le guidage aide \u00E0 produire mieux. Il ne remplace jamais le travail de l\u2019\u00E9l\u00E8ve par une copie livr\u00E9e cl\u00E9 en main.',
+    body: 'Le guidage aide à produire mieux. Il ne remplace jamais le travail de l\'élève par une copie livrée clé en main.',
     icon: ShieldCheck,
   },
 ];
@@ -343,7 +343,7 @@ function TuteurPageContent() {
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Exemple : ma probl\u00e9matique est trop vague, comment la resserrer ?"
+                  placeholder="Exemple : ma problématique est trop vague, comment la resserrer ?"
                 />
                 <Button
                   type="submit"
