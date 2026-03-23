@@ -5,7 +5,6 @@
  */
 
 import { promises as fs } from "fs";
-import path from "path";
 
 export type TunisiaConfig = {
   jurisdiction: {
@@ -69,11 +68,11 @@ let _cachedConfig: TunisiaConfig | null = null;
 export async function loadTunisiaConfig(): Promise<TunisiaConfig> {
   if (_cachedConfig) return _cachedConfig;
 
-  const configPath = process.env.CONFIG_PATH || path.join(
-    process.cwd(),
-    ".antigravity",
-    "config_defaults_tunisia_v3_0.json"
-  );
+  const configPath = process.env.CONFIG_PATH?.trim();
+  if (!configPath) {
+    _cachedConfig = getHardcodedDefaults();
+    return _cachedConfig;
+  }
 
   try {
     const raw = await fs.readFile(configPath, "utf8");

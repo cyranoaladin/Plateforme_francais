@@ -24,12 +24,8 @@ function getEffectiveVoiceMode(): string {
 function readLocalReleaseValue(fileName: string): string | null {
   try {
     const appRoot = process.env.APP_ROOT?.trim();
-    const candidates = [
-      // Preferred: deployment root (VPS)
-      ...(appRoot ? [path.join(path.resolve(appRoot), fileName)] : []),
-      // Standalone runtime cwd (PM2 process cwd)
-      path.join(process.cwd(), fileName),
-    ];
+    if (!appRoot) return null;
+    const candidates = [path.join(path.resolve(appRoot), fileName)];
 
     for (const filePath of candidates) {
       if (!fs.existsSync(filePath)) continue;
