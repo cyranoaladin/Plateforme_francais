@@ -134,22 +134,25 @@ ssh "$SSH_TARGET" "find $APP_DIR/packages/mcp-server/dist \( -name '*.js.map' -o
 ssh "$SSH_TARGET" "rm -rf $APP_DIR/packages/mcp-server/src/ $APP_DIR/packages/mcp-server/tests/ 2>/dev/null"
 echo "  ✅ MCP build terminé (src/ et source maps supprimés)"
 
-# --- 7. Setup Nginx + SSL (first run only) ---
-if [ "$FIRST_RUN" = "--first-run" ]; then
-  echo "[7/8] Configuration Nginx + SSL (première installation)..."
+# --- 7. Sync Nginx config + SSL (first run only for certbot) ---
+echo "[7/8] Synchronisation Nginx..."
+ssh "$SSH_TARGET" "cat > /etc/nginx/sites-available/$DOMAIN" < scripts/nginx-eaf.conf
 
-  # Copy nginx config
-  ssh "$SSH_TARGET" "cat > /etc/nginx/sites-available/$DOMAIN" < scripts/nginx-eaf.conf
+if [ "$FIRST_RUN" = "--first-run" ]; then
+  echo "  → Activation du vhost (première installation)..."
   ssh "$SSH_TARGET" "ln -sf /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/"
   ssh "$SSH_TARGET" "rm -f /etc/nginx/sites-enabled/default"
-  ssh "$SSH_TARGET" "nginx -t && systemctl reload nginx"
+fi
 
-  # SSL certificate
+ssh "$SSH_TARGET" "nginx -t && systemctl reload nginx"
+echo "  ✅ Configuration Nginx synchronisée"
+
+if [ "$FIRST_RUN" = "--first-run" ]; then
   echo "  → Génération du certificat SSL Let's Encrypt..."
   ssh "$SSH_TARGET" "certbot --nginx -d $DOMAIN --non-interactive --agree-tos --email admin@nexusreussite.academy --redirect"
   echo "  ✅ Certificat SSL installé"
 else
-  echo "[7/8] Nginx — pas de reconfiguration (pas --first-run)"
+  echo "  → Certificat existant conservé"
 fi
 
 # --- 7b. Rétablir le symlink ressources après le build ---

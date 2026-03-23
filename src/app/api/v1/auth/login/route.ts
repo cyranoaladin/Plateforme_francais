@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const limit = await checkRateLimit({
     request,
     key: 'auth:login',
-    limit: 10,
+    limit: 5,
   });
 
   if (!limit.allowed) {

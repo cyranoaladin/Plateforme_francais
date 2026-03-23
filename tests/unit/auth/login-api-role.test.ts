@@ -162,6 +162,31 @@ describe('POST /api/v1/auth/login — retourne le rôle', () => {
     expect(res.status).toBe(429);
   });
 
+  it('applique un seuil de 5 tentatives pour le rate limiting login', async () => {
+    const user = makeUser('eleve');
+    mockParseJsonBody.mockResolvedValue({
+      success: true,
+      data: { email: user.email, password: 'test1234' },
+    });
+    mockFindUserByEmail.mockResolvedValue(user);
+    mockVerifyPassword.mockReturnValue(true);
+
+    const { POST } = await import('@/app/api/v1/auth/login/route');
+    const req = new Request('http://localhost/api/v1/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email: user.email, password: 'test1234' }),
+    });
+
+    await POST(req);
+
+    expect(mockCheckRateLimit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        key: 'auth:login',
+        limit: 5,
+      }),
+    );
+  });
+
   it('pose le cookie de rôle correct pour admin', async () => {
     const user = makeUser('admin');
     mockParseJsonBody.mockResolvedValue({
