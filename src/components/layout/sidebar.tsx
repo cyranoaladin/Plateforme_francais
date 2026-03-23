@@ -147,10 +147,10 @@ export function Sidebar() {
         }
 
         if (billingResponse.ok) {
-          const billingData = await billingResponse.json() as { subscription?: { plan?: string; label?: string } };
-          if (billingData?.subscription?.plan) {
-            setPlanId(billingData.subscription.plan);
-            setPlanLabel(billingData.subscription.label ?? billingData.subscription.plan);
+          const billingData = await billingResponse.json() as { subscription?: { planId?: string; plan?: string; label?: string } };
+          if (billingData?.subscription?.planId) {
+            setPlanId(billingData.subscription.planId);
+            setPlanLabel(billingData.subscription.label ?? billingData.subscription.plan ?? billingData.subscription.planId);
           } else {
             setPlanId('FREE');
             setPlanLabel('Freemium');

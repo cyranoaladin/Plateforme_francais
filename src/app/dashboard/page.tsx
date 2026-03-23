@@ -346,8 +346,8 @@ export default function Dashboard() {
       .catch(() => null);
     fetch('/api/v1/billing/status')
       .then(r => r.ok ? r.json() : null)
-      .then((d: { subscription?: { plan?: string } } | null) => {
-        if (d?.subscription?.plan) setPlanId(d.subscription.plan);
+      .then((d: { subscription?: { planId?: string } } | null) => {
+        if (d?.subscription?.planId) setPlanId(d.subscription.planId);
       })
       .catch(() => null);
   }, []);

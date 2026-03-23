@@ -32,6 +32,7 @@ export async function GET() {
 
   return NextResponse.json({
     subscription: {
+      planId: billing.planId,
       plan: billing.config.label,
       label: billing.config.label,
       priceTnd: billing.config.priceTnd,

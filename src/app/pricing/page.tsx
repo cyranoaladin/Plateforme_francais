@@ -25,7 +25,9 @@ type PaymentStatus = 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
 type BillingStatusPayload = {
   authenticated?: boolean;
   subscription: {
-    plan: SubscriptionPlan;
+    planId: SubscriptionPlan;
+    plan: string;
+    label: string;
     status: string;
     currentPeriodEnd: string | null;
   };
@@ -244,7 +246,7 @@ export default function PricingPage() {
     void load();
   }, []);
 
-  const currentPlan = billing?.subscription.plan ?? 'FREE';
+  const currentPlan = billing?.subscription.planId ?? 'FREE';
   const currentPlanLabel = PLAN_LABELS[currentPlan] ?? currentPlan;
   const currentPeriodEndLabel = useMemo(() => {
     const value = billing?.subscription.currentPeriodEnd;
