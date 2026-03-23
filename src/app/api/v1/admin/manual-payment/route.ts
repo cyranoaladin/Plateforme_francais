@@ -9,7 +9,7 @@ import type { SubscriptionPlan } from '@prisma/client';
 
 const manualPaymentSchema = z.object({
   userId: z.string().uuid(),
-  plan: z.enum(['PREMIUM', 'PRO', 'MAX']),
+  plan: z.enum(['PREMIUM', 'PRO']),
   amountMillimes: z.number().int().positive(),
   paymentMethod: z.enum(['VIREMENT', 'ESPECES', 'AUTRE']),
   reference: z.string().min(1),
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
         userId,
         provider: 'MANUAL', // Paiement manuel (virement/espèces)
         status: 'ACCEPTED',
-        plan: plan as unknown as SubscriptionPlan, // Cast car MAX n'est pas dans l'enum Prisma mais existe dans le catalogue
+        plan: plan as unknown as SubscriptionPlan,
         amountMillimes,
         orderRef: `MANUAL-${reference}`,
         providerRef: reference,
@@ -79,7 +79,6 @@ export async function POST(request: Request) {
       periodEnd = new Date(now);
       periodEnd.setMonth(periodEnd.getMonth() + 1);
     }
-    // Pour MAX (lifetime), pas de date de fin
 
     // Mettre à jour ou créer la subscription
     if (user.subscription) {

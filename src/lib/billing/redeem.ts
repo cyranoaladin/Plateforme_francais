@@ -112,6 +112,13 @@ export async function redeemActivationCode(
     }
 
     const newPlan = code.plan as PlanId;
+    if (newPlan === 'MAX') {
+      throw new RedeemError(
+        'PLAN_UNKNOWN',
+        'Ce code correspond à une ancienne offre non activable. Contacte le support.',
+        400,
+      );
+    }
     if (!PLAN_CATALOG[newPlan]) {
       throw new RedeemError('PLAN_UNKNOWN', 'Plan associé au code inconnu.', 400);
     }

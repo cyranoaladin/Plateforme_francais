@@ -9,7 +9,7 @@ import crypto from 'crypto';
 import { hashCode } from '@/lib/billing/redeem';
 
 const generateCodeSchema = z.object({
-  plan: z.enum(['PREMIUM', 'PRO', 'MAX']),
+  plan: z.enum(['PREMIUM', 'PRO']),
   durationDays: z.number().int().positive().optional(),
   expiresAt: z.string().datetime().optional(),
   batchId: z.string().optional(),
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
       data: {
         codeHash,
         plan,
-        durationDays: durationDays || (plan === 'MAX' ? 36500 : 30), // 100 ans pour MAX
+        durationDays: durationDays || 30,
         status: 'CREATED',
         expiresAt: expiresAt ? new Date(expiresAt) : null,
         batchId,
