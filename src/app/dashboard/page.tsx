@@ -493,6 +493,8 @@ export default function Dashboard() {
       <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-4 text-[var(--bg-page)] shadow-[var(--shadow-md)] sm:rounded-[38px] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[44%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_68%)] blur-2xl lg:block" />
         <div className="absolute left-[-8%] top-[-16%] h-48 w-48 rounded-full bg-[rgba(216,163,99,0.18)] blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--color-indigo-400)] opacity-25" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 right-6 h-20 w-20 rounded-full bg-[var(--color-indigo-700)] opacity-40" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
           <div>
