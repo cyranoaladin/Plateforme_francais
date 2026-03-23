@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAuthenticatedUserId } from '@/lib/auth/session';
 import { getBillingContext } from '@/lib/billing/context';
-import { formatPlanLabel } from '@/lib/billing/plan-catalog';
+import { formatPlanLabel, toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { prisma } from '@/lib/db/client';
 
 export async function GET() {
@@ -32,7 +32,7 @@ export async function GET() {
 
   return NextResponse.json({
     subscription: {
-      planId: billing.planId,
+      planId: toPublicPlanId(billing.planId),
       plan: billing.config.label,
       label: billing.config.label,
       priceTnd: billing.config.priceTnd,
@@ -42,6 +42,7 @@ export async function GET() {
     lastPayment: lastPayment
       ? {
           orderRef: lastPayment.orderRef,
+          planId: toPublicPlanId(lastPayment.plan),
           plan: formatPlanLabel(lastPayment.plan),
           status: lastPayment.status,
           amountMillimes: lastPayment.amountMillimes,

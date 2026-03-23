@@ -28,6 +28,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { useTheme } from '@/components/theme/theme-provider';
+import { normalizePlanId } from '@/lib/billing/plan-catalog';
 
 const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, section: 'Pilotage', hint: 'Vue d’ensemble' },
@@ -199,6 +200,7 @@ export function Sidebar() {
     .join('')
     .slice(0, 2)
     .toUpperCase() ?? 'EL';
+  const normalizedPlanId = normalizePlanId(planId ?? 'FREEMIUM');
 
   const navSections = [
     {
@@ -287,7 +289,7 @@ export function Sidebar() {
         <div className="flex-1" />
 
         {/* ─── Upgrade CTA (FREE & PREMIUM only) ─── */}
-        {planLoaded && planId !== null && (planId === 'FREE' || planId === 'PREMIUM') && (
+        {planLoaded && planId !== null && (normalizedPlanId === 'FREE' || normalizedPlanId === 'PREMIUM') && (
           <div className="mx-4 mb-3">
             <Link
               href="/pricing"
@@ -299,10 +301,10 @@ export function Sidebar() {
               </div>
               <div className="relative min-w-0 flex-1">
                 <p className="text-sm font-bold text-white">
-                  {planId === 'FREE' ? 'Passer au Premium' : 'Passer au Masterium'}
+                  {normalizedPlanId === 'FREE' ? 'Passer au Premium' : 'Passer au Masterium'}
                 </p>
                 <p className="text-xs text-white/75">
-                  {planId === 'FREE'
+                  {normalizedPlanId === 'FREE'
                     ? 'Oral illimité, bibliothèque complète'
                     : 'Accès total, historique, support prioritaire'}
                 </p>
@@ -366,8 +368,8 @@ export function Sidebar() {
               <p className="text-xs text-[var(--text-secondary)]">
                 {planLoaded && planLabel && (
                 <span className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] ${
-                  planId === 'FREE' ? 'bg-[var(--c-primary)]/8 text-[var(--text-secondary)]'
-                  : planId === 'PREMIUM' ? 'bg-[var(--c-success)]/12 text-[var(--c-success)]'
+                  normalizedPlanId === 'FREE' ? 'bg-[var(--c-primary)]/8 text-[var(--text-secondary)]'
+                  : normalizedPlanId === 'PREMIUM' ? 'bg-[var(--c-success)]/12 text-[var(--c-success)]'
                   : 'bg-[var(--c-reward)]/12 text-[var(--c-reward)]'
                 }`}>
                   {planLabel}

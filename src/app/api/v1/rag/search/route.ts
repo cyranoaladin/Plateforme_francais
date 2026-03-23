@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
-import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
+import { PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { getResetMessage } from '@/lib/billing/quota-messages';
 import { consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
             error: `Tu as atteint la limite de recherches documentaires (${error.limit} par jour, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour continuer.`,
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
-            plan: billing.planId,
+            plan: toPublicPlanId(billing.planId),
             reset_info: getResetMessage('day'),
           },
           { status: 402 },

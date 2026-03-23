@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { getAuthenticatedUserId } from '@/lib/auth/session';
 import { getBillingContext } from '@/lib/billing/context';
-import { type EntitlementKey, PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
+import { type EntitlementKey, PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { checkQuota } from '@/lib/billing/usage';
 
 const VALID_FEATURES: Set<string> = new Set([
@@ -24,14 +24,14 @@ export async function GET(request: NextRequest) {
   const quotaEntry = billing.config.quotas[feature as EntitlementKey];
 
   if (!quotaEntry) {
-    return NextResponse.json({ allowed: true, plan: billing.planId });
+    return NextResponse.json({ allowed: true, plan: toPublicPlanId(billing.planId) });
   }
 
   const result = await checkQuota(userId, feature as EntitlementKey, quotaEntry);
 
   return NextResponse.json({
     allowed: result.allowed,
-    plan: billing.planId,
+    plan: toPublicPlanId(billing.planId),
     used: result.current,
     limit: result.limit,
     remaining: result.remaining,

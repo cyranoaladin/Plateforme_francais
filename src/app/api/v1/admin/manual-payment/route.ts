@@ -6,10 +6,11 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
 import type { SubscriptionPlan } from '@prisma/client';
+import { formatPlanLabel, parseCommercialPlanId } from '@/lib/billing/plan-catalog';
 
 const manualPaymentSchema = z.object({
   userId: z.string().uuid(),
-  plan: z.enum(['PREMIUM', 'PRO']),
+  plan: z.enum(['PREMIUM', 'MASTERIUM']),
   amountMillimes: z.number().int().positive(),
   paymentMethod: z.enum(['VIREMENT', 'ESPECES', 'AUTRE']),
   reference: z.string().min(1),
@@ -38,6 +39,11 @@ export async function POST(request: Request) {
   }
 
   const { userId, plan, amountMillimes, paymentMethod, reference, notes } = parsed.data;
+  const internalPlan = parseCommercialPlanId(plan);
+
+  if (!internalPlan || internalPlan === 'FREE') {
+    return NextResponse.json({ error: 'Plan de paiement manuel invalide.' }, { status: 400 });
+  }
 
   try {
     // Vérifier que l'utilisateur existe
@@ -56,7 +62,7 @@ export async function POST(request: Request) {
         userId,
         provider: 'MANUAL', // Paiement manuel (virement/espèces)
         status: 'ACCEPTED',
-        plan: plan as unknown as SubscriptionPlan,
+        plan: internalPlan as SubscriptionPlan,
         amountMillimes,
         orderRef: `MANUAL-${reference}`,
         providerRef: reference,
@@ -75,7 +81,7 @@ export async function POST(request: Request) {
     const now = new Date();
     let periodEnd: Date | null = null;
 
-    if (plan === 'PREMIUM' || plan === 'PRO') {
+    if (internalPlan === 'PREMIUM' || internalPlan === 'PRO') {
       periodEnd = new Date(now);
       periodEnd.setMonth(periodEnd.getMonth() + 1);
     }
@@ -85,7 +91,7 @@ export async function POST(request: Request) {
       await prisma.subscription.update({
         where: { id: user.subscription.id },
         data: {
-          plan: plan as unknown as SubscriptionPlan,
+          plan: internalPlan as SubscriptionPlan,
           status: 'ACTIVE',
           currentPeriodStart: now,
           currentPeriodEnd: periodEnd,
@@ -96,7 +102,7 @@ export async function POST(request: Request) {
       await prisma.subscription.create({
         data: {
           userId,
-          plan: plan as unknown as SubscriptionPlan,
+          plan: internalPlan as SubscriptionPlan,
           status: 'ACTIVE',
           currentPeriodStart: now,
           currentPeriodEnd: periodEnd,
@@ -108,7 +114,7 @@ export async function POST(request: Request) {
       {
         success: true,
         payment,
-        message: `Paiement validé et abonnement ${plan} activé pour l'utilisateur.`,
+        message: `Paiement validé et abonnement ${formatPlanLabel(internalPlan)} activé pour l'utilisateur.`,
       },
       { status: 200 }
     );

@@ -8,7 +8,7 @@ import { searchOfficialReferences } from '@/lib/rag/search';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
-import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
+import { PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { getResetMessage } from '@/lib/billing/quota-messages';
 import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { sanitizeString } from '@/lib/security/sanitize';
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
             error: `Tu as atteint la limite incluse pour le tuteur (${err.limit} messages par jour, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). La conversation n\'est pas perdue. Passe au plan supérieur pour continuer maintenant.`,
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
-            plan: billing.planId,
+            plan: toPublicPlanId(billing.planId),
             reset_info: getResetMessage('day'),
           },
           { status: 402 },

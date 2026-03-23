@@ -4,6 +4,7 @@ import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { redeemActivationCode, RedeemError } from '@/lib/billing/redeem';
+import { toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -65,14 +66,14 @@ export async function POST(request: Request) {
         feature: 'subscription_redeem_code',
         path: '/pricing',
         payload: {
-          plan: result.plan,
+          plan: toPublicPlanId(result.plan),
         },
       }),
     ).catch(() => undefined);
 
     return NextResponse.json(
       {
-        plan: result.plan,
+        plan: toPublicPlanId(result.plan),
         endsAt: result.endsAt.toISOString(),
         message: result.message,
       },

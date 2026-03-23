@@ -19,8 +19,9 @@ import {
 } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
+import { formatPlanLabel } from '@/lib/billing/plan-catalog';
 
-type SubscriptionPlan = 'FREE' | 'PREMIUM' | 'PRO';
+type SubscriptionPlan = 'FREEMIUM' | 'PREMIUM' | 'MASTERIUM';
 type PaymentStatus = 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
 type BillingStatusPayload = {
   authenticated?: boolean;
@@ -33,7 +34,8 @@ type BillingStatusPayload = {
   };
   lastPayment: {
     orderRef: string;
-    plan: SubscriptionPlan;
+    planId?: SubscriptionPlan;
+    plan: string;
     status: PaymentStatus;
     amountMillimes: number;
     currency: string;
@@ -58,9 +60,9 @@ type PlanCard = {
 const WHATSAPP_NUMBER = '+216 99 19 28 29';
 const WHATSAPP_LINK = 'https://wa.me/21699192829';
 const PLAN_LABELS: Record<SubscriptionPlan, string> = {
-  FREE: 'Freemium',
+  FREEMIUM: 'Freemium',
   PREMIUM: 'Premium',
-  PRO: 'Masterium',
+  MASTERIUM: 'Masterium',
 };
 
 const BANK_TRANSFER_ROWS = [
@@ -78,7 +80,7 @@ const EDITORIAL_HEADING = {
 
 const PLANS: PlanCard[] = [
   {
-    id: 'FREE',
+    id: 'FREEMIUM',
     title: 'Freemium',
     priceTND: '0 TND',
     period: '',
@@ -116,7 +118,7 @@ const PLANS: PlanCard[] = [
     note: 'Le meilleur point d\'équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
   },
   {
-    id: 'PRO',
+    id: 'MASTERIUM',
     title: 'Masterium',
     priceTND: '129 TND',
     period: '/ mois',
@@ -132,7 +134,7 @@ const PLANS: PlanCard[] = [
     ],
     cta: 'Passer à Masterium',
     ctaDisabledLabel: 'Plan actuel',
-    checkoutPlan: 'PRO',
+    checkoutPlan: 'MASTERIUM',
     highlighted: false,
     kicker: "Pour viser la mention et travailler sans limite.",
     note: 'Aucune limite sur les quotas. Pour ceux qui travaillent intensément et veulent une préparation maximale.',
@@ -246,7 +248,7 @@ export default function PricingPage() {
     void load();
   }, []);
 
-  const currentPlan = billing?.subscription.planId ?? 'FREE';
+  const currentPlan = billing?.subscription.planId ?? 'FREEMIUM';
   const currentPlanLabel = PLAN_LABELS[currentPlan] ?? currentPlan;
   const currentPeriodEndLabel = useMemo(() => {
     const value = billing?.subscription.currentPeriodEnd;
@@ -431,7 +433,7 @@ export default function PricingPage() {
                     <p className="font-semibold text-white">{{ PENDING: 'En attente', ACCEPTED: 'Accepté', REFUSED: 'Refusé', ERROR: 'Erreur' }[billing.lastPayment.status] ?? billing.lastPayment.status}</p>
                     <p>{lastPaymentLabel}</p>
                     <p className="text-xs text-slate-400">
-                      {PLAN_LABELS[billing.lastPayment.plan] ?? billing.lastPayment.plan} · Ref. {billing.lastPayment.orderRef}
+                      {billing.lastPayment.planId ? PLAN_LABELS[billing.lastPayment.planId] : formatPlanLabel(billing.lastPayment.plan)} · Ref. {billing.lastPayment.orderRef}
                     </p>
                   </div>
                 ) : (
@@ -540,7 +542,7 @@ export default function PricingPage() {
                     }`}
                   >
                     {!isAuthenticated ? (
-                      plan.id === 'FREE' ? 'Essayer gratuitement' : 'Choisir ce plan'
+                      plan.id === 'FREEMIUM' ? 'Essayer gratuitement' : 'Choisir ce plan'
                     ) : isCurrent ? (
                       plan.ctaDisabledLabel
                     ) : (

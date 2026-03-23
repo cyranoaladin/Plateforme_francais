@@ -4,6 +4,7 @@
  */
 
 export type PlanId = 'FREE' | 'PREMIUM' | 'PRO' | 'MAX';
+export type PublicPlanId = 'FREEMIUM' | 'PREMIUM' | 'MASTERIUM';
 
 export type Period = 'day' | 'week' | 'month';
 
@@ -171,6 +172,12 @@ export const PLAN_DISPLAY_LABELS: Record<PlanId, string> = {
   MAX: 'Masterium',
 };
 
+export const PUBLIC_PLAN_LABELS: Record<PublicPlanId, string> = {
+  FREEMIUM: 'Freemium',
+  PREMIUM: 'Premium',
+  MASTERIUM: 'Masterium',
+};
+
 /**
  * Plan slogans — user-facing taglines for each plan.
  */
@@ -185,19 +192,39 @@ export const PLAN_SLOGANS: Record<PlanId, string> = {
  * Map legacy plan names (MONTHLY, LIFETIME) to canonical PlanId.
  */
 export function normalizePlanId(raw: string): PlanId {
-  switch (raw) {
+  switch (raw.toUpperCase()) {
+    case 'FREEMIUM':
+      return 'FREE';
     case 'MONTHLY':
       return 'PREMIUM';
     case 'LIFETIME':
+      return 'PRO';
+    case 'MASTERIUM':
       return 'PRO';
     case 'MAX':
       return 'MAX';
     case 'PREMIUM':
     case 'PRO':
-      return raw;
+    case 'FREE':
+      return raw.toUpperCase() as Extract<PlanId, 'FREE' | 'PREMIUM' | 'PRO'>;
     default:
       return 'FREE';
   }
+}
+
+export function toPublicPlanId(plan: string): PublicPlanId {
+  const normalized = normalizePlanId(plan);
+  if (normalized === 'PREMIUM') return 'PREMIUM';
+  if (normalized === 'PRO' || normalized === 'MAX') return 'MASTERIUM';
+  return 'FREEMIUM';
+}
+
+export function parseCommercialPlanId(plan: string): Extract<PlanId, 'FREE' | 'PREMIUM' | 'PRO'> | null {
+  const normalized = plan.trim().toUpperCase();
+  if (normalized === 'FREEMIUM' || normalized === 'FREE') return 'FREE';
+  if (normalized === 'PREMIUM') return 'PREMIUM';
+  if (normalized === 'MASTERIUM' || normalized === 'PRO') return 'PRO';
+  return null;
 }
 
 /**
@@ -223,6 +250,7 @@ export function comparePlans(a: PlanId, b: PlanId): number {
 export function formatPlanLabel(plan: string): string {
   const labels: Record<string, string> = {
     FREE: 'Freemium',
+    FREEMIUM: 'Freemium',
     PREMIUM: 'Premium',
     PRO: 'Masterium',
     MAX: 'Masterium',

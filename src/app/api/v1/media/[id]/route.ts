@@ -8,6 +8,7 @@ import path from 'path';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { getBillingContext } from '@/lib/billing/context';
 import { hasFullLibraryAccess, FREE_LIBRARY_LIMITS } from '@/lib/billing/library-gating';
+import { toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { RESSOURCES } from '@/data/ressources';
 import { MEDIA_CATALOG } from '@/data/media-catalog';
 import { logger } from '@/lib/logger';
@@ -129,7 +130,7 @@ export async function GET(
       logger.info({
         route: 'api/v1/media',
         userId: auth.user.id,
-        plan: billing.planId,
+        plan: toPublicPlanId(billing.planId),
         id,
         visibility: entry.visibility,
       }, 'media.freemium_blocked_unlisted');
@@ -149,7 +150,7 @@ export async function GET(
       logger.info({
         route: 'api/v1/media',
         userId: auth.user.id,
-        plan: billing.planId,
+        plan: toPublicPlanId(billing.planId),
         id,
         resource: matchedResource.id,
         category: matchedResource.category,

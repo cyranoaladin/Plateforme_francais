@@ -122,10 +122,10 @@ export default function BibliothequePage() {
   useEffect(() => {
     fetch('/api/v1/billing/status')
       .then((res) => (res.ok ? res.json() : null))
-      .then((data: { subscription?: { plan?: string } } | null) => {
-        if (data?.subscription?.plan) {
-          const plan = data.subscription.plan;
-          setHasFullAccess(plan !== 'FREE');
+      .then((data: { subscription?: { planId?: string } } | null) => {
+        if (data?.subscription?.planId) {
+          const planId = data.subscription.planId;
+          setHasFullAccess(planId !== 'FREEMIUM');
         }
       })
       .catch(() => {

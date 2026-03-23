@@ -7,6 +7,7 @@ import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { getBillingContext } from '@/lib/billing/context';
 import { hasFullLibraryAccess, FREE_LIBRARY_LIMITS } from '@/lib/billing/library-gating';
+import { toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { RESSOURCES } from '@/data/ressources';
 import { isWithinRessourcesRoot, resolveCatalogFilePath } from '@/lib/ressources/path';
 
@@ -134,7 +135,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       if (indexInCategory >= limit) {
         logger.info({
           userId: auth.user.id,
-          plan: billing.planId,
+          plan: toPublicPlanId(billing.planId),
           resource: matchedResource.id,
           category: matchedResource.category,
         }, 'resource_file.freemium_blocked');

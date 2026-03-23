@@ -7,9 +7,10 @@ import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
 import crypto from 'crypto';
 import { hashCode } from '@/lib/billing/redeem';
+import { parseCommercialPlanId } from '@/lib/billing/plan-catalog';
 
 const generateCodeSchema = z.object({
-  plan: z.enum(['PREMIUM', 'PRO']),
+  plan: z.enum(['PREMIUM', 'MASTERIUM']),
   durationDays: z.number().int().positive().optional(),
   expiresAt: z.string().datetime().optional(),
   batchId: z.string().optional(),
@@ -72,6 +73,11 @@ export async function POST(request: Request) {
   }
 
   const { plan, durationDays, expiresAt, batchId, notes } = parsed.data;
+  const internalPlan = parseCommercialPlanId(plan);
+
+  if (!internalPlan || internalPlan === 'FREE') {
+    return NextResponse.json({ error: 'Plan d’activation invalide.' }, { status: 400 });
+  }
 
   // Générer un code unique lisible (format: EAF-XXXX-XXXX-XXXX)
   const code = `EAF${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
@@ -81,7 +87,7 @@ export async function POST(request: Request) {
     const activationCode = await prisma.activationCode.create({
       data: {
         codeHash,
-        plan,
+        plan: internalPlan,
         durationDays: durationDays || 30,
         status: 'CREATED',
         expiresAt: expiresAt ? new Date(expiresAt) : null,

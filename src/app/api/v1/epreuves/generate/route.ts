@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
-import { PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
+import { PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { getResetMessage } from '@/lib/billing/quota-messages';
 import { checkQuota as checkBillingQuota } from '@/lib/billing/usage';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
           error: `Tu as atteint la limite incluse pour les corrections écrites (${writtenQuota.limit} par mois, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour générer et corriger une nouvelle épreuve.`,
           code: 'QUOTA_EXCEEDED',
           upgradeUrl: '/pricing',
-          plan: billing.planId,
+          plan: toPublicPlanId(billing.planId),
           reset_info: getResetMessage('month'),
         },
         { status: 402 },
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
           error: `Tu as atteint la limite de copies (${ocrQuota.limit} par mois, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour déposer plus de copies.`,
           code: 'QUOTA_EXCEEDED',
           upgradeUrl: '/pricing',
-          plan: billing.planId,
+          plan: toPublicPlanId(billing.planId),
           reset_info: getResetMessage('month'),
         },
         { status: 402 },

@@ -87,14 +87,14 @@ export default function AdminDashboard() {
   const [codes, setCodes] = useState<ActivationCode[]>([]);
 
   // Formulaire génération code
-  const [newCodePlan, setNewCodePlan] = useState<'PREMIUM' | 'PRO'>('PREMIUM');
+  const [newCodePlan, setNewCodePlan] = useState<'PREMIUM' | 'MASTERIUM'>('PREMIUM');
   const [newCodeDuration, setNewCodeDuration] = useState('30');
   const [generatingCode, setGeneratingCode] = useState(false);
   const [lastGeneratedCode, setLastGeneratedCode] = useState<string | null>(null);
 
   // Formulaire paiement manuel
   const [selectedUserId, setSelectedUserId] = useState('');
-  const [paymentPlan, setPaymentPlan] = useState<'PREMIUM' | 'PRO'>('PREMIUM');
+  const [paymentPlan, setPaymentPlan] = useState<'PREMIUM' | 'MASTERIUM'>('PREMIUM');
   const [paymentAmount, setPaymentAmount] = useState('99000');
   const [paymentMethod, setPaymentMethod] = useState<'VIREMENT' | 'ESPECES' | 'AUTRE'>('VIREMENT');
   const [paymentReference, setPaymentReference] = useState('');
@@ -491,11 +491,11 @@ export default function AdminDashboard() {
                       <label className="block text-sm font-medium mb-2">Plan</label>
                       <select
                         value={newCodePlan}
-                        onChange={(e) => setNewCodePlan(e.target.value as 'PREMIUM' | 'PRO')}
+                        onChange={(e) => setNewCodePlan(e.target.value as 'PREMIUM' | 'MASTERIUM')}
                         className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
                         <option value="PREMIUM">Premium (99 TND/mois)</option>
-                        <option value="PRO">Masterium (129 TND/mois)</option>
+                        <option value="MASTERIUM">Masterium (129 TND/mois)</option>
                       </select>
                     </div>
                     <div>
@@ -615,14 +615,14 @@ export default function AdminDashboard() {
                       <select
                         value={paymentPlan}
                         onChange={(e) => {
-                          const plan = e.target.value as 'PREMIUM' | 'PRO';
+                          const plan = e.target.value as 'PREMIUM' | 'MASTERIUM';
                           setPaymentPlan(plan);
                           setPaymentAmount(plan === 'PREMIUM' ? '99000' : '129000');
                         }}
                         className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
                         <option value="PREMIUM">Premium (99 TND/mois)</option>
-                        <option value="PRO">Masterium (129 TND/mois)</option>
+                        <option value="MASTERIUM">Masterium (129 TND/mois)</option>
                       </select>
                     </div>
 

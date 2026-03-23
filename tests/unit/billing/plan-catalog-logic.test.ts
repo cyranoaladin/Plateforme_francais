@@ -4,6 +4,8 @@ import {
   normalizePlanId,
   getPlanConfig,
   comparePlans,
+  parseCommercialPlanId,
+  toPublicPlanId,
   type EntitlementKey,
 } from '@/lib/billing/plan-catalog';
 
@@ -117,6 +119,14 @@ describe('plan-catalog — source unique de vérité', () => {
       expect(normalizePlanId('LIFETIME')).toBe('PRO');
     });
 
+    it('MASTERIUM → PRO', () => {
+      expect(normalizePlanId('MASTERIUM')).toBe('PRO');
+    });
+
+    it('FREEMIUM → FREE', () => {
+      expect(normalizePlanId('FREEMIUM')).toBe('FREE');
+    });
+
     it('PREMIUM → PREMIUM', () => {
       expect(normalizePlanId('PREMIUM')).toBe('PREMIUM');
     });
@@ -132,6 +142,22 @@ describe('plan-catalog — source unique de vérité', () => {
     it('valeur inconnue → FREE', () => {
       expect(normalizePlanId('UNKNOWN')).toBe('FREE');
       expect(normalizePlanId('')).toBe('FREE');
+    });
+  });
+
+  describe('public plan ids', () => {
+    it('mappe les ids internes vers les ids commerciaux publics', () => {
+      expect(toPublicPlanId('FREE')).toBe('FREEMIUM');
+      expect(toPublicPlanId('PREMIUM')).toBe('PREMIUM');
+      expect(toPublicPlanId('PRO')).toBe('MASTERIUM');
+      expect(toPublicPlanId('MAX')).toBe('MASTERIUM');
+    });
+
+    it('parse les ids commerciaux vers les ids internes', () => {
+      expect(parseCommercialPlanId('FREEMIUM')).toBe('FREE');
+      expect(parseCommercialPlanId('PREMIUM')).toBe('PREMIUM');
+      expect(parseCommercialPlanId('MASTERIUM')).toBe('PRO');
+      expect(parseCommercialPlanId('UNKNOWN')).toBeNull();
     });
   });
 
