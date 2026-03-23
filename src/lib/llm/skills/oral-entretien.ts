@@ -2,13 +2,107 @@ import { z } from 'zod';
 import { citationSchema } from '@/lib/rag/citations';
 import { type SkillConfig } from '@/lib/llm/skills/types';
 
+function coerceStringArray(value: unknown): string[] {
+  if (typeof value === 'string') {
+    return [value];
+  }
+
+  if (Array.isArray(value)) {
+    return value
+      .flatMap((item) => coerceStringArray(item))
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.values(value as Record<string, unknown>)
+      .flatMap((item) => coerceStringArray(item))
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
+  }
+
+  return [];
+}
+
+function coerceCriterionFeedback(value: unknown): string {
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  if (!value || typeof value !== 'object') {
+    return '';
+  }
+
+  const record = value as Record<string, unknown>;
+  const sections: Array<[string, string[]]> = [
+    ["Connaissance de l'œuvre", ['connaissance_de_l_oeuvre', 'connaissance', 'oeuvre']],
+    ['Réactivité', ['reactivite', 'reponse_aux_relances', 'aisance_orale']],
+    ['Culture littéraire', ['culture_litteraire', 'ouverture_culturelle', 'culture_generale']],
+    ['Esprit critique', ['esprit_critique', 'avis_personnel', 'regard_critique']],
+  ];
+
+  const rendered = sections
+    .map(([label, keys]) => {
+      const sectionValue = keys
+        .map((key) => record[key])
+        .find((item) => typeof item === 'string' && item.trim().length > 0);
+
+      return typeof sectionValue === 'string' && sectionValue.trim().length > 0
+        ? `${label} : ${sectionValue.trim()}`
+        : null;
+    })
+    .filter((item): item is string => item !== null);
+
+  if (rendered.length > 0) {
+    return rendered.join('\n\n');
+  }
+
+  return coerceStringArray(record).join('\n\n');
+}
+
+function sumNumericLeaves(value: unknown): number {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.reduce((total, item) => total + sumNumericLeaves(item), 0);
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.values(value as Record<string, unknown>)
+      .reduce<number>((total, item) => total + sumNumericLeaves(item), 0);
+  }
+
+  return 0;
+}
+
+function coerceEntretienScore(value: unknown): number {
+  const total = sumNumericLeaves(value);
+  return Math.round(Math.max(0, Math.min(8, total)) * 10) / 10;
+}
+
+function coerceEntretienMax(): 8 {
+  return 8;
+}
+
+function coerceOptionalString(value: unknown): string | undefined {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : undefined;
+  }
+
+  const values = coerceStringArray(value);
+  return values.length > 0 ? values[0] : undefined;
+}
+
 const schema = z.object({
-  feedback: z.string(),
-  score: z.number().min(0).max(8),
-  max: z.literal(8),
-  points_forts: z.array(z.string()),
-  axes: z.array(z.string()),
-  relance: z.string().optional(),
+  feedback: z.preprocess(coerceCriterionFeedback, z.string().min(1)),
+  score: z.preprocess(coerceEntretienScore, z.number().min(0).max(8)),
+  max: z.preprocess(coerceEntretienMax, z.literal(8)),
+  points_forts: z.preprocess(coerceStringArray, z.array(z.string())),
+  axes: z.preprocess(coerceStringArray, z.array(z.string())),
+  relance: z.preprocess(coerceOptionalString, z.string().optional()),
   citations: z.array(citationSchema).max(3).optional(),
 });
 
@@ -43,7 +137,7 @@ ANTI-TRICHE : Jamais de réponse à la place de l'élève. Questions ouvertes un
 
 FORMAT DE SORTIE (JSON strict) :
 { "feedback": "200-350 mots structuré par critère", "score": 0-8, "max": 8, "points_forts": ["ancré 1", "ancré 2", "ancré 3"], "axes": ["actionnable 1", "actionnable 2", "actionnable 3"], "relance": "question de suivi adaptée au niveau" }`,
-  outputSchema: schema,
+  outputSchema: schema as z.ZodType<OralEntretienOutput>,
   fallback: {
     feedback: 'Évaluation indisponible.',
     score: 0,

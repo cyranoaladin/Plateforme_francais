@@ -147,4 +147,66 @@ describe('evaluateOralPhase — phase GRAMMAIRE', () => {
     });
     expect(result).not.toHaveProperty('blocked');
   });
+
+  it('normalise une sortie d’entretien structurée par critères en évaluation exploitable', async () => {
+    vi.mocked(orchestrate).mockResolvedValueOnce({
+      feedback: {
+        connaissance_de_l_oeuvre: "Tu maîtrises les thèmes majeurs de l'œuvre, mais il faut citer plus précisément les lettres.",
+        reactivite: 'Ta réponse reste fluide, avec une relance bien intégrée.',
+        culture_litteraire: 'La comparaison avec Montesquieu reste à développer.',
+        esprit_critique: 'Ton point de vue personnel est nuancé et défendable.',
+      },
+      score: {
+        connaissance_de_l_oeuvre: 2,
+        reactivite: 1,
+        culture_litteraire: 1,
+        esprit_critique: 0.5,
+      },
+      max: {
+        connaissance_de_l_oeuvre: 3,
+        reactivite: 2,
+        culture_litteraire: 2,
+        esprit_critique: 1,
+      },
+      points_forts: {
+        p1: 'Bonne connaissance de Zilia',
+        p2: "Lien pertinent avec la question de l'identité",
+        p3: 'Réponse personnelle assumée',
+      },
+      axes: {
+        a1: 'Ajouter une comparaison avec Montesquieu',
+        a2: 'Citer un passage précis de la lettre étudiée',
+        a3: 'Structurer la réponse en deux mouvements',
+      },
+      relance: 'Quel passage précis montre le regard critique de Zilia sur l’Europe ?',
+    });
+
+    const result = await evaluateOralPhase({
+      phase: 'ENTRETIEN',
+      transcript:
+        "Pour l'entretien, je relierais cet extrait à la critique des préjugés européens, à la question de l'identité et au statut de la femme dans le roman épistolaire.",
+      extrait: 'Extrait.',
+      questionGrammaire: '',
+      oeuvre: "Lettres d'une Péruvienne",
+      duration: 452,
+      userId: 'user-test',
+      oeuvreChoisieEntretien: "Lettres d'une Péruvienne",
+    });
+
+    expect(result.score).toBe(4.5);
+    expect(result.max).toBe(8);
+    expect(result.feedback).toContain("Connaissance de l'œuvre");
+    expect(result.feedback).toContain('Esprit critique');
+    expect(result.points_forts).toEqual([
+      'Bonne connaissance de Zilia',
+      "Lien pertinent avec la question de l'identité",
+      'Réponse personnelle assumée',
+    ]);
+    expect(result.axes).toEqual([
+      'Ajouter une comparaison avec Montesquieu',
+      'Citer un passage précis de la lettre étudiée',
+      'Structurer la réponse en deux mouvements',
+    ]);
+    expect(result.relance).toBe('Quel passage précis montre le regard critique de Zilia sur l’Europe ?');
+  });
 });
