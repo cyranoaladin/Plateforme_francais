@@ -76,4 +76,26 @@ describe('role-protected layouts', () => {
     await expect(AdminLayout({ children: 'ok' })).rejects.toThrow('redirect:/dashboard');
     expect(redirectMock).toHaveBeenCalledWith('/dashboard');
   });
+
+  it('allows only student and admin on the dashboard layout', async () => {
+    const DashboardLayout = (await import('@/app/dashboard/layout')).default;
+
+    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'eleve' } });
+    const studentResult = await DashboardLayout({ children: 'ok' });
+    expect(studentResult).toBeTruthy();
+    expect(redirectMock).not.toHaveBeenCalled();
+
+    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'admin' } });
+    const adminResult = await DashboardLayout({ children: 'ok' });
+    expect(adminResult).toBeTruthy();
+    expect(redirectMock).not.toHaveBeenCalled();
+
+    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'parent' } });
+    await expect(DashboardLayout({ children: 'ok' })).rejects.toThrow('redirect:/parent');
+    expect(redirectMock).toHaveBeenCalledWith('/parent');
+
+    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'enseignant' } });
+    await expect(DashboardLayout({ children: 'ok' })).rejects.toThrow('redirect:/enseignant');
+    expect(redirectMock).toHaveBeenCalledWith('/enseignant');
+  });
 });
