@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-23T12:59:40.355Z",
+  "generatedAt": "2026-03-23T13:25:07.635Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -6731,23 +6731,23 @@
     {
       "file": "src/app/quiz/page.tsx",
       "line": 336,
-      "column": 105,
+      "column": 104,
       "kind": "jsx-text",
       "text": "Lance un quiz court avant un atelier pour réactiver les repères utiles."
     },
     {
       "file": "src/app/quiz/page.tsx",
       "line": 337,
-      "column": 105,
+      "column": 104,
       "kind": "jsx-text",
-      "text": "Lis l’explication après validation : c’est elle qui transforme le score en progrès réel."
+      "text": "Lis l'explication après validation : c'est elle qui transforme le score en progrès réel."
     },
     {
       "file": "src/app/quiz/page.tsx",
       "line": 338,
-      "column": 105,
+      "column": 104,
       "kind": "jsx-text",
-      "text": "Un score faible n’est pas un échec : c’est un signal pour cibler la prochaine révision."
+      "text": "Un score faible n'est pas un échec : c'est un signal pour cibler la prochaine révision."
     },
     {
       "file": "src/app/quiz/page.tsx",
