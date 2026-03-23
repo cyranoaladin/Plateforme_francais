@@ -20,6 +20,8 @@ const PUBLIC_PATHS = new Set([
   '/_next',
   '/images',
   '/favicon.ico',
+  '/favicon.svg',
+  '/assets',
   '/robots.txt',
   '/sitemap.xml',
   '/ressources',
