@@ -330,12 +330,12 @@ export default function QuizPage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Usage conseillé</p>
+          <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Usage conseillé</p>
             <div className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
-              <p className="rounded-[20px] border border-[var(--border-success)] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
-              <p className="rounded-[20px] border border-[var(--border-success)] bg-white/88 px-4 py-4">Lis l’explication après validation : c’est elle qui transforme le score en progrès réel.</p>
-              <p className="rounded-[20px] border border-[var(--border-success)] bg-white/88 px-4 py-4">Un score faible n’est pas un échec : c’est un signal pour cibler la prochaine révision.</p>
+              <p className="rounded-[20px] border border-[var(--border-strong)] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
+              <p className="rounded-[20px] border border-[var(--border-strong)] bg-white/88 px-4 py-4">Lis l'explication après validation : c'est elle qui transforme le score en progrès réel.</p>
+              <p className="rounded-[20px] border border-[var(--border-strong)] bg-white/88 px-4 py-4">Un score faible n'est pas un échec : c'est un signal pour cibler la prochaine révision.</p>
             </div>
           </section>
         </aside>

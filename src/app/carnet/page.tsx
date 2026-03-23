@@ -238,11 +238,11 @@ export default function CarnetPage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Répartition des notes</p>
+          <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Répartition des notes</p>
             <div className="mt-4 space-y-3">
               {typeStats.map((item) => (
-                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[var(--border-success)] bg-white/88 px-4 py-3 text-sm text-[var(--text-body)]">
+                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[var(--border-strong)] bg-white/88 px-4 py-3 text-sm text-[var(--text-body)]">
                   <span>{item.label}</span>
                   <span className="font-semibold text-[var(--c-primary)]">{item.count}</span>
                 </div>
