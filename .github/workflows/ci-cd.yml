@@ -55,6 +55,8 @@ jobs:
       - run: npm ci
       - name: TypeScript strict check
         run: npx tsc --noEmit
+      - name: Check curly quotes in props
+        run: npm run check:quotes
       - name: ESLint
         run: npm run lint
       - name: CSRF route audit
