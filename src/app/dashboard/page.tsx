@@ -772,7 +772,7 @@ export default function Dashboard() {
             {SKILL_META.map((skill) => {
               const score = data.scores[skill.key];
               return (
-                <div key={skill.key}>
+                <div key={skill.key} className={`rounded-[var(--radius-lg)] p-4 ${skill.accent}`}>
                   <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
                     <div>
                       <span className={skill.textColor}>{skill.label}</span>
