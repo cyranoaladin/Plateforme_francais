@@ -658,7 +658,7 @@ export default function Dashboard() {
       {data.error ? (
         <div className="rounded-[24px] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-5 text-sm text-[var(--c-accent-text)] shadow-[var(--shadow-md)]">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--error-text)]/10 text-[var(--error-text)]">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-accent)]/10 text-[var(--c-accent)]">
               <AlertTriangle className="h-4 w-4" />
             </div>
             <div>
