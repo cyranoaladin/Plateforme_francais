@@ -151,7 +151,13 @@ export function Sidebar() {
           if (billingData?.subscription?.plan) {
             setPlanId(billingData.subscription.plan);
             setPlanLabel(billingData.subscription.label ?? billingData.subscription.plan);
+          } else {
+            setPlanId('FREE');
+            setPlanLabel('Freemium');
           }
+        } else {
+          setPlanId('FREE');
+          setPlanLabel('Freemium');
         }
         setPlanLoaded(true);
 
@@ -167,6 +173,8 @@ export function Sidebar() {
           setStreak(computeStreak(payload.timeline.map((item) => item.createdAt)));
         }
       } catch {
+        setPlanId('FREE');
+        setPlanLabel('Freemium');
         setPlanLoaded(true);
       }
     };
