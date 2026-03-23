@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-23T00:47:34.582Z",
+  "generatedAt": "2026-03-23T05:46:29.764Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -1922,21 +1922,21 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 1004,
-      "column": 101,
+      "column": 106,
       "kind": "jsx-text",
       "text": "Feedbacks intermédiaires"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 1026,
-      "column": 112,
+      "column": 117,
       "kind": "jsx-text",
       "text": "Points forts"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 1037,
-      "column": 117,
+      "column": 116,
       "kind": "jsx-text",
       "text": "Axes d’amélioration"
     },
@@ -1950,14 +1950,14 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 1051,
-      "column": 99,
+      "column": 104,
       "kind": "jsx-text",
       "text": "Relance de l’examinateur :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 1060,
-      "column": 108,
+      "column": 103,
       "kind": "jsx-text",
       "text": "Principe de séance"
     },
@@ -1978,21 +1978,21 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 1081,
-      "column": 111,
+      "column": 106,
       "kind": "jsx-text",
       "text": "Bilan officiel"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 1110,
-      "column": 99,
+      "column": 104,
       "kind": "jsx-text",
       "text": "Bilan global"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 1114,
-      "column": 104,
+      "column": 103,
       "kind": "jsx-text",
       "text": "Conseil final"
     },
@@ -2055,7 +2055,7 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 637,
-      "column": 110,
+      "column": 105,
       "kind": "jsx-text",
       "text": "Démarrage"
     },
@@ -2111,14 +2111,14 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 709,
-      "column": 99,
+      "column": 104,
       "kind": "jsx-text",
       "text": "Ce qui va suivre"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 725,
-      "column": 108,
+      "column": 103,
       "kind": "jsx-text",
       "text": "Bon usage"
     },
@@ -2139,7 +2139,7 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 745,
-      "column": 110,
+      "column": 105,
       "kind": "jsx-text",
       "text": "Préparation"
     },
@@ -2167,28 +2167,28 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 767,
-      "column": 108,
+      "column": 103,
       "kind": "jsx-text",
       "text": "Extrait tiré"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 770,
-      "column": 71,
+      "column": 76,
       "kind": "jsx-text",
       "text": "Question de grammaire :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 772,
-      "column": 73,
+      "column": 78,
       "kind": "jsx-text",
       "text": "Phrase cible :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 775,
-      "column": 73,
+      "column": 78,
       "kind": "jsx-text",
       "text": "Œuvre choisie (entretien) :"
     },
@@ -2216,21 +2216,21 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 806,
-      "column": 99,
+      "column": 104,
       "kind": "jsx-text",
       "text": "Checklist de préparation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 830,
-      "column": 119,
+      "column": 124,
       "kind": "jsx-text",
       "text": "étapes complétées"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 834,
-      "column": 108,
+      "column": 103,
       "kind": "jsx-text",
       "text": "Rappel"
     },
@@ -2251,7 +2251,7 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 854,
-      "column": 110,
+      "column": 105,
       "kind": "jsx-text",
       "text": "Passage oral"
     },
@@ -2272,42 +2272,42 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 900,
-      "column": 92,
+      "column": 97,
       "kind": "jsx-text",
       "text": "Extrait & question de grammaire"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 903,
-      "column": 71,
+      "column": 76,
       "kind": "jsx-text",
       "text": "Grammaire :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 904,
-      "column": 99,
+      "column": 104,
       "kind": "jsx-text",
       "text": "Phrase cible :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 905,
-      "column": 97,
+      "column": 102,
       "kind": "jsx-text",
       "text": "Entretien sur :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 916,
-      "column": 82,
+      "column": 87,
       "kind": "jsx-text",
       "text": "Clique pour enregistrer —"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 926,
-      "column": 91,
+      "column": 87,
       "kind": "jsx-text",
       "text": "Enregistrement en cours..."
     },
@@ -2328,7 +2328,7 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 946,
-      "column": 75,
+      "column": 80,
       "kind": "jsx-text",
       "text": "Simulation examinateur dialoguant"
     },
@@ -5863,7 +5863,7 @@
     {
       "file": "src/app/pricing/page.tsx",
       "line": 339,
-      "column": 58,
+      "column": 63,
       "kind": "jsx-text",
       "text": "puis laisse le produit faire le reste."
     },
@@ -6017,7 +6017,7 @@
     {
       "file": "src/app/pricing/page.tsx",
       "line": 465,
-      "column": 95,
+      "column": 100,
       "kind": "jsx-text",
       "text": "Plans"
     },
@@ -6045,7 +6045,7 @@
     {
       "file": "src/app/pricing/page.tsx",
       "line": 558,
-      "column": 97,
+      "column": 102,
       "kind": "jsx-text",
       "text": "Aide à la décision"
     },
@@ -6087,14 +6087,14 @@
     {
       "file": "src/app/pricing/page.tsx",
       "line": 615,
-      "column": 120,
+      "column": 125,
       "kind": "jsx-text",
       "text": "pour rattacher le code à ton compte, puis reviens ici pour l’activer."
     },
     {
       "file": "src/app/pricing/page.tsx",
       "line": 615,
-      "column": 92,
+      "column": 97,
       "kind": "jsx-text",
       "text": "Connecte-toi d’abord"
     },
@@ -6248,7 +6248,7 @@
     {
       "file": "src/app/pricing/page.tsx",
       "line": 768,
-      "column": 95,
+      "column": 100,
       "kind": "jsx-text",
       "text": "Comparaison détaillée"
     },
@@ -6269,35 +6269,35 @@
     {
       "file": "src/app/pricing/page.tsx",
       "line": 783,
-      "column": 74,
+      "column": 79,
       "kind": "jsx-text",
       "text": "Fonctionnalité"
     },
     {
       "file": "src/app/pricing/page.tsx",
       "line": 784,
-      "column": 86,
+      "column": 91,
       "kind": "jsx-text",
       "text": "Freemium"
     },
     {
       "file": "src/app/pricing/page.tsx",
       "line": 785,
-      "column": 86,
+      "column": 91,
       "kind": "jsx-text",
       "text": "Premium"
     },
     {
       "file": "src/app/pricing/page.tsx",
       "line": 786,
-      "column": 86,
+      "column": 91,
       "kind": "jsx-text",
       "text": "Masterium"
     },
     {
       "file": "src/app/pricing/page.tsx",
       "line": 805,
-      "column": 93,
+      "column": 98,
       "kind": "jsx-text",
       "text": "FAQ facturation"
     },
