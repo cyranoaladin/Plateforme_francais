@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-23T12:30:47.532Z",
+  "generatedAt": "2026-03-23T12:59:40.355Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -1621,7 +1621,7 @@
     {
       "file": "src/app/atelier-ecrit/page.tsx",
       "line": 531,
-      "column": 71,
+      "column": 81,
       "kind": "jsx-text",
       "text": "Envoi en cours…"
     },
@@ -1642,7 +1642,7 @@
     {
       "file": "src/app/atelier-ecrit/page.tsx",
       "line": 557,
-      "column": 99,
+      "column": 109,
       "kind": "jsx-text",
       "text": "Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire."
     },
@@ -2489,7 +2489,7 @@
     {
       "file": "src/app/bibliotheque/page.tsx",
       "line": 418,
-      "column": 83,
+      "column": 93,
       "kind": "jsx-text",
       "text": "résultats priorisés"
     },
@@ -2867,7 +2867,7 @@
     {
       "file": "src/app/bienvenue/sections/Hero.tsx",
       "line": 128,
-      "column": 116,
+      "column": 114,
       "kind": "jsx-text",
       "text": "Ton tableau de bord"
     },
