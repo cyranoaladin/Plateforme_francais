@@ -406,7 +406,7 @@ export default function ProfilPage() {
                   <article key={task.id} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${PRIORITY_STYLE[task.priority]}`}>
-                        {task.priority}
+                        {task.priority === 'high' ? 'Haute' : task.priority === 'medium' ? 'Moyenne' : 'Faible'}
                       </Badge>
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-slate-300)]">
                         {task.estimatedMinutes} min · {formatShortDate(task.dueDate)}

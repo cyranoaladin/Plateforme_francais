@@ -2,9 +2,10 @@ import { readFileSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
 
 const DIRS = [
-  'src/app/dashboard',
-  'src/components/layout',
-  'src/components/ui',
+  'src/app',
+  'src/components',
+  'src/lib',
+  'emails',
 ];
 
 const CURLY_OPEN  = '\u2018';
