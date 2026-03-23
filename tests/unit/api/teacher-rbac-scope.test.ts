@@ -128,14 +128,10 @@ describe('Teacher RBAC - classCode scope isolation', () => {
       const body = await response.json();
 
       // Vérifier que le where clause Prisma a bien été appelé avec classCode MATH2026
-      expect(mockPrisma.user.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: expect.objectContaining({
-            role: 'eleve',
-            profile: { classCode: 'MATH2026' },
-          }),
-        }),
-      );
+      const dashboardWhere = mockPrisma.user.findMany.mock.calls[0]?.[0]?.where;
+      expect(dashboardWhere?.role).toBe('eleve');
+      expect(JSON.stringify(dashboardWhere)).toContain('"classCode":"MATH2026"');
+      expect(JSON.stringify(dashboardWhere)).not.toContain('"PHYS2026"');
 
       // Vérifier que seuls les élèves MATH2026 apparaissent
       expect(body.students).toHaveLength(2);
@@ -178,14 +174,10 @@ describe('Teacher RBAC - classCode scope isolation', () => {
       const body = await response.json();
 
       // Vérifier filtrage PHYS2026
-      expect(mockPrisma.user.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: expect.objectContaining({
-            role: 'eleve',
-            profile: { classCode: 'PHYS2026' },
-          }),
-        }),
-      );
+      const dashboardWhere = mockPrisma.user.findMany.mock.calls[0]?.[0]?.where;
+      expect(dashboardWhere?.role).toBe('eleve');
+      expect(JSON.stringify(dashboardWhere)).toContain('"classCode":"PHYS2026"');
+      expect(JSON.stringify(dashboardWhere)).not.toContain('"MATH2026"');
 
       // Seul élève PHYS2026 visible
       expect(body.students).toHaveLength(1);

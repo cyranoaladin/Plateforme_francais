@@ -8,10 +8,8 @@
  */
 import { expect, test, type Page } from '@playwright/test';
 
-const BASE = process.env.E2E_BASE_URL ?? process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000';
-
 async function login(page: Page, email: string, password: string) {
-  await page.goto(`${BASE}/login`);
+  await page.goto('/login');
   await page.waitForSelector('[data-testid="auth-email"]', { timeout: 15_000 });
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);
@@ -52,7 +50,7 @@ test.describe('Login → routage par rôle', () => {
 
   test('Page protégée sans auth → redirect /login avec redirect param', async ({ page }) => {
     test.setTimeout(15_000);
-    await page.goto(`${BASE}/admin`);
+    await page.goto('/admin');
     await page.waitForURL(/\/login/, { timeout: 10_000 });
     expect(page.url()).toContain('/login');
   });

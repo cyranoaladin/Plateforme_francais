@@ -58,7 +58,7 @@ export async function GET() {
   }
 
   const classCode = auth.user.profile.classCode ?? null;
-  const teacherEmail = auth.user.email.trim().toLowerCase();
+  const teacherEmail = auth.user.email?.trim().toLowerCase() ?? '';
   if (!classCode && !teacherEmail) {
     return NextResponse.json(
       {
@@ -122,7 +122,7 @@ export async function GET() {
     role: 'eleve',
     OR: [
       ...(classCode ? [{ profile: { is: { classCode } } }] : []),
-      { profile: { is: { teacherEmail } } },
+      ...(teacherEmail ? [{ profile: { is: { teacherEmail } } }] : []),
     ],
   };
 

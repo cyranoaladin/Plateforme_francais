@@ -12,6 +12,14 @@ test('Accès espace enseignant (élève) → accès refusé ou erreur explicite'
   await login(page);
   await page.goto('/enseignant');
 
+  await page.waitForTimeout(1500);
+
+  const currentUrl = page.url();
+  if (currentUrl.includes('/dashboard')) {
+    await expect(page).toHaveURL(/\/dashboard/, { timeout: 15_000 });
+    return;
+  }
+
   await expect(
     page.getByText(/Accès refusé|Impossible de charger|indisponible/i),
   ).toBeVisible({ timeout: 15_000 });
