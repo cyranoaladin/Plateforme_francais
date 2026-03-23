@@ -7,6 +7,7 @@ import { updateUserProfile } from '@/lib/db/repositories/userRepo';
 import { sendParentNotificationEmail, sendTeacherNotificationEmail } from '@/lib/email/service';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { ensureLinkedRoleAccount } from '@/lib/auth/linked-role-accounts';
 import { buildProfileScoreSummary } from '@/lib/profile/profile-score-summary';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -102,6 +103,8 @@ export async function PUT(request: Request) {
     parcoursProgress: parsed.data.parcoursProgress ?? auth.user.profile.parcoursProgress,
     preferredObjects: parsed.data.preferredObjects ?? auth.user.profile.preferredObjects,
     weakSkills: parsed.data.weakSkills ?? auth.user.profile.weakSkills,
+    parentEmail: parsed.data.parentEmail?.trim().toLowerCase() ?? auth.user.profile.parentEmail ?? null,
+    teacherEmail: parsed.data.teacherEmail?.trim().toLowerCase() ?? auth.user.profile.teacherEmail ?? null,
   };
 
   const oldParentEmail = auth.user.profile.parentEmail as string | null | undefined;
@@ -119,27 +122,43 @@ export async function PUT(request: Request) {
   // Send notification if parentEmail was added or changed
   const newParentEmail = nextProfile.parentEmail as string | null | undefined;
   if (newParentEmail && newParentEmail !== oldParentEmail) {
-    sendParentNotificationEmail({
-      parentEmail: newParentEmail,
-      studentFirstName: nextProfile.displayName?.trim().split(' ')[0] || '',
-    }).then((r) => {
-      if (r.success) logger.info({ emailId: r.id, type: 'parent-notification-profile' }, 'E-mail parent envoyé depuis mise à jour profil');
-    }).catch((err) => {
-      logger.error({ err, type: 'parent-notification-profile' }, 'Échec envoi e-mail parent depuis profil');
+    const parentAccount = await ensureLinkedRoleAccount({
+      email: newParentEmail,
+      role: 'parent',
+      studentDisplayName: nextProfile.displayName,
     });
+
+    if (parentAccount.status === 'existing') {
+      sendParentNotificationEmail({
+        parentEmail: newParentEmail,
+        studentFirstName: nextProfile.displayName?.trim().split(' ')[0] || '',
+      }).then((r) => {
+        if (r.success) logger.info({ emailId: r.id, type: 'parent-notification-profile' }, 'E-mail parent envoyé depuis mise à jour profil');
+      }).catch((err) => {
+        logger.error({ err, type: 'parent-notification-profile' }, 'Échec envoi e-mail parent depuis profil');
+      });
+    }
   }
 
   // Send notification if teacherEmail was added or changed
   const newTeacherEmail = nextProfile.teacherEmail as string | null | undefined;
   if (newTeacherEmail && newTeacherEmail !== oldTeacherEmail) {
-    sendTeacherNotificationEmail({
-      teacherEmail: newTeacherEmail,
-      studentFirstName: nextProfile.displayName?.trim().split(' ')[0] || '',
-    }).then((r) => {
-      if (r.success) logger.info({ emailId: r.id, type: 'teacher-notification-profile' }, 'E-mail enseignant envoyé depuis mise à jour profil');
-    }).catch((err) => {
-      logger.error({ err, type: 'teacher-notification-profile' }, 'Échec envoi e-mail enseignant depuis profil');
+    const teacherAccount = await ensureLinkedRoleAccount({
+      email: newTeacherEmail,
+      role: 'enseignant',
+      studentDisplayName: nextProfile.displayName,
     });
+
+    if (teacherAccount.status === 'existing') {
+      sendTeacherNotificationEmail({
+        teacherEmail: newTeacherEmail,
+        studentFirstName: nextProfile.displayName?.trim().split(' ')[0] || '',
+      }).then((r) => {
+        if (r.success) logger.info({ emailId: r.id, type: 'teacher-notification-profile' }, 'E-mail enseignant envoyé depuis mise à jour profil');
+      }).catch((err) => {
+        logger.error({ err, type: 'teacher-notification-profile' }, 'Échec envoi e-mail enseignant depuis profil');
+      });
+    }
   }
 
   return NextResponse.json(nextProfile, { status: 200 });

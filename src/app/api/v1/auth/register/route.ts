@@ -14,6 +14,7 @@ import { generateConsentToken, sendParentalConsentEmail } from '@/lib/email/pare
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { ensureLinkedRoleAccount } from '@/lib/auth/linked-role-accounts';
 import { ensureCsrfCookie } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -56,7 +57,9 @@ export async function POST(request: Request) {
 
   const email = parsed.data.email.trim().toLowerCase();
   const displayName = parsed.data.displayName?.trim() ?? '';
-  const { acceptedCgu, cguVersion, isMinor, parentEmail, teacherEmail } = parsed.data;
+  const { acceptedCgu, cguVersion, isMinor } = parsed.data;
+  const parentEmail = parsed.data.parentEmail?.trim().toLowerCase();
+  const teacherEmail = parsed.data.teacherEmail?.trim().toLowerCase();
 
   const existing = await findUserByEmail(email);
   if (existing) {
@@ -159,35 +162,51 @@ export async function POST(request: Request) {
 
   // Notification email parent (non bloquant)
   if (parentEmail) {
-    sendParentNotificationEmail({
-      parentEmail,
-      studentFirstName: firstName,
-    }).then((result) => {
-      if (result.success) {
-        logger.info({ emailId: result.id, to: parentEmail, type: 'parent-notification' }, 'E-mail parent envoyé avec succès');
-      } else {
-        logger.warn({ to: parentEmail, error: result.error, type: 'parent-notification' }, 'Échec envoi e-mail parent (non bloquant)');
-      }
-    }).catch((err) => {
-      logger.error({ err, to: parentEmail, type: 'parent-notification' }, 'Erreur inattendue envoi e-mail parent');
+    const parentAccount = await ensureLinkedRoleAccount({
+      email: parentEmail,
+      role: 'parent',
+      studentDisplayName: displayName || firstName,
     });
+
+    if (parentAccount.status === 'existing') {
+      sendParentNotificationEmail({
+        parentEmail,
+        studentFirstName: firstName,
+      }).then((result) => {
+        if (result.success) {
+          logger.info({ emailId: result.id, to: parentEmail, type: 'parent-notification' }, 'E-mail parent envoyé avec succès');
+        } else {
+          logger.warn({ to: parentEmail, error: result.error, type: 'parent-notification' }, 'Échec envoi e-mail parent (non bloquant)');
+        }
+      }).catch((err) => {
+        logger.error({ err, to: parentEmail, type: 'parent-notification' }, 'Erreur inattendue envoi e-mail parent');
+      });
+    }
   }
 
   // Notification email enseignant (non bloquant)
   if (teacherEmail) {
-    sendTeacherNotificationEmail({
-      teacherEmail,
-      studentFirstName: firstName,
-      studentLastName: displayName.split(' ').slice(1).join(' ').trim() || undefined,
-    }).then((result) => {
-      if (result.success) {
-        logger.info({ emailId: result.id, to: teacherEmail, type: 'teacher-notification' }, 'E-mail enseignant envoyé avec succès');
-      } else {
-        logger.warn({ to: teacherEmail, error: result.error, type: 'teacher-notification' }, 'Échec envoi e-mail enseignant (non bloquant)');
-      }
-    }).catch((err) => {
-      logger.error({ err, to: teacherEmail, type: 'teacher-notification' }, 'Erreur inattendue envoi e-mail enseignant');
+    const teacherAccount = await ensureLinkedRoleAccount({
+      email: teacherEmail,
+      role: 'enseignant',
+      studentDisplayName: displayName || firstName,
     });
+
+    if (teacherAccount.status === 'existing') {
+      sendTeacherNotificationEmail({
+        teacherEmail,
+        studentFirstName: firstName,
+        studentLastName: displayName.split(' ').slice(1).join(' ').trim() || undefined,
+      }).then((result) => {
+        if (result.success) {
+          logger.info({ emailId: result.id, to: teacherEmail, type: 'teacher-notification' }, 'E-mail enseignant envoyé avec succès');
+        } else {
+          logger.warn({ to: teacherEmail, error: result.error, type: 'teacher-notification' }, 'Échec envoi e-mail enseignant (non bloquant)');
+        }
+      }).catch((err) => {
+        logger.error({ err, to: teacherEmail, type: 'teacher-notification' }, 'Erreur inattendue envoi e-mail enseignant');
+      });
+    }
   }
 
   const response = NextResponse.json({ ok: true }, { status: 201 });

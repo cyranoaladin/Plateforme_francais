@@ -58,7 +58,8 @@ export async function GET() {
   }
 
   const classCode = auth.user.profile.classCode ?? null;
-  if (!classCode) {
+  const teacherEmail = auth.user.email.trim().toLowerCase();
+  if (!classCode && !teacherEmail) {
     return NextResponse.json(
       {
         classCode: null,
@@ -79,7 +80,10 @@ export async function GET() {
     }
     const store = await readFallbackStore();
     const students = store.users
-      .filter((item) => (item.role ?? 'eleve') === 'eleve' && item.profile.classCode === classCode)
+      .filter((item) => {
+        if ((item.role ?? 'eleve') !== 'eleve') return false;
+        return item.profile.classCode === classCode || item.profile.teacherEmail?.toLowerCase() === teacherEmail;
+      })
       .map((item) => {
         const events = store.events.filter((event) => event.userId === item.id);
         const evalScores = events
@@ -114,11 +118,16 @@ export async function GET() {
     );
   }
 
+  const studentWhere = {
+    role: 'eleve',
+    OR: [
+      ...(classCode ? [{ profile: { is: { classCode } } }] : []),
+      { profile: { is: { teacherEmail } } },
+    ],
+  };
+
   const students = await prisma.user.findMany({
-    where: {
-      role: 'eleve',
-      profile: { classCode },
-    },
+    where: studentWhere as never,
     include: {
       profile: true,
       evaluations: true,

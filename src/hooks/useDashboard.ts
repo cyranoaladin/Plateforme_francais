@@ -22,6 +22,13 @@ type TimelineResponse = {
   };
   timeline: MemoryEvent[];
   weakSignals: Record<string, number>;
+  linkedStudents?: Array<{
+    id: string;
+    displayName: string;
+    email: string;
+    classLevel?: string;
+  }>;
+  linkageStatus?: 'linked' | 'unlinked';
 };
 
 type SkillScores = {
@@ -50,6 +57,13 @@ export type DashboardMetrics = {
   hasEvaluationData: boolean;
   isLoading: boolean;
   error: string | null;
+  linkedStudents: Array<{
+    id: string;
+    displayName: string;
+    email: string;
+    classLevel?: string;
+  }>;
+  linkageStatus: 'linked' | 'unlinked';
 };
 
 const EMPTY_SCORES: SkillScores = {
@@ -223,10 +237,12 @@ export function computeDashboardMetricsFromTimeline(
     hasEvaluationData,
     isLoading,
     error,
+    linkedStudents: data?.linkedStudents ?? [],
+    linkageStatus: data?.linkageStatus ?? 'linked',
   };
 }
 
-export function useDashboard(): DashboardMetrics {
+export function useDashboard(endpoint: string = '/api/v1/memory/timeline?limit=200'): DashboardMetrics {
   const [data, setData] = useState<TimelineResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -235,7 +251,7 @@ export function useDashboard(): DashboardMetrics {
     const load = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/v1/memory/timeline?limit=200');
+        const response = await fetch(endpoint);
         
         if (!response.ok) {
           if (response.status === 401) {
@@ -265,7 +281,7 @@ export function useDashboard(): DashboardMetrics {
     };
 
     void load();
-  }, []);
+  }, [endpoint]);
 
   return useMemo(() => computeDashboardMetricsFromTimeline(data, isLoading, error), [data, error, isLoading]);
 }

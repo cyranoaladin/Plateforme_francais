@@ -73,7 +73,9 @@ function formatScoreLabel(value: number | null) {
 }
 
 export default function ParentDashboard() {
-  const data = useDashboard();
+  const data = useDashboard('/api/v1/parent/dashboard?limit=200');
+  const linkedStudent = data.linkedStudents[0] ?? null;
+  const hasLinkedStudent = data.linkageStatus === 'linked' && linkedStudent !== null;
 
   const averageScore = averageScoreValue(data.scores);
 
@@ -160,13 +162,18 @@ export default function ParentDashboard() {
               Vue synthétique de <strong>{data.displayName}</strong>: niveau moyen, axe à resserrer, historique récent et prochaines fenêtres
               d’épreuve, dans un langage cohérent avec l’EAF.
             </p>
+            {!hasLinkedStudent ? (
+              <div className="mt-4 rounded-[18px] border border-white/12 bg-white/8 px-4 py-3 text-sm leading-6 text-slate-200">
+                Aucun élève n’est encore rattaché à cet email. Demande à l’élève d’ajouter cette adresse dans son profil pour activer le suivi parent réel.
+              </div>
+            ) : null}
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
                 Moyenne actuelle&nbsp;: <strong>{formatScoreLabel(averageScore)}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Point fort&nbsp;: <strong>{data.hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
+                Élève suivi&nbsp;: <strong>{linkedStudent?.displayName ?? data.displayName}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
                 Focus semaine&nbsp;: <strong>{data.hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>

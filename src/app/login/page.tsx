@@ -472,12 +472,12 @@ function AuthCard() {
             </div>
             {loginRole === 'parent' && (
               <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">
-                Connecte-toi avec l'email que ton enfant a renseigné lors de son inscription. Tu verras la progression de tous les élèves qui t'ont ajouté.
+                Connecte-toi avec l'email que ton enfant a renseigné. Lors de la première connexion, utilise le lien reçu par email ou “mot de passe oublié” pour définir ton mot de passe.
               </p>
             )}
             {loginRole === 'enseignant' && (
               <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">
-                Connecte-toi avec ton email professionnel. Tu verras tous les élèves qui ont rejoint ta classe avec ton code enseignant.
+                Connecte-toi avec ton email professionnel. Lors de la première connexion, utilise le lien reçu par email ou “mot de passe oublié” pour définir ton mot de passe.
               </p>
             )}
           </div>

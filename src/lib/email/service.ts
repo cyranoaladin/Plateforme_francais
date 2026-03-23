@@ -65,6 +65,37 @@ export async function sendTeacherNotificationEmail(params: {
   });
 }
 
+export async function sendLinkedRoleInvitationEmail(params: {
+  email: string;
+  role: 'parent' | 'enseignant';
+  studentDisplayName: string;
+  rawToken: string;
+}) {
+  const resetLink = `${APP_URL}/login?mode=reset&token=${params.rawToken}`;
+  const roleLabel = params.role === 'parent' ? 'parent' : 'enseignant';
+  const intro = params.role === 'parent'
+    ? `Un accès parent vient d’être préparé pour suivre la progression de ${params.studentDisplayName}.`
+    : `Un accès enseignant vient d’être préparé pour suivre la progression de ${params.studentDisplayName}.`;
+
+  return sendEmail({
+    to: params.email,
+    subject: `[Nexus Réussite] Active ton accès ${roleLabel}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; color: #17324D;">
+        <h2 style="margin-bottom: 16px;">Nexus Réussite — activation de votre accès ${roleLabel}</h2>
+        <p>${intro}</p>
+        <p>Pour choisir votre mot de passe et accéder à votre tableau de bord, utilisez ce lien sécurisé :</p>
+        <p style="margin: 24px 0;">
+          <a href="${resetLink}" style="display:inline-block;background:#0F766E;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:700;">
+            Définir mon mot de passe
+          </a>
+        </p>
+        <p>Ce lien reste valable 72 heures. Ensuite, vous pourrez vous reconnecter directement depuis ${APP_URL}/login.</p>
+      </div>
+    `,
+  });
+}
+
 // ── Email #4 : Confirmation de souscription ─────────────────────
 export async function sendSubscriptionConfirmationEmail(data: {
   user: { firstName: string; email: string };
