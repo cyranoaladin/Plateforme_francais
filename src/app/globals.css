@@ -1,4 +1,25 @@
+@import "../styles/tokens.css";
 @import "tailwindcss";
+
+@theme inline {
+  /* Couleurs disponibles comme classes Tailwind :
+     bg-brand, text-brand, border-brand, etc. */
+  --color-brand: var(--c-primary);
+  --color-brand-hover: var(--c-primary-hover);
+  --color-brand-subtle: var(--c-primary-subtle);
+  --color-accent: var(--c-accent);
+  --color-accent-hover: var(--c-accent-hover);
+  --color-accent-subtle: var(--c-accent-subtle);
+  --color-success: var(--c-success);
+  --color-success-subtle: var(--c-success-subtle);
+  --color-reward: var(--c-reward);
+  --color-reward-subtle: var(--c-reward-subtle);
+  --color-page: var(--bg-page);
+  --color-surface: var(--bg-surface);
+  --color-surface-secondary: var(--bg-surface-secondary);
+  --color-heading: var(--text-heading);
+  --color-body: var(--text-body);
+}
 
 html { overflow-x: clip; }
 

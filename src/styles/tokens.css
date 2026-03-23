@@ -1,0 +1,245 @@
+/* ================================================================
+   NEXUS REUSSITE EAF — Design Tokens v2.0
+   Source de verite unique pour toutes les couleurs et variables.
+   Ne jamais dupliquer ces valeurs ailleurs dans le codebase.
+   ================================================================ */
+
+:root {
+  /* --- PALETTES BRUTES ----------------------------------------- */
+
+  /* Indigo (primaire) */
+  --color-indigo-50:  #EEF2FF;
+  --color-indigo-100: #E0E7FF;
+  --color-indigo-200: #C7D2FE;
+  --color-indigo-300: #A5B4FC;
+  --color-indigo-400: #818CF8;
+  --color-indigo-500: #6366F1;
+  --color-indigo-600: #4F46E5;
+  --color-indigo-700: #4338CA;
+  --color-indigo-800: #3730A3;
+  --color-indigo-900: #312E81;
+
+  /* Corail (accent / CTA) */
+  --color-coral-50:  #FFE8E1;
+  --color-coral-100: #FFCAB8;
+  --color-coral-200: #FFAA91;
+  --color-coral-300: #FF8A6D;
+  --color-coral-400: #FF6B47;
+  --color-coral-500: #E5502E;
+  --color-coral-600: #CC3F1F;
+  --color-coral-700: #B33B1E;
+
+  /* Emeraude (succes / oral) */
+  --color-emerald-50:  #ECFDF5;
+  --color-emerald-100: #D1FAE5;
+  --color-emerald-200: #A7F3D0;
+  --color-emerald-300: #6EE7B7;
+  --color-emerald-400: #34D399;
+  --color-emerald-500: #10B981;
+  --color-emerald-600: #059669;
+  --color-emerald-700: #047857;
+  --color-emerald-800: #065F46;
+
+  /* Ambre (gamification / streak) */
+  --color-amber-50:  #FFFBEB;
+  --color-amber-100: #FEF3C7;
+  --color-amber-200: #FDE68A;
+  --color-amber-300: #FCD34D;
+  --color-amber-400: #FBBF24;
+  --color-amber-500: #F59E0B;
+  --color-amber-600: #D97706;
+  --color-amber-700: #B45309;
+  --color-amber-800: #92400E;
+
+  /* Slate (textes / neutres) */
+  --color-slate-50:  #F8FAFC;
+  --color-slate-100: #F1F5F9;
+  --color-slate-200: #E2E8F0;
+  --color-slate-300: #CBD5E1;
+  --color-slate-400: #94A3B8;
+  --color-slate-500: #64748B;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1E293B;
+  --color-slate-900: #0F172A;
+
+  /* --- TOKENS SEMANTIQUES -------------------------------------- */
+
+  /* Arriere-plans */
+  --bg-page:              var(--color-slate-50);
+  --bg-surface:           #FFFFFF;
+  --bg-surface-secondary: var(--color-slate-100);
+  --bg-surface-hover:     var(--color-slate-50);
+
+  /* Arriere-plans teintes */
+  --bg-primary:   var(--color-indigo-50);
+  --bg-success:   var(--color-emerald-100);
+  --bg-accent:    var(--color-coral-50);
+  --bg-reward:    var(--color-amber-100);
+  --bg-neutral:   var(--color-slate-100);
+  --bg-warning:   #FFF7ED;
+
+  /* Couleurs primaires */
+  --c-primary:         var(--color-indigo-500);
+  --c-primary-hover:   var(--color-indigo-600);
+  --c-primary-active:  var(--color-indigo-700);
+  --c-primary-subtle:  var(--color-indigo-50);
+  --c-primary-muted:   var(--color-indigo-200);
+
+  /* Couleurs accent (CTA premium) */
+  --c-accent:          var(--color-coral-400);
+  --c-accent-hover:    var(--color-coral-500);
+  --c-accent-subtle:   var(--color-coral-50);
+  --c-accent-text:     var(--color-coral-700);
+
+  /* Couleurs success (oral, progression) */
+  --c-success:         var(--color-emerald-500);
+  --c-success-subtle:  var(--color-emerald-100);
+  --c-success-text:    var(--color-emerald-700);
+
+  /* Couleurs reward (gamification) */
+  --c-reward:          var(--color-amber-500);
+  --c-reward-subtle:   var(--color-amber-100);
+  --c-reward-text:     var(--color-amber-700);
+
+  /* Textes */
+  --text-heading:    var(--color-slate-900);
+  --text-body:       var(--color-slate-800);
+  --text-on-primary: #FFFFFF;
+  --text-on-accent:  #FFFFFF;
+  --text-primary-on-subtle:  var(--color-indigo-700);
+  --text-success-on-subtle:  var(--color-emerald-700);
+  --text-accent-on-subtle:   var(--color-coral-700);
+  --text-reward-on-subtle:   var(--color-amber-700);
+
+  /* Bordures */
+  --border-primary:  var(--color-indigo-200);
+  --border-success:  var(--color-emerald-200);
+  --border-accent:   var(--color-coral-200);
+  --border-reward:   var(--color-amber-200);
+
+  /* Rayons */
+  --radius-xs: 6px;
+  --radius-pill: 100px;
+
+  /* Ombres */
+  --shadow-focus: 0 0 0 3px var(--color-indigo-200);
+
+  /* Transitions */
+  --transition-fast:   150ms ease;
+  --transition-normal: 200ms ease;
+}
+
+/* --- DARK MODE ------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-page:              var(--color-slate-900);
+    --bg-surface:           var(--color-slate-800);
+    --bg-surface-secondary: var(--color-slate-700);
+    --bg-surface-hover:     var(--color-slate-700);
+
+    --bg-primary:   color-mix(in srgb, var(--color-indigo-900) 80%, transparent);
+    --bg-success:   color-mix(in srgb, var(--color-emerald-800) 40%, transparent);
+    --bg-accent:    color-mix(in srgb, var(--color-coral-700) 30%, transparent);
+    --bg-reward:    color-mix(in srgb, var(--color-amber-800) 30%, transparent);
+    --bg-neutral:   var(--color-slate-700);
+
+    --text-heading:    var(--color-slate-50);
+    --text-body:       var(--color-slate-200);
+
+    --text-primary-on-subtle:  var(--color-indigo-300);
+    --text-success-on-subtle:  var(--color-emerald-300);
+    --text-accent-on-subtle:   var(--color-coral-300);
+    --text-reward-on-subtle:   var(--color-amber-300);
+
+    --border-primary:  var(--color-indigo-700);
+    --border-success:  var(--color-emerald-700);
+    --border-accent:   var(--color-coral-600);
+    --border-reward:   var(--color-amber-700);
+
+    --shadow-focus: 0 0 0 3px var(--color-indigo-700);
+  }
+}
+
+/* --- UTILITAIRES COMPOSANTS ------------------------------------ */
+
+.card-surface {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+}
+
+.card-tinted-primary {
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border-primary);
+  border-radius: var(--radius-md);
+}
+
+.card-tinted-success {
+  background: var(--bg-success);
+  border: 1.5px solid var(--border-success);
+  border-radius: var(--radius-md);
+}
+
+.card-tinted-accent {
+  background: var(--bg-accent);
+  border: 1.5px solid var(--border-accent);
+  border-radius: var(--radius-md);
+}
+
+.card-tinted-reward {
+  background: var(--bg-reward);
+  border: 1.5px solid var(--border-reward);
+  border-radius: var(--radius-md);
+}
+
+.badge-primary {
+  background: var(--bg-primary);
+  color: var(--text-primary-on-subtle);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  display: inline-block;
+}
+
+.badge-success {
+  background: var(--bg-success);
+  color: var(--text-success-on-subtle);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  display: inline-block;
+}
+
+.badge-accent {
+  background: var(--c-accent-subtle);
+  color: var(--c-accent-text);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  display: inline-block;
+}
+
+.badge-reward {
+  background: var(--bg-reward);
+  color: var(--text-reward-on-subtle);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  display: inline-block;
+}
+
+.prog-bar-track {
+  height: 6px;
+  background: var(--bg-surface-secondary);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
