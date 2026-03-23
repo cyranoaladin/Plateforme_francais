@@ -60,7 +60,7 @@ const SKILL_META = [
   {
     key: 'lectureCursive' as const,
     label: 'Lecture cursive',
-    accent: 'bg-[var(--accent-violet)]',
+    accent: 'bg-[var(--color-indigo-500)]',
     copy: 'Réactiver les œuvres pour qu’elles restent disponibles à l’oral.',
   },
 ];
@@ -196,14 +196,14 @@ const LAUNCHPAD = [
     detail: 'Commentaire, dissertation ou sujet blanc selon le besoin réel.',
     href: '/atelier-ecrit',
     icon: PenTool,
-    tone: 'from-[var(--accent-earth)] via-[var(--color-amber-300)] to-[#d8a363]',
+    tone: 'from-[var(--color-amber-700)] via-[var(--color-amber-300)] to-[var(--color-amber-400)]',
   },
   {
     title: 'Bibliothèque',
     detail: 'Ressources courtes pour relancer méthode, œuvres et repères utiles.',
     href: '/bibliotheque',
     icon: BookOpen,
-    tone: 'from-[#4e3a62] via-[var(--accent-violet)] to-[#9a88b0]',
+    tone: 'from-[var(--color-indigo-800)] via-[var(--color-indigo-500)] to-[var(--color-indigo-400)]',
   },
   {
     title: 'Tuteur Nexus',
@@ -453,7 +453,7 @@ export default function Dashboard() {
         </div>
       )}
       {(planId === 'FREE' || planId === 'PREMIUM') && (
-        <section className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-[#7c3aed] to-[#a855f7] px-6 py-5 shadow-[0_4px_20px_rgba(124,58,237,0.3)]">
+        <section className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] px-6 py-5 shadow-[0_4px_20px_var(--shadow-md)]">
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_0%,transparent_60%)]" />
           <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-3">
@@ -473,7 +473,7 @@ export default function Dashboard() {
             </div>
             <Link
               href="/pricing"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-[#7c3aed] shadow-lg transition hover:bg-white/90 hover:shadow-xl"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-[var(--color-indigo-600)] shadow-lg transition hover:bg-white/90 hover:shadow-xl"
             >
               {planId === 'FREE' ? 'Passer au Premium' : 'Passer au Masterium'}
               <ArrowRight className="h-4 w-4" />
