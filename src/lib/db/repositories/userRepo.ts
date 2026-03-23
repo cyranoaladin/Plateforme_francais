@@ -35,6 +35,32 @@ const DEFAULT_PROFILE: StudentProfile = {
   weakSkills: ['Problématisation', 'Grammaire'],
 };
 
+type PrismaStudentProfileRecord = NonNullable<Awaited<ReturnType<typeof prisma.studentProfile.findUnique>>>;
+
+function toStudentProfile(profile: PrismaStudentProfileRecord): StudentProfile {
+  return {
+    displayName: profile.displayName,
+    classLevel: profile.classLevel,
+    targetScore: profile.targetScore,
+    establishment: profile.establishment ?? undefined,
+    eafDate: profile.eafDate?.toISOString(),
+    onboardingCompleted: profile.onboardingCompleted,
+    selectedOeuvres: profile.selectedOeuvres,
+    classCode: profile.classCode ?? undefined,
+    parcoursProgress: profile.parcoursProgress,
+    badges: profile.badges,
+    preferredObjects: profile.preferredObjects,
+    weakSkills: profile.weakSkills,
+    oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien ?? undefined,
+    parentEmail: profile.parentEmail ?? undefined,
+    teacherEmail: profile.teacherEmail ?? undefined,
+    parentConsentToken: profile.parentConsentToken ?? undefined,
+    parentConsentStatus: profile.parentConsentStatus ?? undefined,
+    parentConsentDate: profile.parentConsentDate?.toISOString(),
+    parentConsentIpHash: profile.parentConsentIpHash ?? undefined,
+  };
+}
+
 export async function listUsers(): Promise<UserRecord[]> {
   if (await isDatabaseAvailable()) {
     const users = await prisma.user.findMany({ include: { profile: true } });
@@ -46,23 +72,7 @@ export async function listUsers(): Promise<UserRecord[]> {
         passwordSalt: user.passwordSalt,
         role: user.role,
         createdAt: user.createdAt,
-        profile: user.profile
-          ? {
-              displayName: user.profile.displayName,
-              classLevel: user.profile.classLevel,
-              targetScore: user.profile.targetScore,
-              establishment: user.profile.establishment ?? undefined,
-              eafDate: user.profile.eafDate?.toISOString(),
-              onboardingCompleted: user.profile.onboardingCompleted,
-              selectedOeuvres: user.profile.selectedOeuvres,
-              classCode: user.profile.classCode ?? undefined,
-              parcoursProgress: user.profile.parcoursProgress,
-              badges: user.profile.badges,
-              preferredObjects: user.profile.preferredObjects,
-              weakSkills: user.profile.weakSkills,
-              oeuvreChoisieEntretien: user.profile.oeuvreChoisieEntretien ?? undefined,
-            }
-          : DEFAULT_PROFILE,
+        profile: user.profile ? toStudentProfile(user.profile) : DEFAULT_PROFILE,
       }),
     );
   }
@@ -89,23 +99,7 @@ export async function findUserByEmail(email: string): Promise<UserRecord | null>
       passwordSalt: user.passwordSalt,
       role: user.role,
       createdAt: user.createdAt,
-      profile: user.profile
-        ? {
-            displayName: user.profile.displayName,
-            classLevel: user.profile.classLevel,
-            targetScore: user.profile.targetScore,
-            establishment: user.profile.establishment ?? undefined,
-            eafDate: user.profile.eafDate?.toISOString(),
-            onboardingCompleted: user.profile.onboardingCompleted,
-            selectedOeuvres: user.profile.selectedOeuvres,
-            classCode: user.profile.classCode ?? undefined,
-            parcoursProgress: user.profile.parcoursProgress,
-            badges: user.profile.badges,
-            preferredObjects: user.profile.preferredObjects,
-            weakSkills: user.profile.weakSkills,
-              oeuvreChoisieEntretien: user.profile.oeuvreChoisieEntretien ?? undefined,
-          }
-        : DEFAULT_PROFILE,
+      profile: user.profile ? toStudentProfile(user.profile) : DEFAULT_PROFILE,
     });
   }
 
@@ -132,23 +126,7 @@ export async function findUserById(id: string): Promise<UserRecord | null> {
       passwordSalt: user.passwordSalt,
       role: user.role,
       createdAt: user.createdAt,
-      profile: user.profile
-        ? {
-            displayName: user.profile.displayName,
-            classLevel: user.profile.classLevel,
-            targetScore: user.profile.targetScore,
-            establishment: user.profile.establishment ?? undefined,
-            eafDate: user.profile.eafDate?.toISOString(),
-            onboardingCompleted: user.profile.onboardingCompleted,
-            selectedOeuvres: user.profile.selectedOeuvres,
-            classCode: user.profile.classCode ?? undefined,
-            parcoursProgress: user.profile.parcoursProgress,
-            badges: user.profile.badges,
-            preferredObjects: user.profile.preferredObjects,
-            weakSkills: user.profile.weakSkills,
-              oeuvreChoisieEntretien: user.profile.oeuvreChoisieEntretien ?? undefined,
-          }
-        : DEFAULT_PROFILE,
+      profile: user.profile ? toStudentProfile(user.profile) : DEFAULT_PROFILE,
     });
   }
 
@@ -189,6 +167,7 @@ export async function createUser(input: {
             weakSkills: input.profile.weakSkills,
             oeuvreChoisieEntretien: input.profile.oeuvreChoisieEntretien,
             parentEmail: input.profile.parentEmail ?? undefined,
+            teacherEmail: input.profile.teacherEmail ?? undefined,
             parentConsentToken: input.profile.parentConsentToken ?? undefined,
             parentConsentStatus: input.profile.parentConsentStatus ?? undefined,
           },
@@ -233,6 +212,12 @@ export async function updateUserProfile(userId: string, profile: StudentProfile)
         preferredObjects: profile.preferredObjects,
         weakSkills: profile.weakSkills,
         oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien ?? null,
+        parentEmail: profile.parentEmail ?? null,
+        teacherEmail: profile.teacherEmail ?? null,
+        parentConsentToken: profile.parentConsentToken ?? null,
+        parentConsentStatus: profile.parentConsentStatus ?? undefined,
+        parentConsentDate: profile.parentConsentDate ? new Date(profile.parentConsentDate) : undefined,
+        parentConsentIpHash: profile.parentConsentIpHash ?? null,
       },
       create: {
         userId,
@@ -249,6 +234,12 @@ export async function updateUserProfile(userId: string, profile: StudentProfile)
         preferredObjects: profile.preferredObjects,
         weakSkills: profile.weakSkills,
         oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien ?? null,
+        parentEmail: profile.parentEmail ?? undefined,
+        teacherEmail: profile.teacherEmail ?? undefined,
+        parentConsentToken: profile.parentConsentToken ?? undefined,
+        parentConsentStatus: profile.parentConsentStatus ?? undefined,
+        parentConsentDate: profile.parentConsentDate ? new Date(profile.parentConsentDate) : undefined,
+        parentConsentIpHash: profile.parentConsentIpHash ?? undefined,
       },
     });
     return;

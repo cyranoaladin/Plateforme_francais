@@ -136,6 +136,7 @@ model StudentProfile {
   globalLevelUpdatedAt DateTime?
   // RGPD Parental Consent
   parentEmail         String?
+  teacherEmail        String?
   parentConsentToken  String?     @unique
   parentConsentStatus String      @default("pending") // pending | granted | refused | withdrawn
   parentConsentDate   DateTime?
