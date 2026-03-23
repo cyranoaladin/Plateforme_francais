@@ -137,10 +137,10 @@ echo "  ✅ MCP build terminé (src/ et source maps supprimés)"
 # --- 7. Sync Nginx config + SSL (first run only for certbot) ---
 echo "[7/8] Synchronisation Nginx..."
 ssh "$SSH_TARGET" "cat > /etc/nginx/sites-available/$DOMAIN" < scripts/nginx-eaf.conf
+ssh "$SSH_TARGET" "ln -sfn /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/$DOMAIN"
 
 if [ "$FIRST_RUN" = "--first-run" ]; then
   echo "  → Activation du vhost (première installation)..."
-  ssh "$SSH_TARGET" "ln -sf /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/"
   ssh "$SSH_TARGET" "rm -f /etc/nginx/sites-enabled/default"
 fi
 
