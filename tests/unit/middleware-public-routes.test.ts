@@ -33,4 +33,16 @@ describe('middleware public routes', () => {
     const response = middleware(new NextRequest('http://localhost:3000/tarifs'));
     expect(response.headers.get('location')).toBe('http://localhost:3000/pricing');
   });
+
+  it('laisse /parent passer au middleware normal quand une session existe', () => {
+    const request = new NextRequest('http://localhost:3000/parent', {
+      headers: {
+        cookie: 'eaf_session=test-session',
+      },
+    });
+
+    const response = middleware(request);
+    expect(response.headers.get('location')).toBeNull();
+    expect(response.headers.get('Content-Security-Policy')).toContain("default-src 'self'");
+  });
 });
