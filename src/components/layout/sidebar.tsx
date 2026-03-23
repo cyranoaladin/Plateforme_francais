@@ -211,7 +211,7 @@ export function Sidebar() {
   return (
     <>
       {/* ─── Desktop LEFT Sidebar (branding, stats, user, upgrade) ─── */}
-      <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 flex-col border-r border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface-secondary)_0%,var(--border-default)_100%)] shadow-[var(--shadow-md)] z-10">
+      <aside className="hidden md:flex fixed inset-y-0 left-0 w-72 flex-col border-r border-[var(--border-default)] bg-[var(--bg-surface)] shadow-[var(--shadow-md)] z-10">
         <div className="border-b border-[var(--border-default)] px-5 py-5">
           <div className="rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-page)_100%)] p-4 shadow-[var(--shadow-sm)]">
             <div className="flex items-center gap-3">
@@ -368,7 +368,7 @@ export function Sidebar() {
       </aside>
 
       {/* ─── Desktop RIGHT Sidebar (navigation) ─── */}
-      <aside className="hidden md:flex fixed inset-y-0 right-0 w-64 flex-col border-l border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)] shadow-[var(--shadow-md)] z-10">
+      <aside className="hidden md:flex fixed inset-y-0 right-0 w-64 flex-col border-l border-[var(--border-default)] bg-[var(--bg-surface)] shadow-[var(--shadow-md)] z-10">
         <div className="px-4 pt-5 pb-3">
           <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Navigation</p>
           <p className="mt-1 text-xs leading-5 text-[var(--text-secondary)]">Accès rapide aux ateliers et outils.</p>
