@@ -139,4 +139,34 @@ describe('GET /api/v1/media/[id] access control', () => {
     expect(response.status).toBe(200);
     expect(response.headers.get('Content-Length')).toBe('3');
   });
+
+  it('supports byte range requests for an authorized premium user', async () => {
+    const mediaId = findFreemiumBlockedMediaId();
+    vi.mocked(getBillingContext).mockResolvedValue({
+      planId: 'PREMIUM',
+      config: { quotas: {} },
+      endsAt: null,
+      isActive: true,
+    } as never);
+    vi.mocked(fsPromises.lstat as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+      isSymbolicLink: () => false,
+      isFile: () => true,
+      size: 10,
+    });
+    vi.mocked(fsPromises.readFile as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(Buffer.from('0123456789'));
+    const { GET } = await import('@/app/api/v1/media/[id]/route');
+
+    const response = await GET(
+      new NextRequest(`http://localhost/api/v1/media/${mediaId}`, {
+        headers: { Range: 'bytes=2-4' },
+      }),
+      { params: Promise.resolve({ id: mediaId }) },
+    );
+
+    expect(response.status).toBe(206);
+    expect(response.headers.get('Accept-Ranges')).toBe('bytes');
+    expect(response.headers.get('Content-Range')).toBe('bytes 2-4/10');
+    expect(response.headers.get('Content-Length')).toBe('3');
+    expect(Buffer.from(await response.arrayBuffer()).toString()).toBe('234');
+  });
 });

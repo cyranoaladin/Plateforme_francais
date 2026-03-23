@@ -25,13 +25,80 @@ const MIME_TYPES: Record<string, string> = {
   '.pdf': 'application/pdf',
 };
 
+const RANGE_ENABLED_EXTENSIONS = new Set([
+  '.mp4',
+  '.webm',
+  '.mkv',
+  '.mov',
+  '.mp3',
+  '.wav',
+  '.ogg',
+  '.m4a',
+  '.pdf',
+]);
+
+function buildBaseHeaders(absolutePath: string, contentType: string, size: number): Headers {
+  const headers = new Headers({
+    'Content-Type': contentType,
+    'Content-Length': String(size),
+    'Cache-Control': 'private, max-age=3600',
+    'Content-Disposition': `inline; filename="${encodeURIComponent(path.basename(absolutePath))}"`,
+  });
+
+  if (RANGE_ENABLED_EXTENSIONS.has(path.extname(absolutePath).toLowerCase())) {
+    headers.set('Accept-Ranges', 'bytes');
+  }
+
+  return headers;
+}
+
+function parseRangeHeader(rangeHeader: string, totalSize: number) {
+  const match = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader.trim());
+  if (!match) {
+    return null;
+  }
+
+  const [, startRaw, endRaw] = match;
+  let start: number;
+  let end: number;
+
+  if (startRaw === '' && endRaw === '') {
+    return null;
+  }
+
+  if (startRaw === '') {
+    const suffixLength = Number(endRaw);
+    if (!Number.isFinite(suffixLength) || suffixLength <= 0) {
+      return null;
+    }
+    start = Math.max(totalSize - suffixLength, 0);
+    end = totalSize - 1;
+  } else {
+    start = Number(startRaw);
+    end = endRaw === '' ? totalSize - 1 : Number(endRaw);
+  }
+
+  if (
+    !Number.isInteger(start) ||
+    !Number.isInteger(end) ||
+    start < 0 ||
+    end < start ||
+    start >= totalSize
+  ) {
+    return null;
+  }
+
+  end = Math.min(end, totalSize - 1);
+  return { start, end };
+}
+
 /**
  * GET /api/v1/media/[id]
  * Sert le fichier média correspondant à l'entrée du catalogue.
  * Requiert une session utilisateur authentifiée.
  */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   // Auth guard
@@ -117,17 +184,35 @@ export async function GET(
 
     const ext = path.extname(absolutePath).toLowerCase();
     const contentType = MIME_TYPES[ext] ?? 'application/octet-stream';
-
     const fileBuffer = await fs.readFile(absolutePath);
+    const rangeHeader = request.headers.get('range');
+    const baseHeaders = buildBaseHeaders(absolutePath, contentType, stat.size);
+
+    if (rangeHeader && RANGE_ENABLED_EXTENSIONS.has(ext)) {
+      const range = parseRangeHeader(rangeHeader, stat.size);
+      if (!range) {
+        return new NextResponse(null, {
+          status: 416,
+          headers: {
+            'Content-Range': `bytes */${stat.size}`,
+          },
+        });
+      }
+
+      const chunk = fileBuffer.subarray(range.start, range.end + 1);
+      const headers = new Headers(baseHeaders);
+      headers.set('Content-Length', String(chunk.byteLength));
+      headers.set('Content-Range', `bytes ${range.start}-${range.end}/${stat.size}`);
+
+      return new NextResponse(chunk, {
+        status: 206,
+        headers,
+      });
+    }
 
     return new NextResponse(fileBuffer, {
       status: 200,
-      headers: {
-        'Content-Type': contentType,
-        'Content-Length': String(stat.size),
-        'Cache-Control': 'private, max-age=3600',
-        'Content-Disposition': `inline; filename="${encodeURIComponent(path.basename(absolutePath))}"`,
-      },
+      headers: baseHeaders,
     });
   } catch (error: unknown) {
     logger.error({ route: 'api/v1/media', id, error }, 'media.read_error');
