@@ -55,12 +55,12 @@ const CLASS_LEVELS = [
 const CLASS_LEVEL_OPTIONS = CLASS_LEVELS.map((level) => ({ value: level, label: level }));
 
 const SKILLS = [
-  { key: 'comprehension', label: 'Compréhension du texte', icon: BookOpen, color: 'text-[var(--gold-muted)]' },
-  { key: 'procedes', label: 'Analyse des procédés', icon: PenTool, color: 'text-[var(--navy)]' },
-  { key: 'plan', label: 'Organisation du plan', icon: PenTool, color: 'text-[var(--teal)]' },
-  { key: 'lecture', label: 'Lecture expressive', icon: Mic, color: 'text-[var(--accent-violet)]' },
-  { key: 'grammaire', label: 'Grammaire', icon: BrainCircuit, color: 'text-[var(--teal)]' },
-  { key: 'culture', label: 'Culture / œuvre & parcours', icon: BookOpen, color: 'text-[var(--navy)]' },
+  { key: 'comprehension', label: 'Compréhension du texte', icon: BookOpen, color: 'text-[var(--color-amber-300)]' },
+  { key: 'procedes', label: 'Analyse des procédés', icon: PenTool, color: 'text-[var(--c-primary)]' },
+  { key: 'plan', label: 'Organisation du plan', icon: PenTool, color: 'text-[var(--c-success)]' },
+  { key: 'lecture', label: 'Lecture expressive', icon: Mic, color: 'text-[var(--c-primary)]' },
+  { key: 'grammaire', label: 'Grammaire', icon: BrainCircuit, color: 'text-[var(--c-success)]' },
+  { key: 'culture', label: 'Culture / œuvre & parcours', icon: BookOpen, color: 'text-[var(--c-primary)]' },
 ] as const;
 
 const STEP_LABELS = ['Profil', 'Œuvres', 'Auto-évaluation'] as const;
@@ -112,13 +112,13 @@ function StepRail({ current }: { current: 1 | 2 | 3 }) {
             <div className="flex items-center gap-3">
               <div
                 className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                  isActive || isDone ? 'bg-[var(--surface-cream)] text-[var(--navy)]' : 'bg-white/10 text-white/60'
+                  isActive || isDone ? 'bg-[var(--bg-surface-secondary)] text-[var(--c-primary)]' : 'bg-white/10 text-white/60'
                 }`}
               >
                 {isDone ? <CheckCircle2 className="h-4 w-4" /> : stepNum}
               </div>
               <div>
-                <p className={`text-[11px] font-bold uppercase tracking-[0.22em] ${isActive || isDone ? 'text-[var(--border-warm)]' : 'text-white/45'}`}>
+                <p className={`text-[11px] font-bold uppercase tracking-[0.22em] ${isActive || isDone ? 'text-[var(--color-amber-300)]' : 'text-white/45'}`}>
                   {`0${stepNum}`}
                 </p>
                 <p className={`text-sm font-semibold ${isActive || isDone ? 'text-white' : 'text-white/65'}`}>{label}</p>
@@ -133,7 +133,7 @@ function StepRail({ current }: { current: 1 | 2 | 3 }) {
 
 function OnboardingErrorBanner({ message }: { message: string }) {
   return (
-    <div className="mb-6 rounded-[22px] border border-[var(--error-muted)]/25 bg-[var(--error-bg)] p-4 text-sm text-[var(--error-dark)]" role="alert">
+    <div className="mb-6 rounded-[22px] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)]" role="alert">
       {message}
     </div>
   );
@@ -306,25 +306,25 @@ export default function OnboardingPage() {
   const currentMeta = STEP_META[step];
 
   return (
-    <div className="min-h-dvh overflow-x-clip bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-dvh overflow-x-clip bg-[var(--bg-surface-secondary)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[30rem] bg-[radial-gradient(circle_at_center_top,rgba(255,255,255,0.9),transparent_65%)]" />
-      <div className="pointer-events-none absolute right-0 top-20 h-72 w-72 rounded-full bg-[var(--teal)]/10 blur-3xl" />
-      <div className="pointer-events-none absolute left-0 top-[34rem] h-72 w-72 rounded-full bg-[var(--gold-muted)]/10 blur-3xl" />
+      <div className="pointer-events-none absolute right-0 top-20 h-72 w-72 rounded-full bg-[var(--c-success)]/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-0 top-[34rem] h-72 w-72 rounded-full bg-[var(--color-amber-300)]/10 blur-3xl" />
 
       <main className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        <header className="flex flex-col gap-5 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/80 px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-5 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/80 px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
-            <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-warm)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--navy)]">
-              <span className="h-2 w-2 rounded-full bg-[var(--teal)]" />
+            <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--c-primary)]">
+              <span className="h-2 w-2 rounded-full bg-[var(--c-success)]" />
               Configuration du parcours
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">
-            <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--navy)]">
+            <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--c-primary)]">
               Revoir l{'’'}accueil
             </Link>
-            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-4 py-2 text-[var(--surface-parchment)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-4 py-2 text-[var(--bg-page)]">
               <Clock3 className="h-4 w-4" />
               Environ 3 minutes
             </div>
@@ -333,8 +333,8 @@ export default function OnboardingPage() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <aside className="lg:sticky lg:top-6 lg:self-start">
-            <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
+            <div className="rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
                 <Sparkles className="h-4 w-4" />
                 Mise en route
               </div>
@@ -360,18 +360,18 @@ export default function OnboardingPage() {
                 <StepRail current={step} />
               </div>
 
-              <div className="mt-8 rounded-[24px] bg-[var(--navy-dark)] p-5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Ce que Nexus a déjà compris</p>
+              <div className="mt-8 rounded-[24px] bg-[var(--c-primary-active)] p-5">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Ce que Nexus a déjà compris</p>
                 <div className="mt-4 space-y-3 text-sm text-slate-200">
                   <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
+                    <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                     <div>
                       <p className="font-semibold text-white">Profil</p>
                       <p className="mt-1 leading-6">{displayName.trim() || 'Nom affiché à renseigner'} · {classLevel || 'Classe à confirmer'}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
+                    <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                     <div>
                       <p className="font-semibold text-white">Corpus</p>
                       <p className="mt-1 leading-6">
@@ -382,7 +382,7 @@ export default function OnboardingPage() {
                     </div>
                   </div>
                   <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
-                    <BrainCircuit className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
+                    <BrainCircuit className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                     <div>
                       <p className="font-semibold text-white">Priorités</p>
                       <p className="mt-1 leading-6">
@@ -395,7 +395,7 @@ export default function OnboardingPage() {
 
               <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
                 <div className="flex items-start gap-3">
-                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
+                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                   <p className="text-sm leading-6 text-slate-200">
                     Les informations saisies ici servent à cadrer les premières recommandations, les ressources mobilisées et la progression visible.
                     Elles restent modifiables ensuite dans le profil.
@@ -405,22 +405,22 @@ export default function OnboardingPage() {
             </div>
           </aside>
 
-          <section className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)]/88 p-6 shadow-[var(--shadow-lg)] sm:p-8 lg:p-9">
+          <section className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/88 p-6 shadow-[var(--shadow-md)] sm:p-8 lg:p-9">
             {error ? <OnboardingErrorBanner message={error} /> : null}
             {welcomeMessage ? (
-              <div className="mb-6 flex items-center gap-2 rounded-[var(--radius-xl)] border border-[var(--teal)]/25 bg-[var(--success-bg)] p-4 text-sm text-[var(--teal)]" role="status">
+              <div className="mb-6 flex items-center gap-2 rounded-[var(--radius-xl)] border border-[var(--c-success)]/25 bg-[var(--bg-success)] p-4 text-sm text-[var(--c-success)]" role="status">
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
                 {welcomeMessage}
               </div>
             ) : null}
 
-            <div className="border-b border-[var(--border-sand)] pb-5">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">{currentMeta.kicker}</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
+            <div className="border-b border-[var(--border-default)] pb-5">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{currentMeta.kicker}</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
                 {currentMeta.title}
               </h2>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{currentMeta.description}</p>
-              <div className="mt-4 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+              <div className="mt-4 rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
                 {currentMeta.benefit}
               </div>
             </div>
@@ -475,20 +475,20 @@ export default function OnboardingPage() {
                     />
                   </div>
 
-                  <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]">
+                  <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Prévisualisation</p>
                     <div className="mt-4 grid gap-3 md:grid-cols-3">
-                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3">
+                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
                         <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Nom</p>
-                        <p className="mt-1 text-sm font-semibold text-[var(--navy)]">{displayName.trim() || 'À renseigner'}</p>
+                        <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{displayName.trim() || 'À renseigner'}</p>
                       </div>
-                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3">
+                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
                         <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Classe</p>
-                        <p className="mt-1 text-sm font-semibold text-[var(--navy)]">{classLevel}</p>
+                        <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{classLevel}</p>
                       </div>
-                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3">
+                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
                         <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Échéance</p>
-                        <p className="mt-1 text-sm font-semibold text-[var(--navy)]">{formatDateLabel(eafDate)}</p>
+                        <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{formatDateLabel(eafDate)}</p>
                       </div>
                     </div>
                   </Card>
@@ -506,11 +506,11 @@ export default function OnboardingPage() {
                   />
 
                   {allSelectedOeuvres.length > 0 ? (
-                    <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
+                    <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
                       <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Sélection en cours</p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {allSelectedOeuvres.map((oeuvre) => (
-                          <span key={oeuvre} className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3.5 py-1.5 text-xs font-semibold text-[var(--navy)]">
+                          <span key={oeuvre} className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 py-1.5 text-xs font-semibold text-[var(--c-primary)]">
                             {oeuvre}
                           </span>
                         ))}
@@ -527,21 +527,21 @@ export default function OnboardingPage() {
                           type="button"
                           key={oeuvre.id}
                           onClick={() => toggleOeuvre(oeuvre.title)}
-                          className={`rounded-[var(--radius-xl)] border p-4 text-left transition-all duration-[var(--transition-base)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)] ${
+                          className={`rounded-[var(--radius-xl)] border p-4 text-left transition-all duration-[var(--transition-normal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)] ${
                             isSelected
-                              ? 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]'
-                              : 'border-[var(--border-strong)] bg-[var(--card)] hover:-translate-y-0.5 hover:border-[var(--teal)] hover:shadow-[var(--shadow-sm)]'
+                              ? 'border-[var(--c-primary)] bg-[var(--c-primary)] text-[var(--bg-page)] shadow-[var(--shadow-md)]'
+                              : 'border-[var(--border-strong)] bg-[var(--bg-surface)] hover:-translate-y-0.5 hover:border-[var(--c-success)] hover:shadow-[var(--shadow-sm)]'
                           }`}
                         >
                           <div className="flex items-start justify-between gap-3">
                             <div>
-                              <p className={`text-[11px] font-bold uppercase tracking-[0.24em] ${isSelected ? 'text-[var(--border-warm)]' : 'text-[var(--text-muted)]'}`}>
+                              <p className={`text-[11px] font-bold uppercase tracking-[0.24em] ${isSelected ? 'text-[var(--color-amber-300)]' : 'text-[var(--text-muted)]'}`}>
                                 {oeuvre.type}
                               </p>
                               <p className="mt-2 text-sm font-bold leading-6">{oeuvre.title}</p>
                               <p className={`mt-1 text-sm ${isSelected ? 'text-slate-200' : 'text-[var(--text-secondary)]'}`}>{oeuvre.author}</p>
                             </div>
-                            <div className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${isSelected ? 'border-white bg-white text-[var(--navy)]' : 'border-[var(--border-strong)] text-transparent'}`}>
+                            <div className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${isSelected ? 'border-white bg-white text-[var(--c-primary)]' : 'border-[var(--border-strong)] text-transparent'}`}>
                               <CheckCircle2 className="h-4 w-4" />
                             </div>
                           </div>
@@ -559,8 +559,8 @@ export default function OnboardingPage() {
                   />
 
                   {allSelectedOeuvres.length > 0 && (
-                    <div className="rounded-[24px] border border-[var(--teal)]/20 bg-[var(--teal)]/5 p-5">
-                      <p className="text-sm font-semibold text-[var(--navy)]">{"Tes œuvres pour l\u2019entretien oral"}</p>
+                    <div className="rounded-[24px] border border-[var(--c-success)]/20 bg-[var(--c-success)]/5 p-5">
+                      <p className="text-sm font-semibold text-[var(--c-primary)]">{"Tes œuvres pour l\u2019entretien oral"}</p>
                       <p className="mt-1 text-xs text-[var(--text-muted)]">{"Coche les œuvres que tu souhaites travailler pour la 2e partie de l\u2019oral (8 pts/20). La première cochée sera ton œuvre principale."}</p>
                       <div className="mt-3 space-y-2">
                         {allSelectedOeuvres.map((title) => {
@@ -573,8 +573,8 @@ export default function OnboardingPage() {
                               key={'entretien-' + title}
                               className={'flex items-center gap-3 rounded-2xl border px-4 py-3 cursor-pointer transition-colors ' + (
                                 isChecked
-                                  ? 'border-[var(--teal)] bg-[var(--teal)]/10'
-                                  : 'border-[var(--border-strong)] bg-[var(--card)] hover:border-[var(--teal)]/40'
+                                  ? 'border-[var(--c-success)] bg-[var(--c-success)]/10'
+                                  : 'border-[var(--border-strong)] bg-[var(--bg-surface)] hover:border-[var(--c-success)]/40'
                               )}
                             >
                               <input
@@ -588,11 +588,11 @@ export default function OnboardingPage() {
                                       : [...prev, title],
                                   );
                                 }}
-                                className="accent-[var(--teal)]"
+                                className="accent-[var(--c-success)]"
                               />
-                              <span className="text-sm font-medium text-[var(--navy)]">{title}</span>
+                              <span className="text-sm font-medium text-[var(--c-primary)]">{title}</span>
                               {authorName && <span className="text-xs text-[var(--text-placeholder)]">{authorName}</span>}
-                              {isPrimary && <span className="ml-auto rounded-full bg-[var(--teal)]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--teal)]">Principale</span>}
+                              {isPrimary && <span className="ml-auto rounded-full bg-[var(--c-success)]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--c-success)]">Principale</span>}
                             </label>
                           );
                         })}
@@ -609,18 +609,18 @@ export default function OnboardingPage() {
                     const value = ratings[skill.key];
 
                     return (
-                      <Card key={skill.key} variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="md">
+                      <Card key={skill.key} variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="md">
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
-                            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--card)] text-[var(--navy)] shadow-sm">
+                            <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg-surface)] text-[var(--c-primary)] shadow-sm">
                               <Icon className={`h-5 w-5 ${skill.color}`} />
                             </div>
                             <div>
-                              <p className="text-sm font-semibold text-[var(--navy)]">{skill.label}</p>
+                              <p className="text-sm font-semibold text-[var(--c-primary)]">{skill.label}</p>
                               <p className="text-xs text-[var(--text-muted)]">Réglage initial pour prioriser les prochains ateliers.</p>
                             </div>
                           </div>
-                          <div className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3 py-1 text-xs font-bold text-[var(--navy)]">
+                          <div className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 py-1 text-xs font-bold text-[var(--c-primary)]">
                             {value} / 5
                           </div>
                         </div>
@@ -631,7 +631,7 @@ export default function OnboardingPage() {
                             max={5}
                             value={value}
                             onChange={(e) => setRatings((prev) => ({ ...prev, [skill.key]: Number(e.target.value) }))}
-                            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[var(--surface-sand)] accent-[var(--navy)]"
+                            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[var(--border-default)] accent-[var(--c-primary)]"
                             aria-label={`${skill.label} : ${value} sur 5`}
                           />
                           <div className="mt-2 flex justify-between text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--text-muted)]">
@@ -655,7 +655,7 @@ export default function OnboardingPage() {
               ) : null}
             </div>
 
-            <div className="mt-8 flex items-center justify-between border-t border-[var(--border-sand)] pt-5">
+            <div className="mt-8 flex items-center justify-between border-t border-[var(--border-default)] pt-5">
               {step > 1 ? (
                 <Button
                   type="button"

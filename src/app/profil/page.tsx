@@ -81,44 +81,44 @@ const SKILL_META = [
   {
     key: 'ecrit' as const,
     label: 'Écrit',
-    accent: 'bg-[var(--navy)]',
+    accent: 'bg-[var(--c-primary)]',
     copy: 'Construire plus vite une réponse solide, sans perdre la tension du sujet.',
     icon: PenTool,
   },
   {
     key: 'oral' as const,
     label: 'Oral',
-    accent: 'bg-[var(--teal)]',
+    accent: 'bg-[var(--c-success)]',
     copy: 'Tenir la lecture, l’explication et la relance avec plus de fluidité.',
     icon: Mic,
   },
   {
     key: 'grammaire' as const,
     label: 'Grammaire',
-    accent: 'bg-[var(--gold-muted)]',
+    accent: 'bg-[var(--color-amber-300)]',
     copy: 'Stabiliser les notions qui font perdre des points trop vite.',
     icon: BrainCircuit,
   },
   {
     key: 'lectureCursive' as const,
     label: 'Lecture cursive',
-    accent: 'bg-[var(--accent-violet)]',
+    accent: 'bg-[var(--c-primary)]',
     copy: 'Garder les œuvres et leurs enjeux disponibles au moment utile.',
     icon: BookOpen,
   },
 ];
 
 const BADGE_STYLES = [
-  'from-[var(--navy)] to-[#315f88]',
-  'from-[var(--teal)] to-[#43b9aa]',
-  'from-[var(--accent-earth)] to-[#d6a15d]',
+  'from-[var(--c-primary)] to-[#315f88]',
+  'from-[var(--c-success)] to-[#43b9aa]',
+  'from-[var(--color-amber-700)] to-[#d6a15d]',
   'from-[#503a64] to-[#9a88b0]',
 ];
 
 const PRIORITY_STYLE = {
-  high: 'border-[var(--gold-muted)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]',
-  medium: 'border-[var(--navy)]/14 bg-[var(--surface-navy-light)] text-[var(--navy)]',
-  low: 'border-[var(--teal)]/14 bg-[var(--surface-teal-light)] text-[var(--teal)]',
+  high: 'border-[var(--color-amber-300)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]',
+  medium: 'border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] text-[var(--c-primary)]',
+  low: 'border-[var(--c-success)]/14 bg-[var(--surface-teal-light)] text-[var(--c-success)]',
 };
 
 function formatShortDate(date: string) {
@@ -220,35 +220,35 @@ export default function ProfilPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
               <ShieldCheck className="h-4 w-4" />
               Profil de progression EAF
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               {displayName}, ton profil doit te dire où appuyer, pas seulement où tu en es.
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--text-on-navy-muted)] sm:text-lg">
+            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--color-slate-300)] sm:text-lg">
               Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges
               déjà acquis.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--text-on-navy-muted)]">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
                 Niveau moyen{'\u00a0'}: <strong>{averageScore} / 20</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--text-on-navy-muted)]">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
                 Point fort{'\u00a0'}: <strong>{strongestSkill.label}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--text-on-navy-muted)]">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
                 Axe à retendre{'\u00a0'}: <strong>{weakestSkill.label}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--text-on-navy-muted)]">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
                 Mise à jour{'\u00a0'}: <strong>{formatShortDate(resolvedProfile.skillMap.lastUpdated)}</strong>
               </span>
             </div>
@@ -256,14 +256,14 @@ export default function ProfilPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-6 py-3.5 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 Ouvrir mon parcours
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={tutorHref}
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
+                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--bg-page)] transition-colors hover:bg-white/6"
               >
                 Débloquer un point précis
               </Link>
@@ -279,7 +279,7 @@ export default function ProfilPage() {
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -291,9 +291,9 @@ export default function ProfilPage() {
             ))}
 
             <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Signal global</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Signal global</p>
               <p className="mt-3 text-2xl font-semibold text-white">{profileSignal.label}</p>
-              <p className="mt-2 text-sm leading-7 text-[var(--text-on-navy-muted)]">{profileSignal.detail}</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--color-slate-300)]">{profileSignal.detail}</p>
             </div>
           </div>
         </div>
@@ -308,9 +308,9 @@ export default function ProfilPage() {
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <Card variant="default" className="rounded-[24px] bg-[var(--card)]/90 shadow-[var(--shadow-md)]" padding="md">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cartographie actuelle</p>
-          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
+        <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cartographie actuelle</p>
+          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
             Quatre axes lisibles, pour éviter une lecture floue de tes progrès.
           </h2>
 
@@ -321,17 +321,17 @@ export default function ProfilPage() {
                 <div key={skill.key}>
                   <div className="mb-2 flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3">
-                      <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--surface-warm)] text-[var(--navy)]">
+                      <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--bg-surface-secondary)] text-[var(--c-primary)]">
                         <Icon className="h-4 w-4" />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-[var(--navy)]">{skill.label}</p>
+                        <p className="text-sm font-semibold text-[var(--c-primary)]">{skill.label}</p>
                         <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{skill.copy}</p>
                       </div>
                     </div>
                     <span className="shrink-0 text-sm font-semibold text-[var(--text-muted)]">{skill.score.toFixed(1)} / 20</span>
                   </div>
-                  <div className="h-2.5 rounded-full bg-[var(--surface-sand)]">
+                  <div className="h-2.5 rounded-full bg-[var(--border-default)]">
                     <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(skill.score / 20) * 100}%` }} />
                   </div>
                 </div>
@@ -340,23 +340,23 @@ export default function ProfilPage() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
+            <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe fort</p>
-              <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{strongestSkill.label}</p>
+              <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{strongestSkill.label}</p>
               <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">C’est là que le niveau est le plus naturellement stable aujourd’hui.</p>
             </Card>
-            <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--surface-warm)]" padding="sm">
+            <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe prioritaire</p>
-              <p className="mt-3 text-lg font-semibold text-[var(--navy)]">{weakestSkill.label}</p>
+              <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{weakestSkill.label}</p>
               <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">C’est l’endroit où une séance bien choisie rapportera le plus vite.</p>
             </Card>
           </div>
         </Card>
 
         <div className="space-y-6">
-          <Card variant="default" className="rounded-[24px] bg-[var(--card)]/90 shadow-[var(--shadow-md)]" padding="md">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Points de vigilance</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
+          <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Points de vigilance</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
               Les erreurs récurrentes doivent rester visibles, pas seulement ressenties.
             </h2>
 
@@ -373,15 +373,15 @@ export default function ProfilPage() {
             ) : (
               <div className="mt-8 space-y-3">
                 {topErrors.map((entry) => (
-                  <article key={`${entry.type}-${entry.firstSeen}`} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+                  <article key={`${entry.type}-${entry.firstSeen}`} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <div className="flex items-start gap-4">
-                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--surface-premium)] text-[var(--gold-muted)]">
+                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--surface-premium)] text-[var(--color-amber-300)]">
                         <AlertTriangle className="h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <p className="text-sm font-semibold text-[var(--navy)]">{entry.type}</p>
-                          <Badge variant="outline" size="sm" className="border-[var(--gold-muted)]/18 font-bold uppercase tracking-[0.16em] text-[var(--warning-text)]">
+                          <p className="text-sm font-semibold text-[var(--c-primary)]">{entry.type}</p>
+                          <Badge variant="outline" size="sm" className="border-[var(--color-amber-300)]/18 font-bold uppercase tracking-[0.16em] text-[var(--warning-text)]">
                             {entry.count} occurrences
                           </Badge>
                         </div>
@@ -394,8 +394,8 @@ export default function ProfilPage() {
             )}
           </Card>
 
-          <Card variant="dark" className="rounded-[24px] border border-[var(--navy)] shadow-[var(--shadow-lg)]" padding="md">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">72 prochaines heures</p>
+          <Card variant="dark" className="rounded-[24px] border border-[var(--c-primary)] shadow-[var(--shadow-md)]" padding="md">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">72 prochaines heures</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
               Les prochaines tâches doivent être courtes, claires et immédiatement lançables.
             </h2>
@@ -408,7 +408,7 @@ export default function ProfilPage() {
                       <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${PRIORITY_STYLE[task.priority]}`}>
                         {task.priority}
                       </Badge>
-                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--text-on-navy-muted)]">
+                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-slate-300)]">
                         {task.estimatedMinutes} min · {formatShortDate(task.dueDate)}
                       </span>
                     </div>
@@ -418,10 +418,10 @@ export default function ProfilPage() {
               ) : (
                 <div className="flex flex-col items-center gap-3 rounded-[24px] border border-white/10 bg-white/8 p-6 text-center backdrop-blur-sm">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                    <Target className="h-5 w-5 text-[var(--text-on-navy-muted)]" />
+                    <Target className="h-5 w-5 text-[var(--color-slate-300)]" />
                   </div>
                   <p className="text-sm font-semibold text-white">Pas encore de tâches planifiées</p>
-                  <p className="max-w-sm text-sm leading-7 text-[var(--text-on-navy-muted)]">
+                  <p className="max-w-sm text-sm leading-7 text-[var(--color-slate-300)]">
                     Ouvre ton parcours ou lance un atelier pour que les prochaines actions concrètes apparaissent ici.
                   </p>
                 </div>
@@ -431,14 +431,14 @@ export default function ProfilPage() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-5 py-3 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-5 py-3 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 Voir tout le plan
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={tutorHref}
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-5 py-3 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
+                className="inline-flex items-center justify-center rounded-full border border-white/14 px-5 py-3 text-sm font-semibold text-[var(--bg-page)] transition-colors hover:bg-white/6"
               >
                 Demander une relance
               </Link>
@@ -447,15 +447,15 @@ export default function ProfilPage() {
         </div>
       </section>
 
-      <Card variant="default" className="rounded-[24px] bg-[var(--card)]/90 shadow-[var(--shadow-md)]" padding="md">
+      <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Badges et traces positives</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Badges et traces positives</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
               Les marqueurs de progression comptent aussi pour soutenir la constance.
             </h2>
           </div>
-          <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--surface-warm)] font-semibold text-[var(--text-secondary)]">
+          <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] font-semibold text-[var(--text-secondary)]">
             {resolvedProfile.badges.length} badges actifs
           </Badge>
         </div>
@@ -471,7 +471,7 @@ export default function ProfilPage() {
               action={
                 <Link
                   href="/atelier-ecrit"
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-2.5 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
                 >
                   Lancer un atelier
                   <ArrowRight className="h-4 w-4" />

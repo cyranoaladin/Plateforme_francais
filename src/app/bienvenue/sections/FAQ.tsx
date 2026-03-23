@@ -45,7 +45,7 @@ function FaqItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] shadow-[var(--shadow-sm)]">
+    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] shadow-[var(--shadow-sm)]">
       <button
         type="button"
         onClick={onToggle}
@@ -53,10 +53,10 @@ function FaqItem({
         aria-expanded={open}
       >
         <div className="flex items-start gap-4">
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--surface-warm-accent)] text-xs font-bold text-[var(--navy)]">
+          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--bg-surface-secondary)] text-xs font-bold text-[var(--c-primary)]">
             {String(index + 1).padStart(2, '0')}
           </span>
-          <span className="pt-1 text-sm font-semibold text-[var(--navy)] md:text-base">{question}</span>
+          <span className="pt-1 text-sm font-semibold text-[var(--c-primary)] md:text-base">{question}</span>
         </div>
         {open ? <ChevronUp className="h-5 w-5 shrink-0 text-[var(--text-muted)]" /> : <ChevronDown className="h-5 w-5 shrink-0 text-[var(--text-muted)]" />}
       </button>
@@ -72,15 +72,15 @@ export function FAQ() {
     <section id="faq" className="scroll-mt-24 py-20 md:py-24">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.76fr_1.24fr] lg:px-8">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Questions fréquentes</p>
-          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Questions fréquentes</p>
+          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
             Les objections doivent être traitées avec autant de soin que les promesses.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
             Une page d{'\u2019'}accueil sérieuse répond clairement aux questions sensibles : cadre pédagogique, sources, sécurité, accessibilité, support.
           </p>
 
-          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-md)]">
+          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)]">
             <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--text-on-navy-soft)]">
               <MessageSquareText className="h-5 w-5" />
             </div>

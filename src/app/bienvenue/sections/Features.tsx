@@ -8,7 +8,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Atelier écrit',
     icon: FileStack,
-    tone: 'bg-[var(--navy)] text-[var(--surface-parchment)] border-white/10',
+    tone: 'bg-[var(--c-primary)] text-[var(--bg-page)] border-white/10',
     badge: 'Production longue',
     span: 'lg:col-span-7',
     body: 'Dépose une copie PDF ou image, récupère une analyse automatique, une correction par rubriques et un rapport clair à reprendre.',
@@ -17,7 +17,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Oral officiel',
     icon: Mic,
-    tone: 'bg-[var(--card)] text-[var(--navy)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--bg-surface)] text-[var(--c-primary)] border-[var(--border-strong)]',
     badge: 'Format EAF',
     span: 'lg:col-span-5',
     body: 'Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.',
@@ -26,7 +26,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Corpus et citations',
     icon: ScanSearch,
-    tone: 'bg-[var(--card)] text-[var(--navy)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--bg-surface)] text-[var(--c-primary)] border-[var(--border-strong)]',
     badge: 'Sources visibles',
     span: 'lg:col-span-4',
     body: 'Le guidage et les ateliers mobilisent BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles et réutilisables.',
@@ -35,7 +35,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Langue et quiz adaptatif',
     icon: BrainCircuit,
-    tone: 'bg-[var(--surface-warm-accent)] text-[var(--navy)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--bg-surface-secondary)] text-[var(--c-primary)] border-[var(--border-strong)]',
     badge: 'Relance ciblée',
     span: 'lg:col-span-4',
     body: 'Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.',
@@ -44,7 +44,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Guidage personnalisé et mémoire de progression',
     icon: MessageCircleMore,
-    tone: 'bg-[var(--card)] text-[var(--navy)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--bg-surface)] text-[var(--c-primary)] border-[var(--border-strong)]',
     badge: 'Accompagnement actif',
     span: 'lg:col-span-4',
     body: 'Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance au lieu de repartir de zéro.',
@@ -58,10 +58,10 @@ export function Features() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Ateliers EAF</p>
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Ateliers EAF</p>
             <h2
               style={EDITORIAL_HEADING}
-              className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl"
+              className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
             >
               Tout ce qu{'\u2019'}il faut pour réussir l{'\u2019'}EAF, organisé par usage réel.
             </h2>
@@ -108,11 +108,11 @@ export function Features() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div className="mt-10 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Fil directeur</p>
-              <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Fil directeur</p>
+              <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
                 De la copie à la relance, le même système garde le cap.
               </h3>
             </div>
@@ -122,9 +122,9 @@ export function Features() {
                 { icon: ScanSearch, title: 'Justifier', text: 'Les réponses exploitables gardent la trace des sources et des attentes.' },
                 { icon: BrainCircuit, title: 'Réactiver', text: 'Le retour alimente ensuite le parcours au lieu de se perdre.' },
               ].map((item) => (
-                <div key={item.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
-                  <item.icon className="h-5 w-5 text-[var(--teal)]" />
-                  <p className="mt-3 text-sm font-bold text-[var(--navy)]">{item.title}</p>
+                <div key={item.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <item.icon className="h-5 w-5 text-[var(--c-success)]" />
+                  <p className="mt-3 text-sm font-bold text-[var(--c-primary)]">{item.title}</p>
                   <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.text}</p>
                 </div>
               ))}

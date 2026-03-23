@@ -12,21 +12,21 @@ function cn(...inputs: Parameters<typeof clsx>) {
 
 const variantStyles = {
   default:
-    'bg-[var(--surface-cream)] text-[var(--text-body)] border border-[var(--border-default)]',
+    'bg-[var(--bg-surface-secondary)] text-[var(--text-body)] border border-[var(--border-default)]',
   success:
-    'bg-[var(--success-bg)] text-[var(--teal)] border border-[var(--teal)]/20',
+    'bg-[var(--bg-success)] text-[var(--c-success)] border border-[var(--c-success)]/20',
   warning:
-    'bg-[var(--warning-bg)] text-[var(--warning)] border border-[var(--warning)]/20',
+    'bg-[var(--bg-reward)] text-[var(--warning)] border border-[var(--warning)]/20',
   error:
-    'bg-[var(--error-bg)] text-[var(--error)] border border-[var(--error)]/20',
+    'bg-[var(--c-accent-subtle)] text-[var(--error)] border border-[var(--error)]/20',
   info:
     'bg-[var(--info-bg)] text-[var(--info)] border border-[var(--info)]/20',
   premium:
-    'bg-gradient-to-r from-[var(--gold)]/10 to-[var(--gold-muted)]/10 text-[var(--gold-contrast)] border border-[var(--gold)]/30',
+    'bg-gradient-to-r from-[var(--gold)]/10 to-[var(--color-amber-300)]/10 text-[var(--text-reward-on-subtle)] border border-[var(--gold)]/30',
   navy:
-    'bg-[var(--navy)] text-white',
+    'bg-[var(--c-primary)] text-white',
   outline:
-    'bg-[var(--card)] text-[var(--text-body)] border border-[var(--border-default)]',
+    'bg-[var(--bg-surface)] text-[var(--text-body)] border border-[var(--border-default)]',
 } as const;
 
 const sizeStyles = {

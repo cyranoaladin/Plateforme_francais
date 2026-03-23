@@ -11,20 +11,20 @@ const EDITORIAL_HEADING = {
 const PLANS = [
   {
     name: 'Freemium',
-    accent: 'border-[var(--border-strong)] bg-[var(--card)] text-[var(--navy)]',
+    accent: 'border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--c-primary)]',
     kicker: 'Fais tes premiers pas vers le Bac.',
     bullets: ["Voir le vrai produit", "Configuration et premiers ateliers", "Vérifier si le cadre te convient"],
   },
   {
     name: 'Premium',
-    accent: 'border-[var(--navy)] bg-[var(--navy)] text-[var(--surface-parchment)] shadow-[var(--shadow-lg)]',
+    accent: 'border-[var(--c-primary)] bg-[var(--c-primary)] text-[var(--bg-page)] shadow-[var(--shadow-md)]',
     kicker: 'La méthode complète pour assurer ta réussite.',
     bullets: ["Soutenir une vraie routine hebdomadaire", "Moins de friction sur oral, écrit et tuteur", "Le bon rythme sans surpayer"],
     featured: true,
   },
   {
     name: 'Masterium',
-    accent: 'border-[var(--border-strong)] bg-[var(--surface-warm-accent)] text-[var(--navy)]',
+    accent: 'border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] text-[var(--c-primary)]',
     kicker: "L\u2019excellence absolue pour décrocher la mention.",
     bullets: ["Volume élevé sans coupure", "Confort sur les semaines chargées", "Conçu pour un usage vraiment intensif"],
   },
@@ -36,8 +36,8 @@ export function PricingTeaser() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Plans et valeur</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Plans et valeur</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
               Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
@@ -48,7 +48,7 @@ export function PricingTeaser() {
               <Link
                 href="/pricing"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_teaser', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3.5 text-sm font-bold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
               >
                 Voir les tarifs, quotas et paiements
                 <ArrowRight className="h-4 w-4" />
@@ -56,7 +56,7 @@ export function PricingTeaser() {
               <Link
                 href="/login?mode=register"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_register', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--card)] px-6 py-3.5 text-sm font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-6 py-3.5 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
               >
                 Essayer gratuitement
               </Link>
@@ -74,7 +74,7 @@ export function PricingTeaser() {
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <h3 style={EDITORIAL_HEADING} className="text-3xl tracking-[-0.03em]">{plan.name}</h3>
                   {plan.featured ? (
-                    <span className="rounded-full bg-[var(--surface-parchment)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--navy)]">
+                    <span className="rounded-full bg-[var(--bg-page)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--c-primary)]">
                       Recommandé
                     </span>
                   ) : null}

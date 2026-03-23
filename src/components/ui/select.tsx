@@ -89,8 +89,8 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             id={selectId}
             disabled={disabled}
             className={cn(
-              'w-full appearance-none rounded-[var(--radius-md)] bg-[var(--surface-paper)] border transition-all duration-[var(--transition-base)]',
-              'focus:outline-none focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20',
+              'w-full appearance-none rounded-[var(--radius-md)] bg-[var(--surface-paper)] border transition-all duration-[var(--transition-normal)]',
+              'focus:outline-none focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20',
               'disabled:opacity-60 disabled:cursor-not-allowed',
               error
                 ? 'border-[var(--error)] focus:border-[var(--error)] focus:ring-[var(--error)]/20'

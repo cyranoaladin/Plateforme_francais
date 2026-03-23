@@ -15,17 +15,17 @@ function cn(...inputs: Parameters<typeof clsx>) {
 
 const variantStyles = {
   primary:
-    'bg-[var(--navy)] text-white hover:bg-[var(--navy-dark)] hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
+    'bg-[var(--c-primary)] text-white hover:bg-[var(--c-primary-active)] hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
   secondary:
-    'bg-[var(--card)] text-[var(--navy)] border border-[var(--navy)] hover:bg-[var(--surface-cream)]',
+    'bg-[var(--bg-surface)] text-[var(--c-primary)] border border-[var(--c-primary)] hover:bg-[var(--bg-surface-secondary)]',
   ghost:
-    'bg-transparent text-[var(--navy)] hover:bg-[var(--surface-cream)]',
+    'bg-transparent text-[var(--c-primary)] hover:bg-[var(--bg-surface-secondary)]',
   danger:
     'bg-[var(--error)] text-white hover:brightness-90',
   gold:
-    'bg-gradient-to-r from-[var(--gold)] to-[var(--gold-muted)] text-[var(--gold-contrast)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-gold)]',
+    'bg-gradient-to-r from-[var(--gold)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-gold)]',
   teal:
-    'bg-[var(--teal)] text-white hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
+    'bg-[var(--c-success)] text-white hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
 } as const;
 
 const sizeStyles = {
@@ -88,8 +88,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           // Base
           'inline-flex items-center justify-center rounded-[var(--radius-md)] font-medium',
-          'transition-all duration-[var(--transition-base)]',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--teal)]',
+          'transition-all duration-[var(--transition-normal)]',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)]',
           'disabled:opacity-50 disabled:pointer-events-none',
           // Variant & size
           variantStyles[variant],

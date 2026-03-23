@@ -122,36 +122,36 @@ export default function CarnetPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] px-6 py-7 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
               <BookOpen className="h-4 w-4" />
               Carnet de lecture
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Un lieu pour garder les œuvres vivantes, pas seulement les résumer.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
               Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l'entretien et à retrouver vite une matière personnelle quand il faut reparler d'une œuvre.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
             <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Entrées</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">Entrées</p>
               <p className="mt-2 text-2xl font-semibold text-white">{entries.length}</p>
             </div>
             <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Œuvres</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">Œuvres</p>
               <p className="mt-2 text-2xl font-semibold text-white">{grouped.length}</p>
             </div>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- download endpoint */}
             <a href="/api/v1/carnet/export" className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 text-white backdrop-blur-sm transition hover:bg-white/14">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">Export</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">Export</p>
               <p className="mt-2 inline-flex items-center gap-2 text-base font-semibold"><Download className="h-4 w-4" /> Exporter en PDF</p>
             </a>
           </div>
@@ -164,14 +164,14 @@ export default function CarnetPage() {
 
       <div className="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-lg)]">
+          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Nouvelle entrée</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Nouvelle entrée</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Noter pendant que c'est encore vivant
                 </h2>
               </div>
@@ -194,7 +194,7 @@ export default function CarnetPage() {
                   id="carnet-type"
                   value={type}
                   onChange={(event) => setType(event.target.value as CarnetEntry['type'])}
-                  className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
+                  className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                 >
                   {TYPES.map((entryType) => (
                     <option key={entryType} value={entryType}>{TYPE_LABELS[entryType]}</option>
@@ -238,13 +238,13 @@ export default function CarnetPage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Répartition des notes</p>
+          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Répartition des notes</p>
             <div className="mt-4 space-y-3">
               {typeStats.map((item) => (
-                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-3 text-sm text-[var(--navy-mid)]">
+                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[var(--border-success)] bg-white/88 px-4 py-3 text-sm text-[var(--text-body)]">
                   <span>{item.label}</span>
-                  <span className="font-semibold text-[var(--navy)]">{item.count}</span>
+                  <span className="font-semibold text-[var(--c-primary)]">{item.count}</span>
                 </div>
               ))}
             </div>
@@ -266,27 +266,27 @@ export default function CarnetPage() {
               variant="info"
               icon={Quote}
               center
-              className="border-dashed bg-[var(--surface-warm-empty)] px-6 py-12"
+              className="border-dashed bg-[var(--bg-surface-secondary)] px-6 py-12"
             />
           ) : (
             grouped.map(([oeuvreName, oeuvreEntries]) => (
-              <section key={oeuvreName} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
+              <section key={oeuvreName} className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
                 <div className="flex items-center justify-between gap-3">
-                  <h2 className="text-xl font-semibold text-[var(--navy)]">{oeuvreName}</h2>
-                  <span className="rounded-full bg-[var(--navy)]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--navy)]">
+                  <h2 className="text-xl font-semibold text-[var(--c-primary)]">{oeuvreName}</h2>
+                  <span className="rounded-full bg-[var(--c-primary)]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--c-primary)]">
                     {oeuvreEntries.length} entrée{oeuvreEntries.length > 1 ? 's' : ''}
                   </span>
                 </div>
                 <div className="mt-4 space-y-3">
                   {oeuvreEntries.map((entry) => (
-                    <article key={entry.id} className="rounded-[16px] border border-[var(--surface-sand)] bg-[var(--card)] p-4 shadow-[var(--shadow-sm)]">
-                      <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--text-warm)]">
-                        <Badge variant="navy" size="sm" className="bg-[var(--navy)]/8 text-[var(--navy)]">{TYPE_LABELS[entry.type]}</Badge>
+                    <article key={entry.id} className="rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-4 shadow-[var(--shadow-sm)]">
+                      <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--text-body)]">
+                        <Badge variant="navy" size="sm" className="bg-[var(--c-primary)]/8 text-[var(--c-primary)]">{TYPE_LABELS[entry.type]}</Badge>
                         <span>{new Date(entry.createdAt).toLocaleDateString('fr-FR')}</span>
                         {entry.page ? <span>p.{entry.page}</span> : null}
                       </div>
-                      <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-[var(--navy-mid)]">{entry.contenu}</p>
-                      {entry.tags.length > 0 && <p className="mt-3 text-xs text-[var(--text-caption)]">#{entry.tags.join(' #')}</p>}
+                      <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-[var(--text-body)]">{entry.contenu}</p>
+                      {entry.tags.length > 0 && <p className="mt-3 text-xs text-[var(--text-muted)]">#{entry.tags.join(' #')}</p>}
                     </article>
                   ))}
                 </div>

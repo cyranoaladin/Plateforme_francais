@@ -30,21 +30,21 @@ const MAP_RECO: Record<
     label: 'Relancer la grammaire ciblée',
     detail: 'Reprendre un exercice bref et précis pour consolider la notion qui décroche le plus vite.',
     icon: BrainCircuit,
-    accent: 'from-[var(--navy)] via-[#22486e] to-[var(--teal)]',
+    accent: 'from-[var(--c-primary)] via-[#22486e] to-[var(--c-success)]',
   },
   problematisation: {
     href: '/atelier-ecrit',
     label: 'Retendre la problématique',
     detail: 'Retravailler la tension du sujet avant de produire pour éviter un plan correct mais sans colonne vertébrale.',
     icon: BookOpen,
-    accent: 'from-[var(--accent-earth)] via-[var(--gold-muted)] to-[#d6a15d]',
+    accent: 'from-[var(--color-amber-700)] via-[var(--color-amber-300)] to-[#d6a15d]',
   },
   'explication lineaire': {
     href: '/atelier-oral',
     label: 'Relancer une explication linéaire',
     detail: 'Refaire une prise de parole guidée pour retrouver l’enchaînement texte, axe, procédé, effet.',
     icon: Mic,
-    accent: 'from-[var(--teal)] via-[#149a8f] to-[#7ed4c2]',
+    accent: 'from-[var(--c-success)] via-[#149a8f] to-[#7ed4c2]',
   },
   'lecture cursive': {
     href: '/bibliotheque',
@@ -104,7 +104,7 @@ export function ParcoursRecommandation({ weakSignals, weakSkills = [], className
   const Icon = recommended.icon;
 
   return (
-    <div className={`mt-6 overflow-hidden rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] ${className}`.trim()}>
+    <div className={`mt-6 overflow-hidden rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] ${className}`.trim()}>
       <div className={`bg-gradient-to-r ${recommended.accent} px-5 py-4 text-white`}>
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-white/80">
           <Sparkles className="h-4 w-4" />
@@ -127,7 +127,7 @@ export function ParcoursRecommandation({ weakSignals, weakSkills = [], className
         </p>
         <Link
           href={recommended.href}
-          className="inline-flex items-center gap-2 rounded-full border border-[var(--navy)]/14 bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:border-[var(--teal)] hover:text-[var(--teal)]"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--c-primary)]/14 bg-[var(--bg-surface)] px-4 py-2 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
         >
           Ouvrir l’atelier
           <ArrowRight className="h-4 w-4" />

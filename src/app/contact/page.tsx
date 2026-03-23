@@ -68,22 +68,22 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.12),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-screen bg-[var(--bg-surface-secondary)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.12),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <main className="relative mx-auto max-w-3xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)]/80 px-5 py-4 shadow-[var(--shadow-md)]">
+        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/80 px-5 py-4 shadow-[var(--shadow-md)]">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
           </Link>
-          <Link href="/" className="rounded-full px-4 py-2 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
+          <Link href="/" className="rounded-full px-4 py-2 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--c-primary)]">
             Retour accueil
           </Link>
         </header>
 
         <section className="mt-10">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Contact</p>
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Contact</p>
           <h1
             style={EDITORIAL_HEADING}
-            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl"
+            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
           >
             Une question, un virement à confirmer, un bug à signaler ?
           </h1>
@@ -92,7 +92,7 @@ export default function ContactPage() {
           </p>
         </section>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)]/85 p-6 shadow-[var(--shadow-md)] md:p-8">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 shadow-[var(--shadow-md)] md:p-8">
           <div className="grid gap-5 sm:grid-cols-2">
             <Input
               label="Nom"
@@ -158,18 +158,18 @@ export default function ContactPage() {
           ) : null}
         </form>
 
-        <div className="mt-8 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-5">
+        <div className="mt-8 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Autres moyens de contact</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3">
+            <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">WhatsApp</p>
-              <a href="https://wa.me/21699192829" target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
+              <a href="https://wa.me/21699192829" target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
                 +216 99 19 28 29
               </a>
             </div>
-            <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] px-4 py-3">
+            <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Email direct</p>
-              <a href="mailto:contact@nexusreussite.academy" className="mt-2 block text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
+              <a href="mailto:contact@nexusreussite.academy" className="mt-2 block text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
                 contact@nexusreussite.academy
               </a>
             </div>

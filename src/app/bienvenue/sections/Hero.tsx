@@ -54,17 +54,17 @@ export function Hero() {
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 md:pt-20 lg:px-8 lg:pb-20">
         <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
           <div className="max-w-3xl [animation:bienvenueFadeUp_.8s_ease-out_both]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--navy)] shadow-sm">
-              <BadgeCheck className="h-4 w-4 text-[var(--teal)]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--c-primary)] shadow-sm">
+              <BadgeCheck className="h-4 w-4 text-[var(--c-success)]" />
               Parcours EAF complet
             </div>
 
             <h1
               style={EDITORIAL_HEADING}
-              className="mt-7 text-5xl leading-[0.96] tracking-[-0.04em] text-[var(--navy)] sm:text-6xl lg:text-7xl"
+              className="mt-7 text-5xl leading-[0.96] tracking-[-0.04em] text-[var(--c-primary)] sm:text-6xl lg:text-7xl"
             >
               La préparation EAF qui se laisse vérifier avant d’être achetée,
-              <span className="block text-[var(--teal)]">puis accompagne vraiment quand le rythme monte.</span>
+              <span className="block text-[var(--c-success)]">puis accompagne vraiment quand le rythme monte.</span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-body)] sm:text-xl">
@@ -76,7 +76,7 @@ export function Hero() {
               <Link
                 href="/login?mode=register"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'hero_register', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-6 py-3.5 text-base font-bold text-[var(--surface-parchment)] shadow-[var(--shadow-lg)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3.5 text-base font-bold text-[var(--bg-page)] shadow-[var(--shadow-md)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
               >
                 Créer mon espace gratuit
                 <ArrowRight className="h-4 w-4" />
@@ -84,14 +84,14 @@ export function Hero() {
               <a
                 href="#comment-ca-marche"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--card)] px-6 py-3.5 text-base font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--card)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-6 py-3.5 text-base font-semibold text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
               >
                 Voir la méthode
               </a>
               <Link
                 href="/pricing"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/bienvenue' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--c-primary)]"
               >
                 Comparer les plans
               </Link>
@@ -100,7 +100,7 @@ export function Hero() {
             <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--text-secondary)]">
               {FRICTION_REMOVERS.map((item) => (
                 <span key={item} className="inline-flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--c-success)]" />
                   {item}
                 </span>
               ))}
@@ -110,7 +110,7 @@ export function Hero() {
               {MICRO_PROOFS.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)] shadow-sm"
+                  className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)] shadow-sm"
                 >
                   {item}
                 </span>
@@ -119,10 +119,10 @@ export function Hero() {
           </div>
 
           <div className="relative [animation:bienvenueFadeUp_.95s_ease-out_.12s_both]">
-            <div className="absolute -left-6 top-12 hidden h-24 w-24 rounded-full bg-[var(--gold-muted)]/18 blur-2xl lg:block" />
-            <div className="absolute -right-4 top-20 hidden h-16 w-16 rounded-full bg-[var(--teal)]/20 blur-2xl lg:block [animation:bienvenueFloat_8s_ease-in-out_infinite]" />
+            <div className="absolute -left-6 top-12 hidden h-24 w-24 rounded-full bg-[var(--color-amber-300)]/18 blur-2xl lg:block" />
+            <div className="absolute -right-4 top-20 hidden h-16 w-16 rounded-full bg-[var(--c-success)]/20 blur-2xl lg:block [animation:bienvenueFloat_8s_ease-in-out_infinite]" />
 
-            <div className="rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8">
+            <div className="rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--text-on-navy-soft)]">Ton tableau de bord</p>
@@ -130,7 +130,7 @@ export function Hero() {
                     Une séance, des retours immédiatement exploitables.
                   </h2>
                 </div>
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--surface-parchment)]">
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--bg-page)]">
                   <Clock3 className="h-3.5 w-3.5 text-[var(--text-on-navy-soft)]" />
                   Session 2026
                 </div>
@@ -139,15 +139,15 @@ export function Hero() {
               <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--border-warm)]">Simulation orale</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-amber-300)]">Simulation orale</p>
                     <p className="mt-1 text-sm text-slate-200">Score ventilé selon le format officiel, sans zone floue.</p>
                   </div>
-                  <div className="rounded-full bg-[var(--teal)]/25 px-3 py-1 text-xs font-bold text-[var(--surface-parchment)]">16.5 / 20</div>
+                  <div className="rounded-full bg-[var(--c-success)]/25 px-3 py-1 text-xs font-bold text-[var(--bg-page)]">16.5 / 20</div>
                 </div>
 
                 <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
                   {ORAL_PHASES.map((phase) => (
-                    <div key={phase.label} className="rounded-2xl border border-white/10 bg-[var(--navy-dark)] px-3 py-3">
+                    <div key={phase.label} className="rounded-2xl border border-white/10 bg-[var(--c-primary-active)] px-3 py-3">
                       <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">{phase.label}</p>
                       <p className="mt-2 text-lg font-bold text-white">{phase.score}</p>
                     </div>
@@ -181,7 +181,7 @@ export function Hero() {
                           <span>à retravailler</span>
                         </div>
                         <div className="h-2 rounded-full bg-white/10">
-                          <div className="h-2 rounded-full bg-gradient-to-r from-[var(--gold-muted)] to-[var(--teal)]" style={{ width: signal.width }} />
+                          <div className="h-2 rounded-full bg-gradient-to-r from-[var(--color-amber-300)] to-[var(--c-success)]" style={{ width: signal.width }} />
                         </div>
                       </div>
                     ))}
@@ -189,13 +189,13 @@ export function Hero() {
                 </div>
               </div>
 
-              <div className="mt-4 rounded-[24px] bg-[var(--surface-cream)] p-4 text-[var(--navy)] shadow-inner">
+              <div className="mt-4 rounded-[24px] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)] shadow-inner">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Chaîne de valeur</p>
                     <p className="mt-1 text-base font-semibold">Copie déposée → correction structurée → rapport PDF → relance ciblée</p>
                   </div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-3 py-1.5 text-xs font-bold text-[var(--surface-parchment)]">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-3 py-1.5 text-xs font-bold text-[var(--bg-page)]">
                     <ShieldCheck className="h-3.5 w-3.5" />
                     anti-copie actif
                   </div>
@@ -209,10 +209,10 @@ export function Hero() {
           {HERO_STATS.map((stat, index) => (
             <div
               key={stat.label}
-              className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
+              className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
               style={{ animationDelay: `${0.18 + index * 0.08}s` }}
             >
-              <p style={EDITORIAL_HEADING} className="text-3xl tracking-[-0.03em] text-[var(--navy)]">
+              <p style={EDITORIAL_HEADING} className="text-3xl tracking-[-0.03em] text-[var(--c-primary)]">
                 {stat.value}
               </p>
               <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">{stat.label}</p>

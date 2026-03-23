@@ -262,20 +262,20 @@ export default function AtelierEcritPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] px-6 py-7 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.08fr_0.92fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
               <PenTool className="h-4 w-4" />
               Atelier écrit
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
               Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser
               entre dix écrans. L'interface suit un seul objectif : te faire passer d'une intention floue à un rapport exploitable.
             </p>
@@ -288,7 +288,7 @@ export default function AtelierEcritPage() {
               { label: 'Rapport', value: copieLink ? 'Disponible' : pollingStatus ? 'En analyse' : 'À venir' },
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">{item.label}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
@@ -307,7 +307,7 @@ export default function AtelierEcritPage() {
           {upgradeUrl && (
             <Link
               href={upgradeUrl}
-              className="inline-flex items-center gap-2 rounded-2xl bg-[var(--sapphire)] px-5 py-3 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 rounded-2xl bg-[var(--c-primary)] px-5 py-3 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.02]"
             >
               Découvrir les plans <ChevronRight className="h-4 w-4" />
             </Link>
@@ -321,10 +321,10 @@ export default function AtelierEcritPage() {
           return (
             <article
               key={step.index}
-              className={`rounded-[24px] border px-5 py-5 shadow-[var(--shadow-sm)] transition ${isActive ? 'border-[var(--navy)]/18 bg-[var(--card)]' : 'border-[var(--border-light)] bg-[var(--surface-warm-card)]'}`}
+              className={`rounded-[24px] border px-5 py-5 shadow-[var(--shadow-sm)] transition ${isActive ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)]' : 'border-[var(--border-default)] bg-[var(--bg-surface)]'}`}
             >
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Étape {step.index}</p>
-              <h2 className="mt-3 text-lg font-semibold text-[var(--navy)]">{step.title}</h2>
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Étape {step.index}</p>
+              <h2 className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{step.title}</h2>
               <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{step.body}</p>
             </article>
           );
@@ -333,14 +333,14 @@ export default function AtelierEcritPage() {
 
       <div className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
         <div className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-6 shadow-[var(--shadow-lg)] md:p-7">
+          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Étape 1</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Étape 1</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Génère un sujet d'épreuve blanche.
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
@@ -360,7 +360,7 @@ export default function AtelierEcritPage() {
                       id="epreuve-type"
                       value={type}
                       onChange={(event) => setType(event.target.value as EpreuveType)}
-                      className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20"
+                      className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                     >
                       <option value="commentaire">Commentaire</option>
                       <option value="dissertation">Dissertation</option>
@@ -396,24 +396,24 @@ export default function AtelierEcritPage() {
               </div>
             ) : (
               <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_280px]">
-                <div className="rounded-[24px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 shadow-[var(--shadow-sm)]">
-                  <p className="text-sm font-semibold text-[var(--navy)]">{sanitizeLlmText(epreuve.sujet)}</p>
+                <div className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
+                  <p className="text-sm font-semibold text-[var(--c-primary)]">{sanitizeLlmText(epreuve.sujet)}</p>
                   {sanitizeLlmText(epreuve.texte).length > 0 && (
-                    <p className="mt-4 whitespace-pre-line text-sm italic leading-7 text-[var(--navy-mid)]">{sanitizeLlmText(epreuve.texte)}</p>
+                    <p className="mt-4 whitespace-pre-line text-sm italic leading-7 text-[var(--text-body)]">{sanitizeLlmText(epreuve.texte)}</p>
                   )}
                   <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--text-secondary)]">{sanitizeLlmText(epreuve.consignes)}</p>
                 </div>
-                <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--teal)]">Barème</p>
+                <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-success)]">Barème</p>
                   <div className="mt-4 space-y-2.5">
                     {baremeEntries.map(([label, points]) => (
-                      <div key={label} className="flex items-center justify-between rounded-[16px] border border-[var(--border-success-soft)] bg-[var(--card)] px-3 py-3 text-sm text-[var(--navy)]">
+                      <div key={label} className="flex items-center justify-between rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-3 py-3 text-sm text-[var(--c-primary)]">
                         <span className="capitalize">{label.replace(/_/g, ' ')}</span>
                         <span className="font-semibold">{points} pts</span>
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => setEpreuve(null)} className="mt-4 min-h-[44px] text-sm font-medium text-[var(--teal)] hover:underline">
+                  <button onClick={() => setEpreuve(null)} className="mt-4 min-h-[44px] text-sm font-medium text-[var(--c-success)] hover:underline">
                     Changer de sujet
                   </button>
                 </div>
@@ -421,14 +421,14 @@ export default function AtelierEcritPage() {
             )}
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-6 shadow-[var(--shadow-lg)] md:p-7">
+          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--teal)]/8 text-[var(--teal)]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-success)]/8 text-[var(--c-success)]">
                 <Upload className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Étape 2</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Étape 2</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Déposer ma copie
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
@@ -438,13 +438,13 @@ export default function AtelierEcritPage() {
             </div>
 
             {pollingStatus && pollingStatus !== 'done' && !copieLink ? (
-              <div className="mt-6 rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] px-6 py-10 text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--card)] shadow-[var(--shadow-sm)]">
-                  <Loader2 className="h-8 w-8 animate-spin text-[var(--teal)]" />
+              <div className="mt-6 rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] px-6 py-10 text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--bg-surface)] shadow-[var(--shadow-sm)]">
+                  <Loader2 className="h-8 w-8 animate-spin text-[var(--c-success)]" />
                 </div>
-                <h3 className="text-lg font-semibold text-[var(--navy)]">Ta copie est entre de bonnes mains</h3>
+                <h3 className="text-lg font-semibold text-[var(--c-primary)]">Ta copie est entre de bonnes mains</h3>
                 <p className="mt-2 text-sm font-medium text-[var(--success-text)]">{PROCESSING_STEPS[processingStepIndex]}</p>
-                <p className="mt-3 text-xs text-[var(--text-caption)]">Cela prend généralement entre 30 secondes et 2 minutes.</p>
+                <p className="mt-3 text-xs text-[var(--text-muted)]">Cela prend généralement entre 30 secondes et 2 minutes.</p>
               </div>
             ) : (
               <div className="mt-6 space-y-5">
@@ -455,11 +455,11 @@ export default function AtelierEcritPage() {
                     const file = event.dataTransfer.files?.[0];
                     if (file) setSelectedFile(file);
                   }}
-                  className={`rounded-[24px] border-2 border-dashed p-8 text-center transition ${epreuve ? 'cursor-pointer border-[var(--border-success)] bg-[var(--success-bg)]/45 hover:border-[var(--teal)]/35 hover:bg-[var(--success-bg)]' : 'pointer-events-none border-[var(--border-warm-mid)] bg-[var(--surface-warm-card)] opacity-60'}`}
+                  className={`rounded-[24px] border-2 border-dashed p-8 text-center transition ${epreuve ? 'cursor-pointer border-[var(--border-success)] bg-[var(--bg-success)]/45 hover:border-[var(--c-success)]/35 hover:bg-[var(--bg-success)]' : 'pointer-events-none border-[var(--border-default)] bg-[var(--bg-surface)] opacity-60'}`}
                   onClick={() => epreuve && fileInputRef.current?.click()}
                 >
                   <UploadCloud className="mx-auto h-12 w-12 text-[var(--text-icon)]" />
-                  <h3 className="mt-4 text-lg font-semibold text-[var(--navy)]">Dépose ta copie ici</h3>
+                  <h3 className="mt-4 text-lg font-semibold text-[var(--c-primary)]">Dépose ta copie ici</h3>
                   <p className="mt-2 text-sm text-[var(--text-secondary)]">PDF, JPG, PNG ou WEBP (Max 20MB)</p>
                   <div className="mt-5 flex flex-wrap justify-center gap-3">
                     <button
@@ -468,7 +468,7 @@ export default function AtelierEcritPage() {
                         fileInputRef.current?.click();
                       }}
                       disabled={!epreuve}
-                      className="min-h-[44px] rounded-[16px] border border-[var(--border-sand)] bg-[var(--card)] px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:opacity-50"
+                      className="min-h-[44px] rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-2.5 text-sm font-medium text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:opacity-50"
                     >
                       Choisir un fichier
                     </button>
@@ -478,7 +478,7 @@ export default function AtelierEcritPage() {
                         mobileInputRef.current?.click();
                       }}
                       disabled={!epreuve}
-                      className="inline-flex min-h-[44px] items-center gap-2 rounded-[16px] border border-[var(--border-sand)] bg-[var(--card)] px-4 py-2.5 text-sm font-medium text-[var(--navy)] transition hover:border-[var(--navy)]/18 disabled:opacity-50"
+                      className="inline-flex min-h-[44px] items-center gap-2 rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-2.5 text-sm font-medium text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:opacity-50"
                     >
                       <Camera className="h-4 w-4" />
                       Photo
@@ -504,21 +504,21 @@ export default function AtelierEcritPage() {
                 </div>
 
                 {selectedFile && (
-                  <div className="rounded-[24px] border border-[var(--surface-sand)] bg-[var(--card)] p-5 shadow-[var(--shadow-sm)]">
+                  <div className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div>
-                        <p className="text-sm font-semibold text-[var(--navy)]">{selectedFile.name}</p>
-                        <p className="mt-1 text-xs text-[var(--text-caption)]">{(selectedFile.size / (1024 * 1024)).toFixed(1)} MB</p>
+                        <p className="text-sm font-semibold text-[var(--c-primary)]">{selectedFile.name}</p>
+                        <p className="mt-1 text-xs text-[var(--text-muted)]">{(selectedFile.size / (1024 * 1024)).toFixed(1)} MB</p>
                       </div>
                       <Badge variant="navy" size="sm" className="uppercase tracking-[0.14em]">
                         {selectedFile.type === 'application/pdf' ? 'PDF' : 'Image'}
                       </Badge>
                     </div>
                     {selectedFile.type.startsWith('image/') && previewUrl && (
-                      <img src={previewUrl} alt="Aperçu copie" className="mt-4 max-h-72 rounded-[16px] border border-[var(--surface-sand)] object-contain" />
+                      <img src={previewUrl} alt="Aperçu copie" className="mt-4 max-h-72 rounded-[16px] border border-[var(--border-default)] object-contain" />
                     )}
                     {selectedFile.type === 'application/pdf' && (
-                      <div className="mt-4 inline-flex items-center gap-2 rounded-[16px] bg-[var(--success-bg)] px-4 py-3 text-sm text-[var(--teal)]">
+                      <div className="mt-4 inline-flex items-center gap-2 rounded-[16px] bg-[var(--bg-success)] px-4 py-3 text-sm text-[var(--c-success)]">
                         <FileText className="h-4 w-4" />
                         PDF prêt à l'envoi
                       </div>
@@ -527,10 +527,10 @@ export default function AtelierEcritPage() {
                 )}
 
                 {isUploading && (
-                  <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5">
+                  <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
                     <p className="text-sm text-[var(--success-text)]">Envoi en cours… {uploadProgress}%</p>
-                    <div className="mt-3 h-2 overflow-hidden rounded-full bg-[var(--card)]/80">
-                      <div className="h-2 rounded-full bg-[var(--teal)] transition-all" style={{ width: `${uploadProgress}%` }} />
+                    <div className="mt-3 h-2 overflow-hidden rounded-full bg-[var(--bg-surface)]/80">
+                      <div className="h-2 rounded-full bg-[var(--c-success)] transition-all" style={{ width: `${uploadProgress}%` }} />
                     </div>
                   </div>
                 )}
@@ -541,7 +541,7 @@ export default function AtelierEcritPage() {
                   onClick={handleUpload}
                   icon={<Upload className="h-4 w-4" />}
                   size="lg"
-                  className="rounded-[16px] bg-[var(--teal)] font-semibold hover:bg-[var(--teal-hover)]"
+                  className="rounded-[16px] bg-[var(--c-success)] font-semibold hover:bg-[var(--c-success)]"
                 >
                   Lancer la correction détaillée
                 </Button>
@@ -549,23 +549,23 @@ export default function AtelierEcritPage() {
             )}
 
             {copieLink && (
-              <div className="mt-6 rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] px-6 py-8 text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--card)] text-[var(--teal)] shadow-[var(--shadow-md)]">
+              <div className="mt-6 rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] px-6 py-8 text-center">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--bg-surface)] text-[var(--c-success)] shadow-[var(--shadow-md)]">
                   <FileText className="h-8 w-8" />
                 </div>
-                <h3 className="text-lg font-semibold text-[var(--navy)]">Ton rapport de correction est prêt</h3>
+                <h3 className="text-lg font-semibold text-[var(--c-primary)]">Ton rapport de correction est prêt</h3>
                 <p className="mx-auto mt-2 max-w-md text-sm leading-7 text-[var(--success-text)]">Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire.</p>
                 <div className="mt-6 flex flex-col items-center gap-3">
                   <Link
                     href={`/atelier-ecrit/correction/${copieLink.copieId}?epreuveId=${copieLink.epreuveId}`}
-                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[var(--teal)] px-6 py-3 text-sm font-bold text-white transition hover:bg-[var(--teal-light)]"
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[var(--c-success)] px-6 py-3 text-sm font-bold text-white transition hover:bg-[var(--color-emerald-400)]"
                   >
                     Voir mon rapport
                     <ChevronRight className="h-4 w-4" />
                   </Link>
                   <Link
                     href={tutorHref}
-                    className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                    className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-2.5 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
                   >
                     Préparer le retravail avec le guidage
                   </Link>
@@ -576,29 +576,29 @@ export default function AtelierEcritPage() {
         </div>
 
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-md)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Cadre de travail</p>
+          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Cadre de travail</p>
             <div className="mt-4 space-y-3">
               {[
                 'Utilise un sujet à la fois pour garder une correction lisible.',
                 'Privilégie des photos nettes, plates, bien éclairées.',
                 'Relis le rapport immédiatement pour transformer les conseils en prochaine action.',
               ].map((item) => (
-                <div key={item} className="rounded-[16px] border border-[var(--border-success-soft)] bg-[var(--card)]/88 px-4 py-4 text-sm leading-7 text-[var(--navy-mid)]">
+                <div key={item} className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
                   {item}
                 </div>
               ))}
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--surface-warm-section)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--gold-muted)]/10 text-[var(--accent-bronze)]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--color-amber-300)]/10 text-[var(--c-reward)]">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-[var(--navy)]">Pourquoi cette page existe</p>
-                <p className="text-xs text-[var(--text-warm)]">Écrire, déposer, corriger, puis retravailler</p>
+                <p className="text-sm font-semibold text-[var(--c-primary)]">Pourquoi cette page existe</p>
+                <p className="text-xs text-[var(--text-body)]">Écrire, déposer, corriger, puis retravailler</p>
               </div>
             </div>
             <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
@@ -607,15 +607,15 @@ export default function AtelierEcritPage() {
           </section>
 
           {epreuve && (
-            <section className="rounded-[24px] border border-[var(--border-light)] bg-[var(--card)] p-5 shadow-[var(--shadow-md)]">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Sujet actif</p>
-              <p className="mt-3 text-sm font-semibold leading-7 text-[var(--navy)]">{sanitizeLlmText(epreuve.sujet)}</p>
+            <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Sujet actif</p>
+              <p className="mt-3 text-sm font-semibold leading-7 text-[var(--c-primary)]">{sanitizeLlmText(epreuve.sujet)}</p>
               <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                 {epreuve.generatedAt ? `Généré le ${new Date(epreuve.generatedAt).toLocaleDateString('fr-FR')}` : 'Sujet prêt à être travaillé.'}
               </p>
               <Link
                 href={tutorHref}
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:text-[var(--teal)]"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:text-[var(--c-success)]"
               >
                 Questionner le sujet avec le guidage
               </Link>
@@ -628,7 +628,7 @@ export default function AtelierEcritPage() {
         {badgeToasts.map((badge) => (
           <div
             key={badge}
-            className="rounded-[16px] border border-[var(--border-success)] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)] shadow-[var(--shadow-md)]"
+            className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)] shadow-[var(--shadow-md)]"
             role="status"
             aria-live="polite"
           >

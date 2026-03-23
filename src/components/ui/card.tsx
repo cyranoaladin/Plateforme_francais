@@ -12,15 +12,15 @@ function cn(...inputs: Parameters<typeof clsx>) {
 
 const variantStyles = {
   default:
-    'bg-[var(--card)] text-[var(--card-foreground)] border border-[var(--border-light)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xs)]',
+    'bg-[var(--bg-surface)] text-[var(--text-heading)] border border-[var(--border-default)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xs)]',
   elevated:
-    'bg-[var(--card)] text-[var(--card-foreground)] border border-[var(--border-light)] rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] transition-transform duration-[var(--transition-base)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]',
+    'bg-[var(--bg-surface)] text-[var(--text-heading)] border border-[var(--border-default)] rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] transition-transform duration-[var(--transition-normal)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]',
   outlined:
     'bg-transparent border-2 border-[var(--border-default)] rounded-[var(--radius-lg)]',
   dark:
-    'bg-[var(--navy)] text-white border-0 rounded-[var(--radius-lg)]',
+    'bg-[var(--c-primary)] text-white border-0 rounded-[var(--radius-lg)]',
   premium:
-    'bg-[var(--card)] text-[var(--card-foreground)] border-2 border-[var(--gold)]/30 rounded-[var(--radius-lg)] shadow-[var(--shadow-gold)]',
+    'bg-[var(--bg-surface)] text-[var(--text-heading)] border-2 border-[var(--gold)]/30 rounded-[var(--radius-lg)] shadow-[var(--shadow-gold)]',
 } as const;
 
 const paddingStyles = {
@@ -71,7 +71,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         className={cn(
           variantStyles[variant],
           paddingStyles[padding],
-          hoverable && 'transition-all duration-[var(--transition-base)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]',
+          hoverable && 'transition-all duration-[var(--transition-normal)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]',
           className,
         )}
         {...rest}

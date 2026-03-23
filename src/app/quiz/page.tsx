@@ -198,20 +198,20 @@ export default function QuizPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] px-6 py-7 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] px-6 py-7 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
               <Brain className="h-4 w-4" />
               Quiz adaptatif
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Des QCM courts pour fixer les repères utiles avant qu’ils ne glissent hors du radar.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-on-navy-muted)] md:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
               Choisis un thème, ajuste la difficulté, génère un bloc de questions et transforme le résultat en signal utile pour la suite de ton parcours.
             </p>
           </div>
@@ -223,7 +223,7 @@ export default function QuizPage() {
               { label: 'Résultat', value: submitted ? `${score}%` : 'En attente' },
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--border-warm)]">{item.label}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
@@ -240,7 +240,7 @@ export default function QuizPage() {
             icon={Brain}
           />
           {upgradeUrl && (
-            <Link href={upgradeUrl} className="inline-flex items-center gap-2 rounded-2xl bg-[var(--sapphire)] px-5 py-3 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.02]">
+            <Link href={upgradeUrl} className="inline-flex items-center gap-2 rounded-2xl bg-[var(--c-primary)] px-5 py-3 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.02]">
               Découvrir les plans
             </Link>
           )}
@@ -249,14 +249,14 @@ export default function QuizPage() {
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-lg)]">
+          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--accent-bronze)]">Configuration du quiz</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Configuration du quiz</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Paramètres de séance
                 </h2>
               </div>
@@ -264,14 +264,14 @@ export default function QuizPage() {
 
             <div className="mt-6 space-y-4">
               <div>
-                <label htmlFor="quiz-theme" className="mb-1.5 block text-sm font-semibold text-[var(--navy)]">
+                <label htmlFor="quiz-theme" className="mb-1.5 block text-sm font-semibold text-[var(--c-primary)]">
                   <BookOpen className="mr-1.5 inline h-4 w-4" /> Thème
                 </label>
                 <select
                   id="quiz-theme"
                   value={theme}
                   onChange={(event) => setTheme(event.target.value as QuizTheme)}
-                  className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
                   disabled={isGenerating}
                 >
                   {THEME_GROUPS.map((group) => (
@@ -286,14 +286,14 @@ export default function QuizPage() {
 
               <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-1">
                 <div>
-                  <label htmlFor="quiz-difficulte" className="mb-1.5 block text-sm font-semibold text-[var(--navy)]">
+                  <label htmlFor="quiz-difficulte" className="mb-1.5 block text-sm font-semibold text-[var(--c-primary)]">
                     <GraduationCap className="mr-1.5 inline h-4 w-4" /> Difficulté
                   </label>
                   <select
                     id="quiz-difficulte"
                     value={difficulte}
                     onChange={(event) => setDifficulte(Number(event.target.value) as 1 | 2 | 3)}
-                    className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isGenerating}
                   >
                     <option value={1}>Facile — Révision des bases</option>
@@ -302,14 +302,14 @@ export default function QuizPage() {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="quiz-nb-questions" className="mb-1.5 block text-sm font-semibold text-[var(--navy)]">
+                  <label htmlFor="quiz-nb-questions" className="mb-1.5 block text-sm font-semibold text-[var(--c-primary)]">
                     Nombre de questions
                   </label>
                   <select
                     id="quiz-nb-questions"
                     value={nbQuestions}
                     onChange={(event) => setNbQuestions(Number(event.target.value) as 5 | 10 | 20)}
-                    className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--navy)] outline-none transition-all duration-[var(--transition-base)] focus:border-[var(--teal)] focus:ring-2 focus:ring-[var(--teal)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--surface-paper)] px-3 py-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isGenerating}
                   >
                     <option value={5}>5 questions — Rapide</option>
@@ -330,20 +330,20 @@ export default function QuizPage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--success-bg)] p-5 shadow-[var(--shadow-lg)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--teal)]">Usage conseillé</p>
-            <div className="mt-4 space-y-3 text-sm leading-7 text-[var(--navy-mid)]">
-              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
-              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Lis l’explication après validation : c’est elle qui transforme le score en progrès réel.</p>
-              <p className="rounded-[20px] border border-[var(--border-success-soft)] bg-white/88 px-4 py-4">Un score faible n’est pas un échec : c’est un signal pour cibler la prochaine révision.</p>
+          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Usage conseillé</p>
+            <div className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
+              <p className="rounded-[20px] border border-[var(--border-success)] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
+              <p className="rounded-[20px] border border-[var(--border-success)] bg-white/88 px-4 py-4">Lis l’explication après validation : c’est elle qui transforme le score en progrès réel.</p>
+              <p className="rounded-[20px] border border-[var(--border-success)] bg-white/88 px-4 py-4">Un score faible n’est pas un échec : c’est un signal pour cibler la prochaine révision.</p>
             </div>
           </section>
         </aside>
 
         <section className="space-y-5">
           {activeThemeLabel && questions.length > 0 && (
-            <div className="rounded-[24px] border border-[var(--border-light)] bg-[var(--card)] px-5 py-4 shadow-[var(--shadow-md)] text-sm text-[var(--text-secondary)]">
-              Quiz : <span className="font-semibold text-[var(--navy)]">{activeThemeLabel}</span> — {questions.length} question{questions.length > 1 ? 's' : ''}
+            <div className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-5 py-4 shadow-[var(--shadow-md)] text-sm text-[var(--text-secondary)]">
+              Quiz : <span className="font-semibold text-[var(--c-primary)]">{activeThemeLabel}</span> — {questions.length} question{questions.length > 1 ? 's' : ''}
             </div>
           )}
 
@@ -359,13 +359,13 @@ export default function QuizPage() {
           ) : (
             <div className="space-y-4">
               {questions.map((question, index) => (
-                <section key={question.id} className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
+                <section key={question.id} className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-sm font-semibold text-[var(--navy)]">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-sm font-semibold text-[var(--c-primary)]">
                       {index + 1}
                     </div>
                     <div className="flex-1">
-                      <h2 className="text-base font-semibold leading-7 text-[var(--navy)]">{sanitizeLlmText(question.enonce)}</h2>
+                      <h2 className="text-base font-semibold leading-7 text-[var(--c-primary)]">{sanitizeLlmText(question.enonce)}</h2>
                       <div className="mt-4 grid gap-2">
                         {question.options.map((option, optionIndex) => {
                           const checked = answers[question.id] === optionIndex;
@@ -375,7 +375,7 @@ export default function QuizPage() {
                           return (
                             <label
                               key={`${question.id}-${optionIndex}`}
-                              className={`cursor-pointer rounded-[20px] border p-4 text-sm leading-7 transition-all duration-[var(--transition-base)] focus-within:ring-2 focus-within:ring-[var(--teal)]/20 ${isGood ? 'border-[var(--border-success-vivid)] bg-[var(--success-bg)] text-[var(--teal)] font-semibold' : isBad ? 'border-[var(--error-border)] bg-[var(--error-bg)] text-[var(--error-text)]' : checked ? 'border-[var(--navy)]/18 bg-[var(--card)] text-[var(--navy)]' : 'border-[var(--surface-sand)] bg-[var(--card)] text-[var(--navy-mid)] hover:border-[var(--navy)]/18'}`}
+                              className={`cursor-pointer rounded-[20px] border p-4 text-sm leading-7 transition-all duration-[var(--transition-normal)] focus-within:ring-2 focus-within:ring-[var(--c-success)]/20 ${isGood ? 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--c-success)] font-semibold' : isBad ? 'border-[var(--border-accent)] bg-[var(--c-accent-subtle)] text-[var(--c-accent)]' : checked ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)] text-[var(--c-primary)]' : 'border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--text-body)] hover:border-[var(--c-primary)]/18'}`}
                             >
                               <input
                                 type="radio"
@@ -391,7 +391,7 @@ export default function QuizPage() {
                         })}
                       </div>
                       {submitted && (
-                        <div className="mt-4 rounded-[20px] border border-[var(--border-success)] bg-[var(--success-bg)] p-4 text-sm leading-7 text-[var(--navy-mid)]">
+                        <div className="mt-4 rounded-[20px] border border-[var(--border-success)] bg-[var(--bg-success)] p-4 text-sm leading-7 text-[var(--text-body)]">
                           {sanitizeLlmText(question.explication)}
                         </div>
                       )}
@@ -403,7 +403,7 @@ export default function QuizPage() {
           )}
 
           {questions.length > 0 && (
-            <div className="rounded-[24px] border border-[var(--border-light)] bg-[linear-gradient(180deg,var(--surface-warm-card-top)_0%,var(--surface-warm-card)_100%)] p-5 shadow-[var(--shadow-md)]">
+            <div className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
               {!submitted ? (
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-sm text-[var(--text-secondary)]">
@@ -416,11 +416,11 @@ export default function QuizPage() {
               ) : (
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-lg font-bold ${score >= 80 ? 'bg-[var(--success-bg)] text-[var(--teal)]' : score >= 50 ? 'bg-[var(--warning-bg)] text-[var(--gold-deep)]' : 'bg-[var(--error-bg)] text-[var(--error-text)]'}`} role="status" aria-live="polite">
+                    <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-lg font-bold ${score >= 80 ? 'bg-[var(--bg-success)] text-[var(--c-success)]' : score >= 50 ? 'bg-[var(--bg-reward)] text-[var(--c-reward)]' : 'bg-[var(--c-accent-subtle)] text-[var(--c-accent)]'}`} role="status" aria-live="polite">
                       {score}%
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-[var(--navy)]">
+                      <p className="text-sm font-semibold text-[var(--c-primary)]">
                         {score >= 80 ? 'Excellent travail !' : score >= 50 ? 'Des bases solides, continue.' : 'Ce thème mérite une révision ciblée.'}
                       </p>
                       <p className="text-xs text-[var(--text-secondary)]">
@@ -439,7 +439,7 @@ export default function QuizPage() {
                     </Button>
                     <Link
                       href={tutorHref}
-                      className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                      className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-2.5 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
                     >
                       Reprendre ce thème avec le guidage
                     </Link>
@@ -453,7 +453,7 @@ export default function QuizPage() {
 
       <div className="fixed bottom-24 right-6 z-50 space-y-2 md:bottom-6">
         {badgeToasts.map((badge) => (
-          <div key={badge} className="rounded-[16px] border border-[var(--border-success-vivid)] bg-[var(--success-bg)] px-4 py-3 text-sm font-medium text-[var(--teal)] shadow-[var(--shadow-md)]" role="status" aria-live="polite">
+          <div key={badge} className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)] shadow-[var(--shadow-md)]" role="status" aria-live="polite">
             Badge débloqué : {badge}
           </div>
         ))}

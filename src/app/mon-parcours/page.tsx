@@ -74,64 +74,64 @@ const TYPE_META: Record<
 > = {
   oral: {
     label: 'Oral',
-    tone: 'bg-[var(--teal)] text-white',
-    softTone: 'border-[var(--teal)]/16 bg-[var(--surface-teal-light)] text-[var(--teal)]',
+    tone: 'bg-[var(--c-success)] text-white',
+    softTone: 'border-[var(--c-success)]/16 bg-[var(--surface-teal-light)] text-[var(--c-success)]',
     icon: Mic,
   },
   grammaire: {
     label: 'Grammaire',
-    tone: 'bg-[var(--gold-muted)] text-white',
-    softTone: 'border-[var(--gold-muted)]/16 bg-[var(--surface-premium)] text-[var(--warning-text)]',
+    tone: 'bg-[var(--color-amber-300)] text-white',
+    softTone: 'border-[var(--color-amber-300)]/16 bg-[var(--surface-premium)] text-[var(--warning-text)]',
     icon: BrainCircuit,
   },
   langue: {
     label: 'Langue',
-    tone: 'bg-[var(--gold-muted)] text-white',
-    softTone: 'border-[var(--gold-muted)]/16 bg-[var(--surface-premium)] text-[var(--warning-text)]',
+    tone: 'bg-[var(--color-amber-300)] text-white',
+    softTone: 'border-[var(--color-amber-300)]/16 bg-[var(--surface-premium)] text-[var(--warning-text)]',
     icon: BrainCircuit,
   },
   ecrit: {
     label: 'Écrit',
-    tone: 'bg-[var(--navy)] text-white',
-    softTone: 'border-[var(--navy)]/14 bg-[var(--surface-navy-light)] text-[var(--navy)]',
+    tone: 'bg-[var(--c-primary)] text-white',
+    softTone: 'border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] text-[var(--c-primary)]',
     icon: PenTool,
   },
   lecture: {
     label: 'Lecture',
-    tone: 'bg-[var(--accent-violet)] text-white',
-    softTone: 'border-[var(--accent-violet)]/16 bg-[var(--surface-violet-light)] text-[var(--accent-violet)]',
+    tone: 'bg-[var(--c-primary)] text-white',
+    softTone: 'border-[var(--c-primary)]/16 bg-[var(--surface-violet-light)] text-[var(--c-primary)]',
     icon: BookOpen,
   },
   revisions: {
     label: 'Révisions',
-    tone: 'bg-[var(--accent-violet)] text-white',
-    softTone: 'border-[var(--accent-violet)]/16 bg-[var(--surface-violet-light)] text-[var(--accent-violet)]',
+    tone: 'bg-[var(--c-primary)] text-white',
+    softTone: 'border-[var(--c-primary)]/16 bg-[var(--surface-violet-light)] text-[var(--c-primary)]',
     icon: BookOpen,
   },
   fiches: {
     label: 'Fiches',
-    tone: 'bg-[var(--accent-violet)] text-white',
-    softTone: 'border-[var(--accent-violet)]/16 bg-[var(--surface-violet-light)] text-[var(--accent-violet)]',
+    tone: 'bg-[var(--c-primary)] text-white',
+    softTone: 'border-[var(--c-primary)]/16 bg-[var(--surface-violet-light)] text-[var(--c-primary)]',
     icon: BookOpen,
   },
   quiz: {
     label: 'Quiz',
-    tone: 'bg-[var(--navy)] text-white',
-    softTone: 'border-[var(--navy)]/14 bg-[var(--surface-navy-light)] text-[var(--navy)]',
+    tone: 'bg-[var(--c-primary)] text-white',
+    softTone: 'border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] text-[var(--c-primary)]',
     icon: Sparkles,
   },
   organisation: {
     label: 'Organisation',
-    tone: 'bg-[var(--accent-earth)] text-white',
-    softTone: 'border-[var(--accent-earth)]/16 bg-[var(--surface-premium)] text-[var(--accent-earth)]',
+    tone: 'bg-[var(--color-amber-700)] text-white',
+    softTone: 'border-[var(--color-amber-700)]/16 bg-[var(--surface-premium)] text-[var(--color-amber-700)]',
     icon: CalendarDays,
   },
 };
 
 const PRIORITY_META = {
-  high: 'border-[var(--gold-muted)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]',
-  medium: 'border-[var(--navy)]/14 bg-[var(--surface-navy-light)] text-[var(--navy)]',
-  low: 'border-[var(--teal)]/14 bg-[var(--surface-teal-light)] text-[var(--teal)]',
+  high: 'border-[var(--color-amber-300)]/18 bg-[var(--surface-premium)] text-[var(--warning-text)]',
+  medium: 'border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] text-[var(--c-primary)]',
+  low: 'border-[var(--c-success)]/14 bg-[var(--surface-teal-light)] text-[var(--c-success)]',
 };
 
 function normalizeHref(href: string): string {
@@ -240,10 +240,10 @@ export default function MonParcoursPage() {
     }
 
     return [
-      { label: 'Écrit', score: profile.skillMap.ecrit, accent: 'bg-[var(--navy)]' },
-      { label: 'Oral', score: profile.skillMap.oral, accent: 'bg-[var(--teal)]' },
-      { label: 'Grammaire', score: profile.skillMap.grammaire, accent: 'bg-[var(--gold-muted)]' },
-      { label: 'Lecture cursive', score: profile.skillMap.lectureCursive, accent: 'bg-[var(--accent-violet)]' },
+      { label: 'Écrit', score: profile.skillMap.ecrit, accent: 'bg-[var(--c-primary)]' },
+      { label: 'Oral', score: profile.skillMap.oral, accent: 'bg-[var(--c-success)]' },
+      { label: 'Grammaire', score: profile.skillMap.grammaire, accent: 'bg-[var(--color-amber-300)]' },
+      { label: 'Lecture cursive', score: profile.skillMap.lectureCursive, accent: 'bg-[var(--c-primary)]' },
     ];
   }, [profile?.skillMap]);
 
@@ -281,20 +281,20 @@ export default function MonParcoursPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--navy)] p-6 text-[var(--surface-parchment)] shadow-[var(--shadow-xl)] md:p-8 lg:p-10">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-8%] hidden w-[40%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.04fr_0.96fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
               <MapIcon className="h-4 w-4" />
               Feuille de route Nexus
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               Ton parcours doit rendre la semaine lisible avant de la rendre ambitieuse.
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--text-on-navy-muted)] sm:text-lg">
+            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--color-slate-300)] sm:text-lg">
               {profile?.displayName ? `${profile.displayName}, ` : ''}ici, le plan transforme le profil, l’historique de travail et les attendus
               officiels en blocs concrets: quoi lancer, dans quel ordre, et comment reprendre sans perdre le fil.
             </p>
@@ -302,14 +302,14 @@ export default function MonParcoursPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href={nextPendingTask?.lien ?? '/atelier-oral'}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--surface-parchment)] px-6 py-3.5 text-sm font-bold text-[var(--navy)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-6 py-3.5 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white"
               >
                 {nextPendingTask ? 'Lancer la prochaine activité' : 'Ouvrir un atelier'}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/dashboard"
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--surface-parchment)] transition-colors hover:bg-white/6"
+                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--bg-page)] transition-colors hover:bg-white/6"
               >
                 Retour au tableau de bord
               </Link>
@@ -325,7 +325,7 @@ export default function MonParcoursPage() {
             ].map((item) => (
               <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--border-warm)]">
+                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -358,26 +358,26 @@ export default function MonParcoursPage() {
       <div className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
         <div className="space-y-6">
           {priorityTasks.length > 0 ? (
-            <Card variant="default" padding="md" className="bg-[var(--card)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7" role="region" aria-label="Priorités immédiates">
+            <Card variant="default" padding="md" className="bg-[var(--bg-surface)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7" role="region" aria-label="Priorités immédiates">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Priorités immédiates</p>
-                  <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-4xl md:text-5xl">
+                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Priorités immédiates</p>
+                  <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-4xl md:text-5xl">
                     Les trois prochains blocs qui méritent d’ouvrir la semaine.
                   </h2>
                 </div>
-                <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--surface-warm)] font-semibold text-[var(--text-secondary)]">
+                <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] font-semibold text-[var(--text-secondary)]">
                   Plan nourri par le travail réel
                 </Badge>
               </div>
 
               <div className="mt-8 grid gap-4 md:grid-cols-3">
                 {priorityTasks.map((task) => (
-                  <Card key={task.id} variant="default" padding="sm" className="border-[var(--border-strong)] bg-[var(--surface-warm)]" role="article">
+                  <Card key={task.id} variant="default" padding="sm" className="border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" role="article">
                     <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${PRIORITY_META[task.priority]}`}>
                       {task.priority === 'high' ? 'Haute' : task.priority === 'medium' ? 'Moyenne' : 'Faible'}
                     </Badge>
-                    <p className="mt-4 text-sm font-semibold leading-6 text-[var(--navy)]">{task.description}</p>
+                    <p className="mt-4 text-sm font-semibold leading-6 text-[var(--c-primary)]">{task.description}</p>
                     <p className="mt-3 text-sm text-[var(--text-muted)]">
                       {task.estimatedMinutes} min · {formatDueDate(task.dueDate)}
                     </p>
@@ -396,21 +396,21 @@ export default function MonParcoursPage() {
             const weekProgress = progressRatio(completedWeek, weekEntries.length);
 
             return (
-              <Card key={week.numero} variant="default" padding="md" className="bg-[var(--card)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7" role="region" aria-label={`Semaine ${week.numero}`}>
+              <Card key={week.numero} variant="default" padding="md" className="bg-[var(--bg-surface)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7" role="region" aria-label={`Semaine ${week.numero}`}>
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Semaine {week.numero}</p>
-                    <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
+                    <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Semaine {week.numero}</p>
+                    <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
                       {week.objectif}
                     </h2>
                   </div>
-                  <Card variant="default" padding="sm" className="min-w-[180px] rounded-[22px] border-[var(--border-strong)] bg-[var(--surface-warm)] text-sm text-[var(--text-secondary)]">
+                  <Card variant="default" padding="sm" className="min-w-[180px] rounded-[22px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-secondary)]">
                     <div className="flex items-center justify-between gap-3">
-                      <span className="font-semibold text-[var(--navy)]">Avancement</span>
+                      <span className="font-semibold text-[var(--c-primary)]">Avancement</span>
                       <span>{weekProgress}%</span>
                     </div>
-                    <div className="mt-3 h-2.5 rounded-full bg-[var(--surface-sand)]">
-                      <div className="h-2.5 rounded-full bg-[var(--navy)]" style={{ width: `${weekProgress}%` }} />
+                    <div className="mt-3 h-2.5 rounded-full bg-[var(--border-default)]">
+                      <div className="h-2.5 rounded-full bg-[var(--c-primary)]" style={{ width: `${weekProgress}%` }} />
                     </div>
                     <p className="mt-3 text-xs text-[var(--text-muted)]">
                       {completedWeek} / {weekEntries.length} activités cochées
@@ -431,7 +431,7 @@ export default function MonParcoursPage() {
                         padding="sm"
                         className={`transition-all ${
                           checked
-                            ? 'border-[var(--teal)]/24 bg-[var(--success-bg)] shadow-[var(--shadow-sm)]'
+                            ? 'border-[var(--c-success)]/24 bg-[var(--bg-success)] shadow-[var(--shadow-sm)]'
                             : 'border-[var(--border-strong)] bg-[var(--surface-paper)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]'
                         }`}
                       >
@@ -441,7 +441,7 @@ export default function MonParcoursPage() {
                               type="checkbox"
                               checked={checked}
                               onChange={() => void toggleActivity(id)}
-                              className="mt-1 h-4 w-4 accent-[var(--navy)]"
+                              className="mt-1 h-4 w-4 accent-[var(--c-primary)]"
                             />
                             <div className="min-w-0 flex-1">
                               <div className="flex flex-wrap items-center gap-2">
@@ -453,13 +453,13 @@ export default function MonParcoursPage() {
                                   {activity.duree}
                                 </Badge>
                               </div>
-                              <p className="mt-3 text-sm font-semibold leading-6 text-[var(--navy)]">{activity.titre}</p>
+                              <p className="mt-3 text-sm font-semibold leading-6 text-[var(--c-primary)]">{activity.titre}</p>
                             </div>
                           </div>
 
                           <Link
                             href={normalizeHref(activity.lien)}
-                            className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-4 py-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                            className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-2 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
                           >
                             Ouvrir
                           </Link>
@@ -483,14 +483,14 @@ export default function MonParcoursPage() {
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
                   <Link
                     href="/onboarding"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-5 py-3 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-3 text-sm font-bold text-[var(--bg-page)] transition-all hover:-translate-y-0.5"
                   >
                     Terminer la configuration
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link
                     href={tutorHref}
-                    className="inline-flex items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--card)] px-5 py-3 text-sm font-semibold text-[var(--navy)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+                    className="inline-flex items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-3 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
                   >
                     Ouvrir le guidage
                   </Link>
@@ -501,31 +501,31 @@ export default function MonParcoursPage() {
         </div>
 
         <aside className="space-y-6 xl:sticky xl:top-8 xl:self-start">
-          <Card variant="default" padding="md" className="bg-[var(--card)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cap du moment</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
+          <Card variant="default" padding="md" className="bg-[var(--bg-surface)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cap du moment</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
               Une vue compacte pour reprendre le plan sans inertie.
             </h2>
 
-            <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--surface-warm)] p-4">
+            <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
               <div className="flex items-center justify-between gap-3">
-                <span className="text-sm font-semibold text-[var(--navy)]">Progression globale</span>
+                <span className="text-sm font-semibold text-[var(--c-primary)]">Progression globale</span>
                 <span className="text-sm font-bold text-[var(--text-secondary)]">{completionPercent}%</span>
               </div>
-              <div className="mt-3 h-2.5 rounded-full bg-[var(--surface-sand)]">
-                <div className="h-2.5 rounded-full bg-[var(--navy)]" style={{ width: `${completionPercent}%` }} />
+              <div className="mt-3 h-2.5 rounded-full bg-[var(--border-default)]">
+                <div className="h-2.5 rounded-full bg-[var(--c-primary)]" style={{ width: `${completionPercent}%` }} />
               </div>
               <p className="mt-3 text-xs leading-5 text-[var(--text-muted)]">
                 {completedActivities} blocs validés sur {totalActivities || 0}. L’objectif est de garder une cadence tenable, pas de cocher pour cocher.
               </p>
             </div>
 
-            <div className="mt-5 rounded-[24px] border border-[var(--navy)]/14 bg-[var(--surface-navy-light)] p-4">
-              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--navy)]">
+            <div className="mt-5 rounded-[24px] border border-[var(--c-primary)]/14 bg-[var(--surface-navy-light)] p-4">
+              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-primary)]">
                 <Target className="h-4 w-4" />
                 Prochain bloc conseillé
               </div>
-              <p className="mt-3 text-sm font-semibold leading-6 text-[var(--navy)]">
+              <p className="mt-3 text-sm font-semibold leading-6 text-[var(--c-primary)]">
                 {nextPendingTask ? nextPendingTask.titre : 'Aucun bloc en attente pour le moment.'}
               </p>
               <p className="mt-2 text-sm text-[var(--text-secondary)]">
@@ -535,7 +535,7 @@ export default function MonParcoursPage() {
               </p>
               <Link
                 href={nextPendingTask?.lien ?? '/atelier-oral'}
-                className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[var(--navy)] transition-colors hover:text-[var(--teal)]"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[var(--c-primary)] transition-colors hover:text-[var(--c-success)]"
               >
                 Lancer ce bloc
                 <ArrowRight className="h-4 w-4" />
@@ -560,12 +560,12 @@ export default function MonParcoursPage() {
                 <Link
                   key={item.title}
                   href={item.href}
-                  className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--card)] p-4 transition-all hover:-translate-y-0.5 hover:border-[var(--teal)]"
+                  className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4 transition-all hover:-translate-y-0.5 hover:border-[var(--c-success)]"
                 >
-                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--navy)] text-[var(--surface-parchment)]">
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-[var(--bg-page)]">
                     <item.icon className="h-4 w-4" />
                   </div>
-                  <p className="mt-4 text-sm font-semibold text-[var(--navy)]">{item.title}</p>
+                  <p className="mt-4 text-sm font-semibold text-[var(--c-primary)]">{item.title}</p>
                   <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.detail}</p>
                 </Link>
               ))}
@@ -573,19 +573,19 @@ export default function MonParcoursPage() {
           </Card>
 
           {skillSummary.length > 0 ? (
-            <Card variant="default" padding="md" className="bg-[var(--card)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Niveau de départ</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--navy)]">
+            <Card variant="default" padding="md" className="bg-[var(--bg-surface)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Niveau de départ</p>
+              <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
                 Le parcours doit rester cohérent avec le profil mesuré.
               </h2>
               <div className="mt-6 space-y-5">
                 {skillSummary.map((skill) => (
                   <div key={skill.label}>
                     <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
-                      <span className="text-[var(--navy)]">{skill.label}</span>
+                      <span className="text-[var(--c-primary)]">{skill.label}</span>
                       <span className="text-[var(--text-muted)]">{skill.score.toFixed(1)} / 20</span>
                     </div>
-                    <div className="h-2.5 rounded-full bg-[var(--surface-sand)]">
+                    <div className="h-2.5 rounded-full bg-[var(--border-default)]">
                       <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(skill.score / 20) * 100}%` }} />
                     </div>
                   </div>

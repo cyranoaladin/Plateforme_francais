@@ -20,23 +20,23 @@ const CGU_ITEMS = [
 
 export default function CguPage() {
   return (
-    <div className="min-h-screen bg-[var(--surface-cream)] text-[var(--text-heading)] [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
+    <div className="min-h-screen bg-[var(--bg-surface-secondary)] text-[var(--text-heading)] [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
       <main className="relative mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--card)] px-5 py-4 shadow-[var(--shadow-md)]">
+        <header className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-4 shadow-[var(--shadow-md)]">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
           </Link>
-          <Link href="/" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--navy)]">
+          <Link href="/" className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--c-primary)]">
             <ArrowLeft className="h-4 w-4" />
             Retour accueil
           </Link>
         </header>
 
         <section className="mt-10">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--teal)]">Cadre contractuel</p>
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cadre contractuel</p>
           <h1
             style={EDITORIAL_HEADING}
-            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--navy)] sm:text-5xl"
+            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
           >
             Conditions Générales d{'\u2019'}Utilisation
           </h1>
@@ -46,13 +46,13 @@ export default function CguPage() {
         </section>
 
         <div className="mt-10 space-y-6">
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Scale className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Conditions d{'\u2019'}utilisation du service
                 </h2>
                 <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">Version 2026-03</p>
@@ -61,8 +61,8 @@ export default function CguPage() {
                 </p>
                 <div className="mt-4 space-y-3">
                   {CGU_ITEMS.map((item, index) => (
-                    <div key={item} className="flex items-start gap-3 rounded-[22px] border border-[var(--border-strong)] bg-[var(--surface-warm)] px-4 py-3">
-                      <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--navy)] text-[10px] font-bold text-[var(--surface-parchment)]">
+                    <div key={item} className="flex items-start gap-3 rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3">
+                      <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--c-primary)] text-[10px] font-bold text-[var(--bg-page)]">
                         {index + 1}
                       </span>
                       <p className="text-sm leading-6 text-[var(--text-body)]">{item}</p>
@@ -73,13 +73,13 @@ export default function CguPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <FileText className="h-5 w-5" />
               </div>
               <div>
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Propriété intellectuelle
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
@@ -90,13 +90,13 @@ export default function CguPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--navy)]/8 text-[var(--navy)]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Scale className="h-5 w-5" />
               </div>
               <div>
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--navy)]">
+                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Contact
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
@@ -104,7 +104,7 @@ export default function CguPage() {
                 </p>
                 <a
                   href="mailto:contact@nexusreussite.academy"
-                  className="mt-3 inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-[var(--surface-parchment)] transition-all hover:-translate-y-0.5 hover:bg-[var(--navy-dark)]"
+                  className="mt-3 inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-2.5 text-sm font-bold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
                 >
                   contact@nexusreussite.academy
                 </a>
@@ -113,17 +113,17 @@ export default function CguPage() {
           </article>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--card)] px-6 py-5 shadow-[var(--shadow-md)]">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--navy)] transition-colors hover:text-[var(--teal)]">
+        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-6 py-5 shadow-[var(--shadow-md)]">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:text-[var(--c-success)]">
             <ArrowLeft className="h-4 w-4" />
             Retour à l{'\u2019'}accueil
           </Link>
           <span className="text-[var(--text-placeholder)]">·</span>
-          <Link href="/mentions-legales" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
+          <Link href="/mentions-legales" className="text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
             Mentions légales
           </Link>
           <span className="text-[var(--text-placeholder)]">·</span>
-          <Link href="/politique-de-confidentialite" className="text-sm font-semibold text-[var(--teal)] transition-colors hover:underline">
+          <Link href="/politique-de-confidentialite" className="text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
             Politique de confidentialité
           </Link>
         </div>

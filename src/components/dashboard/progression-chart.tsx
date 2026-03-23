@@ -41,7 +41,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
 
   if (!isReady) {
     return (
-      <div className="flex h-64 w-full items-center justify-center rounded-[24px] bg-[var(--surface-warm)] text-sm text-[var(--text-muted)]">
+      <div className="flex h-64 w-full items-center justify-center rounded-[24px] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-muted)]">
         Préparation du graphique...
       </div>
     );
@@ -53,16 +53,16 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
         <LineChart data={data} margin={{ top: 8, right: 12, left: -12, bottom: 0 }}>
           <defs>
             <linearGradient id="progression-commentaire" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="var(--navy)" />
-              <stop offset="100%" stopColor="var(--navy-light)" />
+              <stop offset="0%" stopColor="var(--c-primary)" />
+              <stop offset="100%" stopColor="var(--c-primary-muted)" />
             </linearGradient>
             <linearGradient id="progression-dissertation" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="var(--gold-muted)" />
+              <stop offset="0%" stopColor="var(--color-amber-300)" />
               <stop offset="100%" stopColor="var(--gold)" />
             </linearGradient>
             <linearGradient id="progression-oral" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="var(--teal)" />
-              <stop offset="100%" stopColor="var(--teal-light)" />
+              <stop offset="0%" stopColor="var(--c-success)" />
+              <stop offset="100%" stopColor="var(--color-emerald-400)" />
             </linearGradient>
           </defs>
 
@@ -82,9 +82,9 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
           <Legend wrapperStyle={{ paddingTop: 12, fontSize: 11 }} iconType="circle" />
           <ReferenceLine
             y={target}
-            stroke="var(--gold-muted)"
+            stroke="var(--color-amber-300)"
             strokeDasharray="5 5"
-            label={{ value: 'Objectif', position: 'insideTopRight', fontSize: 10, fill: 'var(--accent-earth)' }}
+            label={{ value: 'Objectif', position: 'insideTopRight', fontSize: 10, fill: 'var(--color-amber-700)' }}
           />
           <Line
             type="monotone"
@@ -92,7 +92,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
             name="Commentaire"
             stroke="url(#progression-commentaire)"
             strokeWidth={3}
-            dot={{ r: 3, fill: 'var(--navy)', strokeWidth: 0 }}
+            dot={{ r: 3, fill: 'var(--c-primary)', strokeWidth: 0 }}
             activeDot={{ r: 5 }}
             connectNulls
           />
@@ -102,7 +102,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
             name="Dissertation"
             stroke="url(#progression-dissertation)"
             strokeWidth={3}
-            dot={{ r: 3, fill: 'var(--gold-muted)', strokeWidth: 0 }}
+            dot={{ r: 3, fill: 'var(--color-amber-300)', strokeWidth: 0 }}
             activeDot={{ r: 5 }}
             connectNulls
           />
@@ -112,7 +112,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
             name="Oral"
             stroke="url(#progression-oral)"
             strokeWidth={3}
-            dot={{ r: 3, fill: 'var(--teal)', strokeWidth: 0 }}
+            dot={{ r: 3, fill: 'var(--c-success)', strokeWidth: 0 }}
             activeDot={{ r: 5 }}
             connectNulls
           />
