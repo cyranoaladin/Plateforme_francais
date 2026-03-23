@@ -3,8 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { getDashboardUpgradeState } from '@/lib/billing/dashboard-upgrade';
 
 describe('getDashboardUpgradeState', () => {
-  it('suggests Premium for free accounts', () => {
-    expect(getDashboardUpgradeState('FREE')).toEqual({
+  it('suggests Premium for freemium accounts', () => {
+    expect(getDashboardUpgradeState('FREEMIUM')).toEqual({
       title: 'Tu utilises le plan Freemium — certains ateliers et ressources sont limités.',
       detail: 'Passe au Premium pour débloquer l’oral illimité, la bibliothèque complète et l’analyse de copies.',
       cta: 'Passer au Premium',
@@ -20,7 +20,7 @@ describe('getDashboardUpgradeState', () => {
   });
 
   it('hides the upgrade banner for Masterium aliases', () => {
+    expect(getDashboardUpgradeState('MASTERIUM')).toBeNull();
     expect(getDashboardUpgradeState('PRO')).toBeNull();
-    expect(getDashboardUpgradeState('MAX')).toBeNull();
   });
 });

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { loadTunisiaConfig, getDaysUntilExam, getExamPhase, getUpcomingSimulations } from '@/lib/config/tunisia';
+import { buildExamInfoPayload } from '@/lib/exam/exam-info';
 
 export async function GET() {
   const config = await loadTunisiaConfig();
@@ -7,14 +8,10 @@ export async function GET() {
   const phase = getExamPhase(daysUntil);
   const simulations = getUpcomingSimulations(config);
 
-  return NextResponse.json({
+  return NextResponse.json(buildExamInfoPayload({
+    config,
     daysUntilExam: daysUntil,
-    examDate: config.written_eaf.date,
-    examDayLabel: config.written_eaf.day_label,
-    phase: phase.phase,
-    phaseLabel: phase.label,
-    phaseAction: phase.action,
-    coefficient: config.written_eaf.coefficient,
+    phase,
     simulations,
-  });
+  }));
 }

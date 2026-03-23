@@ -1,4 +1,4 @@
-import { normalizePlanId } from '@/lib/billing/plan-catalog';
+import { toPublicPlanId } from '@/lib/billing/plan-catalog';
 
 export type DashboardUpgradeState = {
   title: string;
@@ -11,13 +11,13 @@ export function getDashboardUpgradeState(planId: string | null | undefined): Das
     return null;
   }
 
-  const normalizedPlanId = normalizePlanId(planId);
+  const publicPlanId = toPublicPlanId(planId);
 
-  if (normalizedPlanId === 'PRO' || normalizedPlanId === 'MAX') {
+  if (publicPlanId === 'MASTERIUM') {
     return null;
   }
 
-  if (normalizedPlanId === 'PREMIUM') {
+  if (publicPlanId === 'PREMIUM') {
     return {
       title: 'Tu utilises le plan Premium — passe au Masterium pour un accès total.',
       detail: 'Le Masterium inclut l’historique complet, le support prioritaire et le parcours adaptatif avancé.',

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { resolveDashboardCountdowns, type ExamInfoPayload } from '@/lib/exam/exam-info';
 
 type MemoryEvent = {
   id: string;
@@ -31,6 +32,10 @@ type TimelineResponse = {
   linkageStatus?: 'linked' | 'unlinked';
 };
 
+type DashboardData = TimelineResponse & {
+  examInfo?: ExamInfoPayload | null;
+};
+
 type SkillScores = {
   oral: number | null;
   ecrit: number | null;
@@ -54,6 +59,7 @@ export type DashboardMetrics = {
   countdownDays: number | null;
   countdownEcrit: number | null;
   countdownOral: number | null;
+  examInfo: ExamInfoPayload | null;
   hasEvaluationData: boolean;
   isLoading: boolean;
   error: string | null;
@@ -159,11 +165,12 @@ function averageBucket(values: number[]): number | null {
 }
 
 export function computeDashboardMetricsFromTimeline(
-  data: TimelineResponse | null,
+  data: DashboardData | null,
   isLoading: boolean = false,
   error: string | null = null,
 ): DashboardMetrics {
   const timeline = data?.timeline ?? [];
+  const countdowns = resolveDashboardCountdowns(data?.examInfo);
 
   const scoreBuckets: Record<keyof SkillScores, number[]> = {
     oral: [],
@@ -222,18 +229,10 @@ export function computeDashboardMetricsFromTimeline(
     eafDate: data?.profile.eafDate ?? null,
     selectedOeuvres: data?.profile.selectedOeuvres ?? [],
     oeuvreChoisieEntretien: data?.profile.oeuvreChoisieEntretien ?? null,
-    countdownDays:
-      data?.profile.eafDate
-        ? Math.max(
-            0,
-            Math.ceil(
-              (new Date(data.profile.eafDate).getTime() - new Date().getTime()) /
-                (1000 * 60 * 60 * 24),
-            ),
-          )
-        : null,
-    countdownEcrit: Math.max(0, Math.ceil((new Date('2026-06-08T08:00:00').getTime() - Date.now()) / 86_400_000)),
-    countdownOral: Math.max(0, Math.ceil((new Date('2026-06-19T00:00:00').getTime() - Date.now()) / 86_400_000)),
+    countdownDays: countdowns.countdownDays,
+    countdownEcrit: countdowns.countdownEcrit,
+    countdownOral: countdowns.countdownOral,
+    examInfo: data?.examInfo ?? null,
     hasEvaluationData,
     isLoading,
     error,
@@ -243,7 +242,7 @@ export function computeDashboardMetricsFromTimeline(
 }
 
 export function useDashboard(endpoint: string = '/api/v1/memory/timeline?limit=200'): DashboardMetrics {
-  const [data, setData] = useState<TimelineResponse | null>(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -251,8 +250,14 @@ export function useDashboard(endpoint: string = '/api/v1/memory/timeline?limit=2
     const load = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(endpoint);
-        
+        const [response, examInfoResponse] = await Promise.all([
+          fetch(endpoint),
+          fetch('/api/v1/exam-info'),
+        ]);
+        const officialExamInfo = examInfoResponse.ok
+          ? await examInfoResponse.json() as ExamInfoPayload
+          : null;
+
         if (!response.ok) {
           if (response.status === 401) {
             // Utilisateur non authentifié - utiliser des données par défaut
@@ -263,6 +268,7 @@ export function useDashboard(endpoint: string = '/api/v1/memory/timeline?limit=2
               },
               timeline: [],
               weakSignals: {},
+              examInfo: officialExamInfo,
             });
             setError(null);
             return;
@@ -271,7 +277,7 @@ export function useDashboard(endpoint: string = '/api/v1/memory/timeline?limit=2
         }
 
         const payload = (await response.json()) as TimelineResponse;
-        setData(payload);
+        setData({ ...payload, examInfo: officialExamInfo });
         setError(null);
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : 'Erreur inconnue.');

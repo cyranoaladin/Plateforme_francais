@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useSyncExternalStore, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
+import { usesStudentAppShell } from '@/lib/navigation/app-shell-paths';
 
 function useHasConsent(): boolean {
   const subscribe = useCallback((onStoreChange: () => void) => {
@@ -16,6 +18,8 @@ function useHasConsent(): boolean {
 export function ConsentBanner() {
   const hasConsent = useHasConsent();
   const [dismissed, setDismissed] = useState(false);
+  const pathname = usePathname();
+  const isStudentShellPage = usesStudentAppShell(pathname);
 
   if (hasConsent || dismissed) return null;
 
@@ -33,7 +37,11 @@ export function ConsentBanner() {
     <div
       role="dialog"
       aria-label="Consentement aux cookies analytiques"
-      className="fixed bottom-0 inset-x-0 z-[60] bg-[var(--bg-surface)] border-t border-[var(--border-strong)] p-4 shadow-lg flex flex-col sm:flex-row items-center gap-3"
+      className={`fixed inset-x-0 z-[60] flex flex-col items-center gap-3 bg-[var(--bg-surface)] p-4 shadow-lg sm:flex-row ${
+        isStudentShellPage
+          ? 'bottom-[calc(5.5rem+env(safe-area-inset-bottom))] mx-3 rounded-[var(--radius-xl)] border border-[var(--border-strong)] shadow-[var(--shadow-lg)] md:bottom-0 md:mx-0 md:rounded-none md:border-x-0 md:border-b-0 md:border-t'
+          : 'bottom-0 border-t border-[var(--border-strong)]'
+      }`}
     >
       <p className="text-sm text-[var(--text-body)] flex-1">
         Nexus Réussite utilise des données analytiques anonymes pour améliorer votre expérience.

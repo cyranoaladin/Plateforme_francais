@@ -192,34 +192,48 @@ const FOCUS_COPY = {
   },
 };
 
-const LAUNCHPAD = [
+const QUICK_ACCESS = [
   {
     title: 'Atelier oral',
     detail: 'Lecture, explication, entretien: repartir sur une séquence complète.',
     href: '/atelier-oral',
     icon: Mic,
-    tone: 'from-[var(--color-emerald-700)] via-[var(--color-emerald-500)] to-[var(--color-emerald-400)]',
+    accent: 'bg-[var(--bg-success)] text-[var(--text-success-on-subtle)]',
   },
   {
     title: 'Atelier écrit',
     detail: 'Commentaire, dissertation ou sujet blanc selon le besoin réel.',
     href: '/atelier-ecrit',
     icon: PenTool,
-    tone: 'from-[var(--color-coral-700)] via-[var(--color-coral-500)] to-[var(--color-coral-400)]',
+    accent: 'bg-[var(--c-accent-subtle)] text-[var(--c-accent-text)]',
+  },
+  {
+    title: 'Atelier langue',
+    detail: 'Exercices courts pour verrouiller les notions qui coûtent le plus de points.',
+    href: '/atelier-langue',
+    icon: BrainCircuit,
+    accent: 'bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
+  },
+  {
+    title: 'Quiz',
+    detail: 'Ancrer les repères sur les œuvres, les méthodes et les attentes du bac.',
+    href: '/quiz',
+    icon: Target,
+    accent: 'bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
   },
   {
     title: 'Bibliothèque',
     detail: 'Ressources courtes pour relancer méthode, œuvres et repères utiles.',
     href: '/bibliotheque',
     icon: BookOpen,
-    tone: 'from-[var(--color-indigo-800)] via-[var(--color-indigo-500)] to-[var(--color-indigo-400)]',
+    accent: 'bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
   },
   {
     title: 'Tuteur Nexus',
     detail: 'Débloquer une difficulté précise au lieu de tourner en rond.',
     href: '/tuteur',
     icon: MessageSquare,
-    tone: 'from-[var(--color-amber-700)] via-[var(--color-amber-500)] to-[var(--color-amber-400)]',
+    accent: 'bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
   },
 ];
 
@@ -273,7 +287,7 @@ function extractEventScore(event: {
   return null;
 }
 
-function formatActivity(event: { type: string; feature: string; createdAt: string; path?: string }) {
+function formatActivity(event: { id: string; type: string; feature: string; createdAt: string; path?: string }) {
   const feature = event.feature.replace(/_/g, ' ');
   const date = new Date(event.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
 
@@ -287,11 +301,11 @@ function formatActivity(event: { type: string; feature: string; createdAt: strin
   };
   const displayFeature = FEATURE_LABELS[feature] ?? feature;
 
-  if (event.type === 'evaluation') return { label: `Évaluation ${displayFeature}`, date };
-  if (event.type === 'navigation') return { label: displayFeature.startsWith('de ') ? `Consultation ${displayFeature}` : displayFeature, date };
-  if (event.type === 'interaction') return { label: displayFeature, date };
-  if (event.type === 'discussion') return { label: `Échange ${displayFeature}`, date };
-  return { label: displayFeature, date };
+  if (event.type === 'evaluation') return { id: event.id, label: `Évaluation ${displayFeature}`, date };
+  if (event.type === 'navigation') return { id: event.id, label: displayFeature.startsWith('de ') ? `Consultation ${displayFeature}` : displayFeature, date };
+  if (event.type === 'interaction') return { id: event.id, label: displayFeature, date };
+  if (event.type === 'discussion') return { id: event.id, label: `Échange ${displayFeature}`, date };
+  return { id: event.id, label: displayFeature, date };
 }
 
 function formatCountdown(value: number | null, label: string) {
@@ -383,21 +397,9 @@ export default function Dashboard() {
     () => true,
     () => false,
   );
-
-  const [examInfo, setExamInfo] = useState<{
-    daysUntilExam: number;
-    examDayLabel: string;
-    phaseLabel: string;
-    phaseAction: string;
-    coefficient: number;
-  } | null>(null);
   const [planId, setPlanId] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/v1/exam-info')
-      .then(r => r.ok ? r.json() : null)
-      .then(d => d && setExamInfo(d))
-      .catch(() => null);
     fetch('/api/v1/billing/status')
       .then(r => r.ok ? r.json() : null)
       .then((d: { subscription?: { planId?: string } } | null) => {
@@ -512,23 +514,14 @@ export default function Dashboard() {
   const previousProgressScore = data.weeklyProgression.at(-2)?.score ?? null;
   const momentum = describeMomentum(latestProgressScore, previousProgressScore);
   const ritualLead = focusActions[0];
+  const ritualBackup = focusActions[1] ?? null;
+  const latestInsight = recentActivity[0] ?? null;
   const upgradeState = getDashboardUpgradeState(planId);
+  const examInfo = data.examInfo;
+  const BackupIcon = ritualBackup?.icon;
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-      {examInfo && (
-        <div className="mb-6 rounded-2xl bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] p-4 text-white md:p-6">
-          <div className="flex items-start justify-between gap-3 sm:items-center">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">{examInfo.phaseLabel}</p>
-              <p className="mt-1 text-3xl font-bold sm:text-4xl" style={EDITORIAL_HEADING}>J-{examInfo.daysUntilExam}</p>
-              <p className="mt-1 text-sm text-white/70">{examInfo.examDayLabel} — Coefficient {examInfo.coefficient}</p>
-            </div>
-            <CalendarDays className="h-8 w-8 shrink-0 text-white/20 sm:h-10 sm:w-10" />
-          </div>
-          <p className="mt-3 text-xs leading-relaxed text-white/60 sm:text-sm">{examInfo.phaseAction}</p>
-        </div>
-      )}
       {upgradeState && (
         <section className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] px-6 py-5 shadow-[0_4px_20px_var(--shadow-md)]">
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_0%,transparent_60%)]" />
@@ -551,38 +544,67 @@ export default function Dashboard() {
         </section>
       )}
 
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-4 text-[var(--bg-page)] shadow-[var(--shadow-md)] sm:rounded-[38px] md:p-8 lg:p-10">
-        <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--color-indigo-400)] opacity-25" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 right-6 h-20 w-20 rounded-full bg-[var(--color-indigo-700)] opacity-40" />
+      <section className="relative overflow-hidden rounded-[28px] border border-[var(--border-primary)] bg-[linear-gradient(135deg,var(--color-indigo-700)_0%,var(--color-indigo-600)_44%,var(--color-indigo-800)_100%)] p-5 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-white/12 blur-2xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-14 left-[14%] h-32 w-32 rounded-full bg-[var(--color-amber-300)]/12 blur-3xl" />
 
-        <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
+        <div className="relative grid gap-6 xl:grid-cols-[1.05fr_0.95fr] xl:items-start">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
               <ShieldCheck className="h-4 w-4" />
-              Ton tableau de bord EAF
+              Pilotage du jour
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-white/85">
+              {examInfo ? (
+                <>
+                  <span className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5">{examInfo.phaseLabel}</span>
+                  <span className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5">{examInfo.examDayLabel}</span>
+                </>
+              ) : null}
+              <span className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5">{formatCountdown(data.countdownEcrit, 'Écrit')}</span>
+              <span className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5">{formatCountdown(data.countdownOral, 'Oral')}</span>
             </div>
 
             <h1
               style={EDITORIAL_HEADING}
-              className="mt-6 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl"
+              className="mt-6 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl"
             >
-              {data.displayName}, ton tableau de bord doit toujours déboucher sur une action exploitable.
+              {data.displayName}, voilà la priorité qui doit faire bouger ta semaine.
             </h1>
 
-            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
+            <p className="mt-4 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
               {data.hasEvaluationData ? (
                 <>
-                  {formatCountdown(data.countdownEcrit, 'Écrit')}. {formatCountdown(data.countdownOral, 'Oral')}. Le signal du moment indique de
-                  remettre d’abord <strong>{weakestSkill.label.toLowerCase()}</strong> au centre, à partir de l’historique réel des séances et des
-                  attendus EAF, puis seulement ensuite d’élargir.
+                  Axe prioritaire: <strong>{weakestSkill.label.toLowerCase()}</strong>. {focusCopy.detail}
                 </>
               ) : (
                 <>
-                  {formatCountdown(data.countdownEcrit, 'Écrit')}. {formatCountdown(data.countdownOral, 'Oral')}. Lance un premier atelier noté pour
-                  faire émerger des repères fiables: forces, points à retendre et trajectoire réelle.
+                  Aucun score fiable pour l’instant. Lance un premier atelier noté pour faire émerger un vrai niveau, un point fort et une priorité utile.
                 </>
               )}
             </p>
+
+            {examInfo ? (
+              <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">{examInfo.phaseAction}</p>
+            ) : null}
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href={ritualLead.href}
+                className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-[var(--c-primary)] transition-transform hover:-translate-y-0.5"
+              >
+                {ritualLead.title}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/mon-parcours"
+                className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-white/16 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/8"
+              >
+                Voir le parcours
+                <MapIcon className="h-4 w-4" />
+              </Link>
+            </div>
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
@@ -595,19 +617,19 @@ export default function Dashboard() {
                 Niveau moyen: <strong>{formatScoreLabel(averageScore)}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Dernier passage: <strong>{recentActivity[0]?.date ?? 'pas encore de séance'}</strong>
+                Dernier passage: <strong>{latestInsight?.date ?? 'pas encore de séance'}</strong>
               </span>
             </div>
 
             {!data.onboardingCompleted ? (
-              <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)] shadow-[var(--shadow-md)]">
+              <div className="mt-6 rounded-[24px] border border-white/12 bg-white/8 p-4 text-white shadow-[var(--shadow-md)]">
                 <p className="text-sm font-semibold">Le profil n’est pas encore entièrement personnalisé.</p>
-                <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">
+                <p className="mt-2 text-sm leading-7 text-slate-200">
                   Finaliser la configuration permettra d’ancrer ton tableau de bord sur les œuvres, le niveau déclaré et les priorités à travailler.
                 </p>
                 <Link
                   href="/onboarding"
-                  className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[var(--c-primary)] transition-colors hover:text-[var(--c-success)]"
+                  className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-white transition-colors hover:text-[var(--color-amber-300)]"
                 >
                   Reprendre la configuration
                   <ArrowRight className="h-4 w-4" />
@@ -642,58 +664,54 @@ export default function Dashboard() {
           </div>
 
           <div className="grid gap-4">
-            <div className="rounded-[24px] border border-white/12 bg-white/8 p-5 backdrop-blur-sm shadow-[var(--shadow-md)]">
+            <Card className="rounded-[24px] border border-white/12 bg-white/10 p-5 text-white shadow-[var(--shadow-md)] backdrop-blur-sm">
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
                 <Sparkles className="h-4 w-4" />
-                Rituel recommandé aujourd’hui
+                Ce que tu dois faire maintenant
               </div>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">
-                {focusCopy.title}
+                {ritualLead.title}
               </h2>
-              <p className="mt-4 text-sm leading-7 text-slate-200">{focusCopy.detail}</p>
+              <p className="mt-3 text-sm leading-7 text-slate-200">{ritualLead.detail}</p>
 
-              <div className="mt-6 space-y-3">
-                {focusActions.map((action, index) => {
-                  const Icon = action.icon;
-                  const isLead = index === 0;
-
-                  return (
-                    <Link
-                      key={action.title}
-                      href={action.href}
-                      className={`block rounded-[24px] border p-4 transition-all hover:-translate-y-0.5 ${
-                        isLead
-                          ? 'border-[var(--bg-page)]/18 bg-[var(--bg-page)] text-[var(--c-primary)] shadow-[var(--shadow-md)]'
-                          : 'border-white/10 bg-white/6 text-[var(--bg-page)]'
-                      }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <div
-                          className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl ${
-                            isLead ? 'bg-[var(--c-primary)] text-[var(--bg-page)]' : 'bg-white/10 text-[var(--color-amber-300)]'
-                          }`}
-                        >
-                          <Icon className="h-5 w-5" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex flex-wrap items-center justify-between gap-2">
-                            <p className={`text-sm font-semibold ${isLead ? 'text-[var(--c-primary)]' : 'text-white'}`}>{action.title}</p>
-                            <span className={`text-xs font-bold uppercase tracking-[0.18em] ${isLead ? 'text-[var(--text-muted)]' : 'text-slate-300'}`}>
-                              {action.duration}
-                            </span>
-                          </div>
-                          <p className={`mt-2 text-sm leading-6 ${isLead ? 'text-[var(--text-secondary)]' : 'text-slate-200'}`}>{action.detail}</p>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-[18px] border border-white/12 bg-black/10 px-4 py-3">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">Temps estimé</p>
+                  <p className="mt-1 text-lg font-semibold text-white">{ritualLead.duration}</p>
+                </div>
+                <div className="rounded-[18px] border border-white/12 bg-black/10 px-4 py-3">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">Pourquoi</p>
+                  <p className="mt-1 text-sm font-semibold text-white">{data.hasEvaluationData ? weakestSkill.label : 'Premier repère noté'}</p>
+                </div>
+                <div className="rounded-[18px] border border-white/12 bg-black/10 px-4 py-3">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">Échéance</p>
+                  <p className="mt-1 text-sm font-semibold text-white">{formatCountdown(data.countdownEcrit, 'Écrit')}</p>
+                </div>
               </div>
-            </div>
+
+              <div className="mt-5 flex flex-wrap gap-2.5">
+                <Link
+                  href={ritualLead.href}
+                  className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-[var(--c-primary)] transition-transform hover:-translate-y-0.5"
+                >
+                  Commencer maintenant
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                {ritualBackup ? (
+                  <Link
+                    href={ritualBackup.href}
+                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/16 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/8"
+                  >
+                    Alternative rapide
+                    {BackupIcon ? <BackupIcon className="h-4 w-4" /> : null}
+                  </Link>
+                ) : null}
+              </div>
+            </Card>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Fenêtre d’épreuve</p>
+              <Card className="rounded-[24px] border border-white/12 bg-white/10 p-5 text-white backdrop-blur-sm">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Échéances</p>
                 <div className="mt-4 space-y-3">
                   {[
                     { label: 'Écrit', value: data.countdownEcrit, icon: CalendarDays },
@@ -707,31 +725,40 @@ export default function Dashboard() {
                         <div>
                           <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">{item.label}</p>
                           <p className="mt-1 text-lg font-semibold text-white">
-                            {item.value === null ? 'Date non renseignée' : item.value < 0 ? 'Épreuve passée' : `J-${item.value}`}
+                            {item.value === null ? 'Date à confirmer' : item.value < 0 ? 'Épreuve passée' : `J-${item.value}`}
                           </p>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
-              </div>
+                {examInfo?.oralDateStatus !== 'planned' && examInfo?.oralDateNote ? (
+                  <p className="mt-4 text-xs leading-6 text-slate-300">{examInfo.oralDateNote}</p>
+                ) : null}
+              </Card>
 
-              <div className="rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Cap du moment</p>
-                <p className="mt-4 text-2xl font-semibold leading-tight text-white">{focusCopy.eyebrow}</p>
+              <Card className="rounded-[24px] border border-white/12 bg-white/10 p-5 text-white backdrop-blur-sm">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">
+                  {latestInsight ? 'Dernière séance utile' : data.onboardingCompleted ? 'Prochain repère' : 'Profil à finaliser'}
+                </p>
+                <p className="mt-4 text-2xl font-semibold leading-tight text-white">
+                  {latestInsight ? latestInsight.label : data.onboardingCompleted ? focusCopy.eyebrow : 'Reprendre la configuration'}
+                </p>
                 <p className="mt-3 text-sm leading-7 text-slate-200">
-                  {data.hasEvaluationData
-                    ? weakestSkill.copy
-                    : 'Les axes prioritaires se préciseront après une première évaluation exploitable.'}
+                  {latestInsight
+                    ? `Dernier signal enregistré le ${latestInsight.date}. Reviens ici après la prochaine séance pour vérifier ce qui a réellement bougé.`
+                    : data.onboardingCompleted
+                      ? 'Une nouvelle séance évaluée permettra d’affiner les recommandations et la cartographie des axes.'
+                      : 'Les œuvres, la classe et les objectifs doivent être renseignés pour personnaliser la suite.'}
                 </p>
                 <Link
-                  href={ritualLead.href}
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[var(--bg-page)] transition-colors hover:text-[var(--color-amber-300)]"
+                  href={latestInsight ? ritualLead.href : data.onboardingCompleted ? ritualLead.href : '/onboarding'}
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-white transition-colors hover:text-[var(--color-amber-300)]"
                 >
-                  Ouvrir l’action prioritaire
+                  {latestInsight ? 'Relancer sur cette base' : data.onboardingCompleted ? 'Lancer la prochaine séance' : 'Finaliser le profil'}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
-              </div>
+              </Card>
             </div>
           </div>
         </div>
@@ -884,11 +911,24 @@ export default function Dashboard() {
 
         <div className="space-y-6">
           <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Activité récente</p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Historique utile</p>
+                <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+                  Ce qui a vraiment bougé dans tes dernières séances.
+                </h2>
+              </div>
+              <div className="rounded-[18px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+                <p className="font-semibold text-[var(--c-primary)]">{latestInsight ? latestInsight.date : 'Aucune séance utile'}</p>
+                <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">
+                  {latestInsight ? 'Repars de ce dernier repère pour garder une progression lisible.' : 'Une première séance évaluée fera apparaître le bon historique.'}
+                </p>
+              </div>
+            </div>
             <div className="mt-6 space-y-3">
               {recentActivity.length > 0 ? (
                 recentActivity.map((item) => (
-                  <div key={`${item.label}-${item.date}`} className="flex items-start gap-3 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <div key={item.id} className="flex items-start gap-3 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-[var(--bg-page)]">
                       <Clock3 className="h-4 w-4" />
                     </div>
@@ -910,29 +950,29 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <Card variant="dark" padding="md" className="text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">Lanceur</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
-              Le bon tableau de bord réduit la décision à un prochain geste clair.
+          <Card padding="md" className="border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)] md:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Accès rapide</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+              Les ateliers utiles doivent rester à un clic, sans bruit visuel.
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-200 sm:text-base">
-              Tu ne dois pas quitter cet écran avec une intention floue. Choisis un bloc, lance-le, puis reviens lire ce que la session a réellement déplacé.
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">
+              Choisis un bloc, lance-le, puis reviens vérifier l’effet réel sur tes scores et tes repères de travail.
             </p>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-2">
-              {LAUNCHPAD.map((item) => {
+            <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {QUICK_ACCESS.map((item) => {
                 const Icon = item.icon;
                 return (
                   <Link
                     key={item.title}
                     href={item.href === '/tuteur' ? tutorHref : item.href}
-                    className={`rounded-[24px] border border-white/10 bg-gradient-to-br ${item.tone} p-4 text-white shadow-[var(--shadow-md)] transition-transform hover:-translate-y-0.5`}
+                    className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)] shadow-[var(--shadow-sm)] transition-all hover:-translate-y-0.5 hover:border-[var(--border-primary)] hover:shadow-[var(--shadow-md)]"
                   >
-                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12">
+                    <div className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
                       <Icon className="h-5 w-5" />
                     </div>
                     <p className="mt-4 text-base font-semibold">{item.title}</p>
-                    <p className="mt-2 text-sm leading-6 text-white/80">{item.detail}</p>
+                    <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.detail}</p>
                   </Link>
                 );
               })}

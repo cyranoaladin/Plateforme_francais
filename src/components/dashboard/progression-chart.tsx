@@ -27,9 +27,9 @@ type ProgressionChartProps = {
 
 const tooltipStyle = {
   borderRadius: '18px',
-  border: '1px solid rgba(216, 204, 185, 0.9)',
-  backgroundColor: 'rgba(249, 246, 239, 0.96)',
-  boxShadow: '0 16px 45px rgba(23, 50, 77, 0.12)',
+  border: '1px solid var(--chart-tooltip-border)',
+  backgroundColor: 'var(--chart-tooltip-bg)',
+  boxShadow: 'var(--chart-tooltip-shadow)',
 };
 
 export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
@@ -71,6 +71,8 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
           <YAxis axisLine={false} tickLine={false} domain={[0, 20]} tick={{ fill: 'var(--text-chart)', fontSize: 11 }} />
           <Tooltip
             contentStyle={tooltipStyle}
+            itemStyle={{ color: 'var(--text-heading)' }}
+            labelStyle={{ color: 'var(--text-secondary)', fontWeight: 600 }}
             cursor={{ stroke: 'var(--border-strong)', strokeDasharray: '4 4' }}
             formatter={(value: number | string | Array<number | string> | undefined) => {
               if (Array.isArray(value)) {
@@ -84,7 +86,7 @@ export function ProgressionChart({ data, target = 12 }: ProgressionChartProps) {
             y={target}
             stroke="var(--color-amber-300)"
             strokeDasharray="5 5"
-            label={{ value: 'Objectif', position: 'insideTopRight', fontSize: 10, fill: 'var(--color-amber-700)' }}
+            label={{ value: 'Objectif', position: 'insideTopRight', fontSize: 10, fill: 'var(--chart-reference-label)' }}
           />
           <Line
             type="monotone"
