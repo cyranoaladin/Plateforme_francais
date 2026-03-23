@@ -247,7 +247,7 @@ function formatActivity(event: { type: string; feature: string; createdAt: strin
   const date = new Date(event.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
 
   const FEATURE_LABELS: Record<string, string> = {
-    'page view': 'page',
+    'page view': 'de page',
     'epreuve generate': 'Génération de sujet',
     'tuteur message': 'Message au tuteur',
     'oral session': 'Session orale',
@@ -257,7 +257,7 @@ function formatActivity(event: { type: string; feature: string; createdAt: strin
   const displayFeature = FEATURE_LABELS[feature] ?? feature;
 
   if (event.type === 'evaluation') return { label: `Évaluation ${displayFeature}`, date };
-  if (event.type === 'navigation') return { label: `Consultation ${displayFeature}`, date };
+  if (event.type === 'navigation') return { label: displayFeature.startsWith('de ') ? `Consultation ${displayFeature}` : displayFeature, date };
   if (event.type === 'interaction') return { label: displayFeature, date };
   if (event.type === 'discussion') return { label: `Échange ${displayFeature}`, date };
   return { label: displayFeature, date };
@@ -460,7 +460,7 @@ export default function Dashboard() {
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
       {examInfo && (
-        <div className="mb-6 rounded-2xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-success)] p-4 text-white md:p-6">
+        <div className="mb-6 rounded-2xl bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] p-4 text-white md:p-6">
           <div className="flex items-start justify-between gap-3 sm:items-center">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">{examInfo.phaseLabel}</p>
