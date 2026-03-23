@@ -45,7 +45,8 @@
     "test:visual:update": "playwright test --config=playwright.visual.config.ts --update-snapshots",
     "test:visual:public": "playwright test --config=playwright.visual.config.ts --project=public-visual",
     "test:visual:connected": "playwright test --config=playwright.visual.config.ts --project=connected-visual",
-    "test:visual:mobile": "playwright test --config=playwright.visual.config.ts --project=mobile-visual"
+    "test:visual:mobile": "playwright test --config=playwright.visual.config.ts --project=mobile-visual",
+    "check:quotes": "tsx scripts/check-curly-quotes.ts"
   },
   "overrides": {
     "@modelcontextprotocol/sdk": {
