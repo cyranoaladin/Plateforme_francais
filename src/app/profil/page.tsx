@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import {
   AlertTriangle,
   ArrowRight,
@@ -16,11 +16,17 @@ import {
   Sparkles,
   Target,
 } from 'lucide-react';
+import { ensurePublicCsrfToken } from '@/lib/security/csrf-client';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
-import { Card, Badge } from '@/components/ui';
+import { Card, Badge, Button, Input, Select } from '@/components/ui';
 import { StateNotice } from '@/components/ui/state-notice';
 
 type StudentProfile = {
+  classLevel?: string;
+  targetScore?: string;
+  establishment?: string;
+  parentEmail?: string | null;
+  teacherEmail?: string | null;
   skillMap: {
     ecrit: number | null;
     oral: number | null;
@@ -53,6 +59,22 @@ type StudentProfile = {
   oeuvreChoisieEntretien?: string;
   hasEvaluationData?: boolean;
 };
+
+type EditableProfileFields = {
+  displayName: string;
+  classLevel: string;
+  targetScore: string;
+  establishment: string;
+  parentEmail: string;
+  teacherEmail: string;
+};
+
+type SaveFeedback =
+  | {
+      tone: 'success' | 'error';
+      message: string;
+    }
+  | null;
 
 const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
@@ -123,6 +145,15 @@ const PRIORITY_STYLE = {
   low: 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--text-success-on-subtle)]',
 };
 
+const CLASS_LEVEL_OPTIONS = [
+  { value: 'Première générale', label: 'Première générale' },
+  { value: 'Première technologique', label: 'Première technologique' },
+  { value: 'Première STMG', label: 'Première STMG' },
+  { value: 'Première ST2S', label: 'Première ST2S' },
+  { value: 'Première STI2D', label: 'Première STI2D' },
+  { value: 'Première STL', label: 'Première STL' },
+];
+
 function formatShortDate(date: string) {
   const parsed = new Date(date);
   if (Number.isNaN(parsed.getTime())) {
@@ -151,10 +182,41 @@ function formatScoreLabel(value: number | null) {
   return `${value.toFixed(1)} / 20`;
 }
 
+function buildEditableProfileFields(profile: StudentProfile): EditableProfileFields {
+  return {
+    displayName: profile.displayName ?? 'Élève',
+    classLevel: profile.classLevel ?? 'Première générale',
+    targetScore: profile.targetScore ?? '',
+    establishment: profile.establishment ?? '',
+    parentEmail: profile.parentEmail ?? '',
+    teacherEmail: profile.teacherEmail ?? '',
+  };
+}
+
+function buildProfileUpdatePayload(fields: EditableProfileFields) {
+  const parentEmail = fields.parentEmail.trim();
+  const teacherEmail = fields.teacherEmail.trim();
+  const targetScore = fields.targetScore.trim();
+
+  return {
+    displayName: fields.displayName.trim(),
+    classLevel: fields.classLevel.trim(),
+    targetScore: targetScore || undefined,
+    establishment: fields.establishment.trim(),
+    parentEmail: parentEmail ? parentEmail : null,
+    teacherEmail: teacherEmail ? teacherEmail : null,
+  };
+}
+
 export default function ProfilPage() {
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editableProfile, setEditableProfile] = useState<EditableProfileFields>(
+    () => buildEditableProfileFields(FALLBACK_PROFILE),
+  );
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [saveFeedback, setSaveFeedback] = useState<SaveFeedback>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -182,6 +244,10 @@ export default function ProfilPage() {
     void load();
   }, []);
 
+  useEffect(() => {
+    setEditableProfile(buildEditableProfileFields(profile ?? FALLBACK_PROFILE));
+  }, [profile]);
+
   const resolvedProfile = profile ?? FALLBACK_PROFILE;
   const displayName = resolvedProfile.displayName ?? 'Élève';
   const averageScore = averageScoreValue(resolvedProfile.skillMap);
@@ -205,6 +271,17 @@ export default function ProfilPage() {
   const tutorHref = buildTuteurHref({
     workId: resolvedProfile.oeuvreChoisieEntretien ?? resolvedProfile.selectedOeuvres?.[0] ?? null,
   });
+  const classLevelOptions = useMemo(() => {
+    const currentClassLevel = editableProfile.classLevel.trim();
+    if (
+      currentClassLevel.length > 0
+      && !CLASS_LEVEL_OPTIONS.some((option) => option.value === currentClassLevel)
+    ) {
+      return [{ value: currentClassLevel, label: currentClassLevel }, ...CLASS_LEVEL_OPTIONS];
+    }
+
+    return CLASS_LEVEL_OPTIONS;
+  }, [editableProfile.classLevel]);
 
   const profileSignal = useMemo(() => {
     if (averageScore === null) {
@@ -230,6 +307,104 @@ export default function ProfilPage() {
       detail: 'Le profil montre un besoin de réamorçage sur les bases. Il faut réduire la dispersion et remettre le bon axe au centre.',
     };
   }, [averageScore]);
+
+  const updateEditableField = (field: keyof EditableProfileFields, value: string) => {
+    setEditableProfile((current) => ({
+      ...current,
+      [field]: value,
+    }));
+
+    if (saveFeedback) {
+      setSaveFeedback(null);
+    }
+  };
+
+  const handleProfileSave = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const normalizedName = editableProfile.displayName.trim();
+    const normalizedClassLevel = editableProfile.classLevel.trim();
+
+    if (!normalizedName) {
+      setSaveFeedback({
+        tone: 'error',
+        message: 'Le nom affiché est requis pour enregistrer ton profil.',
+      });
+      return;
+    }
+
+    if (!normalizedClassLevel) {
+      setSaveFeedback({
+        tone: 'error',
+        message: 'La classe est requise pour enregistrer ton profil.',
+      });
+      return;
+    }
+
+    const normalizedFields = {
+      ...editableProfile,
+      displayName: normalizedName,
+      classLevel: normalizedClassLevel,
+    };
+
+    try {
+      setSavingProfile(true);
+      setSaveFeedback(null);
+
+      const csrfToken = await ensurePublicCsrfToken();
+      const response = await fetch('/api/v1/student/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken,
+        },
+        body: JSON.stringify(buildProfileUpdatePayload(normalizedFields)),
+      });
+      const responseBody = (await response.json().catch(() => null)) as
+        | Partial<StudentProfile>
+        | { error?: string; message?: string }
+        | null;
+
+      if (!response.ok) {
+        const errorBody = responseBody as { error?: string; message?: string } | null;
+        const failureMessage = typeof errorBody?.error === 'string'
+          ? errorBody.error
+          : typeof errorBody?.message === 'string'
+            ? errorBody.message
+            : 'Le profil n’a pas pu être enregistré. Réessaie dans quelques secondes.';
+        throw new Error(failureMessage);
+      }
+
+      const updatedProfile = (responseBody ?? {}) as Partial<StudentProfile>;
+      const nextProfile: StudentProfile = {
+        ...(profile ?? FALLBACK_PROFILE),
+        ...updatedProfile,
+        displayName: normalizedFields.displayName,
+        classLevel: normalizedFields.classLevel,
+        targetScore: normalizedFields.targetScore.trim() || undefined,
+        establishment: normalizedFields.establishment.trim(),
+        parentEmail: normalizedFields.parentEmail.trim() || null,
+        teacherEmail: normalizedFields.teacherEmail.trim() || null,
+      };
+
+      setProfile(nextProfile);
+      setEditableProfile(buildEditableProfileFields(nextProfile));
+      setSaveFeedback({
+        tone: 'success',
+        message: 'Profil enregistré. Les informations affichées sont à jour.',
+      });
+    } catch (cause) {
+      setSaveFeedback({
+        tone: 'error',
+        message:
+          cause instanceof Error
+            ? cause.message
+            : 'Le profil n’a pas pu être enregistré. Réessaie dans quelques secondes.',
+      });
+    } finally {
+      setSavingProfile(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -333,6 +508,99 @@ export default function ProfilPage() {
           variant="error"
         />
       ) : null}
+
+      <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Réglages du profil</p>
+            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+              Mets à jour les informations qui structurent vraiment ton accompagnement.
+            </h2>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">
+              Nom affiché, classe, objectif, établissement et contacts de suivi peuvent être modifiés ici sans repasser par l’onboarding.
+            </p>
+          </div>
+          <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] font-semibold text-[var(--text-secondary)]">
+            Mise à jour en direct
+          </Badge>
+        </div>
+
+        <form className="mt-8 grid gap-4 md:grid-cols-2" onSubmit={handleProfileSave}>
+          <Input
+            label="Nom affiché"
+            name="displayName"
+            value={editableProfile.displayName}
+            onChange={(event) => updateEditableField('displayName', event.target.value)}
+            required
+            autoComplete="name"
+            hint="C’est le nom utilisé dans le dashboard et les emails."
+          />
+          <Select
+            label="Classe"
+            name="classLevel"
+            value={editableProfile.classLevel}
+            onChange={(event) => updateEditableField('classLevel', event.target.value)}
+            options={classLevelOptions}
+          />
+          <Input
+            label="Objectif visé"
+            name="targetScore"
+            value={editableProfile.targetScore}
+            onChange={(event) => updateEditableField('targetScore', event.target.value)}
+            placeholder="Ex. 14/20"
+            hint="Laisse vide si tu préfères ne pas afficher d’objectif."
+          />
+          <Input
+            label="Établissement"
+            name="establishment"
+            value={editableProfile.establishment}
+            onChange={(event) => updateEditableField('establishment', event.target.value)}
+            autoComplete="organization"
+          />
+          <Input
+            label="E-mail parent"
+            name="parentEmail"
+            type="email"
+            value={editableProfile.parentEmail}
+            onChange={(event) => updateEditableField('parentEmail', event.target.value)}
+            autoComplete="email"
+            hint="Optionnel. Un email d’information est envoyé si tu ajoutes ou modifies cette adresse."
+          />
+          <Input
+            label="E-mail enseignant"
+            name="teacherEmail"
+            type="email"
+            value={editableProfile.teacherEmail}
+            onChange={(event) => updateEditableField('teacherEmail', event.target.value)}
+            autoComplete="email"
+            hint="Optionnel. L’adresse peut être utilisée pour rattacher ton suivi."
+          />
+
+          <div className="md:col-span-2 flex flex-col gap-3 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-[var(--c-primary)]">Enregistrement sécurisé</p>
+              <p className="text-sm leading-6 text-[var(--text-secondary)]">
+                Cette action utilise le même contrôle CSRF que les autres mutations sensibles de la plateforme.
+              </p>
+              {saveFeedback ? (
+                <p
+                  className={`text-sm font-medium ${
+                    saveFeedback.tone === 'success'
+                      ? 'text-[var(--c-success)]'
+                      : 'text-[var(--error)]'
+                  }`}
+                  role="status"
+                >
+                  {saveFeedback.message}
+                </p>
+              ) : null}
+            </div>
+            <Button type="submit" size="lg" loading={savingProfile} className="min-h-[44px] sm:min-w-[220px]">
+              Enregistrer le profil
+            </Button>
+          </div>
+        </form>
+      </Card>
 
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
         <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
