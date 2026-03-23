@@ -22,11 +22,11 @@ import { StateNotice } from '@/components/ui/state-notice';
 
 type StudentProfile = {
   skillMap: {
-    ecrit: number;
-    oral: number;
-    grammaire: number;
-    lectureCursive: number;
-    lastUpdated: string;
+    ecrit: number | null;
+    oral: number | null;
+    grammaire: number | null;
+    lectureCursive: number | null;
+    lastUpdated: string | null;
   };
   errorBank: Array<{
     type: string;
@@ -51,6 +51,7 @@ type StudentProfile = {
   displayName?: string;
   selectedOeuvres?: string[];
   oeuvreChoisieEntretien?: string;
+  hasEvaluationData?: boolean;
 };
 
 const EDITORIAL_HEADING = {
@@ -59,11 +60,11 @@ const EDITORIAL_HEADING = {
 
 const FALLBACK_PROFILE: StudentProfile = {
   skillMap: {
-    ecrit: 11.2,
-    oral: 12.1,
-    grammaire: 10.6,
-    lectureCursive: 11.4,
-    lastUpdated: new Date().toISOString(),
+    ecrit: null,
+    oral: null,
+    grammaire: null,
+    lectureCursive: null,
+    lastUpdated: null,
   },
   errorBank: [],
   studyPlan: {
@@ -75,6 +76,7 @@ const FALLBACK_PROFILE: StudentProfile = {
   totalCopies: 0,
   displayName: 'Élève',
   selectedOeuvres: [],
+  hasEvaluationData: false,
 };
 
 const SKILL_META = [
@@ -129,6 +131,26 @@ function formatShortDate(date: string) {
   return parsed.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
 }
 
+function averageScoreValue(scores: StudentProfile['skillMap']) {
+  const values = [scores.ecrit, scores.oral, scores.grammaire, scores.lectureCursive].filter(
+    (value): value is number => typeof value === 'number',
+  );
+
+  if (values.length === 0) {
+    return null;
+  }
+
+  return Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1));
+}
+
+function formatScoreLabel(value: number | null) {
+  if (value === null) {
+    return 'Diagnostic à lancer';
+  }
+
+  return `${value.toFixed(1)} / 20`;
+}
+
 export default function ProfilPage() {
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -162,23 +184,22 @@ export default function ProfilPage() {
 
   const resolvedProfile = profile ?? FALLBACK_PROFILE;
   const displayName = resolvedProfile.displayName ?? 'Élève';
-  const averageScore = Number(
-    (
-      (resolvedProfile.skillMap.ecrit +
-        resolvedProfile.skillMap.oral +
-        resolvedProfile.skillMap.grammaire +
-        resolvedProfile.skillMap.lectureCursive) /
-      4
-    ).toFixed(1),
-  );
+  const averageScore = averageScoreValue(resolvedProfile.skillMap);
+  const hasEvaluationData = resolvedProfile.hasEvaluationData ?? averageScore !== null;
 
   const skillCards = SKILL_META.map((skill) => ({
     ...skill,
     score: resolvedProfile.skillMap[skill.key],
   }));
 
-  const strongestSkill = skillCards.reduce((prev, current) => (current.score > prev.score ? current : prev), skillCards[0]);
-  const weakestSkill = skillCards.reduce((prev, current) => (current.score < prev.score ? current : prev), skillCards[0]);
+  const strongestSkill = skillCards.reduce(
+    (prev, current) => ((current.score ?? 0) > (prev.score ?? 0) ? current : prev),
+    skillCards[0],
+  );
+  const weakestSkill = skillCards.reduce(
+    (prev, current) => ((current.score ?? 0) < (prev.score ?? 0) ? current : prev),
+    skillCards[0],
+  );
   const upcomingTasks = resolvedProfile.studyPlan.tasks.slice(0, 3);
   const topErrors = resolvedProfile.errorBank.slice(0, 5);
   const tutorHref = buildTuteurHref({
@@ -186,6 +207,12 @@ export default function ProfilPage() {
   });
 
   const profileSignal = useMemo(() => {
+    if (averageScore === null) {
+      return {
+        label: 'Signal à construire',
+        detail: 'Le profil prendra de la valeur après une première séance évaluée. Pour l’instant, il faut surtout créer un premier repère exploitable.',
+      };
+    }
     if (averageScore >= 13.5) {
       return {
         label: 'Base solide',
@@ -240,16 +267,16 @@ export default function ProfilPage() {
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
-                Niveau moyen{'\u00a0'}: <strong>{averageScore} / 20</strong>
+                Niveau moyen{'\u00a0'}: <strong>{formatScoreLabel(averageScore)}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
-                Point fort{'\u00a0'}: <strong>{strongestSkill.label}</strong>
+                Point fort{'\u00a0'}: <strong>{hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
-                Axe à retendre{'\u00a0'}: <strong>{weakestSkill.label}</strong>
+                Axe à retendre{'\u00a0'}: <strong>{hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
-                Mise à jour{'\u00a0'}: <strong>{formatShortDate(resolvedProfile.skillMap.lastUpdated)}</strong>
+                Mise à jour{'\u00a0'}: <strong>{resolvedProfile.skillMap.lastUpdated ? formatShortDate(resolvedProfile.skillMap.lastUpdated) : 'Diagnostic à lancer'}</strong>
               </span>
             </div>
 
@@ -329,10 +356,10 @@ export default function ProfilPage() {
                         <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{skill.copy}</p>
                       </div>
                     </div>
-                    <span className="shrink-0 text-sm font-semibold text-[var(--text-muted)]">{skill.score.toFixed(1)} / 20</span>
+                    <span className="shrink-0 text-sm font-semibold text-[var(--text-muted)]">{formatScoreLabel(skill.score)}</span>
                   </div>
                   <div className="h-2.5 rounded-full bg-[var(--border-default)]">
-                    <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(skill.score / 20) * 100}%` }} />
+                    <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${((skill.score ?? 0) / 20) * 100}%` }} />
                   </div>
                 </div>
               );
@@ -342,13 +369,21 @@ export default function ProfilPage() {
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe fort</p>
-              <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{strongestSkill.label}</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">C’est là que le niveau est le plus naturellement stable aujourd’hui.</p>
+              <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{hasEvaluationData ? strongestSkill.label : 'En construction'}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
+                {hasEvaluationData
+                  ? 'C’est là que le niveau est le plus naturellement stable aujourd’hui.'
+                  : 'Ce repère apparaîtra après une première séance évaluée.'}
+              </p>
             </Card>
             <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe prioritaire</p>
-              <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{weakestSkill.label}</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">C’est l’endroit où une séance bien choisie rapportera le plus vite.</p>
+              <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{hasEvaluationData ? weakestSkill.label : 'À préciser'}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
+                {hasEvaluationData
+                  ? 'C’est l’endroit où une séance bien choisie rapportera le plus vite.'
+                  : 'Le prochain axe prioritaire émergera dès qu’une première évaluation aura créé un vrai signal.'}
+              </p>
             </Card>
           </div>
         </Card>

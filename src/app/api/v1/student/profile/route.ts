@@ -7,6 +7,7 @@ import { updateUserProfile } from '@/lib/db/repositories/userRepo';
 import { sendParentNotificationEmail, sendTeacherNotificationEmail } from '@/lib/email/service';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { buildProfileScoreSummary } from '@/lib/profile/profile-score-summary';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { studentProfileBodySchema } from '@/lib/validation/schemas';
@@ -29,8 +30,6 @@ export async function GET() {
       return typeof score === 'number' ? score : null;
     })
     .filter((value): value is number => typeof value === 'number');
-  const avg = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 10;
-
   const weak = evals
     .flatMap((event) => (Array.isArray(event.payload?.weakSkills) ? event.payload.weakSkills : []))
     .reduce<Record<string, number>>((acc, skill) => {
@@ -55,6 +54,8 @@ export async function GET() {
     return d.toISOString();
   };
 
+  const profileScoreSummary = buildProfileScoreSummary(scores, scores.length > 0 ? new Date().toISOString() : null);
+
   const studyPlan = {
     tasks: [
       { id: 'sp-oral', description: 'Simulation orale 12+8 min', dueDate: addDays(1), estimatedMinutes: 25, skill: 'oral', priority: 'high' as const },
@@ -65,13 +66,8 @@ export async function GET() {
 
   const response = {
     ...auth.user.profile,
-    skillMap: {
-      ecrit: Number(avg.toFixed(1)),
-      oral: Number((avg + 0.4).toFixed(1)),
-      grammaire: Number((avg - 0.2).toFixed(1)),
-      lectureCursive: Number((avg + 0.1).toFixed(1)),
-      lastUpdated: new Date().toISOString(),
-    },
+    skillMap: profileScoreSummary.skillMap,
+    hasEvaluationData: profileScoreSummary.hasEvaluationData,
     errorBank,
     studyPlan,
     streak: auth.user.profile.parcoursProgress.length,

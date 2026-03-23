@@ -33,11 +33,12 @@ type ProfilePayload = {
   selectedOeuvres?: string[];
   oeuvreChoisieEntretien?: string;
   skillMap?: {
-    ecrit: number;
-    oral: number;
-    grammaire: number;
-    lectureCursive: number;
+    ecrit: number | null;
+    oral: number | null;
+    grammaire: number | null;
+    lectureCursive: number | null;
   };
+  hasEvaluationData?: boolean;
   studyPlan?: {
     tasks: Array<{
       id: string;
@@ -156,6 +157,14 @@ function formatDueDate(date: string): string {
   });
 }
 
+function formatScoreLabel(value: number | null): string {
+  if (value === null) {
+    return 'Diagnostic à lancer';
+  }
+
+  return `${value.toFixed(1)} / 20`;
+}
+
 export default function MonParcoursPage() {
   const [plan, setPlan] = useState<Plan | null>(null);
   const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
@@ -236,7 +245,7 @@ export default function MonParcoursPage() {
 
   const skillSummary = useMemo(() => {
     if (!profile?.skillMap) {
-      return [] as Array<{ label: string; score: number; accent: string }>;
+      return [] as Array<{ label: string; score: number | null; accent: string }>;
     }
 
     return [
@@ -583,10 +592,10 @@ export default function MonParcoursPage() {
                   <div key={skill.label}>
                     <div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium">
                       <span className="text-[var(--c-primary)]">{skill.label}</span>
-                      <span className="text-[var(--text-muted)]">{skill.score.toFixed(1)} / 20</span>
+                      <span className="text-[var(--text-muted)]">{formatScoreLabel(skill.score)}</span>
                     </div>
                     <div className="h-2.5 rounded-full bg-[var(--border-default)]">
-                      <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${(skill.score / 20) * 100}%` }} />
+                      <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${((skill.score ?? 0) / 20) * 100}%` }} />
                     </div>
                   </div>
                 ))}
