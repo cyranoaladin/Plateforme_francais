@@ -197,14 +197,14 @@ const LAUNCHPAD = [
     detail: 'Lecture, explication, entretien: repartir sur une séquence complète.',
     href: '/atelier-oral',
     icon: Mic,
-    tone: 'from-[var(--c-primary)] via-[var(--c-primary-muted)] to-[var(--c-success)]',
+    tone: 'from-[var(--color-emerald-700)] via-[var(--color-emerald-500)] to-[var(--color-emerald-400)]',
   },
   {
     title: 'Atelier écrit',
     detail: 'Commentaire, dissertation ou sujet blanc selon le besoin réel.',
     href: '/atelier-ecrit',
     icon: PenTool,
-    tone: 'from-[var(--color-amber-700)] via-[var(--color-amber-300)] to-[var(--color-amber-400)]',
+    tone: 'from-[var(--color-coral-700)] via-[var(--color-coral-500)] to-[var(--color-coral-400)]',
   },
   {
     title: 'Bibliothèque',
@@ -218,7 +218,7 @@ const LAUNCHPAD = [
     detail: 'Débloquer une difficulté précise au lieu de tourner en rond.',
     href: '/tuteur',
     icon: MessageSquare,
-    tone: 'from-[var(--c-success)] via-[#149a8f] to-[#7ed4c2]',
+    tone: 'from-[var(--color-amber-700)] via-[var(--color-amber-500)] to-[var(--color-amber-400)]',
   },
 ];
 
@@ -247,7 +247,7 @@ function formatActivity(event: { type: string; feature: string; createdAt: strin
   const date = new Date(event.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
 
   const FEATURE_LABELS: Record<string, string> = {
-    'page view': 'Consultation',
+    'page view': 'page',
     'epreuve generate': 'Génération de sujet',
     'tuteur message': 'Message au tuteur',
     'oral session': 'Session orale',
