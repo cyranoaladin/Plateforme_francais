@@ -13,7 +13,9 @@ function buildSafeCatalog(planId: Awaited<ReturnType<typeof getBillingContext>>[
     const categoryResources = getRessourcesByCategory(resource.category);
     const indexInCategory = getResourceIndexInCategory(resource.id, categoryResources);
     const accessible = isResourceAccessible(planId, resource.id, resource.category, indexInCategory);
-    const { filePath: _filePath, url: _url, ...safeResource } = resource;
+    const safeResource = Object.fromEntries(
+      Object.entries(resource).filter(([key]) => key !== 'filePath' && key !== 'url'),
+    ) as Omit<(typeof RESSOURCES)[number], 'filePath' | 'url'>;
 
     return {
       ...safeResource,

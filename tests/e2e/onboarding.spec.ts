@@ -2,26 +2,19 @@ import { expect, test, type Page } from '@playwright/test';
 
 async function registerAndLogin(page: Page): Promise<boolean> {
   const email = `e2e_onboarding_${Date.now()}_${Math.floor(Math.random() * 10000)}@eaf.local`;
-  const password = 'demo1234';
+  const password = 'TestInscr2026!';
 
   await page.goto('/login');
-  await page.getByRole('button', { name: /cr[eé]+er un compte/i }).click();
+  await expect(page.getByRole('button', { name: /cr[ée]er un compte/i })).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: /cr[ée]er un compte/i }).click();
   await page.locator('#displayName').fill('E2E Onboarding');
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);
   await page.locator('#confirmPassword').fill(password);
   await page.locator('input[type="checkbox"]').first().check();
   await page.getByTestId('auth-submit').click();
-
-  const registered = await page.waitForURL(/(?!.*\/login)/, { timeout: 20_000 }).then(() => true).catch(() => false);
-  if (registered) return true;
-
-  // Fallback: login with seed account if registration failed
-  await page.goto('/login');
-  await page.getByTestId('auth-email').fill('eleve.free@eaf.local');
-  await page.getByTestId('auth-password').fill('FreeTest2026!');
-  await page.getByTestId('auth-submit').click();
-  return page.waitForURL(/(?!.*\/login)/, { timeout: 10_000 }).then(() => true).catch(() => false);
+  await expect(page).toHaveURL(/\/onboarding/, { timeout: 20_000 });
+  return true;
 }
 
 test('Inscription → onboarding wizard → dashboard personnalisé', async ({ page }) => {
@@ -29,22 +22,15 @@ test('Inscription → onboarding wizard → dashboard personnalisé', async ({ p
   const registered = await registerAndLogin(page);
   if (!registered) { test.skip(); return; }
 
-  await page.goto('/onboarding');
-
-  // Session may expire in CI — skip if redirected to login
-  if (page.url().includes('/login')) { test.skip(); return; }
-
   await page.locator('#ob-name').fill('E2E Élève');
   await page.locator('#ob-date').fill('2026-06-11');
   const btn1 = page.getByRole('button', { name: /continuer/i });
   await expect(btn1).toBeEnabled({ timeout: 5_000 });
   await btn1.click();
 
-  // Wait for step 2 content or session expiry redirect
-  const step2Loaded = await page.locator('text=Cahier de Douai').first()
-    .isVisible({ timeout: 15_000 }).catch(() => false);
-  if (!step2Loaded) { test.skip(); return; }
-  await page.locator('text=Cahier de Douai').first().click();
+  const oeuvreChoice = page.locator('text=Cahier de Douai').first();
+  await expect(oeuvreChoice).toBeVisible({ timeout: 15_000 });
+  await oeuvreChoice.click();
   const btn2 = page.getByRole('button', { name: /continuer/i });
   await expect(btn2).toBeEnabled({ timeout: 5_000 });
   await btn2.click();

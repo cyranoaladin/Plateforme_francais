@@ -1,471 +1,485 @@
 {
-  "generatedAt": "2026-03-23T14:50:48.799Z",
+  "generatedAt": "2026-03-23T21:56:01.472Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
-      "line": 268,
+      "line": 275,
       "column": 13,
       "kind": "jsx-text",
       "text": "Dashboard Admin"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 271,
+      "line": 278,
       "column": 13,
       "kind": "jsx-text",
       "text": "Gestion des utilisateurs, abonnements et paiements"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 295,
+      "line": 302,
       "column": 13,
       "kind": "jsx-text",
       "text": "Vue d'ensemble"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 306,
+      "line": 313,
       "column": 13,
       "kind": "jsx-text",
       "text": "Utilisateurs"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 317,
+      "line": 324,
       "column": 13,
       "kind": "jsx-text",
       "text": "Codes d'activation"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 328,
+      "line": 335,
       "column": 13,
       "kind": "jsx-text",
       "text": "Paiements manuels"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 345,
+      "line": 352,
       "column": 77,
       "kind": "jsx-text",
       "text": "Utilisateurs"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 355,
+      "line": 362,
       "column": 77,
       "kind": "jsx-text",
       "text": "Abonnements actifs"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 365,
+      "line": 372,
       "column": 77,
       "kind": "jsx-text",
       "text": "Paiements en attente"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 375,
+      "line": 382,
       "column": 77,
       "kind": "jsx-text",
       "text": "Revenu total"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 376,
+      "line": 383,
       "column": 99,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 384,
+      "line": 391,
       "column": 58,
       "kind": "jsx-text",
       "text": "Répartition par plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 390,
+      "line": 397,
       "column": 40,
       "kind": "jsx-text",
       "text": "utilisateur"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 398,
+      "line": 405,
       "column": 58,
       "kind": "jsx-text",
       "text": "Derniers paiements"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 403,
+      "line": 410,
       "column": 63,
       "kind": "jsx-text",
       "text": "Email"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 404,
+      "line": 411,
       "column": 63,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 405,
+      "line": 412,
       "column": 63,
       "kind": "jsx-text",
       "text": "Montant"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 406,
+      "line": 413,
       "column": 63,
       "kind": "jsx-text",
       "text": "Statut"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 407,
+      "line": 414,
       "column": 63,
       "kind": "jsx-text",
       "text": "Date"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 417,
+      "line": 424,
       "column": 100,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 436,
+      "line": 443,
       "column": 56,
       "kind": "jsx-text",
       "text": "Liste des utilisateurs"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 441,
+      "line": 448,
       "column": 61,
       "kind": "jsx-text",
       "text": "Email"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 442,
+      "line": 449,
       "column": 61,
       "kind": "jsx-text",
       "text": "Rôle"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 443,
+      "line": 450,
       "column": 61,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 444,
+      "line": 451,
       "column": 61,
       "kind": "jsx-text",
       "text": "Statut"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 445,
+      "line": 452,
       "column": 61,
       "kind": "jsx-text",
       "text": "Inscription"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 461,
+      "line": 468,
       "column": 78,
       "kind": "jsx-text",
       "text": "Aucun"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 488,
+      "line": 495,
       "column": 58,
       "kind": "jsx-text",
       "text": "Générer un code d'activation"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 491,
+      "line": 498,
       "column": 73,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 497,
+      "line": 504,
       "column": 49,
       "kind": "jsx-text",
       "text": "Premium (99 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 498,
-      "column": 45,
+      "line": 505,
+      "column": 51,
       "kind": "jsx-text",
       "text": "Masterium (129 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 502,
+      "line": 509,
       "column": 73,
       "kind": "jsx-text",
       "text": "Durée (jours)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 525,
+      "line": 532,
       "column": 75,
       "kind": "jsx-text",
       "text": "✅ Code généré avec succès !"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 528,
+      "line": 535,
       "column": 68,
       "kind": "jsx-text",
       "text": "Copiez ce code et communiquez-le à l'utilisateur :"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 540,
+      "line": 547,
       "column": 25,
       "kind": "jsx-text",
       "text": "Copier"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 543,
+      "line": 550,
       "column": 64,
       "kind": "jsx-text",
       "text": "⚠️ Ce code ne sera plus affiché. Assurez-vous de le sauvegarder."
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 548,
+      "line": 555,
       "column": 58,
       "kind": "jsx-text",
       "text": "Codes d'activation"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 553,
+      "line": 560,
       "column": 63,
       "kind": "jsx-text",
       "text": "Hash (8 premiers)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 554,
+      "line": 561,
       "column": 63,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 555,
+      "line": 562,
       "column": 63,
       "kind": "jsx-text",
       "text": "Durée"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 556,
+      "line": 563,
       "column": 63,
       "kind": "jsx-text",
       "text": "Statut"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 557,
+      "line": 564,
       "column": 63,
       "kind": "jsx-text",
       "text": "Créé le"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 558,
+      "line": 565,
       "column": 63,
       "kind": "jsx-text",
       "text": "Utilisé le"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 594,
+      "line": 601,
       "column": 56,
       "kind": "jsx-text",
       "text": "Valider un paiement manuel"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 597,
+      "line": 604,
       "column": 71,
       "kind": "jsx-text",
       "text": "Utilisateur"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 603,
+      "line": 610,
       "column": 40,
       "kind": "jsx-text",
       "text": "Sélectionner un utilisateur"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 614,
+      "line": 621,
       "column": 73,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 624,
+      "line": 631,
       "column": 49,
       "kind": "jsx-text",
       "text": "Premium (99 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 625,
-      "column": 45,
+      "line": 632,
+      "column": 51,
       "kind": "jsx-text",
       "text": "Masterium (129 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 630,
+      "line": 637,
       "column": 73,
       "kind": "jsx-text",
       "text": "Montant (millimes)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 638,
+      "line": 645,
       "column": 71,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 645,
+      "line": 652,
       "column": 73,
       "kind": "jsx-text",
       "text": "Méthode de paiement"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 651,
+      "line": 658,
       "column": 50,
       "kind": "jsx-text",
       "text": "Virement bancaire"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 652,
+      "line": 659,
       "column": 49,
       "kind": "jsx-text",
       "text": "Espèces"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 653,
+      "line": 660,
       "column": 47,
       "kind": "jsx-text",
       "text": "Autre"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 658,
+      "line": 665,
       "column": 73,
       "kind": "jsx-text",
       "text": "Référence *"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 663,
+      "line": 670,
       "column": 37,
       "kind": "jsx-prop",
       "text": "REF-2026-001"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 669,
+      "line": 676,
       "column": 71,
       "kind": "jsx-text",
       "text": "Notes (optionnel)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 675,
+      "line": 682,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Informations complémentaires..."
     },
     {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
-      "line": 101,
+      "line": 107,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la création du code."
     },
     {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
-      "line": 47,
+      "line": 48,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la récupération des codes."
     },
     {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
-      "line": 66,
+      "line": 67,
       "column": 39,
       "kind": "api-message",
       "text": "Trop de requêtes."
     },
     {
+      "file": "src/app/api/v1/admin/activation-codes/route.ts",
+      "line": 79,
+      "column": 39,
+      "kind": "api-message",
+      "text": "Plan d’activation invalide."
+    },
+    {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 118,
+      "line": 123,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la validation du paiement."
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 32,
+      "line": 33,
       "column": 39,
       "kind": "api-message",
       "text": "Trop de requêtes."
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 50,
+      "line": 45,
+      "column": 39,
+      "kind": "api-message",
+      "text": "Plan de paiement manuel invalide."
+    },
+    {
+      "file": "src/app/api/v1/admin/manual-payment/route.ts",
+      "line": 56,
       "column": 41,
       "kind": "api-message",
       "text": "Utilisateur introuvable."
     },
     {
       "file": "src/app/api/v1/admin/stats/route.ts",
-      "line": 84,
+      "line": 85,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la récupération des statistiques."
     },
     {
       "file": "src/app/api/v1/admin/users/route.ts",
-      "line": 51,
+      "line": 57,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la récupération des utilisateurs."
@@ -500,14 +514,14 @@
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
-      "line": 44,
+      "line": 45,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de tentatives. Réessayez plus tard."
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
-      "line": 63,
+      "line": 66,
       "column": 39,
       "kind": "api-message",
       "text": "Un compte existe déjà pour cet email."
@@ -563,14 +577,14 @@
     },
     {
       "file": "src/app/api/v1/billing/redeem-code/route.ts",
-      "line": 47,
+      "line": 48,
       "column": 18,
       "kind": "api-message",
       "text": "Trop de tentatives. Réessaie plus tard."
     },
     {
       "file": "src/app/api/v1/billing/redeem-code/route.ts",
-      "line": 95,
+      "line": 96,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur interne. Réessaie dans quelques instants."
@@ -717,7 +731,7 @@
     },
     {
       "file": "src/app/api/v1/enseignant/dashboard/route.ts",
-      "line": 76,
+      "line": 77,
       "column": 18,
       "kind": "api-message",
       "text": "Service temporairement indisponible. Veuillez réessayer dans quelques instants."
@@ -822,42 +836,56 @@
     },
     {
       "file": "src/app/api/v1/media/[id]/route.ts",
-      "line": 37,
+      "line": 108,
       "column": 56,
       "kind": "api-message",
       "text": "Non authentifié."
     },
     {
       "file": "src/app/api/v1/media/[id]/route.ts",
-      "line": 46,
+      "line": 117,
       "column": 39,
       "kind": "api-message",
       "text": "Ressource non disponible."
     },
     {
       "file": "src/app/api/v1/media/[id]/route.ts",
-      "line": 54,
+      "line": 139,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Ressource réservée aux abonnés Premium ou Masterium."
+    },
+    {
+      "file": "src/app/api/v1/media/[id]/route.ts",
+      "line": 160,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Ressource réservée aux abonnés Premium ou Masterium."
+    },
+    {
+      "file": "src/app/api/v1/media/[id]/route.ts",
+      "line": 170,
       "column": 39,
       "kind": "api-message",
       "text": "Accès refusé."
     },
     {
       "file": "src/app/api/v1/media/[id]/route.ts",
-      "line": 59,
+      "line": 175,
       "column": 39,
       "kind": "api-message",
       "text": "Accès refusé."
     },
     {
       "file": "src/app/api/v1/media/[id]/route.ts",
-      "line": 67,
+      "line": 183,
       "column": 41,
       "kind": "api-message",
       "text": "Ressource non disponible."
     },
     {
       "file": "src/app/api/v1/media/[id]/route.ts",
-      "line": 86,
+      "line": 220,
       "column": 39,
       "kind": "api-message",
       "text": "Erreur de lecture du fichier."
@@ -1060,63 +1088,70 @@
     },
     {
       "file": "src/app/api/v1/ressources/file/route.ts",
-      "line": 101,
+      "line": 102,
       "column": 56,
       "kind": "api-message",
       "text": "Non authentifié."
     },
     {
       "file": "src/app/api/v1/ressources/file/route.ts",
-      "line": 106,
+      "line": 107,
       "column": 39,
       "kind": "api-message",
       "text": "Chemin de ressource manquant."
     },
     {
       "file": "src/app/api/v1/ressources/file/route.ts",
-      "line": 112,
+      "line": 113,
       "column": 39,
       "kind": "api-message",
       "text": "Accès refusé."
     },
     {
       "file": "src/app/api/v1/ressources/file/route.ts",
-      "line": 143,
+      "line": 144,
       "column": 18,
       "kind": "api-message",
       "text": "Ressource réservée aux abonnés Premium ou Masterium."
     },
     {
       "file": "src/app/api/v1/ressources/file/route.ts",
-      "line": 153,
+      "line": 154,
       "column": 39,
       "kind": "api-message",
       "text": "Accès refusé."
     },
     {
       "file": "src/app/api/v1/ressources/file/route.ts",
-      "line": 160,
+      "line": 161,
       "column": 41,
       "kind": "api-message",
       "text": "Ressource non disponible."
     },
     {
       "file": "src/app/api/v1/ressources/file/route.ts",
-      "line": 226,
+      "line": 227,
       "column": 41,
       "kind": "api-message",
       "text": "Ressource non disponible."
     },
     {
       "file": "src/app/api/v1/ressources/file/route.ts",
-      "line": 230,
+      "line": 231,
       "column": 39,
       "kind": "api-message",
       "text": "Erreur de lecture du fichier."
     },
     {
       "file": "src/app/api/v1/ressources/route.ts",
-      "line": 22,
+      "line": 44,
+      "column": 58,
+      "kind": "api-message",
+      "text": "Non authentifié."
+    },
+    {
+      "file": "src/app/api/v1/ressources/route.ts",
+      "line": 60,
       "column": 16,
       "kind": "api-message",
       "text": "Catalogue des ressources indisponible."
@@ -3720,266 +3755,266 @@
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 467,
+      "line": 524,
       "column": 92,
       "kind": "jsx-text",
       "text": "J-"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 468,
+      "line": 525,
       "column": 81,
       "kind": "jsx-text",
       "text": "— Coefficient"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 513,
+      "line": 562,
       "column": 15,
       "kind": "jsx-text",
       "text": "Ton tableau de bord EAF"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 520,
+      "line": 569,
       "column": 33,
       "kind": "jsx-text",
       "text": ", ton tableau de bord doit toujours déboucher sur une action exploitable."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 524,
-      "column": 109,
+      "line": 575,
+      "column": 113,
       "kind": "jsx-text",
       "text": ". Le signal du moment indique de remettre d’abord"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 525,
-      "column": 75,
+      "line": 576,
+      "column": 88,
       "kind": "jsx-text",
       "text": "au centre, à partir de l’historique réel des séances et des attendus EAF, puis seulement ensuite d’élargir."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 531,
+      "line": 581,
+      "column": 113,
+      "kind": "jsx-text",
+      "text": ". Lance un premier atelier noté pour faire émerger des repères fiables: forces, points à retendre et trajectoire réelle."
+    },
+    {
+      "file": "src/app/dashboard/page.tsx",
+      "line": 589,
       "column": 17,
       "kind": "jsx-text",
       "text": "Point fort courant:"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 534,
+      "line": 592,
       "column": 17,
       "kind": "jsx-text",
       "text": "Angle à retendre:"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 537,
+      "line": 595,
       "column": 17,
       "kind": "jsx-text",
       "text": "Niveau moyen:"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 540,
+      "line": 598,
       "column": 17,
       "kind": "jsx-text",
       "text": "Dernier passage:"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 546,
+      "line": 604,
       "column": 54,
       "kind": "jsx-text",
       "text": "Le profil n’est pas encore entièrement personnalisé."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 548,
+      "line": 606,
       "column": 19,
       "kind": "jsx-text",
       "text": "Finaliser la configuration permettra d’ancrer ton tableau de bord sur les œuvres, le niveau déclaré et les priorités à travailler."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 554,
+      "line": 612,
       "column": 19,
       "kind": "jsx-text",
       "text": "Reprendre la configuration"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 590,
+      "line": 648,
       "column": 17,
       "kind": "jsx-text",
       "text": "Rituel recommandé aujourd’hui"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 638,
+      "line": 696,
       "column": 112,
       "kind": "jsx-text",
       "text": "Fenêtre d’épreuve"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 662,
+      "line": 720,
       "column": 112,
       "kind": "jsx-text",
       "text": "Cap du moment"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 669,
+      "line": 731,
       "column": 19,
       "kind": "jsx-text",
       "text": "Ouvrir l’action prioritaire"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 685,
+      "line": 747,
       "column": 68,
       "kind": "jsx-text",
       "text": "Un souci temporaire nous empêche d&apos;afficher toutes les données"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 687,
+      "line": 749,
       "column": 68,
       "kind": "jsx-text",
       "text": "Rafraîchis la page dans quelques instants ou poursuis ta session normalement."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 697,
+      "line": 759,
       "column": 100,
       "kind": "jsx-text",
       "text": "Boussole"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 699,
+      "line": 761,
       "column": 17,
       "kind": "jsx-text",
       "text": "Une lecture visuelle rapide de tes quatre grands axes."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 703,
+      "line": 765,
       "column": 15,
       "kind": "jsx-text",
       "text": "Moyenne"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 720,
+      "line": 782,
       "column": 17,
       "kind": "jsx-text",
       "text": "Préparation de la boussole..."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 737,
+      "line": 799,
       "column": 100,
       "kind": "jsx-text",
       "text": "Trajectoire"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 739,
+      "line": 801,
       "column": 17,
       "kind": "jsx-text",
       "text": "La progression doit être lisible, pas seulement ressentie."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 754,
+      "line": 816,
       "column": 17,
       "kind": "jsx-text",
       "text": "Préparation de la trajectoire..."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 759,
+      "line": 821,
       "column": 82,
       "kind": "jsx-text",
       "text": "Actualisation des données de progression en cours..."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 767,
+      "line": 829,
       "column": 100,
       "kind": "jsx-text",
       "text": "Cartographie fine"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 769,
+      "line": 831,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ce que tu tiens bien, et ce qu’il faut remettre sous tension."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 776,
+      "line": 838,
       "column": 15,
       "kind": "jsx-text",
       "text": "Voir le parcours"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 802,
+      "line": 864,
       "column": 103,
       "kind": "jsx-text",
       "text": "Points de vigilance remontés"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 812,
-      "column": 82,
-      "kind": "jsx-text",
-      "text": "Aucun point de vigilance particulier sur la période récente. Continue sur ta lancée."
-    },
-    {
-      "file": "src/app/dashboard/page.tsx",
-      "line": 821,
+      "line": 887,
       "column": 98,
       "kind": "jsx-text",
       "text": "Activité récente"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 838,
+      "line": 904,
       "column": 80,
       "kind": "jsx-text",
       "text": "Ton fil d&apos;activité est encore vierge"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 840,
+      "line": 906,
       "column": 21,
       "kind": "jsx-text",
       "text": "Dès que tu lanceras un premier atelier ou un quiz, tes sessions apparaîtront ici pour suivre ta progression au fil des jours."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 848,
+      "line": 914,
       "column": 104,
       "kind": "jsx-text",
       "text": "Lanceur"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 850,
+      "line": 916,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le bon tableau de bord réduit la décision à un prochain geste clair."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 853,
+      "line": 919,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tu ne dois pas quitter cet écran avec une intention floue. Choisis un bloc, lance-le, puis reviens lire ce que la session a réellement déplacé."
@@ -4444,14 +4479,14 @@
       "line": 475,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Connecte-toi avec l'email que ton enfant a renseigné lors de son inscription. Tu verras la progression de tous les élèves qui t'ont ajouté."
+      "text": "Connecte-toi avec l'email que ton enfant a renseigné. Lors de la première connexion, utilise le lien reçu par email ou “mot de passe oublié” pour définir ton mot de passe."
     },
     {
       "file": "src/app/login/page.tsx",
       "line": 480,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Connecte-toi avec ton email professionnel. Tu verras tous les élèves qui ont rejoint ta classe avec ton code enseignant."
+      "text": "Connecte-toi avec ton email professionnel. Lors de la première connexion, utilise le lien reçu par email ou “mot de passe oublié” pour définir ton mot de passe."
     },
     {
       "file": "src/app/login/page.tsx",
@@ -4980,203 +5015,203 @@
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 292,
+      "line": 301,
       "column": 15,
       "kind": "jsx-text",
       "text": "Feuille de route Nexus"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 295,
+      "line": 304,
       "column": 15,
       "kind": "jsx-text",
       "text": "Ton parcours doit rendre la semaine lisible avant de la rendre ambitieuse."
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 298,
+      "line": 307,
       "column": 71,
       "kind": "jsx-text",
       "text": "ici, le plan transforme le profil, l’historique de travail et les attendus officiels en blocs concrets: quoi lancer, dans quel ordre, et comment reprendre sans perdre le fil."
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 314,
+      "line": 323,
       "column": 17,
       "kind": "jsx-text",
       "text": "Retour au tableau de bord"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 344,
+      "line": 353,
       "column": 17,
       "kind": "jsx-prop",
       "text": "Le parcours n’a pas pu être chargé"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 352,
+      "line": 361,
       "column": 17,
       "kind": "jsx-prop",
       "text": "Construction de ton plan personnalisé"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 353,
+      "line": 362,
       "column": 23,
       "kind": "jsx-prop",
       "text": "Ton profil et tes activités sont en cours d’analyse pour te proposer une feuille de route adaptée. Cela ne prend que quelques secondes."
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 361,
+      "line": 370,
       "column": 176,
       "kind": "jsx-prop",
       "text": "Priorités immédiates"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 364,
+      "line": 373,
       "column": 104,
       "kind": "jsx-text",
       "text": "Priorités immédiates"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 366,
+      "line": 375,
       "column": 21,
       "kind": "jsx-text",
       "text": "Les trois prochains blocs qui méritent d’ouvrir la semaine."
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 370,
+      "line": 379,
       "column": 19,
       "kind": "jsx-text",
       "text": "Plan nourri par le travail réel"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 382,
+      "line": 391,
       "column": 47,
       "kind": "jsx-text",
       "text": "min ·"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 402,
+      "line": 411,
       "column": 106,
       "kind": "jsx-text",
       "text": "Semaine"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 409,
+      "line": 418,
       "column": 79,
       "kind": "jsx-text",
       "text": "Avancement"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 416,
+      "line": 425,
       "column": 62,
       "kind": "jsx-text",
       "text": "activités cochées"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 464,
+      "line": 473,
       "column": 29,
       "kind": "jsx-text",
       "text": "Ouvrir"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 477,
+      "line": 486,
       "column": 21,
       "kind": "jsx-prop",
       "text": "Ton parcours se construit à partir de tes premières activités"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 478,
+      "line": 487,
       "column": 27,
       "kind": "jsx-prop",
       "text": "Finalise la configuration de ton parcours ou lance un premier atelier : la plateforme pourra alors te proposer une feuille de route personnalisée, semaine par semaine."
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 488,
+      "line": 497,
       "column": 21,
       "kind": "jsx-text",
       "text": "Terminer la configuration"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 495,
+      "line": 504,
       "column": 21,
       "kind": "jsx-text",
       "text": "Ouvrir le guidage"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 505,
+      "line": 514,
       "column": 98,
       "kind": "jsx-text",
       "text": "Cap du moment"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 507,
+      "line": 516,
       "column": 15,
       "kind": "jsx-text",
       "text": "Une vue compacte pour reprendre le plan sans inertie."
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 512,
+      "line": 521,
       "column": 81,
       "kind": "jsx-text",
       "text": "Progression globale"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 519,
+      "line": 528,
       "column": 39,
       "kind": "jsx-text",
       "text": "blocs validés sur"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 519,
+      "line": 528,
       "column": 79,
       "kind": "jsx-text",
       "text": ". L’objectif est de garder une cadence tenable, pas de cocher pour cocher."
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 526,
+      "line": 535,
       "column": 17,
       "kind": "jsx-text",
       "text": "Prochain bloc conseillé"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 540,
+      "line": 549,
       "column": 17,
       "kind": "jsx-text",
       "text": "Lancer ce bloc"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 577,
+      "line": 586,
       "column": 100,
       "kind": "jsx-text",
       "text": "Niveau de départ"
     },
     {
       "file": "src/app/mon-parcours/page.tsx",
-      "line": 579,
+      "line": 588,
       "column": 17,
       "kind": "jsx-text",
       "text": "Le parcours doit rester cohérent avec le profil mesuré."
@@ -5540,182 +5575,189 @@
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 123,
+      "line": 156,
       "column": 15,
       "kind": "jsx-text",
       "text": "Espace parent"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 126,
+      "line": 159,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le suivi parent doit rendre la progression lisible, sans transformer la maison en salle de classe."
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 129,
+      "line": 162,
       "column": 15,
       "kind": "jsx-text",
       "text": "Vue synthétique de"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 129,
+      "line": 162,
       "column": 69,
       "kind": "jsx-text",
       "text": ": niveau moyen, axe à resserrer, historique récent et prochaines fenêtres d’épreuve, dans un langage cohérent avec l’EAF."
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 135,
+      "line": 167,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Aucun élève n’est encore rattaché à cet email. Demande à l’élève d’ajouter cette adresse dans son profil pour activer le suivi parent réel."
+    },
+    {
+      "file": "src/app/parent/page.tsx",
+      "line": 173,
       "column": 17,
       "kind": "jsx-text",
       "text": "Moyenne actuelle&nbsp;:"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 138,
+      "line": 176,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Point fort&nbsp;:"
+      "text": "Élève suivi&nbsp;:"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 141,
+      "line": 179,
       "column": 17,
       "kind": "jsx-text",
       "text": "Focus semaine&nbsp;:"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 150,
+      "line": 188,
       "column": 17,
       "kind": "jsx-text",
       "text": "Voir le parcours"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 157,
+      "line": 195,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ouvrir le profil détaillé"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 183,
+      "line": 221,
       "column": 110,
       "kind": "jsx-text",
       "text": "Conseil parental de la semaine"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 200,
+      "line": 238,
       "column": 96,
       "kind": "jsx-text",
       "text": "Lecture parentale rapide"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 202,
+      "line": 240,
       "column": 13,
       "kind": "jsx-text",
       "text": "Les axes de progrès doivent être compréhensibles en moins d’une minute."
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 232,
+      "line": 270,
       "column": 105,
       "kind": "jsx-text",
       "text": "Axe fort"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 234,
+      "line": 272,
       "column": 82,
       "kind": "jsx-text",
       "text": "C’est le registre où la confiance peut servir de levier positif."
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 237,
+      "line": 275,
       "column": 105,
       "kind": "jsx-text",
       "text": "Axe fragile"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 239,
+      "line": 277,
       "column": 82,
       "kind": "jsx-text",
       "text": "Le bon soutien familial consiste surtout à protéger un créneau calme sur cet axe."
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 246,
+      "line": 284,
       "column": 15,
       "kind": "jsx-text",
       "text": "Action concrète cette semaine"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 256,
+      "line": 294,
       "column": 102,
       "kind": "jsx-text",
       "text": "Trajectoire récente"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 258,
+      "line": 296,
       "column": 19,
       "kind": "jsx-text",
       "text": "La tendance hebdomadaire compte plus que l’impression du moment."
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 262,
+      "line": 300,
       "column": 17,
       "kind": "jsx-text",
       "text": "Objectif de repère&nbsp;: 12 / 20"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 272,
+      "line": 310,
       "column": 98,
       "kind": "jsx-text",
       "text": "Évaluations récentes"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 290,
+      "line": 328,
       "column": 19,
       "kind": "jsx-text",
       "text": "Aucune évaluation suffisamment récente pour produire une lecture détaillée."
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 300,
+      "line": 338,
       "column": 96,
       "kind": "jsx-text",
       "text": "Points à surveiller"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 311,
+      "line": 349,
       "column": 15,
       "kind": "jsx-text",
       "text": "Aucun signal faible fort n’est remonté sur la fenêtre récente."
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 317,
+      "line": 355,
       "column": 102,
       "kind": "jsx-text",
       "text": "Position parentale utile"
     },
     {
       "file": "src/app/parent/page.tsx",
-      "line": 319,
+      "line": 357,
       "column": 13,
       "kind": "jsx-text",
       "text": "Le bon soutien n’est ni le contrôle permanent, ni le retrait total."
@@ -5820,798 +5862,882 @@
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 309,
+      "line": 311,
       "column": 15,
       "kind": "jsx-text",
       "text": "Plans 2026"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 314,
+      "line": 316,
       "column": 15,
       "kind": "jsx-text",
       "text": "Retour accueil"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 317,
+      "line": 319,
       "column": 15,
       "kind": "jsx-text",
       "text": "Se connecter"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 323,
+      "line": 325,
       "column": 15,
       "kind": "jsx-text",
       "text": "Comparer les plans"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 333,
+      "line": 335,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tarification claire, sans promesse floue"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 340,
+      "line": 342,
       "column": 15,
       "kind": "jsx-text",
       "text": "Choisis le bon rythme de travail,"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 341,
+      "line": 343,
       "column": 63,
       "kind": "jsx-text",
       "text": "puis laisse le produit faire le reste."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 345,
+      "line": 347,
       "column": 15,
       "kind": "jsx-text",
       "text": "Compare les plans, comprends les quotas, vois les alternatives de paiement et décide seulement après avoir compris ce que chaque niveau débloque vraiment."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 353,
+      "line": 355,
       "column": 17,
       "kind": "jsx-text",
       "text": "Choisir mon offre"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 360,
+      "line": 362,
       "column": 17,
       "kind": "jsx-text",
       "text": "Essayer gratuitement"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 376,
+      "line": 378,
       "column": 108,
       "kind": "jsx-text",
       "text": "Ton statut"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 378,
+      "line": 380,
       "column": 19,
       "kind": "jsx-text",
       "text": "Une facturation lisible, même avant paiement."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 382,
+      "line": 384,
       "column": 17,
       "kind": "jsx-text",
       "text": "Facturation en TND"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 390,
+      "line": 392,
       "column": 66,
       "kind": "jsx-text",
       "text": "Chargement du statut..."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 395,
+      "line": 397,
       "column": 93,
       "kind": "jsx-text",
       "text": "Mode visiteur"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 396,
+      "line": 398,
       "column": 72,
       "kind": "jsx-text",
       "text": "Aucun compte connecté"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 399,
+      "line": 401,
       "column": 23,
       "kind": "jsx-text",
       "text": "Tu peux comparer les plans librement. Le compte gratuit n’intervient qu’au moment utile, pas avant."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 405,
+      "line": 407,
       "column": 93,
       "kind": "jsx-text",
       "text": "Plan actif"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 409,
+      "line": 411,
       "column": 93,
       "kind": "jsx-text",
       "text": "Statut"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 414,
+      "line": 416,
       "column": 95,
       "kind": "jsx-text",
       "text": "Échéance"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 423,
+      "line": 425,
       "column": 87,
       "kind": "jsx-text",
       "text": "Dernier paiement"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 426,
+      "line": 428,
       "column": 61,
       "kind": "jsx-text",
       "text": "Aucun paiement requis pour commencer"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 427,
+      "line": 429,
       "column": 24,
       "kind": "jsx-text",
       "text": "Le plan Freemium permet déjà de configurer ton parcours, de tester les premiers ateliers et de découvrir la méthode."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 434,
-      "column": 91,
+      "line": 436,
+      "column": 138,
       "kind": "jsx-text",
       "text": "· Ref."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 438,
+      "line": 440,
       "column": 62,
       "kind": "jsx-text",
       "text": "Aucun paiement récent enregistré."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 446,
+      "line": 448,
       "column": 109,
       "kind": "jsx-text",
       "text": "Devise et moyens de paiement"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 447,
+      "line": 449,
       "column": 61,
       "kind": "jsx-text",
       "text": "Facturation en TND. Virement bancaire et WhatsApp actifs."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 450,
+      "line": 452,
       "column": 19,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 467,
+      "line": 469,
       "column": 100,
       "kind": "jsx-text",
       "text": "Plans"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 469,
+      "line": 471,
       "column": 17,
       "kind": "jsx-text",
       "text": "Trois rythmes, trois plafonds, une seule logique de valeur."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 473,
+      "line": 475,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le but n’est pas de noyer l’offre. Il est de rendre le choix simple, défendable et rapide pour l’élève comme pour le parent qui paie."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 498,
+      "line": 500,
       "column": 25,
       "kind": "jsx-text",
       "text": "Recommandé"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 560,
+      "line": 562,
       "column": 102,
       "kind": "jsx-text",
       "text": "Aide à la décision"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 562,
+      "line": 564,
       "column": 19,
       "kind": "jsx-text",
       "text": "La bonne offre dépend du rythme, pas d’un argument marketing vide."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 584,
+      "line": 586,
       "column": 107,
       "kind": "jsx-text",
       "text": "Activation"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 586,
+      "line": 588,
       "column": 19,
       "kind": "jsx-text",
       "text": "Activer avec un code"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 592,
+      "line": 594,
       "column": 15,
       "kind": "jsx-text",
       "text": "Si un code d\\'activation t'a été envoyé, active ton plan directement ici."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 601,
+      "line": 603,
       "column": 31,
       "kind": "jsx-prop",
       "text": "EAF-XXXX-XXXX-XXXX"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 617,
+      "line": 619,
       "column": 125,
       "kind": "jsx-text",
       "text": "pour rattacher le code à ton compte, puis reviens ici pour l’activer."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 617,
+      "line": 619,
       "column": 97,
       "kind": "jsx-text",
       "text": "Connecte-toi d’abord"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 641,
+      "line": 643,
       "column": 108,
       "kind": "jsx-text",
       "text": "Paiement alternatif"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 643,
+      "line": 645,
       "column": 19,
       "kind": "jsx-text",
       "text": "Commander un code en Tunisie"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 649,
+      "line": 651,
       "column": 15,
       "kind": "jsx-text",
       "text": "Pour l\\'instant, les abonnements payants s\\'activent par virement bancaire ou via WhatsApp."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 657,
+      "line": 659,
       "column": 69,
       "kind": "jsx-text",
       "text": "Modes de paiement actifs"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 659,
+      "line": 661,
       "column": 23,
       "kind": "jsx-text",
       "text": "Les abonnements s\\'activent par virement bancaire ou via WhatsApp. Ajoute l\\'email du compte ou ton identifiant utilisateur en référence pour accélérer l\\'activation."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 668,
+      "line": 670,
       "column": 69,
       "kind": "jsx-text",
       "text": "Virement bancaire"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 669,
+      "line": 671,
       "column": 74,
       "kind": "jsx-text",
       "text": "Ajoute l’email du compte ou l’identifiant utilisateur en motif. Le plan est activé après vérification du règlement."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 683,
+      "line": 685,
       "column": 25,
       "kind": "jsx-text",
       "text": "Envoyer la référence"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 695,
+      "line": 697,
       "column": 19,
       "kind": "jsx-text",
       "text": "Facturation en dinar tunisien. Premium = 99 TND/mois. Masterium = 129 TND/mois. Le code d’activation est envoyé après confirmation du virement bancaire ou via WhatsApp."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 709,
+      "line": 711,
       "column": 105,
       "kind": "jsx-text",
       "text": "Canal actif"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 711,
+      "line": 713,
       "column": 19,
       "kind": "jsx-text",
       "text": "Souscrire via WhatsApp"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 717,
+      "line": 719,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tu préfères être accompagné directement ? Envoie-nous un message WhatsApp pour choisir ton plan, poser tes questions et recevoir ton code d’activation."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 722,
+      "line": 724,
       "column": 107,
       "kind": "jsx-text",
       "text": "Numéro WhatsApp"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 725,
+      "line": 727,
       "column": 19,
       "kind": "jsx-text",
       "text": "Disponible pour répondre à tes questions sur les plans, t’aider à choisir et finaliser ton abonnement."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 729,
+      "line": 731,
       "column": 107,
       "kind": "jsx-text",
       "text": "Comment ça marche"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 731,
+      "line": 733,
       "column": 208,
       "kind": "jsx-text",
       "text": "Envoie &quot;Bonjour&quot; sur WhatsApp"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 732,
+      "line": 734,
       "column": 208,
       "kind": "jsx-text",
       "text": "Choisis ton plan (Premium ou Masterium)"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 733,
+      "line": 735,
       "column": 208,
       "kind": "jsx-text",
       "text": "Reçois ton code d’activation"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 746,
+      "line": 748,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ouvrir WhatsApp"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 754,
+      "line": 756,
       "column": 17,
       "kind": "jsx-text",
       "text": "Envoyer un message pré-rempli"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 761,
+      "line": 763,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 770,
+      "line": 772,
       "column": 100,
       "kind": "jsx-text",
       "text": "Comparaison détaillée"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 772,
+      "line": 774,
       "column": 17,
       "kind": "jsx-text",
       "text": "Les quotas sont visibles, donc la décision reste rationnelle."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 777,
+      "line": 779,
       "column": 15,
       "kind": "jsx-text",
       "text": "Compare en 30 secondes"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 785,
+      "line": 787,
       "column": 79,
       "kind": "jsx-text",
       "text": "Fonctionnalité"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 786,
+      "line": 788,
       "column": 91,
       "kind": "jsx-text",
       "text": "Freemium"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 787,
+      "line": 789,
       "column": 91,
       "kind": "jsx-text",
       "text": "Premium"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 788,
+      "line": 790,
       "column": 91,
       "kind": "jsx-text",
       "text": "Masterium"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 807,
+      "line": 809,
       "column": 98,
       "kind": "jsx-text",
       "text": "FAQ facturation"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 809,
+      "line": 811,
       "column": 15,
       "kind": "jsx-text",
       "text": "Les questions d’argent doivent être traitées aussi clairement que le reste."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 812,
+      "line": 814,
       "column": 15,
       "kind": "jsx-text",
       "text": "Si la page est bonne, elle coupe court aux hésitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 816,
+      "line": 818,
       "column": 106,
       "kind": "jsx-text",
       "text": "Prêt à passer à l’action ?"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 818,
+      "line": 820,
       "column": 17,
       "kind": "jsx-text",
       "text": "La préparation sérieuse commence avec Premium."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 821,
+      "line": 823,
       "column": 17,
       "kind": "jsx-text",
       "text": "Le plan Freemium donne un aperçu de la méthode de travail. Premium débloque le rythme nécessaire pour progresser réellement avant l\\'épreuve."
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 825,
+      "line": 827,
       "column": 19,
       "kind": "jsx-text",
       "text": "Comparer les plans"
     },
     {
       "file": "src/app/pricing/page.tsx",
-      "line": 829,
+      "line": 831,
       "column": 19,
       "kind": "jsx-text",
       "text": "Retour à l’accueil"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 211,
+      "line": 413,
       "column": 17,
       "kind": "jsx-prop",
       "text": "Chargement de ton profil de progression"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 212,
+      "line": 414,
       "column": 23,
       "kind": "jsx-prop",
       "text": "Tes compétences, erreurs récurrentes et badges sont en cours de chargement. Cela ne prend que quelques secondes."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 231,
+      "line": 433,
       "column": 15,
       "kind": "jsx-text",
       "text": "Profil de progression EAF"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 234,
+      "line": 436,
       "column": 28,
       "kind": "jsx-text",
       "text": ", ton profil doit te dire où appuyer, pas seulement où tu en es."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 237,
+      "line": 439,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges déjà acquis."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 243,
+      "line": 445,
       "column": 17,
       "kind": "jsx-text",
       "text": "Niveau moyen"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 246,
+      "line": 448,
       "column": 17,
       "kind": "jsx-text",
       "text": "Point fort"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 249,
+      "line": 451,
       "column": 17,
       "kind": "jsx-text",
       "text": "Axe à retendre"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 252,
+      "line": 454,
       "column": 17,
       "kind": "jsx-text",
       "text": "Mise à jour"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 261,
+      "line": 463,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ouvrir mon parcours"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 268,
+      "line": 470,
       "column": 17,
       "kind": "jsx-text",
       "text": "Débloquer un point précis"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 294,
+      "line": 496,
       "column": 110,
       "kind": "jsx-text",
       "text": "Signal global"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 304,
+      "line": 506,
       "column": 17,
       "kind": "jsx-prop",
       "text": "Impossible de charger certaines données du profil"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 312,
+      "line": 515,
+      "column": 98,
+      "kind": "jsx-text",
+      "text": "Réglages du profil"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 517,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Mets à jour les informations qui structurent vraiment ton accompagnement."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 520,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Nom affiché, classe, objectif, établissement et contacts de suivi peuvent être modifiés ici sans repasser par l’onboarding."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 524,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Mise à jour en direct"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 530,
+      "column": 19,
+      "kind": "jsx-prop",
+      "text": "Nom affiché"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 539,
+      "column": 19,
+      "kind": "jsx-prop",
+      "text": "Classe"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 546,
+      "column": 19,
+      "kind": "jsx-prop",
+      "text": "Objectif visé"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 550,
+      "column": 25,
+      "kind": "jsx-prop",
+      "text": "Ex. 14/20"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 554,
+      "column": 19,
+      "kind": "jsx-prop",
+      "text": "Établissement"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 561,
+      "column": 19,
+      "kind": "jsx-prop",
+      "text": "E-mail parent"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 570,
+      "column": 19,
+      "kind": "jsx-prop",
+      "text": "E-mail enseignant"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 581,
+      "column": 76,
+      "kind": "jsx-text",
+      "text": "Enregistrement sécurisé"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 583,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Cette action utilise le même contrôle CSRF que les autres mutations sensibles de la plateforme."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 599,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Enregistrer le profil"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 607,
       "column": 96,
       "kind": "jsx-text",
       "text": "Cartographie actuelle"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 314,
+      "line": 609,
       "column": 13,
       "kind": "jsx-text",
       "text": "Quatre axes lisibles, pour éviter une lecture floue de tes progrès."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 344,
+      "line": 639,
       "column": 105,
       "kind": "jsx-text",
       "text": "Axe fort"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 346,
-      "column": 82,
-      "kind": "jsx-text",
-      "text": "C’est là que le niveau est le plus naturellement stable aujourd’hui."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 349,
+      "line": 648,
       "column": 105,
       "kind": "jsx-text",
       "text": "Axe prioritaire"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 351,
-      "column": 82,
-      "kind": "jsx-text",
-      "text": "C’est l’endroit où une séance bien choisie rapportera le plus vite."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 358,
+      "line": 661,
       "column": 98,
       "kind": "jsx-text",
       "text": "Points de vigilance"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 360,
+      "line": 663,
       "column": 15,
       "kind": "jsx-text",
       "text": "Les erreurs récurrentes doivent rester visibles, pas seulement ressenties."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 366,
+      "line": 669,
       "column": 25,
       "kind": "jsx-prop",
       "text": "Aucune erreur récurrente identifiée"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 367,
+      "line": 670,
       "column": 31,
       "kind": "jsx-prop",
       "text": "Au fil de tes ateliers et évaluations, les points de vigilance récurrents apparaîtront ici pour t’aider à cibler tes prochaines révisions."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 385,
+      "line": 688,
       "column": 43,
       "kind": "jsx-text",
       "text": "occurrences"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 398,
+      "line": 701,
       "column": 104,
       "kind": "jsx-text",
       "text": "72 prochaines heures"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 400,
+      "line": 703,
       "column": 15,
       "kind": "jsx-text",
       "text": "Les prochaines tâches doivent être courtes, claires et immédiatement lançables."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 412,
+      "line": 715,
       "column": 49,
       "kind": "jsx-text",
       "text": "min ·"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 423,
+      "line": 726,
       "column": 67,
       "kind": "jsx-text",
       "text": "Pas encore de tâches planifiées"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 425,
+      "line": 728,
       "column": 21,
       "kind": "jsx-text",
       "text": "Ouvre ton parcours ou lance un atelier pour que les prochaines actions concrètes apparaissent ici."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 436,
+      "line": 739,
       "column": 17,
       "kind": "jsx-text",
       "text": "Voir tout le plan"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 443,
+      "line": 746,
       "column": 17,
       "kind": "jsx-text",
       "text": "Demander une relance"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 453,
+      "line": 756,
       "column": 98,
       "kind": "jsx-text",
       "text": "Badges et traces positives"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 455,
+      "line": 758,
       "column": 15,
       "kind": "jsx-text",
       "text": "Les marqueurs de progression comptent aussi pour soutenir la constance."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 459,
+      "line": 762,
       "column": 45,
       "kind": "jsx-text",
       "text": "badges actifs"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 466,
+      "line": 769,
       "column": 21,
       "kind": "jsx-prop",
       "text": "Tes premiers badges arrivent bientôt"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 467,
+      "line": 770,
       "column": 27,
       "kind": "jsx-prop",
       "text": "Chaque atelier terminé, chaque série de jours actifs et chaque seuil franchi te rapprochent d’un nouveau badge. Continue sur ta lancée !"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 476,
+      "line": 779,
       "column": 19,
       "kind": "jsx-text",
       "text": "Lancer un atelier"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 494,
+      "line": 797,
       "column": 19,
       "kind": "jsx-text",
       "text": "Trace de progression utile : ce badge matérialise une régularité ou un passage de seuil déjà atteint."
@@ -7738,98 +7864,98 @@
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 234,
+      "line": 236,
       "column": 105,
       "kind": "jsx-text",
       "text": "Nexus Réussite"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 235,
+      "line": 237,
       "column": 83,
       "kind": "jsx-text",
       "text": "Tableau de bord EAF"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 236,
+      "line": 238,
       "column": 69,
       "kind": "jsx-text",
       "text": "Travail guidé, progression lisible, matière exploitable."
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 242,
+      "line": 244,
       "column": 110,
       "kind": "jsx-text",
       "text": "J-EAF"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 246,
+      "line": 248,
       "column": 110,
       "kind": "jsx-text",
       "text": "Streak"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 252,
+      "line": 254,
       "column": 110,
       "kind": "jsx-text",
       "text": "Badges"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 279,
+      "line": 281,
       "column": 80,
       "kind": "jsx-text",
       "text": "Trajectoire actuelle"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 280,
+      "line": 282,
       "column": 81,
       "kind": "jsx-text",
       "text": "Objectif visé :"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 342,
+      "line": 344,
       "column": 26,
       "kind": "jsx-prop",
       "text": "Paramètres"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 350,
+      "line": 352,
       "column": 26,
       "kind": "jsx-prop",
       "text": "Se déconnecter"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 385,
+      "line": 387,
       "column": 99,
       "kind": "jsx-text",
       "text": "Navigation"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 386,
+      "line": 388,
       "column": 78,
       "kind": "jsx-text",
       "text": "Accès rapide aux ateliers et outils."
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 450,
+      "line": 452,
       "column": 26,
       "kind": "jsx-prop",
       "text": "Changer le thème"
     },
     {
       "file": "src/components/layout/sidebar.tsx",
-      "line": 459,
+      "line": 461,
       "column": 76,
       "kind": "jsx-text",
       "text": "Thème"
