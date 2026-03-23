@@ -6,6 +6,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { getBillingContext } from '@/lib/billing/context';
+import { hasFullLibraryAccess, FREE_LIBRARY_LIMITS } from '@/lib/billing/library-gating';
+import { RESSOURCES } from '@/data/ressources';
 import { MEDIA_CATALOG } from '@/data/media-catalog';
 import { logger } from '@/lib/logger';
 import { isWithinRessourcesRoot, resolveCatalogFilePath } from '@/lib/ressources/path';
@@ -47,6 +50,51 @@ export async function GET(
   }
 
   const absolutePath = resolveCatalogFilePath(entry.filePath);
+
+  const billing = await getBillingContext(auth.user.id);
+  if (!hasFullLibraryAccess(billing.planId)) {
+    const normalizedPath = entry.filePath.replace(/^ressources\//, '');
+    const matchedResource = RESSOURCES.find(
+      (resource) => resource.url.replace(/^\/ressources\//, '') === normalizedPath,
+    );
+
+    if (!matchedResource) {
+      logger.info({
+        route: 'api/v1/media',
+        userId: auth.user.id,
+        plan: billing.planId,
+        id,
+        visibility: entry.visibility,
+      }, 'media.freemium_blocked_unlisted');
+
+      return NextResponse.json({
+        error: 'Ressource réservée aux abonnés Premium ou Masterium.',
+        code: 'LIBRARY_UPGRADE_REQUIRED',
+        upgradeUrl: '/pricing',
+      }, { status: 403 });
+    }
+
+    const categoryResources = RESSOURCES.filter((resource) => resource.category === matchedResource.category);
+    const indexInCategory = categoryResources.findIndex((resource) => resource.id === matchedResource.id);
+    const limit = FREE_LIBRARY_LIMITS[matchedResource.category] ?? 2;
+
+    if (indexInCategory >= limit) {
+      logger.info({
+        route: 'api/v1/media',
+        userId: auth.user.id,
+        plan: billing.planId,
+        id,
+        resource: matchedResource.id,
+        category: matchedResource.category,
+      }, 'media.freemium_blocked');
+
+      return NextResponse.json({
+        error: 'Ressource réservée aux abonnés Premium ou Masterium.',
+        code: 'LIBRARY_UPGRADE_REQUIRED',
+        upgradeUrl: '/pricing',
+      }, { status: 403 });
+    }
+  }
 
   // Security: reject null bytes in the id (prevents poison-null-byte attacks)
   if (id.includes('\0')) {
