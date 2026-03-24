@@ -429,7 +429,7 @@ paths:
 - Puis ouvrir issue avec label `question`
 
 **Urgences production**:
-- Voir RUNBOOK_PRODUCTION.md section "Contacts et Escalation"
+- Voir RUNBOOK_PRODUCTION.md section "Contacts et escalade"
 
 ---
 

@@ -110,7 +110,7 @@ export async function POST(request: Request) {
       skill: 'coach_ecrit',
       userId: auth.user.id,
       workId: parsed.data.oeuvre,
-      userQuery: `Génère un sujet de type ${type}. Oeuvre: ${parsed.data.oeuvre ?? 'libre'}. Thème: ${parsed.data.theme ?? 'libre'}.`,
+      userQuery: `Génère un sujet de type ${type}. Œuvre : ${parsed.data.oeuvre ?? 'libre'}. Thème : ${parsed.data.theme ?? 'libre'}.`,
       context: [
         `Type demandé: ${type}.`,
         ragContext.length > 0 ? `Sources RAG disponibles:\n${ragContext}` : '',

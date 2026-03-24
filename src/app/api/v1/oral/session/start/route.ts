@@ -139,7 +139,7 @@ export async function POST(request: Request) {
         phraseGrammaire,
         oeuvreChoisie,
         instructions:
-          'Suivez les 4 étapes officielles : lecture (2 min), explication (8 min), grammaire (2 min), entretien (8 min sur l\'oeuvre choisie).',
+          'Suivez les 4 étapes officielles : lecture (2 min), explication (8 min), grammaire (2 min), entretien (8 min sur l’œuvre choisie).',
       },
       { status: 200 },
     );

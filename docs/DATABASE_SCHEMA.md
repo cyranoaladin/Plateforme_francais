@@ -395,7 +395,7 @@ Segments vectorisés pour RAG.
 | `page` | Int? | Numéro page |
 | `hash` | String? (unique) | Hash contenu |
 | `level` | String? | Niveau scolaire |
-| `oeuvre` | String? | Oeuvre concernée |
+| `oeuvre` | String? | Œuvre concernée |
 | `parcours` | String? | Parcours |
 | `createdAt` | DateTime | Date création |
 
@@ -722,7 +722,7 @@ Documents déposés par élèves.
 | `analysisResult` | Json? | Résultat analyse | null |
 | `analysisStatus` | DocStatus | `DOC_PENDING`, `DOC_PROCESSING`, `DOC_DONE`, `DOC_ERROR` | `DOC_PENDING` |
 | `linkedSessionId` | String? | Session liée | null |
-| `workId` | String? | Oeuvre liée | null |
+| `workId` | String? | Œuvre liée | null |
 | `depositType` | DocType | `COPIE_ECRIT`, `ENREGISTREMENT_ORAL`, `RESSOURCE`, `AUTRE` | - |
 | `createdAt` | DateTime | Date création | now |
 | `expiresAt` | DateTime? | Date expiration | null |
@@ -759,7 +759,7 @@ Textes descriptifs générés.
 | `id` | String (PK) | UUID |
 | `studentId` | String (FK) | Référence StudentProfile |
 | `objetEtude` | String | Objet d'étude |
-| `oeuvre` | String | Oeuvre |
+| `oeuvre` | String | Œuvre |
 | `auteur` | String | Auteur |
 | `typeExtrait` | String | Type extrait |
 | `titre` | String | Titre |
@@ -777,7 +777,7 @@ Entrées carnet de lecture.
 |-------|------|-------------|--------|
 | `id` | String (PK) | UUID | - |
 | `studentId` | String (FK) | Référence StudentProfile | - |
-| `oeuvre` | String | Oeuvre | - |
+| `oeuvre` | String | Œuvre | - |
 | `auteur` | String | Auteur | - |
 | `type` | String | Type d'entrée | - |
 | `contenu` | String | Contenu | - |

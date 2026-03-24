@@ -59,14 +59,14 @@ export async function POST(request: Request) {
   const byOeuvre = countBy(textes.filter((t) => t.type === 'extrait_oeuvre').map((t) => t.oeuvre));
   for (const [oeuvre, count] of Object.entries(byOeuvre)) {
     if (count < 3) {
-      warnings.push(`Minimum 3 extraits oeuvre non atteint pour ${oeuvre}.`);
+      warnings.push(`Minimum de 3 extraits d’œuvre non atteint pour ${oeuvre}.`);
     }
   }
 
   const byParcours = countBy(textes.filter((t) => t.type === 'extrait_parcours').map((t) => t.oeuvre));
   for (const [oeuvre, count] of Object.entries(byParcours)) {
     if (count < 2) {
-      warnings.push(`Minimum 2 extraits parcours non atteint pour ${oeuvre}.`);
+      warnings.push(`Minimum de 2 extraits de parcours non atteint pour ${oeuvre}.`);
     }
   }
 
