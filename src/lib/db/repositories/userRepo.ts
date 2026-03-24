@@ -19,7 +19,7 @@ function toUserRecord(input: {
     passwordSalt: input.passwordSalt,
     role: input.role,
     createdAt: input.createdAt instanceof Date ? input.createdAt.toISOString() : input.createdAt,
-    profile: input.profile,
+    profile: sanitizeProfileForRole(input.profile, input.role),
   };
 }
 
@@ -59,6 +59,28 @@ function toStudentProfile(profile: PrismaStudentProfileRecord): StudentProfile {
     parentConsentStatus: profile.parentConsentStatus ?? undefined,
     parentConsentDate: profile.parentConsentDate?.toISOString(),
     parentConsentIpHash: profile.parentConsentIpHash ?? undefined,
+  };
+}
+
+function sanitizeProfileForRole(profile: StudentProfile, role: UserRole): StudentProfile {
+  if (role === 'eleve' || role === 'admin') {
+    return profile;
+  }
+
+  return {
+    displayName: profile.displayName,
+    classLevel: profile.classLevel,
+    targetScore: profile.targetScore,
+    establishment: profile.establishment,
+    eafDate: profile.eafDate,
+    onboardingCompleted: profile.onboardingCompleted,
+    selectedOeuvres: profile.selectedOeuvres,
+    classCode: profile.classCode,
+    parcoursProgress: profile.parcoursProgress,
+    badges: profile.badges,
+    preferredObjects: profile.preferredObjects,
+    weakSkills: profile.weakSkills,
+    oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien,
   };
 }
 

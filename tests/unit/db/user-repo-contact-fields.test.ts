@@ -62,6 +62,43 @@ describe('userRepo contact fields', () => {
     expect(found?.profile.teacherEmail).toBe('teacher@test.local');
   });
 
+  it('hides student-only consent fields for parent accounts', async () => {
+    mockFindUnique.mockResolvedValue({
+      id: 'u-parent',
+      email: 'parent@test.local',
+      passwordHash: 'hash',
+      passwordSalt: 'salt',
+      role: 'parent',
+      createdAt: new Date('2026-03-23T00:00:00Z'),
+      profile: {
+        displayName: 'Parent',
+        classLevel: 'Suivi parent',
+        targetScore: '14/20',
+        onboardingCompleted: true,
+        selectedOeuvres: [],
+        classCode: null,
+        parcoursProgress: [],
+        badges: [],
+        preferredObjects: [],
+        weakSkills: [],
+        oeuvreChoisieEntretien: null,
+        parentEmail: 'parent@test.local',
+        teacherEmail: 'teacher@test.local',
+        parentConsentToken: 'token',
+        parentConsentStatus: 'pending',
+      },
+    });
+
+    const repo = await import('@/lib/db/repositories/userRepo');
+    const found = await repo.findUserByEmail('parent@test.local');
+
+    expect(found?.role).toBe('parent');
+    expect(found?.profile.parentEmail).toBeUndefined();
+    expect(found?.profile.teacherEmail).toBeUndefined();
+    expect(found?.profile.parentConsentToken).toBeUndefined();
+    expect(found?.profile.parentConsentStatus).toBeUndefined();
+  });
+
   it('persists teacherEmail at account creation', async () => {
     mockCreate.mockResolvedValue(undefined);
 
