@@ -273,7 +273,7 @@ curl -X POST https://eaf.nexusreussite.academy/api/v1/billing/redeem-code \
 
 ## Workflows utilisateurs
 
-### 🎓 Parcours élève (eleve)
+### 🎓 Parcours élève (`eleve`)
 
 ```
 1. Landing (/)
@@ -285,27 +285,27 @@ curl -X POST https://eaf.nexusreussite.academy/api/v1/billing/redeem-code \
    ▼
 3. Onboarding (/onboarding)
    │  ├── Niveau scolaire
-   │  ├── Oeuvres sélectionnées
+   │  ├── Œuvres sélectionnées
    │  └── Objectif de score
    │
    ▼
-4. Tableau de bord (/eleve)
+4. Tableau de bord (/dashboard)
    │  ├── Accès aux 4 ateliers
    │  ├── Progression
    │  └── Tuteur IA
    │
-   ├──▶ Atelier Écrit (/ecrit)
+   ├──▶ Atelier Écrit (/atelier-ecrit)
    │      ├── Générer sujet
    │      ├── Rédiger copie
    │      └── Correction IA
    │
-   ├──▶ Atelier Oral (/oral)
-   │      ├── Tirage au sort oeuvre
+   ├──▶ Atelier Oral (/atelier-oral)
+   │      ├── Tirage au sort œuvre
    │      ├── Préparation (30 min)
-   │      ├── Passage (10 min)
+   │      ├── Passage (12 + 8 min)
    │      └── Bilan avec note
    │
-   ├──▶ Atelier Langue (/langue)
+   ├──▶ Atelier Langue (/atelier-langue)
    │      └── Exercices ciblés
    │
    └──▶ Quiz (/quiz)
@@ -587,7 +587,7 @@ npm run build
 | Rôle | Email | Mot de passe |
 |------|-------|--------------|
 | Admin | admin@eaf.local | AdminTest2026! |
-| Élève Free | eleve.free@eaf.local | FreeTest2026! |
+| Élève Freemium | eleve.free@eaf.local | FreeTest2026! |
 
 ### 📞 Contacts
 

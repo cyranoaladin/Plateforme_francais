@@ -1,4 +1,4 @@
-# Guide élève - EAF Premium
+# Guide élève - Nexus Réussite EAF
 
 Dernière mise à jour : 25 février 2026
 
@@ -29,7 +29,7 @@ Compte démo :
 
 ## 3. Dashboard (`/`)
 Vous y trouvez:
-- scores par compétences
+- scores par compétence
 - signaux faibles
 - activité récente
 - streak de travail
@@ -90,10 +90,10 @@ Vous y trouvez:
 - Compétences (skill map)
 
 ## 12. Abonnement (`/pricing`)
-- Choix du plan (FREE / PRO / MAX)
-- Paiement via ClicToPay
-- Confirmation sur `/paiement/confirmation`
-- En cas d'échec : `/paiement/refus`
+- Choix du plan (Freemium / Premium / Masterium)
+- Paiement par virement bancaire ou en espèces
+- Activation via code communiqué par l'équipe
+- Saisie du code depuis la plateforme pour activer le plan
 
 ## 13. Protection et confidentialité
 - Session sécurisée par cookie
