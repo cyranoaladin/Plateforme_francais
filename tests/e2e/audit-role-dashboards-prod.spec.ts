@@ -3,11 +3,23 @@ import { test, expect } from '@playwright/test';
 const baseURL = process.env.E2E_BASE_URL ?? 'https://eaf.nexusreussite.academy';
 
 async function loginViaApi(page: import('@playwright/test').Page, email: string, password: string) {
-  const response = await page.request.post(`${baseURL}/api/v1/auth/login`, {
-    data: { email, password },
-  });
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const response = await page.request.post(`${baseURL}/api/v1/auth/login`, {
+      data: { email, password },
+    });
 
-  expect(response.ok()).toBeTruthy();
+    if (response.ok()) {
+      return;
+    }
+
+    if (response.status() === 429 && attempt === 0) {
+      const retryAfter = Number(response.headers()['retry-after'] ?? '5');
+      await page.waitForTimeout(retryAfter * 1000);
+      continue;
+    }
+
+    expect(response.ok()).toBeTruthy();
+  }
 }
 
 test.describe('Audit role dashboards on production', () => {
@@ -38,6 +50,7 @@ test.describe('Audit role dashboards on production', () => {
     await page.goto(`${baseURL}/admin`, { waitUntil: 'networkidle' });
 
     await expect(page.getByRole('heading', { name: 'Tableau de bord admin' })).toBeVisible();
+    await page.getByRole('button', { name: "Codes d'activation" }).click();
     await expect(page.getByText('Générer un code d\'activation')).toBeVisible();
     await expect(page.locator('body')).not.toContainText('Dashboard Admin');
     await expect(page.locator('body')).not.toContainText('MAX');
