@@ -220,21 +220,20 @@ Toutes les API sont sous `/api/v1/`
 #### Ateliers
 | Endpoint | Méthode | Description | Auth |
 |----------|---------|-------------|------|
-| `/oral/start` | POST | Démarrer session oral | ✅ |
-| `/oral/interact` | POST | Interaction pendant oral | ✅ |
-| `/oral/end` | POST | Finaliser session | ✅ |
+| `/oral/session/start` | POST | Démarrer une session orale | ✅ |
+| `/oral/session/[sessionId]/interact` | POST | Interaction pendant l'oral | ✅ |
+| `/oral/session/[sessionId]/end` | POST | Finaliser la session | ✅ |
 | `/epreuves/generate` | POST | Générer sujet écrit | ✅ |
 | `/epreuves/[id]/copie` | POST | Déposer copie | ✅ |
 | `/langue/generate` | POST | Exercice langue | ✅ |
-| `/quiz/start` | POST | Démarrer quiz | ✅ |
-| `/quiz/answer` | POST | Répondre question | ✅ |
+| `/quiz/generate` | POST | Générer un quiz | ✅ |
+| `/quiz/evaluate` | POST | Évaluer les réponses | ✅ |
 
 #### Tuteur IA
 | Endpoint | Méthode | Description | Auth |
 |----------|---------|-------------|------|
-| `/chat` | POST | Message au tuteur | ✅ |
-| `/rag/query` | POST | Recherche RAG | ✅ |
-| `/llm/orchestrate` | POST | Routeur skills | ✅ |
+| `/tuteur/message` | POST | Message au tuteur | ✅ |
+| `/rag/search` | POST | Recherche RAG | ✅ |
 
 #### RGPD
 | Endpoint | Méthode | Description | Auth |
@@ -341,7 +340,7 @@ curl -X POST https://eaf.nexusreussite.academy/api/v1/billing/redeem-code \
    │  └── Statistiques globales
    │
    ├──▶ Codes activation
-   │      └── Générer codes PREMIUM/PRO
+   │      └── Générer codes Premium/Masterium
    │
    └──▶ Paiements manuels
           └── Valider après réception virement
@@ -377,27 +376,26 @@ curl -X POST https://eaf.nexusreussite.academy/api/v1/billing/redeem-code \
 | **Freemium** | `FREE` | 0 TND | Gratuit |
 | **Premium** | `PREMIUM` | 99 TND/mois | Mensuel |
 | **Masterium** | `PRO` | 129 TND/mois | Mensuel |
-| **Masterium Life** | `MAX` | 149 TND | À vie |
 
 ### 📊 Quotas par plan
 
-| Feature | FREE | PREMIUM | PRO/MAX |
-|---------|------|---------|---------|
-| Sessions oral/mois | 1 | 10/semaine | Illimité |
-| Corrections écrit/mois | 2 | 20 | Illimité |
-| Questions tuteur/jour | 3 | 100 | Illimité |
-| Tokens LLM/jour | 5,000 | 50,000 | 200,000 |
-| Recherches RAG/jour | 50 | 500 | Illimité |
-| Quiz/jour | 1 | 30 | Illimité |
-| OCR copies/mois | 0 | 20 | 50 |
+| Feature | Freemium | Premium | Masterium |
+|---------|-----------|---------|------------|
+| Sessions orales | 1/mois | 10/semaine | Illimité |
+| Corrections écrites | 2/mois | 20/mois | Illimité |
+| Questions tuteur | 3/jour | 100/jour | Illimité |
+| Tokens LLM | 5 000/jour | 50 000/jour | 200 000/jour |
+| Recherches RAG | 50/jour | 500/jour | Illimité |
+| Quiz | 1/jour | 30/jour | Illimité |
+| OCR copies | 0 | 20/mois | 50/mois |
 
 ### 🏳️ Feature flags
 
-| Feature | FREE | PREMIUM | PRO/MAX |
-|---------|------|---------|---------|
+| Feature | Freemium | Premium | Masterium |
+|---------|-----------|---------|------------|
 | Rapport PDF oral | ❌ | ✅ | ✅ |
 | Historique oral | ❌ | ❌ | ✅ |
-| Dashboard parent | ❌ | ✅ | ✅ |
+| Tableau de bord parent | ❌ | ✅ | ✅ |
 | Support | FAQ | Email | Prioritaire |
 | Parcours adaptatif | ❌ | ✅ | ✅ |
 | Avocat du diable | ❌ | ✅ | ✅ |

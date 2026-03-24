@@ -691,7 +691,7 @@ Collecte des Web Vitals.
   "name": "LCP",
   "value": 1200,
   "rating": "good",
-  "url": "/eleve"
+  "url": "/dashboard"
 }
 ```
 
