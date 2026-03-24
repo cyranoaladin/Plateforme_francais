@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const baseURL = process.env.E2E_BASE_URL ?? 'https://eaf.nexusreussite.academy';
+const isProductionAuditBaseUrl = /https:\/\/eaf\.nexusreussite\.academy/i.test(baseURL);
 
 async function loginViaApi(page: import('@playwright/test').Page, email: string, password: string) {
   for (let attempt = 0; attempt < 2; attempt += 1) {
@@ -23,6 +24,8 @@ async function loginViaApi(page: import('@playwright/test').Page, email: string,
 }
 
 test.describe('Audit role dashboards on production', () => {
+  test.skip(!isProductionAuditBaseUrl, 'Ces comptes d’audit existent uniquement sur la production réelle.');
+
   test('parent dashboard is useful and free of legacy plan labels', async ({ page }) => {
     await loginViaApi(page, 'audit-parent-1774367337@test-nexus.dev', 'Audit2026!');
     await page.goto(`${baseURL}/parent`, { waitUntil: 'networkidle' });

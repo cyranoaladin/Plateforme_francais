@@ -27,7 +27,7 @@ test('admin: admin user can access dashboard and load tabs', async ({ page }) =>
   await login(page, 'admin@eaf.local', 'AdminTest2026!');
 
   await page.goto('/admin');
-  await expect(page.getByRole('heading', { name: /dashboard admin/i })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole('heading', { name: /tableau de bord admin/i })).toBeVisible({ timeout: 20_000 });
 
   // Users tab should call /api/v1/admin/users
   await page.getByRole('button', { name: /utilisateurs/i }).click();
