@@ -159,6 +159,12 @@ describe('plan-catalog — source unique de vérité', () => {
       expect(parseCommercialPlanId('MASTERIUM')).toBe('PRO');
       expect(parseCommercialPlanId('UNKNOWN')).toBeNull();
     });
+
+    it('rabats MAX sur Masterium au lieu de laisser vivre un 4e plan effectif', () => {
+      expect(normalizePlanId('MAX')).toBe('PRO');
+      expect(getPlanConfig('MAX').id).toBe('PRO');
+      expect(getPlanConfig('MAX').billingCycle).toBe('monthly');
+    });
   });
 
   describe('getPlanConfig', () => {

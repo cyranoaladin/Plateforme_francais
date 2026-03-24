@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { getPeriodKey, buildPaywallMessage } from '@/lib/billing/quotas';
-import { PLAN_CATALOG } from '@/lib/billing/plan-catalog';
+import { getPlanConfig, PLAN_CATALOG } from '@/lib/billing/plan-catalog';
 
 describe('Billing Quotas V2', () => {
   describe('PLAN_CATALOG quotas', () => {
@@ -16,9 +16,9 @@ describe('Billing Quotas V2', () => {
       expect(PLAN_CATALOG.PRO.flags.ORAL_PDF_REPORT).toBe(true);
     });
 
-    it('MAX has unlimited quotas', () => {
-      expect(PLAN_CATALOG.MAX.quotas.ORAL_SESSIONS.limit).toBe('unlimited');
-      expect(PLAN_CATALOG.MAX.quotas.LLM_TOKENS.limit).toBe(200_000);
+    it('MAX legacy alias resolves to Masterium quotas', () => {
+      expect(getPlanConfig('MAX').quotas.ORAL_SESSIONS?.limit).toBe('unlimited');
+      expect(getPlanConfig('MAX').quotas.LLM_TOKENS?.limit).toBe(200_000);
     });
   });
 

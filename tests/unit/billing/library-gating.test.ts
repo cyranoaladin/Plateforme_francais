@@ -9,6 +9,7 @@ import {
   FREE_LIBRARY_PERCENT,
   getLibraryPaywallMessage,
 } from '@/lib/billing/library-gating';
+import { normalizePlanId } from '@/lib/billing/plan-catalog';
 
 describe('library-gating', () => {
   describe('hasFullLibraryAccess', () => {
@@ -21,8 +22,8 @@ describe('library-gating', () => {
     it('PRO a l acces complet', () => {
       expect(hasFullLibraryAccess('PRO')).toBe(true);
     });
-    it('MAX a l acces complet', () => {
-      expect(hasFullLibraryAccess('MAX')).toBe(true);
+    it('MAX legacy ouvre le meme acces que Masterium', () => {
+      expect(hasFullLibraryAccess(normalizePlanId('MAX'))).toBe(true);
     });
   });
 

@@ -7,7 +7,9 @@ interface Plan {
   price: string;
   period: string;
   featured: boolean;
+  tagline: string;
   features: string[];
+  footer: string;
 }
 
 const plans: Plan[] = [
@@ -16,40 +18,46 @@ const plans: Plan[] = [
     price: '0 TND',
     period: '',
     featured: false,
+    tagline: 'Découvre la méthode sans paiement.',
     features: [
-      'Diagnostic express initial',
-      '3 corrections par mois',
-      'Accès fiches de révision',
-      'Tableau de bord basique',
+      '1 oral / mois',
+      '2 corrections écrites / mois',
+      '3 échanges guidés / jour',
+      'Sélection de ressources gratuites',
     ],
+    footer: 'Création de compte immédiate, sans carte bancaire.',
   },
   {
     name: 'Premium',
     price: '99 TND',
     period: '/mois',
     featured: true,
+    tagline: 'Le plan complet pour travailler chaque semaine.',
     features: [
-      'Corrections illimitées',
-      'Simulations d’oral avec feedback',
-      'Atelier Langue complet',
-      'Tableau de bord élève + parent',
-      'Sources vérifiées EAF',
-      'Suivi de progression avancé',
+      '10 oraux / semaine',
+      '20 corrections écrites / mois',
+      '100 échanges guidés / jour',
+      'Rapport PDF oral',
+      'Bibliothèque complète',
+      'Activation par code après règlement',
     ],
+    footer: 'Règlement par virement bancaire ou espèces, puis code d’activation.',
   },
   {
     name: 'Masterium',
     price: '129 TND',
     period: '/mois',
     featured: false,
+    tagline: 'Pour travailler sans plafond et viser la mention.',
     features: [
-      'Tout Premium inclus',
-      'Séances de coaching en visio',
-      'Corrections prioritaires',
-      'Plan de révision personnalisé',
-      'Accès anticipé aux nouveautés',
-      'Support prioritaire WhatsApp',
+      'Oral illimité',
+      'Corrections écrites illimitées',
+      'Accompagnement guidé illimité',
+      'Recherche avancée dans le corpus',
+      'Historique oral complet',
+      'Support prioritaire',
     ],
+    footer: 'Même parcours d’activation manuelle, avec le niveau de service le plus élevé.',
   },
 ];
 
@@ -62,29 +70,43 @@ const faqs: FaqItem[] = [
   {
     question: 'Puis-je changer de formule en cours de mois ?',
     answer:
-      'Oui, vous pouvez passer d’une formule à l’autre à tout moment. Le changement prend effet immédiatement et le prorata est calculé automatiquement.',
+      'Oui. Après validation du règlement, ton nouvel accès est activé avec un code correspondant au plan choisi.',
   },
   {
     question: 'Y a-t-il un engagement minimum ?',
     answer:
-      'Aucun engagement. Vous pouvez résilier à tout moment depuis votre espace, en un clic. Pas de frais cachés.',
+      'Les plans payants sont mensuels. Le renouvellement n’est pas présenté comme un checkout automatique sur le site tant que ce parcours n’est pas actif.',
   },
   {
     question: 'Le Freemium est-il vraiment gratuit ?',
     answer:
-      'Oui, le Freemium est gratuit pour toujours. Pas de carte bancaire requise, pas de période d’essai. Vous pouvez l’utiliser aussi longtemps que vous le souhaitez.',
+      'Oui. Tu peux créer ton compte et utiliser le plan Freemium sans paiement, puis passer à un plan payant plus tard via un code d’activation.',
+  },
+  {
+    question: 'Comment activer un plan payant ?',
+    answer:
+      'Le go-live actuel fonctionne par virement bancaire ou règlement en espèces. L’équipe Nexus t’envoie ensuite un code d’activation à saisir sur la plateforme.',
   },
 ];
+
+const PRICING_COPY = {
+  heading: 'Tarifs simples, résultats concrets',
+  intro: 'Trois plans clairs, des quotas réels et un parcours d’activation fidèle au go-live.',
+  recommended: 'Recommandé',
+  faqHeading: 'Questions fréquentes',
+  bottomLead: 'Besoin d’un plan payant ?',
+  bottomCta: 'Commence en Freemium puis active Premium ou Masterium par code →',
+} as const;
 
 export function PricingSection() {
   return (
     <section id="tarifs" className="bg-gray-50 py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
-          Tarifs simples, résultats concrets
+          {PRICING_COPY.heading}
         </h2>
         <p className="mt-3 text-center text-gray-600">
-          Choisissez la formule adaptée à vos objectifs.
+          {PRICING_COPY.intro}
         </p>
 
         {/* Plan cards */}
@@ -99,11 +121,12 @@ export function PricingSection() {
             >
               {plan.featured && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-sapphire-700 px-4 py-1 text-xs font-semibold text-white">
-                  &#11088; Recommandé
+                  {`⭐ ${PRICING_COPY.recommended}`}
                 </span>
               )}
 
               <h3 className="text-lg font-bold text-gray-900">{plan.name}</h3>
+              <p className="mt-2 text-sm text-gray-600">{plan.tagline}</p>
               <div className="mt-2 flex items-baseline gap-1">
                 <span className="text-3xl font-extrabold text-gray-900">{plan.price}</span>
                 {plan.period && (
@@ -144,7 +167,7 @@ export function PricingSection() {
               </Link>
 
               <p className="mt-3 text-center text-xs text-gray-500">
-                Sans engagement &bull; Résiliation immédiate
+                {plan.footer}
               </p>
             </div>
           ))}
@@ -152,7 +175,7 @@ export function PricingSection() {
 
         {/* FAQ */}
         <div className="mx-auto mt-16 max-w-2xl">
-          <h3 className="text-center text-xl font-bold text-gray-900">Questions fréquentes</h3>
+          <h3 className="text-center text-xl font-bold text-gray-900">{PRICING_COPY.faqHeading}</h3>
           <div className="mt-6 space-y-3">
             {faqs.map((faq) => (
               <details
@@ -187,12 +210,12 @@ export function PricingSection() {
 
         {/* Bottom CTA */}
         <p className="mt-10 text-center text-sm text-gray-500">
-          Pas encore prêt ?{' '}
+          {`${PRICING_COPY.bottomLead} `}
           <Link
             href={ROUTES.register}
             className="font-medium text-sapphire-700 underline hover:text-sapphire-700"
           >
-            Le Freemium est gratuit pour toujours &rarr;
+            {PRICING_COPY.bottomCta}
           </Link>
         </p>
       </div>

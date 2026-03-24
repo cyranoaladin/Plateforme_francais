@@ -7,7 +7,7 @@
 import crypto from 'crypto';
 import { type SubscriptionPlan } from '@prisma/client';
 import { prisma } from '@/lib/db/client';
-import { type PlanId, PLAN_CATALOG, comparePlans } from './plan-catalog';
+import { type PlanId, PLAN_CATALOG, comparePlans, normalizePlanId } from './plan-catalog';
 
 /* ─────────────────── Error codes ─────────────────── */
 
@@ -111,14 +111,15 @@ export async function redeemActivationCode(
       throw new RedeemError('CODE_EXPIRED', 'Ce code a expiré.', 410);
     }
 
-    const newPlan = code.plan as PlanId;
-    if (newPlan === 'MAX') {
+    const rawPlan = String(code.plan ?? 'FREE');
+    if (rawPlan.toUpperCase() === 'MAX') {
       throw new RedeemError(
         'PLAN_UNKNOWN',
         'Ce code correspond à une ancienne offre non activable. Contacte le support.',
         400,
       );
     }
+    const newPlan = normalizePlanId(rawPlan);
     if (!PLAN_CATALOG[newPlan]) {
       throw new RedeemError('PLAN_UNKNOWN', 'Plan associé au code inconnu.', 400);
     }
@@ -138,7 +139,7 @@ export async function redeemActivationCode(
     // 4. Determine final plan (keep the highest)
     let finalPlan: PlanId = newPlan;
     if (current?.status === 'ACTIVE' && current.plan) {
-      const currentPlanId = current.plan as PlanId;
+      const currentPlanId = normalizePlanId(String(current.plan));
       if (PLAN_CATALOG[currentPlanId] && comparePlans(currentPlanId, newPlan) > 0) {
         finalPlan = currentPlanId;
       }

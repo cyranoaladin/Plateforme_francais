@@ -19,10 +19,6 @@ export type AdminVisibleSubscription = {
 function toAdminVisiblePlanId(plan: string | null | undefined): AdminVisiblePlanId {
   const normalized = normalizePlanId(plan ?? 'FREE');
 
-  if (normalized === 'MAX') {
-    return 'PRO';
-  }
-
   if (normalized === 'PREMIUM' || normalized === 'PRO') {
     return normalized;
   }

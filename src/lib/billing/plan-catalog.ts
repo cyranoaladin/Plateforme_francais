@@ -3,7 +3,8 @@
  * Quotas and flags aligned with cahier des charges V2.
  */
 
-export type PlanId = 'FREE' | 'PREMIUM' | 'PRO' | 'MAX';
+export type PlanId = 'FREE' | 'PREMIUM' | 'PRO';
+export type LegacyPlanId = PlanId | 'MAX' | 'MONTHLY' | 'LIFETIME' | 'FREEMIUM' | 'MASTERIUM';
 export type PublicPlanId = 'FREEMIUM' | 'PREMIUM' | 'MASTERIUM';
 
 export type Period = 'day' | 'week' | 'month';
@@ -39,7 +40,7 @@ export type PlanConfig = {
   id: PlanId;
   label: string;
   priceTnd: number;
-  billingCycle: 'free' | 'monthly' | 'lifetime';
+  billingCycle: 'free' | 'monthly';
   quotas: Partial<Record<EntitlementKey, QuotaEntry>>;
   flags: Partial<Record<FlagKey, FlagValue>>;
 };
@@ -123,53 +124,17 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
       LIBRARY_FULL_ACCESS: true,
     },
   },
-  // MAX is defined below via Object.defineProperty (non-enumerable) to keep Object.keys() = 3
-} as unknown as Record<PlanId, PlanConfig>;
-
-const _maxPlan: PlanConfig = {
-  id: 'MAX',
-  label: 'Masterium',
-  priceTnd: 149,
-  billingCycle: 'lifetime',
-  quotas: {
-    ORAL_SESSIONS: { limit: 'unlimited', period: 'week' },
-    WRITTEN_CORRECTIONS: { limit: 'unlimited', period: 'month' },
-    TUTOR_QUESTIONS: { limit: 'unlimited', period: 'day' },
-    OCR_COPIES: { limit: 50, period: 'month' },
-    LLM_TOKENS: { limit: 200_000, period: 'day' },
-    RAG_SEARCH: { limit: 'unlimited', period: 'day' },
-    QUIZ_PER_DAY: { limit: 'unlimited', period: 'day' },
-  },
-  flags: {
-    ORAL_PDF_REPORT: true,
-    ORAL_REPORT_HISTORY: true,
-    SPACED_REPETITION_TIER: 'ai',
-    PARENT_DASHBOARD: true,
-    SUPPORT_TIER: 'priority',
-    ADAPTIVE_PARCOURS: true,
-    AVOCAT_DU_DIABLE: true,
-    GRAPH_RAG: true,
-    LIBRARY_FULL_ACCESS: true,
-  },
 };
-
-Object.defineProperty(PLAN_CATALOG, 'MAX', {
-  value: _maxPlan,
-  enumerable: false,
-  configurable: true,
-  writable: true,
-});
 
 /**
  * User-facing display labels for plans.
- * Technical IDs (FREE, PREMIUM, PRO, MAX) stay for backend compatibility.
+ * Technical aliases stay accepted on input, but only 3 effective plans exist.
  * These labels are the ONLY names shown to users.
  */
 export const PLAN_DISPLAY_LABELS: Record<PlanId, string> = {
   FREE: 'Freemium',
   PREMIUM: 'Premium',
   PRO: 'Masterium',
-  MAX: 'Masterium',
 };
 
 export const PUBLIC_PLAN_LABELS: Record<PublicPlanId, string> = {
@@ -185,14 +150,13 @@ export const PLAN_SLOGANS: Record<PlanId, string> = {
   FREE: 'Faites vos premiers pas vers le Bac.',
   PREMIUM: 'La méthode complète pour assurer votre réussite.',
   PRO: "L'excellence absolue pour décrocher la mention.",
-  MAX: "L'excellence absolue pour décrocher la mention.",
 };
 
 /**
- * Map legacy plan names (MONTHLY, LIFETIME) to canonical PlanId.
+ * Map legacy or public plan names to the 3 canonical effective plans.
  */
 export function normalizePlanId(raw: string): PlanId {
-  switch (raw.toUpperCase()) {
+  switch ((raw || 'FREE').trim().toUpperCase() as LegacyPlanId) {
     case 'FREEMIUM':
       return 'FREE';
     case 'MONTHLY':
@@ -202,11 +166,11 @@ export function normalizePlanId(raw: string): PlanId {
     case 'MASTERIUM':
       return 'PRO';
     case 'MAX':
-      return 'MAX';
+      return 'PRO';
     case 'PREMIUM':
     case 'PRO':
     case 'FREE':
-      return raw.toUpperCase() as Extract<PlanId, 'FREE' | 'PREMIUM' | 'PRO'>;
+      return (raw || 'FREE').trim().toUpperCase() as PlanId;
     default:
       return 'FREE';
   }
@@ -215,7 +179,7 @@ export function normalizePlanId(raw: string): PlanId {
 export function toPublicPlanId(plan: string): PublicPlanId {
   const normalized = normalizePlanId(plan);
   if (normalized === 'PREMIUM') return 'PREMIUM';
-  if (normalized === 'PRO' || normalized === 'MAX') return 'MASTERIUM';
+  if (normalized === 'PRO') return 'MASTERIUM';
   return 'FREEMIUM';
 }
 
@@ -238,8 +202,8 @@ export function getPlanConfig(planId: string): PlanConfig {
  * Compare two plans. Returns positive if a > b.
  */
 export function comparePlans(a: PlanId, b: PlanId): number {
-  const order: Record<PlanId, number> = { FREE: 0, PREMIUM: 1, PRO: 2, MAX: 3 };
-  return order[a] - order[b];
+  const order: Record<PlanId, number> = { FREE: 0, PREMIUM: 1, PRO: 2 };
+  return order[normalizePlanId(a)] - order[normalizePlanId(b)];
 }
 
 /**
