@@ -17,6 +17,11 @@ type OralInteraction = {
     points_forts: string[];
     axes: string[];
     relance?: string;
+    citations?: Array<{
+      title: string;
+      source_interne: string;
+      snippet: string;
+    }>;
   };
   createdAt: string;
 };
@@ -153,6 +158,39 @@ export async function appendOralInteraction(input: {
         feedback: { interactions },
       },
     });
+
+    await prisma.oralPhaseScore.upsert({
+      where: {
+        sessionId_phase: {
+          sessionId: input.sessionId,
+          phase: input.interaction.step,
+        },
+      },
+      update: {
+        score: input.interaction.feedback.score,
+        maxScore: input.interaction.feedback.max,
+        aiScore: input.interaction.feedback.score,
+        transcript: input.interaction.transcript,
+        feedback: input.interaction.feedback.feedback,
+        pointsForts: input.interaction.feedback.points_forts,
+        axes: input.interaction.feedback.axes,
+        citations: (input.interaction.feedback.citations ?? null) as Prisma.InputJsonValue,
+        duration: input.interaction.duration,
+      },
+      create: {
+        sessionId: input.sessionId,
+        phase: input.interaction.step,
+        score: input.interaction.feedback.score,
+        maxScore: input.interaction.feedback.max,
+        aiScore: input.interaction.feedback.score,
+        transcript: input.interaction.transcript,
+        feedback: input.interaction.feedback.feedback,
+        pointsForts: input.interaction.feedback.points_forts,
+        axes: input.interaction.feedback.axes,
+        citations: (input.interaction.feedback.citations ?? null) as Prisma.InputJsonValue,
+        duration: input.interaction.duration,
+      },
+    });
     return;
   }
 
@@ -177,6 +215,7 @@ export async function finalizeOralSession(input: {
     if (!found) return;
 
     const interactions = ((found.feedback as { interactions?: OralInteraction[] } | null)?.interactions ?? []);
+    const transcript = interactions.map((item) => `[${item.step}] ${item.transcript}`).join('\n\n');
 
     await prisma.oralSession.update({
       where: { id: input.sessionId },
@@ -190,6 +229,50 @@ export async function finalizeOralSession(input: {
         totalScore: input.score,
         status: 'FINALIZED',
         endedAt: new Date(),
+      },
+    });
+
+    const byPhase = interactions.reduce<Record<string, string>>((acc, item) => {
+      acc[item.step] = item.transcript;
+      return acc;
+    }, {});
+
+    await prisma.oralTranscript.upsert({
+      where: { sessionId: input.sessionId },
+      update: {
+        fullText: transcript,
+        byPhase: byPhase as Prisma.InputJsonValue,
+      },
+      create: {
+        sessionId: input.sessionId,
+        fullText: transcript,
+        byPhase: byPhase as Prisma.InputJsonValue,
+      },
+    });
+
+    const bilanPayload = input.finalFeedback as {
+      mention?: string;
+      bilan_global?: string;
+      conseil_final?: string;
+      citations?: Prisma.JsonValue;
+    };
+
+    await prisma.oralBilan.upsert({
+      where: { sessionId: input.sessionId },
+      update: {
+        note: input.score,
+        mention: bilanPayload.mention ?? 'Non renseignée',
+        bilanGlobal: bilanPayload.bilan_global ?? 'Bilan indisponible.',
+        conseilFinal: bilanPayload.conseil_final ?? 'Conseil indisponible.',
+        citations: (bilanPayload.citations ?? null) as Prisma.InputJsonValue,
+      },
+      create: {
+        sessionId: input.sessionId,
+        note: input.score,
+        mention: bilanPayload.mention ?? 'Non renseignée',
+        bilanGlobal: bilanPayload.bilan_global ?? 'Bilan indisponible.',
+        conseilFinal: bilanPayload.conseil_final ?? 'Conseil indisponible.',
+        citations: (bilanPayload.citations ?? null) as Prisma.InputJsonValue,
       },
     });
     return;
