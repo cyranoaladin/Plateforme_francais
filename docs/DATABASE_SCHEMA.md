@@ -239,7 +239,7 @@ Session complète d'oral (préparation + passage).
 | `mode` | OralMode | `SIMULATION`, `FREE_PRACTICE` | `SIMULATION` |
 | `personaType` | ExamPersona | `NEUTRE`, `BIENVEILLANT`, `HOSTILE`, `RANDOM` | `NEUTRE` |
 | `anneeScolaire` | String | Année scolaire | `"2025-2026"` |
-| `oeuvre` | String | Oeuvre tirée | - |
+| `oeuvre` | String | Œuvre tirée | - |
 | `extrait` | String | Texte de l'extrait | - |
 | `question` | String | Question posée | - |
 | `draw` | Json? | Tirage complet | null |
@@ -526,13 +526,13 @@ Abonnements Web Push.
 ## 📚 Ressources pédagogiques
 
 ### `OfficialWork`
-Oeuvres au programme officiel.
+Œuvres au programme officiel.
 
 | Champ | Type | Description |
 |-------|------|-------------|
 | `id` | String (PK) | UUID |
 | `anneeScolaire` | String | Année (ex: "2025-2026") |
-| `oeuvre` | String | Titre oeuvre |
+| `oeuvre` | String | Titre de l’œuvre |
 | `auteur` | String | Auteur |
 | `editeur` | String? | Éditeur |
 | `parcours` | String | Parcours |
@@ -619,13 +619,13 @@ Révisions des points faibles.
 ---
 
 ### `WorkMastery`
-Maîtrise des oeuvres.
+Maîtrise des œuvres.
 
 | Champ | Type | Description | Défaut |
 |-------|------|-------------|--------|
 | `id` | String (PK) | UUID | - |
 | `profileId` | String (FK) | Référence StudentProfile | - |
-| `workId` | String | ID oeuvre | - |
+| `workId` | String | ID œuvre | - |
 | `masteryLevel` | Float | Niveau maîtrise 0-1 | `0.0` |
 | `srNextReview` | DateTime | Prochaine révision | now |
 | `srInterval` | Int | Intervalle SR | `1` |

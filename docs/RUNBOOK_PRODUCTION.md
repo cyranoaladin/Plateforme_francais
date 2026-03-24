@@ -324,7 +324,7 @@ nginx -s reload
 pm2 restart eaf-$PREVIOUS
 ```
 
-## Contacts et Escalation
+## Contacts et escalade
 
 **Urgence production**:
 - Ops Lead: [contact]
