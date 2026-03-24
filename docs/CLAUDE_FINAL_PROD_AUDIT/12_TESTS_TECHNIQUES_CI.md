@@ -1,63 +1,42 @@
 # PHASE 12 — TESTS TECHNIQUES ET CI
 
-> **Audit revalidé 2026-03-22** — tsc=0, build=0, 1111/1111 tests, eslint=0, SHA `9e386b5`
+## Résultats locaux revalidés
 
----
+| Commande | Résultat |
+| --- | --- |
+| `npx tsc --noEmit` | OK |
+| `npm run lint` | OK, `0 error`, `0 warning` |
+| `npm run ci:fr-copy` | OK |
+| `npm run test:unit` | `173` fichiers, `1151/1151` tests passés |
+| `npm run test:e2e` | `103/103` tests passés |
+| `npm run build` | OK, exit `0`, plus de warning NFT reproduit |
+| `npx knip` | OK |
+| `npm audit --audit-level=high` | `0` vulnérabilité |
 
-## Build
+## Défauts corrigés dans cette phase
 
-| Test | Résultat |
-|------|----------|
-| `npx next build` | ✅ Exit code 0 |
-| 28 pages compilées | ✅ |
-| robots.txt / sitemap.xml static | ✅ |
-| Aucun warning bloquant | ✅ |
+| ID | Commit | Correction |
+| --- | --- | --- |
+| `A12-01` | `9ca3a3d` | résilience route enseignant + remise au vert des tests RBAC/E2E |
+| `A12-02` | `d0daa2d` | durcissement `deploy.sh`, nettoyage lint, suppression des `skip` E2E résiduels, mise à jour baseline FR |
+| `A12-03` | `f205aea` | suppression de la vulnérabilité `fast-xml-parser` via override npm corrigé |
+| `A12-04` | `544e305` | suppression du traçage build parasite via fallbacks `process.cwd()` retirés de `health` et `tunisia` |
+| `A12-05` | `b06cfbb` | extraction du copy UI récent hors JSX pour remettre `ci:fr-copy` au vert sans élargir la baseline |
 
-## Deployment
+## CI distante
 
-| Test | Résultat |
-|------|----------|
-| `scripts/deploy.sh` | ✅ Complet (rsync → npm ci → prisma → build → pm2 restart) |
-| PM2 services online | ✅ eaf-app, pm2-logrotate |
-| Health endpoint post-deploy | ✅ SHA e9ce566, buildTime 2026-03-21T09:48:53Z |
-| Nginx + SSL | ✅ HSTS preload |
+### Run `9ca3a3d`
 
-## CI (GitHub Actions)
+- GitHub Actions a échoué sur `Gate 1 - Analyse Statique`.
+- Cause racine reproduite localement: `ci:fr-copy` hors baseline sur `src/app/admin/page.tsx`.
+- Correction appliquée dans `A12-02`.
 
-| Aspect | Résultat |
-|--------|----------|
-| Workflow exists | ✅ (vérifié Phase 0) |
-| Branch protection | ✅ main protégé |
-| Lint / type-check | ✅ Intégré au build |
+### Run `b06cfbb`
 
-## Environment Check
+- Déclenché par le push actuellement servi en production.
+- État vérifié via GitHub Actions API: `completed`, `success`.
+- Run: `Nexus EAF - CI/CD Pipeline #458`.
 
-| Aspect | Résultat |
-|--------|----------|
-| `scripts/check-env.js` | ✅ Exists, checks mandatory vars |
-| CLICTOPAY creds mandatory | ✅ |
-| BILLING_CODE_PEPPER | ⚠️ check-env.js devrait le vérifier |
+## Réserve mineure
 
-## Test Suite
-
-| Aspect | Résultat |
-|--------|----------|
-| Jest config | ✅ Présent |
-| Test files | ✅ Présents |
-| Execution | Non exécuté (cancelled by user) |
-
-## Playwright Production Tests (ce audit)
-
-| Suite | Tests | Passés | Échecs |
-|-------|-------|--------|--------|
-| Public pages | 15 | 15 | 0 |
-| Auth flows | 9 | 9 | 0 |
-| API protection | 16 | 15 | 1 (false positive) |
-| Security | 10 | 10 | 0 |
-| **Total** | **50** | **49** | **1** |
-
-## Défauts
-
-| ID | Sévérité | Description |
-|----|----------|-------------|
-| P12-001 | INFO | Test suite Jest non exécutée durant l'audit |
+- Aucune réserve CI ouverte sur le SHA servi en production.

@@ -1,37 +1,22 @@
 # PHASE 6 — BIBLIOTHÈQUE, RESSOURCES, STREAMING
 
-> **Audit revalidé 2026-03-22** — Code audit + prod tests, SHA `9e386b5`
+## Défauts corrigés
 
----
+| ID | Commit | Défaut | Preuve de retest prod |
+| --- | --- | --- | --- |
+| `A06-01` | `2812daa` | un Freemium pouvait télécharger un média premium par ID | le même appel retourne désormais `403` avec `LIBRARY_UPGRADE_REQUIRED` |
+| `A06-02` | `896b06a` | `/api/v1/ressources` exposait le catalogue complet anonymement avec chemins internes | sans session: `401`; catalogue authentifié sanitisé sans `filePath`/`url` |
+| `A06-03` | `bc94cbb` | le streaming média ignorait `Range` et envoyait le fichier complet | `206 Partial Content`, `accept-ranges: bytes`, `content-range` présent |
 
-## Bibliothèque (`/bibliotheque`)
-
-| Aspect | Résultat |
-|--------|----------|
-| Page | ✅ Client component, 611+ lignes |
-| Auth guard (API) | ✅ Protected via middleware |
-| Ressources directory | ✅ Symlink `/opt/eaf_platform/ressources` → `/srv/eaf_ressources` |
-| Flag gating | ✅ `LIBRARY_FULL_ACCESS` flag respecté par plan |
-
-## API Ressources
-
-| Route | Protection | Résultat |
-|-------|-----------|----------|
-| GET /api/v1/ressources/* | auth | ✅ 401 sans session |
-
-## RAG (Retrieval-Augmented Generation)
+## Contrôles de sécurité retenus
 
 | Test | Résultat |
-|------|----------|
-| GET /api/v1/rag/health | ✅ 200 (endpoint public) |
-| RAG search quota | ✅ `RAG_SEARCH` quota enforced per plan |
+| --- | --- |
+| Path traversal `--path-as-is /api/v1/resources/../../../etc/passwd` | pas de fuite, redirection `307` vers `/login?redirect=%2Fetc%2Fpasswd` |
+| Null byte `/api/v1/resources/fichier%00.pdf` | `400` |
+| Accès catalogue sans auth | `401` |
+| Accès direct à un média premium par utilisateur Free | `403` |
 
-## Streaming
+## Conclusion
 
-Les réponses LLM (tuteur, oral feedback) utilisent le streaming SSE côté API. Le front gère le streaming via fetch + ReadableStream.
-
-## Défauts
-
-| ID | Sévérité | Description |
-|----|----------|-------------|
-| P6-001 | INFO | RAG ingesteur timeout signalé en Phase 0 (P0-002) — n'empêche pas le fonctionnement des recherches existantes |
+Le gating back-end et le streaming HTTP des ressources sont alignés avec les plans visibles. Aucun chemin disque interne n'est exposé par l'API catalogue.

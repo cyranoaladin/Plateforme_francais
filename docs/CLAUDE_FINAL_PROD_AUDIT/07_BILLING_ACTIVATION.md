@@ -1,57 +1,23 @@
-# PHASE 7 — BILLING, CODES ACTIVATION, PAIEMENT MANUEL
+# PHASE 7 — BILLING, CODES D'ACTIVATION, PAIEMENT MANUEL
 
-> **Audit revalidé 2026-03-22** — Code audit + prod tests, SHA `9e386b5`
+## Défauts corrigés
 
----
+| ID | Commit | Défaut | Preuve de retest prod |
+| --- | --- | --- | --- |
+| `A07-01` | `c046c8e` | l'admin pouvait encore créer un plan legacy `MAX`, ensuite redeemable | création `MAX` bloquée en `400`; redeem du code de repro `EAF91131E96B4D6` bloqué en `400`; code révoqué |
+| `A07-02` | `94252de` | labels et IDs de plan incohérents entre public, admin et billing | l'UI et les réponses billing exposent uniquement `Freemium`, `Premium`, `Masterium` |
+| `A08-02` | `84a4980` | l'onglet admin `Paiements manuels` chargeait sans liste utilisateurs au premier affichage | retest navigateur: `optionCount=37` au lieu du seul placeholder |
+| `A08-03` | `e79359e` | les utilisateurs sans abonnement apparaissaient en `subscription=null` au lieu de Freemium côté admin | retest navigateur: compteurs `Freemium/Premium/Masterium` cohérents et utilisateurs Free visibles comme `Freemium Actif` |
 
-## Architecture Billing
+## Vérifications métiers
 
-| Composant | Fichier | Résultat |
-|-----------|---------|----------|
-| Plan Catalog | `src/lib/billing/plan-catalog.ts` | ✅ 4 plans (FREE/PREMIUM/PRO/MAX), quotas, flags, labels |
-| Billing Context | `src/lib/billing/context.ts` | ✅ Fallback FREE si pas d'abonnement ou expiré |
-| Quota Enforcement | `src/lib/billing/usage.ts` | ✅ Redis INCRBY + TTL, FAIL-CLOSED en prod |
-| Code Redemption | `src/lib/billing/redeem.ts` | ✅ Transactionnel Prisma, hashing pepper, validation |
-| Check Quota API | `src/app/api/v1/billing/check-quota/route.ts` | ✅ 7 features validées |
-| Redeem Code API | `src/app/api/v1/billing/redeem-code/route.ts` | ✅ auth + CSRF + rate limit (5/h) |
-| Billing Status API | `src/app/api/v1/billing/status/route.ts` | ✅ auth required |
+| Contrôle | Résultat |
+| --- | --- |
+| Plans visibles | uniquement `Freemium`, `Premium`, `Masterium` |
+| Workflow go live | paiement manuel `virement/espèces -> code admin -> redeem utilisateur` |
+| Code invalide | rejet clair, pas de `500` |
+| Legacy `MAX/PRO` | neutralisés côté création, redeem et affichage |
 
-## Plan Labels (cohérence front/back)
+## Conclusion
 
-| ID interne | Label affiché | Pricing page | Admin page | Plan catalog |
-|-----------|---------------|-------------|------------|-------------|
-| FREE | Freemium | ✅ | ✅ | ✅ |
-| PREMIUM | Premium | ✅ | ✅ | ✅ |
-| PRO | Masterium | ✅ | ✅ | ✅ |
-| MAX | Masterium Lifetime | N/A (non-enum) | ✅ | ✅ |
-
-## Code Activation Flow
-
-1. Admin génère code → `POST /api/v1/admin/activation-codes` (auth admin + CSRF + rate limit 20/min)
-2. Code format: `EAF` + 12 hex chars aléatoires
-3. Code hashé avec pepper SHA-256 avant stockage
-4. Élève saisit code sur `/pricing` → `POST /api/v1/billing/redeem-code`
-5. Validation transactionnelle: format → hash lookup → status check → expiry → plan upsert
-
-## Sécurité du flux
-
-| Test | Résultat |
-|------|----------|
-| Redeem sans auth | ✅ 401 |
-| Admin codes sans auth | ✅ 401 |
-| Admin codes sans rôle admin | ✅ 403 |
-| CSRF requis | ✅ |
-| Rate limit redeem | ✅ 5 tentatives/heure/user |
-| Code déjà utilisé | ✅ 409 |
-| Code révoqué | ✅ 409 |
-| Code expiré | ✅ 410 |
-| Plan stacking | ✅ Extension depuis max(currentEnd, now) |
-| Plan upgrade | ✅ Garde le plan le plus élevé |
-
-## Défauts
-
-| ID | Sévérité | Description |
-|----|----------|-------------|
-| P7-001 | HAUTE | `BILLING_CODE_PEPPER` utilise fallback `'eaf-default-pepper-change-me'` si variable d'environnement absente (ligne 46 redeem.ts). **À corriger** : ajouter la variable à `.env` prod ou bloquer le démarrage sans. |
-
-> Note: Le memory indique que le code a été durci pour bloquer sans pepper, mais le code actuel (`redeem.ts:46`) conserve le fallback. Vérifier si `check-env.js` bloque en amont.
+Le billing visible est désormais strictement aligné avec le modèle go live réel: pas de faux checkout carte, pas de plan legacy exposé, et un back-office admin exploitable pour les activations manuelles.

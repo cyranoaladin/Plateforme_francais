@@ -1,69 +1,29 @@
-# PHASE 8 — RÔLES PARENT / ENSEIGNANT / ADMIN
+# PHASE 8 — RÔLES PARENT, ENSEIGNANT, ADMIN
 
-> **Audit revalidé 2026-03-22** — Code audit + prod tests, SHA `9e386b5`
+## Défauts corrigés
 
----
+| ID | Commit | Défaut | Preuve |
+| --- | --- | --- | --- |
+| `A08-01` | `262cf29` | parent et enseignant liés mais non exploitables commercialement | `/api/v1/parent/dashboard` renvoie un enfant lié; `/api/v1/enseignant/dashboard` renvoie `classCode=AUDIT26` et l'élève lié |
+| `A08-02` | `84a4980` | onglet admin `Paiements manuels` vide au premier affichage | navigateur: la liste utilisateurs charge immédiatement |
+| `A08-03` | `e79359e` | lisibilité Freemium incohérente dans les dashboards admin | admin: compteurs et lignes utilisateurs normalisés sur `Freemium/Premium/Masterium` |
 
-## RBAC (Role-Based Access Control)
+## Contrôles RBAC retenus
 
-### Guard implementation (`src/lib/auth/guard.ts`)
+| Surface | Résultat |
+| --- | --- |
+| Élève -> `/admin` | refus / redirection |
+| Élève -> `/enseignant` | redirection vers `/dashboard` |
+| Parent -> `/parent` | accès réel avec données liées |
+| Enseignant -> `/enseignant` | accès réel avec élève lié visible |
+| Admin -> `/admin` | accès complet |
 
-| Guard | Logique | Résultat |
-|-------|---------|----------|
-| `requireAuthenticatedUser()` | Session cookie → DB lookup | ✅ |
-| `requireUserRole('admin')` | auth.user.role === 'admin' | ✅ |
-| `requireUserRole('enseignant')` | auth.user.role === 'enseignant' OR admin | ✅ |
-| `requireUserRole('parent')` | auth.user.role === 'parent' OR admin | ✅ |
-| `requireEleve()` | auth.user.role === 'eleve' OR admin | ✅ |
+## Résultats par rôle
 
-Admin a accès à tous les rôles (bypass implicite dans chaque guard).
+- Parent: dashboard réel, non décoratif, avec synthèse de l'élève rattaché.
+- Enseignant: dashboard réel, code de classe et liste des élèves liés opérationnels.
+- Admin: stats, gestion des utilisateurs, génération de codes et paiements manuels exploitables.
 
-## Admin (`/admin`)
+## Conclusion
 
-| Aspect | Résultat |
-|--------|----------|
-| Page | ✅ 697 lignes, tabs: users, codes, payments |
-| API stats | ✅ `GET /api/v1/admin/stats` — requireUserRole('admin') |
-| API users | ✅ `GET /api/v1/admin/users` — requireUserRole('admin') |
-| API activation codes | ✅ `GET/POST /api/v1/admin/activation-codes` — requireUserRole('admin') |
-| API manual payment | ✅ `POST /api/v1/admin/manual-payment` — requireUserRole('admin') |
-| Plan labels admin | ✅ Cohérent (Freemium/Premium/Masterium/Masterium Lifetime) |
-| Code generation | ✅ Format EAF + 12 hex, plainCode retourné une seule fois |
-| CSRF + rate limit | ✅ Sur tous les POST |
-
-### API Tests Production
-
-| Endpoint | Sans auth | Résultat |
-|----------|-----------|----------|
-| GET /api/v1/admin/stats | 401 | ✅ |
-| GET /api/v1/admin/users | 401 | ✅ |
-
-## Enseignant (`/enseignant`)
-
-| Aspect | Résultat |
-|--------|----------|
-| Page | ✅ Client component |
-| API dashboard | ✅ `GET /api/v1/enseignant/dashboard` — requireUserRole('enseignant') |
-| API export | ✅ `GET /api/v1/enseignant/export` — requireUserRole('enseignant') |
-| API class-code | ✅ `GET/POST /api/v1/enseignant/class-code` — requireUserRole('enseignant') |
-| API corrections comment | ✅ requireUserRole('enseignant') |
-| Prod hardening | ✅ 503 si DB indisponible (pas de fallback local) |
-
-### API Tests Production
-
-| Endpoint | Sans auth | Résultat |
-|----------|-----------|----------|
-| GET /api/v1/enseignant/dashboard | 401 | ✅ |
-| GET /api/v1/enseignant/export | 401 | ✅ |
-
-## Parent (`/parent`)
-
-| Aspect | Résultat |
-|--------|----------|
-| Page | ✅ Client component |
-| Flag gating | ✅ `PARENT_DASHBOARD` flag (FREE=false, PREMIUM+=true) |
-| Consentement parental | ✅ Token RGPD via `generateConsentToken()` |
-
-## Défauts
-
-Aucun défaut bloquant identifié. RBAC correctement implémenté sur tous les endpoints.
+Les trois rôles non élève proposés par le produit sont désormais utilisables sans incohérence métier bloquante dans la production auditée.

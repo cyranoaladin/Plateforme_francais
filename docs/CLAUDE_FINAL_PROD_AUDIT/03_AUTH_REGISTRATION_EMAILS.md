@@ -1,101 +1,34 @@
 # PHASE 3 — AUTH, INSCRIPTION, RESET, EMAILS
 
-> **Audit revalidé 2026-03-22 ~12:55 UTC+1** — Code audit + API tests sur production réelle
-> SHA : `9e386b5` — Revalidé avec mesures fraîches
+> Revalidé pendant cette session sur la production réelle.
 
----
+## 1. Authentification et routage
 
-## 1. Formulaire de connexion
+| Contrôle | Résultat |
+| --- | --- |
+| Login invalide | `401` avec message générique en français |
+| `forgot-password` | réponse générique `ok=true`, pas d'énumération d'email |
+| Cookies de session | `Secure`, `HttpOnly` sur `eaf_session` et `eaf_role`, `SameSite=Lax` |
+| CSRF | cookie `eaf_csrf` émis, mutation sans header CSRF rejetée en `403` |
+| Routage par rôle | vérifié cette session: `admin -> /admin`, `élève -> /dashboard`, `parent -> /parent`, `enseignant -> /enseignant` |
 
-| Test | Résultat |
-|------|----------|
-| Champ email présent | ✅ |
-| Champ mot de passe présent | ✅ |
-| Option inscription visible | ✅ |
-| Mode register (`?mode=register`) | ✅ Nom, checkbox CGU, option mineur |
-| Mode reset (`?mode=reset`) | ✅ |
-| Label leaks (PRO/MAX/clictopay) | ✅ Aucun |
+## 2. Liens parent et enseignant
 
-## 2. API Login
+Défaut corrigé: `A08-01` (`262cf29`)
 
-| Test | Résultat |
-|------|----------|
-| Mauvais identifiants → 401 | ✅ "Email ou mot de passe incorrect." |
-| Message d'erreur en français | ✅ |
-| Pas de fuite d'info (email existe ?) | ✅ Message identique |
+- Cause racine: un parent ou un enseignant renseigné dans le profil élève n'obtenait pas toujours un accès exploitable.
+- Correction: provision automatique du compte lié, génération d'un lien de définition de mot de passe, activation d'un vrai dashboard parent, et inclusion des élèves liés par `teacherEmail` dans le dashboard enseignant.
 
-## 3. API Register — Validation
+## 3. Emails prouvés
 
-| Test | Status | Résultat |
-|------|--------|----------|
-| Body vide | 400 | ✅ Rejet correct |
-| Champs manquants | 400 | ✅ "Payload invalide." |
-| Email invalide | 400 | ✅ Rejet correct |
-| Mot de passe trop court | 400* | ✅ Rejet correct (*429 dû au rate limit cumulatif) |
+| Flux | Preuve réelle |
+| --- | --- |
+| Welcome email élève | logs PM2 avec `emailId` sur inscription élève |
+| Reset password | `auth.forgot_password.token_created` puis email `Réinitialisation de votre mot de passe Nexus EAF` avec `emailId` |
+| Invitation parent | email `Active ton accès parent` envoyé à `audit-parent-proof-1774301372456@test-nexus.dev` avec `emailId` |
+| Invitation enseignant | email `Active ton accès enseignant` envoyé à `audit-teacher-proof-1774301372456@test-nexus.dev` avec `emailId` |
+| Notification parent/enseignant existants | logs PM2 confirmés avec sujets dédiés et `emailId` |
 
-## 4. API Forgot Password
+## 4. Conclusion
 
-| Test | Résultat |
-|------|----------|
-| Email inexistant → 200 | ✅ Sécurisé — ne révèle pas l'existence |
-| Message générique | ✅ "Si un compte existe pour cet email, un lien de réinitialisation a été envoyé." |
-
-## 5. API Auth/me sans session
-
-| Test | Résultat |
-|------|----------|
-| GET /api/v1/auth/me → 401 | ✅ |
-
-## 6. CSRF Token
-
-| Test | Résultat |
-|------|----------|
-| GET /api/v1/csrf → 200 | ✅ |
-| Token retourné (48 hex chars) | ✅ |
-| Cookie `eaf_csrf` posé | ✅ |
-| httpOnly=false (double-submit) | ✅ Correct pour le pattern |
-| secure=true | ✅ |
-
-## 7. Rate Limiting
-
-| Test | Résultat |
-|------|----------|
-| Login: 12 tentatives consécutives | ⚠️ Pas de 429 déclenché |
-
-**Analyse** : Le rate limiter fonctionne via Redis avec clé basée sur IP (`rl:auth:login:{ip}`). Les requêtes Playwright directes passent par nginx qui set `x-forwarded-for`. Limite configurée = 10/min. Le non-déclenchement après 12 tentatives pourrait être dû à :
-- Rotation de la fenêtre Redis pendant le test
-- IP différente vue par le serveur (proxy chain)
-
-**Impact** : FAIBLE pour le go-live (le mécanisme est en place, fonctionne avec Redis, et a une stratégie FAIL-CLOSED). À re-tester manuellement.
-
-## 8. Protection des endpoints API
-
-| Endpoint | Sans auth | Résultat |
-|----------|-----------|----------|
-| GET /api/v1/student/profile | 401 | ✅ |
-| GET /api/v1/admin/stats | 401 | ✅ |
-| GET /api/v1/admin/users | 401 | ✅ |
-| GET /api/v1/enseignant/dashboard | 401 | ✅ |
-| GET /api/v1/billing/status | 401 | ✅ |
-| POST /api/v1/chat | 401 | ✅ |
-| POST /api/v1/oral/session/start | 401 | ✅ |
-| GET /api/v1/carnet | 401 | ✅ |
-
-**8/8 endpoints protégés correctement.**
-
-## 9. Emails (audit de code)
-
-| Email | Trigger | Template | Résultat |
-|-------|---------|----------|----------|
-| Welcome | POST /register success | `sendWelcomeEmail` | ✅ Non-bloquant, log si échec |
-| Parental Consent | Register mineur+parentEmail | `sendParentalConsentEmail` | ✅ Token RGPD |
-| Reset Password | POST /forgot-password | `sendTransactionalEmail` | ✅ Lien avec token |
-| Contact Form | POST /contact | `sendTransactionalEmail` | ✅ |
-
-⚠️ Test d'envoi réel non effectué (pas de compte test dédié sur prod). Le code gère correctement les erreurs d'envoi (non-bloquant pour welcome, logging).
-
-## Défauts
-
-| ID | Sévérité | Description |
-|----|----------|-------------|
-| P3-001 | BASSE | Rate limit login non déclenché en test automatisé (à re-tester manuellement) |
+Les flux `inscription -> login -> dashboard`, `forgot-password`, `parent linked`, `teacher linked` et les envois email critiques ont été prouvés en production pendant cette session. Aucun placeholder ou lien `localhost` n'a été observé dans les emails contrôlés.

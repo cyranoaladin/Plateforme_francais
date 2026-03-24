@@ -1,96 +1,83 @@
-# NEXUS REUSSITE EAF — RECETTE FINALE PRE-EXPLOITATION
+# NEXUS RÉUSSITE EAF — DÉCISION FINALE DE RELEASE
 
-**Date**: 2026-03-23 00:00 UTC (RECETTE COMPLÈTE 99/99)
-**SHA**: 2c219a7 (local = origin = prod)
+## 1. SOURCE DE VÉRITÉ FINALE
 
----
+| Élément | Valeur |
+| --- | --- |
+| SHA local | `b06cfbbb26389b7ec4438d8bfa206a50c2da039d` |
+| SHA origin | `b06cfbbb26389b7ec4438d8bfa206a50c2da039d` |
+| SHA prod | `b06cfbb` |
+| Heure de build servie | `2026-03-24T06:44:22Z` |
+| PM2 | `eaf-nextjs`, `eaf-mcp`, `eaf-worker` online |
+| Nginx | OK, HTTPS + HSTS + CSP |
+| PostgreSQL | `24 migrations found`, aucune pending |
+| Redis | OK |
+| SMTP | configuré et envois prouvés |
+| RAG | OK, `11910` chunks sur `rag_francais_premiere` |
+| MCP | healthy, `24` outils |
 
-## 1. SOURCE DE VERITE
+## 2. PÉRIMÈTRE RÉELLEMENT TESTÉ
 
-| Check | Result |
-|-------|--------|
-| SHA prod | 325e663 |
-| PM2 eaf-nextjs | online |
-| PM2 eaf-mcp | online, 20 tools |
-| PM2 eaf-worker | online |
-| Nginx | server: nginx (no version), HSTS, CSP, X-Frame |
-| PostgreSQL | 21 migrations, schema up to date |
-| Redis | PONG |
-| Ports 3000/3100 | 127.0.0.1 only |
-| Port 3001 Docker | **REMOVED** (container + healthcheck corrige) |
-| UFW | active (22/80/443, deny 3001) |
-| Backup | hourly to Storage Box |
-| SMTP | 5 vars configured |
-| Artefacts (.venv etc) | all absent |
-| RAG | **11 910 chunks** — search OK (3 results, 163ms) |
+- Source de vérité infra, SHA, PM2, Nginx, ports et artefacts de déploiement.
+- Authentification, reset password, preuves email, rôles parent/enseignant/admin.
+- Billing visible, plans publics, admin codes d'activation, paiements manuels.
+- Gating bibliothèque, sécurité téléchargement/streaming.
+- RBAC, cookies, CSRF, headers HTTP, fichiers sensibles, path traversal, Netlify/Vercel.
+- Vérifications techniques locales: `tsc`, `lint`, `fr-copy`, `unit`, `e2e`, `knip`, `npm audit`.
 
-## 2. PHASES TESTEES
+## 3. DÉFAUTS TROUVÉS
 
-| Phase | Description | Result |
-|-------|-------------|--------|
-| 0 | Infrastructure | OK |
-| 2 | Public pages | 7/7 return 200 |
-| 2 | Legacy labels | 0 PRO/MAX plan labels (only content words) |
-| 2 | Sensitive files | 7/7 blocked → 404 |
-| 2 | Extensions | all 404 |
-| 3 | Anti-enumeration | Same error for existing/nonexisting email |
-| 5 | Tuteur | 1287 chars, no error |
-| 5 | Ecrit | 163 char sujet, no error |
-| 5 | Quiz | 5 questions, no error |
-| 5 | Logout | ok:True, post-logout "Non authentifie" |
-| 7 | Code generation | EAF240789D3B9AD |
-| 7 | Code redeem | "Plan Premium active pour 30 jours" |
-| 7 | Plan check | plan: PREMIUM, label: Premium |
-| 12 | TSC | 0 errors |
-| 12 | ESLint | 0 errors (2 warnings) |
-| 12 | Knip | 0 issues |
-| 12 | Unit tests | 1106/1106 (100%) |
-| 12 | fr-copy | passes |
-| 12 | Build | 0 errors |
-| RAG | Search diagnostic | 3 results, 163ms, content Phedre Racine |
+| ID | Sévérité | Description | Impact business |
+| --- | --- | --- | --- |
+| `A06-01` | CRITIQUE | média premium accessible à un Freemium par ID | fuite de contenu payant |
+| `A06-02` | MAJEUR | catalogue ressources exposé anonymement avec chemins internes | fuite de catalogue et d'implémentation |
+| `A06-03` | MAJEUR | streaming vidéo sans support `Range` | UX dégradée, seek cassé |
+| `A07-01` | MAJEUR | plan legacy `MAX` encore créable et redeemable | incohérence commerciale et activation invalide |
+| `A07-02` | MAJEUR | labels/IDs de plan incohérents entre front, back et admin | confusion commerciale |
+| `A08-01` | MAJEUR | rôle parent/enseignant lié mais non réellement exploitable | promesse rôle non tenue |
+| `A08-02` | MAJEUR | onglet admin paiements manuels sans liste utilisateurs au premier chargement | blocage opérateur commercial |
+| `A08-03` | MAJEUR | Freemium invisible ou `null` côté admin | vue business fausse |
+| `A12-01` | MAJEUR | route enseignant et harness E2E fragiles | faux négatifs QA, couverture RBAC cassée |
+| `A12-02` | MINEUR | CI locale instable (`fr-copy`, `lint`, `skip` E2E, artefacts rsync) | qualité release affaiblie |
 
-## 3. DEFAUTS
+## 4. DÉFAUTS CORRIGÉS
 
-| ID | Defaut | Severite | Status |
-|----|--------|----------|--------|
-| D1 | Docker nexus-next-app auto-recreated on 0.0.0.0:3001 | HIGH | **FIXED** — container removed, healthcheck.sh updated for PM2, docker-compose profiles disabled |
-| D2 | RAG Chunks = 0 | HIGH | **FIXED** — RAG_API_TOKEN injecte dans PM2, Zod schema elargi, retry sans filtres, 11 910 chunks accessibles |
-| D3 | Non-EAF PM2 services still running | LOW | Documented (not EAF responsibility, UFW blocks external) |
-| D4 | /docs et /prisma retournaient 307 au lieu de 404 | MEDIUM | **FIXED** — BLOCKED_PATHS sans trailing slash |
+| ID | Commit | Correctif | Preuve de retest |
+| --- | --- | --- | --- |
+| `A06-01` | `2812daa` | blocage des médias premium pour Free | prod `403 LIBRARY_UPGRADE_REQUIRED` |
+| `A06-02` | `896b06a` | authentification et sanitation du catalogue | prod `401` sans session, plus de chemins internes |
+| `A06-03` | `bc94cbb` | support `Range` sur le média stream | prod `206 Partial Content` |
+| `A07-01` | `c046c8e` | neutralisation du plan `MAX` | création/redeem `400`, code de repro révoqué |
+| `A07-02` | `94252de` | normalisation des plans publics | UI et billing exposent seulement Freemium/Premium/Masterium |
+| `A08-01` | `262cf29` | provision des rôles liés + dashboard parent réel | dashboards parent/enseignant revalidés |
+| `A08-02` | `84a4980` | chargement initial des utilisateurs dans paiements manuels | navigateur: `37` options chargées |
+| `A08-03` | `e79359e` | Freemium visible et compté correctement côté admin | compteurs admin cohérents |
+| `A12-01` | `9ca3a3d` | remise au vert route enseignant + E2E rôle | `1151/1151` unit, E2E rôle validé |
+| `A12-02` | `d0daa2d` | stabilisation CI et rsync de déploiement | `lint`, `fr-copy`, `103/103` E2E, artefacts exclus du serveur |
+| `A12-03` | `f205aea` | suppression de la vulnérabilité `fast-xml-parser` | `npm audit --audit-level=high` → `found 0 vulnerabilities`, prod servie en `f205aea` |
+| `A12-04` | `544e305` | suppression du warning build NFT | build local et build serveur sans warning, prod servie en `544e305` |
+| `A12-05` | `b06cfbb` | extraction du copy UI récent hors JSX | `ci:fr-copy`, `tsc`, `lint` OK, run GitHub Actions `success` |
 
-## 4. CRITERES BLOQUANTS GO LIVE
+## 5. DÉFAUTS RESTANTS
 
-- [x] SHA deploye et verifie en production
-- [x] PM2: eaf-nextjs + eaf-mcp + eaf-worker online
-- [x] PostgreSQL: schema up to date
-- [x] **RAG: 11 910 chunks, search fonctionnel (3 results, 163ms)**
-- [x] Backup horaire: Storage Box
-- [x] UFW actif: 22/80/443 ouverts, 3001 deny
-- [x] Emails: envoi reel prouve (messageId)
-- [x] Plans: Freemium/Premium/Masterium uniquement
-- [x] Zero label PRO/MAX/ClicToPay visible
-- [x] Billing: virement → code → redeem operationnel
-- [x] Admin: generation code + paiement manuel
-- [x] Ateliers: tuteur/ecrit/quiz fonctionnels
-- [x] Quotas: coherents
-- [x] Aucune route sensible accessible sans auth (7/7 → 404)
-- [x] Aucun port interne accessible (UFW)
-- [x] Wording francais correct
-- [x] Docker 3001 elimine definitivement
+Aucun défaut critique, majeur ou réserve CI bloquante n'est ouvert sur le SHA actuellement servi.
 
-## 5. DECISION
+## 6. PREUVES PRINCIPALES
 
-### ETAT A — GO SANS RESERVE
+- Prod `/api/v1/health`: `gitSha=b06cfbb`, `buildTime=2026-03-24T06:44:22Z`, `status=ok`.
+- Prod `/api/v1/rag/health`: `rag_francais_premiere=11910`.
+- Prod `/api/mcp/health`: `tools=24`, `latencyMs=13`.
+- Tests locaux: `1151/1151` unit, `103/103` E2E, `tsc` OK, `lint` OK, `fr-copy` OK, `npm audit` OK, `build` OK sans warning NFT.
+- GitHub Actions `b06cfbb`: `completed`, `success` (`Nexus EAF - CI/CD Pipeline #458`).
+- Déploiement final: artefacts non-production exclus de `/opt/eaf_platform`.
 
-Tous les criteres bloquants sont fermes. Le RAG est operationnel avec
-11 910 chunks indexes dans la collection `rag_francais_premiere`.
-Le tuteur peut desormais citer les sources officielles EAF.
+## 7. DÉCISION FINALE
 
-Le Docker nexus-next-app sur port 3001 est definitivement elimine :
-container supprime, docker-compose `profiles: ["disabled"]`, et
-healthcheck.sh reecrit pour monitorer PM2 sur port 3000.
+### ÉTAT A — GO TOTAL
 
-La plateforme est pleinement fonctionnelle pour l'exploitation
-commerciale et pedagogique.
+Motif:
 
-**SHA: 2c219a7**
+- plus aucun défaut critique ou majeur non corrigé n'est ouvert sur le produit live audité;
+- le produit visible, les rôles réels, les plans commerciaux et les parcours manuels d'activation sont cohérents;
+- la plateforme est exploitable commercialement et pédagogiquement en l'état;
+- le SHA servi en production, le dépôt et la CI distante finale sont maintenant alignés et verts.
