@@ -262,7 +262,7 @@ perf: Optimisation performance
 
 # Exemples
 feat(auth): add OAuth2 login support
-fix(billing): correct quota calculation for PRO plan
+fix(billing): correct quota calculation for Premium plan
 docs(api): document health endpoint
 test(oral): add timing-safe auth tests
 ```

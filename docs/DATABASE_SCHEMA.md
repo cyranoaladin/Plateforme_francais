@@ -67,7 +67,7 @@ Profil détaillé des élèves (50+ champs).
 | `establishment` | String? | Établissement | null |
 | `eafDate` | DateTime? | Date EAF | null |
 | `onboardingCompleted` | Boolean | Onboarding fini | `false` |
-| `selectedOeuvres` | String[] | Oeuvres choisies | `[]` |
+| `selectedOeuvres` | String[] | Œuvres choisies | `[]` |
 | `classCode` | String? | Code classe | null |
 | `parcoursProgress` | String[] | Progression | `[]` |
 | `badges` | String[] | Badges obtenus | `[]` |
@@ -76,7 +76,7 @@ Profil détaillé des élèves (50+ champs).
 | `xpToNextLevel` | Int | XP pour niveau suivant | `100` |
 | `preferredObjects` | String[] | Objets d'étude préférés | `[]` |
 | `weakSkills` | String[] | Points faibles | `[]` |
-| `oeuvreChoisieEntretien` | String? | Oeuvre entretien | null |
+| `oeuvreChoisieEntretien` | String? | Œuvre d'entretien | null |
 | `skillMap` | Json? | Carte compétences | null |
 | `streak` | Int | Série jours consécutifs | `0` |
 | `maxStreak` | Int | Série max | `0` |
@@ -146,7 +146,7 @@ Abonnement actif par utilisateur.
 | `userId` | String (FK, unique) | Référence User | - |
 | `externalCustomerId` | String? | ID externe (Stripe, etc.) | null |
 | `externalContractId` | String? | ID contrat externe | null |
-| `plan` | SubscriptionPlan | `FREE`, `PREMIUM`, `PRO`, `MAX` | `FREE` |
+| `plan` | SubscriptionPlan | Valeurs internes legacy possibles : `FREE`, `PREMIUM`, `PRO`, `MAX` | `FREE` |
 | `status` | SubscriptionStatus | `ACTIVE`, `PAST_DUE`, `CANCELED`, etc. | `ACTIVE` |
 | `currentPeriodStart` | DateTime? | Début période | null |
 | `currentPeriodEnd` | DateTime? | Fin période | null |
@@ -190,7 +190,7 @@ Codes d'activation pour plans payants.
 |-------|------|-------------|--------|
 | `id` | String (PK) | CUID | - |
 | `codeHash` | String (unique) | Hash SHA-256 du code | - |
-| `plan` | String | `PREMIUM`, `PRO`, `MAX` | - |
+| `plan` | String | Valeurs techniques historiques : `PREMIUM`, `PRO`, `MAX` | - |
 | `durationDays` | Int | Durée en jours | - |
 | `status` | String | `CREATED`, `DELIVERED`, `REDEEMED`, `REVOKED` | `"CREATED"` |
 | `expiresAt` | DateTime? | Date expiration | null |

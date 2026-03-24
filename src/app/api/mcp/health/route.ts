@@ -36,7 +36,7 @@ export async function GET() {
         status: 'unreachable',
         mcpUrl,
         error: error instanceof Error ? error.message : 'MCP Server unreachable',
-        hint: 'Demarrer le MCP Server avec : npm run mcp:dev',
+        hint: 'Démarrer le serveur MCP avec : npm run mcp:dev',
       },
       { status: 503 },
     )
