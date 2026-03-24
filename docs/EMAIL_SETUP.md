@@ -10,7 +10,7 @@ Les templates sont créés avec **React Email** (`@react-email/components`).
 | Template | Déclencheur | Fichier |
 |----------|------------|---------|
 | Bienvenue | Inscription (`POST /api/v1/auth/register`) | `emails/WelcomeEmail.tsx` |
-| Confirmation souscription | Paiement ClicToPay accepté | `emails/SubscriptionEmail.tsx` |
+| Confirmation d’activation | Activation validée après règlement | `emails/SubscriptionEmail.tsx` |
 
 ## Variables d'environnement
 

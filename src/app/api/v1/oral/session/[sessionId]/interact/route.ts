@@ -66,7 +66,7 @@ export async function POST(
   } catch (error) {
     if (error instanceof QuotaExceededError) {
       return NextResponse.json(
-        { error: `Limite atteinte pour cette evaluation orale (${error.scope}). Réessayez plus tard.` },
+        { error: `Limite atteinte pour cette évaluation orale (${error.scope}). Réessayez plus tard.` },
         { status: 429 },
       );
     }

@@ -17,20 +17,20 @@ interface SubscriptionEmailProps {
 }
 
 export default function SubscriptionEmail({
-  firstName = 'là',
+  firstName = 'toi',
   email = '',
   planName = 'Premium',
-  planPrice = '9,90 €/mois',
+  planPrice = '99 TND/mois',
   startDate = '20 mars 2026',
   nextBillingDate = '20 avril 2026',
-  transactionId = 'TXN-20260320-XXXX',
+  transactionId = 'ACT-20260320-XXXX',
   dashboardUrl = 'https://eaf.nexusreussite.academy/dashboard',
-  limits = { oraux: '6', corrections: '10', echanges: '30', analyses: '5' },
+  limits = { oraux: '10 / semaine', corrections: '20 / mois', echanges: '100 / jour', analyses: '20 / mois' },
 }: SubscriptionEmailProps) {
   return (
     <Html lang="fr">
       <Head />
-      <Preview>✓ Paiement reçu · Plan {planName} actif dès maintenant · Accède à ton espace complet.</Preview>
+      <Preview>✓ Activation confirmée · Plan {planName} actif dès maintenant · Accède à ton espace complet.</Preview>
       <Body style={{ backgroundColor: '#F7F8FA', fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif", margin: 0, padding: 0 }}>
         <Container style={{ maxWidth: '600px', margin: '0 auto' }}>
 
@@ -48,7 +48,7 @@ export default function SubscriptionEmail({
           {/* CONFIRMATION BADGE */}
           <Section style={{ backgroundColor: '#ffffff', padding: '40px 40px 24px', textAlign: 'center' as const }}>
             <Section style={{ backgroundColor: '#F0FDF4', borderRadius: '50px', padding: '8px 24px', margin: '0 auto', textAlign: 'center' as const }}>
-              <Text style={{ color: '#166534', fontSize: '15px', fontWeight: 600, margin: 0 }}>✓ Paiement confirmé</Text>
+              <Text style={{ color: '#166534', fontSize: '15px', fontWeight: 600, margin: 0 }}>✓ Activation confirmée</Text>
             </Section>
           </Section>
 
@@ -58,7 +58,7 @@ export default function SubscriptionEmail({
               Merci, {firstName} !
             </Heading>
             <Text style={{ color: '#4A5568', fontSize: '16px', lineHeight: '1.7', margin: 0, textAlign: 'center' as const }}>
-              Ton abonnement est actif. Voici le récapitulatif de ta souscription.
+              Ton plan est actif. Voici le récapitulatif de ton activation.
             </Text>
           </Section>
 
@@ -69,7 +69,7 @@ export default function SubscriptionEmail({
           {/* SUBSCRIPTION SUMMARY TABLE */}
           <Section style={{ backgroundColor: '#ffffff', padding: '0 40px 32px' }}>
             <Heading as="h2" style={{ color: '#1E3A5F', fontSize: '18px', fontWeight: 600, margin: '0 0 20px' }}>
-              Récapitulatif de l'abonnement
+              Récapitulatif de l’activation
             </Heading>
             <Section style={{ backgroundColor: '#F7F8FA', borderRadius: '8px', padding: '20px 24px' }}>
               <Row style={{ marginBottom: '12px' }}>
@@ -98,7 +98,7 @@ export default function SubscriptionEmail({
               </Row>
               <Row style={{ marginBottom: '12px' }}>
                 <Column style={{ width: '50%' }}>
-                  <Text style={{ color: '#6B7280', fontSize: '14px', margin: 0 }}>Prochain prélèvement</Text>
+                  <Text style={{ color: '#6B7280', fontSize: '14px', margin: 0 }}>Fin de période active</Text>
                 </Column>
                 <Column style={{ width: '50%', textAlign: 'right' as const }}>
                   <Text style={{ color: '#1E3A5F', fontSize: '14px', fontWeight: 600, margin: 0 }}>{nextBillingDate}</Text>
@@ -106,7 +106,7 @@ export default function SubscriptionEmail({
               </Row>
               <Row>
                 <Column style={{ width: '50%' }}>
-                  <Text style={{ color: '#6B7280', fontSize: '14px', margin: 0 }}>Transaction</Text>
+                  <Text style={{ color: '#6B7280', fontSize: '14px', margin: 0 }}>Référence d’activation</Text>
                 </Column>
                 <Column style={{ width: '50%', textAlign: 'right' as const }}>
                   <Text style={{ color: '#1E3A5F', fontSize: '13px', fontWeight: 600, margin: 0, fontFamily: 'monospace' }}>{transactionId}</Text>
@@ -172,28 +172,28 @@ export default function SubscriptionEmail({
           {/* 3-COLUMN GUARANTEE SECTION */}
           <Section style={{ backgroundColor: '#ffffff', padding: '0 40px 32px' }}>
             <Heading as="h2" style={{ color: '#1E3A5F', fontSize: '18px', fontWeight: 600, margin: '0 0 20px' }}>
-              Nos engagements
+              Repères utiles
             </Heading>
             <Row>
               <Column style={{ width: '33%', paddingRight: '8px', verticalAlign: 'top' }}>
                 <Section style={{ textAlign: 'center' as const }}>
                   <Text style={{ fontSize: '28px', margin: '0 0 8px' }}>🔄</Text>
-                  <Text style={{ color: '#1E3A5F', fontSize: '14px', fontWeight: 600, margin: '0 0 4px' }}>7 jours</Text>
-                  <Text style={{ color: '#6B7280', fontSize: '13px', lineHeight: '1.5', margin: 0 }}>Satisfait ou remboursé, sans condition</Text>
+                  <Text style={{ color: '#1E3A5F', fontSize: '14px', fontWeight: 600, margin: '0 0 4px' }}>Période active</Text>
+                  <Text style={{ color: '#6B7280', fontSize: '13px', lineHeight: '1.5', margin: 0 }}>Ton accès est ouvert jusqu’à la date indiquée plus haut.</Text>
                 </Section>
               </Column>
               <Column style={{ width: '33%', paddingRight: '4px', paddingLeft: '4px', verticalAlign: 'top' }}>
                 <Section style={{ textAlign: 'center' as const }}>
                   <Text style={{ fontSize: '28px', margin: '0 0 8px' }}>✋</Text>
-                  <Text style={{ color: '#1E3A5F', fontSize: '14px', fontWeight: 600, margin: '0 0 4px' }}>Résiliation libre</Text>
-                  <Text style={{ color: '#6B7280', fontSize: '13px', lineHeight: '1.5', margin: 0 }}>En 1 clic depuis ton espace, sans frais</Text>
+                  <Text style={{ color: '#1E3A5F', fontSize: '14px', fontWeight: 600, margin: '0 0 4px' }}>Activation manuelle</Text>
+                  <Text style={{ color: '#6B7280', fontSize: '13px', lineHeight: '1.5', margin: 0 }}>Le plan a été activé après validation de ton règlement.</Text>
                 </Section>
               </Column>
               <Column style={{ width: '33%', paddingLeft: '8px', verticalAlign: 'top' }}>
                 <Section style={{ textAlign: 'center' as const }}>
                   <Text style={{ fontSize: '28px', margin: '0 0 8px' }}>💬</Text>
-                  <Text style={{ color: '#1E3A5F', fontSize: '14px', fontWeight: 600, margin: '0 0 4px' }}>Support réactif</Text>
-                  <Text style={{ color: '#6B7280', fontSize: '13px', lineHeight: '1.5', margin: 0 }}>Réponse sous 24h par email</Text>
+                  <Text style={{ color: '#1E3A5F', fontSize: '14px', fontWeight: 600, margin: '0 0 4px' }}>Besoin d’aide</Text>
+                  <Text style={{ color: '#6B7280', fontSize: '13px', lineHeight: '1.5', margin: 0 }}>Contacte l’équipe Nexus Réussite en cas de besoin sur ton accès.</Text>
                 </Section>
               </Column>
             </Row>
@@ -244,10 +244,10 @@ export default function SubscriptionEmail({
               Tu reçois cet email car tu viens de souscrire au plan {planName} sur nexusreussite.academy avec l'adresse {email}.
             </Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '0 0 8px' }}>
-              Référence de transaction : <span style={{ fontFamily: 'monospace' }}>{transactionId}</span>
+              Référence d’activation : <span style={{ fontFamily: 'monospace' }}>{transactionId}</span>
             </Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '0 0 8px' }}>
-              <Link href={`${dashboardUrl.replace('/dashboard', '/profil')}`} style={{ color: '#9CA3AF' }}>Gérer mon abonnement</Link> | <Link href="https://eaf.nexusreussite.academy/politique-de-confidentialite" style={{ color: '#9CA3AF' }}>Politique de confidentialité</Link> | <Link href="mailto:contact@nexusreussite.academy" style={{ color: '#9CA3AF' }}>contact@nexusreussite.academy</Link>
+              <Link href={`${dashboardUrl.replace('/dashboard', '/profil')}`} style={{ color: '#9CA3AF' }}>Voir mon plan</Link> | <Link href="https://eaf.nexusreussite.academy/politique-de-confidentialite" style={{ color: '#9CA3AF' }}>Politique de confidentialité</Link> | <Link href="mailto:contact@nexusreussite.academy" style={{ color: '#9CA3AF' }}>contact@nexusreussite.academy</Link>
             </Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '0' }}>© 2026 Nexus Réussite. Tous droits réservés.</Text>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '4px 0 0' }}>Nexus Réussite — Préparation EAF Session 2026</Text>
