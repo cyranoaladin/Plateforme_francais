@@ -3,6 +3,20 @@ import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { findCopieById, findEpreuveById } from '@/lib/epreuves/repository';
 import { CorrectionReportPdf } from '@/lib/epreuves/report-pdf';
+import { type CorrectionJson } from '@/lib/epreuves/types';
+
+const COPIE_REPORT_MESSAGES = {
+  unavailable: 'Rapport indisponible.',
+  resourceUnavailable: 'Ressource non disponible.',
+} as const;
+
+function hasRenderableCorrection(correction: CorrectionJson | Record<string, unknown> | null | undefined): correction is CorrectionJson {
+  return !!correction
+    && typeof correction === 'object'
+    && typeof (correction as CorrectionJson).note === 'number'
+    && typeof (correction as CorrectionJson).mention === 'string'
+    && typeof (correction as CorrectionJson).bilan?.global === 'string';
+}
 
 /**
  * GET /api/v1/epreuves/copies/{copieId}/report
@@ -19,13 +33,18 @@ export async function GET(
 
   const { copieId } = await params;
   const copie = await findCopieById(copieId);
-  if (!copie || copie.userId !== auth.user.id || !copie.correction) {
-    return NextResponse.json({ error: 'Rapport indisponible.' }, { status: 404 });
+  if (
+    !copie
+    || copie.userId !== auth.user.id
+    || copie.status !== 'done'
+    || !hasRenderableCorrection(copie.correction)
+  ) {
+    return NextResponse.json({ error: COPIE_REPORT_MESSAGES.unavailable }, { status: 404 });
   }
 
   const epreuve = await findEpreuveById(copie.epreuveId);
   if (!epreuve) {
-    return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
+    return NextResponse.json({ error: COPIE_REPORT_MESSAGES.resourceUnavailable }, { status: 404 });
   }
 
   const buffer = await renderToBuffer(CorrectionReportPdf({ copie, epreuve }));
