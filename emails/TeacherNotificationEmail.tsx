@@ -22,7 +22,7 @@ export default function TeacherNotificationEmail({
   return (
     <Html lang="fr">
       <Head />
-      <Preview>Votre élève {fullName} s&apos;est inscrit(e) sur Nexus Réussite — préparation EAF 2026.</Preview>
+      <Preview>Votre élève {fullName} s’est inscrit(e) sur Nexus Réussite — préparation EAF 2026.</Preview>
       <Body style={{ backgroundColor: '#F7F8FA', fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif", margin: 0, padding: 0 }}>
         <Container style={{ maxWidth: '600px', margin: '0 auto' }}>
           {/* HEADER */}
@@ -43,22 +43,22 @@ export default function TeacherNotificationEmail({
               à son suivi.
             </Text>
             <Text style={{ color: '#4A5568', fontSize: '16px', lineHeight: '1.6', margin: '0 0 16px' }}>
-              Nexus Réussite est une plateforme de préparation à l&apos;Épreuve Anticipée
+              Nexus Réussite est une plateforme de préparation à l’Épreuve Anticipée
               de Français (EAF) conçue selon les exigences du Bulletin Officiel 2026
               et les rapports de jury. Elle propose&nbsp;:
             </Text>
             <Section style={{ backgroundColor: '#F0F7FF', borderRadius: '8px', padding: '20px 24px', margin: '0 0 20px' }}>
               <Text style={{ color: '#1E3A5F', fontSize: '15px', lineHeight: '1.8', margin: 0 }}>
-                ✓ Simulations d&apos;oral selon la grille officielle /2 /8 /2 /8{'\n'}
+                ✓ Simulations d’oral selon la grille officielle /2 /8 /2 /8{'\n'}
                 ✓ Correction de copies (commentaire et dissertation){'\n'}
                 ✓ Exercices de langue adaptés aux lacunes identifiées{'\n'}
                 ✓ Tuteur pédagogique entraîné sur le corpus officiel
               </Text>
             </Section>
             <Text style={{ color: '#4A5568', fontSize: '16px', lineHeight: '1.6', margin: '0 0 24px' }}>
-              La plateforme ne rédige jamais à la place de l&apos;élève&nbsp;: elle guide
-              le raisonnement, cite les sources du BO et développe l&apos;autonomie —
-              dans le respect de l&apos;intégrité académique.
+              La plateforme ne rédige jamais à la place de l’élève&nbsp;: elle guide
+              le raisonnement, cite les sources du BO et développe l’autonomie —
+              dans le respect de l’intégrité académique.
             </Text>
 
             <Button href={platformUrl} style={{ backgroundColor: '#1E3A5F', color: '#ffffff', borderRadius: '8px', padding: '14px 28px', fontWeight: 600, fontSize: '15px', textDecoration: 'none', display: 'block', textAlign: 'center' as const }}>
@@ -70,7 +70,7 @@ export default function TeacherNotificationEmail({
             <Hr style={{ borderColor: '#E2E8F0', margin: '24px 0' }} />
             <Text style={{ color: '#4A5568', fontSize: '15px', lineHeight: '1.6', margin: 0 }}>
               Bien cordialement,{'\n'}
-              L&apos;équipe Nexus Réussite
+              L’équipe Nexus Réussite
             </Text>
           </Section>
 

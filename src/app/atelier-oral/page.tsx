@@ -1059,7 +1059,7 @@ export default function AtelierOralPage() {
             <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Principe de séance</p>
               <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L\'espace oral est conçu pour rendre cette discipline plus facile.
+                Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L’espace oral est conçu pour rendre cette discipline plus facile.
               </p>
               <Link
                 href={oralTutorHref}

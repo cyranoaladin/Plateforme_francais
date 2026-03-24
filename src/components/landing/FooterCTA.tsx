@@ -20,12 +20,12 @@ export function FooterCTA() {
         <h2 className="mb-4 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
           Le meilleur moment pour commencer,
           <br />
-          c&apos;est maintenant.
+          c’est maintenant.
         </h2>
 
         <p className="mb-8 text-base text-sapphire-200 sm:text-lg">
-          Chaque jour sans entraînement, c&apos;est un point de moins
-          à l&apos;oral. Le Freemium est gratuit, sans carte bancaire,
+          Chaque jour sans entraînement, c’est un point de moins
+          à l’oral. Le Freemium est gratuit, sans carte bancaire,
           et tu peux commencer en 3 minutes.
         </p>
 

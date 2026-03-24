@@ -35,9 +35,9 @@ export function SocialProofStrip() {
         {/* Testimonial card */}
         <blockquote className="rounded-2xl border border-gray-100 bg-gray-50 p-6">
           <p className="text-lg font-medium italic leading-relaxed text-gray-800">
-            &quot;J&apos;avais peur de l&apos;oral. Avec Nexus, j&apos;ai fait 8 simulations réelles.
-            Le jour J, j&apos;étais habitué au stress — le tuteur me guidait pour que
-            JE trouve. Résultat : 16/20 et mention Bien.&quot;
+            « J’avais peur de l’oral. Avec Nexus, j’ai fait 8 simulations réelles.
+            Le jour J, j’étais habitué au stress — le tuteur me guidait pour que
+            JE trouve. Résultat : 16/20 et mention Bien. »
           </p>
           <footer className="mt-4 flex flex-wrap items-center justify-between gap-3">
             <div>

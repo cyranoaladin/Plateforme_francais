@@ -30,7 +30,7 @@ const plans: Plan[] = [
     featured: true,
     features: [
       'Corrections illimitées',
-      'Simulations d&apos;oral avec feedback',
+      'Simulations d’oral avec feedback',
       'Atelier Langue complet',
       'Tableau de bord élève + parent',
       'Sources vérifiées EAF',
@@ -62,7 +62,7 @@ const faqs: FaqItem[] = [
   {
     question: 'Puis-je changer de formule en cours de mois ?',
     answer:
-      'Oui, vous pouvez passer d&apos;une formule à l&apos;autre à tout moment. Le changement prend effet immédiatement et le prorata est calculé automatiquement.',
+      'Oui, vous pouvez passer d’une formule à l’autre à tout moment. Le changement prend effet immédiatement et le prorata est calculé automatiquement.',
   },
   {
     question: 'Y a-t-il un engagement minimum ?',
@@ -72,7 +72,7 @@ const faqs: FaqItem[] = [
   {
     question: 'Le Freemium est-il vraiment gratuit ?',
     answer:
-      'Oui, le Freemium est gratuit pour toujours. Pas de carte bancaire requise, pas de période d&apos;essai. Vous pouvez l&apos;utiliser aussi longtemps que vous le souhaitez.',
+      'Oui, le Freemium est gratuit pour toujours. Pas de carte bancaire requise, pas de période d’essai. Vous pouvez l’utiliser aussi longtemps que vous le souhaitez.',
   },
 ];
 

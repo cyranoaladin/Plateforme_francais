@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-24T11:40:50.993Z",
+  "generatedAt": "2026-03-24T11:46:27.480Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -1973,7 +1973,7 @@
       "line": 1062,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L\\'espace oral est conçu pour rendre cette discipline plus facile."
+      "text": "Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L’espace oral est conçu pour rendre cette discipline plus facile."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
@@ -7125,14 +7125,14 @@
       "line": 23,
       "column": 11,
       "kind": "jsx-text",
-      "text": "c&apos;est maintenant."
+      "text": "c’est maintenant."
     },
     {
       "file": "src/components/landing/FooterCTA.tsx",
       "line": 27,
       "column": 11,
       "kind": "jsx-text",
-      "text": "Chaque jour sans entraînement, c&apos;est un point de moins à l&apos;oral. Le Freemium est gratuit, sans carte bancaire, et tu peux commencer en 3 minutes."
+      "text": "Chaque jour sans entraînement, c’est un point de moins à l’oral. Le Freemium est gratuit, sans carte bancaire, et tu peux commencer en 3 minutes."
     },
     {
       "file": "src/components/landing/FooterCTA.tsx",
@@ -7230,7 +7230,7 @@
       "line": 38,
       "column": 13,
       "kind": "jsx-text",
-      "text": "&quot;J&apos;avais peur de l&apos;oral. Avec Nexus, j&apos;ai fait 8 simulations réelles. Le jour J, j&apos;étais habitué au stress — le tuteur me guidait pour que JE trouve. Résultat : 16/20 et mention Bien.&quot;"
+      "text": "« J’avais peur de l’oral. Avec Nexus, j’ai fait 8 simulations réelles. Le jour J, j’étais habitué au stress — le tuteur me guidait pour que JE trouve. Résultat : 16/20 et mention Bien. »"
     },
     {
       "file": "src/components/landing/SocialProofStrip.tsx",
