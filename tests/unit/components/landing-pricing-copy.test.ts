@@ -1,21 +1,18 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { PUBLIC_PLAN_FEATURE_ROWS, PUBLIC_PLAN_OFFERS } from '@/lib/billing/public-offers';
 
 describe('Landing pricing copy', () => {
   it('n expose pas de promesses de paiement ou de quotas contradictoires', () => {
-    const file = path.resolve(process.cwd(), 'src/components/landing/PricingSection.tsx');
-    const src = fs.readFileSync(file, 'utf8');
+    const free = PUBLIC_PLAN_OFFERS.find((offer) => offer.publicId === 'FREEMIUM');
+    const premium = PUBLIC_PLAN_OFFERS.find((offer) => offer.publicId === 'PREMIUM');
+    const analysesRow = PUBLIC_PLAN_FEATURE_ROWS.find((row) => row.label === 'Analyse de copies');
 
-    expect(src).not.toContain('3 corrections par mois');
-    expect(src).not.toContain('Corrections illimitées');
-    expect(src).not.toContain('coaching en visio');
-    expect(src).not.toContain('prorata est calculé automatiquement');
-    expect(src).not.toContain('Sans engagement');
-    expect(src).not.toContain('Résiliation immédiate');
-
-    expect(src).toContain('2 corrections écrites / mois');
-    expect(src).toContain('virement bancaire');
-    expect(src).toContain('code d’activation');
+    expect(free?.landingBullets).toContain('2 / mois de correction écrite');
+    expect(free?.landingBullets).not.toContain('3 corrections par mois');
+    expect(premium?.footer).toContain('virement bancaire ou espèces');
+    expect(premium?.landingBullets).toContain('Activation par code après règlement');
+    expect(analysesRow?.values.FREEMIUM).toBe('2 / mois');
+    expect(analysesRow?.values.PREMIUM).toBe('20 / mois');
+    expect(analysesRow?.values.MASTERIUM).toBe('50 / mois');
   });
 });

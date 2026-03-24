@@ -386,10 +386,10 @@ Les identifiants ci-dessus sont internes. Côté produit visible, seuls Freemium
 | Sessions orales | 1/mois | 10/semaine | Illimité |
 | Corrections écrites | 2/mois | 20/mois | Illimité |
 | Questions tuteur | 3/jour | 100/jour | Illimité |
-| Tokens LLM | 5 000/jour | 50 000/jour | 200 000/jour |
+| Tokens LLM | 8 000/jour | 50 000/jour | 200 000/jour |
 | Recherches RAG | 50/jour | 500/jour | Illimité |
-| Quiz | 1/jour | 30/jour | Illimité |
-| OCR copies | 0 | 20/mois | 50/mois |
+| Quiz | 3/jour | 30/jour | Illimité |
+| OCR copies | 2/mois | 20/mois | 50/mois |
 
 ### 🏳️ Feature flags
 
@@ -491,9 +491,10 @@ DIRECT_URL="postgresql://user:pass@localhost:5432/eaf?schema=public"
 # Redis
 REDIS_URL="redis://localhost:6379"
 
-# Email SMTP
+# Email SMTP (Hostinger STARTTLS)
 SMTP_HOST="smtp.hostinger.com"
-SMTP_PORT="465"
+SMTP_PORT="587"
+SMTP_SECURE="false"
 SMTP_USER="contact@nexusreussite.academy"
 SMTP_PASS="<secret>"
 

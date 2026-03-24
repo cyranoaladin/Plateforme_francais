@@ -1,65 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import { PUBLIC_PLAN_OFFERS } from '@/lib/billing/public-offers';
 import { ROUTES } from '@/lib/routes';
-
-interface Plan {
-  name: string;
-  price: string;
-  period: string;
-  featured: boolean;
-  tagline: string;
-  features: string[];
-  footer: string;
-}
-
-const plans: Plan[] = [
-  {
-    name: 'Freemium',
-    price: '0 TND',
-    period: '',
-    featured: false,
-    tagline: 'Découvre la méthode sans paiement.',
-    features: [
-      '1 oral / mois',
-      '2 corrections écrites / mois',
-      '3 échanges guidés / jour',
-      'Sélection de ressources gratuites',
-    ],
-    footer: 'Création de compte immédiate, sans carte bancaire.',
-  },
-  {
-    name: 'Premium',
-    price: '99 TND',
-    period: '/mois',
-    featured: true,
-    tagline: 'Le plan complet pour travailler chaque semaine.',
-    features: [
-      '10 oraux / semaine',
-      '20 corrections écrites / mois',
-      '100 échanges guidés / jour',
-      'Rapport PDF oral',
-      'Bibliothèque complète',
-      'Activation par code après règlement',
-    ],
-    footer: 'Règlement par virement bancaire ou espèces, puis code d’activation.',
-  },
-  {
-    name: 'Masterium',
-    price: '129 TND',
-    period: '/mois',
-    featured: false,
-    tagline: 'Pour travailler sans plafond et viser la mention.',
-    features: [
-      'Oral illimité',
-      'Corrections écrites illimitées',
-      'Accompagnement guidé illimité',
-      'Recherche avancée dans le corpus',
-      'Historique oral complet',
-      'Support prioritaire',
-    ],
-    footer: 'Même parcours d’activation manuelle, avec le niveau de service le plus élevé.',
-  },
-];
 
 interface FaqItem {
   question: string;
@@ -111,31 +53,31 @@ export function PricingSection() {
 
         {/* Plan cards */}
         <div className="mt-12 flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
-          {plans.map((plan) => (
+          {PUBLIC_PLAN_OFFERS.map((plan) => (
             <div
-              key={plan.name}
+              key={plan.publicId}
               className={
                 'relative flex min-w-[280px] flex-col rounded-2xl bg-white p-6 shadow-md snap-center sm:min-w-0 ' +
-                (plan.featured ? 'ring-2 ring-sapphire-700 sm:border-2 sm:border-sapphire-700 sm:ring-0 shadow-lg' : 'border border-gray-200')
+                (plan.highlighted ? 'ring-2 ring-sapphire-700 sm:border-2 sm:border-sapphire-700 sm:ring-0 shadow-lg' : 'border border-gray-200')
               }
             >
-              {plan.featured && (
+              {plan.highlighted && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-sapphire-700 px-4 py-1 text-xs font-semibold text-white">
                   {`⭐ ${PRICING_COPY.recommended}`}
                 </span>
               )}
 
-              <h3 className="text-lg font-bold text-gray-900">{plan.name}</h3>
+              <h3 className="text-lg font-bold text-gray-900">{plan.title}</h3>
               <p className="mt-2 text-sm text-gray-600">{plan.tagline}</p>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-extrabold text-gray-900">{plan.price}</span>
+                <span className="text-3xl font-extrabold text-gray-900">{plan.priceTnd}</span>
                 {plan.period && (
                   <span className="text-sm text-gray-500">{plan.period}</span>
                 )}
               </div>
 
               <ul className="mt-6 flex-1 space-y-3">
-                {plan.features.map((feature) => (
+                {plan.landingBullets.map((feature) => (
                   <li key={feature} className="flex items-start gap-2 text-sm text-gray-700">
                     <svg
                       className="mt-0.5 h-4 w-4 shrink-0 text-sapphire-700"
@@ -155,15 +97,15 @@ export function PricingSection() {
               </ul>
 
               <Link
-                href={ROUTES.register}
+                href={plan.publicId === 'FREEMIUM' ? ROUTES.register : '/pricing#activation-et-paiement'}
                 className={
                   'mt-6 block rounded-xl py-3 text-center text-sm font-semibold transition-colors ' +
-                  (plan.featured
+                  (plan.highlighted
                     ? 'bg-sapphire-700 text-white hover:bg-sapphire-700'
                     : 'bg-gray-100 text-gray-900 hover:bg-gray-200')
                 }
               >
-                {plan.price === '0 TND' ? 'Commencer gratuitement' : 'Choisir ' + plan.name}
+                {plan.publicId === 'FREEMIUM' ? 'Commencer gratuitement' : 'Choisir ' + plan.title}
               </Link>
 
               <p className="mt-3 text-center text-xs text-gray-500">

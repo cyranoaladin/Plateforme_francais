@@ -20,6 +20,7 @@ import {
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 import { formatPlanLabel } from '@/lib/billing/plan-catalog';
+import { PUBLIC_PLAN_FEATURE_ROWS, PUBLIC_PLAN_OFFERS } from '@/lib/billing/public-offers';
 
 type SubscriptionPlan = 'FREEMIUM' | 'PREMIUM' | 'MASTERIUM';
 type PaymentStatus = 'PENDING' | 'ACCEPTED' | 'REFUSED' | 'ERROR';
@@ -65,6 +66,12 @@ const PLAN_LABELS: Record<SubscriptionPlan, string> = {
   MASTERIUM: 'Masterium',
 };
 
+const PUBLIC_PLAN_ID_TO_SUBSCRIPTION: Record<'FREEMIUM' | 'PREMIUM' | 'MASTERIUM', SubscriptionPlan> = {
+  FREEMIUM: 'FREEMIUM',
+  PREMIUM: 'PREMIUM',
+  MASTERIUM: 'MASTERIUM',
+};
+
 const BANK_TRANSFER_ROWS = [
   { label: 'Identifiant', value: '871456' },
   { label: 'Titulaire', value: 'STE M&M ACADEMY SUARL' },
@@ -78,79 +85,19 @@ const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
 };
 
-const PLANS: PlanCard[] = [
-  {
-    id: 'FREEMIUM',
-    title: 'Freemium',
-    priceTND: '0 TND',
-    period: '',
-    bullets: [
-      '1 session orale / mois',
-      '2 corrections écrites / mois',
-      '3 échanges guidés / jour',
-      'Échantillon de bibliothèque',
-    ],
-    cta: 'Essayer gratuitement',
-    ctaDisabledLabel: 'Plan actuel',
-    highlighted: false,
-    kicker: 'Teste la méthode gratuitement.',
-    note: 'Accès limité pour découvrir les ateliers et la méthode. Idéal pour tester avant de t’engager.',
-  },
-  {
-    id: 'PREMIUM',
-    title: 'Premium',
-    priceTND: '99 TND',
-    period: '/ mois',
-    bullets: [
-      '10 sessions orales / semaine',
-      '20 corrections écrites / mois',
-      '100 échanges guidés / jour',
-      'Analyse de copies : 20 / mois',
-      'Parcours personnalisé',
-      'Rapport PDF oral',
-      'Bibliothèque complète',
-    ],
-    cta: 'Passer à Premium',
-    ctaDisabledLabel: 'Plan actuel',
-    checkoutPlan: 'PREMIUM',
-    highlighted: true,
-    kicker: 'La préparation complète pour réussir ton EAF.',
-    note: 'Le meilleur point d’équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
-  },
-  {
-    id: 'MASTERIUM',
-    title: 'Masterium',
-    priceTND: '129 TND',
-    period: '/ mois',
-    bullets: [
-      'Oral illimité',
-      'Corrections écrites illimitées',
-      'Accompagnement guidé illimité',
-      'Analyse de copies : 50 / mois',
-      'Volume de travail illimité',
-      'Recherche avancée dans le corpus',
-      'Historique oral complet',
-      'Support prioritaire',
-    ],
-    cta: 'Passer à Masterium',
-    ctaDisabledLabel: 'Plan actuel',
-    checkoutPlan: 'MASTERIUM',
-    highlighted: false,
-    kicker: "Pour viser la mention et travailler sans limite.",
-    note: 'Aucune limite sur les quotas. Pour ceux qui travaillent intensément et veulent une préparation maximale.',
-  },
-];
-
-const FEATURE_ROWS: Array<{ label: string; free: string; premium: string; pro: string }> = [
-  { label: 'Sessions orales / mois', free: '1', premium: '10 / semaine', pro: 'Illimité' },
-  { label: 'Corrections écrites / mois', free: '2', premium: '20', pro: 'Illimité' },
-  { label: 'Échanges guidés / jour', free: '3', premium: '100', pro: 'Illimité' },
-  { label: 'Analyse de copies / mois', free: '—', premium: '20', pro: '50' },
-  { label: 'Volume de travail quotidien', free: 'Limité', premium: 'Élevé', pro: 'Illimité' },
-  { label: 'Rapport PDF oral', free: '—', premium: 'Oui', pro: 'Oui' },
-  { label: 'Recherche avancée corpus', free: '—', premium: '—', pro: 'Oui' },
-  { label: 'Support', free: 'FAQ', premium: 'Email', pro: 'Prioritaire' },
-];
+const PLANS: PlanCard[] = PUBLIC_PLAN_OFFERS.map((offer) => ({
+  id: PUBLIC_PLAN_ID_TO_SUBSCRIPTION[offer.publicId],
+  title: offer.title,
+  priceTND: offer.priceTnd,
+  period: offer.period,
+  bullets: offer.pricingBullets,
+  cta: offer.cta,
+  ctaDisabledLabel: offer.ctaDisabledLabel,
+  checkoutPlan: offer.publicId === 'FREEMIUM' ? undefined : offer.publicId,
+  highlighted: offer.highlighted,
+  kicker: offer.tagline,
+  note: offer.pricingNote,
+}));
 
 const BILLING_FAQ = [
   {
@@ -817,12 +764,12 @@ export default function PricingPage() {
                 </tr>
               </thead>
               <tbody>
-                {FEATURE_ROWS.map((row, index) => (
+                {PUBLIC_PLAN_FEATURE_ROWS.map((row, index) => (
                   <tr key={row.label} className={index % 2 === 0 ? 'bg-[var(--bg-surface)]' : 'bg-[var(--bg-surface-secondary)]'}>
                     <td className="px-5 py-3.5 font-medium text-[var(--c-primary)]">{row.label}</td>
-                    <td className="px-5 py-3.5 text-center text-[var(--text-secondary)]">{row.free}</td>
-                    <td className="px-5 py-3.5 text-center text-[var(--text-secondary)]">{row.premium}</td>
-                    <td className="px-5 py-3.5 text-center text-[var(--text-secondary)]">{row.pro}</td>
+                    <td className="px-5 py-3.5 text-center text-[var(--text-secondary)]">{row.values.FREEMIUM}</td>
+                    <td className="px-5 py-3.5 text-center text-[var(--text-secondary)]">{row.values.PREMIUM}</td>
+                    <td className="px-5 py-3.5 text-center text-[var(--text-secondary)]">{row.values.MASTERIUM}</td>
                   </tr>
                 ))}
               </tbody>

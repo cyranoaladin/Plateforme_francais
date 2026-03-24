@@ -15,9 +15,10 @@ Les templates sont créés avec **React Email** (`@react-email/components`).
 ## Variables d'environnement
 
 ```env
-# SMTP (Hostinger)
+# SMTP (Hostinger STARTTLS)
 SMTP_HOST=smtp.hostinger.com
-SMTP_PORT=465
+SMTP_PORT=587
+SMTP_SECURE=false
 SMTP_USER=contact@nexusreussite.academy
 SMTP_PASS=xxxxxxxx
 EMAIL_FROM=Nexus Réussite <contact@nexusreussite.academy>
@@ -64,6 +65,8 @@ curl http://localhost:3000/api/dev/test-email?type=subscription
 ```
 
 ## Comportement en production
+
+- **Vérité runtime actuelle** : la prod utilise `smtp.hostinger.com` sur le port `587` avec STARTTLS (`secure=false`, `requireTLS=true`)
 
 - **Retry** : 3 tentatives avec backoff exponentiel (1s, 2s)
 - **Non-bloquant** : l'inscription et l'activation réussissent même si l'email échoue

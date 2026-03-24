@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
  * Crée un transporteur SMTP via nodemailer.
  * Variables d'environnement requises en production :
  *   SMTP_HOST     — ex. smtp.hostinger.com
- *   SMTP_PORT     — ex. 465
+ *   SMTP_PORT     — ex. 587 (STARTTLS)
  *   SMTP_USER     — ex. contact@nexusreussite.academy
  *   SMTP_PASS     — mot de passe SMTP
  *   EMAIL_FROM    — adresse d'expédition (défaut: SMTP_USER)
@@ -15,9 +15,10 @@ import { logger } from '@/lib/logger';
  */
 function getTransporter() {
   const host = process.env.SMTP_HOST;
-  const port = parseInt(process.env.SMTP_PORT ?? '465', 10);
+  const port = parseInt(process.env.SMTP_PORT ?? '587', 10);
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS ?? process.env.SMTP_PASSWORD;
+  const secure = process.env.SMTP_SECURE === 'true' || port === 465;
 
   if (!host || !user || !pass) {
     return null;
@@ -26,7 +27,8 @@ function getTransporter() {
   return nodemailer.createTransport({
     host,
     port,
-    secure: port === 465,
+    secure,
+    requireTLS: !secure,
     auth: { user, pass },
   });
 }

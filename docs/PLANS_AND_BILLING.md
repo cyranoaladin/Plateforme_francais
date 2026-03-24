@@ -19,10 +19,10 @@ Des reliquats legacy comme `MAX` ont existé côté code, mais ils ne doivent pl
 | Sessions orales | 1/mois | 10/semaine | illimité |
 | Corrections écrites | 2/mois | 20/mois | illimité |
 | Questions tuteur | 3/jour | 100/jour | illimité |
-| OCR copies | 0 | 20/mois | 50/mois |
-| Tokens LLM | 5 000/jour | 50 000/jour | 200 000/jour |
+| OCR copies | 2/mois | 20/mois | 50/mois |
+| Tokens LLM | 8 000/jour | 50 000/jour | 200 000/jour |
 | Recherches RAG | 50/jour | 500/jour | illimité |
-| Quiz par jour | 1/jour | 30/jour | illimité |
+| Quiz par jour | 3/jour | 30/jour | illimité |
 
 ## Feature flags par plan
 

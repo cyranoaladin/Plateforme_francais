@@ -5,6 +5,7 @@ import TeacherNotificationEmail from '../../../emails/TeacherNotificationEmail';
 import SubscriptionEmail from '../../../emails/SubscriptionEmail';
 import React from 'react';
 import { formatPlanLabel } from '@/lib/billing/plan-catalog';
+import { getPublicOfferFromAnyPlan } from '@/lib/billing/public-offers';
 
 const APP_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
@@ -99,57 +100,12 @@ export async function sendLinkedRoleInvitationEmail(params: {
 // ── Email #4 : Confirmation de souscription ─────────────────────
 export async function sendSubscriptionConfirmationEmail(data: {
   user: { firstName: string; email: string };
-  plan: 'FREE' | 'PREMIUM' | 'PRO';
+  plan: string;
   transactionId: string;
   startDate: Date;
   nextBillingDate: Date;
 }) {
-  const planConfig: Record<
-    string,
-    {
-      name: string;
-      price: string;
-      limits: {
-        oraux: string;
-        corrections: string;
-        echanges: string;
-        analyses: string;
-      };
-    }
-  > = {
-    FREE: {
-      name: 'Freemium',
-      price: 'Gratuit',
-      limits: {
-        oraux: '1 / semaine',
-        corrections: '2 / mois',
-        echanges: '3 / jour',
-        analyses: '1 / mois',
-      },
-    },
-    PREMIUM: {
-      name: 'Premium',
-      price: '99 TND/mois',
-      limits: {
-        oraux: '10 / semaine',
-        corrections: '20 / mois',
-        echanges: '100 / jour',
-        analyses: '20 / mois',
-      },
-    },
-    PRO: {
-      name: 'Masterium',
-      price: '129 TND/mois',
-      limits: {
-        oraux: 'Illimité',
-        corrections: 'Illimité',
-        echanges: 'Illimité',
-        analyses: '50 / mois',
-      },
-    },
-  };
-
-  const config = planConfig[data.plan] ?? { ...planConfig.PREMIUM, name: formatPlanLabel(data.plan) };
+  const offer = getPublicOfferFromAnyPlan(data.plan);
   const fmt = (d: Date) =>
     d.toLocaleDateString('fr-FR', {
       day: 'numeric',
@@ -159,17 +115,22 @@ export async function sendSubscriptionConfirmationEmail(data: {
 
   return sendEmail({
     to: data.user.email,
-    subject: `Ton plan ${config.name} est actif — Nexus Réussite`,
+    subject: `Ton plan ${offer.title} est actif — Nexus Réussite`,
     react: React.createElement(SubscriptionEmail, {
       firstName: data.user.firstName,
       email: data.user.email,
-      planName: config.name,
-      planPrice: config.price,
+      planName: offer.title ?? formatPlanLabel(data.plan),
+      planPrice: offer.period ? `${offer.priceTnd}${offer.period}` : offer.priceTnd,
       startDate: fmt(data.startDate),
       nextBillingDate: fmt(data.nextBillingDate),
       transactionId: data.transactionId,
       dashboardUrl: `${APP_URL}/dashboard`,
-      limits: config.limits,
+      limits: {
+        oraux: offer.summaries.oral,
+        corrections: offer.summaries.written,
+        echanges: offer.summaries.tutor,
+        analyses: offer.summaries.ocr,
+      },
     }),
   });
 }

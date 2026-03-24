@@ -181,10 +181,11 @@ CRON_SECRET="<32-char-random-string>"
 CSRF_SECRET="<32-char-random-string>"
 
 # ============================================
-# Email SMTP (Hostinger)
+# Email SMTP (Hostinger STARTTLS)
 # ============================================
 SMTP_HOST="smtp.hostinger.com"
-SMTP_PORT="465"
+SMTP_PORT="587"
+SMTP_SECURE="false"
 SMTP_USER="contact@nexusreussite.academy"
 SMTP_PASS="<password>"
 EMAIL_FROM="Nexus Réussite <contact@nexusreussite.academy>"
