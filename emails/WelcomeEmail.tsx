@@ -94,7 +94,7 @@ export default function WelcomeEmail({
           <Section style={{ backgroundColor: '#ffffff', padding: '0 40px 32px' }}>
             <Section style={{ backgroundColor: '#F0FDF4', borderLeft: '4px solid #27AE60', borderRadius: '0 8px 8px 0', padding: '16px 20px' }}>
               <Text style={{ color: '#166534', fontSize: '14px', lineHeight: '1.7', margin: 0 }}>
-                ✓ Tu es sur le plan Freemium — gratuit, sans carte bancaire requise. Tu accèdes à 1 session orale, 2 corrections et 3 échanges guidés par mois pour tester la méthode à ton rythme.
+                ✓ Tu es sur le plan Freemium — gratuit, sans carte bancaire requise. Tu accèdes à 1 session orale par mois, 2 corrections écrites par mois et 3 échanges guidés par jour pour tester la méthode à ton rythme.
               </Text>
             </Section>
             <Text style={{ textAlign: 'center' as const, margin: '12px 0 0' }}>

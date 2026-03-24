@@ -61,7 +61,7 @@ Configuration : variables `RAG_*` dans `.env`.
 
 ## Email
 
-Envoi via SMTP Hostinger (port 587/465). Les templates sont définis avec React Email dans `emails/`. Le service d'envoi se trouve dans `src/lib/email/`.
+Envoi via SMTP Hostinger sur le port 587 avec STARTTLS en production. Les templates sont définis avec React Email dans `emails/`. Le service d'envoi se trouve dans `src/lib/email/`.
 
 ## Facturation
 
