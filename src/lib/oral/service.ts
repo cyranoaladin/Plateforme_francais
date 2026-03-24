@@ -47,6 +47,34 @@ export type OralSessionResult = {
   citations?: Citation[];
 };
 
+function normalizeWorkKey(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/['’`]/g, ' ')
+    .replace(/[^a-zA-Z0-9]+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ');
+}
+
+function matchesWork(target: string, candidate: string): boolean {
+  const normalizedTarget = normalizeWorkKey(target);
+  const normalizedCandidate = normalizeWorkKey(candidate);
+  return (
+    normalizedTarget === normalizedCandidate ||
+    normalizedTarget.includes(normalizedCandidate) ||
+    normalizedCandidate.includes(normalizedTarget)
+  );
+}
+
+function buildPhraseCandidate(text: string): string {
+  return text
+    .split(/[.!?]/)
+    .find((chunk) => chunk.trim().length > 20)
+    ?.trim() ?? text.trim();
+}
+
 function normalizePhaseEvaluation(phase: OralPhaseKey, skill: Skill, payload: unknown): PhaseEvaluation {
   try {
     const parsed = parseSkillOutput(skill, payload) as PhaseEvaluation;
@@ -97,44 +125,34 @@ export async function pickOralExtrait(params: {
 
   // First, try to find a match in the student's descriptif
   const studentMatch = profile.descriptifTextes.find((t) =>
-    params.oeuvre.toLowerCase().includes(t.oeuvre.toLowerCase()) ||
-    t.oeuvre.toLowerCase().includes(params.oeuvre.toLowerCase())
+    t.typeExtrait === 'extrait_oeuvre' && matchesWork(params.oeuvre, t.oeuvre)
   );
-
-  if (studentMatch) {
-  }
 
   // Always use EXTRAITS_OEUVRES as the primary source (more reliable and complete)
   const corpusMatch = EXTRAITS_OEUVRES.find((item) =>
-    params.oeuvre.toLowerCase().includes(item.oeuvre.toLowerCase()) ||
-    item.oeuvre.toLowerCase().includes(params.oeuvre.toLowerCase())
+    matchesWork(params.oeuvre, item.oeuvre)
   );
 
   if (corpusMatch) {
     return {
       texte: corpusMatch.extrait,
       questionGrammaire: corpusMatch.questionGrammaire,
-      phraseGrammaire: corpusMatch.extrait.split('.').find((chunk) => chunk.trim().length > 20)?.trim() ?? 'Phrase cible indisponible.',
+      phraseGrammaire: buildPhraseCandidate(corpusMatch.extrait) || 'Phrase cible indisponible.',
     };
   }
 
-  // Fallback: use any available extract from the corpus
-  if (EXTRAITS_OEUVRES.length > 0) {
-    const randomExtract = EXTRAITS_OEUVRES[Math.floor(Math.random() * EXTRAITS_OEUVRES.length)];
+  if (studentMatch?.premieresLignes?.trim()) {
+    const texte = studentMatch.premieresLignes.trim();
     return {
-      texte: randomExtract.extrait,
-      questionGrammaire: randomExtract.questionGrammaire,
-      phraseGrammaire: randomExtract.extrait.split('.').find((chunk) => chunk.trim().length > 20)?.trim() ?? 'Phrase cible indisponible.',
+      texte,
+      questionGrammaire: `Analysez la construction d'une phrase significative tirée de « ${studentMatch.titre} ».`,
+      phraseGrammaire: buildPhraseCandidate(texte) || 'Phrase cible indisponible.',
     };
   }
 
-  // Last resort: return default values
-  console.error(`[pickOralExtrait] ERROR: No texts found in corpus.`);
-  return {
-    texte: 'Texte indisponible.',
-    questionGrammaire: 'Analysez la syntaxe de la phrase.',
-    phraseGrammaire: 'Phrase cible indisponible.',
-  };
+  throw new Error(
+    `Aucun extrait exploitable n'a été trouvé pour « ${params.oeuvre} ». Ajoute les premières lignes du texte dans ton descriptif ou choisis une œuvre prise en charge.`
+  );
 }
 
 /**

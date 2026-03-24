@@ -82,15 +82,48 @@ describe('Oral Service', () => {
     expect(result.questionGrammaire).toBe('Question test.');
   });
 
-  it('pickOralExtrait retourne un fallback pour oeuvre inconnue', async () => {
+  it('pickOralExtrait échoue proprement pour une œuvre inconnue', async () => {
     const { pickOralExtrait } = await import('@/lib/oral/service');
-    const result = await pickOralExtrait({
+    await expect(pickOralExtrait({
       oeuvre: 'Oeuvre inexistante',
       userId: 'user-test',
       mode: 'FREE_PRACTICE',
+    })).rejects.toThrow("Aucun extrait exploitable");
+  });
+
+  it('pickOralExtrait utilise les premières lignes du descriptif si le corpus ne couvre pas l’œuvre', async () => {
+    vi.doMock('@/lib/db/client', () => ({
+      prisma: {
+        studentProfile: {
+          findUnique: vi.fn().mockResolvedValue({
+            userId: 'user-test',
+            descriptifTextes: [
+              {
+                oeuvre: "Lettres d'une Péruvienne",
+                titre: 'Lettre II',
+                typeExtrait: 'extrait_oeuvre',
+                premieresLignes: 'Zilia écrit à Aza et décrit le quipu comme un lien vivant avec sa mémoire.',
+              },
+              { oeuvre: 'Autre œuvre', titre: 'Texte 2', typeExtrait: 'extrait_oeuvre', premieresLignes: '...' },
+              { oeuvre: 'Autre œuvre', titre: 'Texte 3', typeExtrait: 'extrait_parcours', premieresLignes: '...' },
+            ],
+          }),
+        },
+      },
+    }));
+    vi.doMock('@/data/extraits-oeuvres', () => ({
+      EXTRAITS_OEUVRES: [],
+    }));
+    vi.resetModules();
+
+    const { pickOralExtrait } = await import('@/lib/oral/service');
+    const result = await pickOralExtrait({
+      oeuvre: "Lettres d'une Péruvienne",
+      userId: 'user-test',
+      mode: 'SIMULATION',
     });
-    expect(result.texte).toBeTruthy();
-    expect(result.questionGrammaire).toBeTruthy();
+    expect(result.texte).toContain('Zilia écrit à Aza');
+    expect(result.questionGrammaire).toContain('Lettre II');
   });
 
   it('generateOralBilan retourne un résultat structuré', async () => {

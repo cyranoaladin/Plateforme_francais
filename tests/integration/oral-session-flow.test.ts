@@ -56,6 +56,8 @@ describe('Oral Session Flow — integration', () => {
       descriptifTextes: Array.from({ length: 20 }).map((_, i) => ({
         oeuvre: i < 10 ? 'Baudelaire' : 'Rimbaud',
         titre: `Texte ${i + 1}`,
+        typeExtrait: 'extrait_oeuvre',
+        premieresLignes: i < 10 ? `Premières lignes Baudelaire ${i + 1}.` : `Premières lignes Rimbaud ${i + 1}.`,
       })),
     });
   });
@@ -73,13 +75,49 @@ describe('Oral Session Flow — integration', () => {
       expect(result.texte.length).toBeGreaterThan(0);
     });
 
-    it('retourne un extrait même pour une oeuvre inconnue (fallback)', async () => {
-      const result = await pickOralExtrait({
-        oeuvre: 'OeuvreInexistante12345',
+    it('échoue proprement pour une œuvre inconnue au lieu de choisir un texte aléatoire', async () => {
+      await expect(
+        pickOralExtrait({
+          oeuvre: 'OeuvreInexistante12345',
+          userId: 'user-test',
+          mode: 'FREE_PRACTICE',
+        })
+      ).rejects.toThrow("Aucun extrait exploitable");
+    });
+
+    it('utilise les premières lignes du descriptif si aucun extrait corpus ne correspond', async () => {
+      mockFindUnique.mockResolvedValueOnce({
         userId: 'user-test',
-        mode: 'FREE_PRACTICE',
+        descriptifTextes: [
+          {
+            oeuvre: 'Œuvre locale de test',
+            titre: 'Lettre III',
+            typeExtrait: 'extrait_oeuvre',
+            premieresLignes: 'Zilia compare le quipu à une mémoire nouée et fidèle.',
+          },
+          {
+            oeuvre: 'Autre œuvre',
+            titre: 'Texte 2',
+            typeExtrait: 'extrait_oeuvre',
+            premieresLignes: 'Autre passage.',
+          },
+          {
+            oeuvre: 'Autre œuvre',
+            titre: 'Texte 3',
+            typeExtrait: 'extrait_parcours',
+            premieresLignes: 'Autre parcours.',
+          },
+        ],
       });
-      expect(result.texte.length).toBeGreaterThan(0);
+
+      const result = await pickOralExtrait({
+        oeuvre: 'Œuvre locale de test',
+        userId: 'user-test',
+        mode: 'SIMULATION',
+      });
+
+      expect(result.texte).toContain('mémoire nouée');
+      expect(result.questionGrammaire).toContain('Lettre III');
     });
   });
 
