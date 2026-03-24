@@ -337,7 +337,7 @@ Valider un paiement manuel.
 Lister les utilisateurs.
 
 **Auth:** ✅ Admin  
-**Query params:** `?role=eleve&plan=FREE&page=1`  
+**Query params:** `?role=eleve&plan=PREMIUM&page=1`  
 **Response 200:**
 ```json
 {
@@ -389,7 +389,7 @@ Statistiques globales.
 
 ### 🎤 Atelier Oral
 
-#### POST `/oral/start`
+#### POST `/oral/session/start`
 Démarrer une session d'oral.
 
 **Auth:** ✅ Requise + Quota  
@@ -397,7 +397,7 @@ Démarrer une session d'oral.
 ```json
 {
   "mode": "SIMULATION",
-  "oeuvreId": "candide-voltaire"
+  "oeuvre": "Candide"
 }
 ```
 
@@ -405,51 +405,47 @@ Démarrer une session d'oral.
 ```json
 {
   "sessionId": "uuid",
-  "oeuvre": {
-    "titre": "Candide",
-    "auteur": "Voltaire",
-    "extrait": "Il faut cultiver notre jardin..."
-  },
-  "question": "Comment Voltaire critique-t-il l'optimisme...",
-  "prepTimeSeconds": 1800,
-  "passageTimeSeconds": 600
+  "status": "PREPARING",
+  "oeuvre": "Candide",
+  "extrait": "Il faut cultiver notre jardin...",
+  "questionGrammaire": "Analysez la valeur du subjonctif...",
+  "message": "Suivez les 4 étapes officielles : lecture (2 min), explication (8 min), grammaire (2 min), entretien (8 min sur l’œuvre choisie)."
 }
 ```
 
 ---
 
-#### POST `/oral/interact`
-Interaction pendant la session oral.
+#### POST `/oral/session/[sessionId]/interact`
+Interaction pendant la session d'oral.
 
 **Auth:** ✅ Requise  
 **Request:**
 ```json
 {
-  "sessionId": "uuid",
-  "phase": "PREPARATION",
-  "action": "ASK_HINT"
+  "phase": "LECTURE",
+  "transcript": "Voici ma lecture et mon commentaire..."
 }
 ```
 
 **Response 200:**
 ```json
 {
-  "hint": "Pensez aux événements qui remettent en cause...",
-  "timeRemaining": 1650
+  "feedback": "La lecture est claire, mais il faut accentuer les liaisons.",
+  "score": 1.5,
+  "maxScore": 2
 }
 ```
 
 ---
 
-#### POST `/oral/end`
-Finaliser la session oral.
+#### POST `/oral/session/[sessionId]/end`
+Finaliser la session d'oral.
 
 **Auth:** ✅ Requise  
 **Request:**
 ```json
 {
-  "sessionId": "uuid",
-  "transcript": "Mon analyse du texte..."
+  "notes": "Bilan final"
 }
 ```
 
@@ -458,11 +454,10 @@ Finaliser la session oral.
 {
   "bilan": {
     "note": 14.5,
-    "mention": "Bien",
     "feedback": "Excellent point sur...",
-    "axesProgres": ["Citations", "Transitions"]
-  },
-  "pdfUrl": "/api/v1/oral/bilan/uuid/pdf"
+    "axesProgres": ["Citations", "Transitions"],
+    "resume": "Bonne maîtrise globale, encore un effort sur la précision des références."
+  }
 }
 ```
 

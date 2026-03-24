@@ -16,13 +16,13 @@ Des reliquats legacy comme `MAX` ont existé côté code, mais ils ne doivent pl
 
 | Quota | Freemium | Premium | Masterium |
 |-------|----------|---------|-----------|
-| Sessions orales | 1/mois | 10/semaine | illimite |
-| Corrections écrites | 2/mois | 20/mois | illimite |
-| Questions tuteur | 3/jour | 100/jour | illimite |
+| Sessions orales | 1/mois | 10/semaine | illimité |
+| Corrections écrites | 2/mois | 20/mois | illimité |
+| Questions tuteur | 3/jour | 100/jour | illimité |
 | OCR copies | 0 | 20/mois | 50/mois |
 | Tokens LLM | 5 000/jour | 50 000/jour | 200 000/jour |
 | Recherches RAG | 50/jour | 500/jour | illimité |
-| Quiz par jour | 1/jour | 30/jour | illimite |
+| Quiz par jour | 1/jour | 30/jour | illimité |
 
 ## Feature flags par plan
 
@@ -51,7 +51,7 @@ Au lancement, le paiement est manuel :
 
 Un flux ClicToPay (paiement en ligne) reste pré-câblé dans le code (`src/app/api/v1/payments/clictopay/`), mais il n'est pas actif au lancement.
 
-## Details techniques
+## Détails techniques
 
 ### Source de vérité
 
