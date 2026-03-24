@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-03-24T17:00:59.490Z",
+  "generatedAt": "2026-03-24T17:14:17.410Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
       "line": 275,
       "column": 13,
       "kind": "jsx-text",
-      "text": "Dashboard Admin"
+      "text": "Tableau de bord admin"
     },
     {
       "file": "src/app/admin/page.tsx",
