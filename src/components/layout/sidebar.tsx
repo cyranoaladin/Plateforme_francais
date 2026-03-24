@@ -26,9 +26,11 @@ import {
   studentMobilePrimaryNavItems,
   studentNavSections,
 } from '@/components/layout/student-navigation';
+import type { PublicPlanId } from '@/lib/billing/plan-catalog';
 
 type AuthMe = {
   email: string;
+  role?: string;
   profile: {
     displayName: string;
     targetScore: string;
@@ -62,6 +64,10 @@ const SIDEBAR_COPY = {
   profile: 'Profil',
   logout: 'Quitter',
 } as const;
+
+export function shouldShowSidebarUpgrade(role: string | null | undefined, publicPlanId: PublicPlanId) {
+  return role === 'eleve' && (publicPlanId === 'FREEMIUM' || publicPlanId === 'PREMIUM');
+}
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -237,7 +243,7 @@ export function Sidebar() {
         <div className="flex-1" />
 
         {/* ─── Upgrade CTA (FREE & PREMIUM only) ─── */}
-        {planLoaded && planId !== null && (publicPlanId === 'FREEMIUM' || publicPlanId === 'PREMIUM') && (
+        {planLoaded && planId !== null && shouldShowSidebarUpgrade(me?.role, publicPlanId) && (
           <div className="mx-4 mb-3">
             <Link
               href="/pricing"
