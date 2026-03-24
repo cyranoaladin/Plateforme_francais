@@ -41,6 +41,28 @@ type TimelinePayload = {
   timeline: Array<{ createdAt: string; type: string; payload?: Record<string, number | string | boolean | string[]> }>;
 };
 
+const SIDEBAR_COPY = {
+  brandAlt: 'Nexus Réussite',
+  brandTitle: 'Nexus Réussite',
+  brandSubtitle: 'Tableau de bord EAF',
+  brandBody: 'Travail guidé, progression lisible, matière exploitable.',
+  metricDays: 'J-EAF',
+  metricStreak: 'Streak',
+  metricBadges: 'Badges',
+  trajectoryTitle: 'Trajectoire actuelle',
+  settingsAria: 'Paramètres',
+  logoutAria: 'Se déconnecter',
+  desktopNavTitle: 'Navigation',
+  desktopNavBody: 'Accès rapide aux ateliers et outils.',
+  mobileMoreAria: 'Plus d’actions',
+  mobileMore: 'Plus',
+  mobileNavTitle: 'Navigation',
+  mobileDisplayTitle: 'Affichage',
+  mobileAccountTitle: 'Compte',
+  profile: 'Profil',
+  logout: 'Quitter',
+} as const;
+
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -149,29 +171,29 @@ export function Sidebar() {
             <div className="flex items-center gap-3">
               <img
                 src="/images/logo_nexus_reussite.png"
-                alt="Nexus Réussite"
+                alt={SIDEBAR_COPY.brandAlt}
                 className="h-14 w-14 object-contain rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] p-1.5"
               />
               <div className="min-w-0">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Nexus Réussite</p>
-                <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">Tableau de bord EAF</p>
-                <p className="text-xs text-[var(--text-secondary)]">Travail guidé, progression lisible, matière exploitable.</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">{SIDEBAR_COPY.brandTitle}</p>
+                <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{SIDEBAR_COPY.brandSubtitle}</p>
+                <p className="text-xs text-[var(--text-secondary)]">{SIDEBAR_COPY.brandBody}</p>
               </div>
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-2">
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]/85 p-2.5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">J-EAF</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">{SIDEBAR_COPY.metricDays}</p>
                 <p className="mt-1 text-base font-bold text-[var(--c-primary)]">{joursAvantEAF !== null ? joursAvantEAF : '--'}</p>
               </div>
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]/85 p-2.5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">Streak</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">{SIDEBAR_COPY.metricStreak}</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--c-primary)]">
                   <Flame className="h-3.5 w-3.5 text-[var(--c-accent)]" /> {streak}
                 </p>
               </div>
               <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]/85 p-2.5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">Badges</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">{SIDEBAR_COPY.metricBadges}</p>
                 <p className="mt-1 flex items-center justify-center gap-1 text-base font-bold text-[var(--c-primary)]">
                   <Award className="h-3.5 w-3.5 text-[var(--c-reward)]" /> {badgeCount}
                 </p>
@@ -200,7 +222,7 @@ export function Sidebar() {
                   </div>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-[var(--c-primary)]">Trajectoire actuelle</p>
+                  <p className="text-sm font-semibold text-[var(--c-primary)]">{SIDEBAR_COPY.trajectoryTitle}</p>
                   <p className="text-xs leading-5 text-[var(--text-secondary)]">
                     {globalScore === null
                       ? 'Premier diagnostic à construire avec une séance évaluée.'
@@ -267,7 +289,7 @@ export function Sidebar() {
 
           <div className="flex items-center gap-3">
             <button
-              aria-label="Paramètres"
+              aria-label={SIDEBAR_COPY.settingsAria}
               onClick={() => router.push('/profil')}
               className="min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--bg-surface)]/80 p-2.5 text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
             >
@@ -275,7 +297,7 @@ export function Sidebar() {
             </button>
             <DyslexiaToggle />
             <button
-              aria-label="Se déconnecter"
+              aria-label={SIDEBAR_COPY.logoutAria}
               onClick={handleLogout}
               className="ml-auto min-h-[44px] min-w-[44px] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--bg-surface)]/80 p-2.5 text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
             >
@@ -310,8 +332,8 @@ export function Sidebar() {
       {/* ─── Desktop RIGHT Sidebar (navigation) ─── */}
       <aside className="hidden md:flex fixed inset-y-0 right-0 w-60 lg:w-64 flex-col border-l border-[var(--border-default)] bg-[var(--bg-surface)] shadow-[var(--shadow-md)] z-10">
         <div className="px-4 pt-5 pb-3">
-          <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Navigation</p>
-          <p className="mt-1 text-xs leading-5 text-[var(--text-secondary)]">Accès rapide aux ateliers et outils.</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">{SIDEBAR_COPY.desktopNavTitle}</p>
+          <p className="mt-1 text-xs leading-5 text-[var(--text-secondary)]">{SIDEBAR_COPY.desktopNavBody}</p>
         </div>
         <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-2">
           {studentNavSections.map((section) => (
@@ -374,7 +396,7 @@ export function Sidebar() {
           })}
           <div ref={mobileMoreRef} className="relative flex-1">
             <button
-              aria-label="Plus d’actions"
+              aria-label={SIDEBAR_COPY.mobileMoreAria}
               onClick={() => setMobileMoreOpen((prev) => !prev)}
               className={`flex min-h-[48px] min-w-[48px] w-full flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
                 mobileMoreOpen
@@ -383,12 +405,12 @@ export function Sidebar() {
               }`}
             >
               <MoreHorizontal className="h-5 w-5" />
-              <span className="mt-0.5 text-[10px] font-bold leading-tight">Plus</span>
+              <span className="mt-0.5 text-[10px] font-bold leading-tight">{SIDEBAR_COPY.mobileMore}</span>
             </button>
             {mobileMoreOpen && (
               <div className="absolute bottom-full right-0 mb-2 w-[min(92vw,280px)] rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-3 shadow-[var(--shadow-md)]">
                 <div className="mb-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--c-reward)]">Navigation</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--c-reward)]">{SIDEBAR_COPY.mobileNavTitle}</p>
                   <div className="mt-2 space-y-1">
                     {studentMobileOverflowItems.map((item) => {
                       const active = pathname === item.href || pathname.startsWith(item.href);
@@ -413,7 +435,7 @@ export function Sidebar() {
                 </div>
 
                 <div className="mb-3 border-t border-[var(--border-default)] pt-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--c-reward)]">Affichage</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--c-reward)]">{SIDEBAR_COPY.mobileDisplayTitle}</p>
                   <div className="mt-2 grid grid-cols-3 gap-1.5">
                     {([
                       { pref: 'system' as const, icon: Monitor, label: 'Système' },
@@ -438,21 +460,21 @@ export function Sidebar() {
                 </div>
 
                 <div className="border-t border-[var(--border-default)] pt-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--c-reward)]">Compte</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--c-reward)]">{SIDEBAR_COPY.mobileAccountTitle}</p>
                   <div className="mt-2 flex items-center gap-2">
                     <button
                       onClick={() => { setMobileMoreOpen(false); router.push('/profil'); }}
                       className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-2 rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] px-3 py-2 text-sm font-medium text-[var(--c-primary)]"
                     >
                       <UserCircle2 className="h-4 w-4" />
-                      Profil
+                      {SIDEBAR_COPY.profile}
                     </button>
                     <button
                       onClick={() => { setMobileMoreOpen(false); void handleLogout(); }}
                       className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-2 rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] px-3 py-2 text-sm font-medium text-[var(--c-primary)]"
                     >
                       <LogOut className="h-4 w-4" />
-                      Quitter
+                      {SIDEBAR_COPY.logout}
                     </button>
                   </div>
                   <div className="mt-3">

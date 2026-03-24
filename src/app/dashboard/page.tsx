@@ -267,6 +267,48 @@ const EMPTY_FOCUS_ACTIONS = [
   },
 ];
 
+const DASHBOARD_COPY = {
+  heroBadge: 'Pilotage du jour',
+  heroTitleSuffix: ', voilà la priorité qui doit faire bouger ta semaine.',
+  priorityPrefix: 'Axe prioritaire:',
+  emptyPriority: 'Aucun score fiable pour l’instant. Lance un premier atelier noté pour faire émerger un vrai niveau, un point fort et une priorité utile.',
+  seePath: 'Voir le parcours',
+  strongPoint: 'Point fort courant:',
+  tightenPoint: 'Angle à retendre:',
+  averageLevel: 'Niveau moyen:',
+  latestSession: 'Dernier passage:',
+  profileTitle: 'Le profil n’est pas encore entièrement personnalisé.',
+  profileBody: 'Finaliser la configuration permettra d’ancrer ton tableau de bord sur les œuvres, le niveau déclaré et les priorités à travailler.',
+  resumeSetup: 'Reprendre la configuration',
+  nowTitle: 'Ce que tu dois faire maintenant',
+  estimatedTime: 'Temps estimé',
+  why: 'Pourquoi',
+  deadline: 'Échéance',
+  startNow: 'Commencer maintenant',
+  quickAlternative: 'Alternative rapide',
+  deadlines: 'Échéances',
+  dataErrorTitle: 'Un souci temporaire nous empêche d’afficher toutes les données',
+  dataErrorBody: 'Rafraîchis la page dans quelques instants ou poursuis ta session normalement.',
+  radarEyebrow: 'Boussole',
+  radarTitle: 'Une lecture visuelle rapide de tes quatre grands axes.',
+  average: 'Moyenne',
+  radarLoading: 'Préparation de la boussole...',
+  progressionEyebrow: 'Trajectoire',
+  progressionTitle: 'La progression doit être lisible, pas seulement ressentie.',
+  progressionLoading: 'Préparation de la trajectoire...',
+  progressionRefreshing: 'Actualisation des données de progression en cours...',
+  mapEyebrow: 'Cartographie fine',
+  mapTitle: 'Ce que tu tiens bien, et ce qu’il faut remettre sous tension.',
+  vigilanceEyebrow: 'Points de vigilance remontés',
+  historyEyebrow: 'Historique utile',
+  historyTitle: 'Ce qui a vraiment bougé dans tes dernières séances.',
+  emptyActivityTitle: 'Ton fil d’activité est encore vierge',
+  emptyActivityBody: 'Dès que tu lanceras un premier atelier ou un quiz, tes sessions apparaîtront ici pour suivre ta progression au fil des jours.',
+  quickAccessEyebrow: 'Accès rapide',
+  quickAccessTitle: 'Les ateliers utiles doivent rester à un clic, sans bruit visuel.',
+  quickAccessBody: 'Choisis un bloc, lance-le, puis reviens vérifier l’effet réel sur tes scores et tes repères de travail.',
+} as const;
+
 function extractEventScore(event: {
   feature: string;
   path?: string;
@@ -552,7 +594,7 @@ export default function Dashboard() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
               <ShieldCheck className="h-4 w-4" />
-              Pilotage du jour
+              {DASHBOARD_COPY.heroBadge}
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-white/85">
@@ -570,18 +612,16 @@ export default function Dashboard() {
               style={EDITORIAL_HEADING}
               className="mt-6 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl"
             >
-              {data.displayName}, voilà la priorité qui doit faire bouger ta semaine.
+              {data.displayName}{DASHBOARD_COPY.heroTitleSuffix}
             </h1>
 
             <p className="mt-4 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
               {data.hasEvaluationData ? (
                 <>
-                  Axe prioritaire: <strong>{weakestSkill.label.toLowerCase()}</strong>. {focusCopy.detail}
+                  {DASHBOARD_COPY.priorityPrefix} <strong>{weakestSkill.label.toLowerCase()}</strong>. {focusCopy.detail}
                 </>
               ) : (
-                <>
-                  Aucun score fiable pour l’instant. Lance un premier atelier noté pour faire émerger un vrai niveau, un point fort et une priorité utile.
-                </>
+                <>{DASHBOARD_COPY.emptyPriority}</>
               )}
             </p>
 
@@ -601,37 +641,35 @@ export default function Dashboard() {
                 href="/mon-parcours"
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-white/16 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/8"
               >
-                Voir le parcours
+                {DASHBOARD_COPY.seePath}
                 <MapIcon className="h-4 w-4" />
               </Link>
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Point fort courant: <strong>{data.hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
+                {DASHBOARD_COPY.strongPoint} <strong>{data.hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Angle à retendre: <strong>{data.hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>
+                {DASHBOARD_COPY.tightenPoint} <strong>{data.hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Niveau moyen: <strong>{formatScoreLabel(averageScore)}</strong>
+                {DASHBOARD_COPY.averageLevel} <strong>{formatScoreLabel(averageScore)}</strong>
               </span>
               <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
-                Dernier passage: <strong>{latestInsight?.date ?? 'pas encore de séance'}</strong>
+                {DASHBOARD_COPY.latestSession} <strong>{latestInsight?.date ?? 'pas encore de séance'}</strong>
               </span>
             </div>
 
             {!data.onboardingCompleted ? (
               <div className="mt-6 rounded-[24px] border border-white/12 bg-white/8 p-4 text-white shadow-[var(--shadow-md)]">
-                <p className="text-sm font-semibold">Le profil n’est pas encore entièrement personnalisé.</p>
-                <p className="mt-2 text-sm leading-7 text-slate-200">
-                  Finaliser la configuration permettra d’ancrer ton tableau de bord sur les œuvres, le niveau déclaré et les priorités à travailler.
-                </p>
+                <p className="text-sm font-semibold">{DASHBOARD_COPY.profileTitle}</p>
+                <p className="mt-2 text-sm leading-7 text-slate-200">{DASHBOARD_COPY.profileBody}</p>
                 <Link
                   href="/onboarding"
                   className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-white transition-colors hover:text-[var(--color-amber-300)]"
                 >
-                  Reprendre la configuration
+                  {DASHBOARD_COPY.resumeSetup}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -667,7 +705,7 @@ export default function Dashboard() {
             <Card className="rounded-[24px] border border-white/12 bg-white/10 p-5 text-white shadow-[var(--shadow-md)] backdrop-blur-sm">
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
                 <Sparkles className="h-4 w-4" />
-                Ce que tu dois faire maintenant
+                {DASHBOARD_COPY.nowTitle}
               </div>
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">
                 {ritualLead.title}
@@ -676,15 +714,15 @@ export default function Dashboard() {
 
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
                 <div className="rounded-[18px] border border-white/12 bg-black/10 px-4 py-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">Temps estimé</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">{DASHBOARD_COPY.estimatedTime}</p>
                   <p className="mt-1 text-lg font-semibold text-white">{ritualLead.duration}</p>
                 </div>
                 <div className="rounded-[18px] border border-white/12 bg-black/10 px-4 py-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">Pourquoi</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">{DASHBOARD_COPY.why}</p>
                   <p className="mt-1 text-sm font-semibold text-white">{data.hasEvaluationData ? weakestSkill.label : 'Premier repère noté'}</p>
                 </div>
                 <div className="rounded-[18px] border border-white/12 bg-black/10 px-4 py-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">Échéance</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">{DASHBOARD_COPY.deadline}</p>
                   <p className="mt-1 text-sm font-semibold text-white">{formatCountdown(data.countdownEcrit, 'Écrit')}</p>
                 </div>
               </div>
@@ -694,7 +732,7 @@ export default function Dashboard() {
                   href={ritualLead.href}
                   className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-[var(--c-primary)] transition-transform hover:-translate-y-0.5"
                 >
-                  Commencer maintenant
+                  {DASHBOARD_COPY.startNow}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 {ritualBackup ? (
@@ -702,7 +740,7 @@ export default function Dashboard() {
                     href={ritualBackup.href}
                     className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/16 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/8"
                   >
-                    Alternative rapide
+                    {DASHBOARD_COPY.quickAlternative}
                     {BackupIcon ? <BackupIcon className="h-4 w-4" /> : null}
                   </Link>
                 ) : null}
@@ -711,7 +749,7 @@ export default function Dashboard() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Card className="rounded-[24px] border border-white/12 bg-white/10 p-5 text-white backdrop-blur-sm">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Échéances</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">{DASHBOARD_COPY.deadlines}</p>
                 <div className="mt-4 space-y-3">
                   {[
                     { label: 'Écrit', value: data.countdownEcrit, icon: CalendarDays },
@@ -771,9 +809,9 @@ export default function Dashboard() {
               <AlertTriangle className="h-4 w-4" />
             </div>
             <div>
-              <p className="font-semibold text-[var(--c-primary)]">Un souci temporaire nous empêche d&apos;afficher toutes les données</p>
+              <p className="font-semibold text-[var(--c-primary)]">{DASHBOARD_COPY.dataErrorTitle}</p>
               <p className="mt-1 text-sm leading-7">{data.error}</p>
-              <p className="mt-1 text-xs text-[var(--text-muted)]">Rafraîchis la page dans quelques instants ou poursuis ta session normalement.</p>
+              <p className="mt-1 text-xs text-[var(--text-muted)]">{DASHBOARD_COPY.dataErrorBody}</p>
             </div>
           </div>
         </div>
@@ -783,13 +821,13 @@ export default function Dashboard() {
         <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Boussole</p>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.radarEyebrow}</p>
               <h2 style={EDITORIAL_HEADING} className="mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-3xl">
-                Une lecture visuelle rapide de tes quatre grands axes.
+                {DASHBOARD_COPY.radarTitle}
               </h2>
             </div>
             <div className="shrink-0 self-start rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-muted)]">
-              Moyenne {formatScoreLabel(averageScore)}
+              {DASHBOARD_COPY.average} {formatScoreLabel(averageScore)}
             </div>
           </div>
 
@@ -806,7 +844,7 @@ export default function Dashboard() {
             ) : (
               <div className="flex h-full flex-col items-center justify-center gap-2 rounded-[24px] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-muted)]">
                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--c-primary)]/20 border-t-[var(--c-primary)]" />
-                Préparation de la boussole...
+                {DASHBOARD_COPY.radarLoading}
               </div>
             )}
           </div>
@@ -823,9 +861,9 @@ export default function Dashboard() {
         <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Trajectoire</p>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.progressionEyebrow}</p>
               <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
-                La progression doit être lisible, pas seulement ressentie.
+                {DASHBOARD_COPY.progressionTitle}
               </h2>
             </div>
             <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
@@ -840,12 +878,12 @@ export default function Dashboard() {
             ) : (
               <div className="flex h-64 flex-col items-center justify-center gap-2 rounded-[24px] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-muted)]">
                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--c-primary)]/20 border-t-[var(--c-primary)]" />
-                Préparation de la trajectoire...
+                {DASHBOARD_COPY.progressionLoading}
               </div>
             )}
           </div>
 
-          {data.isLoading ? <p className="mt-3 text-xs text-[var(--text-muted)]">Actualisation des données de progression en cours...</p> : null}
+          {data.isLoading ? <p className="mt-3 text-xs text-[var(--text-muted)]">{DASHBOARD_COPY.progressionRefreshing}</p> : null}
         </div>
       </section>
 
@@ -853,16 +891,16 @@ export default function Dashboard() {
         <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cartographie fine</p>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.mapEyebrow}</p>
               <h2 style={EDITORIAL_HEADING} className="mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-3xl">
-                Ce que tu tiens bien, et ce qu’il faut remettre sous tension.
+                {DASHBOARD_COPY.mapTitle}
               </h2>
             </div>
             <Link
               href="/mon-parcours"
               className="inline-flex min-h-[44px] shrink-0 items-center gap-2 self-start rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-2 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
             >
-              Voir le parcours
+              {DASHBOARD_COPY.seePath}
               <MapIcon className="h-4 w-4" />
             </Link>
           </div>
@@ -888,7 +926,7 @@ export default function Dashboard() {
           </div>
 
           <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Points de vigilance remontés</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">{DASHBOARD_COPY.vigilanceEyebrow}</p>
             {weakSignals.length > 0 ? (
               <div className="mt-3 flex flex-wrap gap-2">
                 {weakSignals.map(([skill, count]) => (
@@ -913,9 +951,9 @@ export default function Dashboard() {
           <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Historique utile</p>
+                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.historyEyebrow}</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
-                  Ce qui a vraiment bougé dans tes dernières séances.
+                  {DASHBOARD_COPY.historyTitle}
                 </h2>
               </div>
               <div className="rounded-[18px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
@@ -941,23 +979,19 @@ export default function Dashboard() {
               ) : (
                 <div className="flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-6 text-center">
                   <Clock3 className="h-10 w-10 text-[var(--text-muted)]" />
-                  <p className="text-sm font-semibold text-[var(--c-primary)]">Ton fil d&apos;activité est encore vierge</p>
-                  <p className="max-w-sm text-sm leading-7 text-[var(--text-secondary)]">
-                    Dès que tu lanceras un premier atelier ou un quiz, tes sessions apparaîtront ici pour suivre ta progression au fil des jours.
-                  </p>
+                  <p className="text-sm font-semibold text-[var(--c-primary)]">{DASHBOARD_COPY.emptyActivityTitle}</p>
+                  <p className="max-w-sm text-sm leading-7 text-[var(--text-secondary)]">{DASHBOARD_COPY.emptyActivityBody}</p>
                 </div>
               )}
             </div>
           </div>
 
           <Card padding="md" className="border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)] md:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Accès rapide</p>
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.quickAccessEyebrow}</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
-              Les ateliers utiles doivent rester à un clic, sans bruit visuel.
+              {DASHBOARD_COPY.quickAccessTitle}
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">
-              Choisis un bloc, lance-le, puis reviens vérifier l’effet réel sur tes scores et tes repères de travail.
-            </p>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{DASHBOARD_COPY.quickAccessBody}</p>
 
             <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {QUICK_ACCESS.map((item) => {

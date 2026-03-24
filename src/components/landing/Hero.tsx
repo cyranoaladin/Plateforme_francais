@@ -8,6 +8,37 @@ import Link from 'next/link';
 import { CountdownBadge } from './CountdownBadge';
 import { ROUTES } from '@/lib/routes';
 
+const HERO_COPY = {
+  eyebrow: 'Oral, ecrit, tuteur et suivi reel',
+  titleLead: 'La preparation EAF qui fait enfin',
+  titleAccent: 'travailler juste.',
+  body: 'Nexus transforme l’entrainement en pilotage concret: simulation orale officielle, correction ecrite rapide, tuteur pedagogique et progression suivie sans rediger a ta place.',
+  primaryCta: 'Commencer gratuitement - 3 min',
+  secondaryCta: 'Voir la demo en 45 s',
+  previewEyebrow: 'Simulation orale',
+  previewTitle: 'Lecture, explication, grammaire, entretien',
+  previewBadge: 'BO 2026',
+  cards: {
+    quick: 'Repere rapide',
+    correction: 'Correction',
+    posture: 'Posture',
+    quickValue: '/2 /8 /2 /8',
+    correctionValue: '3 min',
+    postureValue: 'Anti-copie',
+    quickBody: 'Grille orale officielle directement exploitable.',
+    correctionBody: 'Retour immediat sur l’ecrit et les axes de progression.',
+    postureBody: 'Le systeme guide, questionne et entraine sans faire a ta place.',
+  },
+  previewMeta: {
+    diagnostic: 'Diagnostic',
+    diagnosticValue: 'Axes prioritaires',
+    feedback: 'Feedback',
+    feedbackValue: 'Commentaires utiles',
+    tracking: 'Suivi',
+    trackingValue: 'Progression lisible',
+  },
+} as const;
+
 const TRUST_ITEMS = [
   'Pas de carte bancaire',
   'Freemium illimité en temps',
@@ -32,27 +63,24 @@ export function Hero() {
 
           <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/7 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/72 backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-[var(--c-success)]" />
-            Oral, ecrit, tuteur et suivi reel
+            {HERO_COPY.eyebrow}
           </div>
 
           <h1 className="mt-6 max-w-3xl font-[family:var(--font-display)] text-4xl leading-[1.02] tracking-[-0.03em] text-white sm:text-5xl lg:text-[4.35rem]">
-            La preparation EAF qui fait enfin
+            {HERO_COPY.titleLead}
             <span className="block bg-gradient-to-r from-white via-sapphire-300 to-sapphire-500 bg-clip-text text-transparent">
-              travailler juste.
+              {HERO_COPY.titleAccent}
             </span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-base leading-8 text-slate-300 sm:text-lg">
-            Nexus transforme l&apos;entrainement en pilotage concret: simulation orale officielle, correction ecrite rapide,
-            tuteur pedagogique et progression suivie sans rediger a ta place.
-          </p>
+          <p className="mt-6 max-w-xl text-base leading-8 text-slate-300 sm:text-lg">{HERO_COPY.body}</p>
 
           <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <Link
               href={ROUTES.register}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-sapphire-800 bg-[linear-gradient(135deg,rgba(99,102,241,0.98),rgba(67,56,202,0.98))] px-6 py-4 text-base font-semibold text-white shadow-[0_16px_36px_rgba(67,56,202,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(67,56,202,0.34)]"
             >
-              Commencer gratuitement - 3 min
+              {HERO_COPY.primaryCta}
             </Link>
             <a
               href="#demo"
@@ -61,7 +89,7 @@ export function Hero() {
               <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fillRule="evenodd" d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm6.39-2.908a.75.75 0 01.766.027l3.5 2.25a.75.75 0 010 1.262l-3.5 2.25A.75.75 0 018 12.25v-4.5a.75.75 0 01.39-.658z" clipRule="evenodd" />
               </svg>
-              Voir la demo en 45 s
+              {HERO_COPY.secondaryCta}
             </a>
           </div>
 
@@ -78,19 +106,19 @@ export function Hero() {
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             <div className="rounded-[22px] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">Repere rapide</p>
-              <p className="mt-2 text-2xl font-semibold text-white">/2 /8 /2 /8</p>
-              <p className="mt-1 text-sm text-slate-300">Grille orale officielle directement exploitable.</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.cards.quick}</p>
+              <p className="mt-2 text-2xl font-semibold text-white">{HERO_COPY.cards.quickValue}</p>
+              <p className="mt-1 text-sm text-slate-300">{HERO_COPY.cards.quickBody}</p>
             </div>
             <div className="rounded-[22px] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">Correction</p>
-              <p className="mt-2 text-2xl font-semibold text-white">3 min</p>
-              <p className="mt-1 text-sm text-slate-300">Retour immediat sur l&apos;ecrit et les axes de progression.</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.cards.correction}</p>
+              <p className="mt-2 text-2xl font-semibold text-white">{HERO_COPY.cards.correctionValue}</p>
+              <p className="mt-1 text-sm text-slate-300">{HERO_COPY.cards.correctionBody}</p>
             </div>
             <div className="rounded-[22px] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">Posture</p>
-              <p className="mt-2 text-2xl font-semibold text-white">Anti-copie</p>
-              <p className="mt-1 text-sm text-slate-300">Le systeme guide, questionne et entraine sans faire a ta place.</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.cards.posture}</p>
+              <p className="mt-2 text-2xl font-semibold text-white">{HERO_COPY.cards.postureValue}</p>
+              <p className="mt-1 text-sm text-slate-300">{HERO_COPY.cards.postureBody}</p>
             </div>
           </div>
         </div>
@@ -100,11 +128,11 @@ export function Hero() {
           <div className="relative overflow-hidden rounded-[30px] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.06))] p-3 shadow-[0_30px_80px_rgba(2,6,23,0.30)] backdrop-blur-xl">
             <div className="mb-3 flex items-center justify-between rounded-[22px] border border-white/10 bg-black/16 px-4 py-3 text-left backdrop-blur-md">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">Simulation orale</p>
-                <p className="mt-1 text-base font-semibold text-white">Lecture, explication, grammaire, entretien</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.previewEyebrow}</p>
+                <p className="mt-1 text-base font-semibold text-white">{HERO_COPY.previewTitle}</p>
               </div>
               <div className="rounded-full border border-white/14 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/80">
-                BO 2026
+                {HERO_COPY.previewBadge}
               </div>
             </div>
 
@@ -123,16 +151,16 @@ export function Hero() {
 
             <div className="mt-3 grid gap-3 sm:grid-cols-3">
               <div className="rounded-[20px] border border-white/10 bg-black/14 px-4 py-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">Diagnostic</p>
-                <p className="mt-2 text-lg font-semibold text-white">Axes prioritaires</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">{HERO_COPY.previewMeta.diagnostic}</p>
+                <p className="mt-2 text-lg font-semibold text-white">{HERO_COPY.previewMeta.diagnosticValue}</p>
               </div>
               <div className="rounded-[20px] border border-white/10 bg-black/14 px-4 py-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">Feedback</p>
-                <p className="mt-2 text-lg font-semibold text-white">Commentaires utiles</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">{HERO_COPY.previewMeta.feedback}</p>
+                <p className="mt-2 text-lg font-semibold text-white">{HERO_COPY.previewMeta.feedbackValue}</p>
               </div>
               <div className="rounded-[20px] border border-white/10 bg-black/14 px-4 py-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">Suivi</p>
-                <p className="mt-2 text-lg font-semibold text-white">Progression lisible</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">{HERO_COPY.previewMeta.tracking}</p>
+                <p className="mt-2 text-lg font-semibold text-white">{HERO_COPY.previewMeta.trackingValue}</p>
               </div>
             </div>
           </div>
