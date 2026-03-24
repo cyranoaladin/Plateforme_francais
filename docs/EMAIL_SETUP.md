@@ -66,6 +66,6 @@ curl http://localhost:3000/api/dev/test-email?type=subscription
 ## Comportement en production
 
 - **Retry** : 3 tentatives avec backoff exponentiel (1s, 2s)
-- **Non-bloquant** : l'inscription et le paiement réussissent même si l'email échoue
+- **Non-bloquant** : l'inscription et l'activation réussissent même si l'email échoue
 - **Logging** : chaque envoi/échec est loggé via Pino
 - **Pas de SMTP** : si `SMTP_HOST` n'est pas configuré, les emails sont loggés sans être envoyés
