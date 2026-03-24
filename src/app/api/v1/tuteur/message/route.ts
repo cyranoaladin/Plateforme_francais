@@ -17,14 +17,15 @@ import { parseJsonBody } from '@/lib/validation/request';
 import { tuteurMessageBodySchema } from '@/lib/validation/schemas';
 import type { RagSearchResult } from '@/lib/rag/search';
 
-function formatVisibleCitationSource(ref: Pick<RagSearchResult, 'title' | 'sourceRef' | 'type'>) {
-  const source = (ref.sourceRef ?? '').trim();
-
-  if (!source) {
-    return ref.title;
+function sanitizeVisibleCitationText(value: string | null | undefined) {
+  const raw = (value ?? '').trim();
+  if (!raw) {
+    return '';
   }
 
-  const lower = source.toLowerCase();
+  const normalized = raw.replace(/\\/g, '/');
+  const lower = normalized.toLowerCase();
+
   if (
     lower.startsWith('http://') ||
     lower.startsWith('https://') ||
@@ -32,10 +33,21 @@ function formatVisibleCitationSource(ref: Pick<RagSearchResult, 'title' | 'sourc
     lower.startsWith('/tmp/') ||
     lower.startsWith('file:')
   ) {
-    return ref.title;
+    return normalized.split('/').filter(Boolean).pop() ?? '';
   }
 
-  return source;
+  return normalized;
+}
+
+function formatVisibleCitation(ref: Pick<RagSearchResult, 'title' | 'sourceRef' | 'type'>) {
+  const title = sanitizeVisibleCitationText(ref.title);
+  const source = sanitizeVisibleCitationText(ref.sourceRef);
+  const visible = source || title || 'Source pédagogique';
+
+  return {
+    title: title || visible,
+    source: visible,
+  };
 }
 
 /**
@@ -183,11 +195,14 @@ export async function POST(request: Request) {
     parcours ? `Parcours ciblé: ${parcours}` : '',
   ].filter(Boolean).join('\n');
 
-  const citations = refs.map((ref, index) => ({
-    index: index + 1,
-    title: ref.title,
-    source: formatVisibleCitationSource(ref),
-  }));
+  const citations = refs.map((ref, index) => {
+    const visibleCitation = formatVisibleCitation(ref);
+    return {
+      index: index + 1,
+      title: visibleCitation.title,
+      source: visibleCitation.source,
+    };
+  });
 
   if (wantsStream) {
     try {

@@ -114,7 +114,7 @@ describe('POST /api/v1/tuteur/message', () => {
     vi.mocked(searchOfficialReferences).mockResolvedValue([
       {
         id: 'ref-1',
-        title: 'Rapport jury EAF 2025',
+        title: '/data/uploads/rapport-jury-eaf-2025.pdf',
         type: 'texte_officiel',
         level: 'Niveau B',
         sourceRef: '/data/uploads/secret.pdf',
@@ -148,8 +148,8 @@ describe('POST /api/v1/tuteur/message', () => {
 
     expect(res.status).toBe(200);
     expect(body.citations).toEqual([
-      expect.objectContaining({ title: 'Rapport jury EAF 2025', source: 'Rapport jury EAF 2025' }),
-      expect.objectContaining({ title: 'BO spécial 2025', source: 'BO spécial 2025' }),
+      expect.objectContaining({ title: 'rapport-jury-eaf-2025.pdf', source: 'secret.pdf' }),
+      expect.objectContaining({ title: 'BO spécial 2025', source: 'bo.pdf' }),
     ]);
     expect(JSON.stringify(body.citations)).not.toContain('/data/uploads');
     expect(JSON.stringify(body.citations)).not.toContain('https://');
