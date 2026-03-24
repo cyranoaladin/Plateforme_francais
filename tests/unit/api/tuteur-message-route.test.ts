@@ -66,6 +66,7 @@ vi.mock('@/lib/llm/streaming', () => ({
 
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { searchOfficialReferences } from '@/lib/rag/search';
 
 describe('POST /api/v1/tuteur/message', () => {
   beforeEach(() => {
@@ -108,5 +109,49 @@ describe('POST /api/v1/tuteur/message', () => {
     const res = await POST(req);
     expect(res.status).toBe(429);
   });
-});
 
+  it('n expose pas d url ou de chemin interne dans les citations visibles', async () => {
+    vi.mocked(searchOfficialReferences).mockResolvedValue([
+      {
+        id: 'ref-1',
+        title: 'Rapport jury EAF 2025',
+        type: 'texte_officiel',
+        level: 'Niveau B',
+        sourceRef: '/data/uploads/secret.pdf',
+        excerpt: 'Extrait utile',
+        score: 0.9,
+      },
+      {
+        id: 'ref-2',
+        title: 'BO spécial 2025',
+        type: 'texte_officiel',
+        level: 'Niveau A',
+        sourceRef: 'https://example.com/bo.pdf',
+        excerpt: 'Extrait utile',
+        score: 0.8,
+      },
+    ]);
+    vi.mocked(orchestrate).mockResolvedValue({
+      answer: 'Réponse guidée',
+      suggestions: ['Relance 1'],
+    });
+
+    const { POST } = await import('@/app/api/v1/tuteur/message/route');
+    const req = new Request('http://localhost/api/v1/tuteur/message', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
+      body: JSON.stringify({ message: 'Question', conversationHistory: [] }),
+    });
+
+    const res = await POST(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.citations).toEqual([
+      expect.objectContaining({ title: 'Rapport jury EAF 2025', source: 'Rapport jury EAF 2025' }),
+      expect.objectContaining({ title: 'BO spécial 2025', source: 'BO spécial 2025' }),
+    ]);
+    expect(JSON.stringify(body.citations)).not.toContain('/data/uploads');
+    expect(JSON.stringify(body.citations)).not.toContain('https://');
+  });
+});

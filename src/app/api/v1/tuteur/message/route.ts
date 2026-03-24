@@ -15,6 +15,28 @@ import { sanitizeString } from '@/lib/security/sanitize';
 import { checkLLMQuota, QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 import { parseJsonBody } from '@/lib/validation/request';
 import { tuteurMessageBodySchema } from '@/lib/validation/schemas';
+import type { RagSearchResult } from '@/lib/rag/search';
+
+function formatVisibleCitationSource(ref: Pick<RagSearchResult, 'title' | 'sourceRef' | 'type'>) {
+  const source = (ref.sourceRef ?? '').trim();
+
+  if (!source) {
+    return ref.title;
+  }
+
+  const lower = source.toLowerCase();
+  if (
+    lower.startsWith('http://') ||
+    lower.startsWith('https://') ||
+    lower.startsWith('/data/') ||
+    lower.startsWith('/tmp/') ||
+    lower.startsWith('file:')
+  ) {
+    return ref.title;
+  }
+
+  return source;
+}
 
 /**
  * POST /api/v1/tuteur/message
@@ -164,7 +186,7 @@ export async function POST(request: Request) {
   const citations = refs.map((ref, index) => ({
     index: index + 1,
     title: ref.title,
-    source: ref.sourceRef ?? ref.type,
+    source: formatVisibleCitationSource(ref),
   }));
 
   if (wantsStream) {
