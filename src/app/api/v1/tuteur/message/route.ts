@@ -331,6 +331,9 @@ export async function POST(request: Request) {
         if (antitricheKw.some(kw => lowerMsg.includes(kw))) {
           return 'Je ne peux pas rédiger ce texte à ta place — c\'est à toi de le faire pour progresser. Voici comment je peux t\'aider : formule d\'abord une problématique sur le sujet, puis construisons ensemble un plan en 3 parties avec une amorce pour chacune.';
         }
+        if (citations.length > 0) {
+          return 'J’ai trouvé des sources utiles, mais la réponse générée n’était pas assez fiable. Reformule ta question en citant l’œuvre, le passage ou le thème précis à analyser.';
+        }
         return 'Je n\'ai pas assez de sources pour répondre précisément. Reformule ta question en précisant l\'œuvre ou le thème.';
       })(),
       citations,
