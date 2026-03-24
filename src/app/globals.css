@@ -14,6 +14,16 @@
   --color-success-subtle: var(--c-success-subtle);
   --color-reward: var(--c-reward);
   --color-reward-subtle: var(--c-reward-subtle);
+  /* Landing palette aliases kept for existing public marketing surfaces. */
+  --color-sapphire-50: var(--color-indigo-50);
+  --color-sapphire-100: var(--color-indigo-100);
+  --color-sapphire-200: var(--color-indigo-200);
+  --color-sapphire-300: var(--color-indigo-300);
+  --color-sapphire-500: var(--color-indigo-500);
+  --color-sapphire-600: var(--color-indigo-600);
+  --color-sapphire-700: var(--color-indigo-700);
+  --color-ink-900: var(--color-slate-900);
+  --color-ink-950: #020617;
   --color-page: var(--bg-page);
   --color-surface: var(--bg-surface);
   --color-surface-secondary: var(--bg-surface-secondary);
