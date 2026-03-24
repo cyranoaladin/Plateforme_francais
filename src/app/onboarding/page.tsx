@@ -322,7 +322,7 @@ export default function OnboardingPage() {
           </div>
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">
             <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--c-primary)]">
-              Revoir l{'’'}accueil
+              Revoir l’accueil
             </Link>
             <div className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-4 py-2 text-[var(--bg-page)]">
               <Clock3 className="h-4 w-4" />

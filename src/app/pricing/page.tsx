@@ -115,7 +115,7 @@ const PLANS: PlanCard[] = [
     checkoutPlan: 'PREMIUM',
     highlighted: true,
     kicker: 'La préparation complète pour réussir ton EAF.',
-    note: 'Le meilleur point d\'équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
+    note: 'Le meilleur point d’équilibre quand tu travailles chaque semaine et que tu veux supprimer les plafonds trop vite atteints.',
   },
   {
     id: 'MASTERIUM',
@@ -163,18 +163,18 @@ const BILLING_FAQ = [
   },
   {
     q: 'Comment fonctionne le paiement ?',
-    a: 'Les abonnements payants sont activés par virement bancaire ou via WhatsApp (+216 99 19 28 29). Tu reçois un code d\'activation après confirmation du règlement.',
+    a: 'Les abonnements payants sont activés par virement bancaire ou via WhatsApp (+216 99 19 28 29). Tu reçois un code d’activation après confirmation du règlement.',
   },
   {
-    q: 'Comment recevoir mon code d\'activation ?',
-    a: 'Effectue un virement bancaire avec l\'email de ton compte en référence, ou contacte-nous via WhatsApp au +216 99 19 28 29. Le code est envoyé après vérification du règlement.',
+    q: 'Comment recevoir mon code d’activation ?',
+    a: 'Effectue un virement bancaire avec l’email de ton compte en référence, ou contacte-nous via WhatsApp au +216 99 19 28 29. Le code est envoyé après vérification du règlement.',
   },
 ];
 
 const DECISION_GUIDES = [
   {
     title: 'Freemium',
-    body: 'Un aperçu pour juger la qualité du produit avant de s\'engager. Les quotas restent volontairement limités.',
+    body: 'Un aperçu pour juger la qualité du produit avant de s’engager. Les quotas restent volontairement limités.',
   },
   {
     title: 'Premium — 99 TND/mois',
@@ -182,9 +182,17 @@ const DECISION_GUIDES = [
   },
   {
     title: 'Masterium — 129 TND/mois',
-    body: 'Zéro plafond sur l\'oral, l\'écrit et le quiz. Conçu pour une préparation intensive sans compromis.',
+    body: 'Zéro plafond sur l’oral, l’écrit et le quiz. Conçu pour une préparation intensive sans compromis.',
   },
 ];
+
+const PRICING_COPY = {
+  activationIntro: 'Si un code d’activation t’a été envoyé, active ton plan directement ici.',
+  alternativePaymentIntro:
+    'Pour l’instant, les abonnements payants s’activent par virement bancaire ou via WhatsApp.',
+  activePaymentModes:
+    'Les abonnements s’activent par virement bancaire ou via WhatsApp. Ajoute l’email du compte ou ton identifiant utilisateur en référence pour accélérer l’activation.',
+} as const;
 
 function BillingFaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
@@ -590,9 +598,7 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-              Si un code d\'activation t'a été envoyé, active ton plan directement ici.
-            </p>
+            <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">{PRICING_COPY.activationIntro}</p>
 
             {isAuthenticated ? (
               <form onSubmit={redeemCode} className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -647,9 +653,7 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <p className="mt-4 text-sm leading-7 text-slate-200">
-              Pour l\'instant, les abonnements payants s\'activent par virement bancaire ou via WhatsApp.
-            </p>
+            <p className="mt-4 text-sm leading-7 text-slate-200">{PRICING_COPY.alternativePaymentIntro}</p>
 
             <div className="mt-6 space-y-3">
               <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
@@ -657,9 +661,7 @@ export default function PricingPage() {
                   <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Modes de paiement actifs</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-200">
-                      Les abonnements s\'activent par virement bancaire ou via WhatsApp. Ajoute l\'email du compte ou ton identifiant utilisateur en référence pour accélérer l\'activation.
-                    </p>
+                    <p className="mt-2 text-sm leading-6 text-slate-200">{PRICING_COPY.activePaymentModes}</p>
                   </div>
                 </div>
               </div>

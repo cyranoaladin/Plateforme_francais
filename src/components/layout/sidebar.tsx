@@ -47,7 +47,7 @@ const SIDEBAR_COPY = {
   brandSubtitle: 'Tableau de bord EAF',
   brandBody: 'Travail guidé, progression lisible, matière exploitable.',
   metricDays: 'J-EAF',
-  metricStreak: 'Streak',
+  metricStreak: 'Série',
   metricBadges: 'Badges',
   trajectoryTitle: 'Trajectoire actuelle',
   settingsAria: 'Paramètres',

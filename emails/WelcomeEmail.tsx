@@ -43,7 +43,7 @@ export default function WelcomeEmail({
               Configurer mon parcours EAF →
             </Button>
             <Text style={{ color: '#9CA3AF', fontSize: '13px', margin: '8px 0 0', textAlign: 'center' as const }}>
-              Prend 3 minutes • Choisis tes œuvres • Premiers ateliers accessibles immédiatement
+              Prends 3 minutes • Choisis tes œuvres • Premiers ateliers accessibles immédiatement
             </Text>
           </Section>
 
@@ -110,7 +110,7 @@ export default function WelcomeEmail({
           <Section style={{ backgroundColor: '#ffffff', padding: '0 40px 32px', borderRadius: '0 0 8px 8px' }}>
             <Text style={{ color: '#1E3A5F', fontSize: '16px', fontWeight: 600, margin: '0 0 12px' }}>Une chose importante à savoir</Text>
             <Text style={{ color: '#4A5568', fontSize: '15px', lineHeight: '1.7', margin: 0 }}>
-              Nexus refuse de rédiger ta copie, ton commentaire ou ta dissertation à ta place. Si tu lui demandes, il te guidera avec des questions de méthode et des rappels de barème — mais c'est toi qui écris. C'est une décision pédagogique délibérée. Ton bac, c'est ton travail.
+              Nexus refuse de rédiger ta copie, ton commentaire ou ta dissertation à ta place. Si tu lui demandes, il te guidera avec des questions de méthode et des rappels de barème — mais c’est toi qui écris. C’est une décision pédagogique délibérée. Ton bac, c’est ton travail.
             </Text>
           </Section>
 

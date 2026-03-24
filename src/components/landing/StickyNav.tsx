@@ -13,7 +13,7 @@ const STICKY_NAV_COPY = {
   navAria: 'Navigation principale',
   homeAria: 'Nexus Réussite — Accueil',
   brand: 'Nexus Réussite',
-  sublabel: 'Preparation EAF',
+  sublabel: 'Préparation EAF',
   workshops: 'Ateliers',
   pricing: 'Tarifs',
   login: 'Connexion',

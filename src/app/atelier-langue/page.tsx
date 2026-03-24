@@ -79,8 +79,14 @@ const EDITORIAL_HEADING = {
 const METHOD_MARKERS = [
   'Identifier le fait de langue exact',
   'Nommer avec la terminologie du programme',
-  'Interpréter l\'effet dans le contexte',
+  'Interpréter l’effet dans le contexte',
 ];
+
+const LANGUE_COPY = {
+  heroBody:
+    'Nexus compose des phrases-cibles à partir de la banque interne, recentre la terminologie du programme et t’oblige à nommer le fait de langue avant de commenter son effet.',
+  answerTitle: 'Reste court, exact, exploitable à l’oral',
+} as const;
 
 export default function AtelierLangue() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -220,7 +226,7 @@ export default function AtelierLangue() {
               Un entraînement court pour verrouiller les 2 points de grammaire qui font basculer une prestation orale.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
-              Nexus compose des phrases-cibles à partir de la banque interne, recentre la terminologie du programme et t{'’'}oblige à nommer le fait de langue avant de commenter son effet.
+              {LANGUE_COPY.heroBody}
             </p>
           </div>
 
@@ -383,7 +389,7 @@ export default function AtelierLangue() {
                 <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">Ton analyse</p>
-                    <h3 className="mt-2 text-lg font-semibold text-[var(--c-primary)]">Reste court, exact, exploitable à l{'’'}oral</h3>
+                    <h3 className="mt-2 text-lg font-semibold text-[var(--c-primary)]">{LANGUE_COPY.answerTitle}</h3>
                   </div>
                   <p className="text-sm text-[var(--text-secondary)]">Formule : identification, dénomination, interprétation.</p>
                 </div>

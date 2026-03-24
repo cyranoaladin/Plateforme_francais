@@ -9,25 +9,25 @@ import { CountdownBadge } from './CountdownBadge';
 import { ROUTES } from '@/lib/routes';
 
 const HERO_COPY = {
-  eyebrow: 'Oral, ecrit, tuteur et suivi reel',
-  titleLead: 'La preparation EAF qui fait enfin',
+  eyebrow: 'Oral, écrit, tuteur et suivi réel',
+  titleLead: 'La préparation EAF qui fait enfin',
   titleAccent: 'travailler juste.',
-  body: 'Nexus transforme l’entrainement en pilotage concret: simulation orale officielle, correction ecrite rapide, tuteur pedagogique et progression suivie sans rediger a ta place.',
+  body: 'Nexus transforme l’entraînement en pilotage concret : simulation orale officielle, correction écrite rapide, tuteur pédagogique et progression suivie sans rédiger à ta place.',
   primaryCta: 'Commencer gratuitement - 3 min',
-  secondaryCta: 'Voir la demo en 45 s',
+  secondaryCta: 'Voir la démo en 45 s',
   previewEyebrow: 'Simulation orale',
   previewTitle: 'Lecture, explication, grammaire, entretien',
   previewBadge: 'BO 2026',
   cards: {
-    quick: 'Repere rapide',
+    quick: 'Repère rapide',
     correction: 'Correction',
     posture: 'Posture',
     quickValue: '/2 /8 /2 /8',
     correctionValue: '3 min',
     postureValue: 'Anti-copie',
     quickBody: 'Grille orale officielle directement exploitable.',
-    correctionBody: 'Retour immediat sur l’ecrit et les axes de progression.',
-    postureBody: 'Le systeme guide, questionne et entraine sans faire a ta place.',
+    correctionBody: 'Retour immédiat sur l’écrit et les axes de progression.',
+    postureBody: 'Le système guide, questionne et entraîne sans faire à ta place.',
   },
   previewMeta: {
     diagnostic: 'Diagnostic',

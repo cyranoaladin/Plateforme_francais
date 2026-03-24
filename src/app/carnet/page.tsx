@@ -89,14 +89,14 @@ export default function CarnetPage() {
         }),
       });
       if (!response.ok) {
-        throw new Error('L\'enregistrement n\'a pas abouti. Vérifie ta connexion et réessaie.');
+        throw new Error('L’enregistrement n’a pas abouti. Vérifie ta connexion et réessaie.');
       }
       setContenu('');
       setPage('');
       setTags('');
       await load();
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'L\'enregistrement a rencontré un problème.');
+      setError(cause instanceof Error ? cause.message : 'L’enregistrement a rencontré un problème.');
     } finally {
       setSaving(false);
     }
@@ -136,7 +136,7 @@ export default function CarnetPage() {
               Un lieu pour garder les œuvres vivantes, pas seulement les résumer.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
-              Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l\'entretien et à retrouver vite une matière personnelle quand il faut reparler d\'une œuvre.
+              Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l’entretien et à retrouver vite une matière personnelle quand il faut reparler d’une œuvre.
             </p>
           </div>
 
@@ -172,7 +172,7 @@ export default function CarnetPage() {
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Nouvelle entrée</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
-                  Noter pendant que c\'est encore vivant
+                  Noter pendant que c’est encore vivant
                 </h2>
               </div>
             </div>

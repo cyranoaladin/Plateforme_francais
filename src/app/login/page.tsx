@@ -36,6 +36,22 @@ const TRUST_POINTS = [
   'Prêt en 3 minutes',
 ];
 
+const LOGIN_COPY = {
+  proofBody:
+    'Écrit, oral, grammaire, corpus officiel : tout est réuni pour t’aider à progresser méthodiquement. Essaie gratuitement, explore les ateliers, et passe à un plan supérieur seulement quand tu es prêt.',
+  onboardingNotice:
+    'L’inscription prend environ trois minutes. Si tu as déjà un compte, connecte-toi pour retrouver ton parcours là où tu l’as laissé.',
+  minorNotice: 'J’ai moins de 15 ans. Un consentement parental est nécessaire.',
+  helpBody:
+    'Vérifie ton email et ton mot de passe. En cas d’erreur persistante, rafraîchis la page ou utilise « Mot de passe oublié ». Tu peux aussi nous contacter sur WhatsApp au +216 99 19 28 29.',
+  resetHelpLead: 'Besoin d’aide ?',
+  parentLoginHint:
+    'Connecte-toi avec l’email que ton enfant a renseigné. Lors de la première connexion, utilise le lien reçu par email ou « mot de passe oublié » pour définir ton mot de passe.',
+  teacherLoginHint:
+    'Connecte-toi avec ton email professionnel. Lors de la première connexion, utilise le lien reçu par email ou « mot de passe oublié » pour définir ton mot de passe.',
+  teacherEmailLabel: 'Email de l’enseignant',
+} as const;
+
 const PROOF_CARDS = [
   {
     icon: BookOpen,
@@ -168,9 +184,7 @@ function ProofPanel() {
           Ton espace de préparation au Bac de Français commence ici.
         </h1>
 
-        <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
-          Écrit, oral, grammaire, corpus officiel : tout est réuni pour t{'’'}aider à progresser méthodiquement. Essaie gratuitement, explore les ateliers, et passe à un plan supérieur seulement quand tu es prêt.
-        </p>
+        <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">{LOGIN_COPY.proofBody}</p>
 
         <div className="mt-6 flex flex-wrap gap-2.5">
           {TRUST_POINTS.map((point) => (
@@ -199,9 +213,7 @@ function ProofPanel() {
         <div className="mt-8 rounded-[var(--radius-xl)] bg-[var(--c-primary-active)] p-4">
           <div className="flex items-start gap-3">
             <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
-            <p className="text-sm leading-6 text-slate-200">
-              L{'’'}inscription prend environ trois minutes. Si tu as déjà un compte, connecte-toi pour retrouver ton parcours là où tu l{'’'}as laissé.
-            </p>
+            <p className="text-sm leading-6 text-slate-200">{LOGIN_COPY.onboardingNotice}</p>
           </div>
         </div>
       </div>
@@ -471,14 +483,10 @@ function AuthCard() {
               ))}
             </div>
             {loginRole === 'parent' && (
-              <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">
-                Connecte-toi avec l'email que ton enfant a renseigné. Lors de la première connexion, utilise le lien reçu par email ou “mot de passe oublié” pour définir ton mot de passe.
-              </p>
+              <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">{LOGIN_COPY.parentLoginHint}</p>
             )}
             {loginRole === 'enseignant' && (
-              <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">
-                Connecte-toi avec ton email professionnel. Lors de la première connexion, utilise le lien reçu par email ou “mot de passe oublié” pour définir ton mot de passe.
-              </p>
+              <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">{LOGIN_COPY.teacherLoginHint}</p>
             )}
           </div>
         )}
@@ -546,9 +554,7 @@ function AuthCard() {
                     onChange={(e) => setIsMinor(e.target.checked)}
                     className="mt-1 accent-[var(--c-primary)]"
                   />
-                  <span className="text-xs leading-6 text-[var(--text-secondary)]">
-                    J{'’'}ai moins de 15 ans. Un consentement parental est nécessaire.
-                  </span>
+                  <span className="text-xs leading-6 text-[var(--text-secondary)]">{LOGIN_COPY.minorNotice}</span>
                 </label>
               </div>
 
@@ -574,7 +580,7 @@ function AuthCard() {
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="teacherEmail">
-                    Email de l'enseignant
+                    {LOGIN_COPY.teacherEmailLabel}
                   </label>
                   <input
                     id="teacherEmail"
@@ -642,9 +648,7 @@ function AuthCard() {
                 Problème de connexion ?
               </button>
               {showHelp ? (
-                <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
-                  Vérifie ton email et ton mot de passe. En cas d{'’'}erreur persistante, rafraîchis la page ou utilise « Mot de passe oublié ». Tu peux aussi nous contacter sur WhatsApp au +216 99 19 28 29.
-                </p>
+                <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{LOGIN_COPY.helpBody}</p>
               ) : null}
             </div>
           </div>
@@ -659,7 +663,7 @@ function AuthCard() {
             </button>
             <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
               <p className="text-sm leading-7 text-[var(--text-secondary)]">
-                Besoin d{'’'}aide ?{' '}
+                {LOGIN_COPY.resetHelpLead}{' '}
                 <a
                   href="https://wa.me/21699192829?text=Bonjour%2C%20je%20souhaite%20r%C3%A9initialiser%20mon%20mot%20de%20passe%20Nexus%20EAF."
                   target="_blank"

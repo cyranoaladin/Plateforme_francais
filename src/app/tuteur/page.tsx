@@ -27,7 +27,7 @@ const EDITORIAL_HEADING = {
 };
 
 const STARTER_PROMPTS = [
-  'Donne-moi une méthode courte pour l\'introduction de dissertation.',
+  'Donne-moi une méthode courte pour l’introduction de dissertation.',
   'Comment analyser une métaphore dans un poème de Rimbaud ?',
   'Aide-moi à formuler une problématique sur Manon Lescaut.',
   'Je bloque sur la question de grammaire : comment repartir ?',
@@ -36,17 +36,17 @@ const STARTER_PROMPTS = [
 const OPERATING_RULES = [
   {
     title: 'Réponse cadrée EAF',
-    body: 'Le tuteur reste sur la méthode, les œuvres, la grammaire et les attendus réels de l\'épreuve.',
+    body: 'Le tuteur reste sur la méthode, les œuvres, la grammaire et les attendus réels de l’épreuve.',
     icon: Compass,
   },
   {
     title: 'Sources internes',
-    body: 'Les réponses s\'appuient sur les références internes mobilisées par la plateforme, pas sur un web ouvert flou.',
+    body: 'Les réponses s’appuient sur les références internes mobilisées par la plateforme, pas sur un web ouvert flou.',
     icon: BookOpen,
   },
   {
     title: 'Anti-copie',
-    body: 'Le guidage aide à produire mieux. Il ne remplace jamais le travail de l\'élève par une copie livrée clé en main.',
+    body: 'Le guidage aide à produire mieux. Il ne remplace jamais le travail de l’élève par une copie livrée clé en main.',
     icon: ShieldCheck,
   },
 ];

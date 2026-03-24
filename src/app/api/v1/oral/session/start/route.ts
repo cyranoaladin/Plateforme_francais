@@ -89,7 +89,7 @@ export async function POST(request: Request) {
         mode: parsed.data.mode as 'SIMULATION' | 'FREE_PRACTICE',
       });
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Erreur lors de la sélection de l\'extrait';
+      const message = err instanceof Error ? err.message : 'Erreur lors de la sélection de l’extrait';
       console.error('[oral/start] pickOralExtrait error:', message);
       return NextResponse.json(
         { error: message },
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
       const message = err instanceof Error ? err.message : 'Erreur lors de la création de la session';
       console.error('[oral/start] createOralSession error:', message, err);
       return NextResponse.json(
-        { error: `Erreur création session: ${message}` },
+        { error: `Erreur de création de session : ${message}` },
         { status: 500 }
       );
     }

@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     transcript: parsed.data.message,
   });
 
-  let juryText = 'Peux-tu preciser ton argument avec un exemple du texte ?';
+  let juryText = 'Peux-tu préciser ton argument avec un exemple du texte ?';
   try {
     const result = (await orchestrate({
       skill: 'examinateur_virtuel',
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       workId: parsed.data.oeuvreChoisie,
       userQuery: parsed.data.message,
       context: [
-        parsed.data.oeuvreChoisie ? `Oeuvre choisie: ${parsed.data.oeuvreChoisie}` : '',
+        parsed.data.oeuvreChoisie ? `Œuvre choisie : ${parsed.data.oeuvreChoisie}` : '',
         `Persona examinateur: ${profile}`,
         personaContext,
         `Historique récent:\n${memoryContext || 'Aucun échange précédent.'}`,
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
       userId: auth.user.id,
       workId: parsed.data.oeuvreChoisie,
       userQuery: parsed.data.message,
-      context: parsed.data.oeuvreChoisie ? `Oeuvre choisie: ${parsed.data.oeuvreChoisie}` : undefined,
+      context: parsed.data.oeuvreChoisie ? `Œuvre choisie : ${parsed.data.oeuvreChoisie}` : undefined,
     })) as { feedback?: string; relance?: string };
     juryText = fallback.relance ?? fallback.feedback ?? juryText;
   }
