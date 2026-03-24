@@ -13,6 +13,7 @@ import { getResetMessage } from '@/lib/billing/quota-messages';
 import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { sanitizeString } from '@/lib/security/sanitize';
 import { checkLLMQuota, QuotaExceededError } from '@/lib/security/llm-rate-limiter';
+import { formatVisibleCitation, normalizeTutorAnswerFallback } from '@/lib/tutor/visible-citations';
 import { parseJsonBody } from '@/lib/validation/request';
 import { tuteurMessageBodySchema } from '@/lib/validation/schemas';
 import type { RagSearchResult } from '@/lib/rag/search';
@@ -21,39 +22,6 @@ const TUTEUR_API_MESSAGES = {
   billingUnavailable: 'La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes.',
   rateLimited: 'Trop de messages. Réessayez dans quelques minutes.',
 } as const;
-
-function sanitizeVisibleCitationText(value: string | null | undefined) {
-  const raw = (value ?? '').trim();
-  if (!raw) {
-    return '';
-  }
-
-  const normalized = raw.replace(/\\/g, '/');
-  const lower = normalized.toLowerCase();
-
-  if (
-    lower.startsWith('http://') ||
-    lower.startsWith('https://') ||
-    lower.startsWith('/data/') ||
-    lower.startsWith('/tmp/') ||
-    lower.startsWith('file:')
-  ) {
-    return normalized.split('/').filter(Boolean).pop() ?? '';
-  }
-
-  return normalized;
-}
-
-function formatVisibleCitation(ref: Pick<RagSearchResult, 'title' | 'sourceRef' | 'type'>) {
-  const title = sanitizeVisibleCitationText(ref.title);
-  const source = sanitizeVisibleCitationText(ref.sourceRef);
-  const visible = source || title || 'Source pédagogique';
-
-  return {
-    title: title || visible,
-    source: visible,
-  };
-}
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -357,7 +325,7 @@ export async function POST(request: Request) {
 
   return NextResponse.json(
     {
-      answer: sanitizeTutorAnswer(generated.answer, refs, citations) || (() => {
+      answer: normalizeTutorAnswerFallback(sanitizeTutorAnswer(generated.answer, refs, citations), citations.length) || (() => {
         const lowerMsg = userMessage.toLowerCase();
         const antitricheKw = ['rédige', 'écris-moi', 'fais-moi', 'copie complète', 'corrigé complet', 'dissertation complète', 'commentaire complet', 'intégral', 'en entier', 'à ma place'];
         if (antitricheKw.some(kw => lowerMsg.includes(kw))) {
