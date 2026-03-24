@@ -374,7 +374,7 @@ Statistiques globales.
     "activeToday": 120
   },
   "subscriptions": {
-    "byPlan": { "FREE": 1000, "PREMIUM": 400, "PRO": 100 },
+    "byPlan": { "FREEMIUM": 1000, "PREMIUM": 400, "MASTERIUM": 100 },
     "conversionRate": 33.3
   },
   "usage": {

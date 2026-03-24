@@ -52,7 +52,7 @@ describe('admin plan visibility routes', () => {
 
     expect(response.status).toBe(200);
     expect(body.users[0].subscription).toEqual({
-      plan: 'FREE',
+      plan: 'FREEMIUM',
       status: 'ACTIVE',
       currentPeriodStart: null,
       currentPeriodEnd: null,
@@ -93,9 +93,9 @@ describe('admin plan visibility routes', () => {
     expect(body.stats.totalUsers).toBe(3);
     expect(body.stats.activeSubscriptions).toBe(2);
     expect(body.stats.subscriptionsByPlan).toEqual([
-      { plan: 'FREE', count: 1 },
+      { plan: 'FREEMIUM', count: 1 },
       { plan: 'PREMIUM', count: 1 },
-      { plan: 'PRO', count: 1 },
+      { plan: 'MASTERIUM', count: 1 },
     ]);
   });
 });

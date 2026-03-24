@@ -1,4 +1,4 @@
-import { normalizePlanId } from '@/lib/billing/plan-catalog';
+import { normalizePlanId, type PublicPlanId } from '@/lib/billing/plan-catalog';
 
 type RawSubscription = {
   plan: string;
@@ -7,7 +7,7 @@ type RawSubscription = {
   currentPeriodEnd: Date | null;
 };
 
-export type AdminVisiblePlanId = 'FREE' | 'PREMIUM' | 'PRO';
+export type AdminVisiblePlanId = PublicPlanId;
 
 export type AdminVisibleSubscription = {
   plan: AdminVisiblePlanId;
@@ -19,17 +19,15 @@ export type AdminVisibleSubscription = {
 function toAdminVisiblePlanId(plan: string | null | undefined): AdminVisiblePlanId {
   const normalized = normalizePlanId(plan ?? 'FREE');
 
-  if (normalized === 'PREMIUM' || normalized === 'PRO') {
-    return normalized;
-  }
-
-  return 'FREE';
+  if (normalized === 'PREMIUM') return 'PREMIUM';
+  if (normalized === 'PRO') return 'MASTERIUM';
+  return 'FREEMIUM';
 }
 
 export function toAdminVisibleSubscription(subscription: RawSubscription | null | undefined): AdminVisibleSubscription {
   if (!subscription) {
     return {
-      plan: 'FREE',
+      plan: 'FREEMIUM',
       status: 'ACTIVE',
       currentPeriodStart: null,
       currentPeriodEnd: null,
@@ -44,9 +42,9 @@ export function toAdminVisibleSubscription(subscription: RawSubscription | null 
 
 export function countAdminVisiblePlans(subscriptions: Array<RawSubscription | null | undefined>) {
   const counts: Record<AdminVisiblePlanId, number> = {
-    FREE: 0,
+    FREEMIUM: 0,
     PREMIUM: 0,
-    PRO: 0,
+    MASTERIUM: 0,
   };
 
   for (const subscription of subscriptions) {
@@ -55,8 +53,8 @@ export function countAdminVisiblePlans(subscriptions: Array<RawSubscription | nu
   }
 
   return [
-    { plan: 'FREE' as const, count: counts.FREE },
+    { plan: 'FREEMIUM' as const, count: counts.FREEMIUM },
     { plan: 'PREMIUM' as const, count: counts.PREMIUM },
-    { plan: 'PRO' as const, count: counts.PRO },
+    { plan: 'MASTERIUM' as const, count: counts.MASTERIUM },
   ];
 }

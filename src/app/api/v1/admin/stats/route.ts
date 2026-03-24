@@ -64,7 +64,7 @@ export async function GET() {
     const visibleSubscriptions = users.map((user) => toAdminVisibleSubscription(user.subscription));
     const subscriptionsByPlan = countAdminVisiblePlans(users.map((user) => user.subscription));
     const activeSubscriptions = visibleSubscriptions.filter((subscription) =>
-      subscription.status === 'ACTIVE' && subscription.plan !== 'FREE',
+      subscription.status === 'ACTIVE' && subscription.plan !== 'FREEMIUM',
     ).length;
 
     return NextResponse.json(

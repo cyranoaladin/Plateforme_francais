@@ -8,7 +8,7 @@
 | **Prix** | 0 TND | 99 TND/mois | 129 TND/mois |
 | **Cycle** | gratuit | mensuel | mensuel |
 
-Les identifiants techniques (`FREE`, `PREMIUM`, `PRO`) restent internes au code et à la base de données. Les seuls noms affichés aux utilisateurs sont Freemium, Premium et Masterium.
+Les identifiants techniques (`FREE`, `PREMIUM`, `PRO`) restent internes au code et à la base de données. Les payloads visibles côté produit et côté APIs exposées doivent utiliser uniquement `FREEMIUM`, `PREMIUM` et `MASTERIUM`, avec les libellés commerciaux Freemium, Premium et Masterium.
 
 Des reliquats legacy comme `MAX` ont existé côté code, mais ils ne doivent plus être exposés ni utilisables dans le produit live.
 
