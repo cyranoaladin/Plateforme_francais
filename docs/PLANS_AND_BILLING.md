@@ -49,7 +49,7 @@ Au lancement, le paiement est manuel :
 5. L'administrateur communique le code à l'élève.
 6. L'élève saisit le code sur la plateforme pour activer son plan.
 
-Un flux ClicToPay (paiement en ligne) reste pré-câblé dans le code (`src/app/api/v1/payments/clictopay/`), mais il n'est pas actif au lancement.
+Un ancien flux ClicToPay reste pré-câblé dans le code (`src/app/api/v1/payments/clictopay/`), mais il est explicitement inactif au lancement.
 
 ## Détails techniques
 

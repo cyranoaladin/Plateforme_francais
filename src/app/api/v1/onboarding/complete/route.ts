@@ -73,7 +73,7 @@ export async function POST(request: Request) {
     userId: auth.user.id,
     workId: primaryWorkId,
     userQuery: `Rédige un message de bienvenue personnalisé pour ${sanitizedData.displayName}.`,
-    context: `Date EAF: ${sanitizedData.eafDate}. Oeuvres: ${sanitizedData.selectedOeuvres.join(', ')}. Signaux prioritaires: ${nextWeak.join(', ') || 'aucun signal prioritaire'}.`,
+    context: `Date EAF : ${sanitizedData.eafDate}. Œuvres : ${sanitizedData.selectedOeuvres.join(', ')}. Signaux prioritaires : ${nextWeak.join(', ') || 'aucun signal prioritaire'}.`,
   });
   const message = orchestrateResult as { answer?: string };
 
