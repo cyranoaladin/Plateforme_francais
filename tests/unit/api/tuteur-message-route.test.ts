@@ -149,12 +149,12 @@ describe('POST /api/v1/tuteur/message', () => {
 
     expect(res.status).toBe(200);
     expect(body.citations).toEqual([
-      expect.objectContaining({ title: 'rapport-jury-eaf-2025.pdf', source: 'secret.pdf' }),
-      expect.objectContaining({ title: 'BO spécial 2025', source: 'bo.pdf' }),
+      expect.objectContaining({ title: 'rapport jury eaf 2025', source: 'secret' }),
+      expect.objectContaining({ title: 'BO spécial 2025', source: 'bo' }),
     ]);
-    expect(body.answer).toContain('[Source: secret.pdf]');
-    expect(body.answer).toContain('[Source: bo.pdf]');
-    expect(body.answer).toContain('rapport-jury-eaf-2025.pdf');
+    expect(body.answer).toContain('[Source: secret]');
+    expect(body.answer).toContain('[Source: bo]');
+    expect(body.answer).toContain('rapport jury eaf 2025');
     expect(JSON.stringify(body.citations)).not.toContain('/data/uploads');
     expect(JSON.stringify(body.citations)).not.toContain('https://');
     expect(body.answer).not.toContain('/data/uploads');
