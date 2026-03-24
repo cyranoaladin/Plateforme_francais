@@ -42,3 +42,15 @@ test('admin: admin user can access dashboard and load tabs', async ({ page }) =>
     await expect(page.getByText(/EAF/i)).toBeVisible({ timeout: 20_000 }).catch(() => undefined);
   });
 });
+
+test('admin: parent and teacher surfaces redirect back to /admin', async ({ page }) => {
+  await login(page, 'admin@eaf.local', 'AdminTest2026!');
+
+  await page.goto('/parent');
+  await expect(page).toHaveURL(/\/admin/, { timeout: 20_000 });
+  await expect(page.getByRole('heading', { name: /tableau de bord admin/i })).toBeVisible({ timeout: 20_000 });
+
+  await page.goto('/enseignant');
+  await expect(page).toHaveURL(/\/admin/, { timeout: 20_000 });
+  await expect(page.getByRole('heading', { name: /tableau de bord admin/i })).toBeVisible({ timeout: 20_000 });
+});

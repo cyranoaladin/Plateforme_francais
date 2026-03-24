@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireUserRole } from '@/lib/auth/guard';
+import { requireExactUserRole } from '@/lib/auth/guard';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { readFallbackStore } from '@/lib/db/fallback-store';
 
@@ -52,7 +52,7 @@ function buildDistribution(notes: Array<number | null>) {
  * @description Retourne les données agrégées du tableau de bord enseignant.
  */
 export async function GET() {
-  const { auth, errorResponse } = await requireUserRole('enseignant');
+  const { auth, errorResponse } = await requireExactUserRole('enseignant');
   if (!auth || errorResponse) {
     return errorResponse;
   }

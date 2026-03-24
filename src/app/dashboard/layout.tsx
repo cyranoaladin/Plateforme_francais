@@ -11,8 +11,12 @@ export default async function DashboardLayout({
     redirect('/login');
   }
 
-  if (auth.user.role === 'admin' || auth.user.role === 'eleve') {
+  if (auth.user.role === 'eleve') {
     return <>{children}</>;
+  }
+
+  if (auth.user.role === 'admin') {
+    redirect('/admin');
   }
 
   if (auth.user.role === 'parent') {

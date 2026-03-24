@@ -1,6 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { NextResponse } from 'next/server';
-import { requireUserRole } from '@/lib/auth/guard';
+import { requireExactUserRole } from '@/lib/auth/guard';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
 import { validateCsrf } from '@/lib/security/csrf';
 
@@ -16,7 +16,7 @@ function generateClassCode(length = 6): string {
  * @description Génère un code de classe et l'associe au profil enseignant.
  */
 export async function POST(request: Request) {
-  const { auth, errorResponse } = await requireUserRole('enseignant');
+  const { auth, errorResponse } = await requireExactUserRole('enseignant');
   if (!auth || errorResponse) {
     return errorResponse;
   }

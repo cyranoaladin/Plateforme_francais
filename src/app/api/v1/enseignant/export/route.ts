@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireUserRole } from '@/lib/auth/guard';
+import { requireExactUserRole } from '@/lib/auth/guard';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { readFallbackStore } from '@/lib/db/fallback-store';
 import { checkRateLimit } from '@/lib/security/rate-limit';
@@ -21,7 +21,7 @@ function csvEscape(input: string): string {
  * @description Exporte les résultats de la classe au format CSV.
  */
 export async function GET(request: Request) {
-  const { auth, errorResponse } = await requireUserRole('enseignant');
+  const { auth, errorResponse } = await requireExactUserRole('enseignant');
   if (!auth || errorResponse) {
     return errorResponse;
   }

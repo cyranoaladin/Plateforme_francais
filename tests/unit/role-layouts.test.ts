@@ -20,44 +20,44 @@ describe('role-protected layouts', () => {
     getAuthenticatedUserMock.mockReset();
   });
 
-  it('allows parent and admin on the parent layout', async () => {
+  it('allows only parent on the parent layout', async () => {
     const ParentLayout = (await import('@/app/parent/layout')).default;
 
     getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'parent' } });
     const parentResult = await ParentLayout({ children: 'ok' });
     expect(parentResult).toBeTruthy();
     expect(redirectMock).not.toHaveBeenCalled();
-
-    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'admin' } });
-    const adminResult = await ParentLayout({ children: 'ok' });
-    expect(adminResult).toBeTruthy();
-    expect(redirectMock).not.toHaveBeenCalled();
   });
 
   it('redirects non-parent roles away from the parent layout', async () => {
     const ParentLayout = (await import('@/app/parent/layout')).default;
+
+    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'admin' } });
+    await expect(ParentLayout({ children: 'ok' })).rejects.toThrow('redirect:/admin');
+    expect(redirectMock).toHaveBeenCalledWith('/admin');
+    redirectMock.mockClear();
 
     getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'eleve' } });
     await expect(ParentLayout({ children: 'ok' })).rejects.toThrow('redirect:/dashboard');
     expect(redirectMock).toHaveBeenCalledWith('/dashboard');
   });
 
-  it('allows teacher and admin on the teacher layout', async () => {
+  it('allows only teacher on the teacher layout', async () => {
     const TeacherLayout = (await import('@/app/enseignant/layout')).default;
 
     getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'enseignant' } });
     const teacherResult = await TeacherLayout({ children: 'ok' });
     expect(teacherResult).toBeTruthy();
     expect(redirectMock).not.toHaveBeenCalled();
-
-    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'admin' } });
-    const adminResult = await TeacherLayout({ children: 'ok' });
-    expect(adminResult).toBeTruthy();
-    expect(redirectMock).not.toHaveBeenCalled();
   });
 
-  it('redirects student away from the teacher layout', async () => {
+  it('redirects non-teacher roles away from the teacher layout', async () => {
     const TeacherLayout = (await import('@/app/enseignant/layout')).default;
+
+    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'admin' } });
+    await expect(TeacherLayout({ children: 'ok' })).rejects.toThrow('redirect:/admin');
+    expect(redirectMock).toHaveBeenCalledWith('/admin');
+    redirectMock.mockClear();
 
     getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'eleve' } });
     await expect(TeacherLayout({ children: 'ok' })).rejects.toThrow('redirect:/dashboard');
@@ -77,7 +77,7 @@ describe('role-protected layouts', () => {
     expect(redirectMock).toHaveBeenCalledWith('/dashboard');
   });
 
-  it('allows only student and admin on the dashboard layout', async () => {
+  it('routes each role to the correct main dashboard', async () => {
     const DashboardLayout = (await import('@/app/dashboard/layout')).default;
 
     getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'eleve' } });
@@ -86,13 +86,14 @@ describe('role-protected layouts', () => {
     expect(redirectMock).not.toHaveBeenCalled();
 
     getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'admin' } });
-    const adminResult = await DashboardLayout({ children: 'ok' });
-    expect(adminResult).toBeTruthy();
-    expect(redirectMock).not.toHaveBeenCalled();
+    await expect(DashboardLayout({ children: 'ok' })).rejects.toThrow('redirect:/admin');
+    expect(redirectMock).toHaveBeenCalledWith('/admin');
+    redirectMock.mockClear();
 
     getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'parent' } });
     await expect(DashboardLayout({ children: 'ok' })).rejects.toThrow('redirect:/parent');
     expect(redirectMock).toHaveBeenCalledWith('/parent');
+    redirectMock.mockClear();
 
     getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'enseignant' } });
     await expect(DashboardLayout({ children: 'ok' })).rejects.toThrow('redirect:/enseignant');

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireUserRole } from '@/lib/auth/guard';
+import { requireExactUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
 
@@ -17,7 +17,7 @@ function buildWeakSignals(timeline: Awaited<ReturnType<typeof listMemoryEventsBy
 }
 
 export async function GET(request: Request) {
-  const { auth, errorResponse } = await requireUserRole('parent');
+  const { auth, errorResponse } = await requireExactUserRole('parent');
   if (!auth || errorResponse) {
     return errorResponse;
   }

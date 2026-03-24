@@ -10,8 +10,18 @@ export default async function ParentLayout({
   if (!auth) {
     redirect('/login');
   }
-  if (auth.user.role !== 'parent' && auth.user.role !== 'admin') {
-    redirect('/dashboard');
+
+  if (auth.user.role === 'parent') {
+    return <>{children}</>;
   }
-  return <>{children}</>;
+
+  if (auth.user.role === 'admin') {
+    redirect('/admin');
+  }
+
+  if (auth.user.role === 'enseignant') {
+    redirect('/enseignant');
+  }
+
+  redirect('/dashboard');
 }

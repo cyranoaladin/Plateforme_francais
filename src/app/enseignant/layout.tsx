@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getAuthenticatedUser } from '@/lib/auth/session';
 
-export default async function TeacherLayout({
+export default async function EnseignantLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -10,8 +10,18 @@ export default async function TeacherLayout({
   if (!auth) {
     redirect('/login');
   }
-  if (auth.user.role !== 'enseignant' && auth.user.role !== 'admin') {
-    redirect('/dashboard');
+
+  if (auth.user.role === 'enseignant') {
+    return <>{children}</>;
   }
-  return <>{children}</>;
+
+  if (auth.user.role === 'admin') {
+    redirect('/admin');
+  }
+
+  if (auth.user.role === 'parent') {
+    redirect('/parent');
+  }
+
+  redirect('/dashboard');
 }

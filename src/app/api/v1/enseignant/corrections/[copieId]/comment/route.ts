@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireUserRole } from '@/lib/auth/guard';
+import { requireExactUserRole } from '@/lib/auth/guard';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -10,7 +10,7 @@ import { teacherCorrectionCommentBodySchema } from '@/lib/validation/schemas';
  * @description Ajoute un commentaire enseignant manuel sur une correction IA.
  */
 export async function POST(request: Request, context: { params: Promise<{ copieId: string }> }) {
-  const { auth, errorResponse } = await requireUserRole('enseignant');
+  const { auth, errorResponse } = await requireExactUserRole('enseignant');
   if (!auth || errorResponse) {
     return errorResponse;
   }

@@ -30,6 +30,23 @@ export async function requireUserRole(role: 'enseignant' | 'parent' | 'admin') {
   return { auth, errorResponse: null };
 }
 
+export async function requireExactUserRole(role: 'enseignant' | 'parent' | 'admin') {
+  const { auth, errorResponse } = await requireAuthenticatedUser();
+  if (!auth || errorResponse) {
+    return { auth: null, errorResponse };
+  }
+
+  const userRole = auth.user.role as string;
+  if (userRole !== role) {
+    return {
+      auth: null,
+      errorResponse: NextResponse.json({ error: 'Accès refusé.' }, { status: 403 }),
+    };
+  }
+
+  return { auth, errorResponse: null };
+}
+
 export async function requireEleve() {
   const { auth, errorResponse } = await requireAuthenticatedUser();
   if (!auth || errorResponse) {
