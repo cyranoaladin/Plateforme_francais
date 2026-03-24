@@ -50,6 +50,50 @@ function formatVisibleCitation(ref: Pick<RagSearchResult, 'title' | 'sourceRef' 
   };
 }
 
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function sanitizeTutorAnswer(
+  answer: string | undefined,
+  refs: Pick<RagSearchResult, 'title' | 'sourceRef' | 'type'>[],
+  citations: Array<{ title: string; source: string }>,
+) {
+  const raw = (answer ?? '').trim();
+  if (!raw) {
+    return raw;
+  }
+
+  let sanitized = raw;
+
+  refs.forEach((ref, index) => {
+    const visibleCitation = citations[index];
+    if (!visibleCitation) {
+      return;
+    }
+
+    const replacements = [
+      { from: ref.sourceRef, to: visibleCitation.source },
+      { from: ref.title, to: visibleCitation.title },
+    ];
+
+    replacements.forEach(({ from, to }) => {
+      const value = (from ?? '').trim();
+      if (!value || value === to) {
+        return;
+      }
+      sanitized = sanitized.replace(new RegExp(escapeRegExp(value), 'g'), to);
+    });
+  });
+
+  sanitized = sanitized.replace(
+    /\[Source:\s*(https?:\/\/[^\]\s]+|\/(?:data|tmp)\/[^\]]+)\]/gi,
+    '[Source pédagogique]',
+  );
+
+  return sanitized;
+}
+
 /**
  * POST /api/v1/tuteur/message
  * Body: { message, conversationHistory }
@@ -308,7 +352,7 @@ export async function POST(request: Request) {
 
   return NextResponse.json(
     {
-      answer: generated.answer || (() => {
+      answer: sanitizeTutorAnswer(generated.answer, refs, citations) || (() => {
         const lowerMsg = userMessage.toLowerCase();
         const antitricheKw = ['rédige', 'écris-moi', 'fais-moi', 'copie complète', 'corrigé complet', 'dissertation complète', 'commentaire complet', 'intégral', 'en entier', 'à ma place'];
         if (antitricheKw.some(kw => lowerMsg.includes(kw))) {

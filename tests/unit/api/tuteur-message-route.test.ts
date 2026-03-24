@@ -132,7 +132,8 @@ describe('POST /api/v1/tuteur/message', () => {
       },
     ]);
     vi.mocked(orchestrate).mockResolvedValue({
-      answer: 'Réponse guidée',
+      answer:
+        'Réponse guidée [Source: /data/uploads/secret.pdf] et [Source: https://example.com/bo.pdf] avec renvoi /data/uploads/rapport-jury-eaf-2025.pdf',
       suggestions: ['Relance 1'],
     });
 
@@ -151,7 +152,12 @@ describe('POST /api/v1/tuteur/message', () => {
       expect.objectContaining({ title: 'rapport-jury-eaf-2025.pdf', source: 'secret.pdf' }),
       expect.objectContaining({ title: 'BO spécial 2025', source: 'bo.pdf' }),
     ]);
+    expect(body.answer).toContain('[Source: secret.pdf]');
+    expect(body.answer).toContain('[Source: bo.pdf]');
+    expect(body.answer).toContain('rapport-jury-eaf-2025.pdf');
     expect(JSON.stringify(body.citations)).not.toContain('/data/uploads');
     expect(JSON.stringify(body.citations)).not.toContain('https://');
+    expect(body.answer).not.toContain('/data/uploads');
+    expect(body.answer).not.toContain('https://');
   });
 });
