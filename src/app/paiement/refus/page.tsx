@@ -5,6 +5,14 @@ const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
 };
 
+const PAYMENT_REFUSAL_COPY = {
+  title: 'Activation non confirmée',
+  body:
+    'Nous n’avons pas encore pu confirmer ton règlement. Aucun abonnement n’est activé pour le moment. Vérifie la référence transmise ou contacte-nous pour finaliser l’activation.',
+  pricingCta: 'Voir les offres',
+  homeCta: 'Retour accueil',
+} as const;
+
 export default function PaiementRefusPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
@@ -14,13 +22,11 @@ export default function PaiementRefusPage() {
         </div>
 
         <h1 style={EDITORIAL_HEADING} className="mt-6 text-3xl font-bold text-foreground">
-          Paiement non abouti
+          {PAYMENT_REFUSAL_COPY.title}
         </h1>
 
         <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-          La transaction n&apos;a pas été validée. Aucun abonnement n&apos;est
-          activé pour le moment. Tu peux réessayer ou nous contacter
-          par WhatsApp pour finaliser ton inscription.
+          {PAYMENT_REFUSAL_COPY.body}
         </p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
@@ -28,14 +34,14 @@ export default function PaiementRefusPage() {
             href="/pricing"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-sapphire-700 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-sapphire-600"
           >
-            Voir les offres
+            {PAYMENT_REFUSAL_COPY.pricingCta}
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
             href="/"
             className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
           >
-            Retour accueil
+            {PAYMENT_REFUSAL_COPY.homeCta}
           </Link>
         </div>
       </div>

@@ -17,6 +17,11 @@ import { parseJsonBody } from '@/lib/validation/request';
 import { tuteurMessageBodySchema } from '@/lib/validation/schemas';
 import type { RagSearchResult } from '@/lib/rag/search';
 
+const TUTEUR_API_MESSAGES = {
+  billingUnavailable: 'La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes.',
+  rateLimited: 'Trop de messages. Réessayez dans quelques minutes.',
+} as const;
+
 function sanitizeVisibleCitationText(value: string | null | undefined) {
   const raw = (value ?? '').trim();
   if (!raw) {
@@ -115,7 +120,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof BillingContextUnavailableError) {
       return NextResponse.json(
-        { error: 'La vérification de ton abonnement est momentanément indisponible. Réessaie dans quelques minutes.' },
+        { error: TUTEUR_API_MESSAGES.billingUnavailable },
         { status: 503 },
       );
     }
@@ -151,7 +156,7 @@ export async function POST(request: Request) {
   });
   if (!rl.allowed) {
     return NextResponse.json(
-      { error: 'Trop de messages. Réessayez dans quelques minutes.' },
+      { error: TUTEUR_API_MESSAGES.rateLimited },
       { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } },
     );
   }

@@ -800,6 +800,7 @@ admin
 ```
 
 ### SubscriptionPlan
+Enum technique historique. Le produit live n’expose que Freemium, Premium et Masterium.
 ```
 FREE
 PREMIUM

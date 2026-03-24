@@ -371,11 +371,13 @@ curl -X POST https://eaf.nexusreussite.academy/api/v1/billing/redeem-code \
 
 ### 📦 Catalogue des plans
 
-| Plan | ID Technique | Prix | Période |
+| Plan | ID interne | Prix | Période |
 |------|--------------|------|---------|
 | **Freemium** | `FREE` | 0 TND | Gratuit |
 | **Premium** | `PREMIUM` | 99 TND/mois | Mensuel |
 | **Masterium** | `PRO` | 129 TND/mois | Mensuel |
+
+Les identifiants ci-dessus sont internes. Côté produit visible, seuls Freemium, Premium et Masterium doivent apparaître.
 
 ### 📊 Quotas par plan
 

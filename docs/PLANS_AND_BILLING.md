@@ -4,11 +4,11 @@
 
 | Critère | Freemium | Premium | Masterium |
 |---------|----------|---------|-----------|
-| **ID technique principal** | `FREE` | `PREMIUM` | `PRO` |
+| **ID technique interne** | `FREE` | `PREMIUM` | `PRO` |
 | **Prix** | 0 TND | 99 TND/mois | 129 TND/mois |
 | **Cycle** | gratuit | mensuel | mensuel |
 
-Les identifiants techniques (`FREE`, `PREMIUM`, `PRO`) sont utilisés dans le code et la base de données. Les noms affichés aux utilisateurs sont Freemium, Premium et Masterium.
+Les identifiants techniques (`FREE`, `PREMIUM`, `PRO`) restent internes au code et à la base de données. Les seuls noms affichés aux utilisateurs sont Freemium, Premium et Masterium.
 
 Des reliquats legacy comme `MAX` ont existé côté code, mais ils ne doivent plus être exposés ni utilisables dans le produit live.
 
@@ -49,7 +49,7 @@ Au lancement, le paiement est manuel :
 5. L'administrateur communique le code à l'élève.
 6. L'élève saisit le code sur la plateforme pour activer son plan.
 
-Un ancien flux ClicToPay reste pré-câblé dans le code (`src/app/api/v1/payments/clictopay/`), mais il est explicitement inactif au lancement.
+Aucun checkout carte n’est actif au lancement. Les anciens reliquats de paiement en ligne ne font pas partie du produit live et ne doivent pas être présentés comme une option disponible.
 
 ## Détails techniques
 

@@ -163,11 +163,11 @@ const BILLING_FAQ = [
   },
   {
     q: 'Comment fonctionne le paiement ?',
-    a: 'Les abonnements payants sont activés par virement bancaire ou via WhatsApp (+216 99 19 28 29). Tu reçois un code d’activation après confirmation du règlement.',
+    a: 'Les abonnements payants sont activés après règlement par virement bancaire ou en espèces. L’équipe Nexus t’envoie ensuite un code d’activation à saisir sur la plateforme.',
   },
   {
     q: 'Comment recevoir mon code d’activation ?',
-    a: 'Effectue un virement bancaire avec l’email de ton compte en référence, ou contacte-nous via WhatsApp au +216 99 19 28 29. Le code est envoyé après vérification du règlement.',
+    a: 'Effectue un virement bancaire avec l’email de ton compte en référence, ou contacte-nous sur WhatsApp pour signaler un règlement en espèces. Le code est envoyé après vérification du paiement.',
   },
 ];
 
@@ -189,9 +189,24 @@ const DECISION_GUIDES = [
 const PRICING_COPY = {
   activationIntro: 'Si un code d’activation t’a été envoyé, active ton plan directement ici.',
   alternativePaymentIntro:
-    'Pour l’instant, les abonnements payants s’activent par virement bancaire ou via WhatsApp.',
+    'Pour l’instant, les abonnements payants s’activent après un virement bancaire ou un règlement en espèces confirmé par notre équipe.',
   activePaymentModes:
-    'Les abonnements s’activent par virement bancaire ou via WhatsApp. Ajoute l’email du compte ou ton identifiant utilisateur en référence pour accélérer l’activation.',
+    'Ajoute l’email du compte ou l’identifiant utilisateur en référence. WhatsApp sert au suivi et à la confirmation, pas au paiement lui-même.',
+  statusPaymentModes: 'Facturation en TND. Virement bancaire et espèces validés par l’équipe.',
+  reassuranceFooter:
+    'Facturation en dinar tunisien. Premium = 99 TND/mois. Masterium = 129 TND/mois. Le code d’activation est envoyé après confirmation d’un virement bancaire ou d’un règlement en espèces.',
+  whatsappTitle: 'Être accompagné sur WhatsApp',
+  whatsappIntro:
+    'Tu préfères être accompagné directement ? Envoie-nous un message WhatsApp pour choisir ton plan, poser tes questions et transmettre la référence de paiement à vérifier.',
+  whatsappHelp:
+    'Disponible pour répondre à tes questions sur les plans, t’aider à choisir et confirmer la suite d’activation.',
+  whatsappSteps: [
+    'Choisis ton plan et contacte-nous si besoin',
+    'Règle par virement bancaire ou en espèces',
+    'Reçois ensuite ton code d’activation',
+  ],
+  paidPlanCtaHint:
+    'Les plans payants s’activent ensuite dans la section Activation et paiement ci-dessous.',
 } as const;
 
 function BillingFaqItem({ q, a }: { q: string; a: string }) {
@@ -372,7 +387,7 @@ export default function PricingPage() {
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2.5">
-              {['Aucun paiement avant essai', 'Virement bancaire actif', 'WhatsApp actif'].map((item) => (
+              {['Aucun paiement avant essai', 'Virement bancaire actif', 'Support WhatsApp actif'].map((item) => (
                 <span key={item} className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)]/75 px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)]">
                   {item}
                 </span>
@@ -454,7 +469,7 @@ export default function PricingPage() {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Devise et moyens de paiement</p>
-                  <p className="mt-1 text-sm font-semibold">Facturation en TND. Virement bancaire et WhatsApp actifs.</p>
+                  <p className="mt-1 text-sm font-semibold">{PRICING_COPY.statusPaymentModes}</p>
                 </div>
                 <div className="rounded-full bg-[var(--c-primary)] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--bg-page)]">
                   TND
@@ -539,9 +554,10 @@ export default function PricingPage() {
                         return;
                       }
                       track({ name: 'pricing_plan_select', props: { plan: plan.id } });
-                      // Go live: virement/espèces → WhatsApp
-                      const msg = encodeURIComponent(`Bonjour, je souhaite activer le plan ${plan.title} (${plan.priceTND} ${plan.period}). Merci de m'envoyer les instructions de paiement.`);
-                      window.open(`https://wa.me/21699192829?text=${msg}`, '_blank');
+                      document.getElementById('activation-et-paiement')?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                      });
                     }}
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
                       plan.highlighted
@@ -557,6 +573,11 @@ export default function PricingPage() {
                       plan.cta
                     )}
                   </button>
+                  {plan.checkoutPlan ? (
+                    <p className={`mt-3 text-xs leading-6 ${plan.highlighted ? 'text-slate-300' : 'text-[var(--text-muted)]'}`}>
+                      {PRICING_COPY.paidPlanCtaHint}
+                    </p>
+                  ) : null}
                 </article>
               );
             })}
@@ -584,7 +605,7 @@ export default function PricingPage() {
           </div>
         </section>
 
-        <section className="grid gap-5 pb-16 lg:grid-cols-2">
+        <section id="activation-et-paiement" className="grid gap-5 scroll-mt-24 pb-16 lg:grid-cols-2">
           <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex items-center gap-2">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-[var(--bg-page)]">
@@ -696,7 +717,7 @@ export default function PricingPage() {
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
                 <p className="text-sm leading-6 text-slate-200">
-                  Facturation en dinar tunisien. Premium = 99 TND/mois. Masterium = 129 TND/mois. Le code d’activation est envoyé après confirmation du virement bancaire ou via WhatsApp.
+                  {PRICING_COPY.reassuranceFooter}
                 </p>
               </div>
             </div>
@@ -712,13 +733,13 @@ export default function PricingPage() {
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--whatsapp)]">Canal actif</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
-                  Souscrire via WhatsApp
+                  {PRICING_COPY.whatsappTitle}
                 </h2>
               </div>
             </div>
 
             <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--text-body)]">
-              Tu préfères être accompagné directement ? Envoie-nous un message WhatsApp pour choisir ton plan, poser tes questions et recevoir ton code d’activation.
+              {PRICING_COPY.whatsappIntro}
             </p>
 
             <div className="mt-6 grid gap-5 md:grid-cols-2">
@@ -726,15 +747,18 @@ export default function PricingPage() {
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Numéro WhatsApp</p>
                 <p className="mt-2 text-2xl font-bold tracking-wide text-[var(--c-primary)]">{WHATSAPP_NUMBER}</p>
                 <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
-                  Disponible pour répondre à tes questions sur les plans, t’aider à choisir et finaliser ton abonnement.
+                  {PRICING_COPY.whatsappHelp}
                 </p>
               </div>
               <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Comment ça marche</p>
                 <ol className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-body)]">
-                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--whatsapp)] text-[10px] font-bold text-white">1</span>Envoie &quot;Bonjour&quot; sur WhatsApp</li>
-                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--whatsapp)] text-[10px] font-bold text-white">2</span>Choisis ton plan (Premium ou Masterium)</li>
-                  <li className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--whatsapp)] text-[10px] font-bold text-white">3</span>Reçois ton code d’activation</li>
+                  {PRICING_COPY.whatsappSteps.map((step, index) => (
+                    <li key={step} className="flex items-start gap-2">
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--whatsapp)] text-[10px] font-bold text-white">{index + 1}</span>
+                      {step}
+                    </li>
+                  ))}
                 </ol>
               </div>
             </div>

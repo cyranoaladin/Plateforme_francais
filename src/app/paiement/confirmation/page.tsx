@@ -7,6 +7,14 @@ const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
 };
 
+const PAYMENT_CONFIRMATION_COPY = {
+  title: 'Activation confirmée',
+  body:
+    'Ton règlement a bien été validé par l’équipe Nexus et ton plan est maintenant actif. Tu peux accéder immédiatement aux fonctionnalités débloquées par ton abonnement.',
+  dashboardCta: 'Accéder au tableau de bord',
+  homeCta: 'Retour accueil',
+} as const;
+
 export default function PaiementConfirmationPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
@@ -16,12 +24,11 @@ export default function PaiementConfirmationPage() {
         </div>
 
         <h1 style={EDITORIAL_HEADING} className="mt-6 text-3xl font-bold text-foreground">
-          Paiement confirmé
+          {PAYMENT_CONFIRMATION_COPY.title}
         </h1>
 
         <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-          Ton plan a été activé avec succès. Tu peux maintenant accéder
-          à toutes les fonctionnalités de ton abonnement.
+          {PAYMENT_CONFIRMATION_COPY.body}
         </p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
@@ -29,14 +36,14 @@ export default function PaiementConfirmationPage() {
             href="/dashboard"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-sapphire-700 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-sapphire-600"
           >
-            Accéder au tableau de bord
+            {PAYMENT_CONFIRMATION_COPY.dashboardCta}
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
             href="/"
             className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
           >
-            Retour accueil
+            {PAYMENT_CONFIRMATION_COPY.homeCta}
           </Link>
         </div>
       </div>
