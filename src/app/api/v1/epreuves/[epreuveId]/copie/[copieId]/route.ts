@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { getUserSafeOcrText } from '@/lib/correction/ocr';
 import { findCopieById, findEpreuveById } from '@/lib/epreuves/repository';
+
+const COPIE_STATUS_API_MESSAGES = {
+  unavailable: 'Ressource non disponible.',
+} as const;
 
 /**
  * GET /api/v1/epreuves/{epreuveId}/copie/{copieId}
@@ -21,7 +26,7 @@ export async function GET(
 
   // ✅ MESSAGE GÉNÉRIQUE - Évite fuite d'information
   if (!epreuve || !copie || copie.epreuveId !== epreuve.id || copie.userId !== auth.user.id) {
-    return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
+    return NextResponse.json({ error: COPIE_STATUS_API_MESSAGES.unavailable }, { status: 404 });
   }
 
   return NextResponse.json(
@@ -29,7 +34,7 @@ export async function GET(
       copieId: copie.id,
       status: copie.status,
       correction: copie.correction,
-      ocrText: copie.ocrText,
+      ocrText: getUserSafeOcrText(copie.ocrText),
       fileType: copie.fileType,
       createdAt: copie.createdAt,
       correctedAt: copie.correctedAt,

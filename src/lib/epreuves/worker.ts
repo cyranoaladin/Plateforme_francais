@@ -1,7 +1,7 @@
 import { corrigerCopie } from '@/lib/correction/correcteur';
 import { createEvaluation } from '@/lib/db/repositories/evaluationRepo';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
-import { extractTextFromCopie } from '@/lib/correction/ocr';
+import { extractTextFromCopie, isOcrFailureText } from '@/lib/correction/ocr';
 import {
   findCopieById,
   findEpreuveById,
@@ -42,6 +42,18 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
       absolutePath,
       mimeType: copie.fileType,
     });
+
+    if (isOcrFailureText(ocrText)) {
+      await updateCopieStatus({
+        copieId,
+        status: 'error',
+        ocrText: null,
+        errorMessage:
+          "Nous n'avons pas réussi à lire automatiquement cette copie. Envoie une image plus nette ou un PDF plus lisible, puis réessaie.",
+      });
+      success = true;
+      return;
+    }
 
     const correction = await corrigerCopie({
       texteOCR: ocrText,

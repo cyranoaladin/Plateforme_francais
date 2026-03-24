@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { extractTextFromCopie } from '@/lib/correction/ocr';
+import { extractTextFromCopie, getUserSafeOcrText, isOcrFailureText } from '@/lib/correction/ocr';
 
 describe('OCR correction', () => {
   it('retourne un message explicite sans clé Mistral', async () => {
@@ -22,5 +22,11 @@ describe('OCR correction', () => {
     expect(text).toContain('Texte OCR');
     fetchSpy.mockRestore();
     process.env.MISTRAL_API_KEY = old;
+  });
+
+  it('détecte et neutralise les messages OCR techniques', () => {
+    const raw = '[ocr pixtral: erreur serveur 500]';
+    expect(isOcrFailureText(raw)).toBe(true);
+    expect(getUserSafeOcrText(raw)).toBeNull();
   });
 });

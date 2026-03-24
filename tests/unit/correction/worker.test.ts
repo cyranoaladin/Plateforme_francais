@@ -15,6 +15,7 @@ vi.mock('@/lib/epreuves/repository', () => ({
 
 vi.mock('@/lib/correction/ocr', () => ({
   extractTextFromCopie: mockExtractTextFromCopie,
+  isOcrFailureText: vi.fn((text: string | null | undefined) => (text ?? '').startsWith('[ocr')),
 }));
 
 vi.mock('@/lib/correction/correcteur', () => ({
@@ -66,6 +67,22 @@ describe('processCorrection', () => {
         copieId: 'copie-1',
         status: 'error',
         errorMessage: 'hard failure',
+      }),
+    );
+  });
+
+  it('refuse de corriger une sentinelle OCR technique et retourne une erreur utilisateur claire', async () => {
+    mockExtractTextFromCopie.mockResolvedValue('[ocr pixtral: erreur serveur 500]');
+    const { processCorrection } = await import('@/lib/epreuves/worker');
+    await processCorrection('copie-1', 1);
+
+    expect(mockCorrigerCopie).not.toHaveBeenCalled();
+    expect(mockUpdateCopieStatus).toHaveBeenCalledWith(
+      expect.objectContaining({
+        copieId: 'copie-1',
+        status: 'error',
+        ocrText: null,
+        errorMessage: expect.stringContaining("Nous n'avons pas réussi à lire automatiquement cette copie"),
       }),
     );
   });

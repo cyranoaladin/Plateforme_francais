@@ -69,6 +69,28 @@ describe('GET /api/v1/epreuves/{epreuveId}/copie/{copieId}', () => {
     expect(body.correction).toEqual({ score: 14 });
   });
 
+  it('masque un texte OCR technique dans la réponse utilisateur', async () => {
+    const { findEpreuveById, findCopieById } = await import('@/lib/epreuves/repository');
+    vi.mocked(findEpreuveById).mockResolvedValue({ id: 'ep-1', userId: 'user-1' } as never);
+    vi.mocked(findCopieById).mockResolvedValue({
+      id: 'copie-ocr',
+      epreuveId: 'ep-1',
+      userId: 'user-1',
+      status: 'error',
+      correction: null,
+      ocrText: '[ocr pixtral: erreur serveur 500]',
+      createdAt: '2026-01-10',
+      correctedAt: '2026-01-10',
+    } as never);
+
+    const { GET } = await import('@/app/api/v1/epreuves/[epreuveId]/copie/[copieId]/route');
+    const req = new Request('http://localhost/api/v1/epreuves/ep-1/copie/copie-ocr');
+    const res = await GET(req, { params: Promise.resolve({ epreuveId: 'ep-1', copieId: 'copie-ocr' }) });
+    expect(res!.status).toBe(200);
+    const body = await res!.json();
+    expect(body.ocrText).toBeNull();
+  });
+
   it('retourne 404 si épreuve introuvable', async () => {
     const { findEpreuveById, findCopieById } = await import('@/lib/epreuves/repository');
     vi.mocked(findEpreuveById).mockResolvedValue(null as never);

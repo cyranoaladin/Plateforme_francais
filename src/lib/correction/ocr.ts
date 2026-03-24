@@ -6,6 +6,8 @@ type OcrInput = {
   bytes?: Uint8Array | Buffer;
 };
 
+const OCR_FAILURE_PREFIXES = ['[ocr pixtral:', '[ocr indisponible:'] as const;
+
 function toBase64(bytes: Uint8Array | Buffer): string {
   return Buffer.from(bytes).toString('base64');
 }
@@ -69,6 +71,21 @@ async function extractTextFromCopieViaPixtral(input: OcrInput, bytes: Buffer): P
   };
 
   return data.choices?.[0]?.message?.content?.trim() ?? '[ocr pixtral: reponse vide]';
+}
+
+export function isOcrFailureText(text: string | null | undefined): boolean {
+  const normalized = (text ?? '').trim().toLowerCase();
+  return OCR_FAILURE_PREFIXES.some((prefix) => normalized.startsWith(prefix));
+}
+
+export function getUserSafeOcrText(text: string | null | undefined): string | null {
+  if (!text) {
+    return null;
+  }
+  if (isOcrFailureText(text)) {
+    return null;
+  }
+  return text;
 }
 
 /**
