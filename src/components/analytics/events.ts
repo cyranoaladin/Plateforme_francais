@@ -16,7 +16,11 @@ export type EafEvent =
   | { name: 'pricing_plan_select'; props: { plan: string } }
   | { name: 'pricing_checkout_click'; props: { plan: string } }
   | { name: 'pricing_code_redeem_attempt'; props: { plan: string } }
-  | { name: 'pricing_code_redeem_success'; props: { plan: string } };
+  | { name: 'pricing_code_redeem_success'; props: { plan: string } }
+  | { name: 'checkout_view'; props: { plan: string } }
+  | { name: 'checkout_order_submit'; props: { plan: string; method: string } }
+  | { name: 'checkout_order_success'; props: { plan: string; method: string; reference: string } }
+  | { name: 'checkout_order_error'; props: { plan: string; method: string } };
 
 declare global {
   interface Window {

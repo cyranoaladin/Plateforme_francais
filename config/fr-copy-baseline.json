@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-25T19:59:03.058Z",
+  "generatedAt": "2026-03-25T20:13:53.011Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -471,6 +471,34 @@
       "text": "Utilisateur introuvable."
     },
     {
+      "file": "src/app/api/v1/admin/orders/confirm/route.ts",
+      "line": 164,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur lors de la confirmation de la commande."
+    },
+    {
+      "file": "src/app/api/v1/admin/orders/confirm/route.ts",
+      "line": 45,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Trop de requêtes."
+    },
+    {
+      "file": "src/app/api/v1/admin/orders/confirm/route.ts",
+      "line": 62,
+      "column": 41,
+      "kind": "api-message",
+      "text": "Commande introuvable."
+    },
+    {
+      "file": "src/app/api/v1/admin/orders/confirm/route.ts",
+      "line": 66,
+      "column": 41,
+      "kind": "api-message",
+      "text": "Cette commande est déjà confirmée."
+    },
+    {
       "file": "src/app/api/v1/admin/stats/route.ts",
       "line": 85,
       "column": 16,
@@ -514,17 +542,38 @@
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
-      "line": 45,
+      "line": 46,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de tentatives. Réessayez plus tard."
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
-      "line": 66,
+      "line": 67,
       "column": 39,
       "kind": "api-message",
       "text": "Un compte existe déjà pour cet email."
+    },
+    {
+      "file": "src/app/api/v1/auth/resend-verification/route.ts",
+      "line": 30,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Trop de tentatives. Réessayez plus tard."
+    },
+    {
+      "file": "src/app/api/v1/auth/resend-verification/route.ts",
+      "line": 42,
+      "column": 39,
+      "kind": "api-message",
+      "text": "Utilisateur introuvable."
+    },
+    {
+      "file": "src/app/api/v1/auth/resend-verification/route.ts",
+      "line": 46,
+      "column": 39,
+      "kind": "api-message",
+      "text": "Email déjà vérifié."
     },
     {
       "file": "src/app/api/v1/auth/reset-password/route.ts",
@@ -609,6 +658,27 @@
       "column": 39,
       "kind": "api-message",
       "text": "Fonctionnalité invalide."
+    },
+    {
+      "file": "src/app/api/v1/billing/order/route.ts",
+      "line": 120,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur interne. Réessaie dans quelques instants."
+    },
+    {
+      "file": "src/app/api/v1/billing/order/route.ts",
+      "line": 54,
+      "column": 18,
+      "kind": "api-message",
+      "text": "Trop de tentatives. Réessaie plus tard."
+    },
+    {
+      "file": "src/app/api/v1/billing/order/route.ts",
+      "line": 67,
+      "column": 18,
+      "kind": "api-message",
+      "text": "Le plan Freemium est gratuit, aucune commande nécessaire."
     },
     {
       "file": "src/app/api/v1/billing/redeem-code/route.ts",
@@ -5245,6 +5315,195 @@
       "text": "Tester Nexus maintenant →"
     },
     {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 147,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Commande enregistrée"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 154,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Référence"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 162,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Montant"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 170,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Plan"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 186,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Ton abonnement sera activé dès réception et vérification du paiement par notre équipe."
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 195,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Retour au tableau de bord"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 202,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Voir les plans"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 219,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Retour aux plans"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 226,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Finaliser ta commande"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 260,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Choisis ton moyen de paiement"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 282,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Virement bancaire"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 285,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Transfère le montant sur notre compte avec ta référence de commande."
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 293,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Commander par virement"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 312,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Flouci"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 315,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Envoie le montant via Flouci avec ta référence de commande."
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 323,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Commander via Flouci"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 337,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "ClicToPay"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 340,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Paiement par carte bancaire tunisienne."
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 344,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Bientôt disponible"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 350,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Facturation en dinar tunisien. Ton abonnement est activé après vérification du paiement par notre équipe."
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 86,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Plan non reconnu"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 89,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Ajoute"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 89,
+      "column": 26,
+      "kind": "jsx-text",
+      "text": "?plan=PREMIUM"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 89,
+      "column": 47,
+      "kind": "jsx-text",
+      "text": "ou"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 89,
+      "column": 56,
+      "kind": "jsx-text",
+      "text": "?plan=MASTERIUM"
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 89,
+      "column": 79,
+      "kind": "jsx-text",
+      "text": "pour accéder au paiement."
+    },
+    {
+      "file": "src/app/paiement/checkout/page.tsx",
+      "line": 97,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Voir les plans"
+    },
+    {
       "file": "src/app/parent/page.tsx",
       "line": 156,
       "column": 15,
@@ -7280,6 +7539,20 @@
       "column": 22,
       "kind": "jsx-prop",
       "text": "Ateliers disponibles"
+    },
+    {
+      "file": "src/components/ui/EmailVerificationBanner.tsx",
+      "line": 56,
+      "column": 9,
+      "kind": "jsx-text",
+      "text": "Confirme ton adresse email pour sécuriser ton compte."
+    },
+    {
+      "file": "src/components/ui/EmailVerificationBanner.tsx",
+      "line": 67,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Lien envoyé !"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
