@@ -282,7 +282,7 @@ git revert HEAD
 git push origin main
 bash scripts/deploy.sh root@88.99.254.59
 
-# OU: checkout commit spécifique
+# OU: revenir à un commit spécifique
 ssh root@88.99.254.59 "cd /opt/eaf_platform && git checkout <commit> && npm ci && npm run build && pm2 restart all"
 ```
 

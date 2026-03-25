@@ -640,7 +640,7 @@ Des tarifs pensés pour tous les budgets
 
 ### Sous-titre (centré) :
 ```
-Freemium illimité en temps. Premium et Masterium sans engagement, résiliation immédiate.
+Freemium gratuit sans limite de durée. Premium et Masterium s’activent manuellement après règlement validé.
 ```
 
 ### Plan 1: FREEMIUM (Carte gauche, bordure grise)
@@ -697,12 +697,12 @@ Par mois
 
 **Sous-prix**:
 ```
-Sans engagement • Résiliation immédiate
+Activation mensuelle par code • sans carte bancaire
 ```
 
 **Features** (liste plus longue, avec ✅ vert) :
 ```
-✓ 10 oraux/semaine (illimité pratiquement)
+✓ 10 oraux/semaine
 ✓ 20 corrections/mois
 ✓ 100 questions/jour au tuteur IA
 ✓ Bibliothèque complète (548 ressources)
@@ -743,7 +743,7 @@ Par mois
 
 **Sous-prix**:
 ```
-Sans engagement • Pour les mentions Très Bien
+Activation mensuelle par code • pour une préparation intensive
 ```
 
 **Features**:
@@ -775,7 +775,7 @@ Choisir Masterium →
 → Virement bancaire ou espèces en Tunisie. L'admin active ton compte sous 2h ouvrées.
 
 ❓ Le Freemium est-il vraiment gratuit ?
-→ Oui, sans limite de temps. Tu peux t'entraîner pendant des mois gratuitement, avec des quotas raisonnables.
+→ Oui, sans limite de durée. Tu peux conserver ton compte Freemium aussi longtemps que tu veux, avec les quotas prévus par le plan.
 ```
 
 ---
@@ -830,9 +830,9 @@ Complètement. ChatGPT a été entraîné sur Internet générique. Nexus Réuss
 Absolument. Nombreux de nos élèves sont en Tunisie (Lycée Pierre Mendès France, Carthage Présidence, etc.). Le programme EAF est identique. Paiement par virement ou espèces, activation sous 2h ouvrées.
 ```
 
-**Q8: Puis-je annuler mon abonnement ?**
+**Q8: Comment s’arrête un plan payant ?**
 ```
-Oui, à tout moment. Pas d'engagement, pas de pénalité. Tu restes Premium jusqu'à la fin de la période payée.
+Le go-live actuel fonctionne par activation manuelle. Tant que le renouvellement automatique n’est pas actif sur le site, il n’y a pas de prélèvement carte à annuler depuis l’interface.
 ```
 
 ### CTA final (sous la FAQ, centré) :

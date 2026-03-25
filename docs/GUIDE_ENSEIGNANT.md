@@ -1,4 +1,4 @@
-# Guide enseignant - EAF Premium
+# Guide enseignant - Nexus Réussite EAF
 
 Dernière mise à jour : 25 février 2026
 
