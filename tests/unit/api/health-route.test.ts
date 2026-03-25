@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach, beforeAll, afterAll } from 'vitest';
 
 vi.mock('@/lib/db/client', () => ({
   prisma: {
@@ -25,6 +25,25 @@ vi.mock('@/lib/tts/generator', () => ({
     provider: null,
   }),
 }));
+
+vi.mock('@/lib/queue/correction-queue', () => ({
+  getRedisClient: vi.fn().mockReturnValue({
+    ping: vi.fn().mockResolvedValue('PONG'),
+  }),
+}));
+
+vi.mock('@/lib/config/validate-env', () => ({
+  validateEnv: vi.fn().mockReturnValue({ required: 'ok', llm: 'ok', recommended: { missing: [] } }),
+}));
+
+// Mock global fetch for RAG health check
+const originalFetch = globalThis.fetch;
+beforeAll(() => {
+  globalThis.fetch = vi.fn().mockResolvedValue({ ok: true });
+});
+afterAll(() => {
+  globalThis.fetch = originalFetch;
+});
 
 import { GET } from '@/app/api/v1/health/route';
 import { getSttCapability } from '@/lib/stt/transcriber';
