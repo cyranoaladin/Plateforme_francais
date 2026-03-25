@@ -128,7 +128,16 @@ export async function pickOralExtrait(params: {
     t.typeExtrait === 'extrait_oeuvre' && matchesWork(params.oeuvre, t.oeuvre)
   );
 
-  // Always use EXTRAITS_OEUVRES as the primary source (more reliable and complete)
+  if (studentMatch?.premieresLignes?.trim()) {
+    const texte = studentMatch.premieresLignes.trim();
+    return {
+      texte,
+      questionGrammaire: `Analysez la construction d'une phrase significative tirée de « ${studentMatch.titre} ».`,
+      phraseGrammaire: buildPhraseCandidate(texte) || 'Phrase cible indisponible.',
+    };
+  }
+
+  // Fallback corpus interne si le descriptif élève ne contient pas encore d'extrait exploitable.
   const corpusMatch = EXTRAITS_OEUVRES.find((item) =>
     matchesWork(params.oeuvre, item.oeuvre)
   );
@@ -138,15 +147,6 @@ export async function pickOralExtrait(params: {
       texte: corpusMatch.extrait,
       questionGrammaire: corpusMatch.questionGrammaire,
       phraseGrammaire: buildPhraseCandidate(corpusMatch.extrait) || 'Phrase cible indisponible.',
-    };
-  }
-
-  if (studentMatch?.premieresLignes?.trim()) {
-    const texte = studentMatch.premieresLignes.trim();
-    return {
-      texte,
-      questionGrammaire: `Analysez la construction d'une phrase significative tirée de « ${studentMatch.titre} ».`,
-      phraseGrammaire: buildPhraseCandidate(texte) || 'Phrase cible indisponible.',
     };
   }
 

@@ -71,15 +71,45 @@ vi.mock('@/data/extraits-oeuvres', () => ({
 }));
 
 describe('Oral Service', () => {
-  it('pickOralExtrait retourne un extrait valide', async () => {
+  it('pickOralExtrait privilégie le descriptif élève quand il existe', async () => {
+    vi.doMock('@/lib/db/client', () => ({
+      prisma: {
+        studentProfile: {
+          findUnique: vi.fn().mockResolvedValue({
+            userId: 'user-test',
+            descriptifTextes: [
+              {
+                oeuvre: 'Le Mariage forcé',
+                titre: 'Scène 1',
+                typeExtrait: 'extrait_oeuvre',
+                premieresLignes: 'Sganarelle expose ses doutes avec une énergie déjà comique.',
+              },
+              { oeuvre: 'Le Mariage forcé', titre: 'Texte 2', typeExtrait: 'extrait_oeuvre', premieresLignes: '...' },
+              { oeuvre: 'Le Mariage forcé', titre: 'Texte 3', typeExtrait: 'extrait_oeuvre', premieresLignes: '...' },
+            ],
+          }),
+        },
+      },
+    }));
+    vi.doMock('@/data/extraits-oeuvres', () => ({
+      EXTRAITS_OEUVRES: [
+        {
+          oeuvre: 'Le Mariage forcé',
+          extrait: 'Extrait corpus sans priorité.',
+          questionGrammaire: 'Question corpus.',
+        },
+      ],
+    }));
+    vi.resetModules();
+
     const { pickOralExtrait } = await import('@/lib/oral/service');
     const result = await pickOralExtrait({
       oeuvre: 'Le Mariage forcé',
       userId: 'user-test',
       mode: 'SIMULATION',
     });
-    expect(result.texte).toBe('Extrait test.');
-    expect(result.questionGrammaire).toBe('Question test.');
+    expect(result.texte).toContain('Sganarelle expose ses doutes');
+    expect(result.questionGrammaire).toContain('Scène 1');
   });
 
   it('pickOralExtrait échoue proprement pour une œuvre inconnue', async () => {
