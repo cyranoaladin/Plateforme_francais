@@ -5,6 +5,8 @@ import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { redeemActivationCode, RedeemError } from '@/lib/billing/redeem';
 import { toPublicPlanId } from '@/lib/billing/plan-catalog';
+import { prisma } from '@/lib/db/client';
+import { sendSubscriptionConfirmationEmail } from '@/lib/email/service';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -70,6 +72,26 @@ export async function POST(request: Request) {
         },
       }),
     ).catch(() => undefined);
+
+    // Send subscription confirmation email (non-blocking)
+    prisma.user.findUnique({ where: { id: auth.user.id }, select: { email: true, profile: { select: { displayName: true } } } })
+      .then((user) => {
+        if (!user) return;
+        const firstName = (user.profile?.displayName ?? '').split(/\s+/)[0] || '';
+        return sendSubscriptionConfirmationEmail({
+          user: { firstName, email: user.email },
+          plan: result.plan,
+          transactionId: `CODE-${parsed.data.code.slice(0, 8).toUpperCase()}`,
+          startDate: new Date(),
+          nextBillingDate: result.endsAt,
+        });
+      })
+      .then((emailResult) => {
+        if (emailResult && !emailResult.success) {
+          logger.warn({ userId: auth.user.id, error: emailResult.error }, 'billing:redeem_code:subscription_email_failed');
+        }
+      })
+      .catch((err) => logger.error({ err, userId: auth.user.id }, 'billing:redeem_code:subscription_email_error'));
 
     return NextResponse.json(
       {

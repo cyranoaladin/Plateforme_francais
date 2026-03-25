@@ -7,6 +7,8 @@ import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
 import type { SubscriptionPlan } from '@prisma/client';
 import { formatPlanLabel, parseCommercialPlanId } from '@/lib/billing/plan-catalog';
+import { sendSubscriptionConfirmationEmail } from '@/lib/email/service';
+import { logger } from '@/lib/logger';
 
 const manualPaymentSchema = z.object({
   userId: z.string().uuid(),
@@ -77,14 +79,10 @@ export async function POST(request: Request) {
       },
     });
 
-    // Calculer les dates de période
+    // Calculer les dates de période (tous les plans payants sont mensuels)
     const now = new Date();
-    let periodEnd: Date | null = null;
-
-    if (internalPlan === 'PREMIUM' || internalPlan === 'PRO') {
-      periodEnd = new Date(now);
-      periodEnd.setMonth(periodEnd.getMonth() + 1);
-    }
+    const periodEnd = new Date(now);
+    periodEnd.setMonth(periodEnd.getMonth() + 1);
 
     // Mettre à jour ou créer la subscription
     if (user.subscription) {
@@ -110,11 +108,30 @@ export async function POST(request: Request) {
       });
     }
 
+    // Send subscription confirmation email (non-blocking)
+    prisma.studentProfile.findUnique({ where: { userId }, select: { displayName: true } })
+      .then((profile) => {
+        const firstName = (profile?.displayName ?? '').split(/\s+/)[0] || '';
+        return sendSubscriptionConfirmationEmail({
+          user: { firstName, email: user.email },
+          plan: internalPlan,
+          transactionId: `MANUAL-${reference}`,
+          startDate: now,
+          nextBillingDate: periodEnd,
+        });
+      })
+      .then((emailResult) => {
+        if (emailResult && !emailResult.success) {
+          logger.warn({ userId, error: emailResult.error }, 'admin:manual_payment:subscription_email_failed');
+        }
+      })
+      .catch((err) => logger.error({ err, userId }, 'admin:manual_payment:subscription_email_error'));
+
     return NextResponse.json(
       {
         success: true,
         payment,
-        message: `Paiement validé et abonnement ${formatPlanLabel(internalPlan)} activé pour l'utilisateur.`,
+        message: `Paiement validé et abonnement ${formatPlanLabel(internalPlan)} activé pour l\u2019utilisateur.`,
       },
       { status: 200 }
     );
