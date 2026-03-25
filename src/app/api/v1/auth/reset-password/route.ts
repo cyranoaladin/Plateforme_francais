@@ -2,6 +2,7 @@ import { createHash } from 'crypto';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db/client';
 import { createPasswordCredentials } from '@/lib/auth/session';
+import { sendPasswordChangedEmail } from '@/lib/email/service';
 import { logger } from '@/lib/logger';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -60,6 +61,24 @@ export async function POST(request: Request) {
   ]);
 
   logger.info({ userId: resetToken.userId }, 'auth.reset_password.success');
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
+  const fmt = (d: Date) =>
+    d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+  const user = await prisma.user.findUnique({
+    where: { id: resetToken.userId },
+    include: { profile: { select: { displayName: true } } },
+  });
+
+  if (user?.email) {
+    void sendPasswordChangedEmail({
+      firstName: (user.profile?.displayName ?? '').split(/\s+/)[0] ?? '',
+      email: user.email,
+      changedAt: fmt(new Date()),
+      loginUrl: `${appUrl}/login`,
+    }).catch((err) => logger.error({ err, userId: resetToken.userId }, 'reset-password.changed_email_failed'));
+  }
 
   return NextResponse.json({ ok: true, message: 'Mot de passe réinitialisé. Vous pouvez vous connecter.' });
 }

@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from 'crypto';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db/client';
-import { sendTransactionalEmail } from '@/lib/email/client';
+import { sendPasswordResetEmail } from '@/lib/email/service';
 import { logger } from '@/lib/logger';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -26,7 +26,10 @@ export async function POST(request: Request) {
 
   const email = parsed.data.email.trim().toLowerCase();
 
-  const user = await prisma.user.findUnique({ where: { email } });
+  const user = await prisma.user.findUnique({
+    where: { email },
+    include: { profile: { select: { displayName: true } } },
+  });
 
   if (user) {
     await prisma.passwordResetToken.updateMany({
@@ -45,22 +48,14 @@ export async function POST(request: Request) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
     const resetLink = `${appUrl}/login?mode=reset&token=${rawToken}`;
 
-    void sendTransactionalEmail({
-      to: email,
-      subject: 'Réinitialisation de votre mot de passe Nexus EAF',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto;">
-          <h2 style="color: #17324D;">Nexus EAF — Réinitialisation</h2>
-          <p>Bonjour,</p>
-          <p>Vous avez demandé la réinitialisation de votre mot de passe. Cliquez sur le bouton ci-dessous :</p>
-          <p style="text-align: center; margin: 24px 0;">
-            <a href="${resetLink}" style="background: #0F766E; color: white; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: bold;">
-              Réinitialiser mon mot de passe
-            </a>
-          </p>
-          <p style="color: #888; font-size: 13px;">Ce lien expire dans 1 heure. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.</p>
-        </div>
-      `,
+    const fmt = (d: Date) =>
+      d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+    void sendPasswordResetEmail({
+      firstName: (user.profile?.displayName ?? '').split(/\s+/)[0] ?? '',
+      email,
+      resetUrl: resetLink,
+      expiresAt: fmt(expiresAt),
     }).catch((err) => logger.error({ err, email }, 'forgot-password.email_send_failed'));
 
     logger.info({ userId: user.id }, 'auth.forgot_password.token_created');

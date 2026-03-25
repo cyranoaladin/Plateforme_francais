@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-25T20:13:53.011Z",
+  "generatedAt": "2026-03-25T20:28:02.752Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -471,6 +471,13 @@
       "text": "Utilisateur introuvable."
     },
     {
+      "file": "src/app/api/v1/admin/metrics/route.ts",
+      "line": 146,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur lors de la récupération des métriques."
+    },
+    {
       "file": "src/app/api/v1/admin/orders/confirm/route.ts",
       "line": 164,
       "column": 16,
@@ -521,7 +528,7 @@
     },
     {
       "file": "src/app/api/v1/auth/forgot-password/route.ts",
-      "line": 69,
+      "line": 64,
       "column": 49,
       "kind": "api-message",
       "text": "Si un compte existe pour cet email, un lien de réinitialisation a été envoyé."
@@ -577,35 +584,35 @@
     },
     {
       "file": "src/app/api/v1/auth/reset-password/route.ts",
-      "line": 19,
+      "line": 20,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de tentatives. Réessayez plus tard."
     },
     {
       "file": "src/app/api/v1/auth/reset-password/route.ts",
-      "line": 34,
+      "line": 35,
       "column": 39,
       "kind": "api-message",
       "text": "Lien de réinitialisation invalide."
     },
     {
       "file": "src/app/api/v1/auth/reset-password/route.ts",
-      "line": 37,
+      "line": 38,
       "column": 39,
       "kind": "api-message",
       "text": "Ce lien a déjà été utilisé."
     },
     {
       "file": "src/app/api/v1/auth/reset-password/route.ts",
-      "line": 40,
+      "line": 41,
       "column": 39,
       "kind": "api-message",
       "text": "Ce lien a expiré. Veuillez refaire une demande."
     },
     {
       "file": "src/app/api/v1/auth/reset-password/route.ts",
-      "line": 64,
+      "line": 83,
       "column": 49,
       "kind": "api-message",
       "text": "Mot de passe réinitialisé. Vous pouvez vous connecter."

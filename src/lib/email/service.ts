@@ -3,6 +3,9 @@ import WelcomeEmail from '../../../emails/WelcomeEmail';
 import ParentNotificationEmail from '../../../emails/ParentNotificationEmail';
 import TeacherNotificationEmail from '../../../emails/TeacherNotificationEmail';
 import SubscriptionEmail from '../../../emails/SubscriptionEmail';
+import EmailVerificationEmail from '../../../emails/EmailVerificationEmail';
+import PasswordResetEmail from '../../../emails/PasswordResetEmail';
+import PasswordChangedEmail from '../../../emails/PasswordChangedEmail';
 import React from 'react';
 import { formatPlanLabel } from '@/lib/billing/plan-catalog';
 import { getPublicOfferFromAnyPlan } from '@/lib/billing/public-offers';
@@ -131,6 +134,63 @@ export async function sendSubscriptionConfirmationEmail(data: {
         echanges: offer.summaries.tutor,
         analyses: offer.summaries.ocr,
       },
+    }),
+  });
+}
+
+// ── Email #5 : Vérification d'adresse email ─────────────────────
+export async function sendEmailVerificationEmail(params: {
+  firstName: string;
+  email: string;
+  verifyUrl: string;
+  expiresAt: string;
+}) {
+  return sendEmail({
+    to: params.email,
+    subject: 'Confirme ton adresse email — Nexus Réussite',
+    react: React.createElement(EmailVerificationEmail, {
+      firstName: params.firstName,
+      email: params.email,
+      verifyUrl: params.verifyUrl,
+      expiresAt: params.expiresAt,
+    }),
+  });
+}
+
+// ── Email #6 : Réinitialisation de mot de passe ─────────────────
+export async function sendPasswordResetEmail(params: {
+  firstName: string;
+  email: string;
+  resetUrl: string;
+  expiresAt: string;
+}) {
+  return sendEmail({
+    to: params.email,
+    subject: 'Réinitialisation de ton mot de passe — Nexus Réussite',
+    react: React.createElement(PasswordResetEmail, {
+      firstName: params.firstName,
+      email: params.email,
+      resetUrl: params.resetUrl,
+      expiresAt: params.expiresAt,
+    }),
+  });
+}
+
+// ── Email #7 : Confirmation de changement de mot de passe ───────
+export async function sendPasswordChangedEmail(params: {
+  firstName: string;
+  email: string;
+  changedAt: string;
+  loginUrl: string;
+}) {
+  return sendEmail({
+    to: params.email,
+    subject: 'Ton mot de passe a été modifié — Nexus Réussite',
+    react: React.createElement(PasswordChangedEmail, {
+      firstName: params.firstName,
+      email: params.email,
+      changedAt: params.changedAt,
+      loginUrl: params.loginUrl,
     }),
   });
 }
