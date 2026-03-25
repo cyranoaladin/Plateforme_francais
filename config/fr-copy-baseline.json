@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-25T07:43:50.801Z",
+  "generatedAt": "2026-03-25T09:40:24.267Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -416,7 +416,7 @@
     },
     {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
-      "line": 107,
+      "line": 108,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la création du code."
@@ -444,28 +444,28 @@
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 123,
+      "line": 140,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la validation du paiement."
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 33,
+      "line": 35,
       "column": 39,
       "kind": "api-message",
       "text": "Trop de requêtes."
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 45,
+      "line": 47,
       "column": 39,
       "kind": "api-message",
       "text": "Plan de paiement manuel invalide."
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 56,
+      "line": 58,
       "column": 41,
       "kind": "api-message",
       "text": "Utilisateur introuvable."
@@ -577,17 +577,17 @@
     },
     {
       "file": "src/app/api/v1/billing/redeem-code/route.ts",
-      "line": 48,
-      "column": 18,
-      "kind": "api-message",
-      "text": "Trop de tentatives. Réessaie plus tard."
-    },
-    {
-      "file": "src/app/api/v1/billing/redeem-code/route.ts",
-      "line": 96,
+      "line": 118,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur interne. Réessaie dans quelques instants."
+    },
+    {
+      "file": "src/app/api/v1/billing/redeem-code/route.ts",
+      "line": 50,
+      "column": 18,
+      "kind": "api-message",
+      "text": "Trop de tentatives. Réessaie plus tard."
     },
     {
       "file": "src/app/api/v1/billing/status/route.ts",
@@ -650,7 +650,7 @@
       "line": 87,
       "column": 16,
       "kind": "api-message",
-      "text": "Impossible d'envoyer le message. Réessaie plus tard."
+      "text": "Impossible d’envoyer le message. Réessaie plus tard."
     },
     {
       "file": "src/app/api/v1/cron/revision-reminders/route.ts",
@@ -804,7 +804,7 @@
       "line": 33,
       "column": 16,
       "kind": "api-message",
-      "text": "Trop de générations d'épreuves. Réessaie dans quelques minutes."
+      "text": "Trop de générations d’épreuves. Réessaie dans quelques minutes."
     },
     {
       "file": "src/app/api/v1/epreuves/generate/route.ts",
@@ -1007,7 +1007,7 @@
       "line": 50,
       "column": 39,
       "kind": "api-message",
-      "text": "Erreur lors de l'enregistrement."
+      "text": "Erreur lors de l’enregistrement."
     },
     {
       "file": "src/app/api/v1/quiz/generate/route.ts",
@@ -1021,7 +1021,7 @@
       "line": 180,
       "column": 16,
       "kind": "api-message",
-      "text": "Le générateur de quiz n'a pas pu produire de questions. Réessayez."
+      "text": "Le générateur de quiz n’a pas pu produire de questions. Réessayez."
     },
     {
       "file": "src/app/api/v1/quiz/generate/route.ts",
