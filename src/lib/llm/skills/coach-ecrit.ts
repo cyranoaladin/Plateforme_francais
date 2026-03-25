@@ -58,7 +58,7 @@ FORMAT DE SORTIE (JSON strict) :
   fallback: {
     sujet: "Expliquez comment le texte met en scène la tension entre l'individu et la société.",
     texte:
-      "Dans la ville encore assoupie, Paul avançait d'un pas régulier, comme s'il voulait persuader les pavés qu'il avait choisi sa route.",
+      "Dans la ville encore assoupie, Paul avançait d’un pas régulier, comme s’il voulait persuader les pavés qu’il avait choisi sa route.",
     consignes:
       "Appuyez votre analyse sur le texte proposé et sur vos connaissances littéraires. Structurez votre argumentation en introduction, développement et conclusion.",
     bareme: {

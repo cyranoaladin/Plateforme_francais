@@ -40,7 +40,7 @@ const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
 };
 
-const PROCESSING_STEPS = ['Lecture attentive de ta copie...', 'Analyse des points de méthode et de contenu...', 'Rédaction de ton bilan personnalisé...'];
+const PROCESSING_STEPS = ['Lecture attentive de ta copie…', 'Analyse des points de méthode et de contenu…', 'Rédaction de ton bilan personnalisé…'];
 
 const STUDIO_STEPS = [
   {

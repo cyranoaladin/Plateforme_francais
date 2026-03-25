@@ -66,7 +66,7 @@ export default function HomePage() {
         </div>
 
         <InlineCTA
-          headline="Ceux qui s'y sont mis ont progressé. C'est ton tour."
+          headline="Ceux qui s’y sont mis ont progressé. C’est ton tour."
           cta="Commencer gratuitement →"
           href={ROUTES.register}
           className="bg-gray-50"
@@ -76,7 +76,7 @@ export default function HomePage() {
         <TestimonialsSection />
 
         <InlineCTA
-          headline="Toujours en train de comparer ? L'essai est gratuit."
+          headline="Toujours en train de comparer ? L’essai est gratuit."
           cta="Tester Nexus maintenant →"
           href={ROUTES.register}
           className="bg-white"

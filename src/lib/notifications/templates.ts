@@ -59,7 +59,7 @@ export function buildReviewReminder(
   return {
     channel: 'push',
     recipientId,
-    subject: `${dueCount} révision${plural} à faire aujourd'hui`,
+    subject: `${dueCount} révision${plural} à faire aujourd’hui`,
     body: `Tu as ${dueCount} carte${plural} de révision en attente. Quelques minutes suffisent pour consolider tes acquis !`,
     actionUrl: `${appUrl}/revisions`,
     metadata: { template: 'review_reminder', dueCount: String(dueCount) },
@@ -82,7 +82,7 @@ export function buildInactivityAlert(
     body: [
       `Bonjour ${displayName},`,
       '',
-      `Cela fait ${inactiveDays} jours que tu n'as pas utilisé la plateforme.`,
+      `Cela fait ${inactiveDays} jours que tu n’as pas utilisé la plateforme.`,
       'L\u2019EAF approche \u2014 chaque jour de révision compte !',
       '',
       'Reprends là où tu en étais :',

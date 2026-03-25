@@ -93,7 +93,7 @@ export function startScheduler() {
         await sendPushNotification(
           user.id,
           '📚 Rappel Nexus',
-          `Tu as ${due.length} révisions en attente aujourd'hui.`,
+          `Tu as ${due.length} révisions en attente aujourd’hui.`,
           '/cahier-erreurs',
         );
       } catch (error) {
@@ -111,7 +111,7 @@ export function startScheduler() {
         await sendPushNotification(
           user.id,
           '🔥 Streak Nexus',
-          "Ta série est en danger. Lance une session aujourd'hui.",
+          "Ta série est en danger. Lance une session aujourd’hui.",
           '/',
         );
       } catch (error) {
