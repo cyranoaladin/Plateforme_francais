@@ -409,7 +409,6 @@ jobs:
           CLICTOPAY_USERNAME: ${{ secrets.PROD_CLICTOPAY_USERNAME }}
           CLICTOPAY_PASSWORD: ${{ secrets.PROD_CLICTOPAY_PASSWORD }}
           BILLING_CODE_PEPPER: ${{ secrets.PROD_BILLING_CODE_PEPPER }}
-          RESEND_API_KEY: ${{ secrets.PROD_RESEND_API_KEY }}
           STORAGE_PROVIDER: "s3"
           NEXT_PUBLIC_APP_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}
           NEXT_PUBLIC_API_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}/api
