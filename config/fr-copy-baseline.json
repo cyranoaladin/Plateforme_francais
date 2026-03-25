@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-24T23:23:19.925Z",
+  "generatedAt": "2026-03-25T07:43:50.801Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -1329,7 +1329,7 @@
       "line": 334,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Ce plan indicatif montre une structure possible — il ne constitue pas l\\'unique réponse valide."
+      "text": "Ce plan indicatif montre une structure possible — il ne constitue pas l'unique réponse valide."
     },
     {
       "file": "src/app/atelier-ecrit/correction/[copieId]/page.tsx",
@@ -1406,14 +1406,14 @@
       "line": 276,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Un studio d\\'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF."
+      "text": "Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
       "line": 279,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser entre dix écrans. L\\'interface suit un seul objectif : te faire passer d\\'une intention floue à un rapport exploitable."
+      "text": "Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser entre dix écrans. L'interface suit un seul objectif : te faire passer d'une intention floue à un rapport exploitable."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1441,14 +1441,14 @@
       "line": 344,
       "column": 19,
       "kind": "jsx-text",
-      "text": "Génère un sujet d\\'épreuve blanche."
+      "text": "Génère un sujet d'épreuve blanche."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
       "line": 347,
       "column": 19,
       "kind": "jsx-text",
-      "text": "Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l\\'œuvre ou au thème que tu veux réactiver."
+      "text": "Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l'œuvre ou au thème que tu veux réactiver."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1546,7 +1546,7 @@
       "line": 435,
       "column": 19,
       "kind": "jsx-text",
-      "text": "Une photo nette ou un PDF propre suffit. Le studio suit l\\'upload, puis bascule vers l\\'analyse sans changer de contexte."
+      "text": "Une photo nette ou un PDF propre suffit. Le studio suit l'upload, puis bascule vers l'analyse sans changer de contexte."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1616,7 +1616,7 @@
       "line": 523,
       "column": 25,
       "kind": "jsx-text",
-      "text": "PDF prêt à l\\'envoi"
+      "text": "PDF prêt à l'envoi"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -1686,7 +1686,7 @@
       "line": 605,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Le bon usage de l\\'atelier écrit n\\'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante."
+      "text": "Le bon usage de l'atelier écrit n'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
@@ -5823,7 +5823,7 @@
       "line": 796,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Le plan Freemium donne un aperçu de la méthode de travail. Premium débloque le rythme nécessaire pour progresser réellement avant l\\'épreuve."
+      "text": "Le plan Freemium donne un aperçu de la méthode de travail. Premium débloque le rythme nécessaire pour progresser réellement avant l'épreuve."
     },
     {
       "file": "src/app/pricing/page.tsx",

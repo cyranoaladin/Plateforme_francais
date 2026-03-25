@@ -177,7 +177,7 @@ IMPORTANT: Chaque question doit avoir exactement 4 options, 1 seule bonne répon
 
   if (questions.length === 0) {
     return NextResponse.json(
-      { error: 'Le générateur de quiz n\'a pas pu produire de questions. Réessayez.' },
+      { error: 'Le générateur de quiz n\u2019a pas pu produire de questions. Réessayez.' },
       { status: 503 },
     );
   }

@@ -34,7 +34,7 @@ FORMAT DE SORTIE (JSON strict) :
   "exercises": [
     {
       "sentence": "J'ai vu la mer qui se retirait silencieusement.",
-      "question": "Analysez la proposition subordonnee dans cette phrase.",
+      "question": "Analysez la proposition subordonnée dans cette phrase.",
       "correction": "« qui se retirait silencieusement » est une proposition subordonnée relative. Introduite par « qui », elle a pour antécédent « mer ».",
       "axe": "subordonnees"
     }
@@ -46,7 +46,7 @@ Adaptez l'axe au thème demandé. Générez des exercices variés et progressifs
   fallback: {
     exercises: [
       {
-        sentence: 'Je veux que vous sachiez combien cette œuvre m\'a touché.',
+        sentence: 'Je veux que vous sachiez combien cette œuvre m\u2019a touché.',
         question: 'Analysez le mode verbal de la subordonnée et justifiez son emploi.',
         correction: '« sachiez » est au subjonctif présent, imposé par le verbe de volonté « vouloir » dans la principale. Le subjonctif exprime ici le souhait du locuteur.',
         axe: 'systeme_verbal',

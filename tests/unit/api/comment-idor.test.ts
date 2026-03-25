@@ -15,6 +15,7 @@ vi.mock('@/lib/db/client', () => ({
 
 vi.mock('@/lib/auth/guard', () => ({
   requireUserRole: vi.fn(),
+  requireExactUserRole: vi.fn(),
 }));
 
 vi.mock('@/lib/security/csrf', () => ({
@@ -70,8 +71,9 @@ describe('POST /api/v1/enseignant/corrections/{copieId}/comment — IDOR protect
   beforeEach(async () => {
     vi.clearAllMocks();
     vi.resetModules();
-    const { requireUserRole } = await import('@/lib/auth/guard');
+    const { requireUserRole, requireExactUserRole } = await import('@/lib/auth/guard');
     vi.mocked(requireUserRole).mockResolvedValue(makeTeacherAuth('CLS-A'));
+    vi.mocked(requireExactUserRole).mockResolvedValue(makeTeacherAuth('CLS-A'));
     mockPrisma.copieDeposee.update.mockResolvedValue({ id: 'copie-1' });
   });
 
@@ -153,8 +155,9 @@ describe('POST /api/v1/enseignant/corrections/{copieId}/comment — IDOR protect
   });
 
   it('bloque (403) si enseignant sans classCode configuré', async () => {
-    const { requireUserRole } = await import('@/lib/auth/guard');
+    const { requireUserRole, requireExactUserRole } = await import('@/lib/auth/guard');
     vi.mocked(requireUserRole).mockResolvedValue(makeTeacherAuth(''));
+    vi.mocked(requireExactUserRole).mockResolvedValue(makeTeacherAuth(''));
 
     const { isDatabaseAvailable } = await import('@/lib/db/client');
     vi.mocked(isDatabaseAvailable).mockResolvedValue(true);

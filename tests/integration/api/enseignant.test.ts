@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/lib/auth/guard', () => ({
   requireUserRole: vi.fn().mockResolvedValue({ auth: null, errorResponse: new Response(JSON.stringify({ error: 'Accès refusé.' }), { status: 403 }) }),
+  requireExactUserRole: vi.fn().mockResolvedValue({ auth: null, errorResponse: new Response(JSON.stringify({ error: 'Accès refusé.' }), { status: 403 }) }),
 }));
 
 describe('integration enseignant API', () => {

@@ -40,7 +40,7 @@ FORMAT DE SORTIE (JSON strict) :
 { "reponse": "texte 100-250 mots", "categorie": "facturation|quota|bug|fonctionnalite|autre", "escalade": boolean, "liens_utiles": ["/pricing", "/contact"] }`,
   outputSchema: schema,
   fallback: {
-    reponse: 'Je ne peux pas traiter cette demande automatiquement. Un membre de l\'équipe va vous répondre.',
+    reponse: 'Je ne peux pas traiter cette demande automatiquement. Un membre de l\u2019équipe va vous répondre.',
     categorie: 'autre',
     escalade: true,
   },

@@ -58,7 +58,7 @@ FORMAT DE SORTIE (JSON strict) :
 { "questions": [{ "question": "texte ancré dans l'œuvre", "type": "oeuvre|parcours|culture_generale|comparaison|esprit_critique", "difficulte": 1-3 }], "consigne_examinateur": "Phrase de cadrage pour l'élève" }`,
   outputSchema: schema as z.ZodType<ExaminateurVirtuelOutput>,
   fallback: {
-    questions: [{ question: 'Que pouvez-vous nous dire sur l\'oeuvre étudiée ?', type: 'oeuvre', difficulte: 1 }],
-    consigne_examinateur: 'L\'examinateur attend une réponse construite et argumentée.',
+    questions: [{ question: 'Que pouvez-vous nous dire sur l\u2019œuvre étudiée ?', type: 'oeuvre', difficulte: 1 }],
+    consigne_examinateur: 'L\u2019examinateur attend une réponse construite et argumentée.',
   },
 };

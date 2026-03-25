@@ -183,7 +183,7 @@ function renderRapportEcrit(data: Record<string, unknown>): string {
       html += '<h3>Points forts</h3><ul>' + bilan.points_forts.map((p) => `<li>${escapeHtml(p)}</li>`).join('') + '</ul>';
     }
     if (bilan.axes_amelioration?.length) {
-      html += '<h3>Axes d\'amélioration</h3><ul>' + bilan.axes_amelioration.map((a) => `<li>${escapeHtml(a)}</li>`).join('') + '</ul>';
+      html += '<h3>Axes d\u2019amélioration</h3><ul>' + bilan.axes_amelioration.map((a) => `<li>${escapeHtml(a)}</li>`).join('') + '</ul>';
     }
     html += '</div>';
   }
@@ -381,7 +381,7 @@ export async function generateOnboardingReport(
     template: PDFTemplate.RAPPORT_ONBOARDING,
     data: {
       ...diagnosticData,
-      title: 'Rapport d\'Onboarding — Profil Initial',
+      title: 'Rapport d\u2019Onboarding \u2014 Profil Initial',
       studentName: studentName ?? 'Élève',
       date: new Date().toLocaleDateString('fr-FR'),
     },

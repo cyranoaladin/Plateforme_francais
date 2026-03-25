@@ -104,7 +104,7 @@ export async function redeemActivationCode(
     }
 
     if (code.status !== 'CREATED' && code.status !== 'DELIVERED') {
-      throw new RedeemError('CODE_INVALID', 'Ce code n\'est pas activable.', 400);
+      throw new RedeemError('CODE_INVALID', 'Ce code n\u2019est pas activable.', 400);
     }
 
     if (code.expiresAt && code.expiresAt < new Date()) {

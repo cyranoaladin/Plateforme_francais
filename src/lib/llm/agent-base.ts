@@ -14,6 +14,11 @@ import { logger } from '@/lib/logger';
 
 const URL_PATTERN = /https?:\/\/[^\s)}\]"']+/gi;
 
+/** Normalize curly apostrophes to straight for consistent matching. */
+function normalizeApostrophes(text: string): string {
+  return text.replace(/[\u2018\u2019\u2032]/g, "'");
+}
+
 const FORBIDDEN_PHRASES = [
   'consulte ce lien',
   'consulte cette page',
@@ -34,8 +39,8 @@ const FORBIDDEN_PHRASES = [
   'kartable.fr',
   'annabac.com',
   'je suis une ia',
-  'en tant qu\'ia',
-  'en tant qu\'intelligence artificielle',
+  'en tant qu\u2019ia',
+  'en tant qu\u2019intelligence artificielle',
   'comme une ia',
   'ma base de données',
 ];
@@ -56,10 +61,10 @@ export function validateAgentOutput(output: string): ValidationResult {
     return { valid: true };
   }
 
-  const lower = output.toLowerCase();
+  const lower = normalizeApostrophes(output.toLowerCase());
   const urls = output.match(URL_PATTERN) ?? [];
   const foundForbidden = FORBIDDEN_PHRASES.filter((phrase) =>
-    lower.includes(phrase.toLowerCase()),
+    lower.includes(normalizeApostrophes(phrase.toLowerCase())),
   );
 
   if (urls.length > 0 || foundForbidden.length > 0) {
@@ -86,8 +91,9 @@ export function sanitizeAgentOutput(output: string): string {
   let sanitized = output.replace(URL_PATTERN, '[référence interne]');
 
   for (const phrase of FORBIDDEN_PHRASES) {
-    const regex = new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-    sanitized = sanitized.replace(regex, 'dans les documents de ta base');
+    const escaped = normalizeApostrophes(phrase).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(escaped, 'gi');
+    sanitized = normalizeApostrophes(sanitized).replace(regex, 'dans les documents de ta base');
   }
 
   return sanitized;

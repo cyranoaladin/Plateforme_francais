@@ -45,7 +45,7 @@ FORMAT DE SORTIE (JSON strict) :
   fallback: {
     niveau: 'Non évalué',
     points_forts: [],
-    lacunes: ['Impossible d\'évaluer sans échantillon.'],
+    lacunes: ['Impossible d\u2019évaluer sans échantillon.'],
     recommandations: ['Soumettez un extrait de votre travail pour un diagnostic.'],
     priorites: ['Structuration', 'Argumentation', 'Langue'],
   },

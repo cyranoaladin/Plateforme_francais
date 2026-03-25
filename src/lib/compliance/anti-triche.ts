@@ -35,22 +35,22 @@ export type AntiTricheResult = z.infer<typeof antiTricheResultSchema>;
 
 const GUIDANCE_BY_CATEGORY = {
   redaction_complete: {
-    refusal: 'Je ne peux pas rédiger un texte complet à ta place — ce serait de la triche et ça ne t\'aiderait pas à progresser.',
-    guidance: 'En revanche, je peux t\'aider à : (1) construire un plan détaillé, (2) formuler une problématique, (3) rédiger une phrase d\'amorce, (4) analyser un procédé stylistique, (5) te donner un feedback sur un paragraphe que tu as écrit.',
+    refusal: 'Je ne peux pas rédiger un texte complet à ta place — ce serait de la triche et ça ne t\u2019aiderait pas à progresser.',
+    guidance: 'En revanche, je peux t\u2019aider à : (1) construire un plan détaillé, (2) formuler une problématique, (3) rédiger une phrase d\u2019amorce, (4) analyser un procédé stylistique, (5) te donner un feedback sur un paragraphe que tu as écrit.',
   },
   copie_complete: {
-    refusal: 'Fournir une copie complète ou un corrigé intégral n\'est pas autorisé — l\'objectif est que tu construises toi-même ta réponse.',
-    guidance: 'Je peux te proposer : (1) une méthodologie pas-à-pas, (2) des exemples de transitions, (3) une analyse de tes points forts et axes d\'amélioration, (4) des citations pertinentes à exploiter.',
+    refusal: 'Fournir une copie complète ou un corrigé intégral n\u2019est pas autorisé — l\u2019objectif est que tu construises toi-même ta réponse.',
+    guidance: 'Je peux te proposer : (1) une méthodologie pas-à-pas, (2) des exemples de transitions, (3) une analyse de tes points forts et axes d\u2019amélioration, (4) des citations pertinentes à exploiter.',
   },
   substitution: {
-    refusal: 'Je ne peux pas faire ton travail à ta place — mon rôle est de t\'accompagner, pas de te remplacer.',
-    guidance: 'Commence par écrire une première version, même imparfaite. Je t\'aiderai ensuite à l\'améliorer avec des conseils ciblés, des corrections de langue et des pistes d\'approfondissement.',
+    refusal: 'Je ne peux pas faire ton travail à ta place — mon rôle est de t\u2019accompagner, pas de te remplacer.',
+    guidance: 'Commence par écrire une première version, même imparfaite. Je t\u2019aiderai ensuite à l\u2019améliorer avec des conseils ciblés, des corrections de langue et des pistes d\u2019approfondissement.',
   },
 };
 
 const DEFAULT_GUIDANCE = {
-  refusal: 'Cette demande n\'est pas compatible avec l\'accompagnement pédagogique de la plateforme.',
-  guidance: 'Reformule ta question pour demander de l\'aide méthodologique, un feedback sur ton travail, ou des pistes d\'amélioration.',
+  refusal: 'Cette demande n\u2019est pas compatible avec l\u2019accompagnement pédagogique de la plateforme.',
+  guidance: 'Reformule ta question pour demander de l\u2019aide méthodologique, un feedback sur ton travail, ou des pistes d\u2019amélioration.',
 };
 
 export function classifyAntiTriche(userQuery: string | undefined | null): AntiTricheResult {
@@ -97,6 +97,6 @@ export function buildRefusalOutput(result: AntiTricheResult): Record<string, unk
     category: result.category,
     message: result.refusalMessage,
     guidance: result.guidanceMessage,
-    tip: 'Reformule ta demande pour obtenir de l\'aide méthodologique.',
+    tip: 'Reformule ta demande pour obtenir de l\u2019aide méthodologique.',
   };
 }

@@ -143,6 +143,6 @@ FORMAT DE SORTIE (JSON strict) :
     score: 0,
     max: 8,
     points_forts: [],
-    axes: ['Approfondir la connaissance des oeuvres du parcours.'],
+    axes: ['Approfondir la connaissance des œuvres du parcours.'],
   },
 };

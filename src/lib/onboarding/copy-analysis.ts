@@ -226,7 +226,7 @@ export async function processOnboardingCopy(
         copyType: 'UNKNOWN',
         niveau: 'Non évalué',
         points_forts: [],
-        lacunes: ['La copie n\'a pas pu être lue. Essayez avec un scan de meilleure qualité.'],
+        lacunes: ['La copie n\u2019a pas pu être lue. Essayez avec un scan de meilleure qualité.'],
         recommandations: [],
         priorites: [],
         rawAnalysis: null,

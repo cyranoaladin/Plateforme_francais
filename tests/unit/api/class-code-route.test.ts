@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 vi.mock('@/lib/auth/guard', () => ({
   requireUserRole: vi.fn(),
+  requireExactUserRole: vi.fn(),
 }));
 
 vi.mock('@/lib/security/csrf', () => ({
@@ -45,8 +46,9 @@ describe('POST /api/v1/enseignant/class-code', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
     vi.resetModules();
-    const { requireUserRole } = await import('@/lib/auth/guard');
+    const { requireUserRole, requireExactUserRole } = await import('@/lib/auth/guard');
     vi.mocked(requireUserRole).mockResolvedValue(makeEnseignantAuth());
+    vi.mocked(requireExactUserRole).mockResolvedValue(makeEnseignantAuth());
   });
 
   it('génère un code de 6 caractères alphanumériques', async () => {
@@ -78,11 +80,11 @@ describe('POST /api/v1/enseignant/class-code', () => {
   });
 
   it('retourne 403 si rôle ≠ enseignant', async () => {
-    const { requireUserRole } = await import('@/lib/auth/guard');
-    vi.mocked(requireUserRole).mockResolvedValue({
+    const { requireExactUserRole } = await import('@/lib/auth/guard');
+    vi.mocked(requireExactUserRole).mockResolvedValue({
       auth: null,
       errorResponse: new Response(JSON.stringify({ error: 'Accès refusé.' }), { status: 403 }),
-    } as ReturnType<typeof requireUserRole> extends Promise<infer T> ? T : never);
+    } as ReturnType<typeof requireExactUserRole> extends Promise<infer T> ? T : never);
 
     const { POST } = await import('@/app/api/v1/enseignant/class-code/route');
     const req = new Request('http://localhost/api/v1/enseignant/class-code', {

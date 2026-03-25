@@ -145,7 +145,7 @@ export async function verifyParentalConsent({
     }, 'Parental consent updated');
 
     const messages: Record<string, string> = {
-      granted: '✅ Consentement parent accordé avec succès. L\'inscription de votre enfant est confirmée.',
+      granted: '✅ Consentement parent accordé avec succès. L\u2019inscription de votre enfant est confirmée.',
       refused: '❌ Consentement parent refusé. Le compte de votre enfant sera désactivé.',
       withdrawn: '🚫 Consentement parent retiré. Le compte sera supprimé sous 30 jours.',
     };

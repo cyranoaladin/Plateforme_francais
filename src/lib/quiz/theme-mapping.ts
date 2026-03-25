@@ -58,7 +58,7 @@ Chaque question doit porter sur: caractéristiques, dates repères, auteurs repr
   },
 
   poesie: {
-    label: 'Poésie (objet d\'étude)',
+    label: 'Poésie (objet d\u2019étude)',
     ragQuery: 'poésie programme EAF Rimbaud Cahiers de Douai Ponge Rage expression Dorion Mes forêts versification',
     ragParcoursFilter: 'poésie',
     llmPromptSuffix: `Thème: POÉSIE — Objet d'étude EAF "La poésie du XIXe au XXIe siècle".
@@ -70,7 +70,7 @@ Questions sur: versification, thèmes, procédés poétiques, contexte, parcours
   },
 
   roman: {
-    label: 'Roman (objet d\'étude)',
+    label: 'Roman (objet d\u2019étude)',
     ragQuery: 'roman programme EAF Prévost Manon Lescaut Balzac Peau de chagrin Colette Sido personnage narrateur',
     ragParcoursFilter: 'roman',
     llmPromptSuffix: `Thème: ROMAN — Objet d'étude EAF "Le roman et le récit du Moyen Âge au XXIe siècle".
@@ -82,7 +82,7 @@ Questions sur: narratologie, personnages, thèmes, extraits clés, parcours asso
   },
 
   theatre: {
-    label: 'Théâtre (objet d\'étude)',
+    label: 'Théâtre (objet d\u2019étude)',
     ragQuery: 'théâtre programme EAF Corneille Menteur Musset badine Sarraute double énonciation didascalies',
     ragParcoursFilter: 'théâtre',
     llmPromptSuffix: `Thème: THÉÂTRE — Objet d'étude EAF "Le théâtre du XVIIe au XXIe siècle".
@@ -94,15 +94,15 @@ Questions sur: double énonciation, didascalies, registres dramatiques, scènes 
   },
 
   litterature_idees: {
-    label: 'Littérature d\'idées (objet d\'étude)',
+    label: 'Littérature d\u2019idées (objet d\u2019étude)',
     ragQuery: 'littérature idées programme EAF La Boétie Servitude volontaire Fontenelle Pluralité mondes Graffigny argumentation',
-    ragParcoursFilter: 'littérature d\'idées',
+    ragParcoursFilter: 'littérature d\u2019idées',
     llmPromptSuffix: `Thème: LITTÉRATURE D'IDÉES — Objet d'étude EAF "La littérature d'idées du XVIe au XVIIIe siècle".
 Œuvres au programme 2025-2026: La Boétie (Discours de la servitude volontaire), Fontenelle (Entretiens sur la pluralité des mondes), Graffigny (Lettres d'une Péruvienne).
 Parcours associés: "Langue et autorité", "Imagination et pensée au XVIIIe", "Regard éloigné, regard critique".
 Questions sur: stratégies argumentatives, thèses, registres, contexte des Lumières, parcours associé.`,
     mediaCategories: ['CULTURE_OEUVRE', 'BO_PROGRAMME'],
-    weakSkillKey: 'Littérature d\'idées',
+    weakSkillKey: 'Littérature d\u2019idées',
   },
 
   methode_commentaire: {

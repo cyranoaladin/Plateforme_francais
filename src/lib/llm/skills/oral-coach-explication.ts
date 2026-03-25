@@ -49,6 +49,6 @@ FORMAT DE SORTIE (JSON strict) :
     score: 0,
     max: 8,
     points_forts: [],
-    axes: ['Structurer l\'explication en mouvements du texte.'],
+    axes: ['Structurer l\u2019explication en mouvements du texte.'],
   },
 };

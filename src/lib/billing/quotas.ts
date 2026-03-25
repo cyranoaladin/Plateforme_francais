@@ -62,7 +62,11 @@ export function buildPaywallMessage(planId: PlanId, entitlement: EntitlementKey)
     return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Ton travail reste conservé. Passe à Premium pour reprendre sans blocage.`;
   }
 
-  if (planId === 'PRO' || planId === 'PREMIUM') {
+  if (planId === 'PRO') {
+    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Ton quota se réinitialise à la prochaine période.`;
+  }
+
+  if (planId === 'PREMIUM') {
     return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Passe à Masterium pour continuer sans plafond.`;
   }
 

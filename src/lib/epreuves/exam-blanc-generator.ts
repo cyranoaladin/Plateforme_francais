@@ -48,7 +48,7 @@ export async function generateExamBlanc(config: ExamBlancConfig): Promise<ExamBl
     });
   } catch (err) {
     logger.error({ err, config }, 'exam_blanc.generation_failed');
-    throw new Error('La génération du sujet d\'examen blanc est temporairement indisponible. Réessayez dans quelques instants.');
+    throw new Error('La génération du sujet d\u2019examen blanc est temporairement indisponible. Réessayez dans quelques instants.');
   }
 
   const output = result as {
@@ -60,7 +60,7 @@ export async function generateExamBlanc(config: ExamBlancConfig): Promise<ExamBl
 
   if (!output.sujet || !output.texte) {
     logger.error({ output, config }, 'exam_blanc.incomplete_output');
-    throw new Error('Le générateur n\'a pas produit un sujet complet. Réessayez.');
+    throw new Error('Le générateur n\u2019a pas produit un sujet complet. Réessayez.');
   }
 
   return {

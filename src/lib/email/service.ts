@@ -120,7 +120,7 @@ export async function sendSubscriptionConfirmationEmail(data: {
       firstName: data.user.firstName,
       email: data.user.email,
       planName: offer.title ?? formatPlanLabel(data.plan),
-      planPrice: offer.period ? `${offer.priceTnd}${offer.period}` : offer.priceTnd,
+      planPrice: offer.period ? `${offer.priceTnd} ${offer.period}` : offer.priceTnd,
       startDate: fmt(data.startDate),
       nextBillingDate: fmt(data.nextBillingDate),
       transactionId: data.transactionId,

@@ -8,6 +8,7 @@ vi.mock('@/lib/queue/correction-queue', () => ({
 
 vi.mock('@/lib/auth/guard', () => ({
   requireUserRole: vi.fn(),
+  requireExactUserRole: vi.fn(),
 }));
 
 vi.mock('@/lib/db/client', () => ({
@@ -76,8 +77,9 @@ describe('GET /api/v1/enseignant/export', () => {
     redisMock.incr.mockResolvedValue(1);
     redisMock.expire.mockResolvedValue(1);
     redisMock.ttl.mockResolvedValue(55);
-    const { requireUserRole } = await import('@/lib/auth/guard');
+    const { requireUserRole, requireExactUserRole } = await import('@/lib/auth/guard');
     vi.mocked(requireUserRole).mockResolvedValue(makeEnseignantAuth());
+    vi.mocked(requireExactUserRole).mockResolvedValue(makeEnseignantAuth());
   });
 
   it('retourne un CSV avec Content-Type text/csv', async () => {
@@ -104,8 +106,9 @@ describe('GET /api/v1/enseignant/export', () => {
   });
 
   it('retourne un CSV vide si classCode est absent', async () => {
-    const { requireUserRole } = await import('@/lib/auth/guard');
+    const { requireUserRole, requireExactUserRole } = await import('@/lib/auth/guard');
     vi.mocked(requireUserRole).mockResolvedValue(makeEnseignantAuth('NO_CODE'));
+    vi.mocked(requireExactUserRole).mockResolvedValue(makeEnseignantAuth('NO_CODE'));
 
     const { GET } = await import('@/app/api/v1/enseignant/export/route');
     const req = new Request('http://localhost/api/v1/enseignant/export');
@@ -116,12 +119,12 @@ describe('GET /api/v1/enseignant/export', () => {
     expect(lines).toHaveLength(1);
   });
 
-  it('retourne 403 si rôle élève (via requireUserRole)', async () => {
-    const { requireUserRole } = await import('@/lib/auth/guard');
-    vi.mocked(requireUserRole).mockResolvedValue({
+  it('retourne 403 si rôle élève (via requireExactUserRole)', async () => {
+    const { requireExactUserRole } = await import('@/lib/auth/guard');
+    vi.mocked(requireExactUserRole).mockResolvedValue({
       auth: null,
       errorResponse: new Response(JSON.stringify({ error: 'Accès refusé.' }), { status: 403 }),
-    } as ReturnType<typeof requireUserRole> extends Promise<infer T> ? T : never);
+    } as ReturnType<typeof requireExactUserRole> extends Promise<infer T> ? T : never);
 
     const { GET } = await import('@/app/api/v1/enseignant/export/route');
     const req = new Request('http://localhost/api/v1/enseignant/export');

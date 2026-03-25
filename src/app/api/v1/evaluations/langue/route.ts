@@ -76,7 +76,7 @@ RÉPONSE DE L'ÉLÈVE : ${answer}
       score: 0,
       max: 2,
       status: 'error',
-      message: 'Impossible d\'évaluer votre réponse pour le moment. Réessayez.',
+      message: 'Impossible d\u2019évaluer votre réponse pour le moment. Réessayez.',
       missing: [],
     };
   }

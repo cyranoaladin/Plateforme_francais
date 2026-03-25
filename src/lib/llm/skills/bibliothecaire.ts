@@ -37,8 +37,8 @@ FORMAT DE SORTIE (JSON strict) :
 { answer, citations: [{ title, source_interne, excerpt }], nextSteps: ["étape1", ...] }`,
   outputSchema: schema,
   fallback: {
-    answer: 'Je n\'ai pas assez de sources fiables pour répondre précisément.',
+    answer: 'Je n\u2019ai pas assez de sources fiables pour répondre précisément.',
     citations: [],
-    nextSteps: ['Reformulez la question avec une oeuvre ou une notion précise.'],
+    nextSteps: ['Reformulez la question avec une œuvre ou une notion précise.'],
   },
 };

@@ -103,7 +103,7 @@ export async function POST(request: Request) {
       if (err instanceof BillingQuotaExceededError) {
         return NextResponse.json(
           {
-            error: `Tu as atteint la limite incluse pour le tuteur (${err.limit} messages par jour, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). La conversation n\'est pas perdue. Passe au plan supérieur pour continuer maintenant.`,
+            error: `Tu as atteint la limite incluse pour le tuteur (${err.limit} messages par jour, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). La conversation n'est pas perdue. Passe au plan supérieur pour continuer maintenant.`,
             code: 'QUOTA_EXCEEDED',
             upgradeUrl: '/pricing',
             plan: toPublicPlanId(billing.planId),
@@ -227,7 +227,7 @@ export async function POST(request: Request) {
     } catch (error) {
       if (error instanceof QuotaExceededError) {
         return NextResponse.json(
-          { error: `Limite atteinte pour ce type d\'accompagnement (${error.scope}). Réessayez plus tard.` },
+          { error: `Limite atteinte pour ce type d'accompagnement (${error.scope}). Réessayez plus tard.` },
           { status: 429 },
         );
       }
@@ -298,7 +298,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof QuotaExceededError) {
       return NextResponse.json(
-        { error: `Limite atteinte pour ce type d\'accompagnement (${error.scope}). Réessayez plus tard.` },
+        { error: `Limite atteinte pour ce type d'accompagnement (${error.scope}). Réessayez plus tard.` },
         { status: 429 },
       );
     }
@@ -327,14 +327,14 @@ export async function POST(request: Request) {
     {
       answer: normalizeTutorAnswerFallback(sanitizeTutorAnswer(generated.answer, refs, citations), citations.length) || (() => {
         const lowerMsg = userMessage.toLowerCase();
-        const antitricheKw = ['rédige', 'écris-moi', 'fais-moi', 'copie complète', 'corrigé complet', 'dissertation complète', 'commentaire complet', 'intégral', 'en entier', 'à ma place'];
+        const antitricheKw = ["rédige", "écris-moi", "fais-moi", "copie complète", "corrigé complet", "dissertation complète", "commentaire complet", "intégral", "en entier", "à ma place"];
         if (antitricheKw.some(kw => lowerMsg.includes(kw))) {
-          return 'Je ne peux pas rédiger ce texte à ta place — c\'est à toi de le faire pour progresser. Voici comment je peux t\'aider : formule d\'abord une problématique sur le sujet, puis construisons ensemble un plan en 3 parties avec une amorce pour chacune.';
+          return "Je ne peux pas rédiger ce texte à ta place — c'est à toi de le faire pour progresser. Voici comment je peux t'aider : formule d'abord une problématique sur le sujet, puis construisons ensemble un plan en 3 parties avec une amorce pour chacune.";
         }
         if (citations.length > 0) {
-          return 'J’ai trouvé des sources utiles, mais la réponse générée n’était pas assez fiable. Reformule ta question en citant l’œuvre, le passage ou le thème précis à analyser.';
+          return "J'ai trouvé des sources utiles, mais la réponse générée n'était pas assez fiable. Reformule ta question en citant l'œuvre, le passage ou le thème précis à analyser.";
         }
-        return 'Je n\'ai pas assez de sources pour répondre précisément. Reformule ta question en précisant l\'œuvre ou le thème.';
+        return "Je n'ai pas assez de sources pour répondre précisément. Reformule ta question en précisant l'œuvre ou le thème.";
       })(),
       citations,
       suggestions:

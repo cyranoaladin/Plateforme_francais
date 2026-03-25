@@ -29,6 +29,7 @@ vi.mock('@/lib/db/client', () => ({
 
 vi.mock('@/lib/auth/guard', () => ({
   requireUserRole: mockRequireUserRole,
+  requireExactUserRole: mockRequireUserRole,
 }));
 
 vi.mock('@/lib/security/rate-limit', () => ({

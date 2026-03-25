@@ -687,7 +687,7 @@ export default function AdminDashboard() {
                     disabled={processingPayment || !selectedUserId || !paymentReference}
                     className="w-full"
                   >
-                    {processingPayment ? 'Validation en cours...' : 'Valider le paiement et activer l\'abonnement'}
+                    {processingPayment ? 'Validation en cours...' : 'Valider le paiement et activer l\u2019abonnement'}
                   </Button>
                 </div>
               </Card>

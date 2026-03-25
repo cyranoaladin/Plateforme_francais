@@ -47,6 +47,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     logger.error({ error }, 'quiz.evaluate.error');
-    return NextResponse.json({ error: 'Erreur lors de l\'enregistrement.' }, { status: 500 });
+    return NextResponse.json({ error: 'Erreur lors de l\u2019enregistrement.' }, { status: 500 });
   }
 }

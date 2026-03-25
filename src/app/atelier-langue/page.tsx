@@ -62,7 +62,7 @@ const THEME_OPTIONS: ThemeOption[] = [
     value: 'relations_logiques',
     label: 'Relations logiques',
     eyebrow: 'Axe 2',
-    description: 'Cause, conséquence, opposition, concession, but et condition dans des phrases courtes d\'oral EAF.',
+    description: "Cause, conséquence, opposition, concession, but et condition dans des phrases courtes d'oral EAF.",
   },
   {
     value: 'systeme_verbal',
@@ -175,7 +175,7 @@ export default function AtelierLangue() {
       });
 
       if (!response.ok) {
-        throw new Error('Erreur lors de l\'évaluation.');
+        throw new Error("Erreur lors de l'évaluation.");
       }
 
       const result = (await response.json()) as LangueFeedback;
@@ -192,7 +192,7 @@ export default function AtelierLangue() {
         max: 2,
         status: 'error',
         message:
-          'Impossible d\'évaluer ta réponse pour le moment. Réessaie dans quelques secondes.',
+          "Impossible d'évaluer ta réponse pour le moment. Réessaie dans quelques secondes.",
         missing: [],
       });
     } finally {

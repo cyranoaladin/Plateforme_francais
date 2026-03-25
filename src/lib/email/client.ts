@@ -67,9 +67,16 @@ export async function sendEmail(
   const transporter = getTransporter();
 
   if (!transporter) {
+    if (process.env.NODE_ENV === 'production') {
+      logger.error(
+        { to: opts.to, subject: opts.subject },
+        'email.smtp_not_configured — PRODUCTION: email NOT sent (SMTP_HOST/SMTP_USER/SMTP_PASS missing)',
+      );
+      return { success: false, error: 'SMTP non configuré en production.' };
+    }
     logger.warn(
       { to: opts.to, subject: opts.subject },
-      'email.smtp_not_configured — email logged but not sent',
+      'email.smtp_not_configured — email logged but not sent (dev mode)',
     );
     return { success: true, id: 'email-mock-no-smtp' };
   }

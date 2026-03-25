@@ -79,12 +79,12 @@ export async function POST(request: Request) {
       emailSent: smtpConfigured,
       message: smtpConfigured
         ? 'Message envoyé. Nous te répondrons dans les meilleurs délais.'
-        : 'Message enregistré. Le système d\'email n\'est pas encore configuré en production — ton message a été loggé et sera traité manuellement.',
+        : 'Message enregistré. Le système d’email n’est pas encore configuré en production — ton message a été loggé et sera traité manuellement.',
     });
   } catch (error) {
     logger.error({ error }, 'contact.form.error');
     return NextResponse.json(
-      { error: 'Impossible d\'envoyer le message. Réessaie plus tard.' },
+      { error: 'Impossible d’envoyer le message. Réessaie plus tard.' },
       { status: 500 },
     );
   }

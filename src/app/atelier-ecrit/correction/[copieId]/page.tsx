@@ -331,7 +331,7 @@ export default function CorrectionCopiePage() {
                 {sanitizeLlmText(correction.corrige_type)}
               </div>
               <p className="mt-3 text-xs italic text-[var(--text-muted)]">
-                Ce plan indicatif montre une structure possible — il ne constitue pas l\'unique réponse valide.
+                Ce plan indicatif montre une structure possible — il ne constitue pas l'unique réponse valide.
               </p>
             </section>
           )}

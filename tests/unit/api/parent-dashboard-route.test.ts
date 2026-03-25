@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/lib/auth/guard', () => ({
   requireUserRole: vi.fn(),
+  requireExactUserRole: vi.fn(),
 }));
 
 vi.mock('@/lib/db/client', () => ({
@@ -16,14 +17,14 @@ vi.mock('@/lib/db/repositories/memoryRepo', () => ({
   listMemoryEventsByUser: vi.fn(),
 }));
 
-import { requireUserRole } from '@/lib/auth/guard';
+import { requireUserRole, requireExactUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
 
 describe('parent dashboard route', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(requireUserRole).mockResolvedValue({
+    const parentAuth = {
       auth: {
         user: {
           email: 'parent@test.dev',
@@ -31,7 +32,9 @@ describe('parent dashboard route', () => {
         },
       },
       errorResponse: null,
-    } as never);
+    } as never;
+    vi.mocked(requireUserRole).mockResolvedValue(parentAuth);
+    vi.mocked(requireExactUserRole).mockResolvedValue(parentAuth);
   });
 
   it('returns an explicit unlinked state when no student matches parent email', async () => {

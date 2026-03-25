@@ -37,6 +37,10 @@ vi.mock('@/lib/auth/guard', () => ({
     auth: { user: { id: 'teacher-1', role: 'enseignant', profile: { classCode: 'MATH2026' } } },
     errorResponse: null,
   }),
+  requireExactUserRole: vi.fn().mockResolvedValue({
+    auth: { user: { id: 'teacher-1', role: 'enseignant', profile: { classCode: 'MATH2026' } } },
+    errorResponse: null,
+  }),
 }));
 
 vi.mock('@/lib/security/rate-limit', () => ({

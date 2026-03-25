@@ -120,7 +120,7 @@ export default function QuizPage() {
 
       if (!response.ok) {
         const body = (await response.json().catch(() => ({}))) as { error?: string; upgradeUrl?: string };
-        setError(body.error ?? 'La génération du quiz n\'a pas abouti. Réessaie dans un instant.');
+        setError(body.error ?? 'La génération du quiz n\u2019a pas abouti. Réessaie dans un instant.');
         if (body.upgradeUrl) setUpgradeUrl(body.upgradeUrl);
         return;
       }

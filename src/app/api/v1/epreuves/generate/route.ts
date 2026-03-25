@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   const limit = await checkRateLimit({ request, key: 'epreuves:generate', limit: 10, windowMs: 3_600_000 });
   if (!limit.allowed) {
     return NextResponse.json(
-      { error: 'Trop de générations d\'épreuves. Réessaie dans quelques minutes.' },
+      { error: 'Trop de générations d\u2019épreuves. Réessaie dans quelques minutes.' },
       { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } }
     );
   }

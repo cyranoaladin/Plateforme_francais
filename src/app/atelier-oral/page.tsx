@@ -98,7 +98,7 @@ const STEP_GUIDANCE: Record<OralStep, { title: string; body: string }> = {
   },
   ENTRETIEN: {
     title: 'Entretien examinateur',
-    body: 'Réponds nettement, repars de l\'œuvre choisie et garde une logique de dialogue plutôt qu\'une mini dissertation flottante.',
+    body: "Réponds nettement, repars de l'œuvre choisie et garde une logique de dialogue plutôt qu'une mini dissertation flottante.",
   },
 };
 
@@ -115,20 +115,20 @@ const PASSAGE_DURATION_S = 20 * 60;
 const PREP_CHECKLIST = [
   { id: 'contexte', label: "Identifier le contexte de l’extrait (auteur, œuvre, mouvement)" },
   { id: 'mouvement', label: "Repérer les mouvements du texte et l’articulation des parties" },
-  { id: 'problematique', label: 'Formuler une problématique d\'analyse' },
+  { id: 'problematique', label: "Formuler une problématique d'analyse" },
   { id: 'procedes', label: 'Relever les procédés clés + citations à commenter' },
   { id: 'grammaire', label: 'Anticiper la question de grammaire (nature, fonction, analyse)' },
 ];
 
 const OEUVRES_PROGRAMME_2025_2026 = [
   'Cahier de Douai — Arthur Rimbaud',
-  'La rage de l\'expression — Francis Ponge',
+  "La rage de l'expression — Francis Ponge",
   'Mes forêts — Hélène Dorion',
   'Discours de la servitude volontaire — Étienne de La Boétie',
   'Entretiens sur la pluralité des mondes — Fontenelle',
-  'Lettres d\'une Péruvienne — Françoise de Graffigny',
+  "Lettres d'une Péruvienne — Françoise de Graffigny",
   'Le Menteur — Pierre Corneille',
-  'On ne badine pas avec l\'amour — Alfred de Musset',
+  "On ne badine pas avec l'amour — Alfred de Musset",
   'Pour un oui ou pour un non — Nathalie Sarraute',
   'Manon Lescaut — Abbé Prévost',
   'La Peau de chagrin — Honoré de Balzac',
@@ -992,7 +992,7 @@ export default function AtelierOralPage() {
                 </Button>
                 <div className="flex flex-col gap-1">
                   <p className="text-[10px] font-medium uppercase tracking-widest text-[var(--text-placeholder)]">{useServerVoice ? 'Mode vocal serveur' : 'Mode vocal navigateur'}</p>
-                  <p className="text-xs text-[var(--text-muted)]">{useServerVoice ? 'Ton audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : 'La reconnaissance vocale est assurée par ton navigateur. Aucun audio n\'est envoyé à nos serveurs.'}</p>
+                  <p className="text-xs text-[var(--text-muted)]">{useServerVoice ? 'Ton audio est envoyé pour transcription (service IA) puis immédiatement supprimé. Seul le texte transcrit est conservé.' : "La reconnaissance vocale est assurée par ton navigateur. Aucun audio n'est envoyé à nos serveurs."}</p>
                 </div>
               </div>
             </div>

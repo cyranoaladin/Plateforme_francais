@@ -6,7 +6,7 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
 import crypto from 'crypto';
-import { hashCode } from '@/lib/billing/redeem';
+import { hashCode, normalizeCode } from '@/lib/billing/redeem';
 import { parseCommercialPlanId } from '@/lib/billing/plan-catalog';
 
 const generateCodeSchema = z.object({
@@ -80,8 +80,9 @@ export async function POST(request: Request) {
   }
 
   // Générer un code unique lisible (format: EAF-XXXX-XXXX-XXXX)
-  const code = `EAF${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
-  const codeHash = hashCode(code);
+  const hex = crypto.randomBytes(6).toString('hex').toUpperCase();
+  const code = `EAF-${hex.slice(0, 4)}-${hex.slice(4, 8)}-${hex.slice(8, 12)}`;
+  const codeHash = hashCode(normalizeCode(code));
 
   try {
     const activationCode = await prisma.activationCode.create({

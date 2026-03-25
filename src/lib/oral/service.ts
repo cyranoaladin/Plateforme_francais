@@ -230,7 +230,7 @@ export async function generateOralBilan(phaseInputs: PhaseScoreInput[], phaseDet
     conseil_final = 'Reprenez les fiches méthode pour chaque phase et entraînez-vous avec des extraits variés.';
   } else {
     bilan_global = 'Prestation insuffisante — effort notable mais les fondamentaux doivent être repris.';
-    conseil_final = 'Commencez par maîtriser la lecture expressive et la structure de l\'explication linéaire.';
+    conseil_final = 'Commencez par maîtriser la lecture expressive et la structure de l\u2019explication linéaire.';
   }
 
   return {

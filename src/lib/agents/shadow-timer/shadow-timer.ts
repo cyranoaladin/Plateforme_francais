@@ -71,7 +71,7 @@ export function evaluateNudgeRules(
     return {
       type: 'time_allocation',
       emoji: '⏰',
-      message: 'Tu passes beaucoup de temps sur l\'intro. Passe au développement.',
+      message: 'Tu passes beaucoup de temps sur l\u2019intro. Passe au développement.',
       priority: 'medium',
     };
   }
@@ -91,7 +91,7 @@ export function evaluateNudgeRules(
     return {
       type: 'procedes_missing',
       emoji: '🔍',
-      message: 'Prépare 2-3 citations clés avec leurs procédés — essentiel pour l\'explication.',
+      message: 'Prépare 2-3 citations clés avec leurs procédés \u2014 essentiel pour l\u2019explication.',
       priority: 'high',
     };
   }

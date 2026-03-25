@@ -60,7 +60,7 @@ const WORKSHOPS: Workshop[] = [
     badge: null,
     highlights: [
       'Questions sur toutes les œuvres du programme officiel',
-      'Niveau adaptatif — plus tu réussis, plus c\'est exigeant',
+      'Niveau adaptatif \u2014 plus tu réussis, plus c\u2019est exigeant',
       'Suivi des erreurs pour cibler tes révisions',
     ],
     cta: 'Tester mes connaissances →',
