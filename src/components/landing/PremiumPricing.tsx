@@ -87,19 +87,17 @@ export function PremiumPricing() {
                   : ''
               }`}
             >
-              <Card
-                variant={tier.highlighted ? 'elevated' : 'default'}
-                padding="lg"
-                className={`relative flex h-full flex-col border transition-all duration-300 ${
+              <div
+                className={`relative flex h-full flex-col rounded-2xl border backdrop-blur-sm transition-all duration-300 p-8 ${
                   tier.highlighted
-                    ? 'border-indigo-600/50 bg-gradient-to-br from-indigo-50 to-indigo-100/20 shadow-xl'
-                    : 'border-slate-200/60 bg-gradient-to-br from-white to-slate-50/40'
+                    ? 'border-indigo-300/60 bg-gradient-to-br from-indigo-100/80 to-blue-50/60 shadow-2xl ring-2 ring-indigo-500/20'
+                    : 'border-slate-200/60 bg-gradient-to-br from-white/80 to-slate-50/40 hover:shadow-lg'
                 }`}
               >
                 {/* Badge */}
                 {tier.badge && (
-                  <div className="absolute -top-3 right-6 inline-flex items-center gap-1 rounded-full bg-indigo-600 px-3 py-1">
-                    <Crown className="h-3.5 w-3.5 text-white" />
+                  <div className="absolute -top-4 right-8 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-2 shadow-lg">
+                    <Crown className="h-4 w-4 text-white" />
                     <span className="text-xs font-bold text-white">
                       {tier.badge}
                     </span>
@@ -107,7 +105,7 @@ export function PremiumPricing() {
                 )}
 
                 {/* Header */}
-                <div className="mb-6">
+                <div className="mb-8">
                   <h3 className="font-playfair text-2xl font-700 text-slate-900">
                     {tier.name}
                   </h3>
@@ -117,8 +115,8 @@ export function PremiumPricing() {
                 </div>
 
                 {/* Pricing */}
-                <div className="mb-6 flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-slate-900">
+                <div className="mb-8 flex items-baseline gap-2">
+                  <span className={`text-5xl font-bold ${tier.highlighted ? 'text-indigo-700' : 'text-slate-900'}`}>
                     {tier.price}
                   </span>
                   <span className="text-sm text-slate-500">{tier.period}</span>
@@ -127,10 +125,10 @@ export function PremiumPricing() {
                 {/* CTA Button */}
                 <a
                   href="#signup"
-                  className={`w-full mb-6 h-12 px-7 text-base rounded-[var(--radius-md)] font-medium inline-flex items-center justify-center transition-all duration-[var(--transition-normal)] ${
+                  className={`w-full mb-8 h-12 px-7 text-base rounded-lg font-semibold inline-flex items-center justify-center transition-all duration-300 ${
                     tier.highlighted
-                      ? 'bg-gradient-to-r from-[var(--c-reward)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]'
-                      : 'bg-[var(--bg-surface)] text-[var(--c-primary)] border border-[var(--c-primary)] hover:bg-[var(--bg-surface-secondary)]'
+                      ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white hover:from-indigo-700 hover:to-blue-700 hover:-translate-y-1 shadow-lg hover:shadow-xl'
+                      : 'bg-white/60 text-indigo-700 border-2 border-indigo-200 hover:border-indigo-400 hover:bg-white'
                   }`}
                 >
                   {tier.cta}
@@ -143,14 +141,14 @@ export function PremiumPricing() {
                       key={feature}
                       className="flex items-start gap-3"
                     >
-                      <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
-                      <span className="text-sm text-slate-700">
+                      <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500 font-bold" />
+                      <span className="text-sm text-slate-700 leading-relaxed">
                         {feature}
                       </span>
                     </div>
                   ))}
                 </div>
-              </Card>
+              </div>
             </div>
           ))}
         </div>

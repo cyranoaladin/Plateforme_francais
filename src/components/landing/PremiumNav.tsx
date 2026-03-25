@@ -32,18 +32,18 @@ export function PremiumNav() {
       <div
         className={`mx-auto flex max-w-6xl items-center justify-between rounded-2xl border px-4 py-3 transition-all duration-300 sm:px-6 sm:py-4 ${
           scrolled
-            ? 'border-slate-200/60 bg-white/95 shadow-lg backdrop-blur-xl'
-            : 'border-slate-200/40 bg-white/80 shadow-md backdrop-blur-lg'
+            ? 'border-indigo-200/60 bg-white/97 shadow-xl backdrop-blur-2xl'
+            : 'border-indigo-200/40 bg-white/85 shadow-lg backdrop-blur-xl'
         }`}
       >
         {/* Logo */}
         <Link
           href="#"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 group"
           aria-label={NAV_COPY.brand}
         >
-          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-700" />
-          <span className="hidden font-playfair text-lg font-700 text-slate-900 sm:block">
+          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 shadow-md group-hover:shadow-lg transition-all" />
+          <span className="hidden font-playfair text-lg font-700 text-slate-900 sm:block group-hover:text-indigo-700 transition-colors">
             {NAV_COPY.brand}
           </span>
         </Link>
