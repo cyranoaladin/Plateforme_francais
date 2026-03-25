@@ -7,6 +7,7 @@ const PUBLIC_STANDALONE_PATHS = new Set([
   '/mentions-legales',
   '/cgu',
   '/politique-de-confidentialite',
+  '/premium-landing',
 ]);
 
 export function isStandaloneAppShellPath(pathname: string): boolean {

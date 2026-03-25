@@ -75,14 +75,12 @@ export function PremiumNav() {
           <Link href="#login" className="hidden text-sm font-medium text-slate-600 transition-colors hover:text-indigo-600 md:block">
             {NAV_COPY.login}
           </Link>
-          <Button
-            variant="gold"
-            size="sm"
-            className="hidden sm:inline-flex"
-            asChild
+          <a
+            href="#signup"
+            className="hidden sm:inline-flex h-8 px-3 text-sm rounded-[var(--radius-md)] font-medium bg-gradient-to-r from-[var(--c-reward)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)] transition-all duration-[var(--transition-normal)] items-center justify-center"
           >
-            <a href="#signup">{NAV_COPY.freeTrialButton}</a>
-          </Button>
+            {NAV_COPY.freeTrialButton}
+          </a>
 
           {/* Mobile Menu Button */}
           <button
@@ -131,16 +129,13 @@ export function PremiumNav() {
           >
             {NAV_COPY.login}
           </a>
-          <Button
-            variant="gold"
-            size="sm"
-            className="w-full"
-            asChild
+          <a
+            href="#signup"
+            onClick={() => setMobileOpen(false)}
+            className="block w-full h-8 px-3 text-sm rounded-[var(--radius-md)] font-medium bg-gradient-to-r from-[var(--c-reward)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)] transition-all duration-[var(--transition-normal)] text-center"
           >
-            <a href="#signup" onClick={() => setMobileOpen(false)}>
-              {NAV_COPY.freeTrialButton}
-            </a>
-          </Button>
+            {NAV_COPY.freeTrialButton}
+          </a>
         </div>
       )}
     </nav>

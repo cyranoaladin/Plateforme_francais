@@ -125,14 +125,16 @@ export function PremiumPricing() {
                 </div>
 
                 {/* CTA Button */}
-                <Button
-                  variant={tier.highlighted ? 'gold' : 'secondary'}
-                  size="lg"
-                  className="w-full mb-6"
-                  asChild
+                <a
+                  href="#signup"
+                  className={`w-full mb-6 h-12 px-7 text-base rounded-[var(--radius-md)] font-medium inline-flex items-center justify-center transition-all duration-[var(--transition-normal)] ${
+                    tier.highlighted
+                      ? 'bg-gradient-to-r from-[var(--c-reward)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]'
+                      : 'bg-[var(--bg-surface)] text-[var(--c-primary)] border border-[var(--c-primary)] hover:bg-[var(--bg-surface-secondary)]'
+                  }`}
                 >
-                  <a href="#signup">{tier.cta}</a>
-                </Button>
+                  {tier.cta}
+                </a>
 
                 {/* Features List */}
                 <div className="space-y-4">

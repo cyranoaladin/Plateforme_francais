@@ -59,22 +59,18 @@ export function PremiumHero() {
 
         {/* CTA Buttons */}
         <div className="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:justify-center sm:gap-4">
-          <Button
-            variant="gold"
-            size="lg"
-            className="w-full sm:w-auto"
-            asChild
+          <a
+            href="#signup"
+            className="w-full sm:w-auto h-12 px-7 text-base rounded-[var(--radius-md)] font-medium inline-flex items-center justify-center bg-gradient-to-r from-[var(--c-reward)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)] transition-all duration-[var(--transition-normal)]"
           >
-            <a href="#signup">{HERO_COPY.primaryCta}</a>
-          </Button>
-          <Button
-            variant="secondary"
-            size="lg"
-            className="w-full sm:w-auto"
-            asChild
+            {HERO_COPY.primaryCta}
+          </a>
+          <a
+            href="#pricing"
+            className="w-full sm:w-auto h-12 px-7 text-base rounded-[var(--radius-md)] font-medium inline-flex items-center justify-center bg-[var(--bg-surface)] text-[var(--c-primary)] border border-[var(--c-primary)] hover:bg-[var(--bg-surface-secondary)] transition-all duration-[var(--transition-normal)]"
           >
-            <a href="#pricing">{HERO_COPY.secondaryCta}</a>
-          </Button>
+            {HERO_COPY.secondaryCta}
+          </a>
         </div>
 
         {/* Trust Badges */}
