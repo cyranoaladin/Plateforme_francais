@@ -35,6 +35,7 @@ const PUBLIC_API_PATHS = new Set([
   '/api/v1/auth/register',
   '/api/v1/auth/forgot-password',
   '/api/v1/auth/reset-password',
+  '/api/v1/auth/verify-email',
   '/api/v1/health',
   '/api/v1/rag/health',
   '/api/v1/csrf',
