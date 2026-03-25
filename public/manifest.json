@@ -1,0 +1,13 @@
+{
+  "name": "Nexus Réussite — Préparation EAF",
+  "short_name": "Nexus EAF",
+  "description": "Prépare ton Bac de Français 2026 avec l\u2019IA : oral, écrit, langue, corpus officiel.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#F7F8FA",
+  "theme_color": "#17324D",
+  "lang": "fr",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

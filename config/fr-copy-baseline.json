@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-25T09:55:10.584Z",
+  "generatedAt": "2026-03-25T19:59:03.058Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -560,6 +560,41 @@
       "column": 49,
       "kind": "api-message",
       "text": "Mot de passe réinitialisé. Vous pouvez vous connecter."
+    },
+    {
+      "file": "src/app/api/v1/billing/cancel/route.ts",
+      "line": 136,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur lors de l’annulation de l’abonnement."
+    },
+    {
+      "file": "src/app/api/v1/billing/cancel/route.ts",
+      "line": 48,
+      "column": 18,
+      "kind": "api-message",
+      "text": "Trop de requêtes. Réessaie plus tard."
+    },
+    {
+      "file": "src/app/api/v1/billing/cancel/route.ts",
+      "line": 60,
+      "column": 18,
+      "kind": "api-message",
+      "text": "Vous êtes déjà sur le plan Freemium. Rien à annuler."
+    },
+    {
+      "file": "src/app/api/v1/billing/cancel/route.ts",
+      "line": 73,
+      "column": 18,
+      "kind": "api-message",
+      "text": "Aucun abonnement actif trouvé."
+    },
+    {
+      "file": "src/app/api/v1/billing/cancel/route.ts",
+      "line": 81,
+      "column": 18,
+      "kind": "api-message",
+      "text": "L’annulation est déjà programmée."
     },
     {
       "file": "src/app/api/v1/billing/check-quota/route.ts",
@@ -3572,6 +3607,83 @@
       "text": "Tous les contenus du site (textes, images, logos, structure) sont protégés par le droit d"
     },
     {
+      "file": "src/app/cgv/page.tsx",
+      "line": 102,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Dernière mise à jour : 25 mars 2026"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 173,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Retour à l"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 173,
+      "column": 33,
+      "kind": "jsx-text",
+      "text": "accueil"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 177,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Conditions d"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 177,
+      "column": 35,
+      "kind": "jsx-text",
+      "text": "utilisation"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 181,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Mentions légales"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 185,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Politique de confidentialité"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 86,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Retour accueil"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 91,
+      "column": 96,
+      "kind": "jsx-text",
+      "text": "Cadre contractuel"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 96,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Conditions générales de vente"
+    },
+    {
+      "file": "src/app/cgv/page.tsx",
+      "line": 99,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Ces conditions encadrent la vente des abonnements Nexus Réussite EAF. En souscrivant, vous acceptez les termes ci-dessous."
+    },
+    {
       "file": "src/app/contact/page.tsx",
       "line": 106,
       "column": 27,
@@ -4053,6 +4165,41 @@
       "column": 19,
       "kind": "jsx-text",
       "text": "Aucune copie corrigée n’est encore disponible dans ce tableau."
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 20,
+      "column": 9,
+      "kind": "jsx-text",
+      "text": "Oups"
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 23,
+      "column": 9,
+      "kind": "jsx-text",
+      "text": "Une erreur inattendue est survenue."
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 26,
+      "column": 9,
+      "kind": "jsx-text",
+      "text": "Nos équipes ont été notifiées."
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 33,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Réessayer"
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 39,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Tableau de bord"
     },
     {
       "file": "src/app/global-error.tsx",
