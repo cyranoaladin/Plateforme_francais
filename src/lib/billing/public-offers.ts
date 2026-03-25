@@ -1,7 +1,7 @@
 import {
   PLAN_CATALOG,
   PLAN_DISPLAY_LABELS,
-  type PlanId,
+  type InternalPlanId,
   type PublicPlanId,
   toPublicPlanId,
 } from '@/lib/billing/plan-catalog';
@@ -17,7 +17,7 @@ type PublicEntitlementSummary = {
 
 export type PublicPlanOffer = {
   publicId: PublicPlanId;
-  technicalId: PlanId;
+  technicalId: InternalPlanId;
   title: string;
   priceTnd: string;
   period: string;
@@ -42,7 +42,7 @@ function formatLimit(value: number | 'unlimited', period: 'day' | 'week' | 'mont
   return `${value} / ${suffix}`;
 }
 
-function buildPublicSummaries(planId: PlanId): PublicEntitlementSummary {
+function buildPublicSummaries(planId: InternalPlanId): PublicEntitlementSummary {
   const quotas = PLAN_CATALOG[planId].quotas;
 
   return {
@@ -55,7 +55,7 @@ function buildPublicSummaries(planId: PlanId): PublicEntitlementSummary {
   };
 }
 
-const PLAN_COPY: Record<PlanId, Omit<PublicPlanOffer, 'publicId' | 'technicalId' | 'title' | 'priceTnd' | 'period' | 'summaries'>> = {
+const PLAN_COPY: Record<InternalPlanId, Omit<PublicPlanOffer, 'publicId' | 'technicalId' | 'title' | 'priceTnd' | 'period' | 'summaries'>> = {
   FREE: {
     tagline: 'Découvre la méthode sans paiement.',
     pricingNote: 'Accès limité pour tester les ateliers, le suivi et la logique pédagogique avant tout règlement.',
@@ -91,7 +91,7 @@ const PLAN_COPY: Record<PlanId, Omit<PublicPlanOffer, 'publicId' | 'technicalId'
   },
 };
 
-function buildPricingBullets(planId: PlanId, summaries: PublicEntitlementSummary) {
+function buildPricingBullets(planId: InternalPlanId, summaries: PublicEntitlementSummary) {
   const common = [
     `${summaries.oral} de simulation orale`,
     `${summaries.written} de correction écrite`,
@@ -110,7 +110,7 @@ function buildPricingBullets(planId: PlanId, summaries: PublicEntitlementSummary
   return [...common, 'Recherche avancée dans le corpus', 'Historique oral complet', 'Support prioritaire', summaries.library];
 }
 
-function buildLandingBullets(planId: PlanId, summaries: PublicEntitlementSummary) {
+function buildLandingBullets(planId: InternalPlanId, summaries: PublicEntitlementSummary) {
   if (planId === 'FREE') {
     return [
       `${summaries.oral} de simulation orale`,
@@ -141,7 +141,7 @@ function buildLandingBullets(planId: PlanId, summaries: PublicEntitlementSummary
   ];
 }
 
-function buildOffer(planId: PlanId): PublicPlanOffer {
+function buildOffer(planId: InternalPlanId): PublicPlanOffer {
   const config = PLAN_CATALOG[planId];
   const summaries = buildPublicSummaries(planId);
   const copy = PLAN_COPY[planId];

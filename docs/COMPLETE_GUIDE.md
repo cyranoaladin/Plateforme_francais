@@ -42,7 +42,7 @@ Nexus Réussite EAF accompagne les élèves de Première dans leur préparation 
 | RAG | Ingesteur Docker externe + pgvector fallback |
 | Email | Nodemailer SMTP (Hostinger) |
 | Auth | Sessions server-side, CSRF double-submit |
-| AI Tools | MCP Server (20 outils) |
+| AI Tools | MCP Server (24 outils) |
 
 ### 📁 Structure du projet
 
@@ -66,7 +66,7 @@ eaf_platform/
 │       ├── security/           # Rate limiting, CSP
 │       └── validation/         # Zod schemas
 ├── packages/
-│   └── mcp-server/             # Serveur MCP (20 outils)
+│   └── mcp-server/             # Serveur MCP (24 outils)
 ├── prisma/
 │   ├── schema.prisma           # Schéma DB (843 lignes)
 │   └── migrations/             # 19 migrations

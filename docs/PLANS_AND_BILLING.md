@@ -1,14 +1,13 @@
 # Plans et facturation
 
-## Les 3 plans
+## Les 3 plans métier visibles
 
 | Critère | Freemium | Premium | Masterium |
 |---------|----------|---------|-----------|
-| **ID technique interne** | `FREE` | `PREMIUM` | `PRO` |
 | **Prix** | 0 TND | 99 TND/mois | 129 TND/mois |
 | **Cycle** | gratuit | mensuel | mensuel |
 
-Les identifiants techniques (`FREE`, `PREMIUM`, `PRO`) restent internes au code et à la base de données. Les payloads visibles côté produit et côté APIs exposées doivent utiliser uniquement `FREEMIUM`, `PREMIUM` et `MASTERIUM`, avec les libellés commerciaux Freemium, Premium et Masterium.
+Les identifiants techniques historiques (`FREE`, `PREMIUM`, `PRO`) restent internes au code et à la base de données. La vérité métier visible côté produit, emails, admin exploitable et APIs exposées est limitée à `FREEMIUM`, `PREMIUM` et `MASTERIUM`, avec les libellés commerciaux Freemium, Premium et Masterium.
 
 Des reliquats legacy comme `MAX` ont existé côté code, mais ils ne doivent plus être exposés ni utilisables dans le produit live.
 

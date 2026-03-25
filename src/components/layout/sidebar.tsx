@@ -259,7 +259,7 @@ export function Sidebar() {
                 </p>
                 <p className="text-xs text-white/75">
                   {publicPlanId === 'FREEMIUM'
-                    ? 'Oral illimité, bibliothèque complète'
+                    ? '10 oraux par semaine, bibliothèque complète'
                     : 'Accès total, historique, support prioritaire'}
                 </p>
               </div>

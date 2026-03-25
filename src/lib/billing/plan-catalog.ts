@@ -1,11 +1,26 @@
 /**
- * Plan catalog — single source of truth for all plan configurations.
- * Quotas and flags aligned with cahier des charges V2.
+ * Plan catalog — single source of truth for plan behavior.
+ *
+ * Public/business plans:
+ * - FREEMIUM
+ * - PREMIUM
+ * - MASTERIUM
+ *
+ * Internal storage/runtime ids kept for backward compatibility:
+ * - FREE
+ * - PREMIUM
+ * - PRO
  */
 
-export type PlanId = 'FREE' | 'PREMIUM' | 'PRO';
-export type LegacyPlanId = PlanId | 'MAX' | 'MONTHLY' | 'LIFETIME' | 'FREEMIUM' | 'MASTERIUM';
+export type InternalPlanId = 'FREE' | 'PREMIUM' | 'PRO';
 export type PublicPlanId = 'FREEMIUM' | 'PREMIUM' | 'MASTERIUM';
+export type LegacyPlanId =
+  | InternalPlanId
+  | PublicPlanId
+  | 'MAX'
+  | 'MONTHLY'
+  | 'LIFETIME';
+export type PlanId = InternalPlanId;
 
 export type Period = 'day' | 'week' | 'month';
 
@@ -37,7 +52,7 @@ export type QuotaEntry = {
 export type FlagValue = boolean | 'basic' | 'advanced' | 'ai' | 'faq' | 'email' | 'priority';
 
 export type PlanConfig = {
-  id: PlanId;
+  id: InternalPlanId;
   label: string;
   priceTnd: number;
   billingCycle: 'free' | 'monthly';
@@ -45,7 +60,7 @@ export type PlanConfig = {
   flags: Partial<Record<FlagKey, FlagValue>>;
 };
 
-export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
+export const PLAN_CATALOG: Record<InternalPlanId, PlanConfig> = {
   FREE: {
     id: 'FREE',
     label: 'Freemium',
@@ -131,7 +146,7 @@ export const PLAN_CATALOG: Record<PlanId, PlanConfig> = {
  * Technical aliases stay accepted on input, but only 3 effective plans exist.
  * These labels are the ONLY names shown to users.
  */
-export const PLAN_DISPLAY_LABELS: Record<PlanId, string> = {
+export const PLAN_DISPLAY_LABELS: Record<InternalPlanId, string> = {
   FREE: 'Freemium',
   PREMIUM: 'Premium',
   PRO: 'Masterium',
@@ -146,7 +161,7 @@ export const PUBLIC_PLAN_LABELS: Record<PublicPlanId, string> = {
 /**
  * Plan slogans — user-facing taglines for each plan.
  */
-export const PLAN_SLOGANS: Record<PlanId, string> = {
+export const PLAN_SLOGANS: Record<InternalPlanId, string> = {
   FREE: 'Faites vos premiers pas vers le Bac.',
   PREMIUM: 'La méthode complète pour assurer votre réussite.',
   PRO: "L'excellence absolue pour décrocher la mention.",
@@ -155,39 +170,48 @@ export const PLAN_SLOGANS: Record<PlanId, string> = {
 /**
  * Map legacy or public plan names to the 3 canonical effective plans.
  */
-export function normalizePlanId(raw: string): PlanId {
+export const PUBLIC_TO_INTERNAL_PLAN_ID: Record<PublicPlanId, InternalPlanId> = {
+  FREEMIUM: 'FREE',
+  PREMIUM: 'PREMIUM',
+  MASTERIUM: 'PRO',
+};
+
+export const INTERNAL_TO_PUBLIC_PLAN_ID: Record<InternalPlanId, PublicPlanId> = {
+  FREE: 'FREEMIUM',
+  PREMIUM: 'PREMIUM',
+  PRO: 'MASTERIUM',
+};
+
+export function normalizePlanId(raw: string): InternalPlanId {
   switch ((raw || 'FREE').trim().toUpperCase() as LegacyPlanId) {
     case 'FREEMIUM':
-      return 'FREE';
+      return PUBLIC_TO_INTERNAL_PLAN_ID.FREEMIUM;
     case 'MONTHLY':
       return 'PREMIUM';
     case 'LIFETIME':
       return 'PRO';
     case 'MASTERIUM':
-      return 'PRO';
+      return PUBLIC_TO_INTERNAL_PLAN_ID.MASTERIUM;
     case 'MAX':
       return 'PRO';
     case 'PREMIUM':
     case 'PRO':
     case 'FREE':
-      return (raw || 'FREE').trim().toUpperCase() as PlanId;
+      return (raw || 'FREE').trim().toUpperCase() as InternalPlanId;
     default:
       return 'FREE';
   }
 }
 
 export function toPublicPlanId(plan: string): PublicPlanId {
-  const normalized = normalizePlanId(plan);
-  if (normalized === 'PREMIUM') return 'PREMIUM';
-  if (normalized === 'PRO') return 'MASTERIUM';
-  return 'FREEMIUM';
+  return INTERNAL_TO_PUBLIC_PLAN_ID[normalizePlanId(plan)];
 }
 
-export function parseCommercialPlanId(plan: string): Extract<PlanId, 'FREE' | 'PREMIUM' | 'PRO'> | null {
+export function parseCommercialPlanId(plan: string): InternalPlanId | null {
   const normalized = plan.trim().toUpperCase();
-  if (normalized === 'FREEMIUM' || normalized === 'FREE') return 'FREE';
-  if (normalized === 'PREMIUM') return 'PREMIUM';
-  if (normalized === 'MASTERIUM' || normalized === 'PRO') return 'PRO';
+  if (normalized === 'FREEMIUM' || normalized === 'FREE') return PUBLIC_TO_INTERNAL_PLAN_ID.FREEMIUM;
+  if (normalized === 'PREMIUM') return PUBLIC_TO_INTERNAL_PLAN_ID.PREMIUM;
+  if (normalized === 'MASTERIUM' || normalized === 'PRO') return PUBLIC_TO_INTERNAL_PLAN_ID.MASTERIUM;
   return null;
 }
 
@@ -201,8 +225,8 @@ export function getPlanConfig(planId: string): PlanConfig {
 /**
  * Compare two plans. Returns positive if a > b.
  */
-export function comparePlans(a: PlanId, b: PlanId): number {
-  const order: Record<PlanId, number> = { FREE: 0, PREMIUM: 1, PRO: 2 };
+export function comparePlans(a: InternalPlanId, b: InternalPlanId): number {
+  const order: Record<InternalPlanId, number> = { FREE: 0, PREMIUM: 1, PRO: 2 };
   return order[normalizePlanId(a)] - order[normalizePlanId(b)];
 }
 

@@ -6,7 +6,7 @@ describe('getDashboardUpgradeState', () => {
   it('suggests Premium for freemium accounts', () => {
     expect(getDashboardUpgradeState('FREEMIUM')).toEqual({
       title: 'Tu utilises le plan Freemium — certains ateliers et ressources sont limités.',
-      detail: 'Passe au Premium pour débloquer l’oral illimité, la bibliothèque complète et l’analyse de copies.',
+      detail: 'Passe au Premium pour travailler jusqu’à 10 oraux par semaine, débloquer la bibliothèque complète et analyser davantage de copies.',
       cta: 'Passer au Premium',
     });
   });
