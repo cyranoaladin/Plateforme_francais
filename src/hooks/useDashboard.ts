@@ -70,6 +70,7 @@ export type DashboardMetrics = {
     classLevel?: string;
   }>;
   linkageStatus: 'linked' | 'unlinked';
+  emailVerified: string | null;
 };
 
 const EMPTY_SCORES: SkillScores = {
@@ -238,6 +239,7 @@ export function computeDashboardMetricsFromTimeline(
     error,
     linkedStudents: data?.linkedStudents ?? [],
     linkageStatus: data?.linkageStatus ?? 'linked',
+    emailVerified: (data as Record<string, unknown>)?.emailVerified as string | null ?? null,
   };
 }
 

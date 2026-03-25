@@ -34,6 +34,7 @@ import { ProgressionChart } from '@/components/dashboard/progression-chart';
 import { useDashboard } from '@/hooks/useDashboard';
 import { getDashboardUpgradeState } from '@/lib/billing/dashboard-upgrade';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
+import { EmailVerificationBanner } from '@/components/ui/EmailVerificationBanner';
 
 const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
@@ -564,6 +565,7 @@ export default function Dashboard() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
+      <EmailVerificationBanner emailVerified={!!data.emailVerified} />
       {upgradeState && (
         <section className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] px-6 py-5 shadow-[0_4px_20px_var(--shadow-md)]">
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_0%,transparent_60%)]" />

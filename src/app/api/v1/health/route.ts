@@ -6,6 +6,7 @@ import { logger } from '@/lib/logger';
 import { getSttCapability } from '@/lib/stt/transcriber';
 import { getTtsCapability } from '@/lib/tts/generator';
 import { getRedisClient } from '@/lib/queue/correction-queue';
+import { validateEnv } from '@/lib/config/validate-env';
 
 function getRequestedVoiceMode(): string {
   const envVal = (process.env.ORAL_VOICE_MODE ?? '').toLowerCase().trim();
@@ -74,6 +75,10 @@ export async function GET() {
   const allOk = Object.values(checks).every(v => v === 'ok');
   const status = allOk ? 'ok' : checks.db === 'down' ? 'down' : 'degraded';
 
+  // Validate env vars (non-throwing — just log warnings for recommended vars)
+  let envStatus: { required: string; llm: string; recommended: { missing: string[] } } | null = null;
+  try { envStatus = validateEnv(); } catch { /* env validation failure logged internally */ }
+
   if (status !== 'ok') {
     logger.warn({ checks, status }, 'health_check_not_ok');
   }
@@ -88,6 +93,7 @@ export async function GET() {
         buildTime: readLocalReleaseValue('.build_time') ?? process.env['BUILD_TIME'] ?? 'unknown',
         nodeEnv: process.env['NODE_ENV'] ?? 'unknown',
       },
+      env: envStatus,
       voice: {
         requestedVoiceMode: getRequestedVoiceMode(),
         effectiveVoiceMode: getEffectiveVoiceMode(),

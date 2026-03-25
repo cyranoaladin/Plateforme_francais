@@ -9,6 +9,7 @@ function toUserRecord(input: {
   passwordHash: string;
   passwordSalt: string;
   role: UserRole;
+  emailVerified?: Date | string | null;
   createdAt: Date | string;
   profile: StudentProfile;
 }): UserRecord {
@@ -18,6 +19,7 @@ function toUserRecord(input: {
     passwordHash: input.passwordHash,
     passwordSalt: input.passwordSalt,
     role: input.role,
+    emailVerified: input.emailVerified instanceof Date ? input.emailVerified.toISOString() : (input.emailVerified ?? null),
     createdAt: input.createdAt instanceof Date ? input.createdAt.toISOString() : input.createdAt,
     profile: sanitizeProfileForRole(input.profile, input.role),
   };
@@ -94,6 +96,7 @@ export async function listUsers(): Promise<UserRecord[]> {
         passwordHash: user.passwordHash,
         passwordSalt: user.passwordSalt,
         role: user.role,
+        emailVerified: user.emailVerified,
         createdAt: user.createdAt,
         profile: user.profile ? toStudentProfile(user.profile) : DEFAULT_PROFILE,
       }),
@@ -121,6 +124,7 @@ export async function findUserByEmail(email: string): Promise<UserRecord | null>
       passwordHash: user.passwordHash,
       passwordSalt: user.passwordSalt,
       role: user.role,
+      emailVerified: user.emailVerified,
       createdAt: user.createdAt,
       profile: user.profile ? toStudentProfile(user.profile) : DEFAULT_PROFILE,
     });
@@ -148,6 +152,7 @@ export async function findUserById(id: string): Promise<UserRecord | null> {
       passwordHash: user.passwordHash,
       passwordSalt: user.passwordSalt,
       role: user.role,
+      emailVerified: user.emailVerified,
       createdAt: user.createdAt,
       profile: user.profile ? toStudentProfile(user.profile) : DEFAULT_PROFILE,
     });
@@ -211,6 +216,7 @@ export async function createUser(input: {
         passwordHash: input.passwordHash,
         passwordSalt: input.passwordSalt,
         role: input.role ?? 'eleve',
+        emailVerified: null,
         createdAt: new Date().toISOString(),
         profile: input.profile,
       },

@@ -49,6 +49,7 @@ export type UserRecord = {
   passwordHash: string;
   passwordSalt: string;
   role: 'eleve' | 'enseignant' | 'parent' | 'admin';
+  emailVerified: string | null;
   createdAt: string;
   profile: StudentProfile;
 };

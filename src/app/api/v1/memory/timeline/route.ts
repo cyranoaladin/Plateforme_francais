@@ -30,6 +30,7 @@ export async function GET(request: Request) {
   return NextResponse.json(
     {
       profile: auth.user.profile,
+      emailVerified: auth.user.emailVerified ?? null,
       timeline,
       weakSignals,
     },
