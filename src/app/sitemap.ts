@@ -12,5 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/mentions-legales`, priority: 0.3 },
     { url: `${baseUrl}/politique-de-confidentialite`, priority: 0.3 },
     { url: `${baseUrl}/cgu`, priority: 0.3 },
+    { url: `${baseUrl}/cgv`, priority: 0.3 },
   ];
 }
