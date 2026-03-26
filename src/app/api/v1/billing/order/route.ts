@@ -11,7 +11,7 @@ import { logger } from '@/lib/logger';
 
 const orderBodySchema = z.object({
   plan: z.enum(['PREMIUM', 'MASTERIUM']),
-  method: z.enum(['virement', 'flouci']),
+  method: z.enum(['virement', 'espèces']),
 });
 
 function generateOrderRef(): string {

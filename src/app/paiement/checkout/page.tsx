@@ -16,7 +16,7 @@ import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 
 type PlanKey = 'PREMIUM' | 'MASTERIUM';
-type PaymentMethod = 'virement' | 'flouci';
+type PaymentMethod = 'virement' | 'espèces';
 
 const PLAN_INFO: Record<PlanKey, { label: string; price: string; priceTnd: number; bullets: string[] }> = {
   PREMIUM: {
@@ -297,11 +297,11 @@ export default function CheckoutPage() {
             </span>
           </button>
 
-          {/* Flouci */}
+          {/* Espèces */}
           <button
             type="button"
             disabled={submitting}
-            onClick={() => handleOrder('flouci')}
+            onClick={() => handleOrder('espèces')}
             className="group flex flex-col items-start gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 text-left shadow-[var(--shadow-md)] transition-all hover:-translate-y-0.5 hover:border-[var(--c-primary)] hover:shadow-lg disabled:opacity-60"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--c-success)]/10 text-[var(--c-success)]">
@@ -309,10 +309,10 @@ export default function CheckoutPage() {
             </div>
             <div>
               <h3 className="text-base font-bold text-[var(--text-heading)]">
-                Flouci
+                Paiement en espèces
               </h3>
               <p className="mt-1 text-sm text-[var(--text-secondary)]">
-                Envoie le montant via Flouci avec ta référence de commande.
+                Règlement en espèces avec référence de commande.
               </p>
             </div>
             <span className="mt-auto inline-flex items-center gap-2 rounded-full bg-[var(--c-success)] px-5 py-2.5 text-sm font-semibold text-white transition-all group-hover:brightness-110">
@@ -320,29 +320,18 @@ export default function CheckoutPage() {
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 <>
-                  Commander via Flouci
+                  Commander en espèces
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </span>
           </button>
 
-          {/* ClicToPay (disabled) */}
-          <div className="flex flex-col items-start gap-4 rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)]/50 p-6 text-left opacity-50">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--text-muted)]/10 text-[var(--text-muted)]">
-              <CreditCard className="h-6 w-6" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-[var(--text-heading)]">
-                ClicToPay
-              </h3>
-              <p className="mt-1 text-sm text-[var(--text-muted)]">
-                Paiement par carte bancaire tunisienne.
-              </p>
-            </div>
-            <span className="mt-auto inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] px-5 py-2.5 text-sm font-semibold text-[var(--text-muted)]">
-              Bientôt disponible
-            </span>
+          {/* ClicToPay et Flouci - désactivés pour go-live */}
+          <div className="col-span-full rounded-2xl border border-[var(--border-default)] bg-[var(--bg-surface)]/50 p-4 text-center text-sm text-[var(--text-muted)]">
+            Paiement en ligne par carte (ClicToPay) et Flouci disponibles prochainement.
+            <br />
+            Pour l’instant, utilise le virement ou le paiement en espèces avec référence de commande.
           </div>
         </div>
 
