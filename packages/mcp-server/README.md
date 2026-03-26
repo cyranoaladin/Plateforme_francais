@@ -4,7 +4,7 @@
 [![MCP SDK](https://img.shields.io/badge/MCP_SDK-1.0-purple)](https://modelcontextprotocol.io)
 [![Node](https://img.shields.io/badge/Node-20_LTS-green)](https://nodejs.org)
 
-Serveur MCP (Model Context Protocol) custom pour la plateforme **Nexus Réussite EAF** — 27 outils pédagogiques spécialisés pour les agents IA de préparation à l'Épreuve Anticipée de Français.
+Serveur MCP (Model Context Protocol) custom pour la plateforme **Nexus Réussite EAF** — 25 outils pédagogiques spécialisés pour les agents IA de préparation à l'Épreuve Anticipée de Français.
 
 ---
 
@@ -36,7 +36,7 @@ npm run inspect
 ```
 src/
 ├── index.ts          → Point d'entrée (stdio ou HTTP selon MCP_TRANSPORT)
-├── server.ts         → Serveur MCP — routeur des 27 outils
+├── server.ts         → Serveur MCP — routeur des 25 outils
 ├── tools/
 │   ├── student/      → Profil élève, ErrorBank, Study Plan
 │   ├── rag/          → Recherche corpus hybride pgvector+BM25
@@ -54,7 +54,7 @@ src/
 
 ---
 
-## Les 27 outils disponibles
+## Les 25 outils disponibles
 
 ### Profil élève (5 outils)
 | Outil | Description |

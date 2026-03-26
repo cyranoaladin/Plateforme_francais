@@ -326,11 +326,10 @@ export default function CheckoutPage() {
             </span>
           </button>
 
-          {/* ClicToPay et Flouci - désactivés pour go-live */}
           <div className="col-span-full rounded-2xl border border-[var(--border-default)] bg-[var(--bg-surface)]/50 p-4 text-center text-sm text-[var(--text-muted)]">
-            Paiement en ligne par carte (ClicToPay) et Flouci disponibles prochainement.
+            Au lancement, le paiement se fait uniquement par virement bancaire ou en espèces.
             <br />
-            Pour l’instant, utilise le virement ou le paiement en espèces avec référence de commande.
+            Après règlement, l’admin te transmet un code d’activation pour activer ton abonnement.
           </div>
         </div>
 

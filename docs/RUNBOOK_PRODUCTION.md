@@ -42,7 +42,7 @@
 #### Règles sortantes
 ```bash
 # Autoriser HTTPS vers APIs externes
-443/tcp ALLOW to anywhere (Mistral AI, Clictopay, Brevo)
+443/tcp ALLOW to anywhere (Mistral AI, Brevo)
 
 # Autoriser DNS
 53/udp ALLOW to anywhere

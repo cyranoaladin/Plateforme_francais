@@ -29,7 +29,7 @@ const CGV_SECTIONS = [
   {
     title: '3. Modalités de paiement',
     content:
-      'Le paiement peut s\u2019effectuer par virement bancaire, paiement manuel via l\u2019administration, ou par codes d\u2019activation prépayés. Le paiement en ligne (ClicToPay) sera disponible prochainement.',
+      'Le paiement s\u2019effectue uniquement par virement bancaire ou en espèces, puis via code d\u2019activation transmis par l\u2019administration. Aucun paiement en ligne n\u2019est actif au lancement.',
   },
   {
     title: '4. Activation de l\u2019abonnement',

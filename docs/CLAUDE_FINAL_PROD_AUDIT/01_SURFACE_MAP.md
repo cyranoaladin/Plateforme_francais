@@ -237,6 +237,6 @@ UserRole, SubscriptionPlan, SubscriptionStatus, PaymentStatus, PaymentProvider, 
 - [ ] 4 rôles (eleve, parent, enseignant, admin)
 - [ ] Emails: welcome, reset password, parental consent, contact
 - [ ] Cron: revision reminders, session cleanup, weekly reports
-- [ ] MCP: 27 outils
+- [ ] MCP: 25 outils
 - [ ] RAG: search + health
 - [ ] Média: streaming + download

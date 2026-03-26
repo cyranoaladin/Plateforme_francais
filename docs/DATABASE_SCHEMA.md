@@ -166,7 +166,7 @@ Historique des paiements.
 |-------|------|-------------|
 | `id` | String (PK) | UUID |
 | `userId` | String (FK) | Référence User |
-| `provider` | PaymentProvider | `CLICTOPAY`, `MANUAL` |
+| `provider` | PaymentProvider | `CLICTOPAY`, `MANUAL`, `VIREMENT` |
 | `status` | PaymentStatus | `PENDING`, `ACCEPTED`, `REFUSED`, `ERROR` |
 | `plan` | SubscriptionPlan | Plan concerné |
 | `amountMillimes` | Int | Montant en millimes (1 TND = 1000) |
@@ -823,6 +823,7 @@ PAUSED
 ```
 CLICTOPAY
 MANUAL
+VIREMENT
 ```
 
 ### PaymentStatus

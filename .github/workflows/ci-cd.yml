@@ -379,26 +379,6 @@ jobs:
             reports/mutation
             .stryker-tmp/reports
 
-  deploy-staging:
-    name: "Gate 6 - Deploy Staging"
-    needs: [e2e-tests, security-scan]
-    if: github.ref == 'refs/heads/develop'
-    environment: staging
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.STAGING_HOST }}
-          username: ${{ secrets.STAGING_USER }}
-          key: ${{ secrets.STAGING_SSH_KEY }}
-          script: |
-            cd /var/www/eaf-staging
-            git pull origin develop
-            npm ci --production
-            npx prisma migrate deploy
-            pm2 reload ecosystem.config.cjs --env staging
-
   deploy-production:
     name: "Gate 6b - Deploy Production (Blue-Green)"
     needs: [e2e-tests, security-scan]
@@ -432,8 +412,6 @@ jobs:
           SESSION_SECRET: ${{ secrets.PROD_SESSION_SECRET }}
           CSRF_SECRET: ${{ secrets.PROD_CSRF_SECRET }}
           MISTRAL_API_KEY: ${{ secrets.PROD_MISTRAL_API_KEY }}
-          CLICTOPAY_USERNAME: ${{ secrets.PROD_CLICTOPAY_USERNAME }}
-          CLICTOPAY_PASSWORD: ${{ secrets.PROD_CLICTOPAY_PASSWORD }}
           BILLING_CODE_PEPPER: ${{ secrets.PROD_BILLING_CODE_PEPPER }}
           STORAGE_PROVIDER: "s3"
           NEXT_PUBLIC_APP_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}

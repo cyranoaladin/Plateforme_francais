@@ -28,7 +28,7 @@
 | Aspect | Résultat |
 |--------|----------|
 | Build | ✅ `npm run mcp:build` dans le deploy script |
-| Tools | 27 outils MCP déclarés |
+| Tools | 25 outils MCP déclarés |
 | Bind address | ⚠️ P0-004 — bind 0.0.0.0 (devrait être 127.0.0.1 en prod) |
 
 ## Mémoire (Memory Events)
