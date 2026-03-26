@@ -5,7 +5,7 @@
   "mcpServers": {
 
     "nexus-eaf": {
-      "_description": "MCP Server custom Nexus EAF — 25 outils pédagogiques spécialisés",
+      "_description": "MCP Server custom Nexus EAF — 24 outils pédagogiques spécialisés",
       "command": "node",
       "args": ["packages/mcp-server/dist/index.js"],
       "env": {

@@ -19,7 +19,7 @@ src/
   data/                 # Données statiques (scan ressources, config œuvres)
   scripts/              # Scripts CLI (génération codes, migration, deploy)
 packages/
-  mcp-server/           # Serveur MCP autonome (25 outils pour agents IA)
+  mcp-server/           # Serveur MCP autonome (24 outils pour agents IA)
 prisma/
   schema.prisma         # Schéma de la base de données
   migrations/           # 19 migrations Prisma
@@ -71,7 +71,7 @@ Voir [PLANS_AND_BILLING.md](PLANS_AND_BILLING.md) pour le détail des quotas.
 
 ## MCP Server
 
-Serveur MCP autonome dans `packages/mcp-server/`. Expose 25 outils pour les agents IA (consultation de ressources, interrogation de la base, exécution de skills LLM). Communique via HTTP (`MCP_SERVER_URL`), authentifié par `MCP_API_KEY`.
+Serveur MCP autonome dans `packages/mcp-server/`. Expose 24 outils pour les agents IA (consultation de ressources, interrogation de la base, exécution de skills LLM). Communique via HTTP (`MCP_SERVER_URL`), authentifié par `MCP_API_KEY`.
 
 ## Authentification
 

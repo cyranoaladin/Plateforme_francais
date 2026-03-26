@@ -15,7 +15,7 @@ Plateforme de préparation aux Épreuves Anticipées de Français (EAF) avec ate
 | Cache | Redis |
 | LLM | Mistral (primaire) + Gemini/OpenAI (fallback) |
 | RAG | Ingestor Docker + pgvector local |
-| MCP Server | 25 outils pédagogiques |
+| MCP Server | 24 outils pédagogiques |
 | Email | Nodemailer SMTP (Hostinger port 587 STARTTLS) + React Email |
 | Déploiement | VPS, PM2, Nginx, scripts/deploy.sh |
 | CI/CD | GitHub Actions (6 gates) |
