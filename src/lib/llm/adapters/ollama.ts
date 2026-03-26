@@ -50,7 +50,7 @@ export class OllamaProvider implements LLMProvider {
 
   constructor(
     baseUrl: string = process.env.OLLAMA_BASE_URL ?? 'http://localhost:11434',
-    model: string = process.env.OLLAMA_MODEL ?? 'llama3.1:70b',
+    model: string = process.env.OLLAMA_MODEL ?? 'qwen2.5:7b',
   ) {
     this.baseUrl = baseUrl.replace(/\/$/, '');
     this.model = model;

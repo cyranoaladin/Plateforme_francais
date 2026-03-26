@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach, beforeAll, afterAll } 
 
 vi.mock('@/lib/db/client', () => ({
   prisma: {
+    $queryRaw: vi.fn().mockResolvedValue([{ '?column?': 1 }]),
     $queryRawUnsafe: vi.fn().mockResolvedValue([{ '?column?': 1 }]),
   },
 }));

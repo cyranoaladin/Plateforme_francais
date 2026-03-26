@@ -154,7 +154,7 @@ function modelForTier(tier: MistralTier): string {
   if (tier === 'standard') return MistralProvider.MODELS.SMALL;
   if (tier === 'micro') return MistralProvider.MODELS.MICRO;
   if (tier === 'ocr') return MistralProvider.MODELS.OCR;
-  return process.env.OLLAMA_MODEL ?? 'llama3.1:70b';
+  return process.env.OLLAMA_MODEL ?? 'qwen2.5:7b';
 }
 
 function getOrCreateMistralProvider(tier: MistralProviderTier): MistralProvider {
@@ -173,7 +173,7 @@ function getOrCreateMistralProvider(tier: MistralProviderTier): MistralProvider 
 }
 
 function getOrCreateOllamaProvider(): OllamaProvider {
-  const key = `ollama:${process.env.OLLAMA_MODEL ?? 'llama3.1:70b'}`;
+  const key = `ollama:${process.env.OLLAMA_MODEL ?? 'qwen2.5:7b'}`;
   const cached = providerCache.get(key);
   if (cached) {
     return cached as OllamaProvider;
