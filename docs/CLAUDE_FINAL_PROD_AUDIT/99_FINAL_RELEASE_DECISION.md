@@ -22,7 +22,7 @@
 - Authentification, reset password, preuves email, rôles parent/enseignant/admin.
 - Billing visible, plans publics, admin codes d'activation, paiements manuels.
 - Gating bibliothèque, sécurité téléchargement/streaming.
-- RBAC, cookies, CSRF, headers HTTP, fichiers sensibles, path traversal, Netlify/Vercel.
+- RBAC, cookies, CSRF, headers HTTP, fichiers sensibles, path traversal.
 - Vérifications techniques locales: `tsc`, `lint`, `fr-copy`, `unit`, `e2e`, `knip`, `npm audit`.
 
 ## 3. DÉFAUTS TROUVÉS

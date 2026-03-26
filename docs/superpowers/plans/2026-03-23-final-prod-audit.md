@@ -107,8 +107,7 @@ Expected: DB reachable, migrations applied, Redis alive, no pending migration su
 - [ ] **Step 4: Inspect suspicious configuration files**
 
 Run:
-- `sed -n '1,200p' netlify.toml`
-- `sed -n '1,200p' vercel.json`
+- `sed -n '1,200p' .windsurfrules`
 - `find .antigravity -type f | head -20`
 - `sed -n '1,120p' .windsurfrules`
 - `sed -n '1,240p' .env.example`
@@ -453,8 +452,7 @@ If a safe non-production-disruptive method exists, verify graceful fallback beha
 - Inspect: `next.config.ts`
 - Inspect: `middleware.ts`
 - Inspect: `scripts/nginx-eaf.conf`
-- Inspect: `netlify.toml`
-- Inspect: `vercel.json`
+- Inspect: `.windsurfrules`
 - Inspect: `.windsurfrules`
 - Inspect: `.antigravity/**`
 - Test: `tests/e2e/securite.spec.ts`
@@ -471,7 +469,7 @@ Expected: all blocked.
 
 - [ ] **Step 3: Probe alternate deployment surfaces**
 
-Query Netlify/Vercel targets and determine if they are active.
+Query deployment targets and determine if they are active.
 Expected: no live parallel prod instance.
 
 - [ ] **Step 4: Probe secret leakage in repo files**
