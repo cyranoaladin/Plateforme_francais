@@ -177,8 +177,21 @@ jobs:
       - run: chmod +x tests/contracts/run-schemathesis.sh tests/contracts/run-schemathesis-auth.sh tests/contracts/run-schemathesis-teacher-rbac.sh tests/contracts/run-teacher-comment-rbac.sh tests/contracts/run-teacher-export-rbac.sh
       - run: npx prisma migrate deploy
       - run: npm run build:ci
-      - run: npm run start &
-      - run: npx wait-on http://127.0.0.1:3000/api/v1/health
+      - run: |
+          echo "Starting Next.js server..."
+          npm run start > server.log 2>&1 &
+          SERVER_PID=$!
+          echo "Server PID: $SERVER_PID"
+          echo "Waiting for health endpoint..."
+          npx wait-on --timeout 60000 http://127.0.0.1:3000/api/v1/health || {
+            echo "Server failed to start within timeout"
+            echo "Server logs:"
+            cat server.log
+            echo "Process status:"
+            ps aux | grep -E "(next|node)" | grep -v grep || echo "No Node processes found"
+            exit 1
+          }
+          echo "Server is ready"
       - name: Schemathesis public contracts
         run: npm run test:contracts | tee schemathesis-public.log
       - name: Schemathesis authenticated contracts
@@ -236,8 +249,21 @@ jobs:
       - run: npm run db:seed
       - run: npx playwright install --with-deps chromium
       - run: npm run build:ci
-      - run: E2E_DISABLE_RATE_LIMIT=1 npm run start &
-      - run: npx wait-on http://localhost:3000
+      - run: |
+          echo "Starting Next.js server for E2E..."
+          E2E_DISABLE_RATE_LIMIT=1 npm run start > e2e-server.log 2>&1 &
+          SERVER_PID=$!
+          echo "E2E Server PID: $SERVER_PID"
+          echo "Waiting for server..."
+          npx wait-on --timeout 60000 http://localhost:3000 || {
+            echo "E2E Server failed to start within timeout"
+            echo "E2E Server logs:"
+            cat e2e-server.log
+            echo "Process status:"
+            ps aux | grep -E "(next|node)" | grep -v grep || echo "No Node processes found"
+            exit 1
+          }
+          echo "E2E Server is ready"
       - name: Playwright E2E tests
         run: npx playwright test --project=chromium
         env:
