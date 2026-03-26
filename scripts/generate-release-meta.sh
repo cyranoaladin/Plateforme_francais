@@ -7,9 +7,10 @@ set -e
 # Déterminer le répertoire racine de l'application
 APP_ROOT="${APP_ROOT:-$(pwd)}"
 
-# Générer le SHA git
-GIT_SHA=$(git rev-parse HEAD 2>/dev/null || echo "unknown")
-BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")
+# Générer les métadonnées de release
+# En production, BUILD_GIT_SHA et BUILD_TIME sont injectés par scripts/deploy.sh
+GIT_SHA="${BUILD_GIT_SHA:-$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")}"
+BUILD_TIME="${BUILD_TIME:-$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")}"
 
 # Écrire dans les fichiers
 echo "$GIT_SHA" > "$APP_ROOT/.git_sha"
