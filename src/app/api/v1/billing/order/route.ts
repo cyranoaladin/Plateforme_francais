@@ -26,7 +26,7 @@ function generateOrderRef(): string {
 
 /**
  * POST /api/v1/billing/order
- * Body: { plan: 'PREMIUM' | 'MASTERIUM', method: 'virement' | 'flouci' }
+ * Body: { plan: 'PREMIUM' | 'MASTERIUM', method: 'virement' | 'espèces' }
  *
  * Creates a PENDING PaymentTransaction and returns order details with
  * payment instructions.
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
     const planConfig = PLAN_CATALOG[internalPlan];
     const amountMillimes = planConfig.priceTnd * 1000;
-    const provider: PaymentProvider = method === 'virement' ? 'VIREMENT' : 'FLOUCI';
+    const provider: PaymentProvider = method === 'virement' ? 'VIREMENT' : 'MANUAL';
     const orderRef = generateOrderRef();
 
     const payment = await prisma.paymentTransaction.create({
@@ -91,8 +91,8 @@ export async function POST(request: Request) {
 
     const instructions =
       method === 'virement'
-        ? `Effectue un virement de ${amountTnd} TND avec la référence ${orderRef} sur le compte bancaire communiqué par email.`
-        : `Envoie ${amountTnd} TND via Flouci avec la référence ${orderRef}.`;
+        ? `Effectue un virement de ${amountTnd} TND avec la référence ${orderRef} sur le compte bancaire STE M&M ACADEMY SUARL (RIB: TN5925079000000156908404).`
+        : `Règlement en espèces de ${amountTnd} TND avec la référence ${orderRef}. Contacte l'équipe Nexus pour organiser le paiement.`;
 
     logger.info(
       { userId: auth.user.id, orderId: payment.id, orderRef, plan: internalPlan, method },
