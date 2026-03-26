@@ -50,6 +50,7 @@ function loadEnvBundle(...relativePaths) {
 
 const appEnv = loadEnvBundle('.env', '.env.local', '.release.env');
 const mcpEnv = loadEnvBundle(path.join('packages', 'mcp-server', '.env'));
+const sharedMcpApiKey = appEnv.MCP_API_KEY || mcpEnv.MCP_API_KEY;
 
 function readOptionalFile(filePath) {
   try {
@@ -81,6 +82,7 @@ const webEnv = withProductionDefaults(
   },
   {
     ...appEnv,
+    ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}),
     ...(releaseGitSha ? { BUILD_GIT_SHA: releaseGitSha } : {}),
     ...(releaseBuildTime ? { BUILD_TIME: releaseBuildTime } : {}),
   },
@@ -90,8 +92,9 @@ const workerEnv = withProductionDefaults(
   {
     APP_ROOT: appRoot,
     RESSOURCES_ROOT: '/srv/eaf_ressources',
+    ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}),
   },
-  appEnv,
+  { ...appEnv, ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}) },
 );
 
 const mcpRuntimeEnv = withProductionDefaults(
@@ -99,8 +102,9 @@ const mcpRuntimeEnv = withProductionDefaults(
     MCP_TRANSPORT: 'http',
     MCP_PORT: 3100,
     MCP_HTTP_BIND: '127.0.0.1',
+    ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}),
   },
-  mcpEnv,
+  { ...mcpEnv, ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}) },
 );
 
 /**
