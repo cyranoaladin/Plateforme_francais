@@ -10,9 +10,10 @@
     "picomatch@4": "^4.0.4"
   },
   "scripts": {
+    "release-meta": "bash scripts/generate-release-meta.sh",
     "dev": "next dev",
-    "build": "next build && npm run copy-public-to-standalone",
-    "build:ci": "next build --webpack",
+    "build": "npm run release-meta && next build && npm run copy-public-to-standalone",
+    "build:ci": "npm run release-meta && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
