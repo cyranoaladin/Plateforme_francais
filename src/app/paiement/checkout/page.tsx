@@ -7,7 +7,6 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
-  CreditCard,
   Landmark,
   Loader2,
   Smartphone,
