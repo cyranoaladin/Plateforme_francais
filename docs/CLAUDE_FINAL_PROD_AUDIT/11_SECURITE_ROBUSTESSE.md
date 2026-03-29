@@ -35,7 +35,6 @@
 | --- | --- |
 | Ports publics | `22`, `80`, `443` |
 | Ports applicatifs internes | `3000`, `3100`, `5432`, `5433`, `5435`, `6379`, `11434` sur loopback |
-| Netlify zombie | `404` (bloqué par middleware) |
 
 ## 5. Dépendances et chaîne logicielle
 
