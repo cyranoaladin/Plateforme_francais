@@ -1,13 +1,13 @@
 /**
  * Bibliothèque freemium gating.
- * FREE: accès limité à N ressources par catégorie (échantillons).
- * PRO/MAX: accès complet.
+ * Freemium: accès limité à N ressources par catégorie (échantillons).
+ * Premium/Masterium: accès complet.
  */
 
 import { type PlanId, PLAN_CATALOG } from '@/lib/billing/plan-catalog';
 
 /**
- * Nombre de ressources accessibles par catégorie pour le plan FREE.
+ * Nombre de ressources accessibles par catégorie pour le plan Freemium.
  * Cible : ~5 % du catalogue total (548 ressources → 28 accessibles).
  * Distribution proportionnelle au poids de chaque catégorie :
  *   Annales_EAF (27)          → 2

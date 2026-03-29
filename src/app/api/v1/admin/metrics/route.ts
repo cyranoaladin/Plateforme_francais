@@ -121,9 +121,9 @@ export async function GET() {
           total: (revenueTotal._sum.amountMillimes ?? 0) / 1000,
         },
         subscribers: {
-          free: freeTotal,
+          freemium: freeTotal,
           premium,
-          pro,
+          masterium: pro,
           total: subscriberTotal,
         },
         pipeline: {

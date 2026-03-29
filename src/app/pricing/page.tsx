@@ -733,7 +733,7 @@ export default function PricingPage() {
             <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[var(--success-bg-pale)] p-4">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--whatsapp)]" />
               <p className="text-sm leading-6 text-[var(--text-secondary)]">
-                Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire.
+                Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait par virement bancaire ou en espèces, puis activation par code.
               </p>
             </div>
           </div>

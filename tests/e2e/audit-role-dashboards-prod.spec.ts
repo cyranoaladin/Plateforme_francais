@@ -33,8 +33,8 @@ test.describe('Audit role dashboards on production', () => {
     await expect(page.getByText('Espace parent')).toBeVisible();
     await expect(page.getByText('Conseil parental de la semaine')).toBeVisible();
     await expect(page.getByText('Aucun élève n’est encore rattaché', { exact: false })).toHaveCount(0);
-    await expect(page.locator('body')).not.toContainText('PRO');
-    await expect(page.locator('body')).not.toContainText('MAX');
+    await expect(page.locator('body')).not.toContainText(/\bPRO\b/);
+    await expect(page.locator('body')).not.toContainText(/\bMAX\b/);
   });
 
   test('teacher dashboard is useful and free of legacy plan labels', async ({ page }) => {
@@ -44,8 +44,8 @@ test.describe('Audit role dashboards on production', () => {
     await expect(page.getByText('Espace enseignant')).toBeVisible();
     await expect(page.getByText('Générer un code classe')).toBeVisible();
     await expect(page.getByText('Export CSV')).toBeVisible();
-    await expect(page.locator('body')).not.toContainText('PRO');
-    await expect(page.locator('body')).not.toContainText('MAX');
+    await expect(page.locator('body')).not.toContainText(/\bPRO\b/);
+    await expect(page.locator('body')).not.toContainText(/\bMAX\b/);
   });
 
   test('admin dashboard is in French and uses only business plan labels', async ({ page }) => {
@@ -56,6 +56,6 @@ test.describe('Audit role dashboards on production', () => {
     await page.getByRole('button', { name: "Codes d'activation" }).click();
     await expect(page.getByText('Générer un code d\'activation')).toBeVisible();
     await expect(page.locator('body')).not.toContainText('Dashboard Admin');
-    await expect(page.locator('body')).not.toContainText('MAX');
+    await expect(page.locator('body')).not.toContainText(/\bMAX\b/);
   });
 });

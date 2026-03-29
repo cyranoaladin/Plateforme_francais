@@ -382,12 +382,16 @@ export const GetSubscriptionSchema = z.object({
   feature: z.string().optional(),
 })
 
+/**
+ * Plan limits — aligned with plan-catalog.ts quotas.
+ * Internal plan IDs: FREE (Freemium), PREMIUM (Premium), PRO (Masterium).
+ */
 const PLAN_LIMITS = {
   FREE: {
     epreuvesPerMonth: 3,
-    correctionsPerMonth: 1,
-    oralSessionsPerMonth: 2,
-    tuteurMessagesPerDay: 10,
+    correctionsPerMonth: 2,
+    oralSessionsPerMonth: 1,
+    tuteurMessagesPerDay: 3,
     quizPerDay: 3,
     adaptiveParcours: false,
     avocatDuDiable: false,
@@ -395,19 +399,19 @@ const PLAN_LIMITS = {
     rapportHebdo: false,
     graphRag: false,
   },
-  MONTHLY: {
+  PREMIUM: {
     epreuvesPerMonth: null,
-    correctionsPerMonth: null,
-    oralSessionsPerMonth: null,
-    tuteurMessagesPerDay: null,
-    quizPerDay: null,
+    correctionsPerMonth: 20,
+    oralSessionsPerMonth: 40,
+    tuteurMessagesPerDay: 100,
+    quizPerDay: 30,
     adaptiveParcours: true,
     avocatDuDiable: true,
     spacedRepetition: true,
     rapportHebdo: true,
     graphRag: false,
   },
-  LIFETIME: {
+  PRO: {
     epreuvesPerMonth: null,
     correctionsPerMonth: null,
     oralSessionsPerMonth: null,
@@ -427,7 +431,9 @@ export async function getSubscription(input: z.infer<typeof GetSubscriptionSchem
     where: { userId: input.studentId },
   }).catch(() => null)
 
-  const plan = (subscription?.plan ?? 'FREE') as keyof typeof PLAN_LIMITS
+  const rawPlan = subscription?.plan ?? 'FREE'
+  // Normalize legacy plan names to canonical internal IDs
+  const plan = (rawPlan === 'MONTHLY' ? 'PREMIUM' : rawPlan === 'LIFETIME' || rawPlan === 'MAX' ? 'PRO' : rawPlan) as keyof typeof PLAN_LIMITS
   const limits = PLAN_LIMITS[plan]
 
   let featureCheck: { feature: string; allowed: boolean; reason?: string; upgradeUrl?: string } | undefined

@@ -6145,7 +6145,7 @@
       "line": 736,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait exclusivement par virement bancaire."
+      "text": "Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait par virement bancaire ou en espèces, puis activation par code."
     },
     {
       "file": "src/app/pricing/page.tsx",

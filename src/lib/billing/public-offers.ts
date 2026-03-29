@@ -37,6 +37,9 @@ function formatLimit(value: number | 'unlimited', period: 'day' | 'week' | 'mont
   if (value === 'unlimited') {
     return 'Illimité';
   }
+  if (value === 0) {
+    return 'Non inclus';
+  }
 
   const suffix = period === 'day' ? 'jour' : period === 'week' ? 'semaine' : 'mois';
   return `${value} / ${suffix}`;
