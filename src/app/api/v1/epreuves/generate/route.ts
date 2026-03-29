@@ -59,32 +59,18 @@ export async function POST(request: Request) {
     throw error;
   }
 
-  // Check both WRITTEN_CORRECTIONS and OCR_COPIES upfront so the user knows
+  // Check WRITTEN_CORRECTIONS quota upfront so the user knows
   // BEFORE writing their essay if they can actually submit it.
+  // Note: OCR_COPIES is NOT checked here — generating a subject is always
+  // allowed even on FREE (limit 0 for OCR). OCR quota is enforced only
+  // at copy upload time (POST /epreuves/{id}/copie).
   const writtenQuota = billing.config.quotas.WRITTEN_CORRECTIONS;
-  if (writtenQuota) {
+  if (writtenQuota && writtenQuota.limit !== 0) {
     const availability = await checkBillingQuota(auth.user.id, 'WRITTEN_CORRECTIONS', writtenQuota);
     if (!availability.allowed) {
       return NextResponse.json(
         {
           error: `Tu as atteint la limite incluse pour les corrections écrites (${writtenQuota.limit} par mois, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour générer et corriger une nouvelle épreuve.`,
-          code: 'QUOTA_EXCEEDED',
-          upgradeUrl: '/pricing',
-          plan: toPublicPlanId(billing.planId),
-          reset_info: getResetMessage('month'),
-        },
-        { status: 402 },
-      );
-    }
-  }
-
-  const ocrQuota = billing.config.quotas.OCR_COPIES;
-  if (ocrQuota) {
-    const ocrAvailability = await checkBillingQuota(auth.user.id, 'OCR_COPIES', ocrQuota);
-    if (!ocrAvailability.allowed) {
-      return NextResponse.json(
-        {
-          error: `Tu as atteint la limite de copies (${ocrQuota.limit} par mois, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Passe au plan supérieur pour déposer plus de copies.`,
           code: 'QUOTA_EXCEEDED',
           upgradeUrl: '/pricing',
           plan: toPublicPlanId(billing.planId),
