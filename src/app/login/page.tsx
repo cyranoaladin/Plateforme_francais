@@ -260,6 +260,16 @@ function AuthCard() {
     if (reason === 'session_expired') {
       setError('Ta session a expiré ou a été fermée car ton compte a été utilisé sur un autre appareil. Reconnecte-toi pour continuer.');
     }
+    // Show feedback after email verification redirect
+    const verified = searchParams.get('verified');
+    if (verified === 'true') {
+      setSuccessMessage('Ton adresse email a été vérifiée avec succès. Tu peux te connecter.');
+    }
+    // Show feedback when verification token is expired or invalid
+    const errorParam = searchParams.get('error');
+    if (errorParam === 'token-expired') {
+      setError('Le lien de vérification a expiré ou est invalide. Connecte-toi et demande un nouveau lien depuis ton profil.');
+    }
   }, [searchParams]);
 
   useEffect(() => {
@@ -509,26 +519,28 @@ function AuthCard() {
             </div>
           ) : null}
 
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              data-testid="auth-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
-              required
-              autoComplete="email"
-              placeholder="prenom@exemple.fr"
-            />
-          </div>
+          {mode !== 'reset' && (
+            <div>
+              <label className="mb-2 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="email">
+                Email
+              </label>
+              <input
+                id="email"
+                data-testid="auth-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                required
+                autoComplete="email"
+                placeholder="prenom@exemple.fr"
+              />
+            </div>
+          )}
 
-          {mode !== 'forgot' && <PasswordField id="password" value={password} onChange={setPassword} label="Mot de passe" testId="auth-password" autoComplete={mode === 'register' ? 'new-password' : 'current-password'} showRules={mode === 'register'} />}
+          {mode !== 'forgot' && <PasswordField id="password" value={password} onChange={setPassword} label={mode === 'reset' ? 'Nouveau mot de passe' : 'Mot de passe'} testId="auth-password" autoComplete={mode === 'register' || mode === 'reset' ? 'new-password' : 'current-password'} showRules={mode === 'register' || mode === 'reset'} />}
 
-          {mode === 'reset' && <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le mot de passe" autoComplete="new-password" />}
+          {mode === 'reset' && <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le nouveau mot de passe" autoComplete="new-password" />}
 
           {mode === 'register' ? (
             <>

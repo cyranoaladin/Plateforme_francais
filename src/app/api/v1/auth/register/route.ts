@@ -72,7 +72,7 @@ export async function POST(request: Request) {
 
   // Extract IP hash for CGU consent proof (RGPD: no raw IP stored)
   const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  const ipHash = Buffer.from(clientIp).toString('base64');
+  const ipHash = createHash('sha256').update(clientIp).digest('hex');
 
   await createUser({
     id: userId,

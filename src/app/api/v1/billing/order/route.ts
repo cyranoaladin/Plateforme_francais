@@ -69,6 +69,22 @@ export async function POST(request: Request) {
       );
     }
 
+    // Prevent duplicate pending orders for the same plan
+    const existingPending = await prisma.paymentTransaction.findFirst({
+      where: {
+        userId: auth.user.id,
+        plan: internalPlan as SubscriptionPlan,
+        status: 'PENDING',
+      },
+      select: { orderRef: true },
+    });
+    if (existingPending) {
+      return NextResponse.json(
+        { error: `Tu as déjà une commande en attente (réf. ${existingPending.orderRef}). Finalise-la avant d'en créer une nouvelle.` },
+        { status: 409 },
+      );
+    }
+
     const planConfig = PLAN_CATALOG[internalPlan];
     const amountMillimes = planConfig.priceTnd * 1000;
     const provider: PaymentProvider = method === 'virement' ? 'VIREMENT' : 'MANUAL';
