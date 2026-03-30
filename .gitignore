@@ -21,6 +21,8 @@ tests/.auth/
 
 # production
 /build
+.build_time
+.git_sha
 
 # misc
 .DS_Store

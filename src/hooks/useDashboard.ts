@@ -262,17 +262,11 @@ export function useDashboard(endpoint: string = '/api/v1/memory/timeline?limit=2
 
         if (!response.ok) {
           if (response.status === 401) {
-            // Utilisateur non authentifié - utiliser des données par défaut
-            setData({
-              profile: {
-                displayName: 'Élève',
-                onboardingCompleted: false,
-              },
-              timeline: [],
-              weakSignals: {},
-              examInfo: officialExamInfo,
-            });
-            setError(null);
+            // Redirect to login — do not silently swallow auth errors
+            if (typeof window !== 'undefined') {
+              window.location.href = '/login';
+            }
+            setError('Session expirée. Redirection vers la connexion…');
             return;
           }
           throw new Error('Impossible de charger la timeline.');

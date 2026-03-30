@@ -63,14 +63,17 @@ export class MistralProvider implements LLMProvider {
     const messages = ensureMessages(promptOrMessages);
 
     try {
-      const completion = await this.client.chat.completions.create({
-        model: this.model,
-        messages,
-        temperature: options?.temperature ?? 0.3,
-        max_tokens: options?.maxTokens ?? 4096,
-        response_format:
-          options?.responseMimeType === 'application/json' ? { type: 'json_object' } : undefined,
-      });
+      const completion = await this.client.chat.completions.create(
+        {
+          model: this.model,
+          messages,
+          temperature: options?.temperature ?? 0.3,
+          max_tokens: options?.maxTokens ?? 4096,
+          response_format:
+            options?.responseMimeType === 'application/json' ? { type: 'json_object' } : undefined,
+        },
+        { signal: AbortSignal.timeout(30_000) },
+      );
 
       const text = completion.choices[0]?.message?.content ?? '';
 

@@ -56,6 +56,25 @@ export function validateEnv(): ValidateEnvResult {
     throw new Error(msg);
   }
 
+  // 1b. Production-only: reject weak/default secrets ────────────────
+  if (process.env.NODE_ENV === 'production') {
+    const WEAK_MARKER = 'minimum_32_characters';
+    const secretVars = ['SESSION_SECRET', 'CSRF_SECRET', 'CRON_SECRET'] as const;
+    for (const key of secretVars) {
+      const val = process.env[key] ?? '';
+      if (val.includes(WEAK_MARKER) || val.length < 32) {
+        const msg = `${key} is too weak for production. Generate with: openssl rand -base64 32`;
+        logger.error({ key }, msg);
+        throw new Error(msg);
+      }
+    }
+    if (!process.env.BILLING_CODE_PEPPER?.trim() || (process.env.BILLING_CODE_PEPPER?.length ?? 0) < 32) {
+      const msg = 'BILLING_CODE_PEPPER is required in production. Generate with: openssl rand -hex 32';
+      logger.error(msg);
+      throw new Error(msg);
+    }
+  }
+
   // 2. At least one LLM key ─────────────────────────────────────────
   const hasLlmKey = REQUIRED_LLM.some((key) => !!process.env[key]?.trim());
 

@@ -134,6 +134,14 @@ PY
   fi
 fi
 npx prisma generate
+
+# Pre-migration backup (safety net)
+BACKUP_DIR="/opt/backups"
+mkdir -p "\$BACKUP_DIR"
+BACKUP_FILE="\$BACKUP_DIR/pre_migration_\$(date +%Y%m%d_%H%M%S).dump"
+echo "  Creating pre-migration backup: \$BACKUP_FILE"
+sudo -u postgres pg_dump -Fc "\$DB_NAME" > "\$BACKUP_FILE" 2>/dev/null || echo "  ⚠ Backup skipped (empty DB or first deploy)"
+
 npx prisma migrate deploy
 EOF
 

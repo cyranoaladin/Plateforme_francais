@@ -11,7 +11,7 @@ describe('Landing pricing copy', () => {
     expect(free?.landingBullets).not.toContain('3 corrections par mois');
     expect(premium?.footer).toContain('virement bancaire ou espèces');
     expect(premium?.landingBullets).toContain('Activation par code après règlement');
-    expect(analysesRow?.values.FREEMIUM).toBe('2 / mois');
+    expect(analysesRow?.values.FREEMIUM).toBe('Non inclus');
     expect(analysesRow?.values.PREMIUM).toBe('20 / mois');
     expect(analysesRow?.values.MASTERIUM).toBe('50 / mois');
   });

@@ -293,8 +293,8 @@ export default function AdminDashboard() {
             onClick={() => setActiveTab('overview')}
             className={`px-4 py-2 font-medium transition-colors ${
               activeTab === 'overview'
-                ? 'border-b-2 border-[var(--accent-primary)] text-[var(--accent-primary)]'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                ? 'border-b-2 border-[var(--c-accent)] text-[var(--c-accent)]'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'
             }`}
           >
             <TrendingUp className="w-4 h-4 inline mr-2" />
@@ -304,8 +304,8 @@ export default function AdminDashboard() {
             onClick={() => setActiveTab('users')}
             className={`px-4 py-2 font-medium transition-colors ${
               activeTab === 'users'
-                ? 'border-b-2 border-[var(--accent-primary)] text-[var(--accent-primary)]'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                ? 'border-b-2 border-[var(--c-accent)] text-[var(--c-accent)]'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'
             }`}
           >
             <Users className="w-4 h-4 inline mr-2" />
@@ -315,8 +315,8 @@ export default function AdminDashboard() {
             onClick={() => setActiveTab('codes')}
             className={`px-4 py-2 font-medium transition-colors ${
               activeTab === 'codes'
-                ? 'border-b-2 border-[var(--accent-primary)] text-[var(--accent-primary)]'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                ? 'border-b-2 border-[var(--c-accent)] text-[var(--c-accent)]'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'
             }`}
           >
             <Key className="w-4 h-4 inline mr-2" />
@@ -326,8 +326,8 @@ export default function AdminDashboard() {
             onClick={() => setActiveTab('payments')}
             className={`px-4 py-2 font-medium transition-colors ${
               activeTab === 'payments'
-                ? 'border-b-2 border-[var(--accent-primary)] text-[var(--accent-primary)]'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                ? 'border-b-2 border-[var(--c-accent)] text-[var(--c-accent)]'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'
             }`}
           >
             <CreditCard className="w-4 h-4 inline mr-2" />
@@ -337,7 +337,7 @@ export default function AdminDashboard() {
 
         {loading ? (
           <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--accent-primary)]" />
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--c-accent)]" />
           </div>
         ) : (
           <>
@@ -351,7 +351,7 @@ export default function AdminDashboard() {
                         <p className="text-sm text-[var(--text-secondary)]">Utilisateurs</p>
                         <p className="text-2xl font-bold mt-1">{stats.totalUsers}</p>
                       </div>
-                      <Users className="w-8 h-8 text-[var(--accent-primary)]" />
+                      <Users className="w-8 h-8 text-[var(--c-accent)]" />
                     </div>
                   </Card>
 

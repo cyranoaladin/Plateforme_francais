@@ -96,13 +96,29 @@ export async function POST(request: Request) {
     skill = resolved.skill;
   }
 
-  const result = await orchestrate({
-    skill,
-    userQuery: parsed.data.query,
-    userId: auth.user.id,
-    workId: parsed.data.workId,
-    parcours: parsed.data.parcours,
-  });
+  let result: unknown;
+  try {
+    result = await orchestrate({
+      skill,
+      userQuery: parsed.data.query,
+      userId: auth.user.id,
+      workId: parsed.data.workId,
+      parcours: parsed.data.parcours,
+    });
+  } catch (error) {
+    const isQuotaError = error instanceof Error && error.name === 'QuotaExceededError';
+    if (isQuotaError) {
+      return NextResponse.json(
+        { error: 'Quota LLM dépassé. Réessayez plus tard.', code: 'LLM_QUOTA_EXCEEDED' },
+        { status: 429 },
+      );
+    }
+    console.error('[chat] orchestrate error:', error instanceof Error ? error.message : error);
+    return NextResponse.json(
+      { error: 'Une erreur est survenue. Réessayez dans quelques instants.' },
+      { status: 500 },
+    );
+  }
 
   await createMemoryEventRecord(
     createMemoryEvent(auth.user.id, {

@@ -280,7 +280,7 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         errorCode: 'ANTI_TRICHE_OUTPUT',
         contextSize: contextTokens,
       });
-      void persistAgentMemory({
+      persistAgentMemory({
         userId,
         skill,
         userQuery,
@@ -290,7 +290,7 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         workId: effectiveWorkId,
         tokensUsed: (completion.usage?.promptTokens ?? 0) + (completion.usage?.completionTokens ?? 0),
         latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
-      });
+      }).catch((err) => logger.error({ err, userId, skill }, 'persistAgentMemory failed'));
       return buildRefusalOutput(complianceOutput);
     }
 
@@ -312,7 +312,7 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         errorCode: 'OUTPUT_VALIDATION',
         contextSize: contextTokens,
       });
-      void persistAgentMemory({
+      persistAgentMemory({
         userId,
         skill,
         userQuery,
@@ -323,7 +323,7 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         parsedOutput: parsedRaw,
         tokensUsed: (completion.usage?.promptTokens ?? 0) + (completion.usage?.completionTokens ?? 0),
         latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
-      });
+      }).catch((err) => logger.error({ err, userId, skill }, 'persistAgentMemory failed'));
       return buildRefusalOutput(finalCompliance);
     }
 
@@ -355,7 +355,7 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         contextSize: contextTokens,
       });
       const fallback = fallbackSkillOutput(skill);
-      void persistAgentMemory({
+      persistAgentMemory({
         userId,
         skill,
         userQuery,
@@ -365,7 +365,7 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
         workId: effectiveWorkId,
         tokensUsed: (completion.usage?.promptTokens ?? 0) + (completion.usage?.completionTokens ?? 0),
         latencyMs: completion.usage?.latencyMs ?? (Date.now() - startedAt),
-      });
+      }).catch((err) => logger.error({ err, userId, skill }, 'persistAgentMemory failed'));
       return fallback;
     }
 

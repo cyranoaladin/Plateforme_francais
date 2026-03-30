@@ -57,7 +57,7 @@ export async function checkRateLimit(input: {
   limit: number;
   windowMs?: number;
 }): Promise<{ allowed: boolean; retryAfter: number }> {
-  if (process.env.E2E_DISABLE_RATE_LIMIT === '1') {
+  if (process.env.E2E_DISABLE_RATE_LIMIT === '1' && process.env.NODE_ENV !== 'production') {
     return { allowed: true, retryAfter: 0 };
   }
 

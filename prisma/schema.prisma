@@ -22,13 +22,17 @@ enum CopieStatus {
   error
 }
 
+// Effective plans: FREE → Freemium, PREMIUM → Premium, PRO → Masterium
+// MAX, MONTHLY, LIFETIME are legacy values kept for backward-compatible DB rows.
+// The application normalizes them via normalizePlanId() in plan-catalog.ts.
+// TODO: migrate existing rows and drop legacy values in a future release.
 enum SubscriptionPlan {
   FREE
   PREMIUM
   PRO
-  MAX
-  MONTHLY
-  LIFETIME
+  MAX       // @deprecated → maps to PRO
+  MONTHLY   // @deprecated → maps to PREMIUM
+  LIFETIME  // @deprecated → maps to PRO
 }
 
 enum SubscriptionStatus {
@@ -562,7 +566,7 @@ model PaymentTransaction {
 model ActivationCode {
   id               String   @id @default(cuid())
   codeHash         String   @unique
-  plan             String   // "PRO" | "MAX"
+  plan             String   // "PREMIUM" | "PRO" (public: Premium | Masterium)
   durationDays     Int      // 30, 90, 365…
   status           String   @default("CREATED") // CREATED | DELIVERED | REDEEMED | REVOKED
   expiresAt        DateTime?

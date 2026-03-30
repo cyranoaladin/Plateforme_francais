@@ -20,7 +20,7 @@ describe('Quotas Single Source of Truth', () => {
     expect(free.quotas.ORAL_SESSIONS).toEqual({ limit: 1, period: 'month' });
     expect(free.quotas.WRITTEN_CORRECTIONS).toEqual({ limit: 2, period: 'month' });
     expect(free.quotas.TUTOR_QUESTIONS).toEqual({ limit: 3, period: 'day' });
-    expect(free.quotas.OCR_COPIES).toEqual({ limit: 2, period: 'month' });
+    expect(free.quotas.OCR_COPIES).toEqual({ limit: 0, period: 'month' });
     expect(free.quotas.LLM_TOKENS).toEqual({ limit: 8_000, period: 'day' });
     expect(free.quotas.RAG_SEARCH).toEqual({ limit: 50, period: 'day' });
     expect(free.quotas.QUIZ_PER_DAY).toEqual({ limit: 3, period: 'day' });
