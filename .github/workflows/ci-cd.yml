@@ -64,7 +64,7 @@ jobs:
       - name: Contrôle FR (baseline copy)
         run: npm run ci:fr-copy
       - name: Audit dépendances npm
-        run: npx audit-ci --high
+        run: npx audit-ci --config .audit-ci.json
       - name: Détection code mort
         run: npx knip
 
