@@ -9,7 +9,7 @@
     "release-meta": "bash scripts/generate-release-meta.sh",
     "dev": "next dev",
     "build": "npm run release-meta && next build && npm run copy-public-to-standalone",
-    "build:ci": "npm run release-meta && next build --webpack",
+    "build:ci": "npm run release-meta && next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",

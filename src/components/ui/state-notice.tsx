@@ -11,6 +11,7 @@ type StateNoticeProps = {
   action?: ReactNode;
   className?: string;
   center?: boolean;
+  live?: 'assertive' | 'polite' | 'off';
 };
 
 const VARIANT_STYLES: Record<NoticeVariant, { shell: string; iconBox: string; text: string; defaultIcon: LucideIcon }> = {
@@ -60,15 +61,17 @@ export function StateNotice({
   action,
   className = '',
   center = false,
+  live,
 }: StateNoticeProps) {
   const visual = VARIANT_STYLES[variant];
   const Icon = icon ?? visual.defaultIcon;
+  const ariaLive = live ?? (variant === 'error' || variant === 'warning' ? 'assertive' : 'polite');
 
   return (
     <div
       className={`rounded-[24px] border p-5 shadow-[var(--shadow-sm)] ${visual.shell} ${className}`}
       role={variant === 'error' || variant === 'warning' ? 'alert' : 'status'}
-      aria-live={variant === 'error' || variant === 'warning' ? 'assertive' : 'polite'}
+      aria-live={ariaLive}
     >
       <div className={`flex gap-4 ${center ? 'flex-col items-center text-center' : 'items-start'}`}>
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${visual.iconBox}`}>

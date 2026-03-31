@@ -4,9 +4,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertCircle,
-  BookOpen,
   CheckCircle2,
-  Clock,
   Headphones,
   Loader2,
   Mic,
@@ -18,6 +16,9 @@ import {
   Volume2,
   Zap,
 } from 'lucide-react';
+import { OralHero } from '@/components/atelier-oral/OralHero';
+import { OralStepIndicator } from '@/components/atelier-oral/OralStepIndicator';
+import { OralTimer } from '@/components/atelier-oral/OralTimer';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { createAudioRecorder, type BrowserAudioRecorder } from '@/lib/oral/audio-recorder';
@@ -141,6 +142,12 @@ function speakText(text: string) {
   window.speechSynthesis.speak(utterance);
 }
 
+function speakTextSafe(text: string) {
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    speakText(text);
+  }
+}
+
 function playAudioBase64(base64: string, mimeType: string): Promise<void> {
   return new Promise((resolve, reject) => {
     try {
@@ -173,18 +180,6 @@ function playAlert() {
   } catch {
     // Audio not available.
   }
-}
-
-function formatTimer(seconds: number): string {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
-
-function timerTone(remaining: number): string {
-  if (remaining <= 120) return 'border-[var(--border-accent)] bg-[var(--c-accent-subtle)] text-[var(--c-accent-text)]';
-  if (remaining <= 600) return 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--c-reward)]';
-  return 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--c-success)]';
 }
 
 function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: string) {
@@ -299,6 +294,15 @@ export default function AtelierOralPage() {
         MediaRecorderCtor: MediaRecorder,
       });
     }
+
+    return () => {
+      sttRef.current?.stop();
+      audioRecorderRef.current?.dispose();
+      pendingAudioRef.current = null;
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
   }, []);
 
   const aggregated = useMemo(() => {
@@ -338,8 +342,8 @@ export default function AtelierOralPage() {
           method: 'POST',
           headers: { 'X-CSRF-Token': getCsrfTokenFromDocument() },
         });
-      } catch {
-        // Sync failure is non-blocking for the UI.
+      } catch (syncErr) {
+        console.warn('[oral] sync non-bloquant échoué:', syncErr);
       }
       setWizardPhase('PREP');
       setCurrentStepIndex(0);
@@ -365,8 +369,8 @@ export default function AtelierOralPage() {
         method: 'POST',
         headers: { 'X-CSRF-Token': getCsrfTokenFromDocument() },
       });
-    } catch {
-      // Sync failure is non-blocking for the UI.
+    } catch (syncErr) {
+      console.warn('[oral] sync non-bloquant échoué:', syncErr);
     }
     setWizardPhase('PASSAGE');
     stepStartRef.current = Date.now();
@@ -454,11 +458,11 @@ export default function AtelierOralPage() {
         // Play jury audio if available, otherwise use browser TTS
         if (result.juryAudioBase64 && result.juryAudioMimeType) {
           playAudioBase64(result.juryAudioBase64, result.juryAudioMimeType).catch(() => {
-            if (payload.relance) speakText(payload.relance);
-            else if (payload.feedback) speakText(payload.feedback);
+            if (payload.relance) speakTextSafe(payload.relance);
+            else if (payload.feedback) speakTextSafe(payload.feedback);
           });
         } else if (currentStep === 'ENTRETIEN' && payload.relance) {
-          speakText(payload.relance);
+          speakTextSafe(payload.relance);
         }
       } else {
         // ── Browser mode: send text to interact endpoint ──
@@ -474,7 +478,7 @@ export default function AtelierOralPage() {
         });
         if (!response.ok) throw new Error("Échec de l’analyse de la prestation.");
         payload = (await response.json()) as StepFeedback;
-        if (currentStep === 'ENTRETIEN' && payload.relance) speakText(payload.relance);
+        if (currentStep === 'ENTRETIEN' && payload.relance) speakTextSafe(payload.relance);
       }
 
       pendingAudioRef.current = null;
@@ -490,7 +494,7 @@ export default function AtelierOralPage() {
       const endResponse = await fetch(`/api/v1/oral/session/${session.sessionId}/end`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
-        body: JSON.stringify({ notes: prepNotes }),
+        body: JSON.stringify({ notes: prepNotes, examinerProfile }),
       });
       if (!endResponse.ok) throw new Error('Échec de finalisation de la session.');
       const endPayload = (await endResponse.json()) as BilanResult;
@@ -549,7 +553,7 @@ export default function AtelierOralPage() {
         ...(input.includeStudentTurn ? [{ role: 'eleve' as const, content: input.message }] : []),
         { role: 'jury' as const, content: payload.juryText },
       ]);
-      speakText(payload.juryText);
+      speakTextSafe(payload.juryText);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Erreur inconnue.');
     } finally {
@@ -621,41 +625,10 @@ export default function AtelierOralPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
-        <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
-        <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
-
-        <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
-          <div>
-            <div className="hero-kicker">
-              <BookOpen className="h-4 w-4" />
-              Oral EAF
-            </div>
-            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-              Une simulation officielle pensée comme un espace d’entraînement, pas comme un outil brut.
-            </h1>
-            <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
-              Tirage, préparation, passage puis bilan. Tout est réuni dans un seul espace pour te garder concentré sur la qualité de ta prise de parole, la précision des attendus officiels et les points à retravailler la séance suivante.
-            </p>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-            {[
-              { label: 'Préparation', value: isSimulation ? '30 min' : 'Libre' },
-              { label: 'Passage', value: isSimulation ? '20 min' : 'Libre' },
-              { label: 'Barème', value: '2 + 8 + 2 + 8' },
-            ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[24px] px-4 py-4">
-                <p className="ui-stat-label text-[var(--hero-kicker-text)]">{item.label}</p>
-                <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <OralHero isSimulation={isSimulation} />
 
       {error && (
-        <div data-testid="error-alert" className="space-y-3 rounded-[24px] border border-[var(--border-accent)] bg-[var(--c-accent-subtle)] px-5 py-4 text-sm text-[var(--c-accent-text)]" role="alert">
+        <div data-testid="error-alert" className="space-y-3 rounded-[24px] border border-[var(--border-accent)] bg-[var(--c-accent-subtle)] px-5 py-4 text-sm text-[var(--c-accent-text)]" role="alert" aria-live="assertive">
           <p>{error}</p>
           {upgradeUrl && (
             <Link href={upgradeUrl} className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-[var(--c-primary)] px-5 py-2.5 text-sm font-semibold text-[var(--text-on-primary)] shadow-[var(--shadow-md)] transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-page)]">
@@ -809,17 +782,11 @@ export default function AtelierOralPage() {
                   Lis, structure, choisis tes procédés et prépare la grammaire. Les notes restent un brouillon de travail, pas un objet évalué.
                 </p>
               </div>
-              {isSimulation ? (
-                <div className={`inline-flex items-center gap-2 rounded-[16px] border px-4 py-3 font-mono text-lg font-semibold ${timerTone(prepRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant : ${formatTimer(prepRemaining)}`}>
-                  <Clock className="h-5 w-5" />
-                  {formatTimer(prepRemaining)}
-                </div>
-              ) : (
-                <span className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)]">
-                  <Zap className="h-4 w-4" />
-                  Mode libre
-                </span>
-              )}
+              <OralTimer
+                remaining={prepRemaining}
+                label="Temps restant"
+                mode={isSimulation ? 'simulation' : 'free'}
+              />
             </div>
 
             <div className="mt-6 rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
@@ -917,43 +884,28 @@ export default function AtelierOralPage() {
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">{STEP_GUIDANCE[currentStep].body}</p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
-                {isSimulation && (
-                  <span className={`inline-flex items-center gap-2 rounded-[16px] border px-4 py-3 font-mono text-lg font-semibold ${timerTone(passageRemaining)}`} role="timer" aria-live="polite" aria-label={`Temps restant passage : ${formatTimer(passageRemaining)}`}>
-                    <Clock className="h-5 w-5" />
-                    {formatTimer(passageRemaining)}
-                  </span>
-                )}
-                {isSimulation && (
-                  <span className="rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-3 py-2 text-xs font-mono text-[var(--text-muted)]">
-                    {formatTimer(phaseRemaining)} phase
-                  </span>
-                )}
-                {!isSimulation && (
-                  <span className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)]">
-                    <Zap className="h-4 w-4" />
-                    Mode libre
-                  </span>
-                )}
+                <OralTimer
+                  remaining={passageRemaining}
+                  label="Temps restant passage"
+                  mode={isSimulation ? 'simulation' : 'free'}
+                />
+                {isSimulation ? (
+                  <OralTimer
+                    key={currentStepIndex}
+                    remaining={phaseRemaining}
+                    label={`Temps restant phase ${currentStep.toLowerCase()}`}
+                    mode="simulation"
+                    variant="compact"
+                  />
+                ) : null}
               </div>
             </div>
 
-            <div className="mt-6 grid gap-3 md:grid-cols-4">
-              {STEPS.map((stepName, index) => {
-                const complete = index < currentStepIndex;
-                const active = index === currentStepIndex;
-                return (
-                  <div
-                    key={stepName}
-                    className={`rounded-[22px] border px-4 py-4 text-center ${active ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)] shadow-[var(--shadow-sm)]' : complete ? 'border-[var(--border-success)] bg-[var(--bg-success)]' : 'border-[var(--border-default)] bg-[var(--bg-surface)]'}`}
-                  >
-                    <div className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${active ? 'bg-[var(--c-primary)] text-[var(--text-on-primary)]' : complete ? 'bg-[var(--c-success)]/10 text-[var(--c-success)]' : 'bg-[var(--bg-surface)] text-[var(--text-muted)]'}`}>
-                      {complete ? <CheckCircle2 className="h-5 w-5" /> : index + 1}
-                    </div>
-                    <p className={`mt-3 text-xs font-semibold uppercase tracking-[0.14em] ${active ? 'text-[var(--c-primary)]' : 'text-[var(--text-body)]'}`}>{STEP_LABELS[stepName]}</p>
-                  </div>
-                );
-              })}
-            </div>
+            <OralStepIndicator
+              steps={STEPS}
+              labels={STEP_LABELS}
+              currentStepIndex={currentStepIndex}
+            />
 
             <details className="mt-6 rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
               <summary className="cursor-pointer text-sm font-semibold text-[var(--c-primary)]">Extrait & question de grammaire</summary>

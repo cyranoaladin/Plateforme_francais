@@ -17,6 +17,7 @@ import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Badge, Button, Input } from '@/components/ui';
 import { StateNotice } from '@/components/ui';
+import { MAX_COPIE_UPLOAD_BYTES, validateCopieUploadFile } from '@/lib/atelier-ecrit/upload-validation';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 
 type EpreuveType = 'commentaire' | 'dissertation' | 'contraction_essai';
@@ -225,6 +226,12 @@ export default function AtelierEcritPage() {
       return;
     }
 
+    const fileError = validateCopieUploadFile(selectedFile);
+    if (fileError) {
+      setError(fileError);
+      return;
+    }
+
     setIsUploading(true);
     setError(null);
 
@@ -299,6 +306,7 @@ export default function AtelierEcritPage() {
             description={error}
             variant="warning"
             icon={PenTool}
+            live="assertive"
           />
           {upgradeUrl && (
             <Link
@@ -456,7 +464,7 @@ export default function AtelierEcritPage() {
                 >
                   <UploadCloud className="mx-auto h-12 w-12 text-[var(--text-icon)]" />
                   <h3 className="mt-4 text-lg font-semibold text-[var(--c-primary)]">Dépose ta copie ici</h3>
-                  <p className="mt-2 text-sm text-[var(--text-secondary)]">PDF, JPG, PNG ou WEBP (Max 20MB)</p>
+                  <p className="mt-2 text-sm text-[var(--text-secondary)]">PDF, JPG, PNG ou WEBP (Max {Math.round(MAX_COPIE_UPLOAD_BYTES / (1024 * 1024))}MB)</p>
                   <div className="mt-5 flex flex-wrap justify-center gap-3">
                     <button
                       onClick={(event) => {

@@ -613,7 +613,7 @@ function AuthCard() {
           ) : null}
 
           {error ? (
-            <p className="rounded-[var(--radius-xl)] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)]" role="alert">
+            <p className="rounded-[var(--radius-xl)] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)]" role="alert" aria-live="assertive">
               {error}
             </p>
           ) : null}

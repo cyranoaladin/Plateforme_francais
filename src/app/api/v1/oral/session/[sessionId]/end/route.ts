@@ -72,6 +72,7 @@ export async function POST(
     } as unknown as Prisma.JsonObject,
     score: bilan.note,
     maxScore: bilan.maxNote,
+    personaType: parsed.data.examinerProfile,
   });
 
   await createEvaluation({

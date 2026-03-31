@@ -107,7 +107,7 @@ describe('Quotas Single Source of Truth', () => {
 
   it('PREMIUM flags should be correct', () => {
     expect(PLAN_CATALOG.PREMIUM.flags.ORAL_PDF_REPORT).toBe(true);
-    expect(PLAN_CATALOG.PREMIUM.flags.ORAL_REPORT_HISTORY).toBe(false);
+    expect(PLAN_CATALOG.PREMIUM.flags.ORAL_REPORT_HISTORY).toBe(true);
     expect(PLAN_CATALOG.PREMIUM.flags.GRAPH_RAG).toBe(false);
     expect(PLAN_CATALOG.PREMIUM.flags.LIBRARY_FULL_ACCESS).toBe(true);
     expect(PLAN_CATALOG.PREMIUM.flags.ADAPTIVE_PARCOURS).toBe(true);

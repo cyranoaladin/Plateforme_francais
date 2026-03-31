@@ -284,10 +284,13 @@ export default function AdminDashboard() {
         )}
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-[var(--border-primary)]">
+        <div className="mb-6 flex gap-2 border-b border-[var(--border-primary)]" role="tablist" aria-label="Navigation administration">
           <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'overview'}
             onClick={() => setActiveTab('overview')}
-            className={`px-4 py-2 font-medium transition-colors ${
+            className={`px-4 py-2 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] ${
               activeTab === 'overview'
                 ? 'border-b-2 border-[var(--c-accent)] text-[var(--c-accent)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'
@@ -297,8 +300,11 @@ export default function AdminDashboard() {
             Vue d'ensemble
           </button>
           <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'users'}
             onClick={() => setActiveTab('users')}
-            className={`px-4 py-2 font-medium transition-colors ${
+            className={`px-4 py-2 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] ${
               activeTab === 'users'
                 ? 'border-b-2 border-[var(--c-accent)] text-[var(--c-accent)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'
@@ -308,8 +314,11 @@ export default function AdminDashboard() {
             Utilisateurs
           </button>
           <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'codes'}
             onClick={() => setActiveTab('codes')}
-            className={`px-4 py-2 font-medium transition-colors ${
+            className={`px-4 py-2 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] ${
               activeTab === 'codes'
                 ? 'border-b-2 border-[var(--c-accent)] text-[var(--c-accent)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'
@@ -319,8 +328,11 @@ export default function AdminDashboard() {
             Codes d'activation
           </button>
           <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'payments'}
             onClick={() => setActiveTab('payments')}
-            className={`px-4 py-2 font-medium transition-colors ${
+            className={`px-4 py-2 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] ${
               activeTab === 'payments'
                 ? 'border-b-2 border-[var(--c-accent)] text-[var(--c-accent)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'

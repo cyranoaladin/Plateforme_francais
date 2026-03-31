@@ -12,8 +12,10 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
+import { getBillingContext } from '@/lib/billing/context';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
+import { getStorageProvider } from '@/lib/storage/provider';
 
 export enum PDFTemplate {
   BILAN_ORAL = 'bilan-oral',
@@ -36,6 +38,16 @@ export interface GeneratedDocument {
   url: string;
   key: string;
   html: string;
+}
+
+export class BillingFeatureUnavailableError extends Error {
+  readonly status = 402;
+  readonly code = 'FEATURE_UPGRADE_REQUIRED';
+
+  constructor(message: string) {
+    super(message);
+    this.name = 'BillingFeatureUnavailableError';
+  }
 }
 
 const UPLOADS_DIR = path.resolve(process.cwd(), '.data/uploads/documents');
@@ -275,16 +287,19 @@ function renderResumeSession(data: Record<string, unknown>): string {
  */
 export async function generateDocument(options: GeneratePDFOptions): Promise<GeneratedDocument> {
   const html = renderHTML(options.template, options.data);
-
-  const userDir = path.join(UPLOADS_DIR, options.userId);
-  await ensureDir(userDir);
-
   const timestamp = Date.now();
   const htmlFilename = `${timestamp}-${options.filename}.html`;
   const key = `documents/${options.userId}/${htmlFilename}`;
-  const absolutePath = path.join(userDir, htmlFilename);
+  const storageProvider = getStorageProvider();
 
-  await fs.writeFile(absolutePath, html, 'utf-8');
+  if (process.env.STORAGE_PROVIDER === 's3') {
+    await storageProvider.uploadFile(key, Buffer.from(html, 'utf8'), 'text/html; charset=utf-8');
+  } else {
+    const userDir = path.join(UPLOADS_DIR, options.userId);
+    await ensureDir(userDir);
+    const absolutePath = path.join(userDir, htmlFilename);
+    await fs.writeFile(absolutePath, html, 'utf-8');
+  }
 
   const url = `/api/v1/documents/${encodeURIComponent(key)}`;
 
@@ -335,6 +350,11 @@ export async function generateBilanOralDocument(
   sessionResult: Record<string, unknown>,
   studentName?: string,
 ): Promise<GeneratedDocument> {
+  const billing = await getBillingContext(userId);
+  if (!billing.config.flags.ORAL_PDF_REPORT) {
+    throw new BillingFeatureUnavailableError('Rapport PDF oral non inclus dans votre plan.');
+  }
+
   return generateDocument({
     template: PDFTemplate.BILAN_ORAL,
     data: {

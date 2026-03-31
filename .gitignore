@@ -55,6 +55,7 @@ next-env.d.ts
 # IDE / tooling
 .vscode/
 .windsurf/
+.windsurfrules
 .superpowers/
 
 # Audit / local artifacts

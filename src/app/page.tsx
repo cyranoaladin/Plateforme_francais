@@ -12,7 +12,6 @@ import { ComparisonTable } from '@/components/landing/ComparisonTable';
 import { PricingSection } from '@/components/landing/PricingSection';
 import { InlineCTA } from '@/components/landing/InlineCTA';
 import { FooterCTA } from '@/components/landing/FooterCTA';
-import { WhatsAppButton } from '@/components/landing/WhatsAppButton';
 import { Footer } from '@/components/landing/Footer';
 import { ROUTES } from '@/lib/routes';
 
@@ -92,7 +91,6 @@ export default function HomePage() {
       </main>
 
       <Footer />
-      <WhatsAppButton />
     </>
   );
 }

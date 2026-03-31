@@ -60,12 +60,6 @@ type PlanCard = {
 
 const WHATSAPP_NUMBER = '+216 99 19 28 29';
 const WHATSAPP_LINK = 'https://wa.me/21699192829';
-const PLAN_LABELS: Record<SubscriptionPlan, string> = {
-  FREEMIUM: 'Freemium',
-  PREMIUM: 'Premium',
-  MASTERIUM: 'Masterium',
-};
-
 const PUBLIC_PLAN_ID_TO_SUBSCRIPTION: Record<'FREEMIUM' | 'PREMIUM' | 'MASTERIUM', SubscriptionPlan> = {
   FREEMIUM: 'FREEMIUM',
   PREMIUM: 'PREMIUM',
@@ -215,7 +209,7 @@ export default function PricingPage() {
   }, []);
 
   const currentPlan = billing?.subscription.planId ?? 'FREEMIUM';
-  const currentPlanLabel = PLAN_LABELS[currentPlan] ?? currentPlan;
+  const currentPlanLabel = formatPlanLabel(currentPlan);
   const currentPeriodEndLabel = useMemo(() => {
     const value = billing?.subscription.currentPeriodEnd;
     if (!value) return null;
@@ -397,9 +391,9 @@ export default function PricingPage() {
                   <div className="hero-body mt-3 space-y-2 text-sm">
                     <p className="font-semibold text-white">{{ PENDING: 'En attente', ACCEPTED: 'Accepté', REFUSED: 'Refusé', ERROR: 'Erreur' }[billing.lastPayment.status] ?? billing.lastPayment.status}</p>
                     <p>{lastPaymentLabel}</p>
-                    <p className="ui-helper-text hero-body-muted text-xs">
-                      {billing.lastPayment.planId ? PLAN_LABELS[billing.lastPayment.planId] : formatPlanLabel(billing.lastPayment.plan)} · Ref. {billing.lastPayment.orderRef}
-                    </p>
+                      <p className="ui-helper-text hero-body-muted text-xs">
+                        {billing.lastPayment.planId ? formatPlanLabel(billing.lastPayment.planId) : formatPlanLabel(billing.lastPayment.plan)} · Ref. {billing.lastPayment.orderRef}
+                      </p>
                   </div>
                 ) : (
                   <p className="hero-body mt-3 text-sm">Aucun paiement récent enregistré.</p>

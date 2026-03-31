@@ -34,6 +34,7 @@ type MediaRecorderCtor = {
 export type BrowserAudioRecorder = {
   start: () => Promise<void>;
   stop: () => Promise<RecordedAudio>;
+  dispose: () => void;
 };
 
 export function createAudioRecorder(deps: {
@@ -86,6 +87,19 @@ export function createAudioRecorder(deps: {
         };
         recorder!.stop();
       });
+    },
+    dispose() {
+      try {
+        if (recorder && recorder.state !== 'inactive') {
+          recorder.stop();
+        }
+      } catch {
+        // Ignore disposal race conditions.
+      }
+      stream?.getTracks().forEach((track) => track.stop());
+      recorder = null;
+      stream = null;
+      chunks = [];
     },
   };
 }

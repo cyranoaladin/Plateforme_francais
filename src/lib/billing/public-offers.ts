@@ -107,7 +107,7 @@ function buildPricingBullets(planId: InternalPlanId, summaries: PublicEntitlemen
   }
 
   if (planId === 'PREMIUM') {
-    return [...common, 'Rapport PDF oral', summaries.library];
+    return [...common, 'Rapport PDF oral', 'Historique oral complet', summaries.library];
   }
 
   return [...common, 'Recherche avancée dans le corpus', 'Historique oral complet', 'Support prioritaire', summaries.library];
@@ -129,6 +129,7 @@ function buildLandingBullets(planId: InternalPlanId, summaries: PublicEntitlemen
       `${summaries.written} de correction écrite`,
       `${summaries.tutor} d’échanges guidés`,
       'Rapport PDF oral',
+      'Historique oral complet',
       summaries.library,
       'Activation par code après règlement',
     ];
@@ -225,6 +226,14 @@ export const PUBLIC_PLAN_FEATURE_ROWS = [
   },
   {
     label: 'Rapport PDF oral',
+    values: {
+      FREEMIUM: '—',
+      PREMIUM: 'Oui',
+      MASTERIUM: 'Oui',
+    },
+  },
+  {
+    label: 'Historique oral',
     values: {
       FREEMIUM: '—',
       PREMIUM: 'Oui',

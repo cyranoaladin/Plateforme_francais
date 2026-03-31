@@ -96,6 +96,40 @@ Vérification post-deploy :
 curl -s https://eaf.nexusreussite.academy/api/v1/health
 ```
 
+### Déploiement Blue-Green
+
+La production utilise deux slots applicatifs:
+
+- `blue` sur `3000`
+- `green` sur `3001`
+
+Le slot actif est stocké dans `/etc/nginx/conf.d/active-slot.txt`. Nginx route ensuite `eaf.nexusreussite.academy` vers le bon port.
+
+Séquence manuelle type:
+
+```bash
+ACTIVE=$(cat /etc/nginx/conf.d/active-slot.txt)
+NEXT=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
+NEXT_PORT=$([ "$NEXT" = "blue" ] && echo "3000" || echo "3001")
+
+cd /var/www/eaf-$NEXT
+git pull origin main
+npm ci --omit=dev
+npx prisma generate
+npx prisma migrate deploy
+SLOT=$NEXT PORT=$NEXT_PORT pm2 startOrRestart ecosystem.config.cjs --only eaf-nextjs --env production --update-env
+curl -I http://127.0.0.1:${NEXT_PORT}/api/v1/health
+echo "$NEXT" > /etc/nginx/conf.d/active-slot.txt
+nginx -s reload
+```
+
+Rollback rapide:
+
+```bash
+echo blue > /etc/nginx/conf.d/active-slot.txt
+nginx -s reload
+```
+
 ## Documentation
 
 | Document | Contenu |

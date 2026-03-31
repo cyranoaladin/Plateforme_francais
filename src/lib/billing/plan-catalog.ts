@@ -103,7 +103,7 @@ export const PLAN_CATALOG: Record<InternalPlanId, PlanConfig> = {
     },
     flags: {
       ORAL_PDF_REPORT: true,
-      ORAL_REPORT_HISTORY: false,
+      ORAL_REPORT_HISTORY: true,
       SPACED_REPETITION_TIER: 'advanced',
       PARENT_DASHBOARD: true,
       SUPPORT_TIER: 'email',

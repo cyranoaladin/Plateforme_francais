@@ -5,6 +5,10 @@ permissions:
   security-events: write
   actions: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 on:
   workflow_dispatch:
   schedule:
@@ -19,12 +23,12 @@ on:
 
 env:
   NODE_VERSION: "20"
-  # Coverage thresholds lowered 2026-03-15 to match actual coverage (~35%)
-  # Progressive gate: raise by +2% per sprint as test coverage improves
-  COVERAGE_GATE_LINES: "30"
-  COVERAGE_GATE_FUNCTIONS: "27"
-  COVERAGE_GATE_BRANCHES: "24"
-  COVERAGE_GATE_STATEMENTS: "30"
+  # Coverage thresholds raised 2026-03-31 to reflect the current floor (~35%)
+  # Next target: +2% per sprint until lines/statements reach 45% and branches 35%
+  COVERAGE_GATE_LINES: "35"
+  COVERAGE_GATE_FUNCTIONS: "32"
+  COVERAGE_GATE_BRANCHES: "28"
+  COVERAGE_GATE_STATEMENTS: "35"
   DATABASE_URL: "postgresql://test:test@localhost:5432/eaf_test"
   DIRECT_URL: "postgresql://test:test@localhost:5432/eaf_test"
   REDIS_URL: "redis://localhost:6379"
@@ -97,8 +101,8 @@ jobs:
             const p='coverage/coverage-summary.json';
             if(!fs.existsSync(p)){console.error('Coverage summary not found');process.exit(1)}
             const c=JSON.parse(fs.readFileSync(p,'utf8')).total;
-            // Thresholds lowered 2026-03-15 to match actual coverage (~35%)
-            // Using conservative values to account for CI environment differences
+            // Thresholds raised 2026-03-31 to reflect current real coverage (~35%)
+            // Increase by +2 points per sprint while preserving CI stability
             const gates=[
               ['lines',    parseFloat(process.env.COVERAGE_GATE_LINES||'30')],
               ['functions', parseFloat(process.env.COVERAGE_GATE_FUNCTIONS||'27')],
@@ -415,7 +419,7 @@ jobs:
           BILLING_CODE_PEPPER: ${{ secrets.PROD_BILLING_CODE_PEPPER }}
           STORAGE_PROVIDER: "s3"
           NEXT_PUBLIC_APP_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}
-          NEXT_PUBLIC_API_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}/api
+          NEXT_PUBLIC_API_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}/api/v1
       - name: Blue-Green Deploy
         if: steps.check-secrets.outputs.configured == 'true'
         uses: appleboy/ssh-action@v1
@@ -429,9 +433,10 @@ jobs:
             NEXT_PORT=$([ "$NEXT" = "blue" ] && echo "3000" || echo "3001")
             cd /var/www/eaf-$NEXT
             git pull origin main
-            npm ci --production
+            npm ci --omit=dev
+            npx prisma generate
             npx prisma migrate deploy
-            PORT=$NEXT_PORT pm2 start ecosystem.config.cjs --env production --name eaf-$NEXT
+            SLOT=$NEXT PORT=$NEXT_PORT pm2 startOrRestart ecosystem.config.cjs --only eaf-nextjs --env production --update-env
             SMOKE_OK=0
             for i in {1..30}; do
               STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${NEXT_PORT}/api/v1/health")
@@ -443,18 +448,19 @@ jobs:
             done
             if [ "$SMOKE_OK" = "0" ]; then
               echo "Smoke test failed on slot $NEXT ($NEXT_PORT). Cleaning up."
-              pm2 delete eaf-$NEXT || true
+              pm2 delete eaf-nextjs || true
               exit 1
             fi
             echo $NEXT > /etc/nginx/conf.d/active-slot.txt
             nginx -s reload
-            pm2 delete eaf-$ACTIVE
+            pm2 delete eaf-nextjs || true
 
   post-deploy-monitoring:
     name: "Post-Deploy - Health & Canary"
     needs: deploy-production
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-22.04
+    timeout-minutes: 10
     steps:
       - name: Health check 5min
         run: |

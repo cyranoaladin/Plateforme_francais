@@ -5,6 +5,7 @@ import "./globals.css";
 import { AppShell } from "@/components/layout/app-shell";
 import { WebVitalsReporter } from "@/components/monitoring/web-vitals-reporter";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
+import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -76,6 +77,7 @@ export default async function RootLayout({
         <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
         <WebVitalsReporter />
         <AppShell><main id="main-content">{children}</main></AppShell>
+        <WhatsAppButton />
         <ConsentBanner />
       </body>
     </html>

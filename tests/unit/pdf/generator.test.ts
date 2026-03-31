@@ -13,10 +13,14 @@ const {
   isDatabaseAvailableMock,
   studentProfileFindUniqueMock,
   documentDepositCreateMock,
+  getBillingContextMock,
+  getStorageProviderMock,
 } = vi.hoisted(() => ({
   isDatabaseAvailableMock: vi.fn().mockResolvedValue(false),
   studentProfileFindUniqueMock: vi.fn(),
   documentDepositCreateMock: vi.fn(),
+  getBillingContextMock: vi.fn(),
+  getStorageProviderMock: vi.fn().mockReturnValue('local'),
 }));
 
 vi.mock('@/lib/db/client', () => ({
@@ -29,6 +33,14 @@ vi.mock('@/lib/db/client', () => ({
 
 vi.mock('@/lib/logger', () => ({
   logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
+}));
+
+vi.mock('@/lib/billing/context', () => ({
+  getBillingContext: getBillingContextMock,
+}));
+
+vi.mock('@/lib/storage/provider', () => ({
+  getStorageProvider: getStorageProviderMock,
 }));
 
 vi.mock('fs', () => ({
@@ -67,6 +79,13 @@ describe('generateDocument (mocked FS)', () => {
     isDatabaseAvailableMock.mockResolvedValue(false);
     studentProfileFindUniqueMock.mockReset();
     documentDepositCreateMock.mockReset();
+    getBillingContextMock.mockResolvedValue({
+      planId: 'PREMIUM',
+      config: { flags: { ORAL_PDF_REPORT: true } },
+      endsAt: null,
+      isActive: true,
+    });
+    getStorageProviderMock.mockReturnValue('local');
     const mod = await import('@/lib/pdf/generator');
     generateDocument = mod.generateDocument;
   });
@@ -198,10 +217,33 @@ describe('generateDocument (mocked FS)', () => {
 });
 
 describe('generateBilanOralDocument', () => {
+  beforeEach(() => {
+    getBillingContextMock.mockResolvedValue({
+      planId: 'PREMIUM',
+      config: { flags: { ORAL_PDF_REPORT: true } },
+      endsAt: null,
+      isActive: true,
+    });
+  });
+
   it('creates correct title', async () => {
     const { generateBilanOralDocument } = await import('@/lib/pdf/generator');
     const result = await generateBilanOralDocument('user-1', { note: 15, mention: 'Bien' }, 'Alice');
     expect(result.html).toContain('Bilan Oral EAF');
     expect(result.html).toContain('Alice');
+  });
+
+  it('rejects when oral PDF is not included in the active plan', async () => {
+    getBillingContextMock.mockResolvedValueOnce({
+      planId: 'FREE',
+      config: { flags: { ORAL_PDF_REPORT: false } },
+      endsAt: null,
+      isActive: true,
+    });
+
+    const { BillingFeatureUnavailableError, generateBilanOralDocument } = await import('@/lib/pdf/generator');
+
+    await expect(generateBilanOralDocument('user-free', { note: 8, mention: 'Passable' }, 'Emma'))
+      .rejects.toBeInstanceOf(BillingFeatureUnavailableError);
   });
 });

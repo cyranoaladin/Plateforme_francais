@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { type Prisma } from '@prisma/client';
+import { type ExamPersona, type Prisma } from '@prisma/client';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -209,6 +209,7 @@ export async function finalizeOralSession(input: {
   finalFeedback: Prisma.JsonObject;
   score: number;
   maxScore: number;
+  personaType?: ExamPersona;
 }) {
   if (await isDatabaseAvailable()) {
     const found = await prisma.oralSession.findUnique({ where: { id: input.sessionId } });
@@ -227,6 +228,7 @@ export async function finalizeOralSession(input: {
         score: input.score,
         maxScore: input.maxScore,
         totalScore: input.score,
+        ...(input.personaType ? { personaType: input.personaType } : {}),
         status: 'FINALIZED',
         endedAt: new Date(),
       },

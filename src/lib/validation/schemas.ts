@@ -126,6 +126,7 @@ export const oralSessionInteractBodySchema = z.object({
 
 export const oralSessionEndBodySchema = z.object({
   notes: z.string().trim().max(1000).optional(),
+  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE']).optional(),
 });
 
 export const studentProfileBodySchema = z.object({
