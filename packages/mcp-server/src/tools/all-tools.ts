@@ -83,9 +83,25 @@ export async function getOralSession(input: z.infer<typeof GetOralSessionSchema>
   const db = getDb()
   const session = await db.oralSession.findFirst({
     where: { id: input.sessionId, userId: input.studentId },
+    include: {
+      phaseScores: {
+        orderBy: { createdAt: 'asc' },
+      },
+      oralBilan: true,
+    },
   })
 
   if (!session) throw new Error(`Session orale introuvable : ${input.sessionId}`)
+
+  const phases = session.phaseScores.map((phaseScore) => ({
+    phase: phaseScore.phase,
+    score: phaseScore.score ?? 0,
+    max: phaseScore.maxScore ?? 0,
+    feedback: phaseScore.feedback ?? '',
+    pointsForts: phaseScore.pointsForts ?? [],
+    axes: phaseScore.axes ?? [],
+    duration: phaseScore.duration ?? 0,
+  }))
 
   return {
     id: session.id,
@@ -94,11 +110,11 @@ export async function getOralSession(input: z.infer<typeof GetOralSessionSchema>
     startedAt: session.createdAt.toISOString(),
     endedAt: session.endedAt?.toISOString() ?? null,
     status: session.endedAt ? 'done' : 'pending',
-    phases: [],
+    phases,
     totalScore: session.score ?? 0,
     totalMax: session.maxScore ?? 20,
     relancesJury: [],
-    bilan: '',
+    bilan: session.oralBilan?.bilanGlobal ?? '',
   }
 }
 

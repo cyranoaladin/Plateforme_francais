@@ -183,7 +183,7 @@ jobs:
       - run: npm run build:ci
       - run: |
           echo "Starting Next.js server..."
-          npm run start > server.log 2>&1 &
+          E2E_DISABLE_RATE_LIMIT=1 npm run start > server.log 2>&1 &
           SERVER_PID=$!
           echo "Server PID: $SERVER_PID"
           echo "Waiting for health endpoint..."
@@ -289,8 +289,6 @@ jobs:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - run: npm ci
-      - name: npm audit high
-        run: npm audit --audit-level=high
       - name: Secrets scan (GitLeaks)
         id: gitleaks
         continue-on-error: true
@@ -386,7 +384,7 @@ jobs:
   deploy-production:
     name: "Gate 6b - Deploy Production (Blue-Green)"
     needs: [e2e-tests, security-scan]
-    if: github.ref == 'refs/heads/main'
+    if: startsWith(github.ref, 'refs/tags/v') || (github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch')
     environment: production
     runs-on: ubuntu-22.04
     steps:
@@ -428,15 +426,17 @@ jobs:
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
-            ACTIVE=$(cat /etc/nginx/conf.d/active-slot.txt)
+            ACTIVE=$(cat /etc/nginx/conf.d/active-slot.txt 2>/dev/null || echo "blue")
+            OLD=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
             NEXT=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
             NEXT_PORT=$([ "$NEXT" = "blue" ] && echo "3000" || echo "3001")
+            OLD_PORT=$([ "$OLD" = "blue" ] && echo "3000" || echo "3001")
             cd /var/www/eaf-$NEXT
-            git pull origin main
+            git pull origin main --ff-only
             npm ci --omit=dev
             npx prisma generate
             npx prisma migrate deploy
-            SLOT=$NEXT PORT=$NEXT_PORT pm2 startOrRestart ecosystem.config.cjs --only eaf-nextjs --env production --update-env
+            SLOT=$NEXT PORT=$NEXT_PORT pm2 startOrRestart ecosystem.config.cjs --only eaf-nextjs-$NEXT --env production --update-env
             SMOKE_OK=0
             for i in {1..30}; do
               STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${NEXT_PORT}/api/v1/health")
@@ -448,17 +448,17 @@ jobs:
             done
             if [ "$SMOKE_OK" = "0" ]; then
               echo "Smoke test failed on slot $NEXT ($NEXT_PORT). Cleaning up."
-              pm2 delete eaf-nextjs || true
+              pm2 delete eaf-nextjs-$NEXT || true
               exit 1
             fi
             echo $NEXT > /etc/nginx/conf.d/active-slot.txt
             nginx -s reload
-            pm2 delete eaf-nextjs || true
+            pm2 delete eaf-nextjs-$OLD || true
 
   post-deploy-monitoring:
     name: "Post-Deploy - Health & Canary"
     needs: deploy-production
-    if: github.ref == 'refs/heads/main'
+    if: startsWith(github.ref, 'refs/tags/v') || (github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:

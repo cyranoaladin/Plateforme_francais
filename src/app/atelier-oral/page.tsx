@@ -251,12 +251,17 @@ export default function AtelierOralPage() {
   const [juryTurns, setJuryTurns] = useState<JuryTurn[]>([]);
   const [isJuryLoading, setIsJuryLoading] = useState(false);
 
-  const [voiceMode, setVoiceMode] = useState<VoiceMode>('browser');
+  const [voiceMode, setVoiceMode] = useState<VoiceMode>(() => {
+    if (typeof window === 'undefined') return 'browser';
+    const stored = window.localStorage.getItem('oral_voice_mode');
+    return stored === 'server' || stored === 'browser' ? stored : 'browser';
+  });
   const stepStartRef = useRef<number>(Date.now());
   const sttRef = useRef<ReturnType<typeof createBrowserStt> | null>(null);
   const audioRecorderRef = useRef<BrowserAudioRecorder | null>(null);
   const pendingAudioRef = useRef<{ blob: Blob; mimeType: string } | null>(null);
   const hasRequestedInitialJuryPromptRef = useRef(false);
+  const juryContainerRef = useRef<HTMLDivElement | null>(null);
 
   const currentStep = STEPS[currentStepIndex] ?? null;
   const isSimulation = mode === 'SIMULATION';
@@ -304,6 +309,11 @@ export default function AtelierOralPage() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem('oral_voice_mode', voiceMode);
+  }, [voiceMode]);
 
   const aggregated = useMemo(() => {
     const list = STEPS.map((step) => feedbacks[step]).filter(Boolean) as StepFeedback[];
@@ -354,6 +364,7 @@ export default function AtelierOralPage() {
       setFeedbacks({ LECTURE: undefined, EXPLICATION: undefined, GRAMMAIRE: undefined, ENTRETIEN: undefined });
       setExaminerProfile('NEUTRE');
       setJuryTurns([]);
+      setIsJuryLoading(false);
       stepStartRef.current = Date.now();
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Erreur inconnue.');
@@ -433,6 +444,9 @@ export default function AtelierOralPage() {
         formData.append('audio', audioData.blob, 'recording.webm');
         formData.append('step', currentStep);
         formData.append('duration', String(duration));
+        if (currentStep === 'ENTRETIEN') {
+          formData.append('examinerProfile', examinerProfile);
+        }
 
         const response = await fetch(`/api/v1/oral/session/${session.sessionId}/audio-turn`, {
           method: 'POST',
@@ -606,6 +620,11 @@ export default function AtelierOralPage() {
     localStorage.setItem(`prep_checklist_${session.sessionId}`, JSON.stringify([...prepChecklist]));
   }, [prepChecklist, session?.sessionId]);
 
+  useEffect(() => {
+    if (!juryContainerRef.current) return;
+    juryContainerRef.current.scrollTop = juryContainerRef.current.scrollHeight;
+  }, [juryTurns]);
+
   const resetAll = useCallback(() => {
     if (session?.sessionId) {
       localStorage.removeItem(`prep_checklist_${session.sessionId}`);
@@ -615,6 +634,7 @@ export default function AtelierOralPage() {
     setWizardPhase('TIRAGE');
     setExaminerProfile('NEUTRE');
     setJuryTurns([]);
+    setIsJuryLoading(false);
     hasRequestedInitialJuryPromptRef.current = false;
     setTranscript('');
     setPrepNotes('');
@@ -979,7 +999,10 @@ export default function AtelierOralPage() {
                   </button>
 
                   {juryTurns.length > 0 && (
-                    <div className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] p-4">
+                    <div
+                      ref={juryContainerRef}
+                      className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] p-4"
+                    >
                       {juryTurns.slice(-6).map((turn, idx) => (
                         <p key={`${turn.role}-${idx}`} className="text-sm leading-7 text-[var(--text-body)]">
                           <span className="font-semibold text-[var(--c-primary)]">{turn.role === 'jury' ? 'Examinateur' : 'Toi'} :</span> {turn.role === 'jury' ? sanitizeLlmText(turn.content) : turn.content}

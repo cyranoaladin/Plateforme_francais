@@ -67,6 +67,8 @@ export const PLAN_CATALOG: Record<InternalPlanId, PlanConfig> = {
     priceTnd: 0,
     billingCycle: 'free',
     quotas: {
+      // Freemium is a low-frequency monthly trial so users can discover the workflow without
+      // getting a paid-style cadence. Paid plans switch oral practice to weekly pacing.
       ORAL_SESSIONS: { limit: 1, period: 'month' },
       WRITTEN_CORRECTIONS: { limit: 2, period: 'month' },
       TUTOR_QUESTIONS: { limit: 3, period: 'day' },

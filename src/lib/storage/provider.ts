@@ -43,12 +43,15 @@ class S3StorageProvider implements StorageProvider {
 
     constructor() {
         this.bucket = process.env.S3_BUCKET || 'eaf-platform';
+        if (!process.env.S3_ACCESS_KEY_ID || !process.env.S3_SECRET_ACCESS_KEY) {
+            throw new Error('[S3StorageProvider] S3_ACCESS_KEY_ID et S3_SECRET_ACCESS_KEY requis quand STORAGE_PROVIDER=s3');
+        }
         this.client = new S3Client({
             region: process.env.S3_REGION || 'auto',
             endpoint: process.env.S3_ENDPOINT, // Cloudflare R2 or MinIO
             credentials: {
-                accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+                accessKeyId: process.env.S3_ACCESS_KEY_ID,
+                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
             },
         });
     }
@@ -98,4 +101,8 @@ export function getStorageProvider(): StorageProvider {
     }
 
     return provider;
+}
+
+export function resetStorageProvider(): void {
+    provider = null;
 }

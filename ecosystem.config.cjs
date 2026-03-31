@@ -64,6 +64,7 @@ function readOptionalFile(filePath) {
 
 const releaseGitSha = appEnv.BUILD_GIT_SHA || readOptionalFile(path.join(appRoot, '.git_sha'));
 const releaseBuildTime = appEnv.BUILD_TIME || readOptionalFile(path.join(appRoot, '.build_time'));
+const slotSuffix = process.env.SLOT ? `-${process.env.SLOT}` : '';
 
 function withProductionDefaults(defaults, fileEnv) {
   return {
@@ -114,7 +115,7 @@ const mcpRuntimeEnv = withProductionDefaults(
 module.exports = {
   apps: [
     {
-      name: 'eaf-nextjs',
+      name: `eaf-nextjs${slotSuffix}`,
       script: '.next/standalone/server.js',
       cwd: appRoot,
       env: webEnv,

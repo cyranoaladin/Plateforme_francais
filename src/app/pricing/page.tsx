@@ -75,6 +75,7 @@ const BANK_TRANSFER_ROWS = [
   { label: 'BIC', value: 'BZITTNTT' },
 ] as const;
 
+// Pricing cards stay derived from PUBLIC_PLAN_OFFERS, itself built from PLAN_CATALOG.
 const PLANS: PlanCard[] = PUBLIC_PLAN_OFFERS.map((offer) => ({
   id: PUBLIC_PLAN_ID_TO_SUBSCRIPTION[offer.publicId],
   title: offer.title,

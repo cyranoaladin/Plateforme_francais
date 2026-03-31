@@ -1,10 +1,8 @@
 /**
- * PDF Generation Pipeline — Internal document generation.
+ * HTML Document Generation Pipeline.
  *
- * Uses @react-pdf/renderer (already in dependencies) for server-side PDF generation.
- * Fallback: raw HTML string generation for lightweight documents.
- *
- * All generated documents are stored via DocumentDeposit in Prisma.
+ * Generates styled HTML documents (print-friendly) stored via DocumentDeposit.
+ * `@react-pdf/renderer` reste disponible si une migration vers du PDF natif devient utile.
  *
  * @module pdf/generator
  */
@@ -370,6 +368,9 @@ export async function generateBilanOralDocument(
 
 /**
  * Generate a rapport de correction after copy analysis.
+ *
+ * Written PDF reports are intentionally available on every plan, including FREE.
+ * If this business rule changes, add a dedicated flag in plan-catalog.ts and guard here.
  */
 export async function generateRapportEcritDocument(
   userId: string,

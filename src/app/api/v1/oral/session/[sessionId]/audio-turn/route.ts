@@ -67,6 +67,13 @@ export async function POST(
 
   const durationRaw = form.get('duration');
   const duration = durationRaw ? Math.min(1800, Math.max(1, parseInt(String(durationRaw), 10) || 60)) : 60;
+  const examinerProfileRaw = form.get('examinerProfile');
+  const examinerProfile =
+    examinerProfileRaw === 'BIENVEILLANT'
+    || examinerProfileRaw === 'NEUTRE'
+    || examinerProfileRaw === 'HOSTILE'
+      ? examinerProfileRaw
+      : 'NEUTRE';
 
   // ── Validate session ──
   const { sessionId } = await params;
@@ -125,6 +132,7 @@ export async function POST(
       duration,
       userId: auth.user.id,
       oeuvreChoisieEntretien: profile?.oeuvreChoisieEntretien ?? null,
+      examinerProfile: phase === 'ENTRETIEN' ? examinerProfile : null,
     });
   } catch (error) {
     if (error instanceof QuotaExceededError) {
