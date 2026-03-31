@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { AlertTriangle, CheckCircle2, ClipboardList, Plus, ShieldCheck, Trash2 } from 'lucide-react';
+import { CheckCircle2, ClipboardList, Plus, ShieldCheck, Trash2 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Badge, Button, Input, Select, StateNotice, Surface } from '@/components/ui';
 

@@ -19,8 +19,9 @@ vi.mock('@/lib/billing/usage', () => ({
   QuotaExceededError: class QuotaExceededError extends Error {
     limit: number;
     period: string;
-    constructor(_entitlement: string, limit: number, _current = 0, period = 'month') {
+    constructor(_entitlement: string, limit: number, current = 0, period = 'month') {
       super('quota');
+      void current;
       this.limit = limit;
       this.period = period;
     }

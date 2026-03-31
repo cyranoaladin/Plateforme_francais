@@ -193,7 +193,6 @@ function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: s
   const alertedRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
-    setRemaining(totalSeconds);
     alertedRef.current.clear();
   }, [totalSeconds]);
 
