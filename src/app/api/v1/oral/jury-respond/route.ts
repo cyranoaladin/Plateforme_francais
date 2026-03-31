@@ -13,7 +13,7 @@ import { buildOralRagContext } from '@/lib/oral/rag-context';
 const bodySchema = z.object({
   message: z.string().trim().min(1).max(4000),
   oeuvreChoisie: z.string().trim().max(200).optional(),
-  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE']).optional(),
+  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE', 'RANDOM']).optional(),
   conversationHistory: z.array(
     z.object({
       role: z.enum(['jury', 'eleve']),

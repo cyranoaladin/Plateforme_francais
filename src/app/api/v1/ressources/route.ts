@@ -3,6 +3,7 @@ import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { getBillingContext } from '@/lib/billing/context';
 import { getResourceIndexInCategory, isResourceAccessible } from '@/lib/billing/library-gating';
 import { RESSOURCES, RESSOURCES_DATA, getRessourcesByCategory } from '@/data/ressources';
+import { logger } from '@/lib/logger';
 
 type SafeResourceCatalogEntry = Omit<(typeof RESSOURCES)[number], 'filePath' | 'url'> & {
   locked: boolean;
@@ -55,7 +56,7 @@ export async function GET(): Promise<NextResponse> {
       },
     });
   } catch (error) {
-    console.error('Error serving resources catalog:', error);
+    logger.error({ err: error }, 'resources.catalog.failed');
     return NextResponse.json(
       { error: 'Catalogue des ressources indisponible.' },
       { status: 500 }

@@ -153,8 +153,8 @@ module.exports = {
     },
     {
       name: 'eaf-worker',
-      script: 'node_modules/.bin/tsx',
-      args: 'src/lib/queue/start-worker.ts',
+      script: 'node',
+      args: 'dist/worker/src/lib/queue/start-worker.js',
       cwd: appRoot,
       env: workerEnv,
       env_production: workerEnv,

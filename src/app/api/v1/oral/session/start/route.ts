@@ -1,23 +1,18 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
+import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { createOralSession } from '@/lib/oral/repository';
 import { pickOralExtrait } from '@/lib/oral/service';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
-import { PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog';
+import { PLAN_CATALOG, PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { getResetMessage } from '@/lib/billing/quota-messages';
-import { checkQuota as checkBillingQuota, consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
+import { checkQuota as checkBillingQuota, consumeQuota, rollbackQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionStartBodySchema } from '@/lib/validation/schemas';
-
-const ORAL_START_RATE_LIMIT_PER_HOUR = {
-  FREE: 6,
-  PREMIUM: 20,
-  PRO: 60,
-} as const;
 
 /**
  * POST /api/v1/oral/session/start
@@ -68,7 +63,7 @@ export async function POST(request: Request) {
     const rl = await checkRateLimit({
       request,
       key: `oral:start:${auth.user.id}`,
-      limit: ORAL_START_RATE_LIMIT_PER_HOUR[billing.planId],
+      limit: billing.config.rateLimits?.oralStartPerHour ?? PLAN_CATALOG[billing.planId].rateLimits.oralStartPerHour,
       windowMs: 60 * 60 * 1000,
     });
     if (!rl.allowed) {
@@ -92,7 +87,7 @@ export async function POST(request: Request) {
       });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erreur lors de la sélection de l’extrait';
-      console.error('[oral/start] pickOralExtrait error:', message);
+      logger.error({ err, userId: auth.user.id }, 'oral.start.pickExtrait.error');
       return NextResponse.json(
         { error: message },
         { status: 400 }
@@ -102,23 +97,6 @@ export async function POST(request: Request) {
     const questionGrammaire = parsed.data.questionGrammaire ?? selected.questionGrammaire;
     const phraseGrammaire = selected.phraseGrammaire;
     const oeuvreChoisie = parsed.data.oeuvre;
-
-    let session;
-    try {
-      session = await createOralSession({
-        userId: auth.user.id,
-        oeuvre: oeuvreChoisie,
-        extrait: texte,
-        questionGrammaire,
-      });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Erreur lors de la création de la session';
-      console.error('[oral/start] createOralSession error:', message, err);
-      return NextResponse.json(
-        { error: `Erreur de création de session : ${message}` },
-        { status: 500 }
-      );
-    }
 
     if (oralQuota) {
       try {
@@ -140,6 +118,30 @@ export async function POST(request: Request) {
       }
     }
 
+    let session;
+    try {
+      session = await createOralSession({
+        userId: auth.user.id,
+        oeuvre: oeuvreChoisie,
+        extrait: texte,
+        questionGrammaire,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Erreur lors de la création de la session';
+      logger.error({ err, userId: auth.user.id }, 'oral.start.createSession.error');
+      if (oralQuota && oralQuota.limit !== 0) {
+        try {
+          await rollbackQuota(auth.user.id, 'ORAL_SESSIONS', oralQuota);
+        } catch (rollbackError) {
+          logger.error({ err: rollbackError, userId: auth.user.id }, 'quota:rollback:failed');
+        }
+      }
+      return NextResponse.json(
+        { error: `Erreur de création de session : ${message}` },
+        { status: 500 }
+      );
+    }
+
     try {
       await createMemoryEventRecord(
         createMemoryEvent(auth.user.id, {
@@ -154,7 +156,7 @@ export async function POST(request: Request) {
         }),
       );
     } catch (error) {
-      console.error('[oral/start] memory event failed:', error);
+      logger.warn({ err: error, userId: auth.user.id }, 'oral.start.memoryEvent.failed');
     }
 
     return NextResponse.json(
@@ -171,7 +173,7 @@ export async function POST(request: Request) {
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Erreur interne du serveur';
-    console.error('[oral/start] Unhandled error:', message, err);
+    logger.error({ err }, 'oral.start.unhandled');
     return NextResponse.json(
       { error: message },
       { status: 500 }

@@ -9,6 +9,7 @@ import { normalizeGeneratedEpreuve } from '@/lib/epreuves/generation-normalizer'
 import { createEpreuve } from '@/lib/epreuves/repository';
 import { type EpreuveType } from '@/lib/epreuves/types';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { searchOfficialReferences, formatRagContextForPrompt } from '@/lib/rag/search';
 import { QuotaExceededError } from '@/lib/security/llm-rate-limiter';
@@ -93,7 +94,7 @@ export async function POST(request: Request) {
     });
     ragContext = formatRagContextForPrompt(ragResults);
   } catch (error) {
-    console.error('[epreuves/generate] RAG unavailable, continuing without sources:', error);
+    logger.error({ err: error }, 'epreuves.generate.rag.unavailable');
   }
 
   let result: unknown;
@@ -152,7 +153,7 @@ export async function POST(request: Request) {
       }),
     );
   } catch (error) {
-    console.error('[epreuves/generate] memory event failed:', error);
+    logger.warn({ err: error }, 'epreuves.generate.memoryEvent.failed');
   }
 
   return NextResponse.json(

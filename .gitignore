@@ -21,6 +21,7 @@ tests/.auth/
 
 # production
 /build
+/dist
 .build_time
 .git_sha
 

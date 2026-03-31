@@ -5,6 +5,7 @@ import { createEvaluation } from '@/lib/db/repositories/evaluationRepo';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -71,7 +72,7 @@ RÉPONSE DE L'ÉLÈVE : ${answer}
       missing: llmResult.axes ?? [],
     };
   } catch (err) {
-    console.error('[evaluations/langue] LLM error:', err instanceof Error ? err.message : err);
+    logger.error({ err }, 'evaluations.langue.llm.error');
     result = {
       score: 0,
       max: 2,

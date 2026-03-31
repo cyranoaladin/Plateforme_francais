@@ -9,6 +9,7 @@ import { PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog'
 import { getResetMessage } from '@/lib/billing/quota-messages';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { logger } from '@/lib/logger';
 import { getThemeConfig } from '@/lib/quiz/theme-mapping';
 import { searchOfficialReferences, type RagSearchResult } from '@/lib/rag/search';
 import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
@@ -99,7 +100,7 @@ export async function POST(request: Request) {
       },
     );
   } catch (err) {
-    console.error('[quiz/generate] RAG search error:', err instanceof Error ? err.message : err);
+    logger.error({ err }, 'quiz.generate.rag.error');
   }
 
   const ragContext = ragResults.length > 0
@@ -153,7 +154,7 @@ IMPORTANT: Chaque question doit avoir exactement 4 options, 1 seule bonne répon
       context: enrichedContext,
     });
   } catch (err) {
-    console.error('[quiz/generate] orchestrate error:', err instanceof Error ? err.message : err);
+    logger.error({ err }, 'quiz.generate.orchestrate.error');
     return NextResponse.json(
       { error: 'Impossible de générer le quiz. Réessayez.' },
       { status: 503 },

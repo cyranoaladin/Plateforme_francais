@@ -3,10 +3,8 @@ import {
   type ExamPersona,
 } from '@/lib/agents/prompts/examiner-persona';
 
-type SupportedExaminerPersona = Exclude<ExamPersona, 'RANDOM'>;
-
 export function buildExaminerPersonaContext(
-  persona: SupportedExaminerPersona = 'NEUTRE',
+  persona: ExamPersona = 'NEUTRE',
 ): string {
   return injectPersonaIntoPrompt(
     'Applique strictement le persona examinateur ci-dessous pour formuler la prochaine relance.',

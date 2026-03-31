@@ -52,4 +52,11 @@ describe('middleware public routes', () => {
     const response = middleware(new NextRequest('http://localhost:3000/api/v1/cron/session-cleanup'));
     expect(response.status).toBe(401);
   });
+
+  it('rejette GET sur une route POST-only explicitement autorisée', () => {
+    const response = middleware(new NextRequest('http://localhost:3000/api/v1/auth/logout', {
+      method: 'GET',
+    }));
+    expect(response.status).toBe(405);
+  });
 });

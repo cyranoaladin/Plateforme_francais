@@ -56,6 +56,9 @@ export type PlanConfig = {
   label: string;
   priceTnd: number;
   billingCycle: 'free' | 'monthly';
+  rateLimits: {
+    oralStartPerHour: number;
+  };
   quotas: Partial<Record<EntitlementKey, QuotaEntry>>;
   flags: Partial<Record<FlagKey, FlagValue>>;
 };
@@ -66,6 +69,9 @@ export const PLAN_CATALOG: Record<InternalPlanId, PlanConfig> = {
     label: 'Freemium',
     priceTnd: 0,
     billingCycle: 'free',
+    rateLimits: {
+      oralStartPerHour: 6,
+    },
     quotas: {
       // Freemium is a low-frequency monthly trial so users can discover the workflow without
       // getting a paid-style cadence. Paid plans switch oral practice to weekly pacing.
@@ -94,6 +100,9 @@ export const PLAN_CATALOG: Record<InternalPlanId, PlanConfig> = {
     label: 'Premium',
     priceTnd: 99,
     billingCycle: 'monthly',
+    rateLimits: {
+      oralStartPerHour: 20,
+    },
     quotas: {
       ORAL_SESSIONS: { limit: 10, period: 'week' },
       WRITTEN_CORRECTIONS: { limit: 20, period: 'month' },
@@ -120,6 +129,9 @@ export const PLAN_CATALOG: Record<InternalPlanId, PlanConfig> = {
     label: 'Masterium',
     priceTnd: 129,
     billingCycle: 'monthly',
+    rateLimits: {
+      oralStartPerHour: 60,
+    },
     quotas: {
       ORAL_SESSIONS: { limit: 'unlimited', period: 'week' },
       WRITTEN_CORRECTIONS: { limit: 'unlimited', period: 'month' },

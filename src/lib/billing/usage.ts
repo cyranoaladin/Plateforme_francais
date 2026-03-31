@@ -40,11 +40,12 @@ function periodInfo(period: Period, now: Date = new Date()): { key: string; ttlS
     case 'day':
       return { key: `${y}-${m}-${d}`, ttlSec: 86_400 };
     case 'week': {
-      // ISO week start (Monday)
-      const dayOfWeek = now.getUTCDay() || 7; // Sunday=7
-      const monday = new Date(now);
-      monday.setUTCDate(now.getUTCDate() - dayOfWeek + 1);
-      const wk = `${monday.getUTCFullYear()}-W${String(monday.getUTCMonth() + 1).padStart(2, '0')}-${String(monday.getUTCDate()).padStart(2, '0')}`;
+      const dayOfWeek = now.getUTCDay() || 7;
+      const thursday = new Date(now);
+      thursday.setUTCDate(now.getUTCDate() + (4 - dayOfWeek));
+      const yearStart = new Date(Date.UTC(thursday.getUTCFullYear(), 0, 1));
+      const weekNum = Math.ceil((((thursday.getTime() - yearStart.getTime()) / 86_400_000) + 1) / 7);
+      const wk = `${thursday.getUTCFullYear()}-W${String(weekNum).padStart(2, '0')}`;
       return { key: wk, ttlSec: 7 * 86_400 };
     }
     case 'month':
@@ -119,6 +120,9 @@ export async function consumeQuota(
   if (quotaEntry.limit === 'unlimited') {
     return { current: 0, limit: 'unlimited', remaining: 'unlimited' };
   }
+  if (quotaEntry.limit === 0) {
+    throw new QuotaExceededError(entitlement, 0, 0, quotaEntry.period);
+  }
 
   const { key: pk, ttlSec } = periodInfo(quotaEntry.period);
   const rk = redisKey(userId, entitlement, pk);
@@ -174,6 +178,23 @@ export async function consumeQuota(
     logger.error({ userId, entitlement, err }, 'quota:consume:redis_unavailable (fail-closed)');
     throw new QuotaExceededError(entitlement, quotaEntry.limit, 0, quotaEntry.period);
   }
+}
+
+export async function rollbackQuota(
+  userId: string,
+  entitlement: EntitlementKey,
+  quotaEntry: QuotaEntry,
+  amount: number = 1,
+): Promise<void> {
+  if (quotaEntry.limit === 'unlimited' || quotaEntry.limit === 0) {
+    return;
+  }
+
+  const { key: pk } = periodInfo(quotaEntry.period);
+  const rk = redisKey(userId, entitlement, pk);
+  const redis = getRedisClient();
+  await redis.decrby(rk, amount);
+  logger.info({ userId, entitlement, amount }, 'quota:rollback');
 }
 
 /**

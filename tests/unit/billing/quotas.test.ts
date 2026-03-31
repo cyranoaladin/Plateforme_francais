@@ -30,7 +30,7 @@ describe('Billing Quotas V2', () => {
 
     it('generates correct week key', () => {
       const result = getPeriodKey('week', new Date('2026-03-15T10:00:00Z'));
-      expect(result).toBe('2026-W03-09');
+      expect(result).toBe('2026-W11');
     });
 
     it('generates correct month key', () => {

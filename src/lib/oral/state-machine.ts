@@ -24,9 +24,16 @@ export type OralStatus =
   | 'ABANDONED';
 
 export type OralMode = 'SIMULATION' | 'FREE_PRACTICE';
+export type OralPhase = 'LECTURE' | 'EXPLICATION' | 'GRAMMAIRE' | 'ENTRETIEN';
 
 export const PREP_DURATION_MS = 30 * 60 * 1000;
 export const PASSAGE_DURATION_MS = 20 * 60 * 1000;
+export const PHASE_DURATIONS_S: Record<OralPhase, number> = {
+  LECTURE: 2 * 60,
+  EXPLICATION: 8 * 60,
+  GRAMMAIRE: 2 * 60,
+  ENTRETIEN: 8 * 60,
+};
 
 const VALID_TRANSITIONS: Record<OralStatus, OralStatus[]> = {
   DRAFT: ['PREP_RUNNING', 'ABANDONED'],

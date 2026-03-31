@@ -16,6 +16,7 @@ vi.mock('@/lib/billing/context', () => ({
 vi.mock('@/lib/billing/usage', () => ({
   checkQuota: vi.fn(),
   consumeQuota: vi.fn(),
+  rollbackQuota: vi.fn(),
   QuotaExceededError: class QuotaExceededError extends Error {
     limit: number;
     period: string;
@@ -44,7 +45,7 @@ vi.mock('@/lib/db/client', () => ({
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { getBillingContext } from '@/lib/billing/context';
-import { checkQuota, consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
+import { checkQuota, consumeQuota, rollbackQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { createOralSession } from '@/lib/oral/repository';
 
 describe('Integration API /oral/session/start', () => {
@@ -99,5 +100,23 @@ describe('Integration API /oral/session/start', () => {
     });
     const res = await POST(req);
     expect(res.status).toBe(402);
+    expect(createOralSession).not.toHaveBeenCalled();
+  });
+
+  it('rollback le quota si la création de session échoue après réservation', async () => {
+    vi.mocked(checkRateLimit).mockResolvedValue({ allowed: true, retryAfter: 0 } as never);
+    vi.mocked(createOralSession).mockRejectedValue(new Error('db down') as never);
+
+    const { POST } = await import('@/app/api/v1/oral/session/start/route');
+    const req = new Request('http://localhost/api/v1/oral/session/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
+      body: JSON.stringify({ oeuvre: 'Manon Lescaut' }),
+    });
+    const res = await POST(req);
+
+    expect(res.status).toBe(500);
+    expect(consumeQuota).toHaveBeenCalled();
+    expect(rollbackQuota).toHaveBeenCalledWith('u1', 'ORAL_SESSIONS', { limit: 1, period: 'month' });
   });
 });

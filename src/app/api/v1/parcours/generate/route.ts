@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { orchestrate } from '@/lib/llm/orchestrator';
+import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -111,7 +112,7 @@ export async function POST(request: Request) {
       context: `Date du jour : ${now.toISOString().slice(0, 10)}. Objectif : ${sequence.objectif}. Œuvres choisies : ${auth.user.profile.selectedOeuvres?.join(', ') || 'non précisées'}.`,
     })) as typeof generated;
   } catch (err) {
-    console.error('[parcours/generate] orchestrate error:', err instanceof Error ? err.message : err);
+    logger.error({ err }, 'parcours.generate.orchestrate.error');
   }
 
   const plan: Plan = {

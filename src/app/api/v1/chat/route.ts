@@ -11,6 +11,7 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
+import { logger } from '@/lib/logger';
 import { parseJsonBody } from '@/lib/validation/request';
 import { z } from 'zod';
 
@@ -113,7 +114,7 @@ export async function POST(request: Request) {
         { status: 429 },
       );
     }
-    console.error('[chat] orchestrate error:', error instanceof Error ? error.message : error);
+    logger.error({ err: error }, 'chat.orchestrate.error');
     return NextResponse.json(
       { error: 'Une erreur est survenue. Réessayez dans quelques instants.' },
       { status: 500 },

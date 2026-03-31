@@ -19,9 +19,13 @@ import {
 import { OralHero } from '@/components/atelier-oral/OralHero';
 import { OralStepIndicator } from '@/components/atelier-oral/OralStepIndicator';
 import { OralTimer } from '@/components/atelier-oral/OralTimer';
+import { PERSONA_LABELS, type ExamPersona } from '@/lib/agents/prompts/examiner-persona';
+import { getOeuvresForYear } from '@/data/oeuvres-programme';
+import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { createAudioRecorder, type BrowserAudioRecorder } from '@/lib/oral/audio-recorder';
+import { PASSAGE_DURATION_MS, PHASE_DURATIONS_S, PREP_DURATION_MS } from '@/lib/oral/state-machine';
 import { createBrowserStt } from '@/lib/stt/browser';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Button, Badge } from '@/components/ui';
@@ -58,7 +62,7 @@ type StepFeedback = {
   relance?: string;
 };
 
-type ExaminerProfile = 'BIENVEILLANT' | 'NEUTRE' | 'HOSTILE';
+type ExaminerProfile = ExamPersona;
 
 type JuryTurn = {
   role: 'jury' | 'eleve';
@@ -107,15 +111,8 @@ const STEP_GUIDANCE: Record<OralStep, { title: string; body: string }> = {
   },
 };
 
-const PHASE_DURATIONS_S: Record<OralStep, number> = {
-  LECTURE: 2 * 60,
-  EXPLICATION: 8 * 60,
-  GRAMMAIRE: 2 * 60,
-  ENTRETIEN: 8 * 60,
-};
-
-const PREP_DURATION_S = 30 * 60;
-const PASSAGE_DURATION_S = 20 * 60;
+const PREP_DURATION_S = PREP_DURATION_MS / 1000;
+const PASSAGE_DURATION_S = PASSAGE_DURATION_MS / 1000;
 
 const PREP_CHECKLIST = [
   { id: 'contexte', label: "Identifier le contexte de l’extrait (auteur, œuvre, mouvement)" },
@@ -125,29 +122,32 @@ const PREP_CHECKLIST = [
   { id: 'grammaire', label: 'Anticiper la question de grammaire (nature, fonction, analyse)' },
 ];
 
-const OEUVRES_PROGRAMME_2025_2026 = [
-  'Cahier de Douai — Arthur Rimbaud',
-  "La rage de l'expression — Francis Ponge",
-  'Mes forêts — Hélène Dorion',
-  'Discours de la servitude volontaire — Étienne de La Boétie',
-  'Entretiens sur la pluralité des mondes — Fontenelle',
-  "Lettres d'une Péruvienne — Françoise de Graffigny",
-  'Le Menteur — Pierre Corneille',
-  "On ne badine pas avec l'amour — Alfred de Musset",
-  'Pour un oui ou pour un non — Nathalie Sarraute',
-  'Manon Lescaut — Abbé Prévost',
-  'La Peau de chagrin — Honoré de Balzac',
-  'Sido suivi de Les Vrilles de la vigne — Colette',
-];
-
 function speakText(text: string) {
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = 'fr-FR';
-  const voices = window.speechSynthesis.getVoices();
-  const preferred = voices.find((voice) => voice.lang.toLowerCase().startsWith('fr') && voice.name.toLowerCase().includes('google'));
-  if (preferred) utterance.voice = preferred;
-  window.speechSynthesis.speak(utterance);
+  const synth = window.speechSynthesis;
+
+  const speak = () => {
+    const voices = synth.getVoices();
+    const preferred = voices.find((voice) => voice.lang.toLowerCase().startsWith('fr') && voice.name.toLowerCase().includes('google'))
+      ?? voices.find((voice) => voice.lang.toLowerCase().startsWith('fr'));
+    if (preferred) {
+      utterance.voice = preferred;
+    }
+    synth.speak(utterance);
+  };
+
+  if (synth.getVoices().length > 0) {
+    speak();
+    return;
+  }
+
+  const handleVoicesChanged = () => {
+    synth.removeEventListener('voiceschanged', handleVoicesChanged);
+    speak();
+  };
+  synth.addEventListener('voiceschanged', handleVoicesChanged, { once: true });
 }
 
 function speakTextSafe(text: string) {
@@ -235,7 +235,11 @@ function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: s
 }
 
 export default function AtelierOralPage() {
-  const [oeuvre, setOeuvre] = useState(OEUVRES_PROGRAMME_2025_2026[0]);
+  const availableWorks = useMemo(() => {
+    const currentYearWorks = getOeuvresForYear(getCurrentAnneeScolaire());
+    return currentYearWorks.length > 0 ? currentYearWorks : getOeuvresForYear('2025-2026');
+  }, []);
+  const [oeuvre, setOeuvre] = useState(() => availableWorks[0] ?? '');
   const [mode, setMode] = useState<OralMode>('SIMULATION');
   const [session, setSession] = useState<SessionPayload | null>(null);
   const [wizardPhase, setWizardPhase] = useState<WizardPhase>('TIRAGE');
@@ -741,7 +745,7 @@ export default function AtelierOralPage() {
                 value={oeuvre}
                 onChange={(event: React.ChangeEvent<HTMLSelectElement>) => setOeuvre(event.target.value)}
               >
-                {OEUVRES_PROGRAMME_2025_2026.map((work) => (
+                {availableWorks.map((work) => (
                   <option key={work} value={work}>
                     {work}
                   </option>
@@ -983,14 +987,14 @@ export default function AtelierOralPage() {
                 <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
                   <p className="text-sm font-semibold text-[var(--c-primary)]">Simulation examinateur dialoguant</p>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {(['BIENVEILLANT', 'NEUTRE', 'HOSTILE'] as ExaminerProfile[]).map((profile) => (
+                    {(['BIENVEILLANT', 'NEUTRE', 'HOSTILE', 'RANDOM'] as ExaminerProfile[]).map((profile) => (
                       <button
                         key={profile}
                         type="button"
                         onClick={() => setExaminerProfile(profile)}
                         className={`rounded-[var(--radius-lg)] border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-all duration-[var(--transition-normal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)] ${examinerProfile === profile ? 'border-[var(--c-primary)] bg-[var(--c-primary)] text-[var(--text-on-primary)]' : 'border-[var(--border-success)] bg-[var(--bg-surface)] text-[var(--c-primary)]'}`}
                       >
-                        {profile}
+                        {PERSONA_LABELS[profile].label}
                       </button>
                     ))}
                   </div>

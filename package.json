@@ -8,9 +8,9 @@
   "scripts": {
     "release-meta": "bash scripts/generate-release-meta.sh",
     "dev": "next dev",
-    "build:worker": "node scripts/verify-worker-runtime.mjs",
-    "build": "npm run release-meta && next build && npm run copy-public-to-standalone",
-    "build:ci": "npm run release-meta && next build",
+    "build:worker": "node scripts/build-worker.mjs",
+    "build": "npm run release-meta && next build && npm run build:worker && npm run copy-public-to-standalone",
+    "build:ci": "npm run release-meta && next build && npm run build:worker",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
@@ -132,6 +132,7 @@
     "sass": "^1.97.3",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.0.0"
+    "vitest": "^4.0.0",
+    "esbuild": "^0.27.0"
   }
 }

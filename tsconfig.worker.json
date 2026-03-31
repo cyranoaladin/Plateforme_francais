@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist/worker",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "declaration": false
+  },
+  "include": [
+    "src/lib/queue/**/*",
+    "src/lib/logger.ts",
+    "src/lib/db/**/*"
+  ]
+}

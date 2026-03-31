@@ -86,6 +86,16 @@ describe('Billing Quotas - Fallback prod fail-closed', () => {
       expect(result.limit).toBe(5);
       expect(result.remaining).toBe(4);
     });
+
+    it('rejette immédiatement les fonctionnalités bloquées (limit=0)', async () => {
+      vi.stubEnv('NODE_ENV', 'production');
+      const { consumeQuota } = await import('@/lib/billing/usage');
+
+      await expect(
+        consumeQuota('user-1', 'OCR_COPIES', { limit: 0, period: 'month' }),
+      ).rejects.toThrow(QuotaExceededError);
+      expect(mockRedisClient.ping).not.toHaveBeenCalled();
+    });
   });
 
   describe('checkQuota en production', () => {

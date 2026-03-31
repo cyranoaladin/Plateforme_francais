@@ -58,6 +58,12 @@ jobs:
       - run: npm ci
       - name: TypeScript strict check
         run: npx tsc --noEmit
+      - name: Verify Next.js version coherence
+        run: |
+          INSTALLED=$(node -e "console.log(require('./node_modules/next/package.json').version)")
+          DECLARED=$(node -e "console.log(require('./package.json').dependencies.next)")
+          echo "Installed: $INSTALLED | Declared: $DECLARED"
+          test "$DECLARED" = "$INSTALLED"
       - name: Check curly quotes in props
         run: npm run check:quotes
       - name: ESLint

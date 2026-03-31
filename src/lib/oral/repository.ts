@@ -138,6 +138,21 @@ export async function findOralSessionById(id: string): Promise<OralSessionState 
   return store.sessions.find((item) => item.id === id) ?? null;
 }
 
+export async function listOralSessionsByUser(userId: string): Promise<OralSessionState[]> {
+  if (await isDatabaseAvailable()) {
+    const sessions = await prisma.oralSession.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+    return sessions.map((session) => mapDbToState({ ...session, feedback: session.feedback }));
+  }
+
+  const store = await readStore();
+  return store.sessions
+    .filter((item) => item.userId === userId)
+    .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+}
+
 export async function appendOralInteraction(input: {
   sessionId: string;
   interaction: OralInteraction;

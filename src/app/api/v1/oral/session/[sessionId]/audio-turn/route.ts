@@ -72,6 +72,7 @@ export async function POST(
     examinerProfileRaw === 'BIENVEILLANT'
     || examinerProfileRaw === 'NEUTRE'
     || examinerProfileRaw === 'HOSTILE'
+    || examinerProfileRaw === 'RANDOM'
       ? examinerProfileRaw
       : 'NEUTRE';
 

@@ -121,12 +121,12 @@ export const oralSessionInteractBodySchema = z.object({
   step: z.enum(['LECTURE', 'EXPLICATION', 'GRAMMAIRE', 'ENTRETIEN']),
   transcript: z.string().trim().min(1),
   duration: z.number().int().min(1).max(1800),
-  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE']).optional(),
+  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE', 'RANDOM']).optional(),
 });
 
 export const oralSessionEndBodySchema = z.object({
   notes: z.string().trim().max(1000).optional(),
-  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE']).optional(),
+  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE', 'RANDOM']).optional(),
 });
 
 export const studentProfileBodySchema = z.object({
