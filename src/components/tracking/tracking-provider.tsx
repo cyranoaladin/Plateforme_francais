@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { isClientAuthenticated, subscribeClientAuthenticated } from '@/lib/auth/client-auth-state';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
 async function trackEvent(body: {
@@ -39,11 +40,28 @@ export function TrackingProvider() {
       return;
     }
 
-    lastPathRef.current = pathname;
-    void trackEvent({
-      type: 'navigation',
-      feature: 'page_view',
-      path: pathname,
+    const emitPageView = () => {
+      if (lastPathRef.current === pathname) {
+        return;
+      }
+
+      lastPathRef.current = pathname;
+      void trackEvent({
+        type: 'navigation',
+        feature: 'page_view',
+        path: pathname,
+      });
+    };
+
+    if (isClientAuthenticated()) {
+      emitPageView();
+      return;
+    }
+
+    return subscribeClientAuthenticated((authenticated) => {
+      if (authenticated) {
+        emitPageView();
+      }
     });
   }, [pathname]);
 

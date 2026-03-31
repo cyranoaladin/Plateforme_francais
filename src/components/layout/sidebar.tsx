@@ -20,6 +20,7 @@ import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { useTheme } from '@/components/theme/theme-provider';
 import { toPublicPlanId } from '@/lib/billing/plan-catalog';
 import type { ExamInfoPayload } from '@/lib/exam/exam-info';
+import { setClientAuthenticated } from '@/lib/auth/client-auth-state';
 import {
   computeSidebarLearningSignals,
   studentMobileOverflowItems,
@@ -100,18 +101,26 @@ export function Sidebar() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [meResponse, timelineResponse, billingResponse, examInfoResponse] = await Promise.all([
-          fetch('/api/v1/auth/me'),
+        const meResponse = await fetch('/api/v1/auth/me');
+
+        if (meResponse.status === 401) {
+          setClientAuthenticated(false);
+          router.replace(`/login?redirect=${encodeURIComponent(pathname)}`);
+          return;
+        }
+
+        if (meResponse.ok) {
+          const meData = (await meResponse.json()) as AuthMe;
+          setClientAuthenticated(true);
+          setMe(meData);
+          setBadgeCount(meData.profile.badges?.length ?? 0);
+        }
+
+        const [timelineResponse, billingResponse, examInfoResponse] = await Promise.all([
           fetch('/api/v1/memory/timeline?limit=200'),
           fetch('/api/v1/billing/status'),
           fetch('/api/v1/exam-info'),
         ]);
-
-        if (meResponse.ok) {
-          const meData = (await meResponse.json()) as AuthMe;
-          setMe(meData);
-          setBadgeCount(meData.profile.badges?.length ?? 0);
-        }
 
         if (billingResponse.ok) {
           const billingData = await billingResponse.json() as { subscription?: { planId?: string; plan?: string; label?: string } };
@@ -140,6 +149,7 @@ export function Sidebar() {
           setJoursAvantEAF(examInfo.daysUntilExam);
         }
       } catch {
+        setClientAuthenticated(false);
         setPlanId('FREE');
         setPlanLabel('Freemium');
         setPlanLoaded(true);
@@ -147,7 +157,7 @@ export function Sidebar() {
     };
 
     void load();
-  }, []);
+  }, [pathname, router]);
 
   const handleLogout = async () => {
     await fetch('/api/v1/auth/logout', {
@@ -156,6 +166,7 @@ export function Sidebar() {
         'X-CSRF-Token': getCsrfTokenFromDocument(),
       },
     });
+    setClientAuthenticated(false);
     router.push('/login');
     router.refresh();
   };

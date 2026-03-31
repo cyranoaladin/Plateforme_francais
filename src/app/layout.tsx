@@ -71,7 +71,6 @@ export default async function RootLayout({
             __html: `(function(){try{var d=document.documentElement,s=localStorage.getItem('eaf_theme');if(s==='dark'||(s!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches)){d.classList.add('dark')}else{d.classList.add('light')}}catch(e){}})()`,
           }}
         />
-        <link rel="preload" href="/assets/oral-simulator-preview.svg" as="image" type="image/svg+xml" fetchPriority="high" />
       </head>
       <body className="font-sans antialiased min-h-screen max-w-[100vw] overflow-x-hidden bg-background text-foreground flex">
         <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
