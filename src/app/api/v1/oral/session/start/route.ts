@@ -78,26 +78,6 @@ export async function POST(request: Request) {
       return parsed.response;
     }
 
-    let selected;
-    try {
-      selected = await pickOralExtrait({
-        oeuvre: parsed.data.oeuvre,
-        userId: auth.user.id,
-        mode: parsed.data.mode as 'SIMULATION' | 'FREE_PRACTICE',
-      });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Erreur lors de la sélection de l’extrait';
-      logger.error({ err, userId: auth.user.id }, 'oral.start.pickExtrait.error');
-      return NextResponse.json(
-        { error: message },
-        { status: 400 }
-      );
-    }
-    const texte = parsed.data.extrait ?? selected.texte;
-    const questionGrammaire = parsed.data.questionGrammaire ?? selected.questionGrammaire;
-    const phraseGrammaire = selected.phraseGrammaire;
-    const oeuvreChoisie = parsed.data.oeuvre;
-
     if (oralQuota) {
       try {
         await consumeQuota(auth.user.id, 'ORAL_SESSIONS', oralQuota);
@@ -118,14 +98,68 @@ export async function POST(request: Request) {
       }
     }
 
-    let session;
+    let selected;
     try {
-      session = await createOralSession({
+      selected = await pickOralExtrait({
+        oeuvre: parsed.data.oeuvre,
+        userId: auth.user.id,
+        mode: parsed.data.mode as 'SIMULATION' | 'FREE_PRACTICE',
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Erreur lors de la sélection de l’extrait';
+      logger.error({ err, userId: auth.user.id }, 'oral.start.pickExtrait.error');
+      if (oralQuota && oralQuota.limit !== 0) {
+        try {
+          await rollbackQuota(auth.user.id, 'ORAL_SESSIONS', oralQuota);
+        } catch (rollbackError) {
+          logger.error({ err: rollbackError, userId: auth.user.id }, 'quota:rollback:failed');
+        }
+      }
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+
+    const texte = parsed.data.extrait ?? selected.texte;
+    const questionGrammaire = parsed.data.questionGrammaire ?? selected.questionGrammaire;
+    const phraseGrammaire = selected.phraseGrammaire;
+    const oeuvreChoisie = parsed.data.oeuvre;
+
+    try {
+      const session = await createOralSession({
         userId: auth.user.id,
         oeuvre: oeuvreChoisie,
         extrait: texte,
         questionGrammaire,
       });
+
+      try {
+        await createMemoryEventRecord(
+          createMemoryEvent(auth.user.id, {
+            type: 'interaction',
+            feature: 'oral_session_start',
+            path: '/atelier-oral',
+            payload: {
+              sessionId: session.id,
+              oeuvre: oeuvreChoisie,
+              mode: parsed.data.mode ?? 'SIMULATION',
+            },
+          }),
+        );
+      } catch (error) {
+        logger.warn({ err: error, userId: auth.user.id }, 'oral.start.memoryEvent.failed');
+      }
+
+      return NextResponse.json(
+        {
+          sessionId: session.id,
+          texte,
+          questionGrammaire,
+          phraseGrammaire,
+          oeuvreChoisie,
+          instructions:
+            'Suivez les 4 étapes officielles : lecture (2 min), explication (8 min), grammaire (2 min), entretien (8 min sur l’œuvre choisie).',
+        },
+        { status: 200 },
+      );
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erreur lors de la création de la session';
       logger.error({ err, userId: auth.user.id }, 'oral.start.createSession.error');
@@ -136,41 +170,9 @@ export async function POST(request: Request) {
           logger.error({ err: rollbackError, userId: auth.user.id }, 'quota:rollback:failed');
         }
       }
-      return NextResponse.json(
-        { error: `Erreur de création de session : ${message}` },
-        { status: 500 }
-      );
-    }
 
-    try {
-      await createMemoryEventRecord(
-        createMemoryEvent(auth.user.id, {
-          type: 'interaction',
-          feature: 'oral_session_start',
-          path: '/atelier-oral',
-          payload: {
-            sessionId: session.id,
-            oeuvre: oeuvreChoisie,
-            mode: parsed.data.mode ?? 'SIMULATION',
-          },
-        }),
-      );
-    } catch (error) {
-      logger.warn({ err: error, userId: auth.user.id }, 'oral.start.memoryEvent.failed');
+      return NextResponse.json({ error: `Erreur de création de session : ${message}` }, { status: 500 });
     }
-
-    return NextResponse.json(
-      {
-        sessionId: session.id,
-        texte,
-        questionGrammaire,
-        phraseGrammaire,
-        oeuvreChoisie,
-        instructions:
-          'Suivez les 4 étapes officielles : lecture (2 min), explication (8 min), grammaire (2 min), entretien (8 min sur l’œuvre choisie).',
-      },
-      { status: 200 },
-    );
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Erreur interne du serveur';
     logger.error({ err }, 'oral.start.unhandled');

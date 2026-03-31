@@ -55,7 +55,17 @@ describe('GET /api/v1/oral/session/[sessionId]', () => {
     vi.mocked(findOralSessionById).mockResolvedValue({
       id: 's1',
       userId: 'user-1',
+      status: 'FINALIZED',
+      mode: 'SIMULATION',
       oeuvre: 'Manon Lescaut',
+      extrait: 'Un extrait',
+      questionGrammaire: 'Une question',
+      score: 12,
+      maxScore: 20,
+      finalFeedback: { note: 12 },
+      createdAt: '2026-03-31T00:00:00.000Z',
+      endedAt: null,
+      interactions: [{ step: 'LECTURE' }],
     } as never);
 
     const response = await GET(new Request('http://localhost/api/v1/oral/session/s1'), {
@@ -65,5 +75,6 @@ describe('GET /api/v1/oral/session/[sessionId]', () => {
     expect(response.status).toBe(200);
     const body = await response.json();
     expect(body.session).toMatchObject({ id: 's1', oeuvre: 'Manon Lescaut' });
+    expect(body.session.interactions).toBeUndefined();
   });
 });

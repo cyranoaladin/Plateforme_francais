@@ -33,14 +33,22 @@ const FREE_ACCOUNT_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes
  */
 export async function getBillingContext(userId: string): Promise<BillingContext> {
   try {
-    const sub = await prisma.subscription.findUnique({ where: { userId } });
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        createdAt: true,
+        subscription: {
+          select: {
+            plan: true,
+            status: true,
+            currentPeriodEnd: true,
+          },
+        },
+      },
+    });
 
+    const sub = user?.subscription ?? null;
     if (!sub) {
-      // 17F: Check account age for free-tier cooldown
-      const user = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { createdAt: true },
-      });
       const accountAge = user ? Date.now() - new Date(user.createdAt).getTime() : Infinity;
       const isCoolingDown = accountAge < FREE_ACCOUNT_COOLDOWN_MS;
 
@@ -81,12 +89,21 @@ export async function getBillingContext(userId: string): Promise<BillingContext>
       'code' in error &&
       (error as { code: string }).code === 'P2021';
 
-    if (process.env.NODE_ENV === 'test' || isPrismaTableMissing) {
+    if (process.env.NODE_ENV === 'test') {
       return {
         planId: 'FREE',
         config: PLAN_CATALOG.FREE,
         endsAt: null,
         isActive: true,
+      };
+    }
+
+    if (isPrismaTableMissing) {
+      return {
+        planId: 'FREE',
+        config: PLAN_CATALOG.FREE,
+        endsAt: null,
+        isActive: false,
       };
     }
 

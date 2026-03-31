@@ -21,8 +21,16 @@ export const OEUVRES_PROGRAMME: OeuvresProgramme[] = [
       'Sido suivi de Les Vrilles de la vigne — Colette',
     ],
   },
+  {
+    anneeScolaire: '2026-2027',
+    oeuvres: ['Programme 2026-2027 — à mettre à jour à la rentrée'],
+  },
 ];
 
 export function getOeuvresForYear(anneeScolaire: string): string[] {
-  return OEUVRES_PROGRAMME.find((item) => item.anneeScolaire === anneeScolaire)?.oeuvres ?? [];
+  const programme = OEUVRES_PROGRAMME.find((item) => item.anneeScolaire === anneeScolaire);
+  if (programme) {
+    return programme.oeuvres;
+  }
+  return OEUVRES_PROGRAMME[OEUVRES_PROGRAMME.length - 1]?.oeuvres ?? [];
 }

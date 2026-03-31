@@ -29,10 +29,15 @@ type OralInteraction = {
 export type OralSessionState = {
   id: string;
   userId: string;
+  status?: string;
+  mode?: string;
   oeuvre: string;
   extrait: string;
   questionGrammaire: string;
   interactions: OralInteraction[];
+  score?: number | null;
+  maxScore?: number | null;
+  finalFeedback?: Prisma.JsonValue | null;
   createdAt: string;
   endedAt: string | null;
 };
@@ -74,9 +79,13 @@ async function writeStore(update: (store: FallbackStore) => FallbackStore) {
 function mapDbToState(input: {
   id: string;
   userId: string;
+  status?: string;
+  mode?: string;
   oeuvre: string;
   extrait: string;
   question: string;
+  score?: number | null;
+  maxScore?: number | null;
   feedback: Prisma.JsonValue | null;
   createdAt: Date;
   endedAt: Date | null;
@@ -84,10 +93,15 @@ function mapDbToState(input: {
   return {
     id: input.id,
     userId: input.userId,
+    status: input.status,
+    mode: input.mode,
     oeuvre: input.oeuvre,
     extrait: input.extrait,
     questionGrammaire: input.question,
     interactions: ((input.feedback as { interactions?: OralInteraction[] } | null)?.interactions ?? []),
+    score: input.score ?? null,
+    maxScore: input.maxScore ?? null,
+    finalFeedback: ((input.feedback as { final?: Prisma.JsonValue } | null)?.final ?? null),
     createdAt: input.createdAt.toISOString(),
     endedAt: input.endedAt ? input.endedAt.toISOString() : null,
   };
@@ -138,19 +152,46 @@ export async function findOralSessionById(id: string): Promise<OralSessionState 
   return store.sessions.find((item) => item.id === id) ?? null;
 }
 
-export async function listOralSessionsByUser(userId: string): Promise<OralSessionState[]> {
+export async function listOralSessionsByUser(
+  userId: string,
+  options?: { limit?: number; cursor?: string },
+): Promise<OralSessionState[]> {
   if (await isDatabaseAvailable()) {
     const sessions = await prisma.oralSession.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
+      take: options?.limit ?? 20,
+      ...(options?.cursor ? { cursor: { id: options.cursor }, skip: 1 } : {}),
+      select: {
+        id: true,
+        userId: true,
+        status: true,
+        mode: true,
+        oeuvre: true,
+        extrait: true,
+        question: true,
+        score: true,
+        maxScore: true,
+        feedback: true,
+        createdAt: true,
+        endedAt: true,
+      },
     });
     return sessions.map((session) => mapDbToState({ ...session, feedback: session.feedback }));
   }
 
   const store = await readStore();
-  return store.sessions
+  const sessions = store.sessions
     .filter((item) => item.userId === userId)
     .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+
+  if (!options?.cursor) {
+    return sessions.slice(0, options?.limit ?? 20);
+  }
+
+  const cursorIndex = sessions.findIndex((item) => item.id === options.cursor);
+  const sliced = cursorIndex >= 0 ? sessions.slice(cursorIndex + 1) : sessions;
+  return sliced.slice(0, options?.limit ?? 20);
 }
 
 export async function appendOralInteraction(input: {

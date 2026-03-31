@@ -48,8 +48,11 @@ function periodInfo(period: Period, now: Date = new Date()): { key: string; ttlS
       const wk = `${thursday.getUTCFullYear()}-W${String(weekNum).padStart(2, '0')}`;
       return { key: wk, ttlSec: 7 * 86_400 };
     }
-    case 'month':
-      return { key: `${y}-${m}`, ttlSec: 31 * 86_400 };
+    case 'month': {
+      const nextMonth = new Date(Date.UTC(y, now.getUTCMonth() + 1, 1));
+      const ttlSec = Math.ceil((nextMonth.getTime() - now.getTime()) / 1000);
+      return { key: `${y}-${m}`, ttlSec };
+    }
   }
 }
 

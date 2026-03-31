@@ -8,6 +8,13 @@ describe('worker runtime config', () => {
     expect(packageJson.scripts['build:worker']).toContain('build-worker.mjs');
     expect(packageJson.scripts.build).toContain('npm run build:worker');
     expect(packageJson.scripts['build:ci']).toContain('npm run build:worker');
+    expect(packageJson.scripts.build).toContain('prisma generate');
+    expect(packageJson.scripts['build:ci']).toContain('prisma generate');
+  });
+
+  it('declares esbuild as a runtime dependency for production worker builds', () => {
+    expect(packageJson.dependencies.esbuild).toBe('0.27.0');
+    expect(packageJson.devDependencies?.esbuild).toBeUndefined();
   });
 
   it('pm2 worker points to the compiled dist entry', () => {

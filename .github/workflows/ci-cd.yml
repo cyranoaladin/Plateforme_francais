@@ -77,9 +77,25 @@ jobs:
       - name: Détection code mort
         run: npx knip
 
+  worker-build-prod-deps:
+    name: "Gate 1b - Worker Build sans devDeps"
+    needs: static-analysis
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - name: Verify worker builds without devDeps
+        run: |
+          npm ci --omit=dev
+          npm run build:worker
+          test -f dist/worker/src/lib/queue/start-worker.js
+
   unit-tests:
     name: "Gate 2 - Tests Unitaires (114 fichiers, sans postgres requis)"
-    needs: static-analysis
+    needs: [static-analysis, worker-build-prod-deps]
     runs-on: ubuntu-22.04
     services:
       redis:

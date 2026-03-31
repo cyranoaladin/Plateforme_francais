@@ -17,4 +17,10 @@ describe('scripts/deploy.sh', () => {
     expect(script).toContain('ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;');
     expect(script).toContain('ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;');
   });
+
+  it('regenerates the Prisma client before the production build', () => {
+    const script = readFileSync(resolve(process.cwd(), 'scripts/deploy.sh'), 'utf8');
+
+    expect(script).toContain('npx prisma generate --schema=prisma/schema.prisma');
+  });
 });

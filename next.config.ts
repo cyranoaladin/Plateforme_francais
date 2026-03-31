@@ -23,7 +23,7 @@ const SECURITY_HEADERS = [
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-  { key: 'Permissions-Policy', value: 'camera=(self), microphone=(self), geolocation=()' },
+  { key: 'Permissions-Policy', value: 'camera=(), geolocation=()' },
   {
     key: 'Strict-Transport-Security',
     value: 'max-age=63072000; includeSubDomains; preload',
@@ -38,8 +38,7 @@ const nextConfig: NextConfig = {
   },
   // Skip static generation - use standalone server mode
   output: 'standalone',
-  // Disable React strict mode to avoid context issues in error boundaries
-  reactStrictMode: false,
+  reactStrictMode: true,
   // Image optimization: SVG support + modern formats
   images: {
     dangerouslyAllowSVG: true,

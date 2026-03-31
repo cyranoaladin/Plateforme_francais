@@ -8,7 +8,9 @@ describe('getOeuvresForYear', () => {
     expect(works).toContain("On ne badine pas avec l'amour — Alfred de Musset");
   });
 
-  it('retourne un tableau vide si l’année n’est pas connue', () => {
-    expect(getOeuvresForYear('2030-2031')).toEqual([]);
+  it('retourne un fallback sur la dernière année disponible si l’année n’est pas connue', () => {
+    expect(getOeuvresForYear('2030-2031')).toEqual([
+      'Programme 2026-2027 — à mettre à jour à la rentrée',
+    ]);
   });
 });

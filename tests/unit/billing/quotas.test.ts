@@ -1,8 +1,30 @@
-import { describe, it, expect } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getPeriodKey, buildPaywallMessage } from '@/lib/billing/quotas';
+import { consumeQuota } from '@/lib/billing/usage';
 import { getPlanConfig, PLAN_CATALOG } from '@/lib/billing/plan-catalog';
 
+const redisMock = {
+  ping: vi.fn(),
+  eval: vi.fn(),
+  get: vi.fn(),
+};
+
+vi.mock('@/lib/queue/correction-queue', () => ({
+  getRedisClient: () => redisMock,
+}));
+
+vi.mock('@/lib/logger', () => ({
+  logger: { warn: vi.fn(), info: vi.fn(), error: vi.fn() },
+}));
+
 describe('Billing Quotas V2', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.useRealTimers();
+    redisMock.ping.mockResolvedValue('PONG');
+    redisMock.eval.mockResolvedValue(1);
+  });
+
   describe('PLAN_CATALOG quotas', () => {
     it('FREE has limited quotas', () => {
       expect(PLAN_CATALOG.FREE.quotas.ORAL_SESSIONS.limit).toBe(1);
@@ -36,6 +58,22 @@ describe('Billing Quotas V2', () => {
     it('generates correct month key', () => {
       const result = getPeriodKey('month', new Date('2026-03-08T10:00:00Z'));
       expect(result).toBe('2026-03');
+    });
+
+    it('uses a month TTL that expires exactly at the next UTC month boundary', async () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-03-08T10:00:00Z'));
+
+      await consumeQuota('user-1', 'WRITTEN_CORRECTIONS', { limit: 2, period: 'month' });
+
+      expect(redisMock.eval).toHaveBeenCalledWith(
+        expect.any(String),
+        1,
+        'quota:user-1:WRITTEN_CORRECTIONS:2026-03',
+        '1',
+        '2',
+        String(2_037_600),
+      );
     });
   });
 

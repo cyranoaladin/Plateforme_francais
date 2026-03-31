@@ -32,7 +32,7 @@ describe('GET /api/v1/oral/sessions', () => {
       config: { flags: { ORAL_REPORT_HISTORY: false } },
     } as never);
 
-    const response = await GET();
+    const response = await GET(new Request('http://localhost/api/v1/oral/sessions'));
 
     expect(response.status).toBe(402);
     const body = await response.json();
@@ -45,13 +45,16 @@ describe('GET /api/v1/oral/sessions', () => {
       config: { flags: { ORAL_REPORT_HISTORY: true } },
     } as never);
     vi.mocked(listOralSessionsByUser).mockResolvedValue([
-      { id: 's1', oeuvre: 'Manon Lescaut' },
+      { id: 's1', oeuvre: 'Manon Lescaut', interactions: [{ step: 'LECTURE' }], score: 12, maxScore: 20 },
     ] as never);
 
-    const response = await GET();
+    const response = await GET(new Request('http://localhost/api/v1/oral/sessions?limit=1'));
 
     expect(response.status).toBe(200);
     const body = await response.json();
-    expect(body.sessions).toEqual([{ id: 's1', oeuvre: 'Manon Lescaut' }]);
+    expect(body.sessions).toEqual([{ id: 's1', status: undefined, mode: undefined, oeuvre: 'Manon Lescaut', score: 12, maxScore: 20, createdAt: undefined, endedAt: undefined, finalFeedback: undefined }]);
+    expect(body.sessions[0].interactions).toBeUndefined();
+    expect(body.nextCursor).toBe('s1');
+    expect(listOralSessionsByUser).toHaveBeenCalledWith('user-1', { limit: 1, cursor: undefined });
   });
 });

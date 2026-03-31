@@ -17,5 +17,23 @@ export async function GET(
     return NextResponse.json({ error: 'Session introuvable.' }, { status: 404 });
   }
 
-  return NextResponse.json({ session }, { status: 200 });
+  return NextResponse.json(
+    {
+      session: {
+        id: session.id,
+        userId: session.userId,
+        status: session.status,
+        mode: session.mode,
+        oeuvre: session.oeuvre,
+        extrait: session.extrait,
+        questionGrammaire: session.questionGrammaire,
+        score: session.score,
+        maxScore: session.maxScore,
+        createdAt: session.createdAt,
+        endedAt: session.endedAt,
+        finalFeedback: session.finalFeedback,
+      },
+    },
+    { status: 200 },
+  );
 }
