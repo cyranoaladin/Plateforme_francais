@@ -13,6 +13,12 @@ import { checkQuota as checkBillingQuota, consumeQuota, QuotaExceededError } fro
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionStartBodySchema } from '@/lib/validation/schemas';
 
+const ORAL_START_RATE_LIMIT_PER_HOUR = {
+  FREE: 6,
+  PREMIUM: 20,
+  PRO: 60,
+} as const;
+
 /**
  * POST /api/v1/oral/session/start
  * Body: { oeuvre, extrait?, questionGrammaire? }
@@ -27,19 +33,6 @@ export async function POST(request: Request) {
     const csrfError = await validateCsrf(request);
     if (csrfError) {
       return csrfError;
-    }
-
-    const rl = await checkRateLimit({
-      request,
-      key: `oral:start:${auth.user.id}`,
-      limit: 3,
-      windowMs: 60 * 60 * 1000,
-    });
-    if (!rl.allowed) {
-      return NextResponse.json(
-        { error: 'Trop de sessions orales. Réessayez dans 1 heure.' },
-        { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } },
-      );
     }
 
     let billing: Awaited<ReturnType<typeof getBillingContext>>;
@@ -70,6 +63,19 @@ export async function POST(request: Request) {
           { status: 402 },
         );
       }
+    }
+
+    const rl = await checkRateLimit({
+      request,
+      key: `oral:start:${auth.user.id}`,
+      limit: ORAL_START_RATE_LIMIT_PER_HOUR[billing.planId],
+      windowMs: 60 * 60 * 1000,
+    });
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: 'Trop de démarrages de session orale en peu de temps. Réessaie dans environ 1 heure.' },
+        { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } },
+      );
     }
 
     const parsed = await parseJsonBody(request, oralSessionStartBodySchema);
