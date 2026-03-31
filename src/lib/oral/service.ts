@@ -111,20 +111,16 @@ export async function pickOralExtrait(params: {
     include: { descriptifTextes: true },
   });
 
-  if (!profile) {
-    throw new Error('Profil étudiant introuvable.');
-  }
+  const descriptifTextes = profile?.descriptifTextes ?? [];
 
   // Simulation: must have at least 3 texts in the descriptif (one per major work)
-  // Using corpus EXTRAITS_OEUVRES as fallback for works not in student's descriptif
+  // Using corpus EXTRAITS_OEUVRES as fallback for works not in student's descriptif.
+  // We no longer hard-block generation when the descriptif is incomplete:
+  // the internal corpus keeps the atelier usable, especially for new accounts.
   const MIN_TEXTS_FOR_SIMULATION = 3;
-  if (params.mode === 'SIMULATION' && profile.descriptifTextes.length < MIN_TEXTS_FOR_SIMULATION) {
-    throw new Error(`Descriptif incomplet: ${MIN_TEXTS_FOR_SIMULATION} textes minimum requis pour lancer une simulation.`);
-  }
-
 
   // First, try to find a match in the student's descriptif
-  const studentMatch = profile.descriptifTextes.find((t) =>
+  const studentMatch = descriptifTextes.find((t) =>
     t.typeExtrait === 'extrait_oeuvre' && matchesWork(params.oeuvre, t.oeuvre)
   );
 
@@ -151,7 +147,9 @@ export async function pickOralExtrait(params: {
   }
 
   throw new Error(
-    `Aucun extrait exploitable n'a été trouvé pour « ${params.oeuvre} ». Ajoute les premières lignes du texte dans ton descriptif ou choisis une œuvre prise en charge.`
+    params.mode === 'SIMULATION' && descriptifTextes.length < MIN_TEXTS_FOR_SIMULATION
+      ? `Descriptif incomplet et aucun extrait de secours disponible pour « ${params.oeuvre} ». Ajoute les premières lignes du texte dans ton descriptif ou choisis une œuvre prise en charge.`
+      : `Aucun extrait exploitable n'a été trouvé pour « ${params.oeuvre} ». Ajoute les premières lignes du texte dans ton descriptif ou choisis une œuvre prise en charge.`
   );
 }
 

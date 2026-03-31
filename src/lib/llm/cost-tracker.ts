@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db/client';
 import { sendTransactionalEmail } from '@/lib/email/client';
@@ -75,11 +76,12 @@ export async function trackLlmCall(params: TrackParams): Promise<void> {
   }
 
   try {
+    const id = randomUUID();
     await prisma.$executeRaw(
       Prisma.sql`INSERT INTO "LlmCostLog"
-        ("userId","skill","provider","model","tier","inputTokens","outputTokens","costEurCents","latencyMs","success","errorCode","contextSize","createdAt")
+        ("id","userId","skill","provider","model","tier","inputTokens","outputTokens","costEurCents","latencyMs","success","errorCode","contextSize","createdAt")
        VALUES
-        (${params.userId ?? null},${params.skill},${params.provider},${params.model},${params.tier},${params.inputTokens},${params.outputTokens},${costEurCents},${params.latencyMs},${params.success},${params.errorCode ?? null},${params.contextSize ?? null},NOW())`
+        (${id},${params.userId ?? null},${params.skill},${params.provider},${params.model},${params.tier},${params.inputTokens},${params.outputTokens},${costEurCents},${params.latencyMs},${params.success},${params.errorCode ?? null},${params.contextSize ?? null},NOW())`
     );
   } catch (error) {
     logger.warn(
@@ -135,9 +137,10 @@ export async function checkBudgetAlerts(): Promise<void> {
   if (dayTotal > dailyThreshold) {
     logger.warn({ dayTotal, dailyThreshold }, 'llm.budget.daily_exceeded');
     try {
+      const id = randomUUID();
       await prisma.$executeRaw(
-        Prisma.sql`INSERT INTO "LlmBudgetAlert" ("period","totalEurCents","threshold","alertedAt")
-         VALUES ('daily',${dayTotal},${dailyThreshold},NOW())`
+        Prisma.sql`INSERT INTO "LlmBudgetAlert" ("id","period","totalEurCents","threshold","alertedAt")
+         VALUES (${id},'daily',${dayTotal},${dailyThreshold},NOW())`
       );
     } catch (error) {
       logger.warn({ error }, 'llm.budget.daily_alert_insert_error');
@@ -148,9 +151,10 @@ export async function checkBudgetAlerts(): Promise<void> {
   if (monthTotal > monthlyThreshold) {
     logger.error({ monthTotal, monthlyThreshold }, 'llm.budget.monthly_exceeded');
     try {
+      const id = randomUUID();
       await prisma.$executeRaw(
-        Prisma.sql`INSERT INTO "LlmBudgetAlert" ("period","totalEurCents","threshold","alertedAt")
-         VALUES ('monthly',${monthTotal},${monthlyThreshold},NOW())`
+        Prisma.sql`INSERT INTO "LlmBudgetAlert" ("id","period","totalEurCents","threshold","alertedAt")
+         VALUES (${id},'monthly',${monthTotal},${monthlyThreshold},NOW())`
       );
     } catch (error) {
       logger.warn({ error }, 'llm.budget.monthly_alert_insert_error');

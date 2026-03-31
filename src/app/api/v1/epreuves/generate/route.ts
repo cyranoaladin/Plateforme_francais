@@ -5,6 +5,7 @@ import { PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog'
 import { getResetMessage } from '@/lib/billing/quota-messages';
 import { checkQuota as checkBillingQuota } from '@/lib/billing/usage';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
+import { normalizeGeneratedEpreuve } from '@/lib/epreuves/generation-normalizer';
 import { createEpreuve } from '@/lib/epreuves/repository';
 import { type EpreuveType } from '@/lib/epreuves/types';
 import { orchestrate } from '@/lib/llm/orchestrator';
@@ -85,10 +86,15 @@ export async function POST(request: Request) {
   const ragQuery = parsed.data.oeuvre
     ? `sujet ${type} ${parsed.data.oeuvre} ${parsed.data.theme ?? ''}`
     : `sujet ${type} EAF baccalauréat français ${parsed.data.theme ?? ''}`;
-  const ragResults = await searchOfficialReferences(ragQuery, 4, {
-    oeuvre: parsed.data.oeuvre,
-  });
-  const ragContext = formatRagContextForPrompt(ragResults);
+  let ragContext = '';
+  try {
+    const ragResults = await searchOfficialReferences(ragQuery, 4, {
+      oeuvre: parsed.data.oeuvre,
+    });
+    ragContext = formatRagContextForPrompt(ragResults);
+  } catch (error) {
+    console.error('[epreuves/generate] RAG unavailable, continuing without sources:', error);
+  }
 
   let result: unknown;
   try {
@@ -111,38 +117,43 @@ export async function POST(request: Request) {
     }
     throw error;
   }
-  const generation = result as {
-    sujet: string;
-    texte: string;
-    consignes: string;
-    bareme: Record<string, number>;
-  };
-
-  // For dissertations, texte must be empty — any citation belongs in the sujet field.
-  // This is a server-side safeguard in case the LLM ignores the prompt instruction.
-  const texte = type === 'dissertation' ? '' : generation.texte;
+  const generation = normalizeGeneratedEpreuve({
+    type,
+    oeuvre: parsed.data.oeuvre,
+    theme: parsed.data.theme,
+    generation: result as {
+      sujet?: string;
+      texte?: string;
+      consignes?: string;
+      bareme?: Record<string, number>;
+    },
+  });
 
   const epreuve = await createEpreuve({
     userId: auth.user.id,
     type,
     sujet: generation.sujet,
-    texte,
+    texte: generation.texte,
     consignes: generation.consignes,
     bareme: generation.bareme,
   });
 
-  await createMemoryEventRecord(
-    createMemoryEvent(auth.user.id, {
-      type: 'interaction',
-      feature: 'epreuve_generate',
-      path: '/atelier-ecrit',
-      payload: {
-        epreuveId: epreuve.id,
-        type,
-        oeuvre: parsed.data.oeuvre ?? 'libre',
-      },
-    }),
-  );
+  try {
+    await createMemoryEventRecord(
+      createMemoryEvent(auth.user.id, {
+        type: 'interaction',
+        feature: 'epreuve_generate',
+        path: '/atelier-ecrit',
+        payload: {
+          epreuveId: epreuve.id,
+          type,
+          oeuvre: parsed.data.oeuvre ?? 'libre',
+        },
+      }),
+    );
+  } catch (error) {
+    console.error('[epreuves/generate] memory event failed:', error);
+  }
 
   return NextResponse.json(
     {
