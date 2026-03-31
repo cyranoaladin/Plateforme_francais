@@ -124,7 +124,19 @@ const circuitFallback: Record<MistralTier, MistralTier> = {
 };
 
 function routerEnabled() {
-  return process.env.LLM_ROUTER_ENABLED === 'true';
+  const configured = process.env.LLM_ROUTER_ENABLED?.trim().toLowerCase();
+  const forceLocal = process.env.LLM_FORCE_LOCAL === 'true';
+
+  // In production, if Mistral is configured we should not silently fall back
+  // to Ollama because of an accidental .env.local override.
+  if (process.env.NODE_ENV === 'production' && hasMistralApiKey() && !forceLocal) {
+    if (configured === 'false') {
+      logger.warn({}, '[Router] Ignoring LLM_ROUTER_ENABLED=false in production because Mistral is available. Set LLM_FORCE_LOCAL=true to force Ollama.');
+    }
+    return true;
+  }
+
+  return configured === 'true';
 }
 
 function hasMistralApiKey() {
