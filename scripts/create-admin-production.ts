@@ -5,6 +5,7 @@
  */
 import { PrismaClient } from '@prisma/client';
 import { createPasswordCredentials } from '../src/lib/auth/session';
+import { getCurrentAnneeScolaire } from '../src/lib/date/current-school-year';
 
 const prisma = new PrismaClient();
 
@@ -47,7 +48,7 @@ async function main() {
       classLevel: 'PREMIERE',
       targetScore: 'EXCELLENCE',
       voie: 'GENERALE',
-      anneeScolaire: '2025-2026',
+      anneeScolaire: getCurrentAnneeScolaire(),
       onboardingCompleted: true,
     },
     create: {
@@ -56,7 +57,7 @@ async function main() {
       classLevel: 'PREMIERE',
       targetScore: 'EXCELLENCE',
       voie: 'GENERALE',
-      anneeScolaire: '2025-2026',
+      anneeScolaire: getCurrentAnneeScolaire(),
       onboardingCompleted: true,
       preferredObjects: ['POESIE', 'THEATRE', 'ROMAN', 'LITTERATURE_IDEES'],
       weakSkills: [],

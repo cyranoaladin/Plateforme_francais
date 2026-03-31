@@ -13,6 +13,7 @@ import {
 } from '@/lib/auth/types';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { readFallbackStore, writeFallbackStore } from '@/lib/db/fallback-store';
+import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 import { listMemoryEvents } from '@/lib/db/repositories/memoryRepo';
 import { listSessions } from '@/lib/db/repositories/sessionRepo';
 import { listUsers } from '@/lib/db/repositories/userRepo';
@@ -69,6 +70,7 @@ export async function writeStore(update: (current: MemoryStore) => MemoryStore) 
               create: {
                 displayName: user.profile.displayName,
                 classLevel: user.profile.classLevel,
+                anneeScolaire: user.profile.anneeScolaire ?? getCurrentAnneeScolaire(),
                 targetScore: user.profile.targetScore,
                 preferredObjects: user.profile.preferredObjects,
                 weakSkills: user.profile.weakSkills,

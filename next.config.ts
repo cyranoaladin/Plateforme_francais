@@ -53,6 +53,12 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: projectRoot,
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.alias['pdfjs-dist'] = false;
+    }
+    return config;
+  },
   async headers() {
     return [
       {

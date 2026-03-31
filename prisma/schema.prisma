@@ -135,7 +135,7 @@ model StudentProfile {
   maxStreak           Int         @default(0)
   // ADDENDUM fields
   voie                Voie        @default(GENERALE)
-  anneeScolaire       String      @default("2025-2026")
+  anneeScolaire       String
   targetExamDate      DateTime?
   weeklyGoalMinutes   Int         @default(120)
   prefWorkingHours    Json?
@@ -147,7 +147,7 @@ model StudentProfile {
   parentEmail         String?
   teacherEmail        String?
   parentConsentToken  String?     @unique
-  parentConsentStatus String      @default("pending") // pending | granted | refused | withdrawn
+  parentConsentStatus ParentConsentStatus @default(pending)
   parentConsentDate   DateTime?
   parentConsentIpHash String?
   // Relations ADDENDUM
@@ -240,6 +240,13 @@ enum SkillLevel {
   PASSABLE
   SATISFAISANT
   EXCELLENT
+}
+
+enum ParentConsentStatus {
+  pending
+  granted
+  refused
+  withdrawn
 }
 
 enum ExamPersona {

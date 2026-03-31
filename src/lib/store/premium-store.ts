@@ -3,6 +3,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { Prisma, SkillTrend, WeakStatus, type EafSkill, type RevisionPhase as PrismaRevisionPhase, type WeakSeverity } from '@prisma/client';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
+import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 import type { WeeklyReport } from '@/lib/types/premium';
 
 export type RevisionPhase = 'j2' | 'j7' | 'j21';
@@ -77,6 +78,7 @@ const STORE_PATH = path.resolve(process.cwd(), '.data/premium-store.json');
 const DEFAULT_PROFILE_DATA = {
   displayName: 'Élève',
   classLevel: 'Première générale',
+  anneeScolaire: getCurrentAnneeScolaire(),
   targetScore: '14/20',
   onboardingCompleted: false,
   selectedOeuvres: [] as string[],

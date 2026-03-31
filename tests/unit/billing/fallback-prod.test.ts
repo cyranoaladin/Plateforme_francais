@@ -12,9 +12,7 @@ import { QuotaExceededError } from '@/lib/billing/usage';
 const mockRedisClient = {
   ping: vi.fn(),
   get: vi.fn(),
-  incrby: vi.fn(),
-  decrby: vi.fn(),
-  expire: vi.fn(),
+  eval: vi.fn(),
 };
 
 vi.mock('@/lib/queue/correction-queue', () => ({
@@ -30,8 +28,7 @@ describe('Billing Quotas - Fallback prod fail-closed', () => {
     vi.clearAllMocks();
     vi.unstubAllEnvs();
     mockRedisClient.ping.mockResolvedValue('PONG');
-    mockRedisClient.incrby.mockResolvedValue(1);
-    mockRedisClient.expire.mockResolvedValue(1);
+    mockRedisClient.eval.mockResolvedValue(1);
   });
 
   describe('consumeQuota en production', () => {
@@ -46,10 +43,10 @@ describe('Billing Quotas - Fallback prod fail-closed', () => {
       ).rejects.toThrow(QuotaExceededError);
     });
 
-    it('fail-closed si Redis incrby échoue (production)', async () => {
+    it('fail-closed si Redis eval échoue (production)', async () => {
       vi.stubEnv('NODE_ENV', 'production');
       mockRedisClient.ping.mockResolvedValueOnce('PONG');
-      mockRedisClient.incrby.mockRejectedValueOnce(new Error('Redis write error'));
+      mockRedisClient.eval.mockRejectedValueOnce(new Error('Redis write error'));
 
       const { consumeQuota } = await import('@/lib/billing/usage');
 
@@ -76,8 +73,7 @@ describe('Billing Quotas - Fallback prod fail-closed', () => {
     it('passe normalement si Redis disponible (production)', async () => {
       vi.stubEnv('NODE_ENV', 'production');
       mockRedisClient.ping.mockResolvedValueOnce('PONG');
-      mockRedisClient.incrby.mockResolvedValueOnce(1);
-      mockRedisClient.expire.mockResolvedValueOnce(1);
+      mockRedisClient.eval.mockResolvedValueOnce(1);
 
       const { consumeQuota } = await import('@/lib/billing/usage');
 

@@ -113,11 +113,13 @@ export async function pickOralExtrait(params: {
 
   const descriptifTextes = profile?.descriptifTextes ?? [];
 
-  // Simulation: must have at least 3 texts in the descriptif (one per major work)
-  // Using corpus EXTRAITS_OEUVRES as fallback for works not in student's descriptif.
-  // We no longer hard-block generation when the descriptif is incomplete:
-  // the internal corpus keeps the atelier usable, especially for new accounts.
   const MIN_TEXTS_FOR_SIMULATION = 3;
+  if (params.mode === 'SIMULATION' && descriptifTextes.length < MIN_TEXTS_FOR_SIMULATION) {
+    logger.info(
+      { userId: params.userId, count: descriptifTextes.length, oeuvre: params.oeuvre },
+      'oral.pickExtrait.incomplete_descriptif — using corpus fallback',
+    );
+  }
 
   // First, try to find a match in the student's descriptif
   const studentMatch = descriptifTextes.find((t) =>

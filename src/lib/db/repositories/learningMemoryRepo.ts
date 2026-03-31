@@ -3,10 +3,12 @@ import { estimateTokens } from '@/lib/llm/token-estimate';
 import type { Skill } from '@/lib/llm/skills/types';
 import type { MemoryProfile } from '@/lib/memory/context-builder';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
+import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 
 const DEFAULT_PROFILE_DATA = {
   displayName: 'Élève',
   classLevel: 'Première générale',
+  anneeScolaire: getCurrentAnneeScolaire(),
   targetScore: '14/20',
   onboardingCompleted: false,
   selectedOeuvres: [] as string[],

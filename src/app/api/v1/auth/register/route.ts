@@ -16,6 +16,7 @@ import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { ensureLinkedRoleAccount } from '@/lib/auth/linked-role-accounts';
+import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 import { ensureCsrfCookie } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -83,6 +84,7 @@ export async function POST(request: Request) {
     profile: {
       ...DEFAULT_PROFILE,
       displayName: displayName || DEFAULT_PROFILE.displayName,
+      anneeScolaire: getCurrentAnneeScolaire(),
       isMinor: isMinor ?? false,
       parentEmail: parentEmail ?? null,
       teacherEmail: teacherEmail ?? null,

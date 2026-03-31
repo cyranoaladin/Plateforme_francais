@@ -1,5 +1,6 @@
 import { type UserRole } from '@prisma/client';
 import { type StudentProfile, type UserRecord } from '@/lib/auth/types';
+import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { readFallbackStore, writeFallbackStore } from '@/lib/db/fallback-store';
 
@@ -58,7 +59,7 @@ function toStudentProfile(profile: PrismaStudentProfileRecord): StudentProfile {
     parentEmail: profile.parentEmail ?? undefined,
     teacherEmail: teacherEmail ?? undefined,
     parentConsentToken: profile.parentConsentToken ?? undefined,
-    parentConsentStatus: profile.parentConsentStatus ?? undefined,
+    parentConsentStatus: (profile.parentConsentStatus ?? undefined) as StudentProfile['parentConsentStatus'],
     parentConsentDate: profile.parentConsentDate?.toISOString(),
     parentConsentIpHash: profile.parentConsentIpHash ?? undefined,
   };
@@ -174,6 +175,7 @@ export async function createUser(input: {
   if (await isDatabaseAvailable()) {
     const profileCreate = {
       displayName: input.profile.displayName,
+      anneeScolaire: input.profile.anneeScolaire ?? getCurrentAnneeScolaire(),
       classLevel: input.profile.classLevel,
       targetScore: input.profile.targetScore,
       establishment: input.profile.establishment,
@@ -251,6 +253,7 @@ export async function updateUserProfile(userId: string, profile: StudentProfile)
       userId,
       displayName: profile.displayName,
       classLevel: profile.classLevel,
+      anneeScolaire: profile.anneeScolaire ?? getCurrentAnneeScolaire(),
       targetScore: profile.targetScore,
       establishment: profile.establishment,
       eafDate: profile.eafDate ? new Date(profile.eafDate) : undefined,

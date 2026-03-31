@@ -7,13 +7,13 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  cancel-in-progress: true
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 2 * * 1"
-    - cron: "0 3 1 * *"
+    - cron: "0 2 * * 1" # Weekly smoke test — every Monday at 02:00 UTC
+    - cron: "0 3 1 * *" # Monthly dependency audit — 1st of month at 03:00 UTC
   push:
     tags:
       - "v*.*.*"
@@ -100,14 +100,15 @@ jobs:
             const p='coverage/coverage-summary.json';
             if(!fs.existsSync(p)){console.error('Coverage summary not found');process.exit(1)}
             const c=JSON.parse(fs.readFileSync(p,'utf8')).total;
-            // Thresholds raised 2026-03-31 to reflect current real coverage (~35%)
-            // Increase by +2 points per sprint while preserving CI stability
             const gates=[
-              ['lines',    parseFloat(process.env.COVERAGE_GATE_LINES||'30')],
-              ['functions', parseFloat(process.env.COVERAGE_GATE_FUNCTIONS||'27')],
-              ['branches',  parseFloat(process.env.COVERAGE_GATE_BRANCHES||'24')],
-              ['statements',parseFloat(process.env.COVERAGE_GATE_STATEMENTS||'30')]
+              ['lines',    parseFloat(process.env.COVERAGE_GATE_LINES)],
+              ['functions', parseFloat(process.env.COVERAGE_GATE_FUNCTIONS)],
+              ['branches',  parseFloat(process.env.COVERAGE_GATE_BRANCHES)],
+              ['statements',parseFloat(process.env.COVERAGE_GATE_STATEMENTS)]
             ];
+            for(const [k,min] of gates){
+              if(Number.isNaN(min)){throw new Error('COVERAGE_GATE_'+k.toUpperCase()+' not set or invalid')}
+            }
             let fail=false;
             for(const [k,min] of gates){
               const v=c[k]?.pct??0;
@@ -177,6 +178,7 @@ jobs:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - run: npm ci
+      - run: npm run build:worker
       - run: chmod +x tests/contracts/run-schemathesis.sh tests/contracts/run-schemathesis-auth.sh tests/contracts/run-schemathesis-teacher-rbac.sh tests/contracts/run-teacher-comment-rbac.sh tests/contracts/run-teacher-export-rbac.sh
       - run: npx prisma migrate deploy
       - run: npm run build:ci
@@ -244,6 +246,7 @@ jobs:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - run: npm ci
+      - run: npm run build:worker
       - name: Reset DB, create extensions, and sync schema
         run: |
           PGPASSWORD=test psql -h localhost -U test -d eaf_test -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;'

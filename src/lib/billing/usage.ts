@@ -127,18 +127,32 @@ export async function consumeQuota(
   try {
     const redis = getRedisClient();
     await redis.ping();
+    const luaScript = `
+      local current = redis.call('GET', KEYS[1])
+      local count = tonumber(current) or 0
+      if count + tonumber(ARGV[1]) > tonumber(ARGV[2]) then
+        return -1
+      end
+      local newVal = redis.call('INCRBY', KEYS[1], ARGV[1])
+      if newVal == tonumber(ARGV[1]) then
+        redis.call('EXPIRE', KEYS[1], ARGV[3])
+      end
+      return newVal
+    `;
+    const newCount = Number(
+      await redis.eval(
+        luaScript,
+        1,
+        rk,
+        amount.toString(),
+        quotaEntry.limit.toString(),
+        ttlSec.toString(),
+      ),
+    );
 
-    const newCount = await redis.incrby(rk, amount);
-
-    // Set TTL only on first increment (when value equals amount)
-    if (newCount === amount) {
-      await redis.expire(rk, ttlSec);
-    }
-
-    if (newCount > quotaEntry.limit) {
-      // Rollback the increment since the action is denied
-      await redis.decrby(rk, amount);
-      throw new QuotaExceededError(entitlement, quotaEntry.limit, newCount - amount, quotaEntry.period);
+    if (newCount === -1) {
+      const current = Number(await redis.get(rk)) || 0;
+      throw new QuotaExceededError(entitlement, quotaEntry.limit, current, quotaEntry.period);
     }
 
     return {
@@ -173,7 +187,10 @@ export async function requireQuota(
   amount: number = 1,
 ): Promise<void> {
   if (!quotaEntry) {
-    // No quota defined for this entitlement = unlimited
+    logger.warn(
+      { userId, entitlement },
+      'quota:missing_config — entitlement not defined in plan, defaulting to unlimited. Verify plan-catalog.ts.',
+    );
     return;
   }
 

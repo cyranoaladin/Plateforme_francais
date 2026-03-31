@@ -55,6 +55,16 @@ const FRENCH_ALIASES: Record<string, string> = {
   '/tarifs': '/pricing',
 };
 
+const ALLOWED_METHODS_BY_PATH: Readonly<Record<string, ReadonlySet<string>>> = {
+  '/api/v1/health': new Set(['GET', 'HEAD']),
+  '/api/v1/auth/login': new Set(['POST']),
+  '/api/v1/auth/register': new Set(['POST']),
+  '/api/v1/auth/forgot-password': new Set(['POST']),
+  '/api/v1/auth/reset-password': new Set(['POST']),
+  '/api/v1/csrf': new Set(['GET']),
+  '/api/v1/contact': new Set(['POST']),
+};
+
 export function isPublicPath(pathname: string): boolean {
   if (PUBLIC_PATHS.has(pathname)) return true;
   for (const prefix of PUBLIC_PATHS) {
@@ -84,13 +94,19 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
 
   response.headers.set('x-nonce', nonce);
 
+  const pathname = request.nextUrl.pathname;
+  const extraConnectSrc = process.env.NEXT_PUBLIC_CSP_CONNECT_EXTRA?.trim();
+  const connectSrc = [
+    "'self'",
+    ...(extraConnectSrc ? extraConnectSrc.split(/\s+/).filter(Boolean) : []),
+  ].join(' ');
   const csp = [
     `default-src 'self'`,
     `script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com`,
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob:`,
     `media-src 'self' blob:`,
-    `connect-src 'self'`,
+    `connect-src ${connectSrc}`,
     `frame-ancestors 'none'`,
     `base-uri 'self'`,
     `form-action 'self'`,
@@ -100,7 +116,8 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=()');
+  const microphonePolicy = pathname.startsWith('/atelier-oral') ? 'microphone=(self)' : 'microphone=()';
+  response.headers.set('Permissions-Policy', `camera=(), ${microphonePolicy}, geolocation=()`);
 
   return response;
 }
@@ -123,13 +140,7 @@ export function middleware(request: NextRequest) {
 
   if (pathname.startsWith('/api/v1/')) {
     const method = request.method.toUpperCase();
-    const allowedMethodsByPath: Record<string, Set<string>> = {
-      '/api/v1/health': new Set(['GET']),
-      '/api/v1/auth/login': new Set(['POST']),
-      '/api/v1/auth/register': new Set(['POST']),
-    };
-
-    const allowed = allowedMethodsByPath[pathname];
+    const allowed = ALLOWED_METHODS_BY_PATH[pathname];
     if (allowed && !allowed.has(method)) {
       return new NextResponse('Method Not Allowed', { status: 405 });
     }

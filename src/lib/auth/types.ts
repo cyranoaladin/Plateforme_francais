@@ -2,6 +2,7 @@ export type StudentProfile = {
   displayName: string;
   classLevel: string;
   targetScore: string;
+  anneeScolaire?: string;
   establishment?: string;
   eafDate?: string;
   onboardingCompleted: boolean;
@@ -19,7 +20,7 @@ export type StudentProfile = {
   cguVersion?: string;
   // RGPD Parental Consent
   parentConsentToken?: string | null;
-  parentConsentStatus?: string | null;
+  parentConsentStatus?: 'pending' | 'granted' | 'refused' | 'withdrawn' | null;
   parentConsentDate?: string | null;
   parentConsentIpHash?: string | null;
 };
