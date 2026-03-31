@@ -11,6 +11,7 @@ import { StateNotice } from '@/components/ui';
 
 type CorrectionPayload = {
   copieId: string;
+  epreuveId?: string;
   status: 'pending' | 'processing' | 'done' | 'error';
   ocrText?: string | null;
   fileType?: string;
@@ -59,7 +60,7 @@ export default function CorrectionCopiePage() {
   const [activeAnnotation, setActiveAnnotation] = useState<number>(0);
 
   useEffect(() => {
-    if (!params.copieId || !epreuveId) {
+    if (!params.copieId) {
       return;
     }
 
@@ -68,7 +69,10 @@ export default function CorrectionCopiePage() {
 
     const load = async () => {
       try {
-        const response = await fetch(`/api/v1/epreuves/${epreuveId}/copie/${params.copieId}`);
+        const statusUrl = epreuveId
+          ? `/api/v1/epreuves/${epreuveId}/copie/${params.copieId}`
+          : `/api/v1/epreuves/copies/${params.copieId}/status`;
+        const response = await fetch(statusUrl);
         if (!response.ok) {
           throw new Error('Impossible de charger la correction.');
         }
