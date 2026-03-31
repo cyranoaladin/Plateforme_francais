@@ -16,6 +16,24 @@ export class MistralAuthError extends MistralBaseError {}
 export class MistralRateLimitError extends MistralBaseError {}
 export class MistralUnavailableError extends MistralBaseError {}
 
+export function getMistralTimeoutMs(model: string): number {
+  const timeoutByModel: Array<{ match: string; env?: string; fallback: number }> = [
+    { match: 'magistral', env: 'MISTRAL_REASONING_TIMEOUT_MS', fallback: 90_000 },
+    { match: 'mistral-large', env: 'MISTRAL_LARGE_TIMEOUT_MS', fallback: 60_000 },
+    { match: 'mistral-ocr', env: 'MISTRAL_OCR_TIMEOUT_MS', fallback: 45_000 },
+    { match: 'mistral-small', env: 'MISTRAL_SMALL_TIMEOUT_MS', fallback: 30_000 },
+    { match: 'ministral', env: 'MISTRAL_MICRO_TIMEOUT_MS', fallback: 25_000 },
+  ];
+
+  const normalized = model.toLowerCase();
+  const entry = timeoutByModel.find((item) => normalized.includes(item.match));
+  const envValue = entry?.env ? Number.parseInt(process.env[entry.env] ?? '', 10) : Number.NaN;
+  if (Number.isFinite(envValue) && envValue > 0) {
+    return envValue;
+  }
+  return entry?.fallback ?? 30_000;
+}
+
 function ensureMessages(promptOrMessages: string | ProviderChatMessage[]): ProviderChatMessage[] {
   if (Array.isArray(promptOrMessages)) {
     return promptOrMessages;
@@ -63,6 +81,7 @@ export class MistralProvider implements LLMProvider {
     const messages = ensureMessages(promptOrMessages);
 
     try {
+      const timeoutMs = getMistralTimeoutMs(this.model);
       const completion = await this.client.chat.completions.create(
         {
           model: this.model,
@@ -72,7 +91,7 @@ export class MistralProvider implements LLMProvider {
           response_format:
             options?.responseMimeType === 'application/json' ? { type: 'json_object' } : undefined,
         },
-        { signal: AbortSignal.timeout(30_000) },
+        { signal: AbortSignal.timeout(timeoutMs) },
       );
 
       const text = completion.choices[0]?.message?.content ?? '';
