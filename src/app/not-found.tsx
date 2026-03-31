@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function NotFound() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
-      <p className="text-6xl font-bold text-[var(--c-primary)]" style={{ fontFamily: "var(--font-display)" }}>
+      <p className="font-display text-6xl font-bold text-[var(--c-primary)]">
         404
       </p>
       <p className="mt-3 text-lg text-[var(--c-primary)]/70">Cette page n{'\u2019'}existe pas.</p>

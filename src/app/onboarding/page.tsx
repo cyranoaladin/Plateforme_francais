@@ -19,15 +19,7 @@ import {
 } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
-import { Card } from '@/components/ui/card';
-import { Surface } from '@/components/ui/surface';
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
+import { Button, Card, Input, Select, Surface } from '@/components/ui';
 
 const OEUVRES = [
   { id: 'douai', title: 'Cahier de Douai', author: 'Arthur Rimbaud', type: 'Poésie' },
@@ -325,7 +317,7 @@ export default function OnboardingPage() {
             <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--c-primary)]">
               Revoir l’accueil
             </Link>
-            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-4 py-2 text-[var(--bg-page)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-4 py-2 text-[var(--text-on-primary)]">
               <Clock3 className="h-4 w-4" />
               Environ 3 minutes
             </div>
@@ -340,7 +332,7 @@ export default function OnboardingPage() {
                 Mise en route
               </div>
 
-              <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
+              <h1 className="editorial-heading mt-6 text-4xl text-white sm:text-5xl">
                 Nous réglons la plateforme autour de ton vrai contexte.
               </h1>
 
@@ -417,7 +409,7 @@ export default function OnboardingPage() {
 
             <div className="border-b border-[var(--border-default)] pb-5">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{currentMeta.kicker}</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+              <h2 className="editorial-heading mt-4 text-4xl text-[var(--c-primary)] sm:text-5xl">
                 {currentMeta.title}
               </h2>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{currentMeta.description}</p>

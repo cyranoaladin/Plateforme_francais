@@ -36,10 +36,6 @@ import { getDashboardUpgradeState } from '@/lib/billing/dashboard-upgrade';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { EmailVerificationBanner } from '@/components/ui/EmailVerificationBanner';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const SKILL_META = [
   {
     key: 'ecrit' as const,
@@ -610,10 +606,7 @@ export default function Dashboard() {
               <span className="hero-chip px-3 py-1.5">{formatCountdown(data.countdownOral, 'Oral')}</span>
             </div>
 
-            <h1
-              style={EDITORIAL_HEADING}
-              className="mt-6 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl"
-            >
+            <h1 className="editorial-heading mt-6 max-w-4xl text-4xl text-white sm:text-5xl">
               {data.displayName}{DASHBOARD_COPY.heroTitleSuffix}
             </h1>
 
@@ -709,7 +702,7 @@ export default function Dashboard() {
                 <Sparkles className="h-4 w-4" />
                 {DASHBOARD_COPY.nowTitle}
               </div>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">
+              <h2 className="editorial-heading mt-4 text-3xl text-white">
                 {ritualLead.title}
               </h2>
               <p className="hero-body mt-3 text-sm leading-7">{ritualLead.detail}</p>
@@ -824,7 +817,7 @@ export default function Dashboard() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.radarEyebrow}</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-3xl">
+              <h2 className="font-display mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-3xl">
                 {DASHBOARD_COPY.radarTitle}
               </h2>
             </div>
@@ -864,7 +857,7 @@ export default function Dashboard() {
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.progressionEyebrow}</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+              <h2 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
                 {DASHBOARD_COPY.progressionTitle}
               </h2>
             </div>
@@ -894,7 +887,7 @@ export default function Dashboard() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.mapEyebrow}</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-3xl">
+              <h2 className="font-display mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-3xl">
                 {DASHBOARD_COPY.mapTitle}
               </h2>
             </div>
@@ -954,7 +947,7 @@ export default function Dashboard() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.historyEyebrow}</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
                   {DASHBOARD_COPY.historyTitle}
                 </h2>
               </div>
@@ -990,7 +983,7 @@ export default function Dashboard() {
 
           <Card padding="md" className="border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)] md:p-7">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.quickAccessEyebrow}</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+            <h2 className="font-display mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
               {DASHBOARD_COPY.quickAccessTitle}
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{DASHBOARD_COPY.quickAccessBody}</p>

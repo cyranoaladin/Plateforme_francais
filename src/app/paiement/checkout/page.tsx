@@ -55,10 +55,6 @@ type OrderResult = {
   instructions: string;
 };
 
-const EDITORIAL_HEADING = {
-  fontFamily: 'var(--font-display)',
-};
-
 export default function CheckoutPage() {
   const searchParams = useSearchParams();
   const planParam = (searchParams.get('plan') ?? '').toUpperCase();
@@ -80,8 +76,7 @@ export default function CheckoutPage() {
       <main className="flex min-h-screen items-center justify-center bg-[var(--bg-surface-secondary)] px-4 py-12">
         <div className="mx-auto max-w-md text-center">
           <h1
-            style={EDITORIAL_HEADING}
-            className="text-2xl font-bold text-[var(--text-heading)]"
+            className="font-display text-2xl font-bold text-[var(--text-heading)]"
           >
             Plan non reconnu
           </h1>
@@ -141,8 +136,7 @@ export default function CheckoutPage() {
           </div>
 
           <h1
-            style={EDITORIAL_HEADING}
-            className="mt-6 text-3xl font-bold text-[var(--text-heading)]"
+            className="font-display mt-6 text-3xl font-bold text-[var(--text-heading)]"
           >
             Commande enregistrée
           </h1>
@@ -220,8 +214,7 @@ export default function CheckoutPage() {
         </Link>
 
         <h1
-          style={EDITORIAL_HEADING}
-          className="mt-8 text-3xl font-bold tracking-[-0.03em] text-[var(--c-primary)] sm:text-4xl"
+          className="font-display mt-8 text-3xl font-bold tracking-[-0.03em] text-[var(--c-primary)] sm:text-4xl"
         >
           Finaliser ta commande
         </h1>
@@ -230,8 +223,7 @@ export default function CheckoutPage() {
         <Surface tone="default" padding="md" className="mt-8">
           <div className="flex items-baseline justify-between">
             <h2
-              style={EDITORIAL_HEADING}
-              className="text-2xl font-bold text-[var(--text-heading)]"
+              className="font-display text-2xl font-bold text-[var(--text-heading)]"
             >
               {info.label}
             </h2>
@@ -254,8 +246,7 @@ export default function CheckoutPage() {
 
         {/* Payment methods */}
         <h2
-          style={EDITORIAL_HEADING}
-          className="mt-10 text-xl font-bold text-[var(--text-heading)]"
+          className="font-display mt-10 text-xl font-bold text-[var(--text-heading)]"
         >
           Choisis ton moyen de paiement
         </h2>

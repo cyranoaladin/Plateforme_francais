@@ -18,7 +18,7 @@ import {
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Card, Badge } from '@/components/ui';
-import { StateNotice } from '@/components/ui/state-notice';
+import { StateNotice } from '@/components/ui';
 
 type Plan = {
   semaines: {
@@ -58,10 +58,6 @@ type WeekTask = {
   duree: string;
   lien: string;
   semaine: number;
-};
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
 };
 
 const TYPE_META: Record<
@@ -300,7 +296,7 @@ export default function MonParcoursPage() {
               <MapIcon className="h-4 w-4" />
               Feuille de route Nexus
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               Ton parcours doit rendre la semaine lisible avant de la rendre ambitieuse.
             </h1>
             <p className="hero-body mt-5 max-w-3xl text-base leading-8 sm:text-lg">
@@ -371,7 +367,7 @@ export default function MonParcoursPage() {
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Priorités immédiates</p>
-                  <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-4xl md:text-5xl">
+                  <h2 className="font-display mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-4xl md:text-5xl">
                     Les trois prochains blocs qui méritent d’ouvrir la semaine.
                   </h2>
                 </div>
@@ -409,7 +405,7 @@ export default function MonParcoursPage() {
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Semaine {week.numero}</p>
-                    <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+                    <h2 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
                       {week.objectif}
                     </h2>
                   </div>
@@ -512,7 +508,7 @@ export default function MonParcoursPage() {
         <aside className="space-y-6 xl:sticky xl:top-8 xl:self-start">
           <Card variant="default" padding="md" className="bg-[var(--bg-surface)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cap du moment</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+            <h2 className="font-display mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
               Une vue compacte pour reprendre le plan sans inertie.
             </h2>
 
@@ -584,7 +580,7 @@ export default function MonParcoursPage() {
           {skillSummary.length > 0 ? (
             <Card variant="default" padding="md" className="bg-[var(--bg-surface)]/90 border-[var(--border-strong)] shadow-[var(--shadow-md)] md:p-7">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Niveau de départ</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+              <h2 className="font-display mt-4 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
                 Le parcours doit rester cohérent avec le profil mesuré.
               </h2>
               <div className="mt-6 space-y-5">

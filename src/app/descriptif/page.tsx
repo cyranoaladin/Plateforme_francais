@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, CheckCircle2, ClipboardList, Plus, ShieldCheck, Trash2 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
-import { StateNotice } from '@/components/ui/state-notice';
-import { Badge, Button, Input, Select, Surface } from '@/components/ui';
+import { Badge, Button, Input, Select, StateNotice, Surface } from '@/components/ui';
 
 type ObjetEtude = 'poesie' | 'roman' | 'theatre' | 'litterature_idees';
 type TypeExtrait = 'extrait_oeuvre' | 'extrait_parcours';
@@ -47,10 +46,6 @@ const OEUVRES_PAR_OBJET: Record<ObjetEtude, { oeuvre: string; auteur: string }[]
     { oeuvre: 'La Peau de chagrin', auteur: 'Honoré de Balzac' },
     { oeuvre: 'Sido suivi de Les Vrilles de la vigne', auteur: 'Colette' },
   ],
-};
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
 };
 
 function validateDescriptifClient(textes: DescriptifTexte[]): string[] {
@@ -216,7 +211,7 @@ export default function DescriptifPage() {
               <ClipboardList className="h-4 w-4" />
               Mon Descriptif de lecture
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Le descriptif doit devenir une carte de passage crédible pour l’oral, pas une simple liste remplie à la hâte.
             </h1>
             <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
@@ -275,7 +270,7 @@ export default function DescriptifPage() {
               </div>
               <div>
                 <p className="ui-kicker text-[var(--c-reward)]">Ajouter un texte</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Enrichir le descriptif
                 </h2>
               </div>

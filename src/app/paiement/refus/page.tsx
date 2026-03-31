@@ -1,10 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, AlertTriangle } from 'lucide-react';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const PAYMENT_REFUSAL_COPY = {
   title: 'Activation non confirmée',
   body:
@@ -21,7 +17,7 @@ export default function PaiementRefusPage() {
           <AlertTriangle className="h-8 w-8" />
         </div>
 
-        <h1 style={EDITORIAL_HEADING} className="mt-6 text-3xl font-bold text-foreground">
+        <h1 className="font-display mt-6 text-3xl font-bold text-foreground">
           {PAYMENT_REFUSAL_COPY.title}
         </h1>
 

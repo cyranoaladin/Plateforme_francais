@@ -62,6 +62,7 @@ export async function POST(
       duration: parsed.data.duration,
       userId: auth.user.id,
       oeuvreChoisieEntretien: profile?.oeuvreChoisieEntretien ?? null,
+      examinerProfile: parsed.data.examinerProfile ?? null,
     });
   } catch (error) {
     if (error instanceof QuotaExceededError) {

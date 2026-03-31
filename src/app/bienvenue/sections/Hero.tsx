@@ -11,10 +11,6 @@ import {
 } from 'lucide-react';
 import { track } from '@/components/analytics/events';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const MICRO_PROOFS = [
   'Oral officiel : /2 /8 /2 /8',
   'Aucun paiement avant essai',
@@ -60,8 +56,7 @@ export function Hero() {
             </div>
 
             <h1
-              style={EDITORIAL_HEADING}
-              className="mt-7 text-5xl leading-[0.96] tracking-[-0.04em] text-[var(--c-primary)] sm:text-6xl lg:text-7xl"
+              className="font-display mt-7 text-5xl leading-[0.96] tracking-[-0.04em] text-[var(--c-primary)] sm:text-6xl lg:text-7xl"
             >
               La préparation EAF qui se laisse vérifier avant d’être achetée,
               <span className="block text-[var(--c-success)]">puis accompagne vraiment quand le rythme monte.</span>
@@ -126,7 +121,7 @@ export function Hero() {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-slate-300)]">Ton tableau de bord</p>
-                  <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
+                  <h2 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                     Une séance, des retours immédiatement exploitables.
                   </h2>
                 </div>
@@ -212,7 +207,7 @@ export function Hero() {
               className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
               style={{ animationDelay: `${0.18 + index * 0.08}s` }}
             >
-              <p style={EDITORIAL_HEADING} className="text-3xl tracking-[-0.03em] text-[var(--c-primary)]">
+              <p className="font-display text-3xl tracking-[-0.03em] text-[var(--c-primary)]">
                 {stat.value}
               </p>
               <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">{stat.label}</p>

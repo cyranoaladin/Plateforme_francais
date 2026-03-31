@@ -4,10 +4,6 @@ import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
 import { track } from '@/components/analytics/events';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const PLANS = [
   {
     name: 'Freemium',
@@ -37,7 +33,7 @@ export function PricingTeaser() {
         <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Plans et valeur</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
               Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
@@ -72,7 +68,7 @@ export function PricingTeaser() {
               <article key={plan.name} className={`${plan.accent} rounded-[24px] border p-6`}>
                 <p className="text-[11px] font-bold uppercase tracking-[0.26em] opacity-70">{plan.kicker}</p>
                 <div className="mt-3 flex items-center justify-between gap-3">
-                  <h3 style={EDITORIAL_HEADING} className="text-3xl tracking-[-0.03em]">{plan.name}</h3>
+                  <h3 className="font-display text-3xl tracking-[-0.03em]">{plan.name}</h3>
                   {plan.featured ? (
                     <span className="rounded-full bg-[var(--bg-page)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--c-primary)]">
                       Recommandé

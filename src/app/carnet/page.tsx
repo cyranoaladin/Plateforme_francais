@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { BookOpen, Download, Plus, Quote, Sparkles } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
-import { StateNotice } from '@/components/ui/state-notice';
-import { Button, Badge, Input, Select, Surface, Textarea } from '@/components/ui';
+import { Badge, Button, Input, Select, StateNotice, Surface, Textarea } from '@/components/ui';
 
 type CarnetEntry = {
   id: string;
@@ -24,10 +23,6 @@ const TYPE_LABELS: Record<CarnetEntry['type'], string> = {
   reaction: 'Réaction',
   resume: 'Résumé',
   lien_culturel: 'Lien culturel',
-};
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
 };
 
 export default function CarnetPage() {
@@ -132,7 +127,7 @@ export default function CarnetPage() {
               <BookOpen className="h-4 w-4" />
               Carnet de lecture
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Un lieu pour garder les œuvres vivantes, pas seulement les résumer.
             </h1>
             <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
@@ -174,7 +169,7 @@ export default function CarnetPage() {
               </div>
               <div>
                 <p className="ui-kicker text-[var(--c-reward)]">Nouvelle entrée</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Noter pendant que c’est encore vivant
                 </h2>
               </div>

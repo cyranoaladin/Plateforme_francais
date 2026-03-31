@@ -73,10 +73,6 @@ type Payment = {
   user: { email: string };
 };
 
-const EDITORIAL_HEADING = {
-  fontFamily: 'var(--font-display)',
-};
-
 export default function AdminDashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -270,7 +266,7 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-[var(--bg-primary)]">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2" style={EDITORIAL_HEADING}>
+          <h1 className="font-display mb-2 text-3xl font-bold">
             Tableau de bord admin
           </h1>
           <p className="text-[var(--text-secondary)]">

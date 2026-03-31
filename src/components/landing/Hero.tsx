@@ -66,7 +66,7 @@ export function Hero() {
             {HERO_COPY.eyebrow}
           </div>
 
-          <h1 className="mt-6 max-w-3xl font-[family:var(--font-display)] text-4xl leading-[1.02] tracking-[-0.03em] text-white sm:text-5xl lg:text-[4.35rem]">
+          <h1 className="editorial-heading mt-6 max-w-3xl text-4xl text-white sm:text-5xl lg:text-[4.35rem]">
             {HERO_COPY.titleLead}
             <span className="block bg-gradient-to-r from-white via-sapphire-300 to-sapphire-500 bg-clip-text text-transparent">
               {HERO_COPY.titleAccent}
@@ -78,7 +78,7 @@ export function Hero() {
           <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <Link
               href={ROUTES.register}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--color-indigo-800)] bg-[linear-gradient(135deg,rgba(99,102,241,0.98),rgba(67,56,202,0.98))] px-6 py-4 text-base font-semibold text-white shadow-[0_16px_36px_rgba(67,56,202,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(67,56,202,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--color-indigo-800)] bg-[linear-gradient(135deg,rgba(99,102,241,0.98),rgba(67,56,202,0.98))] px-6 py-4 text-base font-semibold text-[var(--text-on-primary)] shadow-[0_16px_36px_rgba(67,56,202,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(67,56,202,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
             >
               {HERO_COPY.primaryCta}
             </Link>

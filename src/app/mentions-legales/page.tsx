@@ -6,10 +6,6 @@ export const metadata = {
   description: 'Mentions légales et conditions générales d\u2019utilisation de Nexus EAF',
 };
 
-const EDITORIAL_HEADING = {
-  fontFamily: 'var(--font-display)',
-};
-
 export default function MentionsLegalesPage() {
   return (
     <div className="min-h-screen bg-[var(--bg-surface-secondary)] text-[var(--text-heading)] [background-image:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
@@ -27,8 +23,7 @@ export default function MentionsLegalesPage() {
         <section className="mt-10">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cadre juridique</p>
           <h1
-            style={EDITORIAL_HEADING}
-            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+            className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
           >
             Mentions légales & Conditions Générales d{'\u2019'}Utilisation
           </h1>
@@ -45,7 +40,7 @@ export default function MentionsLegalesPage() {
                 <Building2 className="h-5 w-5" />
               </div>
               <div>
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Éditeur du site
                 </h2>
                 <div className="mt-4 space-y-2 text-sm leading-7 text-[var(--text-body)]">
@@ -67,7 +62,7 @@ export default function MentionsLegalesPage() {
                 <Globe className="h-5 w-5" />
               </div>
               <div>
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Hébergement
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">Le site est hébergé par :</p>
@@ -93,7 +88,7 @@ export default function MentionsLegalesPage() {
                 <Lock className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Protection des données (RGPD)
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
@@ -123,7 +118,7 @@ export default function MentionsLegalesPage() {
                 <Scale className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Conditions Générales d{'\u2019'}Utilisation
                 </h2>
                 <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">Version 2026-03</p>
@@ -154,7 +149,7 @@ export default function MentionsLegalesPage() {
                 <FileText className="h-5 w-5" />
               </div>
               <div>
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Propriété intellectuelle
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
@@ -171,7 +166,7 @@ export default function MentionsLegalesPage() {
                 <Mail className="h-5 w-5" />
               </div>
               <div>
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Contact
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">

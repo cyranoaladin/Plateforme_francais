@@ -4,10 +4,6 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2, Compass, PenSquare, RefreshCcw } from 'lucide-react';
 import { track } from '@/components/analytics/events';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const STEPS = [
   {
     number: '01',
@@ -42,8 +38,7 @@ export function HowItWorks() {
         <div className="lg:sticky lg:top-28 lg:self-start">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">La méthode</p>
           <h2
-            style={EDITORIAL_HEADING}
-            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+            className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
           >
             Une mécanique de progression, pas une accumulation d{'\u2019'}outils.
           </h2>
@@ -98,7 +93,7 @@ export function HowItWorks() {
                     </div>
                   </div>
 
-                  <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+                  <h3 className="font-display mt-5 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
                     {step.title}
                   </h3>
                   <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{step.description}</p>

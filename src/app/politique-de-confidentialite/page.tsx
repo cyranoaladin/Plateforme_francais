@@ -6,10 +6,6 @@ export const metadata = {
   description: 'Politique de confidentialité et traitement des données personnelles de Nexus EAF',
 };
 
-const EDITORIAL_HEADING = {
-  fontFamily: 'var(--font-display)',
-};
-
 const DATA_PROTECTION_ITEMS = [
   {
     icon: DatabaseZap,
@@ -55,8 +51,7 @@ export default function PolitiqueDeConfidentialitePage() {
         <section className="mt-10">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Données personnelles</p>
           <h1
-            style={EDITORIAL_HEADING}
-            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+            className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
           >
             Politique de confidentialité
           </h1>
@@ -72,7 +67,7 @@ export default function PolitiqueDeConfidentialitePage() {
                 <Lock className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Protection des données (RGPD)
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
@@ -99,7 +94,7 @@ export default function PolitiqueDeConfidentialitePage() {
           </article>
 
           <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
-            <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+            <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
               Contact
             </h2>
             <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">

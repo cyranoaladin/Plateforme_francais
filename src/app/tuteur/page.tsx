@@ -14,16 +14,12 @@ import {
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { Badge, Button } from '@/components/ui';
-import { StateNotice } from '@/components/ui/state-notice';
+import { StateNotice } from '@/components/ui';
 
 type Message = {
   role: 'user' | 'assistant';
   content: string;
   citations?: { index: number; title: string; source: string }[];
-};
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
 };
 
 const STARTER_PROMPTS = [
@@ -141,7 +137,7 @@ function TuteurPageContent() {
               <MessageSquareQuote className="h-4 w-4" />
               Tuteur Nexus
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl">
+            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl">
               Un espace pour débloquer une vraie difficulté EAF, pas pour récupérer une réponse générique.
             </h1>
             <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
@@ -240,7 +236,7 @@ function TuteurPageContent() {
                   <div className="flex h-20 w-20 items-center justify-center rounded-[24px] bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                     <Sparkles className="h-9 w-9" />
                   </div>
-                  <h3 style={EDITORIAL_HEADING} className="mt-6 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                  <h3 className="font-display mt-6 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                     Commence par le blocage réel du moment.
                   </h3>
                   <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--text-secondary)] md:text-base">

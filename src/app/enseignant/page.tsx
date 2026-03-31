@@ -50,10 +50,6 @@ type DashboardPayload = {
   copies: CopyItem[];
 };
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 function formatDateTime(value: string | null) {
   if (!value) return '—';
   const parsed = new Date(value);
@@ -195,7 +191,7 @@ export default function EnseignantPage() {
               <ShieldCheck className="h-4 w-4" />
               Espace enseignant
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               La vue enseignant doit permettre de piloter la classe, pas de fouiller les données une par une.
             </h1>
             <p className="hero-body mt-5 max-w-3xl text-base leading-8 sm:text-lg">
@@ -273,7 +269,7 @@ export default function EnseignantPage() {
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Roster classe</p>
-                  <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+                  <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
                     Les élèves doivent être lisibles sans perdre la vue d’ensemble.
                   </h2>
                 </div>
@@ -319,7 +315,7 @@ export default function EnseignantPage() {
             <div className="space-y-6">
               <Surface tone="default" padding="lg">
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Distribution des notes</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+                <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
                   Une lecture directe de la répartition suffit souvent à orienter la prochaine séquence.
                 </h2>
 
@@ -394,7 +390,7 @@ export default function EnseignantPage() {
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Copies corrigées</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+                <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
                   Les retours enseignants doivent rester rapides à écrire et simples à relire.
                 </h2>
               </div>

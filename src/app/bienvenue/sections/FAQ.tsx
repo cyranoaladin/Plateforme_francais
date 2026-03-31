@@ -4,10 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronUp, MessageSquareText } from 'lucide-react';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const FAQ_ITEMS = [
   {
     question: 'La plateforme peut-elle écrire à ma place ?',
@@ -73,7 +69,7 @@ export function FAQ() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.76fr_1.24fr] lg:px-8">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Questions fréquentes</p>
-          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+          <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
             Les objections doivent être traitées avec autant de soin que les promesses.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
@@ -84,7 +80,7 @@ export function FAQ() {
             <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-slate-300)]">
               <MessageSquareText className="h-5 w-5" />
             </div>
-            <h3 style={EDITORIAL_HEADING} className="mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">
+            <h3 className="font-display mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">
               Besoin d{'\u2019'}aller plus loin avant de t{'\u2019'}inscrire ?
             </h3>
             <p className="mt-3 text-sm leading-7 text-slate-200">

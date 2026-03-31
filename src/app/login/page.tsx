@@ -26,10 +26,6 @@ type ProfilePayload = {
   displayName?: string;
 };
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const TRUST_POINTS = [
   'Inscription gratuite',
   'Premiers ateliers sans payer',
@@ -180,7 +176,7 @@ function ProofPanel() {
           Espace élève Nexus Réussite
         </div>
 
-        <h1 style={EDITORIAL_HEADING} className="mt-6 max-w-xl text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
+        <h1 className="editorial-heading mt-6 max-w-xl text-4xl text-white sm:text-5xl">
           Ton espace de préparation au Bac de Français commence ici.
         </h1>
 
@@ -431,7 +427,7 @@ function AuthCard() {
             {mode === 'login' ? 'Accès sécurisé' : 'Inscription gratuite'}
           </div>
           <div>
-            <h2 style={EDITORIAL_HEADING} className="text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+            <h2 className="font-display text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
               {title}
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{subtitle}</p>

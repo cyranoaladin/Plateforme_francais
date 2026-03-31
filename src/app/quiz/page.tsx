@@ -7,7 +7,7 @@ import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { Button } from '@/components/ui';
-import { StateNotice } from '@/components/ui/state-notice';
+import { StateNotice } from '@/components/ui';
 
 type QuizTheme =
   | 'grammaire'
@@ -41,10 +41,6 @@ const THEME_OPTIONS: ThemeOption[] = [
 ];
 
 const THEME_GROUPS = ["Objets d’étude", 'Compétences transversales', 'Méthodologie'];
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
 
 type QuizQuestion = {
   id: string;
@@ -208,7 +204,7 @@ export default function QuizPage() {
               <Brain className="h-4 w-4" />
               Quiz adaptatif
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Des QCM courts pour fixer les repères utiles avant qu’ils ne glissent hors du radar.
             </h1>
             <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
@@ -256,7 +252,7 @@ export default function QuizPage() {
               </div>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Configuration du quiz</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Paramètres de séance
                 </h2>
               </div>

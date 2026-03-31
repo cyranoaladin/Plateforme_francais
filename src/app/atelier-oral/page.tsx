@@ -193,6 +193,11 @@ function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: s
   const alertedRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
+    setRemaining(totalSeconds);
+    alertedRef.current.clear();
+  }, [totalSeconds]);
+
+  useEffect(() => {
     if (!running) {
       alertedRef.current.clear();
       if (persistenceKey) localStorage.removeItem(`timer_start_${persistenceKey}`);
@@ -461,7 +466,12 @@ export default function AtelierOralPage() {
         const response = await fetch(`/api/v1/oral/session/${session.sessionId}/interact`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
-          body: JSON.stringify({ step: currentStep, transcript, duration }),
+          body: JSON.stringify({
+            step: currentStep,
+            transcript,
+            duration,
+            ...(currentStep === 'ENTRETIEN' ? { examinerProfile } : {}),
+          }),
         });
         if (!response.ok) throw new Error("Échec de l’analyse de la prestation.");
         payload = (await response.json()) as StepFeedback;
@@ -504,7 +514,7 @@ export default function AtelierOralPage() {
         setIsMicOn(false);
       }
     }
-  }, [currentStep, currentStepIndex, isMicOn, prepNotes, session, transcript, useServerVoice]);
+  }, [currentStep, currentStepIndex, examinerProfile, isMicOn, prepNotes, session, transcript, useServerVoice]);
 
   const requestJuryPrompt = useCallback(async (input: {
     message: string;
@@ -576,7 +586,27 @@ export default function AtelierOralPage() {
     });
   }, [currentStep, juryTurns.length, requestJuryPrompt, session]);
 
+  useEffect(() => {
+    if (!session?.sessionId) return;
+    const stored = localStorage.getItem(`prep_checklist_${session.sessionId}`);
+    if (!stored) return;
+    try {
+      const ids = JSON.parse(stored) as string[];
+      setPrepChecklist(new Set(ids));
+    } catch {
+      // ignore malformed data
+    }
+  }, [session?.sessionId]);
+
+  useEffect(() => {
+    if (!session?.sessionId) return;
+    localStorage.setItem(`prep_checklist_${session.sessionId}`, JSON.stringify([...prepChecklist]));
+  }, [prepChecklist, session?.sessionId]);
+
   const resetAll = useCallback(() => {
+    if (session?.sessionId) {
+      localStorage.removeItem(`prep_checklist_${session.sessionId}`);
+    }
     setSession(null);
     setBilan(null);
     setWizardPhase('TIRAGE');
@@ -588,7 +618,7 @@ export default function AtelierOralPage() {
     setPrepChecklist(new Set());
     setCurrentStepIndex(0);
     setError(null);
-  }, []);
+  }, [session?.sessionId]);
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">

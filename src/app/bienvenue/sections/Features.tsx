@@ -1,9 +1,5 @@
 import { BookOpenText, BrainCircuit, FileStack, MessageCircleMore, Mic, ScanSearch, Sparkles } from 'lucide-react';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const FEATURE_GROUPS = [
   {
     title: 'Atelier écrit',
@@ -60,8 +56,7 @@ export function Features() {
           <div className="max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Ateliers EAF</p>
             <h2
-              style={EDITORIAL_HEADING}
-              className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+              className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
             >
               Tout ce qu{'\u2019'}il faut pour réussir l{'\u2019'}EAF, organisé par usage réel.
             </h2>
@@ -88,7 +83,7 @@ export function Features() {
                 </span>
               </div>
 
-              <h3 style={EDITORIAL_HEADING} className="mt-6 text-3xl leading-tight tracking-[-0.03em]">
+              <h3 className="font-display mt-6 text-3xl leading-tight tracking-[-0.03em]">
                 {feature.title}
               </h3>
               <p className="mt-3 max-w-2xl text-sm leading-7 opacity-85 sm:text-base">{feature.body}</p>
@@ -112,7 +107,7 @@ export function Features() {
           <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Fil directeur</p>
-              <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+              <h3 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
                 De la copie à la relance, le même système garde le cap.
               </h3>
             </div>

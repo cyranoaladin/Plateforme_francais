@@ -18,7 +18,7 @@ const variantStyles = {
   outlined:
     'bg-transparent border-2 border-[var(--border-default)] rounded-[var(--radius-lg)]',
   dark:
-    'bg-[var(--c-primary)] text-white border-0 rounded-[var(--radius-lg)]',
+    'border border-[var(--hero-surface-border)] bg-[var(--hero-surface-base)] bg-[image:var(--hero-surface-bg)] text-[var(--hero-surface-text)] rounded-[var(--radius-lg)] shadow-[var(--shadow-md)]',
   premium:
     'bg-[var(--bg-surface)] text-[var(--text-heading)] border-2 border-[var(--c-reward)]/30 rounded-[var(--radius-lg)] shadow-[var(--shadow-md)]',
   subtle:

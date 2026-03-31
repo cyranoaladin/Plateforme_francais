@@ -6,10 +6,6 @@ export const metadata = {
   description: 'Conditions générales de vente de Nexus EAF',
 };
 
-const EDITORIAL_HEADING = {
-  fontFamily: 'var(--font-display)',
-};
-
 const CGV_SECTIONS = [
   {
     title: '1. Objet',
@@ -90,8 +86,7 @@ export default function CgvPage() {
         <section className="mt-10">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cadre contractuel</p>
           <h1
-            style={EDITORIAL_HEADING}
-            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+            className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
           >
             Conditions générales de vente
           </h1>
@@ -119,8 +114,7 @@ export default function CgvPage() {
                 </div>
                 <div className="flex-1">
                   <h2
-                    style={EDITORIAL_HEADING}
-                    className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]"
+                    className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]"
                   >
                     {section.title}
                   </h2>

@@ -13,10 +13,7 @@ export default function Error({
 
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
-      <p
-        className="text-6xl font-bold text-[var(--c-primary)]"
-        style={{ fontFamily: 'var(--font-display)' }}
-      >
+      <p className="font-display text-6xl font-bold text-[var(--c-primary)]">
         Oups
       </p>
       <p className="mt-3 text-lg text-[var(--c-primary)]/70">
@@ -28,7 +25,7 @@ export default function Error({
       <div className="mt-6 flex items-center gap-4">
         <button
           onClick={() => reset()}
-          className="inline-flex items-center gap-2 rounded-full bg-[var(--c-success)] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[var(--c-success)]/90"
+          className="inline-flex items-center gap-2 rounded-full bg-[var(--c-success)] px-6 py-3 text-sm font-bold text-[var(--text-on-primary)] transition-colors hover:bg-[var(--c-success)]/90"
         >
           Réessayer
         </button>

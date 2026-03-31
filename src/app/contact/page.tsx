@@ -6,11 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { Send } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { Button, Input, Select, Textarea } from '@/components/ui';
-import { StateNotice } from '@/components/ui/state-notice';
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
+import { StateNotice } from '@/components/ui';
 
 const SUBJECTS = [
   { value: 'general', label: 'Contact général' },
@@ -82,8 +78,7 @@ export default function ContactPage() {
         <section className="mt-10">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Contact</p>
           <h1
-            style={EDITORIAL_HEADING}
-            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+            className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
           >
             Une question, un virement à confirmer, un bug à signaler ?
           </h1>

@@ -81,10 +81,6 @@ const BANK_TRANSFER_ROWS = [
   { label: 'BIC', value: 'BZITTNTT' },
 ] as const;
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const PLANS: PlanCard[] = PUBLIC_PLAN_OFFERS.map((offer) => ({
   id: PUBLIC_PLAN_ID_TO_SUBSCRIPTION[offer.publicId],
   title: offer.title,
@@ -290,7 +286,7 @@ export default function PricingPage() {
             </Link>
             <Link
               href="/login?mode=register"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-2.5 text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-2.5 text-[var(--text-on-primary)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
             >
               Comparer les plans
               <ArrowRight className="h-4 w-4" />
@@ -306,8 +302,7 @@ export default function PricingPage() {
             </div>
 
             <h1
-              style={EDITORIAL_HEADING}
-              className="mt-7 max-w-4xl text-4xl leading-[0.96] tracking-[-0.04em] text-[var(--c-primary)] sm:text-5xl md:text-6xl lg:text-7xl"
+              className="editorial-heading mt-7 max-w-4xl text-4xl text-[var(--c-primary)] sm:text-5xl md:text-6xl lg:text-7xl"
             >
               Choisis le bon rythme de travail,
               <span className="block text-[var(--c-success)]">puis laisse le produit faire le reste.</span>
@@ -320,7 +315,7 @@ export default function PricingPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <a
                 href="#plans"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3.5 text-base font-bold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3.5 text-base font-bold text-[var(--text-on-primary)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
               >
                 Choisir mon offre
                 <ArrowRight className="h-4 w-4" />
@@ -345,8 +340,8 @@ export default function PricingPage() {
           <aside className="hero-premium-panel rounded-[24px] p-6 md:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="ui-kicker text-[var(--border-warm)]">Ton statut</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
+                <p className="ui-kicker text-[var(--support-warm-text)]">Ton statut</p>
+                <h2 className="editorial-heading mt-3 text-3xl text-white">
                   Une facturation lisible, même avant paiement.
                 </h2>
               </div>
@@ -418,7 +413,7 @@ export default function PricingPage() {
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Devise et moyens de paiement</p>
                   <p className="mt-1 text-sm font-semibold">{PRICING_COPY.statusPaymentModes}</p>
                 </div>
-                <div className="rounded-full bg-[var(--c-primary)] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--bg-page)]">
+                <div className="rounded-full bg-[var(--c-primary)] px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--text-on-primary)]">
                   TND
                 </div>
               </div>
@@ -427,7 +422,7 @@ export default function PricingPage() {
         </section>
 
         {error ? (
-          <div className="mb-8 flex items-start gap-3 rounded-[24px] border border-[var(--error-muted)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--error-dark)]" role="alert">
+          <div className="mb-8 flex items-start gap-3 rounded-[24px] border border-[var(--support-error-border)] bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--support-error-text)]" role="alert">
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
             <span>{error}</span>
           </div>
@@ -437,7 +432,7 @@ export default function PricingPage() {
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Plans</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+              <h2 className="editorial-heading mt-4 text-4xl text-[var(--c-primary)] sm:text-5xl">
                 Trois rythmes, trois plafonds, une seule logique de valeur.
               </h2>
             </div>
@@ -450,7 +445,7 @@ export default function PricingPage() {
             {PLANS.map((plan) => {
               const isCurrent = isAuthenticated && plan.id === currentPlan;
               const accent = plan.highlighted
-                ? 'border-[var(--c-primary)] bg-[var(--c-primary)] text-[var(--bg-page)] shadow-[var(--shadow-md)]'
+                ? 'border-[var(--c-primary)] bg-[var(--c-primary)] text-[var(--text-on-primary)] shadow-[var(--shadow-md)]'
                 : isCurrent
                   ? 'border-[var(--c-success)] bg-[var(--bg-surface-secondary)] text-[var(--c-primary)]'
                   : 'border-[var(--border-strong)] bg-[var(--bg-surface)]/85 text-[var(--c-primary)]';
@@ -460,12 +455,12 @@ export default function PricingPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-[11px] font-bold uppercase tracking-[0.26em] opacity-70">{plan.kicker}</p>
-                      <h3 style={EDITORIAL_HEADING} className="mt-3 text-4xl tracking-[-0.03em]">
+                      <h3 className="editorial-heading mt-3 text-4xl">
                         {plan.title}
                       </h3>
                     </div>
                     {plan.highlighted ? (
-                      <span className="hero-chip px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white">
+                      <span className="hero-chip px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--hero-glass-text)]">
                         <Sparkles className="h-3.5 w-3.5" />
                         Recommandé
                       </span>
@@ -484,7 +479,7 @@ export default function PricingPage() {
                   <ul className="mt-6 space-y-3 text-sm leading-6">
                     {plan.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-start gap-3">
-                        <CheckCircle2 className={`mt-1 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-[var(--border-warm)]' : 'text-[var(--c-success)]'}`} />
+                        <CheckCircle2 className={`mt-1 h-4 w-4 shrink-0 ${plan.highlighted ? 'text-[var(--support-warm-text)]' : 'text-[var(--c-success)]'}`} />
                         <span>{bullet}</span>
                       </li>
                     ))}
@@ -509,7 +504,7 @@ export default function PricingPage() {
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
                       plan.highlighted
                         ? 'hero-primary-action'
-                        : 'bg-[var(--c-primary)] text-[var(--bg-page)] hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]'
+                        : 'bg-[var(--c-primary)] text-[var(--text-on-primary)] hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]'
                     }`}
                   >
                     {!isAuthenticated ? (
@@ -536,7 +531,7 @@ export default function PricingPage() {
             <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Aide à la décision</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+                <h2 className="editorial-heading mt-4 text-4xl text-[var(--c-primary)] sm:text-5xl">
                   La bonne offre dépend du rythme, pas d’un argument marketing vide.
                 </h2>
               </div>
@@ -555,12 +550,12 @@ export default function PricingPage() {
         <section id="activation-et-paiement" className="grid gap-5 scroll-mt-24 pb-16 lg:grid-cols-2">
           <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex items-center gap-2">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-[var(--bg-page)]">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-[var(--text-on-primary)]">
                 <KeyRound className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Activation</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+                <h2 className="editorial-heading mt-1 text-3xl text-[var(--c-primary)]">
                   Activer avec un code
                 </h2>
               </div>
@@ -582,7 +577,7 @@ export default function PricingPage() {
                 <button
                   type="submit"
                   disabled={codeLoading || !codeInput.trim()}
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--c-primary)] px-5 py-3 text-sm font-bold text-[var(--bg-page)] transition-colors hover:bg-[var(--c-primary-active)] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--c-primary)] px-5 py-3 text-sm font-bold text-[var(--text-on-primary)] transition-colors hover:bg-[var(--c-primary-active)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {codeLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                   {codeLoading ? 'Activation...' : 'Activer'}
@@ -601,7 +596,7 @@ export default function PricingPage() {
               </div>
             ) : null}
             {codeError ? (
-              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--error-muted)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--error-dark)]" role="alert">
+              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--support-error-border)] bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--support-error-text)]" role="alert">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{codeError}</span>
               </div>
@@ -614,8 +609,8 @@ export default function PricingPage() {
                 <Landmark className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Paiement alternatif</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-white">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--support-warm-text)]">Paiement alternatif</p>
+                <h2 className="editorial-heading mt-1 text-3xl text-white">
                   Commander un code en Tunisie
                 </h2>
               </div>
@@ -626,7 +621,7 @@ export default function PricingPage() {
             <div className="mt-6 space-y-3">
               <div className="hero-glass-card rounded-[24px] p-4">
                 <div className="flex items-start gap-3">
-                  <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
+                  <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--support-warm-text)]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Modes de paiement actifs</p>
                     <p className="hero-body mt-2 text-sm leading-6">{PRICING_COPY.activePaymentModes}</p>
@@ -635,14 +630,14 @@ export default function PricingPage() {
               </div>
               <div className="hero-glass-card rounded-[24px] p-4">
                 <div className="flex items-start gap-3">
-                  <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
+                  <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-[var(--support-warm-text)]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Virement bancaire</p>
                     <p className="hero-body mt-2 text-sm leading-6">Ajoute l’email du compte ou l’identifiant utilisateur en motif. Le plan est activé après vérification du règlement.</p>
                     <div className="mt-4 grid gap-2 rounded-[16px] bg-[var(--c-primary-active)] p-4 text-sm sm:grid-cols-2">
                       {BANK_TRANSFER_ROWS.map((row) => (
                         <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
-                          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--border-warm)]">{row.label}</p>
+                          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--support-warm-text)]">{row.label}</p>
                           <p className="mt-1 break-all font-semibold text-white">{row.value}</p>
                         </div>
                       ))}
@@ -662,7 +657,7 @@ export default function PricingPage() {
 
             <div className="mt-6 rounded-[24px] bg-[var(--c-primary-active)] p-4">
               <div className="flex items-start gap-3">
-                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
+                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--support-warm-text)]" />
                 <p className="hero-body text-sm leading-6">
                   {PRICING_COPY.reassuranceFooter}
                 </p>
@@ -679,7 +674,7 @@ export default function PricingPage() {
               </div>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--whatsapp)]">Canal actif</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-1 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+                <h2 className="editorial-heading mt-1 text-3xl text-[var(--c-primary)]">
                   {PRICING_COPY.whatsappTitle}
                 </h2>
               </div>
@@ -724,13 +719,13 @@ export default function PricingPage() {
                 href={`https://wa.me/21699192829?text=${encodeURIComponent('Bonjour, je souhaite souscrire à un abonnement Nexus Réussite.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--whatsapp)] bg-[var(--bg-surface)] px-7 py-3.5 text-base font-semibold text-[var(--whatsapp)] transition-all hover:-translate-y-0.5 hover:bg-[var(--success-bg-pale)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--whatsapp)] bg-[var(--bg-surface)] px-7 py-3.5 text-base font-semibold text-[var(--whatsapp)] transition-all hover:-translate-y-0.5 hover:bg-[var(--support-success-bg)]"
               >
                 Envoyer un message pré-rempli
               </a>
             </div>
 
-            <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[var(--success-bg-pale)] p-4">
+            <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[var(--support-success-bg)] p-4">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--whatsapp)]" />
               <p className="text-sm leading-6 text-[var(--text-secondary)]">
                 Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait par virement bancaire ou en espèces, puis activation par code.
@@ -743,7 +738,7 @@ export default function PricingPage() {
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Comparaison détaillée</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+              <h2 className="editorial-heading mt-4 text-4xl text-[var(--c-primary)] sm:text-5xl">
                 Les quotas sont visibles, donc la décision reste rationnelle.
               </h2>
             </div>
@@ -780,7 +775,7 @@ export default function PricingPage() {
         <section className="grid gap-6 pb-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">FAQ facturation</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+            <h2 className="editorial-heading mt-4 text-4xl text-[var(--c-primary)] sm:text-5xl">
               Les questions d’argent doivent être traitées aussi clairement que le reste.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
@@ -788,11 +783,11 @@ export default function PricingPage() {
             </p>
 
             <div className="hero-premium-panel mt-8 rounded-[24px] p-6">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Prêt à passer à l’action ?</p>
-              <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--support-warm-text)]">Prêt à passer à l’action ?</p>
+              <h3 className="editorial-heading mt-3 text-3xl text-white">
                 La préparation sérieuse commence avec Premium.
               </h3>
-              <p className="mt-3 text-sm leading-7 text-slate-200">
+              <p className="hero-body mt-3 text-sm leading-7">
                 Le plan Freemium donne un aperçu de la méthode de travail. Premium débloque le rythme nécessaire pour progresser réellement avant l'épreuve.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

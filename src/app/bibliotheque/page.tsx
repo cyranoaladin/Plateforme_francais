@@ -31,13 +31,8 @@ import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { PdfPreviewViewer } from '@/components/ui/pdf-preview-viewer';
 import { FREE_LIBRARY_LIMITS, FREE_TOTAL_LIMIT, LIBRARY_TOTAL_RESOURCES } from '@/lib/billing/library-gating';
-import { Badge, Button, Surface } from '@/components/ui';
-import { StateNotice } from '@/components/ui/state-notice';
+import { Badge, Button, StateNotice, Surface } from '@/components/ui';
 import { useDialogAccessibility } from '@/components/ui/use-dialog-accessibility';
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
 
 const CATEGORY_ICONS: Record<ResourceCategory, typeof FolderOpen> = {
   Annales_EAF: GraduationCap,
@@ -275,7 +270,7 @@ export default function BibliothequePage() {
               <BookOpen className="h-4 w-4" />
               Bibliothèque pédagogique
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Un fonds de travail EAF qui aide à avancer, pas un simple stock de fichiers.
             </h1>
             <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
@@ -327,7 +322,7 @@ export default function BibliothequePage() {
         <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr] xl:items-end">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Recherche assistée</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+            <h2 className="font-display mt-3 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
               Cherche par besoin réel : œuvre, auteur, méthode, rapport ou question précise.
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
@@ -425,7 +420,7 @@ export default function BibliothequePage() {
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Résultats de recherche</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+              <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                 Passages remontés pour “{searchQuery}”.
               </h2>
             </div>
@@ -586,7 +581,7 @@ export default function BibliothequePage() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Fiche ressource</p>
-                  <h3 id="library-resource-title" style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                  <h3 id="library-resource-title" className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                     {formatResourceTitle(selectedResource.title, selectedResource.ext)}
                   </h3>
                   <p className="mt-2 text-sm text-[var(--text-secondary)]">

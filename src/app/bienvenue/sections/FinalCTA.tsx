@@ -4,10 +4,6 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { track } from '@/components/analytics/events';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 export function FinalCTA() {
   return (
     <section className="pb-20 pt-8 md:pb-24 md:pt-12">
@@ -16,7 +12,7 @@ export function FinalCTA() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">Passage à l’action</p>
-              <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
+              <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
                 Vérifie le produit, constate le cadre, puis décide si Premium vaut vraiment la peine.
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">

@@ -165,6 +165,7 @@ export async function evaluateOralPhase(input: {
   duration: number;
   userId: string;
   oeuvreChoisieEntretien?: string | null;
+  examinerProfile?: string | null;
 }): Promise<PhaseEvaluation> {
   const mapping: Record<OralPhaseKey, Skill> = {
     LECTURE: 'coach_lecture',
@@ -185,7 +186,7 @@ export async function evaluateOralPhase(input: {
       userId: input.userId,
       userQuery: input.transcript,
       workId: effectiveWorkId,
-      context: `Œuvre: ${input.oeuvre}\nExtrait: ${input.extrait}\nQuestion: ${input.questionGrammaire}\nDurée: ${input.duration}s${input.phase === 'ENTRETIEN' ? `\n\nŒuvre choisie par l'élève: ${input.oeuvreChoisieEntretien ?? 'Non renseignée'}` : ''}`,
+      context: `Œuvre: ${input.oeuvre}\nExtrait: ${input.extrait}\nQuestion: ${input.questionGrammaire}\nDurée: ${input.duration}s${input.phase === 'ENTRETIEN' ? `\n\nŒuvre choisie par l'élève: ${input.oeuvreChoisieEntretien ?? 'Non renseignée'}\nProfil examinateur: ${input.examinerProfile ?? 'NEUTRE'}` : ''}`,
     });
 
     return normalizePhaseEvaluation(input.phase, skill, result);
@@ -214,21 +215,66 @@ export async function generateOralBilan(phaseInputs: PhaseScoreInput[], phaseDet
   const note = scored.total;
   const mention = computeMention(note);
 
+  const phaseLabels: Record<OralPhaseKey, string> = {
+    LECTURE: 'la lecture expressive',
+    EXPLICATION: "l'explication linéaire",
+    GRAMMAIRE: 'la question de grammaire',
+    ENTRETIEN: "la fluidité de l'entretien",
+  };
+  const phaseThresholds: Record<OralPhaseKey, number> = {
+    LECTURE: 1,
+    EXPLICATION: 4,
+    GRAMMAIRE: 1,
+    ENTRETIEN: 4,
+  };
+  const weakPhases = (Object.keys(PHASE_MAX_SCORES) as OralPhaseKey[])
+    .filter((k) => scored.phases[k].score < phaseThresholds[k])
+    .sort((a, b) =>
+      scored.phases[a].score / PHASE_MAX_SCORES[a] -
+      scored.phases[b].score / PHASE_MAX_SCORES[b],
+    )
+    .map((k) => phaseLabels[k]);
+  const top2 = weakPhases.slice(0, 2);
+
   let bilan_global: string;
   let conseil_final: string;
 
   if (note >= 16) {
-    bilan_global = 'Excellente prestation orale — maîtrise solide des 4 composantes. Quelques raffinements possibles dans la précision analytique.';
-    conseil_final = 'Approfondissez les procédés stylistiques et variez les références intertextuelles.';
+    bilan_global =
+      top2.length > 0
+        ? `Excellente prestation orale avec ${note}/20 — maîtrise solide des 4 composantes, à l'exception de ${top2.join(' et ')} qui méritent encore de l'attention.`
+        : `Excellente prestation orale avec ${note}/20 — maîtrise solide des 4 composantes. Quelques raffinements possibles dans la précision analytique.`;
+    conseil_final =
+      top2.length > 0
+        ? `Affinez encore ${top2.join(' et ')} pour consolider votre niveau. Approfondissez ensuite les procédés stylistiques et variez les références intertextuelles.`
+        : "Approfondissez les procédés stylistiques et variez les références intertextuelles pour viser l'excellence.";
   } else if (note >= 12) {
-    bilan_global = 'Bonne prestation avec des axes de progression identifiés. La structure est présente, la méthode doit se consolider.';
-    conseil_final = 'Travaillez les transitions entre parties et enrichissez les citations textuelles.';
+    bilan_global =
+      top2.length > 0
+        ? `Bonne prestation avec ${note}/20 — la structure est présente, la méthode doit se consolider. Axes prioritaires : ${top2.join(' et ')}.`
+        : `Bonne prestation avec ${note}/20 — la structure est présente, la méthode doit se consolider.`;
+    conseil_final =
+      top2.length > 0
+        ? `Concentrez-vous sur ${top2.join(' et ')}. Travaillez les transitions entre parties et enrichissez les citations textuelles.`
+        : 'Travaillez les transitions entre parties et enrichissez les citations textuelles pour progresser.';
   } else if (note >= 8) {
-    bilan_global = 'Prestation fragile — des bases présentes mais une méthode à renforcer sur chaque composante.';
-    conseil_final = 'Reprenez les fiches méthode pour chaque phase et entraînez-vous avec des extraits variés.';
+    bilan_global =
+      top2.length > 0
+        ? `Prestation fragile avec ${note}/20 — des bases présentes mais une méthode à renforcer. Points à travailler en priorité : ${top2.join(' et ')}.`
+        : `Prestation fragile avec ${note}/20 — des bases présentes mais une méthode à renforcer sur chaque composante.`;
+    conseil_final =
+      top2.length > 0
+        ? `Priorité à ${top2.join(' et ')}. Reprenez les fiches méthode pour ces phases et entraînez-vous avec des extraits variés.`
+        : 'Reprenez les fiches méthode pour chaque phase et entraînez-vous avec des extraits variés.';
   } else {
-    bilan_global = 'Prestation insuffisante — effort notable mais les fondamentaux doivent être repris.';
-    conseil_final = 'Commencez par maîtriser la lecture expressive et la structure de l\u2019explication linéaire.';
+    bilan_global =
+      top2.length > 0
+        ? `Prestation insuffisante avec ${note}/20 — effort notable mais les fondamentaux sont à reprendre, en commençant par ${top2.join(' et ')}.`
+        : `Prestation insuffisante avec ${note}/20 — effort notable mais les fondamentaux doivent être repris.`;
+    conseil_final =
+      top2.length > 0
+        ? `Commencez impérativement par travailler ${top2[0]}${top2[1] ? ` et ${top2[1]}` : ''} avant de relancer une simulation complète.`
+        : "Commencez par maîtriser la lecture expressive et la structure de l'explication linéaire.";
   }
 
   return {

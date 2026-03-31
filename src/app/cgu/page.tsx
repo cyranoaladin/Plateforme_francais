@@ -6,10 +6,6 @@ export const metadata = {
   description: 'Conditions générales d\u2019utilisation de Nexus EAF',
 };
 
-const EDITORIAL_HEADING = {
-  fontFamily: 'var(--font-display)',
-};
-
 const CGU_ITEMS = [
   'Le service est destiné aux élèves de Première préparant l\u2019EAF.',
   'L\u2019utilisation doit respecter le cadre pédagogique et les règles de propriété intellectuelle.',
@@ -35,8 +31,7 @@ export default function CguPage() {
         <section className="mt-10">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cadre contractuel</p>
           <h1
-            style={EDITORIAL_HEADING}
-            className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+            className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
           >
             Conditions Générales d{'\u2019'}Utilisation
           </h1>
@@ -52,7 +47,7 @@ export default function CguPage() {
                 <Scale className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Conditions d{'\u2019'}utilisation du service
                 </h2>
                 <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">Version 2026-03</p>
@@ -79,7 +74,7 @@ export default function CguPage() {
                 <FileText className="h-5 w-5" />
               </div>
               <div>
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Propriété intellectuelle
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">
@@ -96,7 +91,7 @@ export default function CguPage() {
                 <Scale className="h-5 w-5" />
               </div>
               <div>
-                <h2 style={EDITORIAL_HEADING} className="text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Contact
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">

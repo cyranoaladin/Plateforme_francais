@@ -19,7 +19,7 @@ import {
 import { ensurePublicCsrfToken } from '@/lib/security/csrf-client';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { Card, Badge, Button, Input, Select } from '@/components/ui';
-import { StateNotice } from '@/components/ui/state-notice';
+import { StateNotice } from '@/components/ui';
 
 type StudentProfile = {
   classLevel?: string;
@@ -75,10 +75,6 @@ type SaveFeedback =
       message: string;
     }
   | null;
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
 
 const FALLBACK_PROFILE: StudentProfile = {
   skillMap: {
@@ -432,7 +428,7 @@ export default function ProfilPage() {
               <ShieldCheck className="h-4 w-4" />
               Profil de progression EAF
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               {displayName}, ton profil doit te dire où appuyer, pas seulement où tu en es.
             </h1>
             <p className="hero-body mt-5 max-w-3xl text-base leading-8 sm:text-lg">
@@ -513,7 +509,7 @@ export default function ProfilPage() {
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Réglages du profil</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
               Mets à jour les informations qui structurent vraiment ton accompagnement.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">
@@ -606,7 +602,7 @@ export default function ProfilPage() {
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
         <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cartographie actuelle</p>
-          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+          <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
             Quatre axes lisibles, pour éviter une lecture floue de tes progrès.
           </h2>
 
@@ -660,7 +656,7 @@ export default function ProfilPage() {
         <div className="space-y-6">
           <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Points de vigilance</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
               Les erreurs récurrentes doivent rester visibles, pas seulement ressenties.
             </h2>
 
@@ -698,9 +694,9 @@ export default function ProfilPage() {
             )}
           </Card>
 
-          <Card variant="dark" className="hero-premium-panel rounded-[24px] border-[var(--hero-surface-border)] shadow-[var(--shadow-md)]" padding="md">
+          <Card variant="dark" className="rounded-[24px]" padding="md">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">72 prochaines heures</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
+            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
               Les prochaines tâches doivent être courtes, claires et immédiatement lançables.
             </h2>
 
@@ -755,7 +751,7 @@ export default function ProfilPage() {
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Badges et traces positives</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
               Les marqueurs de progression comptent aussi pour soutenir la constance.
             </h2>
           </div>

@@ -43,7 +43,7 @@ html { overflow-x: clip; }
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  /* ─── Typography ──────────────────────────────────── */
+  /* ─── Typography / fonts (consumed by next/font) ─── */
   --font-sans: var(--font-inter), "Inter", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --font-display: var(--font-playfair), "Playfair Display", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-serif: var(--font-merriweather), "Merriweather", Georgia, serif;
@@ -58,12 +58,14 @@ html { overflow-x: clip; }
   --whatsapp: #25d366;
   --whatsapp-hover: #1fba59;
 
-  /* ─── Legacy compat (still in use — migrate consumers then remove) ── */
+  /* ─── Compatibility aliases (runtime consumers still depend on them) ── */
   --text-placeholder: var(--text-muted);
   --text-chart: var(--text-secondary);
   --text-chart-muted: var(--text-muted);
   --text-icon: var(--text-muted);
   --text-disabled: var(--color-slate-400);
+  --border-disabled: var(--border-strong);
+  --transition-base: var(--transition-normal);
   --chart-tooltip-bg: color-mix(in srgb, var(--bg-surface) 96%, transparent);
   --chart-tooltip-border: color-mix(in srgb, var(--border-reward) 70%, var(--border-default));
   --chart-tooltip-shadow: 0 16px 45px rgba(15, 23, 42, 0.12);
@@ -82,6 +84,10 @@ html { overflow-x: clip; }
   --hero-surface-text-subtle: color-mix(in srgb, var(--color-slate-50) 76%, transparent);
   --hero-kicker-text: var(--color-amber-300);
   --hero-action-text: var(--color-indigo-700);
+  --support-warm-text: var(--color-amber-300);
+  --support-success-bg: color-mix(in srgb, var(--bg-success) 88%, var(--bg-surface));
+  --support-error-text: var(--c-accent-text);
+  --support-error-border: color-mix(in srgb, var(--border-accent) 60%, transparent);
 
   /* ─── Status (semantic) ────────────────────────────── */
   --success: var(--c-success);
@@ -127,12 +133,14 @@ html { overflow-x: clip; }
   --border: var(--border-default);
   --input: var(--bg-surface-secondary);
 
-  /* ─── Legacy compat (dark) ─────────────────────────── */
+  /* ─── Compatibility aliases (dark) ─────────────────── */
   --text-placeholder: var(--text-muted);
   --text-chart: var(--text-secondary);
   --text-chart-muted: var(--text-muted);
   --text-icon: var(--text-muted);
   --text-disabled: var(--color-slate-600);
+  --border-disabled: var(--border-strong);
+  --transition-base: var(--transition-normal);
   --chart-tooltip-bg: color-mix(in srgb, var(--bg-surface) 94%, var(--color-slate-900));
   --chart-tooltip-border: color-mix(in srgb, var(--border-reward) 60%, var(--border-default));
   --chart-tooltip-shadow: 0 16px 45px rgba(2, 6, 23, 0.38);
@@ -151,6 +159,10 @@ html { overflow-x: clip; }
   --hero-surface-text-subtle: color-mix(in srgb, var(--color-slate-50) 82%, transparent);
   --hero-kicker-text: var(--color-amber-200);
   --hero-action-text: var(--color-indigo-900);
+  --support-warm-text: var(--color-amber-200);
+  --support-success-bg: color-mix(in srgb, var(--bg-success) 84%, var(--bg-surface));
+  --support-error-text: var(--c-accent-text);
+  --support-error-border: color-mix(in srgb, var(--border-accent) 70%, transparent);
 
   /* ─── Status (dark) ────────────────────────────────── */
   --success: var(--c-success);
@@ -214,9 +226,21 @@ body {
   color: var(--foreground);
 }
 
-/* ─── Editorial display headings ─────────────────────── */
+/* ─── Editorial typography ───────────────────────────── */
 .font-display {
   font-family: var(--font-display);
+}
+
+.editorial-heading {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.editorial-heading-tight {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -373,18 +397,6 @@ body {
   background-image: var(--hero-surface-bg);
   color: var(--hero-surface-text);
   box-shadow: var(--shadow-md);
-}
-
-.page-panel {
-  border: 1px solid var(--border-strong);
-  background: color-mix(in srgb, var(--bg-surface) 88%, transparent);
-  box-shadow: var(--shadow-md);
-}
-
-.page-panel-muted {
-  border: 1px solid var(--border-strong);
-  background: var(--bg-surface-secondary);
-  box-shadow: var(--shadow-sm);
 }
 
 .ui-kicker {

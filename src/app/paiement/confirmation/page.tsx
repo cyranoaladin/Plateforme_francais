@@ -3,10 +3,6 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const PAYMENT_CONFIRMATION_COPY = {
   title: 'Activation confirmée',
   body:
@@ -23,7 +19,7 @@ export default function PaiementConfirmationPage() {
           <CheckCircle2 className="h-8 w-8" />
         </div>
 
-        <h1 style={EDITORIAL_HEADING} className="mt-6 text-3xl font-bold text-foreground">
+        <h1 className="font-display mt-6 text-3xl font-bold text-foreground">
           {PAYMENT_CONFIRMATION_COPY.title}
         </h1>
 

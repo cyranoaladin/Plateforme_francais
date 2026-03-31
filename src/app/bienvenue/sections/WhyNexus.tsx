@@ -4,10 +4,6 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2, GraduationCap, ShieldCheck, UsersRound } from 'lucide-react';
 import { track } from '@/components/analytics/events';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const AUDIENCE_CARDS = [
   {
     icon: GraduationCap,
@@ -64,8 +60,7 @@ export function WhyNexus() {
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Pourquoi cette page convertit</p>
               <h2
-                style={EDITORIAL_HEADING}
-                className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+                className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
               >
                 Un bon produit EAF doit convaincre trois personnes en même temps.
               </h2>
@@ -124,7 +119,7 @@ export function WhyNexus() {
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Différenciation utile</p>
-                  <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
+                  <h3 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                     Là où un outil généraliste s'arrête à une réponse, Nexus construit une continuité de travail.
                   </h3>
                 </div>

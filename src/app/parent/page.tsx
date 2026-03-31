@@ -17,10 +17,6 @@ import {
 import { ProgressionChart } from '@/components/dashboard/progression-chart';
 import { useDashboard } from '@/hooks/useDashboard';
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const SKILL_LABELS: Record<string, string> = {
   oral: 'Oral',
   ecrit: 'Écrit',
@@ -155,7 +151,7 @@ export default function ParentDashboard() {
               <ShieldCheck className="h-4 w-4" />
               Espace parent
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               Le suivi parent doit rendre la progression lisible, sans transformer la maison en salle de classe.
             </h1>
             <p className="hero-body mt-5 max-w-3xl text-base leading-8 sm:text-lg">
@@ -236,7 +232,7 @@ export default function ParentDashboard() {
       <section className="grid gap-6 xl:grid-cols-[0.96fr_1.04fr]">
         <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Lecture parentale rapide</p>
-          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+          <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
             Les axes de progrès doivent être compréhensibles en moins d’une minute.
           </h2>
 
@@ -292,7 +288,7 @@ export default function ParentDashboard() {
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Trajectoire récente</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+                <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
                   La tendance hebdomadaire compte plus que l’impression du moment.
                 </h2>
               </div>
@@ -353,7 +349,7 @@ export default function ParentDashboard() {
 
         <div className="hero-premium-panel rounded-[24px] p-6 md:p-7">
           <p className="ui-kicker text-[var(--hero-kicker-text)]">Position parentale utile</p>
-          <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
+          <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
             Le bon soutien n’est ni le contrôle permanent, ni le retrait total.
           </h2>
           <div className="mt-6 grid gap-4 md:grid-cols-3">

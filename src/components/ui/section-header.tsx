@@ -57,12 +57,9 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
     >
       <h2
         className={cn(
-          'font-bold leading-tight tracking-tight text-[var(--text-heading)]',
+          'editorial-heading font-bold text-[var(--text-heading)]',
           titleSizeStyles[size],
         )}
-        style={{
-          fontFamily: "var(--font-display)",
-        }}
       >
         {title}
       </h2>

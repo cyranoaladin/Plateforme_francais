@@ -16,7 +16,7 @@ import {
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Badge, Button, Input } from '@/components/ui';
-import { StateNotice } from '@/components/ui/state-notice';
+import { StateNotice } from '@/components/ui';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 
 type EpreuveType = 'commentaire' | 'dissertation' | 'contraction_essai';
@@ -34,10 +34,6 @@ type CopieCreatePayload = {
   copieId: string;
   status: 'pending';
   newBadges?: string[];
-};
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
 };
 
 const PROCESSING_STEPS = ['Lecture attentive de ta copie…', 'Analyse des points de méthode et de contenu…', 'Rédaction de ton bilan personnalisé…'];
@@ -272,7 +268,7 @@ export default function AtelierEcritPage() {
               <PenTool className="h-4 w-4" />
               Atelier écrit
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF.
             </h1>
             <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
@@ -340,7 +336,7 @@ export default function AtelierEcritPage() {
               </div>
               <div className="flex-1">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Étape 1</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Génère un sujet d'épreuve blanche.
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
@@ -428,7 +424,7 @@ export default function AtelierEcritPage() {
               </div>
               <div className="flex-1">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Étape 2</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Déposer ma copie
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
