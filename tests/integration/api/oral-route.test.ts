@@ -14,12 +14,15 @@ vi.mock('@/lib/billing/context', () => ({
   BillingContextUnavailableError: class BillingContextUnavailableError extends Error {},
 }));
 vi.mock('@/lib/billing/usage', () => ({
+  checkQuota: vi.fn(),
   consumeQuota: vi.fn(),
   QuotaExceededError: class QuotaExceededError extends Error {
     limit: number;
-    constructor(_entitlement: string, limit: number) {
+    period: string;
+    constructor(_entitlement: string, limit: number, _current = 0, period = 'month') {
       super('quota');
       this.limit = limit;
+      this.period = period;
     }
   },
 }));
@@ -40,7 +43,7 @@ vi.mock('@/lib/db/client', () => ({
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { getBillingContext } from '@/lib/billing/context';
-import { consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
+import { checkQuota, consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { createOralSession } from '@/lib/oral/repository';
 
 describe('Integration API /oral/session/start', () => {
@@ -57,6 +60,12 @@ describe('Integration API /oral/session/start', () => {
       isActive: true,
     } as never);
     vi.mocked(consumeQuota).mockResolvedValue({
+      current: 0,
+      limit: 1,
+      remaining: 1,
+    } as never);
+    vi.mocked(checkQuota).mockResolvedValue({
+      allowed: true,
       current: 0,
       limit: 1,
       remaining: 1,
