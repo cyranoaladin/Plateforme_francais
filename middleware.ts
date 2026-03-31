@@ -66,8 +66,6 @@ export function isPublicPath(pathname: string): boolean {
     for (const prefix of PUBLIC_API_PATHS) {
       if (pathname.startsWith(prefix + '/')) return true;
     }
-    // Cron routes protected by CRON_SECRET bearer token, not session cookie
-    if (pathname.startsWith('/api/v1/cron')) return true;
     return false;
   }
   return false;

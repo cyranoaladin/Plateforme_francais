@@ -58,8 +58,8 @@ type PlanCard = {
   note: string;
 };
 
-const WHATSAPP_NUMBER = '+216 99 19 28 29';
-const WHATSAPP_LINK = 'https://wa.me/21699192829';
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+216 99 19 28 29';
+const WHATSAPP_LINK = process.env.NEXT_PUBLIC_WHATSAPP_LINK ?? 'https://wa.me/21699192829';
 const PUBLIC_PLAN_ID_TO_SUBSCRIPTION: Record<'FREEMIUM' | 'PREMIUM' | 'MASTERIUM', SubscriptionPlan> = {
   FREEMIUM: 'FREEMIUM',
   PREMIUM: 'PREMIUM',

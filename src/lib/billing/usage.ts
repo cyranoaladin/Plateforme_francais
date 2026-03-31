@@ -52,6 +52,10 @@ function periodInfo(period: Period, now: Date = new Date()): { key: string; ttlS
   }
 }
 
+export function getPeriodKey(period: Period, now: Date = new Date()): string {
+  return periodInfo(period, now).key;
+}
+
 /**
  * Build the Redis key for a given quota.
  */

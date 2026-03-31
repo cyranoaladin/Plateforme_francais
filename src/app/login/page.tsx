@@ -26,6 +26,11 @@ type ProfilePayload = {
   displayName?: string;
 };
 
+const WHATSAPP_RESET_LINK =
+  `${process.env.NEXT_PUBLIC_WHATSAPP_LINK ?? 'https://wa.me/21699192829'}?text=${encodeURIComponent(
+    'Bonjour, je souhaite réinitialiser mon mot de passe Nexus EAF.',
+  )}`;
+
 const TRUST_POINTS = [
   'Inscription gratuite',
   'Premiers ateliers sans payer',
@@ -676,7 +681,7 @@ function AuthCard() {
               <p className="text-sm leading-7 text-[var(--text-secondary)]">
                 {LOGIN_COPY.resetHelpLead}{' '}
                 <a
-                  href="https://wa.me/21699192829?text=Bonjour%2C%20je%20souhaite%20r%C3%A9initialiser%20mon%20mot%20de%20passe%20Nexus%20EAF."
+                  href={WHATSAPP_RESET_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-semibold text-[var(--c-success)] hover:underline"

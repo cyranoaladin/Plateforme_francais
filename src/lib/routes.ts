@@ -18,7 +18,7 @@ export const ROUTES = {
   legal: '/mentions-legales',
   privacy: '/politique-de-confidentialite',
   terms: '/cgu',
-  whatsapp: 'https://wa.me/21699192829',
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_LINK ?? 'https://wa.me/21699192829',
   email: 'mailto:contact@nexusreussite.academy',
 } as const;
 

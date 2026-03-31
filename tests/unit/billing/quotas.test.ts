@@ -30,7 +30,7 @@ describe('Billing Quotas V2', () => {
 
     it('generates correct week key', () => {
       const result = getPeriodKey('week', new Date('2026-03-15T10:00:00Z'));
-      expect(result).toMatch(/2026-03-W\d/);
+      expect(result).toBe('2026-W03-09');
     });
 
     it('generates correct month key', () => {
@@ -58,6 +58,12 @@ describe('Billing Quotas V2', () => {
       expect(daily).toContain('jour');
       const monthly = buildPaywallMessage('FREE', 'WRITTEN_CORRECTIONS');
       expect(monthly).toContain('mois');
+    });
+
+    it('uses an explicit not-included message when quota limit is zero', () => {
+      const msg = buildPaywallMessage('FREE', 'OCR_COPIES');
+      expect(msg).toContain("n'est pas incluse");
+      expect(msg).toContain('Premium');
     });
   });
 });

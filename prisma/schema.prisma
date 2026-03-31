@@ -540,6 +540,7 @@ model UsageCounter {
 
   @@unique([userId, feature, periodKey])
   @@index([periodKey, feature])
+  @@index([userId, feature, periodKey])
 }
 
 model PaymentTransaction {

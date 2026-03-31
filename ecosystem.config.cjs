@@ -64,7 +64,7 @@ function readOptionalFile(filePath) {
 
 const releaseGitSha = appEnv.BUILD_GIT_SHA || readOptionalFile(path.join(appRoot, '.git_sha'));
 const releaseBuildTime = appEnv.BUILD_TIME || readOptionalFile(path.join(appRoot, '.build_time'));
-const slotSuffix = process.env.SLOT ? `-${process.env.SLOT}` : '';
+const slotSuffix = process.env.SLOT ? `-${process.env.SLOT}` : '-blue';
 
 function withProductionDefaults(defaults, fileEnv) {
   return {

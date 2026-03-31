@@ -4,25 +4,7 @@
  */
 
 import { type EntitlementKey, type Period, PLAN_CATALOG, PLAN_DISPLAY_LABELS, type PlanId } from './plan-catalog';
-
-/**
- * Get the period key for quota tracking.
- * Day: "2026-03-08"
- * Week: "2026-03-W2"
- * Month: "2026-03"
- */
-export function getPeriodKey(period: Period, now: Date = new Date()): string {
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  const dd = String(now.getDate()).padStart(2, '0');
-
-  if (period === 'day') return `${yyyy}-${mm}-${dd}`;
-  if (period === 'week') {
-    const weekNum = Math.ceil(now.getDate() / 7);
-    return `${yyyy}-${mm}-W${weekNum}`;
-  }
-  return `${yyyy}-${mm}`;
-}
+export { getPeriodKey } from './usage';
 
 /**
  * Build a user-friendly paywall message for a blocked feature.
@@ -57,6 +39,10 @@ export function buildPaywallMessage(planId: PlanId, entitlement: EntitlementKey)
   const periodLabel = periodLabels[quota.period];
 
   const displayName = PLAN_DISPLAY_LABELS[planId] ?? planId;
+
+  if (quota.limit === 0) {
+    return `Cette fonctionnalité (${label}) n'est pas incluse dans ton plan ${displayName}. Passe à Premium pour en bénéficier.`;
+  }
 
   if (planId === 'FREE') {
     return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Ton travail reste conservé. Passe à Premium pour reprendre sans blocage.`;

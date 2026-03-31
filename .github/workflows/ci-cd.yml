@@ -17,7 +17,6 @@ on:
   push:
     tags:
       - "v*.*.*"
-    branches: [main, develop, "feature/**"]
   pull_request:
     branches: [main, develop]
 
@@ -384,9 +383,10 @@ jobs:
   deploy-production:
     name: "Gate 6b - Deploy Production (Blue-Green)"
     needs: [e2e-tests, security-scan]
-    if: startsWith(github.ref, 'refs/tags/v') || (github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch')
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     environment: production
     runs-on: ubuntu-22.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -432,7 +432,8 @@ jobs:
             NEXT_PORT=$([ "$NEXT" = "blue" ] && echo "3000" || echo "3001")
             OLD_PORT=$([ "$OLD" = "blue" ] && echo "3000" || echo "3001")
             cd /var/www/eaf-$NEXT
-            git pull origin main --ff-only
+            git fetch origin main --tags --prune
+            git checkout ${{ github.sha }}
             npm ci --omit=dev
             npx prisma generate
             npx prisma migrate deploy

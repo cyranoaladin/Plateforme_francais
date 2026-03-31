@@ -45,4 +45,11 @@ describe('middleware public routes', () => {
     expect(response.headers.get('location')).toBeNull();
     expect(response.headers.get('Content-Security-Policy')).toContain("default-src 'self'");
   });
+
+  it('ne considère pas /api/v1/cron/session-cleanup comme route publique', () => {
+    expect(isPublicPath('/api/v1/cron/session-cleanup')).toBe(false);
+
+    const response = middleware(new NextRequest('http://localhost:3000/api/v1/cron/session-cleanup'));
+    expect(response.status).toBe(401);
+  });
 });

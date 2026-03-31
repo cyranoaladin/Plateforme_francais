@@ -8,6 +8,9 @@ import { apiFetch, isApiError } from '@/lib/api/client';
 import { Button, Input, Select, Textarea } from '@/components/ui';
 import { StateNotice } from '@/components/ui';
 
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+216 99 19 28 29';
+const WHATSAPP_LINK = process.env.NEXT_PUBLIC_WHATSAPP_LINK ?? 'https://wa.me/21699192829';
+
 const SUBJECTS = [
   { value: 'general', label: 'Contact général' },
   { value: 'virement', label: 'Confirmation de virement' },
@@ -161,8 +164,8 @@ export default function ContactPage() {
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">WhatsApp</p>
-              <a href="https://wa.me/21699192829" target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
-                +216 99 19 28 29
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
+                {WHATSAPP_NUMBER}
               </a>
             </div>
             <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">

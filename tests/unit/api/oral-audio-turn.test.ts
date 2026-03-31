@@ -234,7 +234,10 @@ describe('POST /api/v1/oral/session/:id/audio-turn', () => {
       oeuvreChoisieEntretien: 'Manon Lescaut — Abbé Prévost',
     } as never);
 
-    await POST(makeRequest(makeAudioFormData('ENTRETIEN', 'data', '480')), params);
+    const form = makeAudioFormData('ENTRETIEN', 'data', '480');
+    form.append('examinerProfile', 'HOSTILE');
+
+    await POST(makeRequest(form), params);
 
     expect(evaluateOralPhase).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -243,6 +246,7 @@ describe('POST /api/v1/oral/session/:id/audio-turn', () => {
         extrait: mockSession.extrait,
         oeuvre: mockSession.oeuvre,
         oeuvreChoisieEntretien: 'Manon Lescaut — Abbé Prévost',
+        examinerProfile: 'HOSTILE',
       }),
     );
   });

@@ -27,6 +27,14 @@ import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { Button, Badge } from '@/components/ui';
 
 type VoiceMode = 'browser' | 'server' | 'auto';
+const VOICE_MODE_STORAGE_KEY = 'eaf_oral_voice_mode';
+
+function getStoredVoiceMode(): VoiceMode {
+  if (typeof window === 'undefined') return 'browser';
+  const stored = window.localStorage.getItem(VOICE_MODE_STORAGE_KEY)
+    ?? window.localStorage.getItem('oral_voice_mode');
+  return stored === 'browser' || stored === 'server' || stored === 'auto' ? stored : 'browser';
+}
 
 type OralStep = 'LECTURE' | 'EXPLICATION' | 'GRAMMAIRE' | 'ENTRETIEN';
 type WizardPhase = 'TIRAGE' | 'PREP' | 'PASSAGE' | 'BILAN';
@@ -252,9 +260,7 @@ export default function AtelierOralPage() {
   const [isJuryLoading, setIsJuryLoading] = useState(false);
 
   const [voiceMode, setVoiceMode] = useState<VoiceMode>(() => {
-    if (typeof window === 'undefined') return 'browser';
-    const stored = window.localStorage.getItem('oral_voice_mode');
-    return stored === 'server' || stored === 'browser' ? stored : 'browser';
+    return getStoredVoiceMode();
   });
   const stepStartRef = useRef<number>(Date.now());
   const sttRef = useRef<ReturnType<typeof createBrowserStt> | null>(null);
@@ -312,7 +318,7 @@ export default function AtelierOralPage() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    window.localStorage.setItem('oral_voice_mode', voiceMode);
+    window.localStorage.setItem(VOICE_MODE_STORAGE_KEY, voiceMode);
   }, [voiceMode]);
 
   const aggregated = useMemo(() => {
@@ -635,6 +641,7 @@ export default function AtelierOralPage() {
     setExaminerProfile('NEUTRE');
     setJuryTurns([]);
     setIsJuryLoading(false);
+    setVoiceMode(getStoredVoiceMode());
     hasRequestedInitialJuryPromptRef.current = false;
     setTranscript('');
     setPrepNotes('');
