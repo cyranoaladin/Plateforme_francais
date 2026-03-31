@@ -71,10 +71,6 @@ type BilanResult = {
   newBadges?: string[];
 };
 
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
-};
-
 const STEPS: OralStep[] = ['LECTURE', 'EXPLICATION', 'GRAMMAIRE', 'ENTRETIEN'];
 const STEP_LABELS: Record<OralStep, string> = {
   LECTURE: 'Lecture /2',
@@ -261,6 +257,7 @@ export default function AtelierOralPage() {
   const sttRef = useRef<ReturnType<typeof createBrowserStt> | null>(null);
   const audioRecorderRef = useRef<BrowserAudioRecorder | null>(null);
   const pendingAudioRef = useRef<{ blob: Blob; mimeType: string } | null>(null);
+  const hasRequestedInitialJuryPromptRef = useRef(false);
 
   const currentStep = STEPS[currentStepIndex] ?? null;
   const isSimulation = mode === 'SIMULATION';
@@ -509,8 +506,12 @@ export default function AtelierOralPage() {
     }
   }, [currentStep, currentStepIndex, isMicOn, prepNotes, session, transcript, useServerVoice]);
 
-  const askExaminerFollowUp = useCallback(async () => {
-    if (!session || currentStep !== 'ENTRETIEN' || transcript.trim().length === 0) {
+  const requestJuryPrompt = useCallback(async (input: {
+    message: string;
+    conversationHistory: JuryTurn[];
+    includeStudentTurn: boolean;
+  }) => {
+    if (!session || currentStep !== 'ENTRETIEN') {
       return;
     }
 
@@ -524,10 +525,10 @@ export default function AtelierOralPage() {
           'X-CSRF-Token': getCsrfTokenFromDocument(),
         },
         body: JSON.stringify({
-          message: transcript,
+          message: input.message,
           oeuvreChoisie: session.oeuvreChoisie,
           examinerProfile,
-          conversationHistory: juryTurns,
+          conversationHistory: input.conversationHistory,
         }),
       });
       if (!response.ok) {
@@ -536,8 +537,8 @@ export default function AtelierOralPage() {
       const payload = (await response.json()) as { juryText: string };
       setJuryTurns((prev) => [
         ...prev,
-        { role: 'eleve', content: transcript },
-        { role: 'jury', content: payload.juryText },
+        ...(input.includeStudentTurn ? [{ role: 'eleve' as const, content: input.message }] : []),
+        { role: 'jury' as const, content: payload.juryText },
       ]);
       speakText(payload.juryText);
     } catch (cause) {
@@ -545,7 +546,35 @@ export default function AtelierOralPage() {
     } finally {
       setIsJuryLoading(false);
     }
-  }, [currentStep, examinerProfile, juryTurns, session, transcript]);
+  }, [currentStep, examinerProfile, session]);
+
+  const askExaminerFollowUp = useCallback(async () => {
+    const userAnswer = transcript.trim();
+    if (!session || currentStep !== 'ENTRETIEN' || userAnswer.length === 0) {
+      return;
+    }
+
+    await requestJuryPrompt({
+      message: userAnswer,
+      conversationHistory: juryTurns,
+      includeStudentTurn: true,
+    });
+  }, [currentStep, juryTurns, requestJuryPrompt, session, transcript]);
+
+  useEffect(() => {
+    if (!session || currentStep !== 'ENTRETIEN' || juryTurns.length > 0 || hasRequestedInitialJuryPromptRef.current) {
+      return;
+    }
+
+    hasRequestedInitialJuryPromptRef.current = true;
+    void requestJuryPrompt({
+      message: "L'entretien officiel commence. Pose immédiatement une première question d'examinateur sur l'œuvre choisie, claire, directe et exploitable à l'oral.",
+      conversationHistory: [],
+      includeStudentTurn: false,
+    }).catch(() => {
+      hasRequestedInitialJuryPromptRef.current = false;
+    });
+  }, [currentStep, juryTurns.length, requestJuryPrompt, session]);
 
   const resetAll = useCallback(() => {
     setSession(null);
@@ -553,6 +582,7 @@ export default function AtelierOralPage() {
     setWizardPhase('TIRAGE');
     setExaminerProfile('NEUTRE');
     setJuryTurns([]);
+    hasRequestedInitialJuryPromptRef.current = false;
     setTranscript('');
     setPrepNotes('');
     setPrepChecklist(new Set());
@@ -572,7 +602,7 @@ export default function AtelierOralPage() {
               <BookOpen className="h-4 w-4" />
               Oral EAF
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Une simulation officielle pensée comme un espace d’entraînement, pas comme un outil brut.
             </h1>
             <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
@@ -635,7 +665,7 @@ export default function AtelierOralPage() {
               </div>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Démarrage</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Tirage au sort de l’extrait
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
@@ -743,7 +773,7 @@ export default function AtelierOralPage() {
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Préparation</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Préparation
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
@@ -852,7 +882,7 @@ export default function AtelierOralPage() {
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Passage oral</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   {STEP_GUIDANCE[currentStep].title}
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">{STEP_GUIDANCE[currentStep].body}</p>
@@ -1079,7 +1109,7 @@ export default function AtelierOralPage() {
               <CheckCircle2 className="h-8 w-8" />
             </div>
             <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Bilan officiel</p>
-            <h2 style={EDITORIAL_HEADING} className="mt-2 text-4xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+            <h2 className="font-display mt-2 text-4xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
               {bilan.note}/{bilan.maxNote}
             </h2>
             <span className={`mt-4 inline-flex rounded-full px-4 py-2 text-sm font-semibold ${bilan.note >= 16 ? 'bg-[var(--bg-success)] text-[var(--c-success)]' : bilan.note >= 12 ? 'bg-[var(--bg-primary)] text-[var(--c-primary)]' : bilan.note >= 10 ? 'bg-[var(--bg-reward)] text-[var(--c-reward)]' : 'bg-[var(--c-accent-subtle)] text-[var(--c-accent-text)]'}`}>

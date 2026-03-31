@@ -13,6 +13,7 @@ describe('OralSimulator component', () => {
     expect(src).toContain('/api/v1/oral/jury-respond');
     expect(src).toContain('examinerProfile');
     expect(src).toContain('conversationHistory');
+    expect(src).toContain("L'entretien officiel commence.");
     expect(src).toContain('/api/v1/oral/session/${session.sessionId}/end');
   });
 });
