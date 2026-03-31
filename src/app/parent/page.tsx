@@ -145,37 +145,37 @@ export default function ParentDashboard() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8 lg:p-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] p-6 md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
+            <div className="hero-kicker">
               <ShieldCheck className="h-4 w-4" />
               Espace parent
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               Le suivi parent doit rendre la progression lisible, sans transformer la maison en salle de classe.
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
+            <p className="hero-body mt-5 max-w-3xl text-base leading-8 sm:text-lg">
               Vue synthétique de <strong>{data.displayName}</strong>: niveau moyen, axe à resserrer, historique récent et prochaines fenêtres
               d’épreuve, dans un langage cohérent avec l’EAF.
             </p>
             {!hasLinkedStudent ? (
-              <div className="mt-4 rounded-[18px] border border-white/12 bg-white/8 px-4 py-3 text-sm leading-6 text-slate-200">
+              <div className="hero-glass-card hero-body mt-4 rounded-[18px] px-4 py-3 text-sm leading-6">
                 Aucun élève n’est encore rattaché à cet email. Demande à l’élève d’ajouter cette adresse dans son profil pour activer le suivi parent réel.
               </div>
             ) : null}
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
                 Moyenne actuelle&nbsp;: <strong>{formatScoreLabel(averageScore)}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
                 Élève suivi&nbsp;: <strong>{linkedStudent?.displayName ?? data.displayName}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
                 Focus semaine&nbsp;: <strong>{data.hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>
               </span>
             </div>
@@ -183,14 +183,14 @@ export default function ParentDashboard() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-6 py-3.5 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="hero-primary-action px-6 py-3.5 text-sm"
               >
                 Voir le parcours
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/profil"
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--bg-page)] transition-colors hover:bg-white/6"
+                className="hero-secondary-action px-6 py-3.5 text-sm"
               >
                 Ouvrir le profil détaillé
               </Link>
@@ -204,23 +204,23 @@ export default function ParentDashboard() {
               { label: 'Série', value: `${data.streak} jours`, icon: Flame },
               { label: 'Écrit', value: formatCountdown(data.countdownEcrit, 'date non renseignée'), icon: CalendarDays },
             ].map((item) => (
-              <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+              <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
+                  <div className="hero-icon-badge h-11 w-11">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-400">{item.label}</p>
+                    <p className="ui-stat-label">{item.label}</p>
                     <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                   </div>
                 </div>
               </div>
             ))}
 
-            <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Conseil parental de la semaine</p>
+            <div className="hero-glass-card sm:col-span-2 rounded-[24px] p-5">
+              <p className="ui-stat-label text-[var(--hero-kicker-text)]">Conseil parental de la semaine</p>
               <p className="mt-3 text-2xl font-semibold text-white">{parentAdvice.title}</p>
-              <p className="mt-2 text-sm leading-7 text-slate-200">{parentAdvice.detail}</p>
+              <p className="hero-body mt-2 text-sm leading-7">{parentAdvice.detail}</p>
             </div>
           </div>
         </div>
@@ -351,8 +351,8 @@ export default function ParentDashboard() {
           )}
         </div>
 
-        <div className="rounded-[24px] border border-[var(--c-primary)] bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-7">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">Position parentale utile</p>
+        <div className="hero-premium-panel rounded-[24px] p-6 md:p-7">
+          <p className="ui-kicker text-[var(--hero-kicker-text)]">Position parentale utile</p>
           <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
             Le bon soutien n’est ni le contrôle permanent, ni le retrait total.
           </h2>
@@ -374,12 +374,12 @@ export default function ParentDashboard() {
                 icon: MessageSquare,
               },
             ].map((item) => (
-              <article key={item.title} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
+              <article key={item.title} className="hero-glass-card rounded-[24px] p-4">
+                <div className="hero-icon-badge h-11 w-11">
                   <item.icon className="h-5 w-5" />
                 </div>
                 <p className="mt-4 text-sm font-semibold text-white">{item.title}</p>
-                <p className="mt-2 text-sm leading-6 text-slate-200">{item.detail}</p>
+                <p className="hero-body mt-2 text-sm leading-6">{item.detail}</p>
               </article>
             ))}
           </div>

@@ -11,11 +11,11 @@ interface InlineCTAProps {
 export function InlineCTA({ headline, cta, href, className }: InlineCTAProps) {
   return (
     <div className={'py-14 text-center ' + (className ?? '')}>
-      <p className="text-lg font-semibold text-gray-900 sm:text-xl">{headline}</p>
+      <p className="text-lg font-semibold text-heading sm:text-xl">{headline}</p>
       <Link
         href={href}
         aria-label={cta}
-        className="mt-4 inline-block rounded-xl bg-sapphire-700 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-sapphire-700"
+        className="mt-4 inline-block rounded-xl bg-brand px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-hover"
       >
         {cta}
       </Link>

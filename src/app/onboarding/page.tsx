@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
+import { Surface } from '@/components/ui/surface';
 
 const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
@@ -333,8 +334,8 @@ export default function OnboardingPage() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <aside className="lg:sticky lg:top-6 lg:self-start">
-            <div className="rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
+            <div className="hero-premium-panel rounded-[24px] p-6 md:p-8">
+              <div className="hero-kicker">
                 <Sparkles className="h-4 w-4" />
                 Mise en route
               </div>
@@ -343,14 +344,14 @@ export default function OnboardingPage() {
                 Nous réglons la plateforme autour de ton vrai contexte.
               </h1>
 
-              <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">
+              <p className="hero-body mt-5 max-w-xl text-base leading-8">
                 L’objectif n’est pas de remplir un profil pour la forme. L’objectif est de caler les premiers ateliers sur tes œuvres, ton rythme,
                 tes points d’appui et les attendus officiels dès la première connexion.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2.5">
                 {['Modifiable plus tard', 'Parcours personnalisé', 'Aucune configuration inutile'].map((item) => (
-                  <span key={item} className="rounded-full border border-white/12 bg-white/8 px-3.5 py-1.5 text-xs font-semibold text-slate-100">
+                  <span key={item} className="hero-chip px-3.5 py-1.5 text-xs font-semibold text-[var(--hero-glass-text)]">
                     {item}
                   </span>
                 ))}
@@ -360,17 +361,17 @@ export default function OnboardingPage() {
                 <StepRail current={step} />
               </div>
 
-              <div className="mt-8 rounded-[24px] bg-[var(--c-primary-active)] p-5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Ce que Nexus a déjà compris</p>
-                <div className="mt-4 space-y-3 text-sm text-slate-200">
-                  <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
+              <div className="hero-glass-card-strong mt-8 rounded-[24px] p-5">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--hero-kicker-text)]">Ce que Nexus a déjà compris</p>
+                <div className="hero-body mt-4 space-y-3 text-sm">
+                  <div className="hero-glass-card rounded-[22px] px-4 py-3">
                     <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                     <div>
                       <p className="font-semibold text-white">Profil</p>
                       <p className="mt-1 leading-6">{displayName.trim() || 'Nom affiché à renseigner'} · {classLevel || 'Classe à confirmer'}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
+                  <div className="hero-glass-card rounded-[22px] px-4 py-3">
                     <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                     <div>
                       <p className="font-semibold text-white">Corpus</p>
@@ -381,7 +382,7 @@ export default function OnboardingPage() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
+                  <div className="hero-glass-card rounded-[22px] px-4 py-3">
                     <BrainCircuit className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                     <div>
                       <p className="font-semibold text-white">Priorités</p>
@@ -393,10 +394,10 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
-              <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
+              <div className="hero-glass-card mt-6 rounded-[24px] p-4">
                 <div className="flex items-start gap-3">
                   <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
-                  <p className="text-sm leading-6 text-slate-200">
+                  <p className="hero-body text-sm leading-6">
                     Les informations saisies ici servent à cadrer les premières recommandations, les ressources mobilisées et la progression visible.
                     Elles restent modifiables ensuite dans le profil.
                   </p>
@@ -436,6 +437,7 @@ export default function OnboardingPage() {
                       onChange={(e) => setDisplayName(e.target.value)}
                       placeholder="Comment veux-tu apparaître dans la plateforme ?"
                       required
+                      autoComplete="name"
                       size="lg"
                       className="md:col-span-2"
                     />
@@ -463,6 +465,7 @@ export default function OnboardingPage() {
                       value={establishment}
                       onChange={(e) => setEstablishment(e.target.value)}
                       placeholder="Nom de ton lycée"
+                      autoComplete="organization"
                       size="lg"
                     />
 
@@ -475,7 +478,7 @@ export default function OnboardingPage() {
                     />
                   </div>
 
-                  <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]">
+                  <Surface tone="subtle" padding="md">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Prévisualisation</p>
                     <div className="mt-4 grid gap-3 md:grid-cols-3">
                       <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
@@ -491,7 +494,7 @@ export default function OnboardingPage() {
                         <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{formatDateLabel(eafDate)}</p>
                       </div>
                     </div>
-                  </Card>
+                  </Surface>
                 </div>
               ) : null}
 
@@ -506,7 +509,7 @@ export default function OnboardingPage() {
                   />
 
                   {allSelectedOeuvres.length > 0 ? (
-                    <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
+                    <Surface tone="subtle" padding="sm">
                       <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Sélection en cours</p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {allSelectedOeuvres.map((oeuvre) => (
@@ -515,7 +518,7 @@ export default function OnboardingPage() {
                           </span>
                         ))}
                       </div>
-                    </Card>
+                    </Surface>
                   ) : null}
 
                   <div className="grid gap-3 md:grid-cols-2">

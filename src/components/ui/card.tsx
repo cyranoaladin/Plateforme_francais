@@ -21,6 +21,10 @@ const variantStyles = {
     'bg-[var(--c-primary)] text-white border-0 rounded-[var(--radius-lg)]',
   premium:
     'bg-[var(--bg-surface)] text-[var(--text-heading)] border-2 border-[var(--c-reward)]/30 rounded-[var(--radius-lg)] shadow-[var(--shadow-md)]',
+  subtle:
+    'bg-[var(--bg-surface-secondary)] text-[var(--text-heading)] border border-[var(--border-strong)] rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)]',
+  glass:
+    'bg-[var(--hero-glass-bg)] text-[var(--hero-glass-text)] border border-[var(--hero-glass-border)] rounded-[var(--radius-lg)] backdrop-blur-md shadow-[var(--shadow-md)]',
 } as const;
 
 const paddingStyles = {

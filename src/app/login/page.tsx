@@ -168,14 +168,14 @@ function PasswordField({
 
 function ProofPanel() {
   return (
-    <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] lg:h-full lg:p-8">
+    <div className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-xl)] p-6 lg:h-full lg:p-8">
       <div className="absolute -right-10 top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
       <div className="absolute -left-8 bottom-12 h-28 w-28 rounded-full bg-[var(--color-amber-300)]/18 blur-2xl" />
 
       <div className="relative z-10">
         <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-12 w-auto object-contain brightness-0 invert" />
 
-        <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
+        <div className="hero-kicker mt-6">
           <BadgeCheck className="h-4 w-4" />
           Espace élève Nexus Réussite
         </div>
@@ -188,7 +188,7 @@ function ProofPanel() {
 
         <div className="mt-6 flex flex-wrap gap-2.5">
           {TRUST_POINTS.map((point) => (
-            <span key={point} className="rounded-full border border-white/12 bg-white/8 px-3.5 py-1.5 text-xs font-semibold text-slate-100">
+            <span key={point} className="hero-chip px-3.5 py-1.5 text-xs font-semibold text-[var(--hero-glass-text)]">
               {point}
             </span>
           ))}
@@ -196,7 +196,7 @@ function ProofPanel() {
 
         <div className="mt-8 grid gap-3">
           {PROOF_CARDS.map((card) => (
-            <article key={card.title} className="rounded-[var(--radius-xl)] border border-white/10 bg-white/8 p-4">
+            <article key={card.title} className="hero-glass-card rounded-[var(--radius-xl)] p-4">
               <div className="flex items-start gap-3">
                 <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--bg-surface-secondary)] text-[var(--c-primary)]">
                   <card.icon className="h-5 w-5" />
@@ -513,6 +513,7 @@ function AuthCard() {
                 id="displayName"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
+                autoComplete="given-name"
                 className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                 placeholder="Ton prénom"
               />
@@ -588,6 +589,7 @@ function AuthCard() {
                     className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                     placeholder="parent@email.com"
                     required={isMinor}
+                    autoComplete="email"
                   />
                 </div>
                 <div>
@@ -601,6 +603,7 @@ function AuthCard() {
                     onChange={(e) => setTeacherEmail(e.target.value)}
                     className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                     placeholder="enseignant@etablissement.fr"
+                    autoComplete="email"
                   />
                 </div>
               </div>
@@ -623,7 +626,7 @@ function AuthCard() {
             data-testid="auth-submit"
             type="submit"
             disabled={isSubmitting || (rateLimitSec !== null && rateLimitSec > 0)}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-3.5 text-sm font-bold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-3.5 text-sm font-bold text-[var(--text-on-primary)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? (
               <>

@@ -57,7 +57,7 @@ function ClockIcon() {
 
 export function Footer() {
   return (
-    <footer className="bg-ink-950 px-4 py-16 text-gray-400">
+    <footer className="bg-ink-950 px-4 py-16 text-slate-400">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Col 1: Brand */}
@@ -78,7 +78,7 @@ export function Footer() {
               Préparation complète au Bac de Français 2026 pour les élèves
               du réseau AEFE et de Tunisie.
             </p>
-            <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-green-800 bg-green-950 px-3 py-1 text-xs font-medium text-green-400">
+            <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[var(--border-success)] bg-[var(--color-emerald-800)] px-3 py-1 text-xs font-medium text-[var(--color-emerald-300)]">
               <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
@@ -88,7 +88,7 @@ export function Footer() {
 
           {/* Col 2: Quick links */}
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-300">Liens rapides</p>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-300">Liens rapides</p>
             <ul className="space-y-2">
               {QUICK_LINKS.map((link) => (
                 <li key={link.href + link.label}>
@@ -102,7 +102,7 @@ export function Footer() {
 
           {/* Col 3: Workshops */}
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-300">Les ateliers</p>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-300">Les ateliers</p>
             <ul className="space-y-2">
               {WORKSHOP_LINKS.map((link) => (
                 <li key={link.href + link.label}>
@@ -116,7 +116,7 @@ export function Footer() {
 
           {/* Col 4: Contact & Legal */}
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-300">Contact &amp; Légal</p>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-300">Contact &amp; Légal</p>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <EmailIcon />
@@ -148,7 +148,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
+        <div className="mt-12 border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
           © 2026 Nexus Réussite. Tous droits réservés. — Préparation EAF Session 2026.
         </div>
       </div>

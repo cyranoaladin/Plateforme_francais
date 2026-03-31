@@ -46,12 +46,12 @@ const rows: Row[] = [
 
 export function ComparisonTable() {
   return (
-    <section className="bg-white py-14 sm:py-20">
+    <section className="bg-surface py-14 sm:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
+        <h2 className="text-center text-2xl font-bold text-heading sm:text-3xl lg:text-4xl">
           ChatGPT vs Nexus
         </h2>
-        <p className="mt-3 text-center text-gray-600">
+        <p className="mt-3 text-center text-body">
           Une IA généraliste ne remplace pas un outil conçu pour l&apos;EAF.
         </p>
 
@@ -60,23 +60,23 @@ export function ComparisonTable() {
           <table className="w-full border-collapse text-left text-sm">
             <thead>
               <tr>
-                <th className="border-b border-gray-200 pb-3 pr-4 font-semibold text-gray-500">
+                <th className="border-b border-[var(--border-default)] pb-3 pr-4 font-semibold text-muted-foreground">
                   Critère
                 </th>
-                <th className="border-b border-gray-200 pb-3 pr-4 font-semibold text-red-600">
+                <th className="border-b border-[var(--border-default)] pb-3 pr-4 font-semibold text-error">
                   ChatGPT
                 </th>
-                <th className="border-b border-gray-200 pb-3 font-semibold text-sapphire-700">
+                <th className="border-b border-[var(--border-default)] pb-3 font-semibold text-brand">
                   Nexus
                 </th>
               </tr>
             </thead>
             <tbody>
               {rows.map((row) => (
-                <tr key={row.label} className="border-b border-gray-100">
-                  <td className="py-4 pr-4 font-medium text-gray-900">{row.label}</td>
-                  <td className="py-4 pr-4 text-gray-500">{row.chatgpt}</td>
-                  <td className="py-4 font-medium text-gray-900">{row.nexus}</td>
+                <tr key={row.label} className="border-b border-[var(--border-default)]">
+                  <td className="py-4 pr-4 font-medium text-heading">{row.label}</td>
+                  <td className="py-4 pr-4 text-muted-foreground">{row.chatgpt}</td>
+                  <td className="py-4 font-medium text-heading">{row.nexus}</td>
                 </tr>
               ))}
             </tbody>
@@ -88,13 +88,13 @@ export function ComparisonTable() {
           {rows.map((row) => (
             <details
               key={row.label}
-              className="group rounded-xl border border-gray-200 bg-gray-50"
+              className="group rounded-xl border border-[var(--border-default)] bg-page"
             >
-              <summary className="cursor-pointer list-none px-4 py-3 font-medium text-gray-900">
+              <summary className="cursor-pointer list-none px-4 py-3 font-medium text-heading">
                 <span className="flex items-center justify-between">
                   {row.label}
                   <svg
-                    className="h-4 w-4 shrink-0 text-gray-400 transition-transform group-open:rotate-180"
+                    className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                     aria-hidden="true"
@@ -109,12 +109,12 @@ export function ComparisonTable() {
               </summary>
               <div className="space-y-2 px-4 pb-4 text-sm">
                 <div>
-                  <span className="font-semibold text-red-600">ChatGPT :&nbsp;</span>
-                  <span className="text-gray-600">{row.chatgpt}</span>
+                  <span className="font-semibold text-error">ChatGPT :&nbsp;</span>
+                  <span className="text-body">{row.chatgpt}</span>
                 </div>
                 <div>
-                  <span className="font-semibold text-sapphire-700">Nexus :&nbsp;</span>
-                  <span className="text-gray-900">{row.nexus}</span>
+                  <span className="font-semibold text-brand">Nexus :&nbsp;</span>
+                  <span className="text-heading">{row.nexus}</span>
                 </div>
               </div>
             </details>

@@ -15,9 +15,9 @@ function cn(...inputs: Parameters<typeof clsx>) {
 
 const variantStyles = {
   primary:
-    'bg-[var(--c-primary)] text-white hover:bg-[var(--c-primary-active)] hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
+    'bg-[var(--c-primary)] text-[var(--text-on-primary)] hover:bg-[var(--c-primary-active)] hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
   secondary:
-    'bg-[var(--bg-surface)] text-[var(--c-primary)] border border-[var(--c-primary)] hover:bg-[var(--bg-surface-secondary)]',
+    'bg-[var(--bg-surface)] text-[var(--c-primary)] border border-[var(--border-strong)] hover:border-[var(--c-primary)] hover:bg-[var(--bg-surface-secondary)]',
   ghost:
     'bg-transparent text-[var(--c-primary)] hover:bg-[var(--bg-surface-secondary)]',
   danger:
@@ -25,7 +25,7 @@ const variantStyles = {
   gold:
     'bg-gradient-to-r from-[var(--c-reward)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
   teal:
-    'bg-[var(--c-success)] text-white hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
+    'bg-[var(--c-success)] text-[var(--text-on-primary)] hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
 } as const;
 
 const sizeStyles = {
@@ -89,7 +89,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           // Base
           'inline-flex items-center justify-center rounded-[var(--radius-md)] font-medium',
           'transition-all duration-[var(--transition-normal)]',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)]',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-[var(--bg-page)]',
           'disabled:opacity-50 disabled:pointer-events-none',
           // Variant & size
           variantStyles[variant],

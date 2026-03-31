@@ -24,7 +24,7 @@ const variantStyles = {
   premium:
     'bg-gradient-to-r from-[var(--c-reward)]/10 to-[var(--color-amber-300)]/10 text-[var(--text-reward-on-subtle)] border border-[var(--c-reward)]/30',
   navy:
-    'bg-[var(--c-primary)] text-white',
+    'bg-[var(--c-primary)] text-[var(--text-on-primary)]',
   outline:
     'bg-[var(--bg-surface)] text-[var(--text-body)] border border-[var(--border-default)]',
 } as const;

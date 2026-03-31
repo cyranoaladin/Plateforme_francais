@@ -131,7 +131,7 @@ function TuteurPageContent() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] px-6 py-7 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-8">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] px-6 py-7 md:px-8 md:py-8">
         <div className="absolute inset-y-0 right-[-8%] hidden w-[36%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-4%] top-[-24%] h-40 w-40 rounded-full bg-[rgba(216,163,99,0.15)] blur-3xl" />
 
@@ -144,7 +144,7 @@ function TuteurPageContent() {
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl">
               Un espace pour débloquer une vraie difficulté EAF, pas pour récupérer une réponse générique.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
+            <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
               Pose une question de méthode, d’œuvre, de grammaire ou d’oral. Nexus reformule, recentre, s’appuie sur ton historique utile
               et propose la prochaine action sans sortir du cadre pédagogique de la plateforme.
             </p>
@@ -268,7 +268,7 @@ function TuteurPageContent() {
                       className={`flex max-w-[92%] gap-3 md:max-w-[82%] ${message.role === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
                     >
                       <div
-                        className={`mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border ${message.role === 'user' ? 'border-[var(--c-primary)]/18 bg-[var(--c-primary)] text-white' : 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--c-success)]'}`}
+                        className={`mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border ${message.role === 'user' ? 'border-[var(--c-primary)]/18 bg-[var(--c-primary)] text-[var(--text-on-primary)]' : 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--c-success)]'}`}
                       >
                         {message.role === 'user' ? (
                           <span className="text-sm font-semibold">Toi</span>
@@ -278,7 +278,7 @@ function TuteurPageContent() {
                       </div>
 
                       <div
-                        className={`rounded-[24px] px-4 py-4 shadow-[var(--shadow-sm)] md:px-5 ${message.role === 'user' ? 'bg-[var(--c-primary)] text-white' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)]'}`}
+                        className={`rounded-[24px] px-4 py-4 shadow-[var(--shadow-sm)] md:px-5 ${message.role === 'user' ? 'bg-[var(--c-primary)] text-[var(--text-on-primary)]' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)]'}`}
                         role={message.role === 'assistant' ? 'status' : undefined}
                         aria-live={message.role === 'assistant' ? 'polite' : undefined}
                       >

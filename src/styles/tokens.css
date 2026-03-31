@@ -102,11 +102,11 @@
   --c-reward-subtle:   var(--color-amber-100);
   --c-reward-text:     var(--color-amber-700);
 
-  /* Textes */
+  /* Textes (WCAG AA ≥4.5:1 on bg-page / bg-surface) */
   --text-heading:    var(--color-slate-900);
-  --text-body:       var(--color-slate-800);
-  --text-secondary:  var(--color-slate-500);
-  --text-muted:      var(--color-slate-400);
+  --text-body:       var(--color-slate-700);
+  --text-secondary:  var(--color-slate-600);
+  --text-muted:      var(--color-slate-500);
   --text-on-primary: #FFFFFF;
   --text-on-accent:  #FFFFFF;
   --text-primary-on-subtle:  var(--color-indigo-700);
@@ -140,8 +140,12 @@
 }
 
 /* --- DARK MODE ------------------------------------------------- */
-@media (prefers-color-scheme: dark) {
-  :root {
+/* .dark class (ThemeProvider) = primary source of truth.
+   @media fallback = no-JS / SSR graceful degradation.
+   Both blocks MUST stay in sync.                                   */
+
+.dark,
+:root.dark {
     --bg-page:              var(--color-slate-900);
     --bg-surface:           var(--color-slate-800);
     --bg-surface-secondary: var(--color-slate-700);
@@ -152,11 +156,33 @@
     --bg-accent:    color-mix(in srgb, var(--color-coral-700) 30%, transparent);
     --bg-reward:    color-mix(in srgb, var(--color-amber-800) 30%, transparent);
     --bg-neutral:   var(--color-slate-700);
+    --bg-warning:   color-mix(in srgb, var(--color-amber-800) 30%, transparent);
+
+    --c-primary:         var(--color-indigo-300);
+    --c-primary-hover:   var(--color-indigo-200);
+    --c-primary-active:  var(--color-indigo-400);
+    --c-primary-subtle:  color-mix(in srgb, var(--color-indigo-900) 60%, transparent);
+    --c-primary-muted:   var(--color-indigo-700);
+
+    --c-accent:          var(--color-coral-400);
+    --c-accent-hover:    var(--color-coral-300);
+    --c-accent-subtle:   color-mix(in srgb, var(--color-coral-700) 30%, transparent);
+    --c-accent-text:     var(--color-coral-300);
+
+    --c-success:         var(--color-emerald-400);
+    --c-success-subtle:  color-mix(in srgb, var(--color-emerald-800) 40%, transparent);
+    --c-success-text:    var(--color-emerald-300);
+
+    --c-reward:          var(--color-amber-400);
+    --c-reward-subtle:   color-mix(in srgb, var(--color-amber-800) 30%, transparent);
+    --c-reward-text:     var(--color-amber-300);
 
     --text-heading:    var(--color-slate-50);
     --text-body:       var(--color-slate-200);
-    --text-secondary:  var(--color-slate-400);
-    --text-muted:      var(--color-slate-500);
+    --text-secondary:  var(--color-slate-300);
+    --text-muted:      var(--color-slate-400);
+    --text-on-primary: var(--color-slate-900);
+    --text-on-accent:  var(--color-slate-900);
 
     --text-primary-on-subtle:  var(--color-indigo-300);
     --text-success-on-subtle:  var(--color-emerald-300);
@@ -170,6 +196,65 @@
     --border-accent:   var(--color-coral-600);
     --border-reward:   var(--color-amber-700);
 
+    --shadow-sm:    0 1px 3px rgba(0,0,0,0.20);
+    --shadow-md:    0 4px 12px rgba(0,0,0,0.28);
+    --shadow-focus: 0 0 0 3px var(--color-indigo-700);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --bg-page:              var(--color-slate-900);
+    --bg-surface:           var(--color-slate-800);
+    --bg-surface-secondary: var(--color-slate-700);
+    --bg-surface-hover:     var(--color-slate-700);
+
+    --bg-primary:   color-mix(in srgb, var(--color-indigo-900) 80%, transparent);
+    --bg-success:   color-mix(in srgb, var(--color-emerald-800) 40%, transparent);
+    --bg-accent:    color-mix(in srgb, var(--color-coral-700) 30%, transparent);
+    --bg-reward:    color-mix(in srgb, var(--color-amber-800) 30%, transparent);
+    --bg-neutral:   var(--color-slate-700);
+    --bg-warning:   color-mix(in srgb, var(--color-amber-800) 30%, transparent);
+
+    --c-primary:         var(--color-indigo-300);
+    --c-primary-hover:   var(--color-indigo-200);
+    --c-primary-active:  var(--color-indigo-400);
+    --c-primary-subtle:  color-mix(in srgb, var(--color-indigo-900) 60%, transparent);
+    --c-primary-muted:   var(--color-indigo-700);
+
+    --c-accent:          var(--color-coral-400);
+    --c-accent-hover:    var(--color-coral-300);
+    --c-accent-subtle:   color-mix(in srgb, var(--color-coral-700) 30%, transparent);
+    --c-accent-text:     var(--color-coral-300);
+
+    --c-success:         var(--color-emerald-400);
+    --c-success-subtle:  color-mix(in srgb, var(--color-emerald-800) 40%, transparent);
+    --c-success-text:    var(--color-emerald-300);
+
+    --c-reward:          var(--color-amber-400);
+    --c-reward-subtle:   color-mix(in srgb, var(--color-amber-800) 30%, transparent);
+    --c-reward-text:     var(--color-amber-300);
+
+    --text-heading:    var(--color-slate-50);
+    --text-body:       var(--color-slate-200);
+    --text-secondary:  var(--color-slate-300);
+    --text-muted:      var(--color-slate-400);
+    --text-on-primary: var(--color-slate-900);
+    --text-on-accent:  var(--color-slate-900);
+
+    --text-primary-on-subtle:  var(--color-indigo-300);
+    --text-success-on-subtle:  var(--color-emerald-300);
+    --text-accent-on-subtle:   var(--color-coral-300);
+    --text-reward-on-subtle:   var(--color-amber-300);
+
+    --border-default:  var(--color-slate-700);
+    --border-strong:   var(--color-slate-600);
+    --border-primary:  var(--color-indigo-700);
+    --border-success:  var(--color-emerald-700);
+    --border-accent:   var(--color-coral-600);
+    --border-reward:   var(--color-amber-700);
+
+    --shadow-sm:    0 1px 3px rgba(0,0,0,0.20);
+    --shadow-md:    0 4px 12px rgba(0,0,0,0.28);
     --shadow-focus: 0 0 0 3px var(--color-indigo-700);
   }
 }

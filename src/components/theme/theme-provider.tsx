@@ -53,9 +53,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme(next);
   }, [theme, setTheme]);
 
-  // Apply theme to DOM
+  // Apply theme to DOM — .dark/.light classes are the source of truth
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
+    const root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+    root.classList.toggle('light', theme === 'light');
   }, [theme]);
 
   // Mark theme as ready after initial paint to enable CSS transitions

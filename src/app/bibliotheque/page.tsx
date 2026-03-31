@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BarChart3,
   BookOpen,
@@ -31,8 +31,9 @@ import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { PdfPreviewViewer } from '@/components/ui/pdf-preview-viewer';
 import { FREE_LIBRARY_LIMITS, FREE_TOTAL_LIMIT, LIBRARY_TOTAL_RESOURCES } from '@/lib/billing/library-gating';
-import { Badge, Button } from '@/components/ui';
+import { Badge, Button, Surface } from '@/components/ui';
 import { StateNotice } from '@/components/ui/state-notice';
+import { useDialogAccessibility } from '@/components/ui/use-dialog-accessibility';
 
 const EDITORIAL_HEADING = {
   fontFamily: "var(--font-display)",
@@ -118,6 +119,19 @@ export default function BibliothequePage() {
   const [isSearching, setIsSearching] = useState(false);
   const [ragError, setRagError] = useState<string | null>(null);
   const [hasFullAccess, setHasFullAccess] = useState(false); // false par défaut → freemium affiché, corrigé après fetch
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const dialogCloseRef = useRef<HTMLButtonElement>(null);
+
+  const closeSelectedResource = useCallback(() => {
+    setSelectedResource(null);
+  }, []);
+
+  useDialogAccessibility({
+    open: selectedResource !== null,
+    dialogRef,
+    initialFocusRef: dialogCloseRef,
+    onClose: closeSelectedResource,
+  });
 
   useEffect(() => {
     fetch('/api/v1/billing/status')
@@ -251,7 +265,7 @@ export default function BibliothequePage() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] px-6 py-7 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -264,7 +278,7 @@ export default function BibliothequePage() {
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Un fonds de travail EAF qui aide à avancer, pas un simple stock de fichiers.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
+            <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
               Annales, œuvres, rapports de jury, documents et vidéos sont réunis dans un espace conçu pour réactiver
               vite une méthode, une œuvre ou un repère utile juste avant un atelier, un oral ou une révision ciblée.
             </p>
@@ -301,7 +315,7 @@ export default function BibliothequePage() {
             </div>
             <Link
               href="/pricing"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[var(--c-primary-active)]"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-2.5 text-sm font-bold text-[var(--text-on-primary)] transition hover:bg-[var(--c-primary-active)]"
             >
               Passer au plan supérieur
             </Link>
@@ -375,7 +389,7 @@ export default function BibliothequePage() {
           </span>
           <button
             onClick={() => setActiveCategory('all')}
-            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-normal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)] ${activeCategory === 'all' ? 'bg-[var(--c-primary)] text-white' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)] hover:border-[var(--c-primary)]/18'}`}
+            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-normal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)] ${activeCategory === 'all' ? 'bg-[var(--c-primary)] text-[var(--text-on-primary)]' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)] hover:border-[var(--c-primary)]/18'}`}
           >
             Toutes les ressources
           </button>
@@ -386,7 +400,7 @@ export default function BibliothequePage() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-normal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)] ${activeCategory === category ? 'bg-[var(--c-success)] text-white' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)] hover:border-[var(--c-primary)]/18'}`}
+                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-normal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)] ${activeCategory === category ? 'bg-[var(--c-success)] text-[var(--text-on-primary)]' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)] hover:border-[var(--c-primary)]/18'}`}
               >
                 <Icon className="h-4 w-4" />
                 {getCategoryLabel(category)}
@@ -553,11 +567,15 @@ export default function BibliothequePage() {
       {selectedResource && (
         <div
           className="fixed inset-0 z-40 flex items-center justify-center bg-black/45 p-0 backdrop-blur-sm md:p-8"
-          onClick={() => setSelectedResource(null)}
+          onClick={closeSelectedResource}
         >
           <div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
+            aria-labelledby="library-resource-title"
+            aria-describedby="library-resource-description"
+            tabIndex={-1}
             className="h-screen w-full overflow-auto rounded-none border-0 bg-[var(--bg-surface)] p-6 shadow-2xl md:h-auto md:max-h-[88vh] md:max-w-3xl md:rounded-[24px] md:border md:border-[var(--border-default)] md:p-8"
             onClick={(event) => event.stopPropagation()}
           >
@@ -568,7 +586,7 @@ export default function BibliothequePage() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Fiche ressource</p>
-                  <h3 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                  <h3 id="library-resource-title" style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                     {formatResourceTitle(selectedResource.title, selectedResource.ext)}
                   </h3>
                   <p className="mt-2 text-sm text-[var(--text-secondary)]">
@@ -577,7 +595,8 @@ export default function BibliothequePage() {
                 </div>
               </div>
               <Button
-                onClick={() => setSelectedResource(null)}
+                ref={dialogCloseRef}
+                onClick={closeSelectedResource}
                 variant="secondary"
                 size="sm"
                 className="h-11 w-11 rounded-2xl border-[var(--border-default)] p-0"
@@ -588,9 +607,9 @@ export default function BibliothequePage() {
             </div>
 
             <div className="mt-6 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-              <div className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5">
+              <Surface tone="default" padding="md">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Pourquoi l’ouvrir</p>
-                <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{buildResourceDescription(selectedResource)}</p>
+                <p id="library-resource-description" className="mt-3 text-sm leading-7 text-[var(--text-body)]">{buildResourceDescription(selectedResource)}</p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
                   <Badge variant="default" size="sm">
@@ -610,9 +629,9 @@ export default function BibliothequePage() {
                     </Badge>
                   )}
                 </div>
-              </div>
+              </Surface>
 
-              <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
+              <Surface tone="success" padding="md">
                 {selectedResource && isResourceLocked(selectedResource) ? (
                   <>
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Ressource verrouillée</p>
@@ -626,7 +645,7 @@ export default function BibliothequePage() {
                       </p>
                       <Link
                         href="/pricing"
-                        className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3 text-sm font-bold text-white transition hover:bg-[var(--c-primary-active)]"
+                        className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3 text-sm font-bold text-[var(--text-on-primary)] transition hover:bg-[var(--c-primary-active)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
                       >
                         Passer au plan supérieur
                       </Link>
@@ -639,7 +658,7 @@ export default function BibliothequePage() {
                       <a
                         href={selectedResourceDownloadHref ?? selectedResource.url}
                         download={selectedResource.originalTitle ?? selectedResource.title}
-                        className="inline-flex items-center justify-center gap-2 rounded-[16px] bg-[var(--c-primary)] px-4 py-4 text-sm font-semibold text-white transition hover:bg-[var(--c-primary-active)]"
+                        className="inline-flex items-center justify-center gap-2 rounded-[16px] bg-[var(--c-primary)] px-4 py-4 text-sm font-semibold text-[var(--text-on-primary)] transition hover:bg-[var(--c-primary-active)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
                       >
                         <Download className="h-4 w-4" />
                         Télécharger
@@ -648,7 +667,7 @@ export default function BibliothequePage() {
                         href={selectedResourceOpenHref ?? selectedResource.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-4 py-4 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18"
+                        className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-4 py-4 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
                       >
                         <ExternalLink className="h-4 w-4" />
                         Ouvrir
@@ -656,7 +675,7 @@ export default function BibliothequePage() {
                     </div>
                     <Link
                       href={selectedResourceTutorHref}
-                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-4 py-4 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
+                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-4 py-4 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-success)] hover:text-[var(--c-success)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
                     >
                       Reprendre cette ressource avec le guidage
                     </Link>
@@ -703,7 +722,7 @@ export default function BibliothequePage() {
                     </p>
                   </div>
                 )}
-              </div>
+              </Surface>
             </div>
           </div>
         </div>

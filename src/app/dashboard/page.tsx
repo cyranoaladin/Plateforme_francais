@@ -594,20 +594,20 @@ export default function Dashboard() {
 
         <div className="relative grid gap-6 xl:grid-cols-[1.05fr_0.95fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
+            <div className="hero-kicker">
               <ShieldCheck className="h-4 w-4" />
               {DASHBOARD_COPY.heroBadge}
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-white/85">
+            <div className="hero-body mt-4 flex flex-wrap gap-2 text-xs font-semibold">
               {examInfo ? (
                 <>
-                  <span className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5">{examInfo.phaseLabel}</span>
-                  <span className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5">{examInfo.examDayLabel}</span>
+                  <span className="hero-chip px-3 py-1.5">{examInfo.phaseLabel}</span>
+                  <span className="hero-chip px-3 py-1.5">{examInfo.examDayLabel}</span>
                 </>
               ) : null}
-              <span className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5">{formatCountdown(data.countdownEcrit, 'Écrit')}</span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5">{formatCountdown(data.countdownOral, 'Oral')}</span>
+              <span className="hero-chip px-3 py-1.5">{formatCountdown(data.countdownEcrit, 'Écrit')}</span>
+              <span className="hero-chip px-3 py-1.5">{formatCountdown(data.countdownOral, 'Oral')}</span>
             </div>
 
             <h1
@@ -617,7 +617,7 @@ export default function Dashboard() {
               {data.displayName}{DASHBOARD_COPY.heroTitleSuffix}
             </h1>
 
-            <p className="mt-4 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
+            <p className="hero-body mt-4 max-w-3xl text-base leading-8 sm:text-lg">
               {data.hasEvaluationData ? (
                 <>
                   {DASHBOARD_COPY.priorityPrefix} <strong>{weakestSkill.label.toLowerCase()}</strong>. {focusCopy.detail}
@@ -628,20 +628,20 @@ export default function Dashboard() {
             </p>
 
             {examInfo ? (
-              <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">{examInfo.phaseAction}</p>
+              <p className="hero-body-muted mt-4 max-w-3xl text-sm leading-6">{examInfo.phaseAction}</p>
             ) : null}
 
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href={ritualLead.href}
-                className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-[var(--c-primary)] transition-transform hover:-translate-y-0.5"
+                className="hero-primary-action min-h-[46px] px-5 py-3 text-sm"
               >
                 {ritualLead.title}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/mon-parcours"
-                className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-white/16 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/8"
+                className="hero-secondary-action min-h-[46px] px-5 py-3 text-sm"
               >
                 {DASHBOARD_COPY.seePath}
                 <MapIcon className="h-4 w-4" />
@@ -649,24 +649,24 @@ export default function Dashboard() {
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
                 {DASHBOARD_COPY.strongPoint} <strong>{data.hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
                 {DASHBOARD_COPY.tightenPoint} <strong>{data.hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
                 {DASHBOARD_COPY.averageLevel} <strong>{formatScoreLabel(averageScore)}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-slate-100">
+              <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
                 {DASHBOARD_COPY.latestSession} <strong>{latestInsight?.date ?? 'pas encore de séance'}</strong>
               </span>
             </div>
 
             {!data.onboardingCompleted ? (
-              <div className="mt-6 rounded-[24px] border border-white/12 bg-white/8 p-4 text-white shadow-[var(--shadow-md)]">
+              <div className="hero-glass-card mt-6 rounded-[24px] p-4 text-white shadow-[var(--shadow-md)]">
                 <p className="text-sm font-semibold">{DASHBOARD_COPY.profileTitle}</p>
-                <p className="mt-2 text-sm leading-7 text-slate-200">{DASHBOARD_COPY.profileBody}</p>
+                <p className="hero-body mt-2 text-sm leading-7">{DASHBOARD_COPY.profileBody}</p>
                 <Link
                   href="/onboarding"
                   className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-white transition-colors hover:text-[var(--color-amber-300)]"
@@ -688,13 +688,13 @@ export default function Dashboard() {
                 },
                 { label: 'Repère fort', value: data.hasEvaluationData ? strongestSkill.label : 'À construire', icon: GraduationCap },
               ].map((item) => (
-                <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+                <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
                   <div className="flex items-center gap-3">
-                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
+                    <div className="hero-icon-badge h-11 w-11">
                       <item.icon className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-400">{item.label}</p>
+                      <p className="ui-stat-label">{item.label}</p>
                       <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                     </div>
                   </div>
@@ -704,7 +704,7 @@ export default function Dashboard() {
           </div>
 
           <div className="grid gap-4">
-            <Card className="rounded-[24px] border border-white/12 bg-white/10 p-5 text-white shadow-[var(--shadow-md)] backdrop-blur-sm">
+            <Card variant="glass" className="rounded-[24px] p-5 text-white">
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
                 <Sparkles className="h-4 w-4" />
                 {DASHBOARD_COPY.nowTitle}
@@ -712,19 +712,19 @@ export default function Dashboard() {
               <h2 style={EDITORIAL_HEADING} className="mt-4 text-3xl leading-tight tracking-[-0.03em] text-white">
                 {ritualLead.title}
               </h2>
-              <p className="mt-3 text-sm leading-7 text-slate-200">{ritualLead.detail}</p>
+              <p className="hero-body mt-3 text-sm leading-7">{ritualLead.detail}</p>
 
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-[18px] border border-white/12 bg-black/10 px-4 py-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">{DASHBOARD_COPY.estimatedTime}</p>
+                <div className="hero-glass-card rounded-[18px] px-4 py-3">
+                  <p className="ui-stat-label hero-body-muted">{DASHBOARD_COPY.estimatedTime}</p>
                   <p className="mt-1 text-lg font-semibold text-white">{ritualLead.duration}</p>
                 </div>
-                <div className="rounded-[18px] border border-white/12 bg-black/10 px-4 py-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">{DASHBOARD_COPY.why}</p>
+                <div className="hero-glass-card rounded-[18px] px-4 py-3">
+                  <p className="ui-stat-label hero-body-muted">{DASHBOARD_COPY.why}</p>
                   <p className="mt-1 text-sm font-semibold text-white">{data.hasEvaluationData ? weakestSkill.label : 'Premier repère noté'}</p>
                 </div>
-                <div className="rounded-[18px] border border-white/12 bg-black/10 px-4 py-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">{DASHBOARD_COPY.deadline}</p>
+                <div className="hero-glass-card rounded-[18px] px-4 py-3">
+                  <p className="ui-stat-label hero-body-muted">{DASHBOARD_COPY.deadline}</p>
                   <p className="mt-1 text-sm font-semibold text-white">{formatCountdown(data.countdownEcrit, 'Écrit')}</p>
                 </div>
               </div>
@@ -732,7 +732,7 @@ export default function Dashboard() {
               <div className="mt-5 flex flex-wrap gap-2.5">
                 <Link
                   href={ritualLead.href}
-                  className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-[var(--c-primary)] transition-transform hover:-translate-y-0.5"
+                  className="hero-primary-action min-h-[44px] px-5 py-3 text-sm"
                 >
                   {DASHBOARD_COPY.startNow}
                   <ArrowRight className="h-4 w-4" />
@@ -740,7 +740,7 @@ export default function Dashboard() {
                 {ritualBackup ? (
                   <Link
                     href={ritualBackup.href}
-                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/16 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/8"
+                    className="hero-secondary-action min-h-[44px] px-5 py-3 text-sm"
                   >
                     {DASHBOARD_COPY.quickAlternative}
                     {BackupIcon ? <BackupIcon className="h-4 w-4" /> : null}
@@ -750,14 +750,14 @@ export default function Dashboard() {
             </Card>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <Card className="rounded-[24px] border border-white/12 bg-white/10 p-5 text-white backdrop-blur-sm">
+              <Card variant="glass" className="rounded-[24px] p-5 text-white">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">{DASHBOARD_COPY.deadlines}</p>
                 <div className="mt-4 space-y-3">
                   {[
                     { label: 'Écrit', value: data.countdownEcrit, icon: CalendarDays },
                     { label: 'Oral', value: data.countdownOral, icon: Clock3 },
                   ].map((item) => (
-                    <div key={item.label} className="rounded-[16px] border border-white/10 bg-black/10 px-4 py-3">
+                    <div key={item.label} className="hero-glass-card rounded-[16px] px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
                           <item.icon className="h-4 w-4" />
@@ -777,7 +777,7 @@ export default function Dashboard() {
                 ) : null}
               </Card>
 
-              <Card className="rounded-[24px] border border-white/12 bg-white/10 p-5 text-white backdrop-blur-sm">
+              <Card variant="glass" className="rounded-[24px] p-5 text-white">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">
                   {latestInsight ? 'Dernière séance utile' : data.onboardingCompleted ? 'Prochain repère' : 'Profil à finaliser'}
                 </p>

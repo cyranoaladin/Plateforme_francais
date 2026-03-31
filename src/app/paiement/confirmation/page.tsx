@@ -19,7 +19,7 @@ export default function PaiementConfirmationPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
       <div className="mx-auto max-w-lg text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success-subtle text-success">
           <CheckCircle2 className="h-8 w-8" />
         </div>
 
@@ -34,7 +34,7 @@ export default function PaiementConfirmationPage() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/dashboard"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-sapphire-700 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-sapphire-600"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3 text-sm font-semibold text-[var(--text-on-primary)] transition-all hover:bg-[var(--c-primary-hover)]"
           >
             {PAYMENT_CONFIRMATION_COPY.dashboardCta}
             <ArrowRight className="h-4 w-4" />

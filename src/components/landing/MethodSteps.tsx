@@ -45,12 +45,12 @@ const steps: Step[] = [
 
 export function MethodSteps() {
   return (
-    <section className="bg-white py-14 sm:py-20">
+    <section className="bg-surface py-14 sm:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
+        <h2 className="text-center text-2xl font-bold text-heading sm:text-3xl lg:text-4xl">
           La méthode en 3 étapes
         </h2>
-        <p className="mt-3 text-center text-gray-600">
+        <p className="mt-3 text-center text-body">
           Simple, efficace, sans triche.
         </p>
 
@@ -60,22 +60,22 @@ export function MethodSteps() {
             <div key={step.title} className="flex flex-1 items-start">
               <div className="flex flex-col items-center text-center">
                 {/* Icon circle */}
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-sapphire-50 text-sapphire-700">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-subtle text-brand">
                   {step.icon}
                 </div>
 
                 <h3
-                  className="mt-4 text-base font-bold text-gray-900"
+                  className="mt-4 text-base font-bold text-heading"
                   dangerouslySetInnerHTML={{ __html: step.title }}
                 />
 
                 {step.badge && (
-                  <span className="mt-2 inline-block rounded-full bg-sapphire-50 px-3 py-0.5 text-xs font-semibold text-sapphire-700">
+                  <span className="mt-2 inline-block rounded-full bg-brand-subtle px-3 py-0.5 text-xs font-semibold text-brand">
                     {step.badge}
                   </span>
                 )}
 
-                <p className="mt-2 max-w-[200px] text-sm text-gray-600">
+                <p className="mt-2 max-w-[200px] text-sm text-body">
                   {step.description}
                 </p>
               </div>
@@ -83,7 +83,7 @@ export function MethodSteps() {
               {/* Dotted connector */}
               {i < steps.length - 1 && (
                 <div className="mt-7 flex flex-1 items-center px-2">
-                  <div className="h-0 w-full border-t-2 border-dashed border-sapphire-100" />
+                  <div className="h-0 w-full border-t-2 border-dashed border-[var(--border-primary)]" />
                 </div>
               )}
             </div>
@@ -96,26 +96,26 @@ export function MethodSteps() {
             <div key={step.title} className="flex gap-4">
               {/* Icon + vertical line */}
               <div className="flex flex-col items-center">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sapphire-50 text-sapphire-700">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-subtle text-brand">
                   {step.icon}
                 </div>
                 {i < steps.length - 1 && (
-                  <div className="mt-2 h-full w-0 border-l-2 border-dashed border-sapphire-100" />
+                  <div className="mt-2 h-full w-0 border-l-2 border-dashed border-[var(--border-primary)]" />
                 )}
               </div>
 
               {/* Content */}
               <div className="pb-2">
                 <h3
-                  className="text-base font-bold text-gray-900"
+                  className="text-base font-bold text-heading"
                   dangerouslySetInnerHTML={{ __html: step.title }}
                 />
                 {step.badge && (
-                  <span className="mt-1 inline-block rounded-full bg-sapphire-50 px-3 py-0.5 text-xs font-semibold text-sapphire-700">
+                  <span className="mt-1 inline-block rounded-full bg-brand-subtle px-3 py-0.5 text-xs font-semibold text-brand">
                     {step.badge}
                   </span>
                 )}
-                <p className="mt-1 text-sm text-gray-600">{step.description}</p>
+                <p className="mt-1 text-sm text-body">{step.description}</p>
               </div>
             </div>
           ))}

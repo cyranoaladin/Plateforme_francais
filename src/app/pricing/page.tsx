@@ -342,48 +342,48 @@ export default function PricingPage() {
             </div>
           </div>
 
-          <aside className="rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
+          <aside className="hero-premium-panel rounded-[24px] p-6 md:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--border-warm)]">Ton statut</p>
+                <p className="ui-kicker text-[var(--border-warm)]">Ton statut</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                   Une facturation lisible, même avant paiement.
                 </h2>
               </div>
-              <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--bg-page)]">
+              <div className="hero-chip px-3 py-1.5 text-xs font-semibold">
                 Facturation en TND
               </div>
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+              <div className="hero-glass-card rounded-[24px] p-4">
                 {loading ? (
-                  <div className="flex items-center gap-2 text-sm text-slate-200">
+                  <div className="hero-body flex items-center gap-2 text-sm">
                     <Loader2 className="h-4 w-4 animate-spin" /> Chargement du statut...
                   </div>
                 ) : !isAuthenticated ? (
-                  <div className="space-y-3 text-sm text-slate-200">
+                  <div className="hero-body space-y-3 text-sm">
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Mode visiteur</p>
+                      <p className="ui-meta-label hero-body-muted">Mode visiteur</p>
                       <p className="mt-1 text-lg font-bold text-white">Aucun compte connecté</p>
                     </div>
-                    <p className="leading-6 text-slate-200">
+                    <p className="leading-6">
                       Tu peux comparer les plans librement. Le compte gratuit n’intervient qu’au moment utile, pas avant.
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-3 text-sm text-slate-200">
+                  <div className="hero-body space-y-3 text-sm">
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Plan actif</p>
+                      <p className="ui-meta-label hero-body-muted">Plan actif</p>
                       <p className="mt-1 text-lg font-bold text-white">{currentPlanLabel}</p>
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Statut</p>
+                      <p className="ui-meta-label hero-body-muted">Statut</p>
                       <p className="mt-1 font-semibold text-white">{{ ACTIVE: 'Actif', CANCELLED: 'Annulé', PAST_DUE: 'Échéance dépassée', TRIALING: 'Essai' }[billing?.subscription.status ?? 'ACTIVE'] ?? billing?.subscription.status}</p>
                     </div>
                     {currentPeriodEndLabel ? (
                       <div>
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Échéance</p>
+                        <p className="ui-meta-label hero-body-muted">Échéance</p>
                         <p className="mt-1 font-semibold text-white">{currentPeriodEndLabel}</p>
                       </div>
                     ) : null}
@@ -391,23 +391,23 @@ export default function PricingPage() {
                 )}
               </div>
 
-              <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Dernier paiement</p>
+              <div className="hero-glass-card rounded-[24px] p-4">
+                <p className="ui-meta-label hero-body-muted">Dernier paiement</p>
                 {!isAuthenticated ? (
-                  <div className="mt-3 space-y-2 text-sm text-slate-200">
+                  <div className="hero-body mt-3 space-y-2 text-sm">
                     <p className="font-semibold text-white">Aucun paiement requis pour commencer</p>
                     <p>Le plan Freemium permet déjà de configurer ton parcours, de tester les premiers ateliers et de découvrir la méthode.</p>
                   </div>
                 ) : billing?.lastPayment ? (
-                  <div className="mt-3 space-y-2 text-sm text-slate-200">
+                  <div className="hero-body mt-3 space-y-2 text-sm">
                     <p className="font-semibold text-white">{{ PENDING: 'En attente', ACCEPTED: 'Accepté', REFUSED: 'Refusé', ERROR: 'Erreur' }[billing.lastPayment.status] ?? billing.lastPayment.status}</p>
                     <p>{lastPaymentLabel}</p>
-                    <p className="text-xs text-slate-400">
+                    <p className="ui-helper-text hero-body-muted text-xs">
                       {billing.lastPayment.planId ? PLAN_LABELS[billing.lastPayment.planId] : formatPlanLabel(billing.lastPayment.plan)} · Ref. {billing.lastPayment.orderRef}
                     </p>
                   </div>
                 ) : (
-                  <p className="mt-3 text-sm text-slate-200">Aucun paiement récent enregistré.</p>
+                  <p className="hero-body mt-3 text-sm">Aucun paiement récent enregistré.</p>
                 )}
               </div>
             </div>
@@ -465,7 +465,7 @@ export default function PricingPage() {
                       </h3>
                     </div>
                     {plan.highlighted ? (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-white/12 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white">
+                      <span className="hero-chip px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white">
                         <Sparkles className="h-3.5 w-3.5" />
                         Recommandé
                       </span>
@@ -477,7 +477,7 @@ export default function PricingPage() {
                     {plan.period ? <span className="pb-1 text-sm opacity-75">{plan.period}</span> : null}
                   </div>
 
-                  <p className={`mt-3 text-sm leading-7 ${plan.highlighted ? 'text-slate-200' : 'text-[var(--text-secondary)]'}`}>
+                  <p className={`mt-3 text-sm leading-7 ${plan.highlighted ? 'hero-body' : 'text-[var(--text-secondary)]'}`}>
                     {plan.note}
                   </p>
 
@@ -508,7 +508,7 @@ export default function PricingPage() {
                     }}
                     className={`mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
                       plan.highlighted
-                        ? 'bg-[var(--bg-page)] text-[var(--c-primary)] hover:-translate-y-0.5 hover:bg-white'
+                        ? 'hero-primary-action'
                         : 'bg-[var(--c-primary)] text-[var(--bg-page)] hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]'
                     }`}
                   >
@@ -521,7 +521,7 @@ export default function PricingPage() {
                     )}
                   </button>
                   {plan.checkoutPlan ? (
-                    <p className={`mt-3 text-xs leading-6 ${plan.highlighted ? 'text-slate-300' : 'text-[var(--text-muted)]'}`}>
+                    <p className={`mt-3 text-xs leading-6 ${plan.highlighted ? 'hero-body-muted' : 'text-[var(--text-muted)]'}`}>
                       {PRICING_COPY.paidPlanCtaHint}
                     </p>
                   ) : null}
@@ -608,9 +608,9 @@ export default function PricingPage() {
             ) : null}
           </article>
 
-          <article className="rounded-[24px] border border-[var(--c-primary)] bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-7">
+          <article className="hero-premium-panel rounded-[24px] p-6 md:p-7">
             <div className="flex items-center gap-2">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-slate-300)]">
+              <div className="hero-icon-badge h-11 w-11">
                 <Landmark className="h-5 w-5" />
               </div>
               <div>
@@ -621,25 +621,25 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <p className="mt-4 text-sm leading-7 text-slate-200">{PRICING_COPY.alternativePaymentIntro}</p>
+            <p className="hero-body mt-4 text-sm leading-7">{PRICING_COPY.alternativePaymentIntro}</p>
 
             <div className="mt-6 space-y-3">
-              <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+              <div className="hero-glass-card rounded-[24px] p-4">
                 <div className="flex items-start gap-3">
                   <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Modes de paiement actifs</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-200">{PRICING_COPY.activePaymentModes}</p>
+                    <p className="hero-body mt-2 text-sm leading-6">{PRICING_COPY.activePaymentModes}</p>
                   </div>
                 </div>
               </div>
-              <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+              <div className="hero-glass-card rounded-[24px] p-4">
                 <div className="flex items-start gap-3">
                   <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-[var(--border-warm)]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Virement bancaire</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-200">Ajoute l’email du compte ou l’identifiant utilisateur en motif. Le plan est activé après vérification du règlement.</p>
-                    <div className="mt-4 grid gap-2 rounded-[16px] bg-[var(--c-primary-active)] p-4 text-sm text-slate-100 sm:grid-cols-2">
+                    <p className="hero-body mt-2 text-sm leading-6">Ajoute l’email du compte ou l’identifiant utilisateur en motif. Le plan est activé après vérification du règlement.</p>
+                    <div className="mt-4 grid gap-2 rounded-[16px] bg-[var(--c-primary-active)] p-4 text-sm sm:grid-cols-2">
                       {BANK_TRANSFER_ROWS.map((row) => (
                         <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
                           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--border-warm)]">{row.label}</p>
@@ -650,7 +650,7 @@ export default function PricingPage() {
                     <div className="mt-4 flex flex-wrap gap-3">
                       <Link
                         href="/contact?subject=virement"
-                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--c-primary)] transition hover:bg-[var(--bg-surface-secondary)]"
+                        className="hero-primary-action px-4 py-2 text-xs uppercase tracking-[0.16em]"
                       >
                         Envoyer la référence
                       </Link>
@@ -663,7 +663,7 @@ export default function PricingPage() {
             <div className="mt-6 rounded-[24px] bg-[var(--c-primary-active)] p-4">
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--border-warm)]" />
-                <p className="text-sm leading-6 text-slate-200">
+                <p className="hero-body text-sm leading-6">
                   {PRICING_COPY.reassuranceFooter}
                 </p>
               </div>
@@ -715,7 +715,7 @@ export default function PricingPage() {
                 href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--whatsapp)] px-7 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--whatsapp-hover)] hover:shadow-lg"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--whatsapp)] px-7 py-3.5 text-base font-bold text-[var(--text-on-primary)] transition-all hover:-translate-y-0.5 hover:bg-[var(--whatsapp-hover)] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--whatsapp)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
               >
                 <MessageCircle className="h-5 w-5" />
                 Ouvrir WhatsApp
@@ -787,7 +787,7 @@ export default function PricingPage() {
               Si la page est bonne, elle coupe court aux hésitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon.
             </p>
 
-            <div className="mt-8 rounded-[24px] border border-[var(--c-primary)] bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)]">
+            <div className="hero-premium-panel mt-8 rounded-[24px] p-6">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--border-warm)]">Prêt à passer à l’action ?</p>
               <h3 style={EDITORIAL_HEADING} className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
                 La préparation sérieuse commence avec Premium.

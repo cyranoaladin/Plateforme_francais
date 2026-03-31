@@ -37,58 +37,29 @@ export function EmailVerificationBanner({ emailVerified }: EmailVerificationBann
   };
 
   return (
-    <div
-      style={{
-        background: 'var(--bg-warning, #FFF7ED)',
-        border: '1px solid var(--color-amber-300, #FCD34D)',
-        borderRadius: '8px',
-        padding: '12px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        flexWrap: 'wrap',
-        marginBottom: '16px',
-      }}
-    >
-      <Mail size={20} style={{ color: 'var(--color-amber-600, #D97706)', flexShrink: 0 }} />
+    <div className="mb-4 flex flex-wrap items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border-reward)] bg-[var(--bg-warning)] px-4 py-3">
+      <Mail size={20} className="shrink-0 text-[var(--c-reward)]" />
 
-      <span style={{ color: 'var(--color-amber-800, #92400E)', fontSize: '14px', flex: 1 }}>
+      <span className="flex-1 text-sm text-[var(--text-reward-on-subtle)]">
         Confirme ton adresse email pour sécuriser ton compte.
       </span>
 
       {sent ? (
-        <span
-          style={{
-            color: 'var(--c-success-text, #047857)',
-            fontSize: '13px',
-            fontWeight: 600,
-          }}
-        >
+        <span className="text-sm font-semibold text-[var(--c-success-text)]" role="status" aria-live="polite">
           Lien envoyé !
         </span>
       ) : (
         <button
           onClick={handleResend}
           disabled={loading}
-          style={{
-            background: 'var(--color-amber-500, #F59E0B)',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '6px',
-            padding: '6px 14px',
-            fontSize: '13px',
-            fontWeight: 600,
-            cursor: loading ? 'wait' : 'pointer',
-            opacity: loading ? 0.7 : 1,
-            whiteSpace: 'nowrap',
-          }}
+          className="inline-flex min-h-[40px] items-center justify-center rounded-full bg-[var(--c-reward)] px-4 py-2 text-sm font-semibold text-[var(--text-on-primary)] transition-all hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-reward)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-warning)] disabled:cursor-wait disabled:opacity-70"
         >
           {loading ? 'Envoi\u2026' : 'Renvoyer le lien'}
         </button>
       )}
 
       {error && (
-        <span style={{ color: '#DC2626', fontSize: '13px', width: '100%' }}>{error}</span>
+        <span className="w-full text-sm text-[var(--c-accent-text)]" role="alert" aria-live="assertive">{error}</span>
       )}
     </div>
   );

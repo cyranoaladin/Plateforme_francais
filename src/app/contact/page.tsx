@@ -104,6 +104,7 @@ export default function ContactPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Ton nom"
+              autoComplete="name"
               size="lg"
             />
             <Input
@@ -114,6 +115,7 @@ export default function ContactPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="ton.email@example.com"
+              autoComplete="email"
               size="lg"
             />
           </div>
@@ -137,6 +139,7 @@ export default function ContactPage() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Décris ta demande ici..."
+            autoComplete="off"
             size="lg"
           />
 

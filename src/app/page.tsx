@@ -55,7 +55,7 @@ export default function HomePage() {
           headline="Tu veux voir ce que ça donne sur une vraie copie ?"
           cta="Essayer une correction gratuite →"
           href={ROUTES.register}
-          className="bg-white"
+          className="bg-surface"
         />
 
         <AntiChatGPTBanner />
@@ -69,7 +69,7 @@ export default function HomePage() {
           headline="Ceux qui s’y sont mis ont progressé. C’est ton tour."
           cta="Commencer gratuitement →"
           href={ROUTES.register}
-          className="bg-gray-50"
+          className="bg-page"
         />
 
         <DashboardToggle />
@@ -79,7 +79,7 @@ export default function HomePage() {
           headline="Toujours en train de comparer ? L’essai est gratuit."
           cta="Tester Nexus maintenant →"
           href={ROUTES.register}
-          className="bg-white"
+          className="bg-surface"
         />
 
         <ComparisonTable />

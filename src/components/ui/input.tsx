@@ -86,8 +86,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             className={cn(
               'w-full rounded-[var(--radius-md)] bg-[var(--bg-surface)] border transition-all duration-[var(--transition-normal)]',
+              'text-[var(--text-body)]',
               'placeholder:text-[var(--text-placeholder)]',
-              'focus:outline-none focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20',
+              'focus:outline-none focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20 focus:ring-offset-0',
               'disabled:opacity-60 disabled:cursor-not-allowed',
               error
                 ? 'border-[var(--error)] focus:border-[var(--error)] focus:ring-[var(--error)]/20'

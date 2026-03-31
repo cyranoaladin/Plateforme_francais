@@ -234,9 +234,9 @@ export default function AdminDashboard() {
   }
 
   const planColors: Record<'FREE' | 'PREMIUM' | 'PRO', string> = {
-    FREE: 'bg-gray-100 text-gray-800',
-    PREMIUM: 'bg-blue-100 text-blue-800',
-    PRO: 'bg-sapphire-100 text-sapphire-700',
+    FREE: 'bg-surface-secondary text-body',
+    PREMIUM: 'bg-brand-subtle text-brand',
+    PRO: 'bg-brand-subtle text-brand',
   };
 
   function getVisiblePlanColor(plan: string) {
@@ -244,12 +244,12 @@ export default function AdminDashboard() {
   }
 
   const statusColors: Record<string, string> = {
-    ACTIVE: 'bg-green-100 text-green-800',
-    PENDING: 'bg-yellow-100 text-yellow-800',
-    ACCEPTED: 'bg-green-100 text-green-800',
-    REFUSED: 'bg-red-100 text-red-800',
-    CANCELLED: 'bg-gray-100 text-gray-800',
-    PAUSED: 'bg-orange-100 text-orange-800',
+    ACTIVE: 'bg-success-subtle text-success',
+    PENDING: 'bg-reward-subtle text-reward',
+    ACCEPTED: 'bg-success-subtle text-success',
+    REFUSED: 'bg-accent-subtle text-accent',
+    CANCELLED: 'bg-surface-secondary text-body',
+    PAUSED: 'bg-reward-subtle text-reward',
   };
 
   const statusLabels: Record<string, string> = {
@@ -279,8 +279,8 @@ export default function AdminDashboard() {
         </div>
 
         {error && (
-          <Card className="mb-6 p-4 bg-red-50 border-red-200">
-            <div className="flex items-center gap-2 text-red-800">
+          <Card className="mb-6 p-4 bg-accent-subtle border-[var(--border-accent)]">
+            <div className="flex items-center gap-2 text-accent">
               <AlertCircle className="w-5 h-5" />
               <p>{error}</p>
             </div>
@@ -361,7 +361,7 @@ export default function AdminDashboard() {
                         <p className="text-sm text-[var(--text-secondary)]">Abonnements actifs</p>
                         <p className="text-2xl font-bold mt-1">{stats.activeSubscriptions}</p>
                       </div>
-                      <CheckCircle className="w-8 h-8 text-green-500" />
+                      <CheckCircle className="w-8 h-8 text-success" />
                     </div>
                   </Card>
 
@@ -371,7 +371,7 @@ export default function AdminDashboard() {
                         <p className="text-sm text-[var(--text-secondary)]">Paiements en attente</p>
                         <p className="text-2xl font-bold mt-1">{stats.pendingPayments}</p>
                       </div>
-                      <Clock className="w-8 h-8 text-yellow-500" />
+                      <Clock className="w-8 h-8 text-warning" />
                     </div>
                   </Card>
 
@@ -381,7 +381,7 @@ export default function AdminDashboard() {
                         <p className="text-sm text-[var(--text-secondary)]">Revenu total</p>
                         <p className="text-2xl font-bold mt-1">{stats.totalRevenueTND.toFixed(2)} TND</p>
                       </div>
-                      <DollarSign className="w-8 h-8 text-green-600" />
+                      <DollarSign className="w-8 h-8 text-success" />
                     </div>
                   </Card>
                 </div>
@@ -527,12 +527,12 @@ export default function AdminDashboard() {
                 </Card>
 
                 {lastGeneratedCode && (
-                  <Card className="p-6 bg-green-50 border-green-200">
-                    <h3 className="text-lg font-bold mb-2 text-green-800">✅ Code généré avec succès !</h3>
+                  <Card className="p-6 bg-success-subtle border-[var(--border-success)]">
+                    <h3 className="text-lg font-bold mb-2 text-success">✅ Code généré avec succès !</h3>
                     <div className="flex items-center gap-4">
                       <div className="flex-1">
-                        <p className="text-sm text-green-700 mb-1">Copiez ce code et communiquez-le à l'utilisateur :</p>
-                        <code className="block p-3 bg-white border border-green-300 rounded font-mono text-xl font-bold text-green-900">
+                        <p className="text-sm text-success mb-1">Copiez ce code et communiquez-le à l'utilisateur :</p>
+                        <code className="block p-3 bg-surface border border-[var(--border-success)] rounded font-mono text-xl font-bold text-heading">
                           {lastGeneratedCode}
                         </code>
                       </div>
@@ -541,12 +541,12 @@ export default function AdminDashboard() {
                           navigator.clipboard.writeText(lastGeneratedCode);
                           alert('Code copié dans le presse-papier !');
                         }}
-                        className="bg-green-600 hover:bg-green-700"
+                        className="bg-success hover:bg-[var(--c-success-hover,var(--color-emerald-700))]"
                       >
                         Copier
                       </Button>
                     </div>
-                    <p className="text-xs text-green-600 mt-2">⚠️ Ce code ne sera plus affiché. Assurez-vous de le sauvegarder.</p>
+                    <p className="text-xs text-success mt-2">⚠️ Ce code ne sera plus affiché. Assurez-vous de le sauvegarder.</p>
                   </Card>
                 )}
 
@@ -575,7 +575,7 @@ export default function AdminDashboard() {
                               {code.durationDays >= 365 ? `${Math.round(code.durationDays / 365)} an(s)` : `${code.durationDays} jours`}
                             </td>
                             <td className="py-2 px-4">
-                              <Badge className={code.status === 'REDEEMED' ? 'bg-green-100 text-green-800' : code.status === 'CREATED' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}>
+                              <Badge className={code.status === 'REDEEMED' ? 'bg-success-subtle text-success' : code.status === 'CREATED' ? 'bg-brand-subtle text-brand' : 'bg-surface-secondary text-body'}>
                                 {statusLabels[code.status] || code.status}
                               </Badge>
                             </td>

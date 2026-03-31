@@ -70,7 +70,7 @@ const WORKSHOPS: Workshop[] = [
 
 function CheckIcon() {
   return (
-    <svg className="mt-0.5 h-5 w-5 shrink-0 text-sapphire-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <svg className="mt-0.5 h-5 w-5 shrink-0 text-brand" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
     </svg>
   );
@@ -99,12 +99,12 @@ export function WorkshopTabs() {
   };
 
   return (
-    <section id="ateliers" className="bg-white px-4 py-14 sm:py-20" aria-label="Les 4 ateliers EAF">
+    <section id="ateliers" className="bg-surface px-4 py-14 sm:py-20" aria-label="Les 4 ateliers EAF">
       <div className="mx-auto max-w-3xl">
-        <h2 className="text-center text-2xl font-bold leading-tight text-gray-900 sm:text-3xl lg:text-4xl">
+        <h2 className="text-center text-2xl font-bold leading-tight text-heading sm:text-3xl lg:text-4xl">
           4 ateliers pour maîtriser chaque épreuve
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-base text-gray-500">
+        <p className="mx-auto mt-3 max-w-xl text-center text-base text-muted-foreground">
           Chaque atelier reproduit les conditions réelles de l&apos;examen.
         </p>
 
@@ -124,13 +124,13 @@ export function WorkshopTabs() {
               onClick={() => setActive(w.id)}
               className={`flex min-h-[44px] shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
                 active === w.id
-                  ? 'bg-sapphire-700 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-brand text-white shadow-md'
+                  : 'bg-surface-secondary text-body hover:bg-muted'
               }`}
             >
               {w.label}
               {w.badge && (
-                <span className="rounded-full bg-gold-100 px-2 py-0.5 text-xs font-semibold text-gold-700">
+                <span className="rounded-full bg-reward-subtle px-2 py-0.5 text-xs font-semibold text-reward">
                   <span className="sm:hidden">★</span>
                   <span className="hidden sm:inline">{w.badge}</span>
                 </span>
@@ -162,14 +162,14 @@ export function WorkshopTabs() {
                   {w.highlights.map((h, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <CheckIcon />
-                      <span className="text-base text-gray-700">{h}</span>
+                      <span className="text-base text-body">{h}</span>
                     </li>
                   ))}
                 </ul>
                 <Link
                   href={w.href}
                   tabIndex={isActive ? 0 : -1}
-                  className="inline-flex items-center gap-2 rounded-full bg-sapphire-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-sapphire-700"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-hover"
                   aria-label={`${w.cta} — atelier ${w.label}`}
                 >
                   {w.cta}

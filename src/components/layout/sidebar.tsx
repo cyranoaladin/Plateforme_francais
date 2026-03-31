@@ -281,7 +281,7 @@ export function Sidebar() {
                 className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium transition-all duration-[var(--transition-base)] ${
                   preference === pref
                     ? 'bg-[var(--bg-surface)] text-[var(--text-heading)] shadow-[var(--shadow-sm)]'
-                    : 'text-[var(--text-muted)] hover:text-[var(--text-body)]'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-body)]'
                 }`}
                 title={label}
                 aria-label={`Thème : ${label}`}
@@ -357,7 +357,7 @@ export function Sidebar() {
                       href={item.href}
                       className={`group flex items-center gap-2.5 rounded-[16px] border px-3 py-2.5 text-sm transition-all ${
                         isActive
-                          ? 'border-[var(--c-primary)]/10 bg-[var(--c-primary)] text-white shadow-[var(--shadow-sm)]'
+                          ? 'border-[var(--color-indigo-700)] bg-[var(--color-indigo-700)] text-[var(--hero-surface-text)] shadow-[var(--shadow-sm)]'
                           : 'border-transparent bg-[var(--bg-surface)]/50 text-[var(--text-secondary)] hover:border-[var(--border-default)] hover:bg-[var(--bg-surface)] hover:text-[var(--c-primary)]'
                       }`}
                     >
@@ -391,7 +391,7 @@ export function Sidebar() {
                 aria-label={item.name}
                 className={`flex min-h-[48px] min-w-[48px] flex-1 flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
                   active
-                    ? 'bg-[var(--c-primary)] text-white shadow-[var(--shadow-md)]'
+                    ? 'bg-[var(--color-indigo-700)] text-[var(--hero-surface-text)] shadow-[var(--shadow-md)]'
                     : 'text-[var(--text-secondary)] active:bg-[var(--bg-surface)] active:text-[var(--c-primary)]'
                 }`}
               >
@@ -406,7 +406,7 @@ export function Sidebar() {
               onClick={() => setMobileMoreOpen((prev) => !prev)}
               className={`flex min-h-[48px] min-w-[48px] w-full flex-col items-center justify-center rounded-[var(--radius-lg)] py-2 transition-all ${
                 mobileMoreOpen
-                  ? 'bg-[var(--c-primary)] text-white shadow-[var(--shadow-md)]'
+                  ? 'bg-[var(--color-indigo-700)] text-[var(--hero-surface-text)] shadow-[var(--shadow-md)]'
                   : 'text-[var(--text-secondary)] active:bg-[var(--bg-surface)] active:text-[var(--c-primary)]'
               }`}
             >
@@ -428,7 +428,7 @@ export function Sidebar() {
                           onClick={() => setMobileMoreOpen(false)}
                           className={`flex min-h-[44px] items-center gap-3 rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium transition-colors ${
                             active
-                              ? 'bg-[var(--c-primary)] text-white'
+                              ? 'bg-[var(--color-indigo-700)] text-[var(--hero-surface-text)]'
                               : 'text-[var(--text-secondary)] hover:bg-[var(--bg-surface-secondary)] hover:text-[var(--c-primary)]'
                           }`}
                         >
@@ -453,7 +453,7 @@ export function Sidebar() {
                         onClick={() => { setTheme(pref); }}
                         className={`flex min-h-[44px] flex-col items-center justify-center gap-1 rounded-[var(--radius-md)] px-2 py-2 text-xs font-semibold transition-colors ${
                           preference === pref
-                            ? 'bg-[var(--c-primary)] text-white'
+                            ? 'bg-[var(--color-indigo-700)] text-[var(--hero-surface-text)]'
                             : 'bg-[var(--bg-surface-secondary)] text-[var(--text-secondary)]'
                         }`}
                         aria-pressed={preference === pref}

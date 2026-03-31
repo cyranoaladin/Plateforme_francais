@@ -17,6 +17,7 @@ import {
   Users,
 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { StateNotice, Surface, Textarea } from '@/components/ui';
 
 type StudentItem = {
   id: string;
@@ -184,20 +185,20 @@ export default function EnseignantPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8 lg:p-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] p-6 md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
+            <div className="hero-kicker">
               <ShieldCheck className="h-4 w-4" />
               Espace enseignant
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               La vue enseignant doit permettre de piloter la classe, pas de fouiller les données une par une.
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
+            <p className="hero-body mt-5 max-w-3xl text-base leading-8 sm:text-lg">
               Code classe, niveau moyen, élèves à surveiller, repères de progression, copies corrigées et commentaires&nbsp;: tout doit rester lisible et
               actionnable depuis un seul écran.
             </p>
@@ -205,14 +206,14 @@ export default function EnseignantPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <button
                 onClick={() => void generateClassCode()}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-6 py-3.5 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="hero-primary-action px-6 py-3.5 text-sm"
               >
                 Générer un code classe
                 <Sparkles className="h-4 w-4" />
               </button>
               <a
                 href="/api/v1/enseignant/export"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--bg-page)] transition-colors hover:bg-white/6"
+                className="hero-secondary-action px-6 py-3.5 text-sm"
               >
                 Export CSV
                 <Download className="h-4 w-4" />
@@ -227,25 +228,25 @@ export default function EnseignantPage() {
               { label: 'Moyenne classe', value: `${classAverage} / 20`, icon: GraduationCap },
               { label: 'Copies corrigées', value: `${correctedCopies} / ${totalCopies}`, icon: CheckCircle2 },
             ].map((item) => (
-              <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+              <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
+                  <div className="hero-icon-badge h-11 w-11">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-400">{item.label}</p>
+                    <p className="ui-stat-label">{item.label}</p>
                     <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                   </div>
                 </div>
               </div>
             ))}
 
-            <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Lecture rapide</p>
+            <div className="hero-glass-card sm:col-span-2 rounded-[24px] p-5">
+              <p className="ui-kicker text-[var(--hero-kicker-text)]">Lecture rapide</p>
               <p className="mt-3 text-2xl font-semibold text-white">
                 {atRiskCount > 0 ? `${atRiskCount} élève${atRiskCount > 1 ? 's' : ''} à resserrer` : 'Aucun signal critique immédiat'}
               </p>
-              <p className="mt-2 text-sm leading-7 text-slate-200">
+              <p className="hero-body mt-2 text-sm leading-7">
                 {nextMockExam
                   ? `Prochaine échéance détectée autour du ${formatDay(nextMockExam)}. Les commentaires enseignants doivent soutenir cette fenêtre.`
                   : 'Aucune prochaine épreuve blanche remontée. Le tableau est centré sur le suivi courant de la classe.'}
@@ -255,23 +256,20 @@ export default function EnseignantPage() {
         </div>
       </section>
 
-      {error ? (
-        <div className="rounded-[24px] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)] shadow-[var(--shadow-sm)]" role="alert">
-          <AlertTriangle className="mr-2 inline h-4 w-4" />
-          {error}
-        </div>
-      ) : null}
+      {error ? <StateNotice title="Erreur côté enseignant" description={error} variant="error" /> : null}
 
       {isLoading ? (
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 text-sm text-[var(--text-muted)] shadow-[var(--shadow-md)]" role="status">
-          Chargement de l'espace enseignant...
-        </div>
+        <StateNotice
+          title="Chargement de l’espace enseignant"
+          description="Le code classe, la distribution et les copies arrivent."
+          variant="loading"
+        />
       ) : null}
 
       {!isLoading && payload ? (
         <>
           <section className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
+            <Surface tone="default" padding="lg">
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Roster classe</p>
@@ -281,7 +279,7 @@ export default function EnseignantPage() {
                 </div>
                 <button
                   onClick={() => void load()}
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-2 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-2 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:border-[var(--c-success)] hover:text-[var(--c-success)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
                 >
                   <RefreshCw className="h-4 w-4" />
                   Actualiser
@@ -316,10 +314,10 @@ export default function EnseignantPage() {
                   )}
                 </div>
               </div>
-            </div>
+            </Surface>
 
             <div className="space-y-6">
-              <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
+              <Surface tone="default" padding="lg">
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Distribution des notes</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
                   Une lecture directe de la répartition suffit souvent à orienter la prochaine séquence.
@@ -342,15 +340,15 @@ export default function EnseignantPage() {
                       </div>
                     ))
                   ) : (
-                    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
+                    <Surface tone="subtle" padding="sm" className="text-sm leading-7 text-[var(--text-secondary)]">
                       Aucune distribution disponible tant que les copies corrigées restent absentes.
-                    </div>
+                    </Surface>
                   )}
                 </div>
-              </div>
+              </Surface>
 
-              <div className="rounded-[24px] border border-[var(--c-primary)] bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-7">
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">Pilotage rapide</p>
+              <div className="hero-premium-panel rounded-[24px] p-6 md:p-7">
+                <p className="hero-kicker">Pilotage rapide</p>
                 <div className="mt-6 grid gap-4 md:grid-cols-2">
                   {[
                     {
@@ -378,7 +376,7 @@ export default function EnseignantPage() {
                       icon: MessageSquare,
                     },
                   ].map((item) => (
-                    <article key={item.title} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+                    <article key={item.title} className="hero-glass-card rounded-[24px] p-4">
                       <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
                         <item.icon className="h-5 w-5" />
                       </div>
@@ -392,7 +390,7 @@ export default function EnseignantPage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <Surface tone="default" padding="lg">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Copies corrigées</p>
@@ -428,7 +426,7 @@ export default function EnseignantPage() {
                     </div>
 
                     <div className="mt-4">
-                      <textarea
+                      <Textarea
                         value={commentDrafts[copy.copieId] ?? ''}
                         onChange={(event) =>
                           setCommentDrafts((prev) => ({
@@ -436,8 +434,10 @@ export default function EnseignantPage() {
                             [copy.copieId]: event.target.value,
                           }))
                         }
-                        className="min-h-24 w-full rounded-[16px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4 text-sm text-[var(--c-primary)] outline-none transition-colors focus:border-[var(--c-success)]"
+                        className="min-h-24"
                         placeholder="Ajouter un commentaire enseignant..."
+                        autoComplete="off"
+                        aria-label={`Commentaire enseignant pour ${copy.studentName}`}
                       />
                     </div>
 
@@ -448,7 +448,7 @@ export default function EnseignantPage() {
                       </div>
                       <button
                         onClick={() => void saveComment(copy.copieId)}
-                        className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-4 py-2 text-sm font-semibold text-[var(--bg-page)] transition-all hover:-translate-y-0.5"
+                        className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[var(--c-primary)] px-4 py-2 text-sm font-semibold text-[var(--text-on-primary)] transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
                       >
                         Enregistrer
                         <ArrowRight className="h-4 w-4" />
@@ -457,12 +457,12 @@ export default function EnseignantPage() {
                   </article>
                 ))
               ) : (
-                <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
+                <Surface tone="subtle" padding="sm" className="text-sm leading-7 text-[var(--text-secondary)]">
                   Aucune copie corrigée n’est encore disponible dans ce tableau.
-                </div>
+                </Surface>
               )}
             </div>
-          </section>
+          </Surface>
         </>
       ) : null}
     </div>

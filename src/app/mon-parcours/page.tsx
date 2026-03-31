@@ -75,55 +75,55 @@ const TYPE_META: Record<
 > = {
   oral: {
     label: 'Oral',
-    tone: 'bg-[var(--c-success)] text-white',
+    tone: 'bg-[var(--c-success)] text-[var(--text-on-primary)]',
     softTone: 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--text-success-on-subtle)]',
     icon: Mic,
   },
   grammaire: {
     label: 'Grammaire',
-    tone: 'bg-[var(--color-amber-300)] text-white',
+    tone: 'bg-[var(--c-reward)] text-[var(--text-on-primary)]',
     softTone: 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
     icon: BrainCircuit,
   },
   langue: {
     label: 'Langue',
-    tone: 'bg-[var(--color-amber-300)] text-white',
+    tone: 'bg-[var(--c-reward)] text-[var(--text-on-primary)]',
     softTone: 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
     icon: BrainCircuit,
   },
   ecrit: {
     label: 'Écrit',
-    tone: 'bg-[var(--c-primary)] text-white',
+    tone: 'bg-[var(--c-primary)] text-[var(--text-on-primary)]',
     softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: PenTool,
   },
   lecture: {
     label: 'Lecture',
-    tone: 'bg-[var(--c-primary)] text-white',
+    tone: 'bg-[var(--c-primary)] text-[var(--text-on-primary)]',
     softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: BookOpen,
   },
   revisions: {
     label: 'Révisions',
-    tone: 'bg-[var(--c-primary)] text-white',
+    tone: 'bg-[var(--c-primary)] text-[var(--text-on-primary)]',
     softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: BookOpen,
   },
   fiches: {
     label: 'Fiches',
-    tone: 'bg-[var(--c-primary)] text-white',
+    tone: 'bg-[var(--c-primary)] text-[var(--text-on-primary)]',
     softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: BookOpen,
   },
   quiz: {
     label: 'Quiz',
-    tone: 'bg-[var(--c-primary)] text-white',
+    tone: 'bg-[var(--c-primary)] text-[var(--text-on-primary)]',
     softTone: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
     icon: Sparkles,
   },
   organisation: {
     label: 'Organisation',
-    tone: 'bg-[var(--color-amber-700)] text-white',
+    tone: 'bg-[var(--c-reward)] text-[var(--text-on-primary)]',
     softTone: 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
     icon: CalendarDays,
   },
@@ -290,20 +290,20 @@ export default function MonParcoursPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8 lg:p-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] p-6 md:p-8 lg:p-10">
         <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--color-indigo-400)] opacity-25" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 right-6 h-20 w-20 rounded-full bg-[var(--color-indigo-700)] opacity-40" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.04fr_0.96fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
+            <div className="hero-kicker">
               <MapIcon className="h-4 w-4" />
               Feuille de route Nexus
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               Ton parcours doit rendre la semaine lisible avant de la rendre ambitieuse.
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--color-slate-300)] sm:text-lg">
+            <p className="hero-body mt-5 max-w-3xl text-base leading-8 sm:text-lg">
               {profile?.displayName ? `${profile.displayName}, ` : ''}ici, le plan transforme le profil, l’historique de travail et les attendus
               officiels en blocs concrets: quoi lancer, dans quel ordre, et comment reprendre sans perdre le fil.
             </p>
@@ -311,14 +311,14 @@ export default function MonParcoursPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href={nextPendingTask?.lien ?? '/atelier-oral'}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-6 py-3.5 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="hero-primary-action px-6 py-3.5 text-sm"
               >
                 {nextPendingTask ? 'Lancer la prochaine activité' : 'Ouvrir un atelier'}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/dashboard"
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--bg-page)] transition-colors hover:bg-white/6"
+                className="hero-secondary-action px-6 py-3.5 text-sm"
               >
                 Retour au tableau de bord
               </Link>
@@ -332,13 +332,13 @@ export default function MonParcoursPage() {
               { label: 'Blocs cochés', value: `${completedActivities}`, icon: CheckCircle2 },
               { label: 'Avancement', value: `${completionPercent}%`, icon: Sparkles },
             ].map((item) => (
-              <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+              <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
+                  <div className="hero-icon-badge h-11 w-11">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">{item.label}</p>
+                    <p className="ui-stat-label">{item.label}</p>
                     <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                   </div>
                 </div>

@@ -34,8 +34,8 @@ const VARIANT_STYLES: Record<NoticeVariant, { shell: string; iconBox: string; te
   },
   error: {
     shell: 'border-[var(--border-accent)] bg-[var(--c-accent-subtle)]',
-    iconBox: 'bg-[var(--error-text)]/10 text-[var(--error-text)]',
-    text: 'text-[var(--text-reward-on-subtle)]',
+    iconBox: 'bg-[var(--c-accent)]/12 text-[var(--c-accent-text)]',
+    text: 'text-[var(--c-accent-text)]',
     defaultIcon: AlertTriangle,
   },
   loading: {
@@ -67,13 +67,15 @@ export function StateNotice({
   return (
     <div
       className={`rounded-[24px] border p-5 shadow-[var(--shadow-sm)] ${visual.shell} ${className}`}
+      role={variant === 'error' || variant === 'warning' ? 'alert' : 'status'}
+      aria-live={variant === 'error' || variant === 'warning' ? 'assertive' : 'polite'}
     >
       <div className={`flex gap-4 ${center ? 'flex-col items-center text-center' : 'items-start'}`}>
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${visual.iconBox}`}>
           <Icon className={`h-5 w-5 ${variant === 'loading' ? 'animate-spin' : ''}`} />
         </div>
         <div className={`min-w-0 flex-1 ${visual.text}`}>
-          <h3 className="text-base font-semibold text-[var(--c-primary)]">{title}</h3>
+          <h3 className="text-base font-semibold text-[var(--text-heading)]">{title}</h3>
           {description ? <p className="mt-1.5 text-sm leading-7">{description}</p> : null}
           {action ? <div className="mt-4">{action}</div> : null}
         </div>

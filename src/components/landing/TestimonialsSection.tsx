@@ -4,7 +4,7 @@ interface Testimonial {
   initials: string;
   name: string;
   school: string;
-  color: 'sapphire' | 'blue' | 'green';
+  color: 'brand' | 'info' | 'success';
   before: string;
   after: string;
   mention: string;
@@ -16,7 +16,7 @@ const testimonials: Testimonial[] = [
     initials: 'MK',
     name: 'Mehdi K.',
     school: 'Lycée Pierre Mendès France Tunis',
-    color: 'sapphire',
+    color: 'brand',
     before: '8/20',
     after: '16/20',
     mention: 'Mention Bien',
@@ -27,7 +27,7 @@ const testimonials: Testimonial[] = [
     initials: 'SL',
     name: 'Sarah L.',
     school: 'Lycée International Lyon',
-    color: 'blue',
+    color: 'info',
     before: '9/20',
     after: '14/20',
     mention: 'Mention AB',
@@ -38,7 +38,7 @@ const testimonials: Testimonial[] = [
     initials: 'YB',
     name: 'Youssef B.',
     school: 'Lycée Carthage Présidence Tunis',
-    color: 'green',
+    color: 'success',
     before: 'grammaire catastrophique',
     after: '0 faute',
     mention: '',
@@ -48,19 +48,19 @@ const testimonials: Testimonial[] = [
 ];
 
 const colorMap: Record<Testimonial['color'], { bg: string; text: string; badge: string }> = {
-  sapphire: { bg: 'bg-sapphire-50', text: 'text-sapphire-700', badge: 'bg-sapphire-50 text-sapphire-700' },
-  blue: { bg: 'bg-blue-100', text: 'text-blue-700', badge: 'bg-blue-100 text-blue-700' },
-  green: { bg: 'bg-green-100', text: 'text-green-700', badge: 'bg-green-100 text-green-700' },
+  brand: { bg: 'bg-brand-subtle', text: 'text-brand', badge: 'bg-brand-subtle text-brand' },
+  info: { bg: 'bg-[var(--info-bg)]', text: 'text-info', badge: 'bg-[var(--info-bg)] text-info' },
+  success: { bg: 'bg-success-subtle', text: 'text-success', badge: 'bg-success-subtle text-success' },
 };
 
 export function TestimonialsSection() {
   return (
-    <section className="bg-gray-50 py-14 sm:py-20">
+    <section className="bg-page py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
+        <h2 className="text-center text-2xl font-bold text-heading sm:text-3xl lg:text-4xl">
           Ils ont transformé leurs notes
         </h2>
-        <p className="mt-3 text-center text-gray-600">
+        <p className="mt-3 text-center text-body">
           Des résultats concrets, vérifiables, reproductibles.
         </p>
 
@@ -70,7 +70,7 @@ export function TestimonialsSection() {
             return (
               <div
                 key={t.initials}
-                className="flex min-w-[300px] shrink-0 flex-col rounded-2xl bg-white p-6 shadow-md snap-center sm:min-w-0 sm:shrink"
+                className="flex min-w-[300px] shrink-0 flex-col rounded-2xl bg-surface p-6 shadow-md snap-center sm:min-w-0 sm:shrink"
               >
                 {/* Avatar + name */}
                 <div className="flex items-center gap-3">
@@ -85,31 +85,31 @@ export function TestimonialsSection() {
                     {t.initials}
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900">{t.name}</p>
-                    <p className="text-sm text-gray-500">{t.school}</p>
+                    <p className="font-semibold text-heading">{t.name}</p>
+                    <p className="text-sm text-muted-foreground">{t.school}</p>
                   </div>
                 </div>
 
                 {/* Transformation badge */}
                 <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
-                  <span className="text-gray-400 line-through">{t.before}</span>
-                  <span className="text-gray-400">&rarr;</span>
+                  <span className="text-muted-foreground line-through">{t.before}</span>
+                  <span className="text-muted-foreground">&rarr;</span>
                   <span className={'rounded-full px-3 py-0.5 font-semibold ' + colors.badge}>
                     {t.after}
                   </span>
                   {t.mention && (
-                    <span className="text-xs font-medium text-gray-500">{t.mention}</span>
+                    <span className="text-xs font-medium text-muted-foreground">{t.mention}</span>
                   )}
                 </div>
 
                 {/* Quote */}
-                <blockquote className="mt-4 flex-1 text-sm italic text-gray-600">
+                <blockquote className="mt-4 flex-1 text-sm italic text-body">
                   &laquo;&nbsp;{t.quote}&nbsp;&raquo;
                 </blockquote>
 
                 {/* Stats footer */}
-                <div className="mt-4 border-t border-gray-100 pt-3">
-                  <p className="text-xs text-gray-500">
+                <div className="mt-4 border-t border-[var(--border-default)] pt-3">
+                  <p className="text-xs text-muted-foreground">
                     {t.before} &rarr; {t.after}
                   </p>
                 </div>

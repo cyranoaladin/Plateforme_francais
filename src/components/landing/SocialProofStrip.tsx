@@ -14,7 +14,7 @@ function StarIcon() {
 
 function TransformationBadge({ before, after }: { before: number; after: number }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-sapphire-100 bg-sapphire-50 px-3 py-1 text-sm font-semibold text-sapphire-700">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-primary)] bg-brand-subtle px-3 py-1 text-sm font-semibold text-brand">
       {before}/20 → {after}/20
     </span>
   );
@@ -22,27 +22,27 @@ function TransformationBadge({ before, after }: { before: number; after: number 
 
 export function SocialProofStrip() {
   return (
-    <section aria-label="Preuve sociale rapide" className="bg-white px-4 py-8 sm:px-6 sm:py-10">
+    <section aria-label="Preuve sociale rapide" className="bg-surface px-4 py-8 sm:px-6 sm:py-10">
       <div className="mx-auto max-w-2xl">
         {/* Badge global */}
         <div className="mb-6 flex justify-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-1.5 text-sm font-medium text-green-700">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border-success)] bg-success-subtle px-4 py-1.5 text-sm font-medium text-success">
             <StarIcon />
             98% de mention Assez Bien ou plus
           </span>
         </div>
 
         {/* Testimonial card */}
-        <blockquote className="rounded-2xl border border-gray-100 bg-gray-50 p-6">
-          <p className="text-lg font-medium italic leading-relaxed text-gray-800">
-            « J’avais peur de l’oral. Avec Nexus, j’ai fait 8 simulations réelles.
-            Le jour J, j’étais habitué au stress — le tuteur me guidait pour que
+        <blockquote className="rounded-2xl border border-[var(--border-default)] bg-page p-6">
+          <p className="text-lg font-medium italic leading-relaxed text-heading">
+            « J'avais peur de l'oral. Avec Nexus, j'ai fait 8 simulations réelles.
+            Le jour J, j'étais habitué au stress — le tuteur me guidait pour que
             JE trouve. Résultat : 16/20 et mention Bien. »
           </p>
           <footer className="mt-4 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <cite className="not-italic font-semibold text-gray-900">Mehdi K.</cite>
-              <span className="ml-2 text-sm text-gray-500">
+              <cite className="not-italic font-semibold text-heading">Mehdi K.</cite>
+              <span className="ml-2 text-sm text-muted-foreground">
                 Lycée Pierre Mendès France, Tunis
               </span>
             </div>

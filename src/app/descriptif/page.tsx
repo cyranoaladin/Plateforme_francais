@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, CheckCircle2, ClipboardList, Plus, ShieldCheck, Trash2 } from 'lucide-react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { StateNotice } from '@/components/ui/state-notice';
-import { Badge, Button } from '@/components/ui';
+import { Badge, Button, Input, Select, Surface } from '@/components/ui';
 
 type ObjetEtude = 'poesie' | 'roman' | 'theatre' | 'litterature_idees';
 type TypeExtrait = 'extrait_oeuvre' | 'extrait_parcours';
@@ -92,6 +92,7 @@ export default function DescriptifPage() {
   const [saving, setSaving] = useState(false);
   const [serverWarnings, setServerWarnings] = useState<string[]>([]);
   const [successMsg, setSuccessMsg] = useState('');
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const [formObjet, setFormObjet] = useState<ObjetEtude>('poesie');
   const [formOeuvreIdx, setFormOeuvreIdx] = useState(0);
@@ -112,7 +113,10 @@ export default function DescriptifPage() {
   const clientWarnings = useMemo(() => validateDescriptifClient(textes), [textes]);
 
   const addTexte = useCallback(() => {
-    if (!formTitre.trim()) return;
+    if (!formTitre.trim()) {
+      setSubmitError('Ajoute au minimum un titre de texte avant de l’insérer dans le descriptif.');
+      return;
+    }
     const oeuvreData = OEUVRES_PAR_OBJET[formObjet][formOeuvreIdx];
     if (!oeuvreData) return;
     const newTexte: DescriptifTexte = {
@@ -128,6 +132,7 @@ export default function DescriptifPage() {
     setFormTitre('');
     setFormPremieres('');
     setSuccessMsg('');
+    setSubmitError(null);
   }, [formObjet, formOeuvreIdx, formType, formTitre, formPremieres]);
 
   const removeTexte = useCallback((id: string) => {
@@ -138,6 +143,7 @@ export default function DescriptifPage() {
   const saveDescriptif = useCallback(async () => {
     setSaving(true);
     setSuccessMsg('');
+    setSubmitError(null);
     try {
       const response = await fetch('/api/v1/student/descriptif', {
         method: 'POST',
@@ -157,10 +163,20 @@ export default function DescriptifPage() {
       setServerWarnings(data.warnings ?? []);
       if (data.ok) setSuccessMsg(`${data.count} textes sauvegardés.`);
     } catch {
-      // Silent fail to preserve current behavior.
+      setSubmitError('La sauvegarde n’a pas abouti. Réessaie dans quelques instants.');
     }
     setSaving(false);
   }, [textes]);
+
+  const objetOptions = OBJETS_ETUDE.map((objet) => ({ value: objet.key, label: objet.label }));
+  const oeuvreOptions = OEUVRES_PAR_OBJET[formObjet].map((oeuvre, index) => ({
+    value: String(index),
+    label: `${oeuvre.oeuvre} — ${oeuvre.auteur}`,
+  }));
+  const typeOptions = [
+    { value: 'extrait_oeuvre', label: 'Extrait d’œuvre' },
+    { value: 'extrait_parcours', label: 'Extrait du parcours' },
+  ];
 
   const textesParObjet = useMemo(() => {
     const groups: Record<ObjetEtude, DescriptifTexte[]> = {
@@ -190,103 +206,134 @@ export default function DescriptifPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] px-6 py-7 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
+            <div className="hero-kicker">
               <ClipboardList className="h-4 w-4" />
               Mon Descriptif de lecture
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               Le descriptif doit devenir une carte de passage crédible pour l’oral, pas une simple liste remplie à la hâte.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
+            <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
               Répartis les textes par objet d’étude, équilibre œuvres et parcours, puis sauvegarde un descriptif cohérent avec le programme officiel et
               réellement pilotable pour l’oral.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-            <div className={`rounded-[24px] border px-4 py-4 backdrop-blur-sm ${textes.length >= 20 ? 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--c-success)]' : 'border-white/12 bg-white/10 text-white'}`}>
-              <p className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${textes.length >= 20 ? 'text-[var(--c-success)]' : 'text-[var(--color-amber-300)]'}`}>Textes</p>
+            <div className={`rounded-[24px] border px-4 py-4 backdrop-blur-sm ${textes.length >= 20 ? 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--c-success)]' : 'hero-glass-card text-white'}`}>
+              <p className={`ui-stat-label ${textes.length >= 20 ? 'text-[var(--c-success)]' : 'text-[var(--hero-kicker-text)]'}`}>Textes</p>
               <p className="mt-2 text-3xl font-semibold">{textes.length}/20</p>
             </div>
-            <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">Objets</p>
+            <div className="hero-glass-card rounded-[24px] px-4 py-4">
+              <p className="ui-stat-label text-[var(--hero-kicker-text)]">Objets</p>
               <p className="mt-2 text-3xl font-semibold text-white">4</p>
             </div>
-            <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">Statut</p>
+            <div className="hero-glass-card rounded-[24px] px-4 py-4">
+              <p className="ui-stat-label text-[var(--hero-kicker-text)]">Statut</p>
               <p className="mt-2 text-2xl font-semibold text-white">{clientWarnings.length === 0 ? 'Stable' : 'À compléter'}</p>
             </div>
           </div>
         </div>
       </section>
 
-      {clientWarnings.length > 0 && (
-        <div className="rounded-[24px] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-4">
-          <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-[var(--c-reward)]">
-            <AlertTriangle className="h-4 w-4" /> Règles non satisfaites
-          </h3>
-          <ul className="space-y-1 text-xs leading-6 text-[var(--text-reward-on-subtle)]">
-            {clientWarnings.map((warning, index) => <li key={index}>• {warning}</li>)}
-          </ul>
-        </div>
-      )}
+      {clientWarnings.length > 0 ? (
+        <StateNotice
+          title="Règles non satisfaites"
+          description={clientWarnings.join(' ')}
+          variant="warning"
+        />
+      ) : null}
 
-      {successMsg && (
-        <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-4 text-sm text-[var(--c-success)] flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4" /> {successMsg}
-        </div>
-      )}
+      {successMsg ? (
+        <StateNotice title="Descriptif enregistré" description={successMsg} variant="success" />
+      ) : null}
 
-      {serverWarnings.length > 0 && (
-        <div className="rounded-[24px] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-4">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[var(--c-reward)]">Avertissements serveur</p>
-          <ul className="space-y-1 text-xs leading-6 text-[var(--text-reward-on-subtle)]">
-            {serverWarnings.map((warning, index) => <li key={index}>• {warning}</li>)}
-          </ul>
-        </div>
-      )}
+      {serverWarnings.length > 0 ? (
+        <StateNotice
+          title="Avertissements serveur"
+          description={serverWarnings.join(' ')}
+          variant="warning"
+        />
+      ) : null}
+
+      {submitError ? (
+        <StateNotice title="Action impossible" description={submitError} variant="error" />
+      ) : null}
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
+          <Surface tone="default" padding="md">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Plus className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Ajouter un texte</p>
+                <p className="ui-kicker text-[var(--c-reward)]">Ajouter un texte</p>
                 <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Enrichir le descriptif
                 </h2>
               </div>
             </div>
 
-            <div className="mt-6 space-y-3">
-              <select value={formObjet} onChange={(event) => { setFormObjet(event.target.value as ObjetEtude); setFormOeuvreIdx(0); }} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20">
-                {OBJETS_ETUDE.map((objet) => <option key={objet.key} value={objet.key}>{objet.label}</option>)}
-              </select>
-              <select value={formOeuvreIdx} onChange={(event) => setFormOeuvreIdx(Number(event.target.value))} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20">
-                {OEUVRES_PAR_OBJET[formObjet].map((oeuvre, index) => <option key={index} value={index}>{oeuvre.oeuvre} — {oeuvre.auteur}</option>)}
-              </select>
-              <select value={formType} onChange={(event) => setFormType(event.target.value as TypeExtrait)} className="w-full appearance-none rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20">
-                <option value="extrait_oeuvre">Extrait d{'\u2019'}œuvre</option>
-                <option value="extrait_parcours">Extrait du parcours</option>
-              </select>
-              <input value={formTitre} onChange={(event) => setFormTitre(event.target.value)} placeholder="Titre du texte (ex : Acte I, scène 1)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20" />
-              <input value={formPremieres} onChange={(event) => setFormPremieres(event.target.value)} placeholder="Premières lignes (optionnel)" className="w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20" />
+            <div className="mt-6 space-y-3" aria-describedby="descriptif-form-help">
+              <Select
+                id="descriptif-objet"
+                label="Objet d’étude"
+                value={formObjet}
+                onChange={(event) => {
+                  setFormObjet(event.target.value as ObjetEtude);
+                  setFormOeuvreIdx(0);
+                }}
+                options={objetOptions}
+              />
+              <Select
+                id="descriptif-oeuvre"
+                label="Œuvre"
+                value={String(formOeuvreIdx)}
+                onChange={(event) => setFormOeuvreIdx(Number(event.target.value))}
+                options={oeuvreOptions}
+              />
+              <Select
+                id="descriptif-type"
+                label="Type d’extrait"
+                value={formType}
+                onChange={(event) => setFormType(event.target.value as TypeExtrait)}
+                options={typeOptions}
+              />
+              <Input
+                id="descriptif-titre"
+                label="Titre du texte"
+                value={formTitre}
+                onChange={(event) => setFormTitre(event.target.value)}
+                placeholder="Ex : Acte I, scène 1"
+                error={submitError && !formTitre.trim() ? submitError : undefined}
+                autoComplete="off"
+              />
+              <Input
+                id="descriptif-premieres"
+                label="Premières lignes"
+                value={formPremieres}
+                onChange={(event) => setFormPremieres(event.target.value)}
+                placeholder="Optionnel"
+                hint="Laisse vide si tu ne veux pas enregistrer d’amorce."
+                autoComplete="off"
+              />
+              <p id="descriptif-form-help" className="ui-helper-text">
+                Chaque entrée ajoute un texte à la structure officielle. Le titre est obligatoire.
+              </p>
               <Button onClick={addTexte} disabled={!formTitre.trim()} icon={<Plus className="h-4 w-4" />} size="md" className="w-full">
                 Ajouter ce texte
               </Button>
             </div>
-          </section>
+          </Surface>
 
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
+          <Surface tone="success" padding="md">
             <div className="flex items-start gap-3">
               <ShieldCheck className="mt-1 h-5 w-5 text-[var(--c-success)]" />
               <div>
@@ -297,7 +344,7 @@ export default function DescriptifPage() {
                 </p>
               </div>
             </div>
-          </section>
+          </Surface>
         </aside>
 
         <section className="space-y-6">
@@ -305,13 +352,13 @@ export default function DescriptifPage() {
             {OBJETS_ETUDE.map((objet) => {
               const count = textesParObjet[objet.key].length;
               return (
-                <div key={objet.key} className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
+                <Surface key={objet.key} tone="default" padding="md">
                   <p className="text-sm font-semibold text-[var(--c-primary)]">{objet.label}</p>
                   <p className="mt-3 text-3xl font-semibold text-[var(--c-primary)]">{count}</p>
                   <Badge variant={count >= 5 ? 'success' : 'warning'} size="sm" className="mt-3">
                     {count}/5
                   </Badge>
-                </div>
+                </Surface>
               );
             })}
           </div>
@@ -321,7 +368,7 @@ export default function DescriptifPage() {
               const items = textesParObjet[objet.key];
               const count = items.length;
               return (
-                <section key={objet.key} className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
+                <Surface key={objet.key} tone="default" padding="md">
                   <div className="flex items-center justify-between gap-3">
                     <h2 className="text-xl font-semibold text-[var(--c-primary)]">{objet.label}</h2>
                     <Badge variant={count >= 5 ? 'success' : 'warning'} size="sm">
@@ -353,7 +400,7 @@ export default function DescriptifPage() {
                       ))}
                     </div>
                   )}
-                </section>
+                </Surface>
               );
             })}
           </div>

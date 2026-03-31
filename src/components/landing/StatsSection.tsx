@@ -88,19 +88,19 @@ function AnimatedNumber({ stat }: { stat: Stat }) {
   }, [stat.value, stat.decimals]);
 
   return (
-    <div ref={ref} className="rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm">
-      <p className="tabular-nums text-4xl font-bold text-sapphire-700">
+    <div ref={ref} className="rounded-2xl border border-[var(--border-default)] bg-surface p-6 text-center shadow-sm">
+      <p className="tabular-nums text-4xl font-bold text-brand">
         {stat.prefix}{display}{stat.unit}
       </p>
-      <p className="mt-2 text-base font-medium text-gray-800">{stat.label}</p>
-      <p className="mt-1 text-sm text-gray-500">{stat.sub}</p>
+      <p className="mt-2 text-base font-medium text-heading">{stat.label}</p>
+      <p className="mt-1 text-sm text-muted-foreground">{stat.sub}</p>
     </div>
   );
 }
 
 export function StatsSection() {
   return (
-    <section className="bg-gray-50 px-4 py-12 sm:px-6 sm:py-16" aria-label="Résultats mesurables">
+    <section className="bg-page px-4 py-12 sm:px-6 sm:py-16" aria-label="Résultats mesurables">
       <div className="mx-auto max-w-4xl">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           {STATS.map((stat) => (

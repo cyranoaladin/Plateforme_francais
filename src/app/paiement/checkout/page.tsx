@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
+import { StateNotice, Surface } from '@/components/ui';
 
 type PlanKey = 'PREMIUM' | 'MASTERIUM';
 type PaymentMethod = 'virement' | 'espèces';
@@ -90,7 +91,7 @@ export default function CheckoutPage() {
           </p>
           <Link
             href="/pricing"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-2.5 text-sm font-semibold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-2.5 text-sm font-semibold text-[var(--text-on-primary)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
           >
             <ArrowLeft className="h-4 w-4" />
             Voir les plans
@@ -135,7 +136,7 @@ export default function CheckoutPage() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[var(--bg-surface-secondary)] px-4 py-12">
         <div className="mx-auto max-w-lg text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success-subtle text-success">
             <CheckCircle2 className="h-8 w-8" />
           </div>
 
@@ -146,7 +147,7 @@ export default function CheckoutPage() {
             Commande enregistrée
           </h1>
 
-          <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 text-left shadow-[var(--shadow-md)]">
+          <Surface tone="default" padding="md" className="mt-6 text-left">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">
@@ -179,7 +180,7 @@ export default function CheckoutPage() {
             <p className="text-sm leading-7 text-[var(--text-body)]">
               {order.instructions}
             </p>
-          </div>
+          </Surface>
 
           <p className="mt-4 text-xs text-[var(--text-muted)]">
             Ton abonnement sera activé dès réception et vérification du paiement par
@@ -189,7 +190,7 @@ export default function CheckoutPage() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/dashboard"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3 text-sm font-semibold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3 text-sm font-semibold text-[var(--text-on-primary)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
             >
               Retour au tableau de bord
               <ArrowRight className="h-4 w-4" />
@@ -226,7 +227,7 @@ export default function CheckoutPage() {
         </h1>
 
         {/* Plan summary */}
-        <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 shadow-[var(--shadow-md)]">
+        <Surface tone="default" padding="md" className="mt-8">
           <div className="flex items-baseline justify-between">
             <h2
               style={EDITORIAL_HEADING}
@@ -249,7 +250,7 @@ export default function CheckoutPage() {
               </li>
             ))}
           </ul>
-        </div>
+        </Surface>
 
         {/* Payment methods */}
         <h2
@@ -259,11 +260,11 @@ export default function CheckoutPage() {
           Choisis ton moyen de paiement
         </h2>
 
-        {error && (
-          <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
+        {error ? (
+          <div className="mt-4">
+            <StateNotice title="Paiement non initié" description={error} variant="error" />
           </div>
-        )}
+        ) : null}
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {/* Virement */}

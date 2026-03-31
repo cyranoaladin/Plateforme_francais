@@ -140,9 +140,9 @@ const BADGE_STYLES = [
 ];
 
 const PRIORITY_STYLE = {
-  high: 'border-[var(--border-reward)] bg-[var(--bg-reward)] text-[var(--text-reward-on-subtle)]',
-  medium: 'border-[var(--border-primary)] bg-[var(--bg-primary)] text-[var(--text-primary-on-subtle)]',
-  low: 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--text-success-on-subtle)]',
+  high: 'border-[var(--border-reward)] bg-[color-mix(in_srgb,var(--color-amber-400)_18%,transparent)] text-[var(--color-amber-200)]',
+  medium: 'border-[var(--border-primary)] bg-[color-mix(in_srgb,var(--color-indigo-300)_16%,transparent)] text-[var(--color-indigo-100)]',
+  low: 'border-[var(--border-success)] bg-[color-mix(in_srgb,var(--color-emerald-400)_16%,transparent)] text-[var(--color-emerald-100)]',
 };
 
 const CLASS_LEVEL_OPTIONS = [
@@ -422,35 +422,35 @@ export default function ProfilPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8 lg:p-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] p-6 md:p-8 lg:p-10">
         <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--color-indigo-400)] opacity-25" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 right-6 h-20 w-20 rounded-full bg-[var(--color-indigo-700)] opacity-40" />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
+            <div className="hero-kicker">
               <ShieldCheck className="h-4 w-4" />
               Profil de progression EAF
             </div>
             <h1 style={EDITORIAL_HEADING} className="mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               {displayName}, ton profil doit te dire où appuyer, pas seulement où tu en es.
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--color-slate-300)] sm:text-lg">
+            <p className="hero-body mt-5 max-w-3xl text-base leading-8 sm:text-lg">
               Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges
               déjà acquis.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
+              <span className="hero-chip">
                 Niveau moyen{'\u00a0'}: <strong>{formatScoreLabel(averageScore)}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
+              <span className="hero-chip">
                 Point fort{'\u00a0'}: <strong>{hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
+              <span className="hero-chip">
                 Axe à retendre{'\u00a0'}: <strong>{hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>
               </span>
-              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2 text-[var(--color-slate-300)]">
+              <span className="hero-chip">
                 Mise à jour{'\u00a0'}: <strong>{resolvedProfile.skillMap.lastUpdated ? formatShortDate(resolvedProfile.skillMap.lastUpdated) : 'Diagnostic à lancer'}</strong>
               </span>
             </div>
@@ -458,14 +458,14 @@ export default function ProfilPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-6 py-3.5 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white"
+                className="hero-primary-action px-6 py-3.5 text-sm"
               >
                 Ouvrir mon parcours
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={tutorHref}
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-6 py-3.5 text-sm font-semibold text-[var(--bg-page)] transition-colors hover:bg-white/6"
+                className="hero-secondary-action px-6 py-3.5 text-sm"
               >
                 Débloquer un point précis
               </Link>
@@ -479,23 +479,23 @@ export default function ProfilPage() {
               { label: 'Copies', value: `${resolvedProfile.totalCopies}`, icon: CheckCircle2 },
               { label: 'Badges', value: `${resolvedProfile.badges.length}`, icon: Award },
             ].map((item) => (
-              <div key={item.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+              <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
                 <div className="flex items-center gap-3">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
+                  <div className="hero-icon-badge h-11 w-11">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">{item.label}</p>
+                    <p className="ui-stat-label">{item.label}</p>
                     <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
                   </div>
                 </div>
               </div>
             ))}
 
-            <div className="sm:col-span-2 rounded-[24px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Signal global</p>
+            <div className="hero-glass-card sm:col-span-2 rounded-[24px] p-5">
+              <p className="ui-stat-label text-[var(--hero-kicker-text)]">Signal global</p>
               <p className="mt-3 text-2xl font-semibold text-white">{profileSignal.label}</p>
-              <p className="mt-2 text-sm leading-7 text-[var(--color-slate-300)]">{profileSignal.detail}</p>
+              <p className="hero-body mt-2 text-sm leading-7">{profileSignal.detail}</p>
             </div>
           </div>
         </div>
@@ -589,7 +589,8 @@ export default function ProfilPage() {
                       ? 'text-[var(--c-success)]'
                       : 'text-[var(--error)]'
                   }`}
-                  role="status"
+                  role={saveFeedback.tone === 'success' ? 'status' : 'alert'}
+                  aria-live={saveFeedback.tone === 'success' ? 'polite' : 'assertive'}
                 >
                   {saveFeedback.message}
                 </p>
@@ -697,7 +698,7 @@ export default function ProfilPage() {
             )}
           </Card>
 
-          <Card variant="dark" className="rounded-[24px] border border-[var(--c-primary)] shadow-[var(--shadow-md)]" padding="md">
+          <Card variant="dark" className="hero-premium-panel rounded-[24px] border-[var(--hero-surface-border)] shadow-[var(--shadow-md)]" padding="md">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">72 prochaines heures</p>
             <h2 style={EDITORIAL_HEADING} className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
               Les prochaines tâches doivent être courtes, claires et immédiatement lançables.
@@ -711,7 +712,7 @@ export default function ProfilPage() {
                       <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${PRIORITY_STYLE[task.priority]}`}>
                         {task.priority === 'high' ? 'Haute' : task.priority === 'medium' ? 'Moyenne' : 'Faible'}
                       </Badge>
-                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-slate-300)]">
+                      <span className="hero-body-muted text-xs font-semibold uppercase tracking-[0.16em]">
                         {task.estimatedMinutes} min · {formatShortDate(task.dueDate)}
                       </span>
                     </div>
@@ -721,10 +722,10 @@ export default function ProfilPage() {
               ) : (
                 <div className="flex flex-col items-center gap-3 rounded-[24px] border border-white/10 bg-white/8 p-6 text-center backdrop-blur-sm">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                    <Target className="h-5 w-5 text-[var(--color-slate-300)]" />
+                    <Target className="hero-body-muted h-5 w-5" />
                   </div>
                   <p className="text-sm font-semibold text-white">Pas encore de tâches planifiées</p>
-                  <p className="max-w-sm text-sm leading-7 text-[var(--color-slate-300)]">
+                  <p className="hero-body max-w-sm text-sm leading-7">
                     Ouvre ton parcours ou lance un atelier pour que les prochaines actions concrètes apparaissent ici.
                   </p>
                 </div>
@@ -741,7 +742,7 @@ export default function ProfilPage() {
               </Link>
               <Link
                 href={tutorHref}
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-5 py-3 text-sm font-semibold text-[var(--bg-page)] transition-colors hover:bg-white/6"
+                className="inline-flex items-center justify-center rounded-full border border-white/14 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/6"
               >
                 Demander une relance
               </Link>

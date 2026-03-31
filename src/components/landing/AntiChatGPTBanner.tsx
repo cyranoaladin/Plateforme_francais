@@ -22,7 +22,7 @@ const NEXUS_ITEMS = [
 
 function XIcon() {
   return (
-    <svg className="mt-0.5 h-4 w-4 shrink-0 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <svg className="mt-0.5 h-4 w-4 shrink-0 text-error" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
     </svg>
   );
@@ -30,7 +30,7 @@ function XIcon() {
 
 function CheckIcon() {
   return (
-    <svg className="mt-0.5 h-4 w-4 shrink-0 text-sapphire-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <svg className="mt-0.5 h-4 w-4 shrink-0 text-brand" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
     </svg>
   );
@@ -59,7 +59,7 @@ function ComparisonColumn({
         {items.map((item, i) => (
           <div key={i} className="flex items-start gap-3">
             <Icon />
-            <span className="text-sm leading-snug text-gray-300">{item}</span>
+            <span className="text-sm leading-snug text-slate-300">{item}</span>
           </div>
         ))}
       </div>
@@ -71,16 +71,16 @@ export function AntiChatGPTBanner() {
   return (
     <section className="bg-ink-950 px-4 py-14 sm:py-20" aria-label="Pourquoi pas ChatGPT ?">
       <div className="mx-auto max-w-4xl">
-        <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-sapphire-500">
+        <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-brand">
           Pourquoi pas ChatGPT ?
         </p>
 
         <h2 className="mb-6 text-center text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
           ChatGPT rédige.{' '}
-          <span className="text-sapphire-500">Nexus t&apos;apprend.</span>
+          <span className="text-brand">Nexus t&apos;apprend.</span>
         </h2>
 
-        <p className="mx-auto mb-12 max-w-2xl text-center text-base leading-relaxed text-gray-300 sm:text-lg">
+        <p className="mx-auto mb-12 max-w-2xl text-center text-base leading-relaxed text-slate-300 sm:text-lg">
           Un élève qui copie-colle ChatGPT est immédiatement repéré
           par le correcteur — et sanctionné. Nexus ne rédige jamais :
           il pose des questions, cite les sources officielles, et te
@@ -96,7 +96,7 @@ export function AntiChatGPTBanner() {
         <div className="text-center">
           <Link
             href={ROUTES.register}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sapphire-700 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-sapphire-700/30 transition-colors hover:bg-sapphire-600 sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30 transition-colors hover:bg-brand-hover sm:w-auto"
           >
             Essayer gratuitement — sans carte bancaire →
           </Link>

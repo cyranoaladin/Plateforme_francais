@@ -39,7 +39,7 @@ export function StickyNav() {
       <div
         className={`pointer-events-auto mx-auto flex max-w-6xl items-center justify-between rounded-[22px] border px-4 py-2.5 transition-all duration-300 ease-out sm:px-5 sm:py-3 ${
           scrolled
-            ? 'border-slate-200/80 bg-white/92 shadow-[0_10px_30px_rgba(15,23,42,0.10)] backdrop-blur-xl'
+            ? 'border-[var(--border-default)] bg-surface/92 shadow-[0_10px_30px_rgba(15,23,42,0.10)] backdrop-blur-xl'
             : 'border-white/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.08))] shadow-[0_12px_40px_rgba(2,6,23,0.22)] backdrop-blur-lg'
         }`}
       >
@@ -55,14 +55,14 @@ export function StickyNav() {
           <div className="min-w-0">
             <span
               className={`block truncate font-[family:var(--font-display)] leading-none tracking-[0.01em] transition-colors duration-300 ${
-                scrolled ? 'text-[1.15rem] text-slate-900' : 'text-[1.2rem] text-white'
+                scrolled ? 'text-[1.15rem] text-heading' : 'text-[1.2rem] text-white'
               }`}
             >
               {STICKY_NAV_COPY.brand}
             </span>
             <span
               className={`mt-1 hidden text-[0.66rem] font-semibold uppercase tracking-[0.22em] sm:block ${
-                scrolled ? 'text-slate-500' : 'text-white/62'
+                scrolled ? 'text-muted-foreground' : 'text-white/62'
               }`}
             >
               {STICKY_NAV_COPY.sublabel}
@@ -75,7 +75,7 @@ export function StickyNav() {
             href="#ateliers"
             className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
               scrolled
-                ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                ? 'text-body hover:bg-surface-secondary hover:text-heading'
                 : 'text-white/80 hover:bg-white/10 hover:text-white'
             }`}
           >
@@ -85,7 +85,7 @@ export function StickyNav() {
             href="#tarifs"
             className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
               scrolled
-                ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                ? 'text-body hover:bg-surface-secondary hover:text-heading'
                 : 'text-white/80 hover:bg-white/10 hover:text-white'
             }`}
           >
@@ -95,7 +95,7 @@ export function StickyNav() {
             href={ROUTES.login}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
               scrolled
-                ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                ? 'text-body hover:bg-surface-secondary hover:text-heading'
                 : 'text-white/80 hover:bg-white/10 hover:text-white'
             }`}
           >
@@ -105,7 +105,7 @@ export function StickyNav() {
             href={ROUTES.register}
             className={`ml-2 inline-flex items-center rounded-full border px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 ${
               scrolled
-                ? 'border-sapphire-800 bg-sapphire-700 shadow-[0_10px_24px_rgba(67,56,202,0.24)] hover:bg-sapphire-600 hover:shadow-[0_14px_30px_rgba(67,56,202,0.28)]'
+                ? 'border-[var(--color-indigo-800)] bg-brand shadow-[0_10px_24px_rgba(67,56,202,0.24)] hover:bg-brand-hover hover:shadow-[0_14px_30px_rgba(67,56,202,0.28)]'
                 : 'border-white/16 bg-[linear-gradient(135deg,rgba(99,102,241,0.96),rgba(67,56,202,0.96))] shadow-[0_14px_34px_rgba(67,56,202,0.28)] hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(67,56,202,0.34)]'
             }`}
           >
@@ -117,7 +117,7 @@ export function StickyNav() {
           href={ROUTES.register}
           className={`inline-flex items-center rounded-full border px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 md:hidden ${
             scrolled
-              ? 'border-sapphire-800 bg-sapphire-700 shadow-[0_10px_24px_rgba(67,56,202,0.24)]'
+              ? 'border-[var(--color-indigo-800)] bg-brand shadow-[0_10px_24px_rgba(67,56,202,0.24)]'
               : 'border-white/16 bg-[linear-gradient(135deg,rgba(99,102,241,0.96),rgba(67,56,202,0.96))] shadow-[0_14px_34px_rgba(67,56,202,0.28)]'
           }`}
           aria-label={STICKY_NAV_COPY.mobileCtaAria}
