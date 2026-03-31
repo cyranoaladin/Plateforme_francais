@@ -53,7 +53,19 @@ describe('GET /api/v1/epreuves/{epreuveId}/copie/{copieId}', () => {
       epreuveId: 'ep-1',
       userId: 'user-1',
       status: 'done',
-      correction: { score: 14 },
+      correction: {
+        note: 14,
+        mention: 'Bien',
+        bilan: {
+          global: 'Copie solide.',
+          points_forts: ['Analyse précise'],
+          axes_amelioration: ['Mieux développer la conclusion'],
+        },
+        rubriques: [],
+        annotations: [],
+        corrige_type: 'commentaire',
+        conseil_final: 'Continuez.',
+      },
       ocrText: 'Texte extrait',
       createdAt: '2026-01-10',
       correctedAt: '2026-01-10',
@@ -66,7 +78,42 @@ describe('GET /api/v1/epreuves/{epreuveId}/copie/{copieId}', () => {
     const body = await res!.json();
     expect(body.copieId).toBe('copie-1');
     expect(body.status).toBe('done');
-    expect(body.correction).toEqual({ score: 14 });
+    expect(body.correction).toEqual(
+      expect.objectContaining({
+        note: 14,
+        mention: 'Bien',
+        bilan: expect.objectContaining({
+          global: 'Copie solide.',
+        }),
+      }),
+    );
+  });
+
+  it('normalise une correction partielle pour garantir un bilan exploitable', async () => {
+    const { findEpreuveById, findCopieById } = await import('@/lib/epreuves/repository');
+    vi.mocked(findEpreuveById).mockResolvedValue({ id: 'ep-1', userId: 'user-1' } as never);
+    vi.mocked(findCopieById).mockResolvedValue({
+      id: 'copie-2',
+      epreuveId: 'ep-1',
+      userId: 'user-1',
+      status: 'done',
+      correction: {
+        note: 11,
+        rubriques: [{ titre: 'Analyse', note: 5, max: 8 }],
+      },
+      ocrText: 'Texte extrait',
+      createdAt: '2026-01-10',
+      correctedAt: '2026-01-10',
+    } as never);
+
+    const { GET } = await import('@/app/api/v1/epreuves/[epreuveId]/copie/[copieId]/route');
+    const req = new Request('http://localhost/api/v1/epreuves/ep-1/copie/copie-2');
+    const res = await GET(req, { params: Promise.resolve({ epreuveId: 'ep-1', copieId: 'copie-2' }) });
+    expect(res!.status).toBe(200);
+    const body = await res!.json();
+    expect(body.correction.mention).toBe('Passable');
+    expect(body.correction.bilan.global).toEqual(expect.any(String));
+    expect(body.correction.bilan.axes_amelioration.length).toBeGreaterThan(0);
   });
 
   it('masque un texte OCR technique dans la réponse utilisateur', async () => {

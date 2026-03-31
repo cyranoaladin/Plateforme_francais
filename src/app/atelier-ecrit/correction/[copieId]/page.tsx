@@ -4,9 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { AlertTriangle, Download, Flame, Loader2, Quote, Sparkles, Target } from 'lucide-react';
 import { mapAnnotationsToRegions } from '@/lib/correction/annotation-mapper';
+import { normalizeCorrectionPayload } from '@/lib/correction/normalize-correction';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { Button } from '@/components/ui';
-import { StateNotice } from '@/components/ui/state-notice';
+import { StateNotice } from '@/components/ui';
 
 type CorrectionPayload = {
   copieId: string;
@@ -36,10 +37,6 @@ type CorrectionPayload = {
     corrige_type: string;
     conseil_final: string;
   } | null;
-};
-
-const EDITORIAL_HEADING = {
-  fontFamily: "var(--font-display)",
 };
 
 const PROCESSING_STEPS = ['Lecture de la copie...', 'Analyse littéraire...', 'Rédaction du bilan...'];
@@ -108,7 +105,7 @@ export default function CorrectionCopiePage() {
     return () => clearInterval(id);
   }, [payload]);
 
-  const correction = payload?.correction;
+  const correction = useMemo(() => normalizeCorrectionPayload(payload?.correction), [payload?.correction]);
   const note = correction?.note ?? 0;
   const imageUrl = payload ? `/api/v1/epreuves/copies/${payload.copieId}/file` : null;
   const isImageCopy = Boolean(payload?.fileType?.startsWith('image/'));
@@ -148,7 +145,7 @@ export default function CorrectionCopiePage() {
               <Sparkles className="h-4 w-4" />
               Rapport en préparation
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-5 text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl">
+            <h1 className="font-display mt-5 text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl">
               Le rapport de correction est en train d’être composé.
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
@@ -212,7 +209,7 @@ export default function CorrectionCopiePage() {
               <Sparkles className="h-4 w-4" />
               Rapport de correction
             </div>
-            <h1 style={EDITORIAL_HEADING} className="mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
               La copie est relue comme un objet de progression, pas comme une simple note finale.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-slate-300)] md:text-base">
@@ -247,7 +244,7 @@ export default function CorrectionCopiePage() {
               </div>
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Vue d’ensemble</p>
-                <h2 style={EDITORIAL_HEADING} className="mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
                   Bilan global
                 </h2>
               </div>

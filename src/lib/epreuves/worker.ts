@@ -2,6 +2,7 @@ import { corrigerCopie } from '@/lib/correction/correcteur';
 import { createEvaluation } from '@/lib/db/repositories/evaluationRepo';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { extractTextFromCopie, isOcrFailureText } from '@/lib/correction/ocr';
+import { normalizeCorrectionPayload } from '@/lib/correction/normalize-correction';
 import {
   findCopieById,
   findEpreuveById,
@@ -55,12 +56,16 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
       return;
     }
 
-    const correction = await corrigerCopie({
+    const correction = normalizeCorrectionPayload(await corrigerCopie({
       texteOCR: ocrText,
       sujet: epreuve.sujet,
       typeEpreuve: epreuve.type,
       userId: copie.userId,
-    });
+    }));
+
+    if (!correction) {
+      throw new Error('Correction indisponible après normalisation.');
+    }
 
     await updateCopieStatus({
       copieId,

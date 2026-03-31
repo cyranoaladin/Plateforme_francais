@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { getUserSafeOcrText } from '@/lib/correction/ocr';
+import { normalizeCorrectionPayload } from '@/lib/correction/normalize-correction';
 import { findCopieById, findEpreuveById } from '@/lib/epreuves/repository';
 
 const COPIE_STATUS_API_MESSAGES = {
@@ -33,7 +34,7 @@ export async function GET(
     {
       copieId: copie.id,
       status: copie.status,
-      correction: copie.correction,
+      correction: normalizeCorrectionPayload(copie.correction),
       ocrText: getUserSafeOcrText(copie.ocrText),
       fileType: copie.fileType,
       createdAt: copie.createdAt,

@@ -82,6 +82,43 @@ describe('GET /api/v1/epreuves/copies/{copieId}/report', () => {
     expect(response.headers.get('Content-Type')).toBe('application/pdf');
   });
 
+  it('normalizes a partial finished correction before rendering the PDF', async () => {
+    const { findCopieById, findEpreuveById } = await import('@/lib/epreuves/repository');
+    vi.mocked(findCopieById).mockResolvedValue({
+      id: 'copie-partial',
+      epreuveId: 'ep-1',
+      userId: 'user-1',
+      status: 'done',
+      filePath: '/tmp/copie.pdf',
+      fileType: 'application/pdf',
+      ocrText: 'Texte',
+      correction: {
+        note: 9,
+        rubriques: [{ titre: 'Expression', note: 2, max: 4 }],
+      },
+      createdAt: '2026-03-24T10:00:00.000Z',
+      correctedAt: '2026-03-24T10:10:00.000Z',
+    } as never);
+    vi.mocked(findEpreuveById).mockResolvedValue({
+      id: 'ep-1',
+      userId: 'user-1',
+      type: 'commentaire',
+      sujet: 'Sujet test',
+      texte: 'Texte',
+      consignes: 'Consignes',
+      bareme: {},
+      generatedAt: '2026-03-24T09:00:00.000Z',
+    } as never);
+
+    const { GET } = await import('@/app/api/v1/epreuves/copies/[copieId]/report/route');
+    const response = await GET(new Request('http://localhost/api/v1/epreuves/copies/copie-partial/report'), {
+      params: Promise.resolve({ copieId: 'copie-partial' }),
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('Content-Type')).toBe('application/pdf');
+  });
+
   it('returns 404 when the copy is in error even if an error payload exists', async () => {
     const { findCopieById } = await import('@/lib/epreuves/repository');
     vi.mocked(findCopieById).mockResolvedValue({

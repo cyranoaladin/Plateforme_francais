@@ -1,22 +1,14 @@
 import { renderToBuffer } from '@react-pdf/renderer';
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { normalizeCorrectionPayload } from '@/lib/correction/normalize-correction';
 import { findCopieById, findEpreuveById } from '@/lib/epreuves/repository';
 import { CorrectionReportPdf } from '@/lib/epreuves/report-pdf';
-import { type CorrectionJson } from '@/lib/epreuves/types';
 
 const COPIE_REPORT_MESSAGES = {
   unavailable: 'Rapport indisponible.',
   resourceUnavailable: 'Ressource non disponible.',
 } as const;
-
-function hasRenderableCorrection(correction: CorrectionJson | Record<string, unknown> | null | undefined): correction is CorrectionJson {
-  return !!correction
-    && typeof correction === 'object'
-    && typeof (correction as CorrectionJson).note === 'number'
-    && typeof (correction as CorrectionJson).mention === 'string'
-    && typeof (correction as CorrectionJson).bilan?.global === 'string';
-}
 
 /**
  * GET /api/v1/epreuves/copies/{copieId}/report
@@ -33,11 +25,12 @@ export async function GET(
 
   const { copieId } = await params;
   const copie = await findCopieById(copieId);
+  const correction = normalizeCorrectionPayload(copie?.correction);
   if (
     !copie
     || copie.userId !== auth.user.id
     || copie.status !== 'done'
-    || !hasRenderableCorrection(copie.correction)
+    || !correction
   ) {
     return NextResponse.json({ error: COPIE_REPORT_MESSAGES.unavailable }, { status: 404 });
   }
@@ -47,7 +40,7 @@ export async function GET(
     return NextResponse.json({ error: COPIE_REPORT_MESSAGES.resourceUnavailable }, { status: 404 });
   }
 
-  const buffer = await renderToBuffer(CorrectionReportPdf({ copie, epreuve }));
+  const buffer = await renderToBuffer(CorrectionReportPdf({ copie: { ...copie, correction }, epreuve }));
   const body = new Uint8Array(buffer);
 
   return new NextResponse(body, {
