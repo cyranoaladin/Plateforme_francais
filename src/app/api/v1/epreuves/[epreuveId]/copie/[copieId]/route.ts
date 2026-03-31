@@ -34,7 +34,7 @@ export async function GET(
     {
       copieId: copie.id,
       status: copie.status,
-      correction: normalizeCorrectionPayload(copie.correction),
+      correction: copie.status === 'done' ? normalizeCorrectionPayload(copie.correction) : copie.correction,
       ocrText: getUserSafeOcrText(copie.ocrText),
       fileType: copie.fileType,
       createdAt: copie.createdAt,

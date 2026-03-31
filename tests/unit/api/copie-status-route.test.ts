@@ -138,6 +138,34 @@ describe('GET /api/v1/epreuves/{epreuveId}/copie/{copieId}', () => {
     expect(body.ocrText).toBeNull();
   });
 
+  it("préserve un payload d'erreur sans le normaliser en faux bilan", async () => {
+    const { findEpreuveById, findCopieById } = await import('@/lib/epreuves/repository');
+    vi.mocked(findEpreuveById).mockResolvedValue({ id: 'ep-1', userId: 'user-1' } as never);
+    vi.mocked(findCopieById).mockResolvedValue({
+      id: 'copie-error',
+      epreuveId: 'ep-1',
+      userId: 'user-1',
+      status: 'error',
+      correction: {
+        errorMessage: "Nous n'avons pas réussi à lire automatiquement cette copie.",
+      },
+      ocrText: null,
+      createdAt: '2026-01-10',
+      correctedAt: '2026-01-10',
+    } as never);
+
+    const { GET } = await import('@/app/api/v1/epreuves/[epreuveId]/copie/[copieId]/route');
+    const req = new Request('http://localhost/api/v1/epreuves/ep-1/copie/copie-error');
+    const res = await GET(req, { params: Promise.resolve({ epreuveId: 'ep-1', copieId: 'copie-error' }) });
+    expect(res!.status).toBe(200);
+    const body = await res!.json();
+    expect(body.status).toBe('error');
+    expect(body.correction).toEqual({
+      errorMessage: "Nous n'avons pas réussi à lire automatiquement cette copie.",
+    });
+    expect(body.correction.note).toBeUndefined();
+  });
+
   it('retourne 404 si épreuve introuvable', async () => {
     const { findEpreuveById, findCopieById } = await import('@/lib/epreuves/repository');
     vi.mocked(findEpreuveById).mockResolvedValue(null as never);

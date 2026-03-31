@@ -15,6 +15,11 @@ vi.mock('@/lib/epreuves/repository', () => ({
 
 vi.mock('@/lib/correction/ocr', () => ({
   extractTextFromCopie: mockExtractTextFromCopie,
+  getUserSafeOcrText: vi.fn((text: string | null | undefined) => {
+    const value = text?.trim();
+    if (!value || value.startsWith('[ocr')) return null;
+    return value;
+  }),
   isOcrFailureText: vi.fn((text: string | null | undefined) => (text ?? '').startsWith('[ocr')),
 }));
 
@@ -39,6 +44,7 @@ describe('processCorrection', () => {
       userId: 'u1',
       filePath: 'uploads/copies/u1/file.jpg',
       fileType: 'image/jpeg',
+      ocrText: null,
     });
     mockFindEpreuveById.mockResolvedValue({
       id: 'ep-1',
@@ -83,6 +89,42 @@ describe('processCorrection', () => {
         status: 'error',
         ocrText: null,
         errorMessage: expect.stringContaining("Nous n'avons pas réussi à lire automatiquement cette copie"),
+      }),
+    );
+  });
+
+  it('réutilise le texte OCR persisté sans relire le fichier source', async () => {
+    mockFindCopieById.mockResolvedValue({
+      id: 'copie-1',
+      epreuveId: 'ep-1',
+      userId: 'u1',
+      filePath: 'uploads/copies/u1/missing.pdf',
+      fileType: 'application/pdf',
+      ocrText: 'Texte OCR déjà stocké',
+    });
+    mockCorrigerCopie.mockResolvedValue({
+      note: 12,
+      mention: 'Assez bien',
+      bilan: { global: 'Analyse correcte.', points_forts: ['Idées présentes'], axes_amelioration: ['Approfondir'] },
+      rubriques: [],
+      annotations: [],
+      corrige_type: 'commentaire',
+      conseil_final: 'Continue.',
+    });
+
+    const { processCorrection } = await import('@/lib/epreuves/worker');
+    await processCorrection('copie-1', 1);
+
+    expect(mockExtractTextFromCopie).not.toHaveBeenCalled();
+    expect(mockCorrigerCopie).toHaveBeenCalledWith(
+      expect.objectContaining({
+        texteOCR: 'Texte OCR déjà stocké',
+      }),
+    );
+    expect(mockUpdateCopieStatus).toHaveBeenCalledWith(
+      expect.objectContaining({
+        copieId: 'copie-1',
+        status: 'done',
       }),
     );
   });

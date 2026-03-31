@@ -1,7 +1,7 @@
 import { corrigerCopie } from '@/lib/correction/correcteur';
 import { createEvaluation } from '@/lib/db/repositories/evaluationRepo';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
-import { extractTextFromCopie, isOcrFailureText } from '@/lib/correction/ocr';
+import { extractTextFromCopie, getUserSafeOcrText, isOcrFailureText } from '@/lib/correction/ocr';
 import { normalizeCorrectionPayload } from '@/lib/correction/normalize-correction';
 import {
   findCopieById,
@@ -38,9 +38,9 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
 
     await updateCopieStatus({ copieId, status: 'processing' });
 
-    const absolutePath = resolveCopieAbsolutePath(copie.filePath);
-    const ocrText = await extractTextFromCopie({
-      absolutePath,
+    const persistedOcrText = getUserSafeOcrText(copie.ocrText);
+    const ocrText = persistedOcrText ?? await extractTextFromCopie({
+      absolutePath: resolveCopieAbsolutePath(copie.filePath),
       mimeType: copie.fileType,
     });
 

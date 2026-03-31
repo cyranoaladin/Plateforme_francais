@@ -14,6 +14,7 @@ type CorrectionPayload = {
   status: 'pending' | 'processing' | 'done' | 'error';
   ocrText?: string | null;
   fileType?: string;
+  errorMessage?: string;
   correction: {
     note: number;
     mention: string;
@@ -74,6 +75,11 @@ export default function CorrectionCopiePage() {
 
         const data = (await response.json()) as CorrectionPayload;
         if (cancelled) return;
+        if (data.status === 'error' && data.correction && typeof data.correction === 'object' && 'errorMessage' in data.correction) {
+          data.errorMessage = typeof (data.correction as { errorMessage?: unknown }).errorMessage === 'string'
+            ? (data.correction as { errorMessage: string }).errorMessage
+            : undefined;
+        }
         setPayload(data);
 
         if (data.status === 'pending' || data.status === 'processing') {
@@ -179,7 +185,7 @@ export default function CorrectionCopiePage() {
       <div className="mx-auto max-w-5xl p-4 md:p-8">
         <StateNotice
           title="La correction n’a pas pu être générée"
-          description="L’analyse de ta copie a rencontré un problème. Tu peux retourner à l’atelier écrit pour déposer à nouveau ta copie."
+          description={payload.errorMessage ?? "L’analyse de ta copie a rencontré un problème. Tu peux retourner à l’atelier écrit pour déposer à nouveau ta copie."}
           variant="error"
           icon={AlertTriangle}
           action={
