@@ -22,7 +22,9 @@ export const ORAL_TOTAL_MAX = 20;
 export const oralPhaseScoreSchema = z.object({
   phase: z.enum(['LECTURE', 'EXPLICATION', 'GRAMMAIRE', 'ENTRETIEN']),
   score: z.number().min(0),
-  maxScore: z.number().positive(),
+  maxScore: z.number().refine((value) => Object.values(PHASE_MAX_SCORES).includes(value as 2 | 8), {
+    message: 'maxScore doit être une valeur officielle EAF (2 ou 8)',
+  }),
 });
 
 export type PhaseScoreInput = z.infer<typeof oralPhaseScoreSchema>;

@@ -86,6 +86,19 @@ describe('POST /api/v1/oral/session/[sessionId]/end', () => {
             axes: [],
           },
         },
+        {
+          step: 'ENTRETIEN',
+          transcript: 'Entretien',
+          duration: 300,
+          createdAt: '2026-04-01T00:05:00.000Z',
+          feedback: {
+            feedback: 'Entretien solide',
+            score: 6.5,
+            max: 99,
+            points_forts: [],
+            axes: ['relance', 'relance', 'precision'],
+          },
+        },
       ],
     } as never);
   });
@@ -185,5 +198,35 @@ describe('POST /api/v1/oral/session/[sessionId]/end', () => {
       expect.objectContaining({ sessionId: 'session-1', userId: 'user-1' }),
       'oral.end.processInteraction.failed',
     );
+  });
+
+  it('passe des maxScore officiels et un finalFeedback JSON-serialisable', async () => {
+    await POST(
+      new Request('http://localhost/api/v1/oral/session/session-1/end', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': 'tok',
+        },
+        body: JSON.stringify({ notes: 'notes élève' }),
+      }),
+      { params: Promise.resolve({ sessionId: 'session-1' }) },
+    );
+
+    expect(vi.mocked(generateOralBilan)).toHaveBeenCalledWith(
+      [
+        { phase: 'LECTURE', score: 1.5, maxScore: 2 },
+        { phase: 'ENTRETIEN', score: 6.5, maxScore: 8 },
+      ],
+      {
+        LECTURE: { feedback: 'Lecture correcte' },
+        ENTRETIEN: { feedback: 'Entretien solide' },
+      },
+    );
+
+    const finalizeInput = vi.mocked(finalizeOralSession).mock.calls[0]?.[0];
+    expect(finalizeInput).toBeDefined();
+    expect(() => JSON.stringify(finalizeInput?.finalFeedback)).not.toThrow();
+    expect(finalizeInput?.finalFeedback).toMatchObject({ notes: 'notes élève' });
   });
 });

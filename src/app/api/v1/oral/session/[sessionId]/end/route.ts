@@ -9,7 +9,7 @@ import { updateUserProfile } from '@/lib/db/repositories/userRepo';
 import { evaluateBadges } from '@/lib/gamification/badges';
 import { finalizeOralSession, findOralSessionById } from '@/lib/oral/repository';
 import { generateOralBilan } from '@/lib/oral/service';
-import type { OralPhaseKey } from '@/lib/oral/scoring';
+import { PHASE_MAX_SCORES, type OralPhaseKey } from '@/lib/oral/scoring';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionEndBodySchema } from '@/lib/validation/schemas';
@@ -49,28 +49,42 @@ export async function POST(
     return parsed.response;
   }
 
-  const phaseInputs = session.interactions.map((i) => ({
-    phase: i.step as OralPhaseKey,
-    score: i.feedback.score,
-    maxScore: i.feedback.max,
-  }));
-
+  const phaseInputs: Array<{ phase: OralPhaseKey; score: number; maxScore: number }> = [];
   const phaseDetails: Record<string, { feedback: string }> = {};
+  const weakSkillsSet = new Set<string>();
   for (const i of session.interactions) {
+    const phase = i.step as OralPhaseKey;
+    phaseInputs.push({
+      phase,
+      score: i.feedback.score,
+      maxScore: PHASE_MAX_SCORES[phase],
+    });
     phaseDetails[i.step] = { feedback: i.feedback.feedback };
+    for (const axis of i.feedback.axes ?? []) {
+      weakSkillsSet.add(axis);
+    }
   }
-  const weakSkills = Array.from(
-    new Set(session.interactions.flatMap((item) => item.feedback.axes ?? [])),
-  ).slice(0, 6);
+  const weakSkills = Array.from(weakSkillsSet).slice(0, 6);
 
   const bilan = await generateOralBilan(phaseInputs, phaseDetails);
+  const finalFeedbackValue = JSON.parse(
+    JSON.stringify({
+      ...bilan,
+      notes: parsed.data.notes ?? '',
+    }),
+  ) as Prisma.InputJsonValue;
+  if (
+    typeof finalFeedbackValue !== 'object'
+    || finalFeedbackValue === null
+    || Array.isArray(finalFeedbackValue)
+  ) {
+    throw new Error('oral.end.finalFeedback.invalid_json_object');
+  }
+  const finalFeedback = finalFeedbackValue as Prisma.JsonObject;
 
   await finalizeOralSession({
     sessionId,
-    finalFeedback: {
-      ...bilan,
-      notes: parsed.data.notes ?? '',
-    } as unknown as Prisma.JsonObject,
+    finalFeedback,
     score: bilan.note,
     maxScore: bilan.maxNote,
     personaType: parsed.data.examinerProfile,

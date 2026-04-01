@@ -14,6 +14,14 @@ import { QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionInteractBodySchema } from '@/lib/validation/schemas';
 
+export const INTERACTABLE_STATUSES = new Set<string>(['DRAFT', 'PASSAGE_RUNNING']);
+export const PHASE_TOKEN_COST: Readonly<Record<OralPhaseKey, number>> = {
+  LECTURE: 200,
+  EXPLICATION: 800,
+  GRAMMAIRE: 300,
+  ENTRETIEN: 1000,
+} as const;
+
 /**
  * POST /api/v1/oral/session/{sessionId}/interact
  * Body: { step, transcript, duration }
@@ -25,13 +33,6 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ sessionId: string }> },
 ) {
-  const interactableStatuses = new Set(['DRAFT', 'PASSAGE_RUNNING']);
-  const phaseTokenCost: Record<OralPhaseKey, number> = {
-    LECTURE: 200,
-    EXPLICATION: 800,
-    GRAMMAIRE: 300,
-    ENTRETIEN: 1000,
-  };
   const { auth, errorResponse } = await requireAuthenticatedUser();
   if (!auth || errorResponse) {
     return errorResponse;
@@ -48,7 +49,7 @@ export async function POST(
   if (!session || session.userId !== auth.user.id) {
     return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
   }
-  if (session.status && !interactableStatuses.has(session.status)) {
+  if (session.status && !INTERACTABLE_STATUSES.has(session.status)) {
     return NextResponse.json(
       { error: 'Cette session ne peut plus recevoir d’interaction.' },
       { status: 409 },
@@ -80,6 +81,8 @@ export async function POST(
     }
   }
 
+  // BillingQuotaExceededError = quota periodique Redis (tokens sur periode).
+  // QuotaExceededError = rate limit/garde-fou instantane cote moteur LLM.
   const profile =
     parsed.data.step === 'ENTRETIEN'
       ? await prisma.studentProfile.findUnique({ where: { userId: auth.user.id } })
@@ -110,7 +113,7 @@ export async function POST(
 
   if (llmQuota && llmQuota.limit !== 0 && llmQuota.limit !== 'unlimited') {
     try {
-      await consumeQuota(auth.user.id, 'LLM_TOKENS', llmQuota, phaseTokenCost[phase] ?? 500);
+      await consumeQuota(auth.user.id, 'LLM_TOKENS', llmQuota, PHASE_TOKEN_COST[phase] ?? 500);
     } catch (err) {
       if (err instanceof BillingQuotaExceededError) {
         logger.warn(

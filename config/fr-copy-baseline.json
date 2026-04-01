@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-01T00:18:52.403Z",
+  "generatedAt": "2026-04-01T00:31:15.621Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -1116,28 +1116,28 @@
     },
     {
       "file": "src/app/api/v1/oral/session/[sessionId]/interact/route.ts",
-      "line": 49,
+      "line": 50,
       "column": 39,
       "kind": "api-message",
       "text": "Ressource non disponible."
     },
     {
       "file": "src/app/api/v1/oral/session/[sessionId]/interact/route.ts",
-      "line": 53,
+      "line": 54,
       "column": 16,
       "kind": "api-message",
       "text": "Cette session ne peut plus recevoir d’interaction."
     },
     {
       "file": "src/app/api/v1/oral/session/[sessionId]/interact/route.ts",
-      "line": 65,
+      "line": 66,
       "column": 39,
       "kind": "api-message",
       "text": "Phase invalide."
     },
     {
       "file": "src/app/api/v1/oral/session/[sessionId]/interact/route.ts",
-      "line": 75,
+      "line": 76,
       "column": 18,
       "kind": "api-message",
       "text": "Limite de tokens LLM atteinte pour la période. Réessaie demain."
@@ -2138,406 +2138,406 @@
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1012,
+      "line": 1013,
       "column": 21,
       "kind": "jsx-text",
       "text": "Obtenir une relance examinateur"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1012,
+      "line": 1013,
       "column": 33,
       "kind": "banned-phrase",
       "text": "relance examinateur"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1039,
+      "line": 1040,
       "column": 19,
       "kind": "jsx-text",
       "text": "Soumettre —"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1052,
+      "line": 1053,
       "column": 106,
       "kind": "jsx-text",
       "text": "Feedbacks intermédiaires"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1074,
+      "line": 1075,
       "column": 117,
       "kind": "jsx-text",
       "text": "Points forts"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1085,
+      "line": 1086,
       "column": 116,
       "kind": "jsx-text",
       "text": "Axes d’amélioration"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1097,
+      "line": 1098,
       "column": 27,
       "kind": "jsx-text",
       "text": "Écouter"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1099,
+      "line": 1100,
       "column": 104,
       "kind": "jsx-text",
       "text": "Relance de l’examinateur :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1108,
+      "line": 1109,
       "column": 103,
       "kind": "jsx-text",
       "text": "Principe de séance"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1110,
+      "line": 1111,
       "column": 17,
       "kind": "jsx-text",
       "text": "Mieux vaut quatre prises de parole nettes avec un vrai retour intermédiaire qu’une longue réponse confuse. L’espace oral est conçu pour rendre cette discipline plus facile."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1116,
+      "line": 1117,
       "column": 17,
       "kind": "jsx-text",
       "text": "Reprendre cette phase avec le guidage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1129,
+      "line": 1130,
       "column": 106,
       "kind": "jsx-text",
       "text": "Bilan officiel"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1158,
+      "line": 1159,
       "column": 104,
       "kind": "jsx-text",
       "text": "Bilan global"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1162,
+      "line": 1163,
       "column": 103,
       "kind": "jsx-text",
       "text": "Conseil final"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1173,
+      "line": 1174,
       "column": 15,
       "kind": "jsx-text",
       "text": "Nouvelle simulation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1179,
+      "line": 1180,
       "column": 15,
       "kind": "jsx-text",
       "text": "Débriefer cette simulation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 1193,
+      "line": 1194,
       "column": 13,
       "kind": "jsx-text",
       "text": "Badge débloqué :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 575,
+      "line": 576,
       "column": 52,
       "kind": "banned-phrase",
       "text": "relance examinateur"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 669,
+      "line": 670,
       "column": 15,
       "kind": "jsx-text",
       "text": "Découvrir les plans"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 703,
+      "line": 704,
       "column": 105,
       "kind": "jsx-text",
       "text": "Démarrage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 705,
+      "line": 706,
       "column": 19,
       "kind": "jsx-text",
       "text": "Tirage au sort de l’extrait"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 708,
+      "line": 709,
       "column": 19,
       "kind": "jsx-text",
       "text": "Choisis ton œuvre et le niveau de contrainte. La plateforme tire l’extrait, la question de grammaire puis t’installe directement dans le rythme de l’épreuve."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 721,
+      "line": 722,
       "column": 17,
       "kind": "jsx-text",
       "text": "Simulation examen"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 730,
+      "line": 731,
       "column": 17,
       "kind": "jsx-text",
       "text": "Entraînement libre"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 736,
+      "line": 737,
       "column": 17,
       "kind": "jsx-text",
       "text": "Mode libre : les timers sont désactivés, tu peux prendre ton temps."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 742,
+      "line": 743,
       "column": 17,
       "kind": "jsx-text",
       "text": "Œuvre du programme"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 769,
+      "line": 770,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tirer un extrait"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 775,
+      "line": 776,
       "column": 104,
       "kind": "jsx-text",
       "text": "Ce qui va suivre"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 791,
+      "line": 792,
       "column": 103,
       "kind": "jsx-text",
       "text": "Bon usage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 793,
+      "line": 794,
       "column": 17,
       "kind": "jsx-text",
       "text": "Une bonne simulation orale ne cherche pas à parler beaucoup. Elle cherche à rendre la parole plus nette, plus articulée et plus défendable étape après étape."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 799,
+      "line": 800,
       "column": 17,
       "kind": "jsx-text",
       "text": "Préparer cette œuvre avec le guidage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 811,
+      "line": 812,
       "column": 105,
       "kind": "jsx-text",
       "text": "Préparation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 813,
+      "line": 814,
       "column": 19,
       "kind": "jsx-text",
       "text": "Préparation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 816,
+      "line": 817,
       "column": 19,
       "kind": "jsx-text",
       "text": "Lis, structure, choisis tes procédés et prépare la grammaire. Les notes restent un brouillon de travail, pas un objet évalué."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 821,
+      "line": 822,
       "column": 23,
       "kind": "jsx-prop",
       "text": "Temps restant"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 827,
+      "line": 828,
       "column": 103,
       "kind": "jsx-text",
       "text": "Extrait tiré"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 830,
+      "line": 831,
       "column": 76,
       "kind": "jsx-text",
       "text": "Question de grammaire :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 832,
+      "line": 833,
       "column": 78,
       "kind": "jsx-text",
       "text": "Phrase cible :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 835,
+      "line": 836,
       "column": 78,
       "kind": "jsx-text",
       "text": "Œuvre choisie (entretien) :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 842,
+      "line": 843,
       "column": 17,
       "kind": "jsx-text",
       "text": "Notes de préparation (brouillon — non évaluées)"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 849,
+      "line": 850,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Structure ton explication linéaire, prépare tes axes, note les procédés..."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 860,
+      "line": 861,
       "column": 15,
       "kind": "jsx-text",
       "text": "Commencer le passage (20 min)"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 866,
+      "line": 867,
       "column": 104,
       "kind": "jsx-text",
       "text": "Checklist de préparation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 890,
+      "line": 891,
       "column": 124,
       "kind": "jsx-text",
       "text": "étapes complétées"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 894,
+      "line": 895,
       "column": 103,
       "kind": "jsx-text",
       "text": "Rappel"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 896,
+      "line": 897,
       "column": 17,
       "kind": "jsx-text",
       "text": "La préparation utile ne cherche pas à tout écrire. Elle cherche à sécuriser les mouvements du texte, deux ou trois procédés décisifs et une réponse propre à la grammaire."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 902,
+      "line": 903,
       "column": 17,
       "kind": "jsx-text",
       "text": "Débloquer un point avant le passage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 914,
+      "line": 915,
       "column": 105,
       "kind": "jsx-text",
       "text": "Passage oral"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 923,
+      "line": 924,
       "column": 25,
       "kind": "jsx-prop",
       "text": "Temps restant passage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 945,
+      "line": 946,
       "column": 97,
       "kind": "jsx-text",
       "text": "Extrait & question de grammaire"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 948,
+      "line": 949,
       "column": 76,
       "kind": "jsx-text",
       "text": "Grammaire :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 949,
+      "line": 950,
       "column": 104,
       "kind": "jsx-text",
       "text": "Phrase cible :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 950,
+      "line": 951,
       "column": 102,
       "kind": "jsx-text",
       "text": "Entretien sur :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 961,
+      "line": 962,
       "column": 87,
       "kind": "jsx-text",
       "text": "Clique pour enregistrer —"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 971,
+      "line": 972,
       "column": 87,
       "kind": "jsx-text",
       "text": "Enregistrement en cours..."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 978,
+      "line": 979,
       "column": 19,
       "kind": "jsx-text",
       "text": "Transcription / réponse"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 985,
+      "line": 986,
       "column": 31,
       "kind": "jsx-prop",
       "text": "Le transcript micro apparaît ici, tu peux le corriger avant envoi..."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 991,
+      "line": 992,
       "column": 80,
       "kind": "jsx-text",
       "text": "Simulation examinateur dialoguant"

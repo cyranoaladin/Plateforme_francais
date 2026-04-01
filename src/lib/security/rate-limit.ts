@@ -14,6 +14,17 @@ export function getClientIp(request: Request): string {
 // Fallback in-memory pour dev sans Redis ou quand Redis est indisponible
 const memoryStore = new Map<string, { count: number; resetAt: number }>();
 
+if (process.env.NODE_ENV !== 'production') {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [key, entry] of memoryStore.entries()) {
+      if (entry.resetAt < now) {
+        memoryStore.delete(key);
+      }
+    }
+  }, 60_000).unref();
+}
+
 /**
  * Rate limiting avec fallback in-memory
  */

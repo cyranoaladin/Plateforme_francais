@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { computeOralScore, computeMention, clampPhaseScore, PHASE_MAX_SCORES, ORAL_TOTAL_MAX } from '@/lib/oral/scoring';
+import {
+  computeOralScore,
+  computeMention,
+  clampPhaseScore,
+  PHASE_MAX_SCORES,
+  ORAL_TOTAL_MAX,
+  oralPhaseScoreSchema,
+} from '@/lib/oral/scoring';
 
 describe('oral/scoring', () => {
   it('clamp chaque phase à son max officiel (2/8/2/8) et total /20', () => {
@@ -106,5 +113,19 @@ describe('computeMention', () => {
   it('Insuffisant pour < 10', () => {
     expect(computeMention(0)).toBe('Insuffisant');
     expect(computeMention(9)).toBe('Insuffisant');
+  });
+});
+
+describe('oralPhaseScoreSchema', () => {
+  it('accepte uniquement les maxScore officiels EAF', () => {
+    expect(() =>
+      oralPhaseScoreSchema.parse({ phase: 'LECTURE', score: 1, maxScore: 2 }),
+    ).not.toThrow();
+    expect(() =>
+      oralPhaseScoreSchema.parse({ phase: 'EXPLICATION', score: 4, maxScore: 8 }),
+    ).not.toThrow();
+    expect(() =>
+      oralPhaseScoreSchema.parse({ phase: 'LECTURE', score: 1, maxScore: 3 }),
+    ).toThrow(/valeur officielle EAF/);
   });
 });

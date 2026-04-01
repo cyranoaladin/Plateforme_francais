@@ -94,7 +94,7 @@ jobs:
           test -s dist/worker/src/lib/queue/start-worker.js
 
   unit-tests:
-    name: "Gate 2 - Tests Unitaires (114 fichiers, sans postgres requis)"
+    name: "Gate 2 - Tests Unitaires (sans postgres requis)"
     needs: [static-analysis, worker-build-prod-deps]
     runs-on: ubuntu-22.04
     services:
@@ -408,7 +408,9 @@ jobs:
   deploy-production:
     name: "Gate 6b - Deploy Production (Blue-Green)"
     needs: [e2e-tests, security-scan]
-    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    if: |
+      (startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-')) ||
+      github.event_name == 'workflow_dispatch'
     environment: production
     runs-on: ubuntu-22.04
     timeout-minutes: 15
@@ -484,7 +486,9 @@ jobs:
   post-deploy-monitoring:
     name: "Post-Deploy - Health & Canary"
     needs: deploy-production
-    if: startsWith(github.ref, 'refs/tags/v') || (github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch')
+    if: |
+      (startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-')) ||
+      (github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
