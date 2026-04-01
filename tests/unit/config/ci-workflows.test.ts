@@ -6,10 +6,11 @@ describe('CI workflows', () => {
   it('remplace le guard FR baseline par un contrôle ciblé sur les banned-phrases', () => {
     const workflow = readFileSync(resolve(process.cwd(), '.github/workflows/ci-cd.yml'), 'utf8');
 
-    expect(workflow).toContain('name: Check FR copy violations');
-    expect(workflow).toContain("b.violations.filter(v => v.kind === 'banned-phrase')");
+    expect(workflow).toContain('name: Contrôle copy FR — zero banned-phrases');
+    expect(workflow).toContain("(b.violations || []).filter(v => v.kind === 'banned-phrase')");
     expect(workflow).toContain('chore(ci): auto-update fr-copy-baseline [skip ci]');
-    expect(workflow).not.toContain('FR baseline changed during CI. Regenerate locally and commit');
+    expect(workflow).toContain('FR baseline changed but auto-push disabled (PR context)');
+    expect(workflow).not.toContain('name: Check FR copy violations');
   });
 
   it('n utilise plus de concurrency globale et protège le job de déploiement', () => {

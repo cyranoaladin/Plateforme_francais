@@ -670,7 +670,19 @@ jobs:
       - name: Post-deploy health check
         if: steps.check-secrets.outputs.configured == 'true'
         run: |
-          curl --retry 10 --retry-delay 3 --max-time 30 --fail https://eaf.nexusreussite.academy/api/v1/health
+          for i in {1..12}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+              --max-time 10 \
+              https://eaf.nexusreussite.academy/api/v1/health)
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Health check OK après ${i}×5s"
+              exit 0
+            fi
+            echo "⏳ Attempt $i/12 — HTTP $STATUS — attente 5s..."
+            sleep 5
+          done
+          echo "❌ Health check failed après 60s — rollback recommandé"
+          exit 1
 
   post-deploy-monitoring:
     name: "Post-Deploy - Health & Canary"
