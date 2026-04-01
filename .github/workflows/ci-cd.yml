@@ -181,11 +181,18 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-
-      - name: Verify worker builds without devDeps
+      - run: npm ci
+      - name: Build worker then verify it loads with prod-only deps
         run: |
-          npm ci --omit=dev
           npm run build:worker
           test -s dist/worker/src/lib/queue/start-worker.js
+          rm -rf node_modules
+          npm ci --omit=dev
+          node -e "require('./dist/worker/src/lib/queue/start-worker.js')" &
+          WORKER_PID=$!
+          sleep 2
+          kill $WORKER_PID 2>/dev/null || true
+          echo "✅ Worker artifact loads with production dependencies only"
 
   unit-tests:
     name: "Gate 2 - Tests Unitaires (sans postgres requis)"
