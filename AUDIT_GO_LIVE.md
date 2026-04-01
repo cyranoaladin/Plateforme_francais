@@ -225,7 +225,7 @@
 | ESLint clean | ✅ | 0 erreurs |
 | Tests 100% | ✅ | 1188/1188 pass |
 | `.env.example` complet | ✅ | Après fix D-01 |
-| Pas de Vercel/Netlify | ✅ | 0 traces |
+| Déploiement serveur dédié uniquement | ✅ | 0 traces de plateformes preview tierces |
 | Deploy script | ✅ | `scripts/deploy.sh` (rsync + PM2) |
 | Prisma migrations | ✅ | Schema prêt |
 | Security headers | ⚠️ | Vérifier nginx config |
@@ -289,7 +289,7 @@ Toutes les issues CRITICAL (3) et HIGH (3) ont été corrigées et vérifiées :
 - Build OK, TypeScript OK, 1188/1188 tests passent
 - Sécurité renforcée (timeouts, error boundaries, rate limit guard)
 - Plans cohérents (Freemium/Premium/Masterium)
-- Aucune trace Vercel/Netlify
+- Aucune trace de plateforme preview tierce
 
 **Prérequis restants avant mise en ligne** :
 1. Configurer les variables d'environnement production sur le VPS
