@@ -1,4 +1,5 @@
 import { AlertCircle, Star, Volume2 } from 'lucide-react';
+import { speakText } from '@/lib/oral/audio-utils';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { type OralStep, type StepFeedback } from '../../types';
 
@@ -8,13 +9,6 @@ type Props = {
   aggregated: { totalScore: number; totalMax: number };
   feedbacks: Record<OralStep, StepFeedback | undefined>;
 };
-
-function speakText(text: string) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return;
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'fr-FR';
-  window.speechSynthesis.speak(utterance);
-}
 
 export function PassageFeedback({
   steps,

@@ -8,7 +8,6 @@ import { EcritCorrectionProgress } from './components/EcritCorrectionProgress';
 import { EcritCopyUploader } from './components/EcritCopyUploader';
 import { EcritEpreuveSelector } from './components/EcritEpreuveSelector';
 import { useEcritSession } from './hooks/useEcritSession';
-import './types';
 
 export default function AtelierEcritPage() {
   const session = useEcritSession();
