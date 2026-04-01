@@ -94,6 +94,18 @@ describe('GET /api/v1/epreuves/copies/{copieId}/events', () => {
     expect(res.status).toBe(404);
   });
 
+  it('retourne 404 si la copie est introuvable', async () => {
+    const { findCopieById } = await import('@/lib/epreuves/repository');
+    vi.mocked(findCopieById).mockResolvedValue(null as never);
+
+    const { GET } = await import('@/app/api/v1/epreuves/copies/[copieId]/events/route');
+    const res = await GET(new Request('http://localhost/api/v1/epreuves/copies/copie-1/events'), {
+      params: Promise.resolve({ copieId: 'copie-1' }),
+    });
+
+    expect(res.status).toBe(404);
+  });
+
   it('retourne un flux SSE avec historique initial', async () => {
     const { findCopieById, listCopieProgressEvents } = await import('@/lib/epreuves/repository');
     vi.mocked(findCopieById).mockResolvedValue({
@@ -134,5 +146,59 @@ describe('GET /api/v1/epreuves/copies/{copieId}/events', () => {
     expect(body).toContain('"stage":"queued"');
     expect(body).toContain('"stage":"ocr_started"');
     expect(body).toContain('event: progress');
+  });
+
+  it('ferme le flux immédiatement sur un événement terminal report_ready', async () => {
+    const { findCopieById, listCopieProgressEvents } = await import('@/lib/epreuves/repository');
+    vi.mocked(findCopieById).mockResolvedValue({
+      id: 'copie-1',
+      userId: 'user-1',
+    } as never);
+    vi.mocked(listCopieProgressEvents).mockResolvedValue([
+      {
+        id: 'evt-report',
+        copieId: 'copie-1',
+        stage: 'report_ready',
+        message: 'Rapport prêt.',
+        progress: 100,
+        payload: null,
+        createdAt: '2026-04-01T07:00:10.000Z',
+      },
+    ] as never);
+
+    const { GET } = await import('@/app/api/v1/epreuves/copies/[copieId]/events/route');
+    const res = await GET(new Request('http://localhost/api/v1/epreuves/copies/copie-1/events'), {
+      params: Promise.resolve({ copieId: 'copie-1' }),
+    });
+
+    expect(res.status).toBe(200);
+    await expect(res.text()).resolves.toContain('"stage":"report_ready"');
+  });
+
+  it('ferme le flux immédiatement sur un événement terminal failed', async () => {
+    const { findCopieById, listCopieProgressEvents } = await import('@/lib/epreuves/repository');
+    vi.mocked(findCopieById).mockResolvedValue({
+      id: 'copie-1',
+      userId: 'user-1',
+    } as never);
+    vi.mocked(listCopieProgressEvents).mockResolvedValue([
+      {
+        id: 'evt-failed',
+        copieId: 'copie-1',
+        stage: 'failed',
+        message: 'Échec de traitement.',
+        progress: 100,
+        payload: null,
+        createdAt: '2026-04-01T07:00:12.000Z',
+      },
+    ] as never);
+
+    const { GET } = await import('@/app/api/v1/epreuves/copies/[copieId]/events/route');
+    const res = await GET(new Request('http://localhost/api/v1/epreuves/copies/copie-1/events'), {
+      params: Promise.resolve({ copieId: 'copie-1' }),
+    });
+
+    expect(res.status).toBe(200);
+    await expect(res.text()).resolves.toContain('"stage":"failed"');
   });
 });
