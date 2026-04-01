@@ -192,7 +192,6 @@ export async function listOralSessionsByUser(
       orderBy: { createdAt: 'desc' },
       take: options?.limit ?? 20,
       ...(options?.cursor ? { cursor: { id: options.cursor }, skip: 1 } : {}),
-      // TODO: migrate finalFeedback to a dedicated DB column to avoid loading the full feedback JSON blob for summaries.
       select: {
         id: true,
         status: true,
@@ -202,7 +201,13 @@ export async function listOralSessionsByUser(
         maxScore: true,
         createdAt: true,
         endedAt: true,
-        feedback: true,
+        oralBilan: {
+          select: {
+            note: true,
+            mention: true,
+            bilanGlobal: true,
+          },
+        },
       },
     });
     return sessions.map((session) => ({
@@ -212,7 +217,13 @@ export async function listOralSessionsByUser(
       oeuvre: session.oeuvre,
       score: session.score ?? null,
       maxScore: session.maxScore ?? null,
-      finalFeedback: ((session.feedback as { final?: Prisma.JsonValue } | null)?.final ?? null),
+      finalFeedback: session.oralBilan
+        ? {
+            note: session.oralBilan.note,
+            mention: session.oralBilan.mention,
+            bilan_global: session.oralBilan.bilanGlobal,
+          }
+        : null,
       createdAt: session.createdAt.toISOString(),
       endedAt: session.endedAt ? session.endedAt.toISOString() : null,
     }));

@@ -140,31 +140,35 @@ function escapeHtml(text: string): string {
     .replace(/"/g, '&quot;');
 }
 
+function safeStr(value: unknown): string {
+  return escapeHtml(String(value ?? ''));
+}
+
 function renderBilanOral(data: Record<string, unknown>): string {
   const note = Number(data['note'] ?? 0);
   const maxNote = Number(data['maxNote'] ?? 20);
-  const mention = String(data['mention'] ?? '');
+  const mention = safeStr(data['mention']);
   const phases = data['phases'] as Record<string, { note: number; max: number; commentaire: string }> | undefined;
-  const bilan = String(data['bilan_global'] ?? '');
-  const conseil = String(data['conseil_final'] ?? '');
+  const bilan = safeStr(data['bilan_global']);
+  const conseil = safeStr(data['conseil_final']);
 
   const badgeClass = note >= 16 ? 'excellent' : note >= 12 ? 'bon' : note >= 8 ? 'fragile' : 'insuffisant';
 
-  let html = `<div class="section"><h2>Note finale</h2><span class="score-badge ${badgeClass}">${note}/${maxNote} — ${escapeHtml(mention)}</span></div>`;
+  let html = `<div class="section"><h2>Note finale</h2><span class="score-badge ${badgeClass}">${note}/${maxNote} — ${mention}</span></div>`;
 
   if (phases) {
     html += '<div class="section"><h2>Détail par phase</h2><table><tr><th>Phase</th><th>Note</th><th>Commentaire</th></tr>';
     for (const [phase, detail] of Object.entries(phases)) {
-      html += `<tr><td><strong>${escapeHtml(phase)}</strong></td><td>${detail.note}/${detail.max}</td><td>${escapeHtml(detail.commentaire)}</td></tr>`;
+      html += `<tr><td><strong>${safeStr(phase)}</strong></td><td>${detail.note}/${detail.max}</td><td>${safeStr(detail.commentaire)}</td></tr>`;
     }
     html += '</table></div>';
   }
 
   if (bilan) {
-    html += `<div class="section"><h2>Bilan global</h2><p>${escapeHtml(bilan)}</p></div>`;
+    html += `<div class="section"><h2>Bilan global</h2><p>${bilan}</p></div>`;
   }
   if (conseil) {
-    html += `<div class="conseil"><strong>Conseil :</strong> ${escapeHtml(conseil)}</div>`;
+    html += `<div class="conseil"><strong>Conseil :</strong> ${conseil}</div>`;
   }
 
   return html;
@@ -172,34 +176,34 @@ function renderBilanOral(data: Record<string, unknown>): string {
 
 function renderRapportEcrit(data: Record<string, unknown>): string {
   const note = Number(data['note'] ?? 0);
-  const mention = String(data['mention'] ?? '');
+  const mention = safeStr(data['mention']);
   const bilan = data['bilan'] as { global?: string; points_forts?: string[]; axes_amelioration?: string[] } | undefined;
   const rubriques = data['rubriques'] as Array<{ titre: string; note: number; max: number; appreciation: string }> | undefined;
-  const conseil = String(data['conseil_final'] ?? '');
+  const conseil = safeStr(data['conseil_final']);
 
-  let html = `<div class="section"><h2>Note : ${note}/20 — ${escapeHtml(mention)}</h2></div>`;
+  let html = `<div class="section"><h2>Note : ${note}/20 — ${mention}</h2></div>`;
 
   if (rubriques?.length) {
     html += '<div class="section"><h2>Rubriques</h2><table><tr><th>Critère</th><th>Note</th><th>Appréciation</th></tr>';
     for (const r of rubriques) {
-      html += `<tr><td>${escapeHtml(r.titre)}</td><td>${r.note}/${r.max}</td><td>${escapeHtml(r.appreciation)}</td></tr>`;
+      html += `<tr><td>${safeStr(r.titre)}</td><td>${r.note}/${r.max}</td><td>${safeStr(r.appreciation)}</td></tr>`;
     }
     html += '</table></div>';
   }
 
   if (bilan) {
-    html += `<div class="section"><h2>Bilan</h2><p>${escapeHtml(bilan.global ?? '')}</p>`;
+    html += `<div class="section"><h2>Bilan</h2><p>${safeStr(bilan.global)}</p>`;
     if (bilan.points_forts?.length) {
-      html += '<h3>Points forts</h3><ul>' + bilan.points_forts.map((p) => `<li>${escapeHtml(p)}</li>`).join('') + '</ul>';
+      html += '<h3>Points forts</h3><ul>' + bilan.points_forts.map((p) => `<li>${safeStr(p)}</li>`).join('') + '</ul>';
     }
     if (bilan.axes_amelioration?.length) {
-      html += '<h3>Axes d\u2019amélioration</h3><ul>' + bilan.axes_amelioration.map((a) => `<li>${escapeHtml(a)}</li>`).join('') + '</ul>';
+      html += '<h3>Axes d\u2019amélioration</h3><ul>' + bilan.axes_amelioration.map((a) => `<li>${safeStr(a)}</li>`).join('') + '</ul>';
     }
     html += '</div>';
   }
 
   if (conseil) {
-    html += `<div class="conseil"><strong>Conseil final :</strong> ${escapeHtml(conseil)}</div>`;
+    html += `<div class="conseil"><strong>Conseil final :</strong> ${conseil}</div>`;
   }
 
   return html;
@@ -285,8 +289,8 @@ function renderResumeSession(data: Record<string, unknown>): string {
  */
 export async function generateDocument(options: GeneratePDFOptions): Promise<GeneratedDocument> {
   const html = renderHTML(options.template, options.data);
-  const timestamp = Date.now();
-  const htmlFilename = `${timestamp}-${options.filename}.html`;
+  const uniquePrefix = `${Date.now()}-${randomUUID().slice(0, 8)}`;
+  const htmlFilename = `${uniquePrefix}-${options.filename}.html`;
   const key = `documents/${options.userId}/${htmlFilename}`;
   const storageProvider = getStorageProvider();
 
@@ -362,7 +366,7 @@ export async function generateBilanOralDocument(
       date: new Date().toLocaleDateString('fr-FR'),
     },
     userId,
-    filename: `bilan-oral-${Date.now()}`,
+    filename: `bilan-oral`,
   });
 }
 
@@ -386,7 +390,7 @@ export async function generateRapportEcritDocument(
       date: new Date().toLocaleDateString('fr-FR'),
     },
     userId,
-    filename: `rapport-ecrit-${Date.now()}`,
+    filename: `rapport-ecrit`,
   });
 }
 
@@ -407,6 +411,6 @@ export async function generateOnboardingReport(
       date: new Date().toLocaleDateString('fr-FR'),
     },
     userId,
-    filename: `rapport-onboarding-${Date.now()}`,
+    filename: `rapport-onboarding`,
   });
 }

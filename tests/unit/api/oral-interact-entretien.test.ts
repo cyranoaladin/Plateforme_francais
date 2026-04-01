@@ -1,11 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+vi.mock('@/lib/auth/guard', () => ({
+  requireAuthenticatedUser: vi.fn(),
+}));
+vi.mock('@/lib/security/csrf', () => ({
+  validateCsrf: vi.fn().mockResolvedValue(null),
+}));
 vi.mock('@/lib/billing/context', () => ({
   getBillingContext: vi.fn(),
 }));
 vi.mock('@/lib/billing/usage', () => ({
-  checkQuota: vi.fn(),
-  consumeQuota: vi.fn(),
   QuotaExceededError: class QuotaExceededError extends Error {
     constructor(...args: unknown[]) {
       void args;
@@ -13,30 +17,17 @@ vi.mock('@/lib/billing/usage', () => ({
     }
   },
 }));
-vi.mock('@/lib/logger', () => ({
-  logger: {
-    warn: vi.fn(),
-    error: vi.fn(),
-    info: vi.fn(),
-  },
-}));
-vi.mock('@/lib/db/client', () => ({
-  prisma: {
-    studentProfile: { findUnique: vi.fn() },
-  },
-}));
-vi.mock('@/lib/auth/guard', () => ({
-  requireAuthenticatedUser: vi.fn(),
-}));
-vi.mock('@/lib/security/csrf', () => ({
-  validateCsrf: vi.fn().mockResolvedValue(null),
-}));
 vi.mock('@/lib/oral/repository', () => ({
   findOralSessionById: vi.fn(),
-  appendOralInteraction: vi.fn().mockResolvedValue(undefined),
 }));
-vi.mock('@/lib/oral/service', () => ({
-  evaluateOralPhase: vi.fn().mockResolvedValue({
+vi.mock('@/lib/oral/evaluate-and-persist', () => ({
+  PHASE_TOKEN_COST: {
+    LECTURE: 200,
+    EXPLICATION: 800,
+    GRAMMAIRE: 300,
+    ENTRETIEN: 1000,
+  },
+  evaluateAndPersistPhase: vi.fn().mockResolvedValue({
     feedback: 'Très bien.',
     score: 7,
     max: 8,
@@ -44,20 +35,12 @@ vi.mock('@/lib/oral/service', () => ({
     axes: [],
   }),
 }));
-vi.mock('@/lib/db/repositories/memoryRepo', () => ({
-  createMemoryEventRecord: vi.fn().mockResolvedValue(undefined),
-}));
-vi.mock('@/lib/oral/scoring', () => ({
-  PHASE_MAX_SCORES: { LECTURE: 2, EXPLICATION: 8, GRAMMAIRE: 2, ENTRETIEN: 8 },
-}));
 
-import { prisma } from '@/lib/db/client';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { getBillingContext } from '@/lib/billing/context';
-import { checkQuota, consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
-import { logger } from '@/lib/logger';
+import { QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { findOralSessionById } from '@/lib/oral/repository';
-import { evaluateOralPhase } from '@/lib/oral/service';
+import { evaluateAndPersistPhase } from '@/lib/oral/evaluate-and-persist';
 import { POST } from '@/app/api/v1/oral/session/[sessionId]/interact/route';
 
 const mockAuth = { user: { id: 'user-1' } };
@@ -69,8 +52,9 @@ const mockSession = {
   questionGrammaire: 'Analysez la subordonnée relative.',
 };
 
-describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
+describe('POST /api/v1/oral/session/:id/interact', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     vi.mocked(requireAuthenticatedUser).mockResolvedValue({
       auth: mockAuth,
       errorResponse: null,
@@ -78,99 +62,36 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
     vi.mocked(getBillingContext).mockResolvedValue({
       config: { quotas: { LLM_TOKENS: { limit: 8_000, period: 'day' } } },
     } as never);
-    vi.mocked(checkQuota).mockResolvedValue({
-      allowed: true,
-      current: 0,
-      limit: 8_000,
-      remaining: 8_000,
-    } as never);
-    vi.mocked(consumeQuota).mockResolvedValue({
-      current: 800,
-      limit: 8_000,
-      remaining: 7_200,
-    } as never);
     vi.mocked(findOralSessionById).mockResolvedValue(mockSession as never);
-    vi.mocked(evaluateOralPhase).mockClear();
-    vi.mocked(prisma.studentProfile.findUnique).mockReset();
   });
 
-  it("passe oeuvreChoisieEntretien au service quand le profil l'a renseignée", async () => {
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
-      id: 'profile-1',
-      oeuvreChoisieEntretien: 'Manon Lescaut — Abbé Prévost',
-    } as never);
-
+  it('transmet le contexte utile au helper partagé pour ENTRETIEN', async () => {
     const req = new Request('http://localhost', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
       body: JSON.stringify({
         step: 'ENTRETIEN',
-        transcript: 'Je présente Manon Lescaut.',
-        duration: 480,
+        transcript: 'Je présente mon œuvre.',
+        duration: 240,
+        examinerProfile: 'HOSTILE',
       }),
     });
 
     await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
 
-    expect(evaluateOralPhase).toHaveBeenCalledWith(
+    expect(evaluateAndPersistPhase).toHaveBeenCalledWith(
       expect.objectContaining({
+        userId: 'user-1',
+        sessionId: 'session-1',
+        session: mockSession,
         phase: 'ENTRETIEN',
-        oeuvreChoisieEntretien: 'Manon Lescaut — Abbé Prévost',
+        transcript: 'Je présente mon œuvre.',
+        duration: 240,
+        examinerProfile: 'HOSTILE',
+        billing: expect.any(Object),
+        mode: 'text',
       }),
     );
-  });
-
-  it("passe null si le profil n'a pas renseigné oeuvreChoisieEntretien", async () => {
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
-      id: 'profile-1',
-      oeuvreChoisieEntretien: null,
-    } as never);
-
-    const req = new Request('http://localhost', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
-      body: JSON.stringify({
-        step: 'ENTRETIEN',
-        transcript: 'Je ne sais pas quelle œuvre.',
-        duration: 480,
-      }),
-    });
-
-    await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
-
-    expect(evaluateOralPhase).toHaveBeenCalledWith(
-      expect.objectContaining({
-        oeuvreChoisieEntretien: null,
-      }),
-    );
-  });
-
-  it('passe bien les données de session à evaluateOralPhase pour GRAMMAIRE', async () => {
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
-      id: 'profile-1',
-      oeuvreChoisieEntretien: 'Manon Lescaut',
-    } as never);
-
-    const req = new Request('http://localhost', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
-      body: JSON.stringify({
-        step: 'GRAMMAIRE',
-        transcript: "C'est une subordonnée relative.",
-        duration: 120,
-      }),
-    });
-
-    await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
-
-    expect(evaluateOralPhase).toHaveBeenCalledWith(
-      expect.objectContaining({
-        phase: 'GRAMMAIRE',
-        oeuvre: 'Manon Lescaut',
-        extrait: mockSession.extrait,
-      }),
-    );
-    expect(prisma.studentProfile.findUnique).not.toHaveBeenCalled();
   });
 
   it("retourne 404 si la session n'appartient pas à l'utilisateur", async () => {
@@ -191,7 +112,7 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
 
     const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
     expect(res.status).toBe(404);
-    expect(evaluateOralPhase).not.toHaveBeenCalled();
+    expect(evaluateAndPersistPhase).not.toHaveBeenCalled();
   });
 
   it('retourne 409 si la session est déjà finalisée', async () => {
@@ -212,15 +133,10 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
 
     const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
     expect(res.status).toBe(409);
-    expect(evaluateOralPhase).not.toHaveBeenCalled();
+    expect(evaluateAndPersistPhase).not.toHaveBeenCalled();
   });
 
   it('retourne 400 si la phase est invalide', async () => {
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
-      id: 'profile-1',
-      oeuvreChoisieEntretien: null,
-    } as never);
-
     const req = new Request('http://localhost', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
@@ -235,12 +151,7 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
     expect(res.status).toBe(400);
   });
 
-  it('retourne 200 avec le résultat de évaluation pour LECTURE', async () => {
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
-      id: 'profile-1',
-      oeuvreChoisieEntretien: null,
-    } as never);
-
+  it('retourne 200 avec le résultat du helper pour LECTURE', async () => {
     const req = new Request('http://localhost', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
@@ -256,31 +167,20 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
     const body = await res.json();
     expect(body).toHaveProperty('feedback');
     expect(body).toHaveProperty('score');
-    expect(prisma.studentProfile.findUnique).not.toHaveBeenCalled();
-    expect(consumeQuota).toHaveBeenCalledWith(
-      'user-1',
-      'LLM_TOKENS',
-      expect.objectContaining({ limit: 8_000, period: 'day' }),
-      200,
-    );
   });
 
-  it('retourne 429 quand le quota LLM oral est depasse', async () => {
+  it('retourne 429 quand le moteur LLM refuse la requête', async () => {
     const { QuotaExceededError } = await import('@/lib/security/llm-rate-limiter');
-    vi.mocked(evaluateOralPhase).mockRejectedValueOnce(
+    vi.mocked(evaluateAndPersistPhase).mockRejectedValueOnce(
       new QuotaExceededError('coach_oral', 'rpm', 10),
     );
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
-      id: 'profile-1',
-      oeuvreChoisieEntretien: 'Manon Lescaut',
-    } as never);
 
     const req = new Request('http://localhost', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
       body: JSON.stringify({
         step: 'ENTRETIEN',
-        transcript: 'Je presente mon oeuvre',
+        transcript: 'Je présente mon œuvre.',
         duration: 240,
       }),
     });
@@ -289,17 +189,10 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
     expect(res.status).toBe(429);
   });
 
-  it('retourne 402 si le quota LLM_TOKENS est dépassé avant l’évaluation', async () => {
-    vi.mocked(checkQuota).mockResolvedValue({
-      allowed: false,
-      current: 8_000,
-      limit: 8_000,
-      remaining: 0,
-    } as never);
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
-      id: 'profile-1',
-      oeuvreChoisieEntretien: 'Manon Lescaut',
-    } as never);
+  it('retourne 402 si le quota LLM_TOKENS est dépassé avant évaluation', async () => {
+    vi.mocked(evaluateAndPersistPhase).mockRejectedValueOnce(
+      new BillingQuotaExceededError('LLM_TOKENS', 8_000, 8_000, 'day'),
+    );
 
     const req = new Request('http://localhost', {
       method: 'POST',
@@ -313,49 +206,5 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
 
     const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
     expect(res.status).toBe(402);
-    expect(evaluateOralPhase).not.toHaveBeenCalled();
-  });
-
-  it('requête le profil pour ENTRETIEN', async () => {
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
-      id: 'profile-1',
-      oeuvreChoisieEntretien: 'Manon Lescaut',
-    } as never);
-
-    const req = new Request('http://localhost', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
-      body: JSON.stringify({
-        step: 'ENTRETIEN',
-        transcript: 'Je présente mon œuvre.',
-        duration: 240,
-      }),
-    });
-
-    await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
-    expect(prisma.studentProfile.findUnique).toHaveBeenCalledOnce();
-  });
-
-  it('ne bloque pas la réponse si la post-consommation LLM_TOKENS échoue', async () => {
-    vi.mocked(consumeQuota).mockRejectedValue(
-      new QuotaExceededError('LLM_TOKENS', 8_000, 8_000, 'day') as never,
-    );
-
-    const req = new Request('http://localhost', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
-      body: JSON.stringify({
-        step: 'LECTURE',
-        transcript: 'Lecture fluide.',
-        duration: 90,
-      }),
-    });
-
-    const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
-    expect(res.status).toBe(200);
-    expect(vi.mocked(logger.warn)).toHaveBeenCalledWith(
-      expect.objectContaining({ userId: 'user-1', step: 'LECTURE' }),
-      'interact.llm_tokens.post_consume.exceeded',
-    );
   });
 });

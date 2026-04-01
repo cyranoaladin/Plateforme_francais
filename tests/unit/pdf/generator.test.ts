@@ -165,7 +165,9 @@ describe('generateDocument (mocked FS)', () => {
         title: '<script>alert("xss")</script>',
         note: 10,
         maxNote: 20,
-        mention: 'Passable',
+        mention: '<script>alert("xss")</script>',
+        bilan_global: '<script>alert("xss")</script>',
+        conseil_final: '<script>alert("xss")</script>',
       },
       userId: 'test-user',
       filename: 'test-xss',
@@ -173,6 +175,28 @@ describe('generateDocument (mocked FS)', () => {
 
     expect(result.html).not.toContain('<script>');
     expect(result.html).toContain('&lt;script&gt;');
+  });
+
+  it('échappe aussi les champs LLM du rapport écrit', async () => {
+    const result = await generateDocument({
+      template: PDFTemplate.RAPPORT_ECRIT,
+      data: {
+        title: 'Rapport',
+        note: 12,
+        mention: 'Assez bien',
+        bilan: {
+          global: '<script>alert("xss")</script>',
+          points_forts: ['<script>alert("xss")</script>'],
+          axes_amelioration: ['<script>alert("xss")</script>'],
+        },
+        conseil_final: '<script>alert("xss")</script>',
+      },
+      userId: 'test-user',
+      filename: 'rapport-xss',
+    });
+
+    expect(result.html).not.toContain('<script>');
+    expect(result.html).toContain('&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;');
   });
 
   it('generateDocument returns url, key, and html', async () => {
@@ -188,6 +212,7 @@ describe('generateDocument (mocked FS)', () => {
     expect(result).toHaveProperty('html');
     expect(typeof result.html).toBe('string');
     expect(result.html.length).toBeGreaterThan(0);
+    expect(result.key).toMatch(/^documents\/test-user\/\d{13}-[a-f0-9]{8}-test-doc\.html$/);
   });
 
   it('stocke le document avec profileId résolu depuis userId', async () => {

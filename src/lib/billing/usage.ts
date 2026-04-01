@@ -67,6 +67,80 @@ function redisKey(userId: string, entitlement: EntitlementKey, periodKey: string
   return `quota:${userId}:${entitlement}:${periodKey}`;
 }
 
+type NumericQuotaCheckResult = {
+  allowed: boolean;
+  current: number;
+  limit: number;
+  remaining: number;
+};
+
+type NumericQuotaEntry = QuotaEntry & { limit: number };
+
+const QUOTA_CHECK_AND_CONSUME_LUA = `
+  local current = redis.call('GET', KEYS[1])
+  local count = current and tonumber(current) or 0
+  local limit = tonumber(ARGV[1])
+  local cost = tonumber(ARGV[2])
+
+  if cost == 0 then
+    return {1, count}
+  end
+
+  if limit ~= 0 and count + cost > limit then
+    return {0, count}
+  end
+
+  local newCount = redis.call('INCRBY', KEYS[1], cost)
+  if newCount == cost then
+    redis.call('EXPIRE', KEYS[1], tonumber(ARGV[3]))
+  end
+  return {1, newCount}
+`;
+
+function parseEvalResult(raw: unknown): { allowed: boolean; count: number } {
+  if (Array.isArray(raw)) {
+    const [allowedRaw, countRaw] = raw;
+    return {
+      allowed: Number(allowedRaw) === 1,
+      count: Number(countRaw) || 0,
+    };
+  }
+
+  return {
+    allowed: Number(raw) >= 0,
+    count: Number(raw) || 0,
+  };
+}
+
+async function runNumericQuotaCheck(input: {
+  userId: string;
+  entitlement: EntitlementKey;
+  quotaEntry: NumericQuotaEntry;
+  amount: number;
+}): Promise<NumericQuotaCheckResult> {
+  const { key: pk, ttlSec } = periodInfo(input.quotaEntry.period);
+  const rk = redisKey(input.userId, input.entitlement, pk);
+  const redis = getRedisClient();
+  await redis.ping();
+
+  const raw = await redis.eval(
+    QUOTA_CHECK_AND_CONSUME_LUA,
+    1,
+    rk,
+    input.quotaEntry.limit.toString(),
+    input.amount.toString(),
+    ttlSec.toString(),
+  );
+  const parsed = parseEvalResult(raw);
+
+  return {
+    allowed: parsed.allowed,
+    current: parsed.count,
+    limit: input.quotaEntry.limit,
+    remaining: Math.max(0, input.quotaEntry.limit - parsed.count),
+  };
+}
+
 /* ─────────────────── Core functions ─────────────────── */
 
 /**
@@ -84,32 +158,28 @@ export async function checkQuota(
   if (quotaEntry.limit === 0) {
     return { allowed: false, current: 0, limit: 0, remaining: 0 };
   }
+  if (typeof quotaEntry.limit !== 'number') {
+    return { allowed: true, current: 0, limit: 'unlimited', remaining: 'unlimited' };
+  }
+  const numericQuotaEntry: NumericQuotaEntry = { ...quotaEntry, limit: quotaEntry.limit };
 
-  const { key: pk } = periodInfo(quotaEntry.period);
-  const rk = redisKey(userId, entitlement, pk);
   const isDev = process.env.NODE_ENV !== 'production';
 
   try {
-    const redis = getRedisClient();
-    await redis.ping();
-
-    const current = Number(await redis.get(rk)) || 0;
-    const remaining = Math.max(0, quotaEntry.limit - current);
-
-    return {
-      allowed: remaining > 0,
-      current,
-      limit: quotaEntry.limit,
-      remaining,
-    };
+    return await runNumericQuotaCheck({
+      userId,
+      entitlement,
+      quotaEntry: numericQuotaEntry,
+      amount: 0,
+    });
   } catch (err) {
     if (isDev) {
       logger.warn({ userId, entitlement, err }, 'quota:check:redis_unavailable (dev fallback allow)');
-      return { allowed: true, current: 0, limit: quotaEntry.limit, remaining: quotaEntry.limit };
+      return { allowed: true, current: 0, limit: numericQuotaEntry.limit, remaining: numericQuotaEntry.limit };
     }
     // FAIL-CLOSED in production
     logger.error({ userId, entitlement, err }, 'quota:check:redis_unavailable (fail-closed)');
-    return { allowed: false, current: 0, limit: quotaEntry.limit, remaining: 0 };
+    return { allowed: false, current: 0, limit: numericQuotaEntry.limit, remaining: 0 };
   }
 }
 
@@ -129,47 +199,26 @@ export async function consumeQuota(
   if (quotaEntry.limit === 0) {
     throw new QuotaExceededError(entitlement, 0, 0, quotaEntry.period);
   }
+  if (typeof quotaEntry.limit !== 'number') {
+    return { current: 0, limit: 'unlimited', remaining: 'unlimited' };
+  }
+  const numericQuotaEntry: NumericQuotaEntry = { ...quotaEntry, limit: quotaEntry.limit };
 
-  const { key: pk, ttlSec } = periodInfo(quotaEntry.period);
-  const rk = redisKey(userId, entitlement, pk);
   const isDev = process.env.NODE_ENV !== 'production';
 
   try {
-    const redis = getRedisClient();
-    await redis.ping();
-    const luaScript = `
-      local current = redis.call('GET', KEYS[1])
-      local count = tonumber(current) or 0
-      if count + tonumber(ARGV[1]) > tonumber(ARGV[2]) then
-        return -1
-      end
-      local newVal = redis.call('INCRBY', KEYS[1], ARGV[1])
-      if newVal == tonumber(ARGV[1]) then
-        redis.call('EXPIRE', KEYS[1], ARGV[3])
-      end
-      return newVal
-    `;
-    const newCount = Number(
-      await redis.eval(
-        luaScript,
-        1,
-        rk,
-        amount.toString(),
-        quotaEntry.limit.toString(),
-        ttlSec.toString(),
-      ),
-    );
+    const result = await runNumericQuotaCheck({
+      userId,
+      entitlement,
+      quotaEntry: numericQuotaEntry,
+      amount,
+    });
 
-    if (newCount === -1) {
-      const current = Number(await redis.get(rk)) || 0;
-      throw new QuotaExceededError(entitlement, quotaEntry.limit, current, quotaEntry.period);
+    if (!result.allowed) {
+      throw new QuotaExceededError(entitlement, numericQuotaEntry.limit, result.current, numericQuotaEntry.period);
     }
 
-    return {
-      current: newCount,
-      limit: quotaEntry.limit,
-      remaining: Math.max(0, quotaEntry.limit - newCount),
-    };
+    return result;
   } catch (err) {
     if (err instanceof QuotaExceededError) {
       throw err;
@@ -177,12 +226,12 @@ export async function consumeQuota(
 
     if (isDev) {
       logger.warn({ userId, entitlement, err }, 'quota:consume:redis_unavailable (dev fallback allow)');
-      return { current: 0, limit: quotaEntry.limit, remaining: quotaEntry.limit };
+      return { current: 0, limit: numericQuotaEntry.limit, remaining: numericQuotaEntry.limit };
     }
 
     // FAIL-CLOSED in production
     logger.error({ userId, entitlement, err }, 'quota:consume:redis_unavailable (fail-closed)');
-    throw new QuotaExceededError(entitlement, quotaEntry.limit, 0, quotaEntry.period);
+    throw new QuotaExceededError(entitlement, numericQuotaEntry.limit, 0, numericQuotaEntry.period);
   }
 }
 

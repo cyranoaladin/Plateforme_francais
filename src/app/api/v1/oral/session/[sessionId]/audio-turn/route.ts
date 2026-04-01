@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
-import { prisma } from '@/lib/db/client';
-import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
+import { getBillingContext } from '@/lib/billing/context';
+import { QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { logger } from '@/lib/logger';
-import { createMemoryEvent } from '@/lib/memory/store';
-import { appendOralInteraction, findOralSessionById } from '@/lib/oral/repository';
-import { evaluateOralPhase } from '@/lib/oral/service';
+import { findOralSessionById } from '@/lib/oral/repository';
+import { evaluateAndPersistPhase } from '@/lib/oral/evaluate-and-persist';
 import { PHASE_MAX_SCORES, type OralPhaseKey } from '@/lib/oral/scoring';
 import { validateCsrf } from '@/lib/security/csrf';
 import { QuotaExceededError } from '@/lib/security/llm-rate-limiter';
@@ -120,22 +119,31 @@ export async function POST(
   }
 
   // ── 2. Evaluate oral phase ──
-  const profile = await prisma.studentProfile.findUnique({ where: { userId: auth.user.id } });
+  const billing = await getBillingContext(auth.user.id);
 
   let evaluation;
   try {
-    evaluation = await evaluateOralPhase({
+    evaluation = await evaluateAndPersistPhase({
+      userId: auth.user.id,
+      sessionId,
+      session,
       phase,
       transcript,
-      extrait: session.extrait,
-      questionGrammaire: session.questionGrammaire,
-      oeuvre: session.oeuvre,
       duration,
-      userId: auth.user.id,
-      oeuvreChoisieEntretien: profile?.oeuvreChoisieEntretien ?? null,
-      examinerProfile: phase === 'ENTRETIEN' ? examinerProfile : null,
+      examinerProfile,
+      billing,
+      mode: 'voice',
     });
   } catch (error) {
+    if (error instanceof BillingQuotaExceededError) {
+      return NextResponse.json(
+        {
+          error: 'Limite de tokens LLM atteinte pour la période. Réessaie demain.',
+          code: 'LLM_QUOTA_EXCEEDED',
+        },
+        { status: 402 },
+      );
+    }
     if (error instanceof QuotaExceededError) {
       return NextResponse.json(
         { error: `Limite atteinte pour cette évaluation orale (${error.scope}). Réessayez plus tard.` },
@@ -167,36 +175,7 @@ export async function POST(
     }
   }
 
-  // ── 4. Persist interaction ──
-  await appendOralInteraction({
-    sessionId,
-    interaction: {
-      step: phase,
-      transcript,
-      duration,
-      feedback: evaluation,
-      createdAt: new Date().toISOString(),
-    },
-  });
-
-  // ── 5. Memory event ──
-  await createMemoryEventRecord(
-    createMemoryEvent(auth.user.id, {
-      type: 'evaluation',
-      feature: `oral_phase_${phase.toLowerCase()}`,
-      path: '/atelier-oral',
-      payload: {
-        sessionId,
-        step: phase,
-        score: evaluation.score,
-        max: evaluation.max,
-        duration,
-        mode: 'voice',
-      },
-    }),
-  ).catch(() => undefined);
-
-  // ── 6. Instrumentation log ──
+  // ── 4. Instrumentation log ──
   const totalLatencyMs = Date.now() - turnStartMs;
   logger.info(
     {
@@ -213,7 +192,7 @@ export async function POST(
     'audio-turn.completed',
   );
 
-  // ── 7. Response ──
+  // ── 5. Response ──
   return NextResponse.json(
     {
       transcript,

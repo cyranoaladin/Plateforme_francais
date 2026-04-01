@@ -4,6 +4,7 @@ const {
   mockIsDatabaseAvailable,
   mockCreate,
   mockFindUnique,
+  mockFindMany,
   mockUpdate,
   mockPhaseUpsert,
   mockTranscriptUpsert,
@@ -12,6 +13,7 @@ const {
   mockIsDatabaseAvailable: vi.fn(),
   mockCreate: vi.fn(),
   mockFindUnique: vi.fn(),
+  mockFindMany: vi.fn(),
   mockUpdate: vi.fn(),
   mockPhaseUpsert: vi.fn(),
   mockTranscriptUpsert: vi.fn(),
@@ -24,6 +26,7 @@ vi.mock('@/lib/db/client', () => ({
     oralSession: {
       create: mockCreate,
       findUnique: mockFindUnique,
+      findMany: mockFindMany,
       update: mockUpdate,
     },
     oralPhaseScore: {
@@ -51,6 +54,7 @@ describe('oral repository persistence', () => {
     mockIsDatabaseAvailable.mockResolvedValue(true);
     mockCreate.mockReset();
     mockFindUnique.mockReset();
+    mockFindMany.mockReset();
     mockUpdate.mockReset();
     mockPhaseUpsert.mockReset();
     mockTranscriptUpsert.mockReset();
@@ -196,5 +200,60 @@ describe('oral repository persistence', () => {
         }),
       })
     );
+  });
+
+  it("listOralSessionsByUser projette l'historique depuis oralBilan sans charger feedback", async () => {
+    mockFindMany.mockResolvedValue([
+      {
+        id: 'session-1',
+        status: 'ENDED',
+        mode: 'SIMULATION',
+        oeuvre: 'Manon Lescaut',
+        score: 12.5,
+        maxScore: 20,
+        createdAt: new Date('2026-03-24T00:00:00.000Z'),
+        endedAt: new Date('2026-03-24T00:30:00.000Z'),
+        oralBilan: {
+          note: 12.5,
+          mention: 'Assez bien',
+          bilanGlobal: 'Bilan test',
+        },
+      },
+    ]);
+
+    const { listOralSessionsByUser } = await import('@/lib/oral/repository');
+    const sessions = await listOralSessionsByUser('user-1', { limit: 10 });
+
+    const findManyArgs = mockFindMany.mock.calls[0]?.[0];
+    expect(findManyArgs).toMatchObject({
+      where: { userId: 'user-1' },
+      select: {
+        oralBilan: {
+          select: {
+            note: true,
+            mention: true,
+            bilanGlobal: true,
+          },
+        },
+      },
+    });
+    expect(findManyArgs?.select).not.toHaveProperty('feedback');
+    expect(sessions).toEqual([
+      {
+        id: 'session-1',
+        status: 'ENDED',
+        mode: 'SIMULATION',
+        oeuvre: 'Manon Lescaut',
+        score: 12.5,
+        maxScore: 20,
+        finalFeedback: {
+          note: 12.5,
+          mention: 'Assez bien',
+          bilan_global: 'Bilan test',
+        },
+        createdAt: '2026-03-24T00:00:00.000Z',
+        endedAt: '2026-03-24T00:30:00.000Z',
+      },
+    ]);
   });
 });
