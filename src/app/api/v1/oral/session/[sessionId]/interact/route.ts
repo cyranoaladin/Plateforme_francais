@@ -4,7 +4,8 @@ import { prisma } from '@/lib/db/client';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { getBillingContext } from '@/lib/billing/context';
-import { checkQuota } from '@/lib/billing/usage';
+import { checkQuota, consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
+import { logger } from '@/lib/logger';
 import { appendOralInteraction, findOralSessionById } from '@/lib/oral/repository';
 import { evaluateOralPhase } from '@/lib/oral/service';
 import { PHASE_MAX_SCORES, type OralPhaseKey } from '@/lib/oral/scoring';
@@ -25,6 +26,12 @@ export async function POST(
   { params }: { params: Promise<{ sessionId: string }> },
 ) {
   const interactableStatuses = new Set(['DRAFT', 'PASSAGE_RUNNING']);
+  const phaseTokenCost: Record<OralPhaseKey, number> = {
+    LECTURE: 200,
+    EXPLICATION: 800,
+    GRAMMAIRE: 300,
+    ENTRETIEN: 1000,
+  };
   const { auth, errorResponse } = await requireAuthenticatedUser();
   if (!auth || errorResponse) {
     return errorResponse;
@@ -73,7 +80,10 @@ export async function POST(
     }
   }
 
-  const profile = await prisma.studentProfile.findUnique({ where: { userId: auth.user.id } });
+  const profile =
+    parsed.data.step === 'ENTRETIEN'
+      ? await prisma.studentProfile.findUnique({ where: { userId: auth.user.id } })
+      : null;
 
   let evaluation;
   try {
@@ -96,6 +106,24 @@ export async function POST(
       );
     }
     throw error;
+  }
+
+  if (llmQuota && llmQuota.limit !== 0 && llmQuota.limit !== 'unlimited') {
+    try {
+      await consumeQuota(auth.user.id, 'LLM_TOKENS', llmQuota, phaseTokenCost[phase] ?? 500);
+    } catch (err) {
+      if (err instanceof BillingQuotaExceededError) {
+        logger.warn(
+          { userId: auth.user.id, step: parsed.data.step },
+          'interact.llm_tokens.post_consume.exceeded',
+        );
+      } else {
+        logger.warn(
+          { err, userId: auth.user.id, step: parsed.data.step },
+          'interact.llm_tokens.consume.failed',
+        );
+      }
+    }
   }
 
   await appendOralInteraction({

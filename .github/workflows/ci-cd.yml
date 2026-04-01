@@ -61,8 +61,8 @@ jobs:
       - name: Verify Next.js version coherence
         run: |
           INSTALLED=$(node -e "console.log(require('./node_modules/next/package.json').version)")
-          DECLARED=$(node -e "console.log(require('./package.json').dependencies.next)")
-          echo "Installed: $INSTALLED | Declared: $DECLARED"
+          DECLARED=$(node -e "const raw=require('./package.json').dependencies.next; console.log(raw.replace(/^[\\^~>=]*/,''))")
+          echo "Installed: $INSTALLED | Declared (cleaned): $DECLARED"
           test "$DECLARED" = "$INSTALLED"
       - name: Check curly quotes in props
         run: npm run check:quotes
@@ -91,7 +91,7 @@ jobs:
         run: |
           npm ci --omit=dev
           npm run build:worker
-          test -f dist/worker/src/lib/queue/start-worker.js
+          test -s dist/worker/src/lib/queue/start-worker.js
 
   unit-tests:
     name: "Gate 2 - Tests Unitaires (114 fichiers, sans postgres requis)"

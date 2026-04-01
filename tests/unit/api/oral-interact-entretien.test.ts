@@ -5,6 +5,20 @@ vi.mock('@/lib/billing/context', () => ({
 }));
 vi.mock('@/lib/billing/usage', () => ({
   checkQuota: vi.fn(),
+  consumeQuota: vi.fn(),
+  QuotaExceededError: class QuotaExceededError extends Error {
+    constructor(...args: unknown[]) {
+      void args;
+      super('quota exceeded');
+    }
+  },
+}));
+vi.mock('@/lib/logger', () => ({
+  logger: {
+    warn: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+  },
 }));
 vi.mock('@/lib/db/client', () => ({
   prisma: {
@@ -40,7 +54,8 @@ vi.mock('@/lib/oral/scoring', () => ({
 import { prisma } from '@/lib/db/client';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { getBillingContext } from '@/lib/billing/context';
-import { checkQuota } from '@/lib/billing/usage';
+import { checkQuota, consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
+import { logger } from '@/lib/logger';
 import { findOralSessionById } from '@/lib/oral/repository';
 import { evaluateOralPhase } from '@/lib/oral/service';
 import { POST } from '@/app/api/v1/oral/session/[sessionId]/interact/route';
@@ -69,8 +84,14 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
       limit: 8_000,
       remaining: 8_000,
     } as never);
+    vi.mocked(consumeQuota).mockResolvedValue({
+      current: 800,
+      limit: 8_000,
+      remaining: 7_200,
+    } as never);
     vi.mocked(findOralSessionById).mockResolvedValue(mockSession as never);
     vi.mocked(evaluateOralPhase).mockClear();
+    vi.mocked(prisma.studentProfile.findUnique).mockReset();
   });
 
   it("passe oeuvreChoisieEntretien au service quand le profil l'a renseignée", async () => {
@@ -149,6 +170,7 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
         extrait: mockSession.extrait,
       }),
     );
+    expect(prisma.studentProfile.findUnique).not.toHaveBeenCalled();
   });
 
   it("retourne 404 si la session n'appartient pas à l'utilisateur", async () => {
@@ -234,6 +256,13 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
     const body = await res.json();
     expect(body).toHaveProperty('feedback');
     expect(body).toHaveProperty('score');
+    expect(prisma.studentProfile.findUnique).not.toHaveBeenCalled();
+    expect(consumeQuota).toHaveBeenCalledWith(
+      'user-1',
+      'LLM_TOKENS',
+      expect.objectContaining({ limit: 8_000, period: 'day' }),
+      200,
+    );
   });
 
   it('retourne 429 quand le quota LLM oral est depasse', async () => {
@@ -285,5 +314,48 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
     const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
     expect(res.status).toBe(402);
     expect(evaluateOralPhase).not.toHaveBeenCalled();
+  });
+
+  it('requête le profil pour ENTRETIEN', async () => {
+    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
+      id: 'profile-1',
+      oeuvreChoisieEntretien: 'Manon Lescaut',
+    } as never);
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
+      body: JSON.stringify({
+        step: 'ENTRETIEN',
+        transcript: 'Je présente mon œuvre.',
+        duration: 240,
+      }),
+    });
+
+    await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
+    expect(prisma.studentProfile.findUnique).toHaveBeenCalledOnce();
+  });
+
+  it('ne bloque pas la réponse si la post-consommation LLM_TOKENS échoue', async () => {
+    vi.mocked(consumeQuota).mockRejectedValue(
+      new QuotaExceededError('LLM_TOKENS', 8_000, 8_000, 'day') as never,
+    );
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
+      body: JSON.stringify({
+        step: 'LECTURE',
+        transcript: 'Lecture fluide.',
+        duration: 90,
+      }),
+    });
+
+    const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
+    expect(res.status).toBe(200);
+    expect(vi.mocked(logger.warn)).toHaveBeenCalledWith(
+      expect.objectContaining({ userId: 'user-1', step: 'LECTURE' }),
+      'interact.llm_tokens.post_consume.exceeded',
+    );
   });
 });

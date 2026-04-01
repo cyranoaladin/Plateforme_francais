@@ -45,6 +45,7 @@ describe('GET /api/v1/oral/session/[sessionId]', () => {
     });
 
     expect(response.status).toBe(404);
+    await expect(response.json()).resolves.toMatchObject({ error: 'Ressource non disponible.' });
   });
 
   it('retourne la session demandée si elle appartient à l’utilisateur', async () => {

@@ -48,7 +48,11 @@ vi.mock('@/lib/logger', () => ({
 
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { createEvaluation } from '@/lib/db/repositories/evaluationRepo';
+import { evaluateBadges } from '@/lib/gamification/badges';
 import { finalizeOralSession, findOralSessionById } from '@/lib/oral/repository';
+import { generateOralBilan } from '@/lib/oral/service';
+import { processInteraction } from '@/lib/agents/student-modeler';
+import { logger } from '@/lib/logger';
 import { POST } from '@/app/api/v1/oral/session/[sessionId]/end/route';
 
 describe('POST /api/v1/oral/session/[sessionId]/end', () => {
@@ -105,5 +109,81 @@ describe('POST /api/v1/oral/session/[sessionId]/end', () => {
     expect(finalizeOralSession).toHaveBeenCalled();
     const body = await response.json();
     expect(body.note).toBe(12);
+  });
+
+  it('ne déclenche pas le badge score pour une note de 15.5', async () => {
+    vi.mocked(generateOralBilan).mockResolvedValue({
+      note: 15.5,
+      maxNote: 20,
+      mention: 'Bien',
+      bilan_global: 'Bilan',
+      conseil_final: 'Conseil',
+    } as never);
+
+    await POST(
+      new Request('http://localhost/api/v1/oral/session/session-1/end', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': 'tok',
+        },
+        body: JSON.stringify({ notes: 'fin' }),
+      }),
+      { params: Promise.resolve({ sessionId: 'session-1' }) },
+    );
+
+    const scoreCalls = vi.mocked(evaluateBadges).mock.calls.filter(
+      ([input]) => (input as { trigger?: string }).trigger === 'score',
+    );
+    expect(scoreCalls).toHaveLength(0);
+  });
+
+  it('déclenche le badge score pour une note de 16', async () => {
+    vi.mocked(generateOralBilan).mockResolvedValue({
+      note: 16,
+      maxNote: 20,
+      mention: 'Très bien',
+      bilan_global: 'Bilan',
+      conseil_final: 'Conseil',
+    } as never);
+
+    await POST(
+      new Request('http://localhost/api/v1/oral/session/session-1/end', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': 'tok',
+        },
+        body: JSON.stringify({ notes: 'fin' }),
+      }),
+      { params: Promise.resolve({ sessionId: 'session-1' }) },
+    );
+
+    const scoreCalls = vi.mocked(evaluateBadges).mock.calls.filter(
+      ([input]) => (input as { trigger?: string; score?: number }).trigger === 'score' && (input as { score?: number }).score === 16,
+    );
+    expect(scoreCalls).toHaveLength(1);
+  });
+
+  it('loggue un warning si processInteraction échoue sans bloquer le bilan', async () => {
+    vi.mocked(processInteraction).mockRejectedValue(new Error('modeler down') as never);
+
+    const response = await POST(
+      new Request('http://localhost/api/v1/oral/session/session-1/end', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': 'tok',
+        },
+        body: JSON.stringify({ notes: 'fin' }),
+      }),
+      { params: Promise.resolve({ sessionId: 'session-1' }) },
+    );
+
+    expect(response.status).toBe(200);
+    expect(vi.mocked(logger.warn)).toHaveBeenCalledWith(
+      expect.objectContaining({ sessionId: 'session-1', userId: 'user-1' }),
+      'oral.end.processInteraction.failed',
+    );
   });
 });

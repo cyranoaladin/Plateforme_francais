@@ -59,7 +59,7 @@ export type PlanConfig = {
   id: InternalPlanId;
   label: string;
   priceTnd: number;
-  billingCycle: 'free' | 'monthly';
+  billingCycle: 'free' | 'monthly' | 'annual';
   rateLimits: {
     oralStartPerHour: number;
   };

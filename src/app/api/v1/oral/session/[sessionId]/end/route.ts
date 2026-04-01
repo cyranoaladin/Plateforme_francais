@@ -106,7 +106,9 @@ export async function POST(
         evidence: item.feedback.feedback,
       })),
     },
-  }).catch(() => undefined);
+  }).catch((err) => {
+    logger.warn({ err, sessionId, userId: auth.user.id }, 'oral.end.processInteraction.failed');
+  });
 
   const timeline = await listMemoryEventsByUser(auth.user.id, 500);
   let badgeResult = evaluateBadges({
@@ -115,7 +117,7 @@ export async function POST(
     timeline,
   });
 
-  if (bilan.note > 15) {
+  if (bilan.note >= 16) {
     badgeResult = evaluateBadges({
       profile: { ...auth.user.profile, badges: badgeResult.badges },
       trigger: 'score',

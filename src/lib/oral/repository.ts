@@ -192,6 +192,7 @@ export async function listOralSessionsByUser(
       orderBy: { createdAt: 'desc' },
       take: options?.limit ?? 20,
       ...(options?.cursor ? { cursor: { id: options.cursor }, skip: 1 } : {}),
+      // TODO: migrate finalFeedback to a dedicated DB column to avoid loading the full feedback JSON blob for summaries.
       select: {
         id: true,
         status: true,
