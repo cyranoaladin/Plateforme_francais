@@ -101,6 +101,6 @@ export async function GET() {
         ttsAvailable: getTtsCapability().available,
       },
     },
-    { status: allOk ? 200 : 503 },
+    { status: status === 'down' ? 503 : 200 },
   );
 }
