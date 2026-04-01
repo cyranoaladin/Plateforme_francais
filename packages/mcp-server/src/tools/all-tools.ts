@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import type { Prisma } from '@prisma/client'
 import { getDb } from '../lib/db.js'
+import { PLAN_CATALOG, type InternalPlanId, type PlanConfig, type QuotaEntry } from '../../src/lib/billing/plan-catalog'
 
 export const GetCorrectionSchema = z.object({
   copieId: z.string().min(1),
@@ -402,44 +403,50 @@ export const GetSubscriptionSchema = z.object({
  * Plan limits — aligned with plan-catalog.ts quotas.
  * Internal plan IDs: FREE (Freemium), PREMIUM (Premium), PRO (Masterium).
  */
-const PLAN_LIMITS = {
-  FREE: {
-    epreuvesPerMonth: 3,
-    correctionsPerMonth: 2,
-    oralSessionsPerMonth: 1,
-    tuteurMessagesPerDay: 3,
-    quizPerDay: 3,
-    adaptiveParcours: false,
-    avocatDuDiable: false,
-    spacedRepetition: false,
-    rapportHebdo: false,
-    graphRag: false,
-  },
-  PREMIUM: {
-    epreuvesPerMonth: null,
-    correctionsPerMonth: 20,
-    oralSessionsPerMonth: 40,
-    tuteurMessagesPerDay: 100,
-    quizPerDay: 30,
-    adaptiveParcours: true,
-    avocatDuDiable: true,
-    spacedRepetition: true,
-    rapportHebdo: true,
-    graphRag: false,
-  },
-  PRO: {
-    epreuvesPerMonth: null,
-    correctionsPerMonth: null,
-    oralSessionsPerMonth: null,
-    tuteurMessagesPerDay: null,
-    quizPerDay: null,
-    adaptiveParcours: true,
-    avocatDuDiable: true,
-    spacedRepetition: true,
-    rapportHebdo: true,
-    graphRag: true,
-  },
-} as const
+type PlanLimits = {
+  epreuvesPerMonth: number | null;
+  correctionsPerMonth: number | null;
+  oralSessionsPerMonth: number | null;
+  tuteurMessagesPerDay: number | null;
+  quizPerDay: number | null;
+  adaptiveParcours: boolean;
+  avocatDuDiable: boolean;
+  spacedRepetition: boolean;
+  rapportHebdo: boolean;
+  graphRag: boolean;
+}
+
+function normalizeLimit(entry?: QuotaEntry, convertWeekly = false): number | null {
+  if (!entry) return null;
+  if (entry.limit === 'unlimited') return null;
+  if (typeof entry.limit !== 'number') return null;
+  if (convertWeekly && entry.period === 'week') {
+    return entry.limit * 4;
+  }
+  return entry.limit;
+}
+
+function buildPlanLimits(plan: PlanConfig): PlanLimits {
+  const quotas = plan.quotas;
+  const flags = plan.flags ?? {};
+
+  return {
+    epreuvesPerMonth: plan.id === 'FREE' ? 3 : null,
+    correctionsPerMonth: normalizeLimit(quotas.WRITTEN_CORRECTIONS),
+    oralSessionsPerMonth: normalizeLimit(quotas.ORAL_SESSIONS, true),
+    tuteurMessagesPerDay: normalizeLimit(quotas.TUTOR_QUESTIONS),
+    quizPerDay: normalizeLimit(quotas.QUIZ_PER_DAY),
+    adaptiveParcours: Boolean(flags.ADAPTIVE_PARCOURS),
+    avocatDuDiable: Boolean(flags.AVOCAT_DU_DIABLE),
+    spacedRepetition: Boolean(flags.SPACED_REPETITION_TIER && flags.SPACED_REPETITION_TIER !== 'basic'),
+    rapportHebdo: Boolean(flags.ORAL_REPORT_HISTORY),
+    graphRag: Boolean(flags.GRAPH_RAG),
+  }
+}
+
+export const PLAN_LIMITS: Readonly<Record<InternalPlanId, PlanLimits>> = Object.fromEntries(
+  Object.values(PLAN_CATALOG).map((plan) => [plan.id, buildPlanLimits(plan)]),
+) as Readonly<Record<InternalPlanId, PlanLimits>>
 
 export async function getSubscription(input: z.infer<typeof GetSubscriptionSchema>) {
   const db = getDb()
@@ -449,12 +456,12 @@ export async function getSubscription(input: z.infer<typeof GetSubscriptionSchem
 
   const rawPlan = subscription?.plan ?? 'FREE'
   // Normalize legacy plan names to canonical internal IDs
-  const plan = (rawPlan === 'MONTHLY' ? 'PREMIUM' : rawPlan === 'LIFETIME' || rawPlan === 'MAX' ? 'PRO' : rawPlan) as keyof typeof PLAN_LIMITS
-  const limits = PLAN_LIMITS[plan]
+  const planId = (rawPlan === 'MONTHLY' ? 'PREMIUM' : rawPlan === 'LIFETIME' || rawPlan === 'MAX' ? 'PRO' : rawPlan) as InternalPlanId
+  const limits = PLAN_LIMITS[planId]
 
   let featureCheck: { feature: string; allowed: boolean; reason?: string; upgradeUrl?: string } | undefined
   if (input.feature) {
-    const value = limits[input.feature as keyof typeof limits]
+    const value = (limits as Record<string, number | null | boolean>)[input.feature]
     featureCheck = {
       feature: input.feature,
       allowed: value !== false,
@@ -464,7 +471,7 @@ export async function getSubscription(input: z.infer<typeof GetSubscriptionSchem
   }
 
   return {
-    plan,
+    plan: planId,
     status: subscription?.status ?? 'active',
     trialEndsAt: subscription?.trialEnd?.toISOString() ?? undefined,
     currentPeriodEnd: subscription?.currentPeriodEnd?.toISOString() ?? undefined,
@@ -517,10 +524,18 @@ export const GetProgramme2026Schema = z.object({
 
 export async function getProgramme2026(input: z.infer<typeof GetProgramme2026Schema>) {
   const oeuvres = [
-    { titre: 'Phèdre', auteur: 'Jean Racine', genre: 'Tragédie', siecle: '17e', objet_etude: 'theatre', parcours: 'Passion et tragédie', themes: ['passion', 'culpabilité', 'fatalité'] },
-    { titre: 'Les Fleurs du mal', auteur: 'Charles Baudelaire', genre: 'Poésie', siecle: '19e', objet_etude: 'poesie', parcours: 'Alchimie poétique : la boue et l\'or', themes: ['spleen', 'idéal', 'modernité'] },
-    { titre: 'La Déclaration des droits de la femme', auteur: 'Olympe de Gouges', genre: 'Littérature d\'idées', siecle: '18e', objet_etude: 'litterature_idees', parcours: 'Écrire et combattre pour l\'égalité', themes: ['égalité', 'droits', 'engagement'] },
-    { titre: 'Manon Lescaut', auteur: 'Abbé Prévost', genre: 'Roman', siecle: '18e', objet_etude: 'roman', parcours: 'Personnages en marge, plaisirs et souffrance', themes: ['passion', 'marginalité', 'sacrifice'] },
+    { titre: 'Cahier de Douai', auteur: 'Arthur Rimbaud', genre: 'Poésie', siecle: '19e', objet_etude: 'poesie', parcours: 'Vouloir esquisser', themes: ['écriture', 'révolte'] },
+    { titre: "La rage de l'expression", auteur: 'Francis Ponge', genre: 'Poésie', siecle: '20e', objet_etude: 'poesie', parcours: 'Langage et matière', themes: ['langage', 'matière'] },
+    { titre: 'Mes forêts', auteur: 'Hélène Dorion', genre: 'Poésie', siecle: '21e', objet_etude: 'poesie', parcours: 'Éveiller l’espace', themes: ['nature', 'immersion'] },
+    { titre: 'Discours de la servitude volontaire', auteur: 'Étienne de La Boétie', genre: 'Littérature d’idées', siecle: '16e', objet_etude: 'litterature_idees', parcours: 'Liberté et pouvoir', themes: ['liberté', 'individualisme'] },
+    { titre: 'Entretiens sur la pluralité des mondes', auteur: 'Fontenelle', genre: 'Littérature d’idées', siecle: '17e', objet_etude: 'litterature_idees', parcours: 'Philosophie scientifique', themes: ['science', 'raison'] },
+    { titre: "Lettres d'une Péruvienne", auteur: 'Françoise de Graffigny', genre: 'Littérature d’idées', siecle: '18e', objet_etude: 'litterature_idees', parcours: 'Échanges épistolaires', themes: ['éloquence', 'émancipation'] },
+    { titre: 'Le Menteur', auteur: 'Pierre Corneille', genre: 'Théâtre', siecle: '17e', objet_etude: 'theatre', parcours: 'Comédie et identité', themes: ['mensonge', 'comédie'] },
+    { titre: 'On ne badine pas avec l’amour', auteur: 'Alfred de Musset', genre: 'Théâtre', siecle: '19e', objet_etude: 'theatre', parcours: 'Conflit amoureux', themes: ['orgueil', 'désir'] },
+    { titre: 'Pour un oui ou pour un non', auteur: 'Nathalie Sarraute', genre: 'Théâtre', siecle: '20e', objet_etude: 'theatre', parcours: 'Génération & langage', themes: ['langage', 'incommunicabilité'] },
+    { titre: 'Manon Lescaut', auteur: 'Abbé Prévost', genre: 'Roman', siecle: '18e', objet_etude: 'roman', parcours: 'Passion & destin', themes: ['passion', 'rupture'] },
+    { titre: 'La Peau de chagrin', auteur: 'Honoré de Balzac', genre: 'Roman', siecle: '19e', objet_etude: 'roman', parcours: 'Désir & limite', themes: ['quête', 'fatalité'] },
+    { titre: 'Sido & Les Vrilles de la vigne', auteur: 'Colette', genre: 'Roman', siecle: '20e', objet_etude: 'roman', parcours: 'Solitude moderne', themes: ['corps', 'intimité'] },
   ]
   const filtered = input.objet_etude === 'tous' ? oeuvres : oeuvres.filter(o => o.objet_etude === input.objet_etude)
   const examDate = new Date('2026-06-08')
