@@ -4,7 +4,9 @@ import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { generateWeeklyReport } from '@/lib/agents/rapport-auto';
 import { logger } from '@/lib/logger';
 
-export const maxDuration = 300;
+// Timeout géré par PM2 kill_timeout (ecosystem.config.cjs)
+// et par Nginx proxy_read_timeout pour les requêtes longues.
+// Durée estimée max : ~5 min pour N étudiants (voir ecosystem.config.cjs).
 
 export async function POST(request: Request) {
   const expected = process.env.CRON_SECRET;

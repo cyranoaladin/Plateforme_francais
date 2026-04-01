@@ -130,6 +130,43 @@ echo blue > /etc/nginx/conf.d/active-slot.txt
 nginx -s reload
 ```
 
+## 🖥️ Déploiement — Serveur Dédié (VPS)
+
+Ce projet est déployé exclusivement sur un serveur dédié Linux via :
+- SSH + rsync pour la synchronisation du code
+- PM2 pour la gestion des processus Node.js et le blue-green deploy
+- Nginx comme reverse proxy (SSL/TLS Let's Encrypt, rate limiting, gzip)
+- PostgreSQL + pgvector en local sur le serveur
+- Redis en local sur le serveur
+
+### Ce projet n'utilise PAS
+
+- ❌ Vercel ni les packages `@vercel/*`
+- ❌ Netlify
+- ❌ AWS Lambda, Cloudflare Workers ou Edge Runtime
+- ❌ Docker ou Kubernetes
+
+### Déploiement
+
+```bash
+# Déploiement standard
+./scripts/deploy.sh user@eaf.nexusreussite.academy
+
+# Première installation
+./scripts/deploy.sh user@eaf.nexusreussite.academy --first-run
+```
+
+### Vérification locale
+
+```bash
+# Vérifier l'absence de traces Vercel
+npm run check:no-vercel
+
+# Vérifier le build standalone
+npm run build
+ls -la .next/standalone/
+```
+
 ## Documentation
 
 | Document | Contenu |
