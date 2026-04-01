@@ -22,6 +22,7 @@ tests/.auth/
 # production
 /build
 /dist
+packages/shared-billing/dist/
 .build_time
 .git_sha
 
