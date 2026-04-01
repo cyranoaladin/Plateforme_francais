@@ -19,6 +19,7 @@ import {
 import { OralHero } from '@/components/atelier-oral/OralHero';
 import { OralStepIndicator } from '@/components/atelier-oral/OralStepIndicator';
 import { OralTimer } from '@/components/atelier-oral/OralTimer';
+import { OralWorkSelector } from '@/app/atelier-oral/components/OralWorkSelector';
 import { PERSONA_LABELS, type ExamPersona } from '@/lib/agents/prompts/examiner-persona';
 import { getOeuvresForYear } from '@/data/oeuvres-programme';
 import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
@@ -28,17 +29,9 @@ import { createAudioRecorder, type BrowserAudioRecorder } from '@/lib/oral/audio
 import { PASSAGE_DURATION_MS, PHASE_DURATIONS_S, PREP_DURATION_MS } from '@/lib/oral/state-machine';
 import { createBrowserStt } from '@/lib/stt/browser';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { usePrepChecklist } from './hooks/usePrepChecklist';
+import { type VoiceMode, useVoiceMode } from './hooks/useVoiceMode';
 import { Button, Badge } from '@/components/ui';
-
-type VoiceMode = 'browser' | 'server' | 'auto';
-const VOICE_MODE_STORAGE_KEY = 'eaf_oral_voice_mode';
-
-function getStoredVoiceMode(): VoiceMode {
-  if (typeof window === 'undefined') return 'browser';
-  const stored = window.localStorage.getItem(VOICE_MODE_STORAGE_KEY)
-    ?? window.localStorage.getItem('oral_voice_mode');
-  return stored === 'browser' || stored === 'server' || stored === 'auto' ? stored : 'browser';
-}
 
 type OralStep = 'LECTURE' | 'EXPLICATION' | 'GRAMMAIRE' | 'ENTRETIEN';
 type WizardPhase = 'TIRAGE' | 'PREP' | 'PASSAGE' | 'BILAN';
@@ -235,14 +228,23 @@ function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: s
 }
 
 export default function AtelierOralPage() {
-  const availableWorks = useMemo(() => {
-    const currentYearWorks = getOeuvresForYear(getCurrentAnneeScolaire());
+  const programmeYear = getCurrentAnneeScolaire();
+  const { availableWorks, showProgrammeWarning } = useMemo(() => {
+    const currentYearWorks = getOeuvresForYear(programmeYear);
+    const placeholderDetected = currentYearWorks.some((item) => {
+      const normalized = item.toLowerCase();
+      return normalized.includes('programme') || normalized.includes('à mettre à jour');
+    });
     const filteredWorks = currentYearWorks.filter((item) => {
       const normalized = item.toLowerCase();
       return !normalized.includes('programme') && !normalized.includes('à mettre à jour');
     });
-    return filteredWorks.length > 0 ? filteredWorks : getOeuvresForYear('2025-2026');
-  }, []);
+    return {
+      availableWorks:
+        filteredWorks.length > 0 ? filteredWorks : getOeuvresForYear('2025-2026'),
+      showProgrammeWarning: placeholderDetected,
+    };
+  }, [programmeYear]);
   const [oeuvre, setOeuvre] = useState(() => availableWorks[0] ?? '');
   const [mode, setMode] = useState<OralMode>('SIMULATION');
   const [session, setSession] = useState<SessionPayload | null>(null);
@@ -250,7 +252,6 @@ export default function AtelierOralPage() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [transcript, setTranscript] = useState('');
   const [prepNotes, setPrepNotes] = useState('');
-  const [prepChecklist, setPrepChecklist] = useState<Set<string>>(new Set());
   const [isMicOn, setIsMicOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [feedbacks, setFeedbacks] = useState<Record<OralStep, StepFeedback | undefined>>({
@@ -267,9 +268,14 @@ export default function AtelierOralPage() {
   const [juryTurns, setJuryTurns] = useState<JuryTurn[]>([]);
   const [isJuryLoading, setIsJuryLoading] = useState(false);
 
-  const [voiceMode, setVoiceMode] = useState<VoiceMode>(() => {
-    return getStoredVoiceMode();
-  });
+  const [voiceMode, setVoiceMode] = useVoiceMode();
+  const prepChecklistKey = useMemo(() => session?.sessionId ?? 'global', [session?.sessionId]);
+  const {
+    checked: prepChecklist,
+    isChecked: prepChecklistSet,
+    toggle: togglePrepChecklist,
+    reset: resetPrepChecklist,
+  } = usePrepChecklist(prepChecklistKey);
   const stepStartRef = useRef<number>(Date.now());
   const sttRef = useRef<ReturnType<typeof createBrowserStt> | null>(null);
   const audioRecorderRef = useRef<BrowserAudioRecorder | null>(null);
@@ -322,12 +328,7 @@ export default function AtelierOralPage() {
         window.speechSynthesis.cancel();
       }
     };
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    window.localStorage.setItem(VOICE_MODE_STORAGE_KEY, voiceMode);
-  }, [voiceMode]);
+  }, [setVoiceMode]);
 
   const aggregated = useMemo(() => {
     const list = STEPS.map((step) => feedbacks[step]).filter(Boolean) as StepFeedback[];
@@ -373,7 +374,7 @@ export default function AtelierOralPage() {
       setCurrentStepIndex(0);
       setTranscript('');
       setPrepNotes('');
-      setPrepChecklist(new Set());
+      resetPrepChecklist();
       setBilan(null);
       setFeedbacks({ LECTURE: undefined, EXPLICATION: undefined, GRAMMAIRE: undefined, ENTRETIEN: undefined });
       setExaminerProfile('NEUTRE');
@@ -385,7 +386,7 @@ export default function AtelierOralPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [mode, oeuvre]);
+  }, [mode, oeuvre, resetPrepChecklist]);
 
   const startPassage = useCallback(async () => {
     if (!session) return;
@@ -618,45 +619,25 @@ export default function AtelierOralPage() {
   }, [currentStep, juryTurns.length, requestJuryPrompt, session]);
 
   useEffect(() => {
-    if (!session?.sessionId) return;
-    const stored = localStorage.getItem(`prep_checklist_${session.sessionId}`);
-    if (!stored) return;
-    try {
-      const ids = JSON.parse(stored) as string[];
-      setPrepChecklist(new Set(ids));
-    } catch {
-      // ignore malformed data
-    }
-  }, [session?.sessionId]);
-
-  useEffect(() => {
-    if (!session?.sessionId) return;
-    localStorage.setItem(`prep_checklist_${session.sessionId}`, JSON.stringify([...prepChecklist]));
-  }, [prepChecklist, session?.sessionId]);
-
-  useEffect(() => {
     if (!juryContainerRef.current) return;
     juryContainerRef.current.scrollTop = juryContainerRef.current.scrollHeight;
   }, [juryTurns]);
 
   const resetAll = useCallback(() => {
-    if (session?.sessionId) {
-      localStorage.removeItem(`prep_checklist_${session.sessionId}`);
-    }
     setSession(null);
     setBilan(null);
     setWizardPhase('TIRAGE');
     setExaminerProfile('NEUTRE');
     setJuryTurns([]);
     setIsJuryLoading(false);
-    setVoiceMode(getStoredVoiceMode());
+    setVoiceMode('browser');
     hasRequestedInitialJuryPromptRef.current = false;
     setTranscript('');
     setPrepNotes('');
-    setPrepChecklist(new Set());
+    resetPrepChecklist();
     setCurrentStepIndex(0);
     setError(null);
-  }, [session?.sessionId]);
+  }, [resetPrepChecklist, setVoiceMode]);
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
@@ -696,6 +677,16 @@ export default function AtelierOralPage() {
       {wizardPhase === 'TIRAGE' && !session && (
         <div className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
           <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+            <OralWorkSelector
+              availableWorks={availableWorks}
+              currentWork={oeuvre}
+              selectedMode={mode}
+              onSelectWork={setOeuvre}
+              onChangeMode={setMode}
+              examinerProfile={examinerProfile}
+              onChangeProfile={setExaminerProfile}
+              showProgrammeWarning={showProgrammeWarning}
+            />
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Sparkles className="h-5 w-5" />
@@ -870,25 +861,15 @@ export default function AtelierOralPage() {
                   <label key={item.id} className="flex cursor-pointer items-start gap-3 rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
                     <input
                       type="checkbox"
-                      checked={prepChecklist.has(item.id)}
-                      onChange={() =>
-                        setPrepChecklist((prev) => {
-                          const next = new Set(prev);
-                          if (next.has(item.id)) {
-                            next.delete(item.id);
-                          } else {
-                            next.add(item.id);
-                          }
-                          return next;
-                        })
-                      }
+                      checked={prepChecklistSet.has(item.id)}
+                      onChange={() => togglePrepChecklist(item.id)}
                       className="mt-1 h-4 w-4 rounded border-[var(--border-success)] text-[var(--c-success)] focus:ring-[var(--c-success)]"
                     />
-                    <span className={prepChecklist.has(item.id) ? 'text-[var(--text-muted)] line-through' : ''}>{item.label}</span>
+                    <span className={prepChecklistSet.has(item.id) ? 'text-[var(--text-muted)] line-through' : ''}>{item.label}</span>
                   </label>
                 ))}
               </div>
-              <p className="mt-4 text-sm font-medium text-[var(--c-success)]">{prepChecklist.size}/{PREP_CHECKLIST.length} étapes complétées</p>
+              <p className="mt-4 text-sm font-medium text-[var(--c-success)]">{prepChecklist.length}/{PREP_CHECKLIST.length} étapes complétées</p>
             </section>
 
             <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
