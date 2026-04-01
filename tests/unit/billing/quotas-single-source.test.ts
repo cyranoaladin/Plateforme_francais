@@ -167,8 +167,14 @@ describe('Quotas Single Source of Truth', () => {
     expect(msg).not.toContain('Excellence');
   });
 
-  it('paywall message PRO mentions Masterium display name', () => {
-    const msg = buildPaywallMessage('PRO', 'ORAL_SESSIONS');
+  it('paywall message PRO mentions Masterium display name on a capped entitlement', () => {
+    const msg = buildPaywallMessage('PRO', 'OCR_COPIES');
     expect(msg).toContain('Masterium');
+  });
+
+  it('paywall message PRO returns a neutral error for an unlimited entitlement', () => {
+    const msg = buildPaywallMessage('PRO', 'ORAL_SESSIONS');
+    expect(msg).toContain('problème technique');
+    expect(msg).not.toContain('réinitialise');
   });
 });

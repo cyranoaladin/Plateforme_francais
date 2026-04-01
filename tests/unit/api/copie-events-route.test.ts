@@ -4,6 +4,10 @@ vi.mock('@/lib/auth/guard', () => ({
   requireAuthenticatedUser: vi.fn(),
 }));
 
+vi.mock('@/lib/security/rate-limit', () => ({
+  checkRateLimit: vi.fn(),
+}));
+
 vi.mock('@/lib/epreuves/repository', () => ({
   findCopieById: vi.fn(),
   listCopieProgressEvents: vi.fn(),
@@ -42,7 +46,37 @@ describe('GET /api/v1/epreuves/copies/{copieId}/events', () => {
     vi.clearAllMocks();
     vi.resetModules();
     const { requireAuthenticatedUser } = await import('@/lib/auth/guard');
+    const { checkRateLimit } = await import('@/lib/security/rate-limit');
     vi.mocked(requireAuthenticatedUser).mockResolvedValue(makeAuth());
+    vi.mocked(checkRateLimit).mockResolvedValue({ allowed: true, retryAfter: 0 });
+  });
+
+  it('retourne 401 sans utilisateur authentifié', async () => {
+    const { requireAuthenticatedUser } = await import('@/lib/auth/guard');
+    vi.mocked(requireAuthenticatedUser).mockResolvedValue({
+      auth: null,
+      errorResponse: new Response(JSON.stringify({ error: 'Non authentifié.' }), { status: 401 }),
+    } as never);
+
+    const { GET } = await import('@/app/api/v1/epreuves/copies/[copieId]/events/route');
+    const res = await GET(new Request('http://localhost/api/v1/epreuves/copies/copie-1/events'), {
+      params: Promise.resolve({ copieId: 'copie-1' }),
+    });
+
+    expect(res.status).toBe(401);
+  });
+
+  it('retourne 429 quand la limite SSE est dépassée', async () => {
+    const { checkRateLimit } = await import('@/lib/security/rate-limit');
+    vi.mocked(checkRateLimit).mockResolvedValue({ allowed: false, retryAfter: 7 });
+
+    const { GET } = await import('@/app/api/v1/epreuves/copies/[copieId]/events/route');
+    const res = await GET(new Request('http://localhost/api/v1/epreuves/copies/copie-1/events'), {
+      params: Promise.resolve({ copieId: 'copie-1' }),
+    });
+
+    expect(res.status).toBe(429);
+    expect(res.headers.get('Retry-After')).toBe('7');
   });
 
   it('retourne 404 si la copie appartient à un autre utilisateur', async () => {
@@ -94,6 +128,7 @@ describe('GET /api/v1/epreuves/copies/{copieId}/events', () => {
 
     expect(res.status).toBe(200);
     expect(res.headers.get('Content-Type')).toContain('text/event-stream');
+    expect(res.headers.get('X-Accel-Buffering')).toBe('no');
 
     const body = await res.text();
     expect(body).toContain('"stage":"queued"');

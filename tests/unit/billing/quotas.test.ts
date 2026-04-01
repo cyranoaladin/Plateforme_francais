@@ -93,10 +93,16 @@ describe('Billing Quotas V2', () => {
       expect(msg).toContain('mois');
     });
 
-    it('generates PRO plan paywall message', () => {
-      const msg = buildPaywallMessage('PRO', 'ORAL_SESSIONS');
-      expect(msg).toContain('illimité');
+    it('generates PRO plan paywall message on a capped entitlement', () => {
+      const msg = buildPaywallMessage('PRO', 'OCR_COPIES');
+      expect(msg).toContain('50');
       expect(msg).toContain('Masterium');
+    });
+
+    it('returns a neutral error for a PRO unlimited entitlement', () => {
+      const msg = buildPaywallMessage('PRO', 'ORAL_SESSIONS');
+      expect(msg).toContain('problème technique');
+      expect(msg).not.toContain('illimité');
     });
 
     it('includes period info', () => {
