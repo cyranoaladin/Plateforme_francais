@@ -18,4 +18,9 @@ describe('getMistralTimeoutMs', () => {
     vi.stubEnv('MISTRAL_REASONING_TIMEOUT_MS', '120000');
     expect(getMistralTimeoutMs('magistral-medium-latest')).toBe(120_000);
   });
+
+  it('conserve le timeout par modele tant que LLM_TIMEOUT_MS n est pas applique plus haut', () => {
+    vi.stubEnv('LLM_TIMEOUT_MS', '45000');
+    expect(getMistralTimeoutMs('mistral-small-latest')).toBe(30_000);
+  });
 });

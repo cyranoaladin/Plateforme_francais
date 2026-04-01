@@ -30,6 +30,7 @@ export interface GeneratePDFOptions {
   data: Record<string, unknown>;
   userId: string;
   filename: string;
+  nonce?: string;
 }
 
 export interface GeneratedDocument {
@@ -61,13 +62,14 @@ async function ensureDir(dir: string): Promise<void> {
  * Render an HTML document from template + data.
  * Uses simple string interpolation (production-ready for our use case).
  */
-function renderHTML(template: PDFTemplate, data: Record<string, unknown>): string {
+function renderHTML(template: PDFTemplate, data: Record<string, unknown>, nonce?: string): string {
   const title = String(data['title'] ?? 'Document EAF');
   const date = String(data['date'] ?? new Date().toLocaleDateString('fr-FR'));
   const studentName = String(data['studentName'] ?? 'Élève');
+  const safeNonce = nonce ? safeStr(nonce) : '';
 
   const css = `
-    <style>
+    <style${safeNonce ? ` nonce="${safeNonce}"` : ''}>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1a1a2e; line-height: 1.6; padding: 40px; max-width: 800px; margin: 0 auto; }
       .header { border-bottom: 3px solid #3b82f6; padding-bottom: 16px; margin-bottom: 24px; }
@@ -129,7 +131,9 @@ function renderHTML(template: PDFTemplate, data: Record<string, unknown>): strin
     </div>
   `;
 
-  return `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>${escapeHtml(title)}</title>${css}</head><body>${header}${body}${footer}</body></html>`;
+  const nonceMeta = safeNonce ? `<meta name="csp-nonce" content="${safeNonce}">` : '';
+
+  return `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">${nonceMeta}<title>${escapeHtml(title)}</title>${css}</head><body>${header}${body}${footer}</body></html>`;
 }
 
 function escapeHtml(text: string): string {
@@ -288,7 +292,7 @@ function renderResumeSession(data: Record<string, unknown>): string {
  * @returns The stored document URL, storage key, and HTML content.
  */
 export async function generateDocument(options: GeneratePDFOptions): Promise<GeneratedDocument> {
-  const html = renderHTML(options.template, options.data);
+  const html = renderHTML(options.template, options.data, options.nonce);
   const uniquePrefix = `${Date.now()}-${randomUUID().slice(0, 8)}`;
   const htmlFilename = `${uniquePrefix}-${options.filename}.html`;
   const key = `documents/${options.userId}/${htmlFilename}`;

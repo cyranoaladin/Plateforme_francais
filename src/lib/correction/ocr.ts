@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs';
+import { createLlmTimeoutSignal } from '@/lib/llm/timeout';
 
 type OcrInput = {
   absolutePath?: string;
@@ -59,7 +60,7 @@ async function extractTextFromCopieViaPixtral(input: OcrInput, bytes: Buffer): P
       ],
       temperature: 0,
     }),
-    signal: AbortSignal.timeout(60_000),
+    signal: createLlmTimeoutSignal(60_000),
   });
 
   if (!response.ok) {
@@ -122,7 +123,7 @@ export async function extractTextFromCopie(input: OcrInput): Promise<string> {
           },
           include_image_base64: false,
         }),
-        signal: AbortSignal.timeout(60_000),
+        signal: createLlmTimeoutSignal(60_000),
       });
 
       if (response.ok) {

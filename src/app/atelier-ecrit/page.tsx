@@ -14,7 +14,7 @@ import {
   UploadCloud,
 } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 import { Badge, Button, Input } from '@/components/ui';
 import { StateNotice } from '@/components/ui';
 import { MAX_COPIE_UPLOAD_BYTES, validateCopieUploadFile } from '@/lib/atelier-ecrit/upload-validation';
@@ -157,11 +157,12 @@ export default function AtelierEcritPage() {
     setIsGenerating(true);
 
     try {
+      const csrfToken = await getCsrfToken();
       const response = await fetch('/api/v1/epreuves/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({ type, oeuvre: oeuvre || undefined, theme: theme || undefined }),
       });
@@ -236,10 +237,11 @@ export default function AtelierEcritPage() {
     setError(null);
 
     try {
+      const csrfToken = await getCsrfToken();
       const created = await uploadCopieWithProgress({
         epreuveId: epreuve.epreuveId,
         file: selectedFile,
-        csrf: getCsrfTokenFromDocument(),
+        csrf: csrfToken,
         onProgress: setUploadProgress,
       });
 

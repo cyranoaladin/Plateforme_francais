@@ -215,6 +215,32 @@ describe('generateDocument (mocked FS)', () => {
     expect(result.key).toMatch(/^documents\/test-user\/\d{13}-[a-f0-9]{8}-test-doc\.html$/);
   });
 
+  it('injecte un nonce explicite dans le document HTML quand fourni', async () => {
+    const result = await generateDocument({
+      template: PDFTemplate.BILAN_ORAL,
+      data: { title: 'Test', note: 10, maxNote: 20, mention: 'Passable' },
+      userId: 'test-user',
+      filename: 'test-doc',
+      nonce: 'nonce-123',
+    });
+
+    expect(result.html).toContain('<meta name="csp-nonce" content="nonce-123">');
+    expect(result.html).toContain('<style nonce="nonce-123">');
+  });
+
+  it('échappe le nonce injecté comme toute autre donnée utilisateur', async () => {
+    const result = await generateDocument({
+      template: PDFTemplate.BILAN_ORAL,
+      data: { title: 'Test', note: 10, maxNote: 20, mention: 'Passable' },
+      userId: 'test-user',
+      filename: 'test-doc',
+      nonce: '"bad-nonce"><script>alert(1)</script>',
+    });
+
+    expect(result.html).not.toContain('<script>');
+    expect(result.html).toContain('&quot;bad-nonce&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;');
+  });
+
   it('stocke le document avec profileId résolu depuis userId', async () => {
     isDatabaseAvailableMock.mockResolvedValueOnce(true);
     studentProfileFindUniqueMock.mockResolvedValueOnce({ id: 'profile-123' });

@@ -3,6 +3,8 @@
  * Priority: OpenAI Whisper, then optional Mistral-compatible endpoint.
  */
 
+import { createLlmTimeoutSignal } from '@/lib/llm/timeout';
+
 export type TranscribeOptions = {
   language?: string;
   prompt?: string;
@@ -64,7 +66,7 @@ async function transcribeWithWhisper(
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}` },
     body: formData,
-    signal: AbortSignal.timeout(60_000),
+    signal: createLlmTimeoutSignal(60_000),
   });
 
   if (!response.ok) {
@@ -129,7 +131,7 @@ async function transcribeWithMistralSTT(
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}` },
     body: formData,
-    signal: AbortSignal.timeout(60_000),
+    signal: createLlmTimeoutSignal(60_000),
   });
 
   if (!response.ok) {

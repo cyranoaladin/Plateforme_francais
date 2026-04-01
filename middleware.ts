@@ -99,6 +99,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
   const nonce = edgeRandomBase64(16);
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
+  requestHeaders.set('x-csp-nonce', nonce);
 
   const response = NextResponse.next({
     request: {
@@ -107,6 +108,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
   });
 
   response.headers.set('x-nonce', nonce);
+  response.headers.set('x-csp-nonce', nonce);
 
   const pathname = request.nextUrl.pathname;
   const extraConnectSrc = process.env.NEXT_PUBLIC_CSP_CONNECT_EXTRA?.trim();

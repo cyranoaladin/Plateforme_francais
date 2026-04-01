@@ -59,7 +59,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const nonce = (await headers()).get('x-nonce') ?? undefined;
+  const requestHeaders = await headers();
+  const nonce = requestHeaders.get('x-csp-nonce') ?? requestHeaders.get('x-nonce') ?? undefined;
 
   return (
     <html lang="fr" className={`${inter.variable} ${playfair.variable} ${merriweather.variable}`} suppressHydrationWarning>

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ensurePublicCsrfToken, getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { ensurePublicCsrfToken, getCsrfToken, getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 
 describe('csrf-client', () => {
   afterEach(() => {
@@ -28,7 +28,31 @@ describe('csrf-client', () => {
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 
+  it('attend brièvement qu un cookie CSRF apparaisse avant d appeler le réseau', async () => {
+    vi.useFakeTimers();
+    const documentState = { cookie: '' };
+    Object.defineProperty(globalThis, 'document', {
+      value: documentState,
+      configurable: true,
+    });
+
+    const fetchSpy = vi.fn();
+    vi.stubGlobal('fetch', fetchSpy);
+
+    const tokenPromise = getCsrfToken();
+    setTimeout(() => {
+      documentState.cookie = 'eaf_csrf=token-after-poll';
+    }, 100);
+
+    await vi.advanceTimersByTimeAsync(120);
+
+    await expect(tokenPromise).resolves.toBe('token-after-poll');
+    expect(fetchSpy).not.toHaveBeenCalled();
+    vi.useRealTimers();
+  });
+
   it('bootstrappe le jeton via /api/v1/csrf quand le cookie est absent', async () => {
+    vi.useFakeTimers();
     const documentState = { cookie: '' };
     Object.defineProperty(globalThis, 'document', {
       value: documentState,
@@ -42,6 +66,9 @@ describe('csrf-client', () => {
       });
     }));
 
-    await expect(ensurePublicCsrfToken()).resolves.toBe('bootstrapped-token');
+    const tokenPromise = ensurePublicCsrfToken();
+    await vi.advanceTimersByTimeAsync(600);
+    await expect(tokenPromise).resolves.toBe('bootstrapped-token');
+    vi.useRealTimers();
   });
 });

@@ -23,4 +23,16 @@ describe('middleware security headers', () => {
 
     expect(response.headers.get('Permissions-Policy')).toContain('microphone=(self)');
   });
+
+  it('publishes the same nonce on both compatibility headers', () => {
+    const response = middleware(
+      new NextRequest('http://localhost/dashboard', {
+        headers: { cookie: 'eaf_session=test-token' },
+      }),
+    );
+
+    expect(response.headers.get('x-nonce')).toBeTruthy();
+    expect(response.headers.get('x-csp-nonce')).toBe(response.headers.get('x-nonce'));
+    expect(response.headers.get('Content-Security-Policy')).toContain(`'nonce-${response.headers.get('x-nonce')}'`);
+  });
 });

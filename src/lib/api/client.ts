@@ -3,7 +3,7 @@
  * and structured error responses.
  */
 
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 
 export type ApiError = {
   status: number;
@@ -32,9 +32,12 @@ export async function apiFetch<T>(
   const headers = new Headers(init.headers);
   const { json, redirectOnUnauthorized = true, ...requestInit } = init;
 
-  const csrf = getCsrfTokenFromDocument();
-  if (csrf) {
-    headers.set('X-CSRF-Token', csrf);
+  const method = (requestInit.method ?? 'GET').toUpperCase();
+  if (!['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+    const csrf = await getCsrfToken();
+    if (csrf) {
+      headers.set('X-CSRF-Token', csrf);
+    }
   }
 
   if (json !== undefined) {

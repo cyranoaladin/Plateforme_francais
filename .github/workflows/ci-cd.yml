@@ -55,6 +55,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - run: npm ci
       - name: TypeScript strict check
         run: npx tsc --noEmit
@@ -72,6 +82,17 @@ jobs:
         run: npm run ci:audit-csrf
       - name: Contrôle FR (baseline copy)
         run: npm run ci:fr-copy
+      - name: Regenerate FR baseline guard
+        run: |
+          npm run ci:fr-copy -- --write-baseline
+          if git diff --quiet config/fr-copy-baseline.json; then
+            echo "FR baseline unchanged"
+          else
+            git --no-pager diff --stat config/fr-copy-baseline.json
+            echo "::error::FR baseline changed during CI. Regenerate locally and commit the updated config/fr-copy-baseline.json before rerunning."
+            git diff config/fr-copy-baseline.json || true
+            exit 1
+          fi
       - name: Audit dépendances npm
         run: npx audit-ci --config .audit-ci.json
       - name: Détection code mort
@@ -87,6 +108,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - name: Verify worker builds without devDeps
         run: |
           npm ci --omit=dev
@@ -112,6 +143,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - run: npm ci
       - name: Vitest coverage (tests unitaires uniquement)
         run: npx vitest run tests/unit --coverage
@@ -166,6 +207,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - run: npm ci
       - run: npx prisma migrate deploy
       - run: |
@@ -199,6 +250,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - run: npm ci
       - run: npm run build:worker
       - run: chmod +x tests/contracts/run-schemathesis.sh tests/contracts/run-schemathesis-auth.sh tests/contracts/run-schemathesis-teacher-rbac.sh tests/contracts/run-teacher-comment-rbac.sh tests/contracts/run-teacher-export-rbac.sh
@@ -267,6 +328,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - run: npm ci
       - run: npm run build:worker
       - name: Reset DB, create extensions, and sync schema
@@ -312,6 +383,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - run: npm ci
       - name: Secrets scan (GitLeaks)
         id: gitleaks
@@ -367,6 +448,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - run: npm ci
       - name: Artillery load test
         run: npx artillery run tests/performance/load-test.yml
@@ -392,6 +483,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - run: npm ci
       - name: Stryker mutation testing
         run: npm run test:mutation | tee stryker.log
@@ -413,6 +514,9 @@ jobs:
       github.event_name == 'workflow_dispatch'
     environment: production
     runs-on: ubuntu-22.04
+    concurrency:
+      group: deploy-${{ github.ref }}
+      cancel-in-progress: false
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -420,6 +524,16 @@ jobs:
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.npm/_cacache
+            ~/.cache
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
       - run: npm ci
       - name: "Check production secrets are configured"
         id: check-secrets
@@ -482,6 +596,10 @@ jobs:
             echo $NEXT > /etc/nginx/conf.d/active-slot.txt
             nginx -s reload
             pm2 delete eaf-nextjs-$OLD || true
+      - name: Post-deploy health check
+        if: steps.check-secrets.outputs.configured == 'true'
+        run: |
+          curl --retry 10 --retry-delay 3 --fail https://eaf.nexusreussite.academy/api/v1/health
 
   post-deploy-monitoring:
     name: "Post-Deploy - Health & Canary"

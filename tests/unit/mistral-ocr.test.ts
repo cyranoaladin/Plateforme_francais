@@ -18,6 +18,7 @@ describe('extractTextFromCopie — Mistral OCR', () => {
   it('utilise Mistral OCR si MISTRAL_API_KEY présente', async () => {
     process.env.MISTRAL_API_KEY = 'test-key';
     process.env.MISTRAL_BASE_URL = 'https://api.mistral.ai/v1';
+    process.env.LLM_TIMEOUT_MS = '31000';
 
     global.fetch = (vi.fn(async () => ({
       ok: true,
@@ -34,7 +35,7 @@ describe('extractTextFromCopie — Mistral OCR', () => {
     expect(result).toContain('Introduction');
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/ocr'),
-      expect.objectContaining({ method: 'POST' }),
+      expect.objectContaining({ method: 'POST', signal: expect.any(AbortSignal) }),
     );
   });
 

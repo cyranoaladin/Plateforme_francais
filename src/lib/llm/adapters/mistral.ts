@@ -16,6 +16,18 @@ export class MistralAuthError extends MistralBaseError {}
 export class MistralRateLimitError extends MistralBaseError {}
 export class MistralUnavailableError extends MistralBaseError {}
 
+function resolveTimeoutMs(model: string): number {
+  const globalTimeout = Number.parseInt(process.env.LLM_TIMEOUT_MS ?? '', 10);
+  if (Number.isFinite(globalTimeout) && globalTimeout > 0) {
+    return globalTimeout;
+  }
+  return getMistralTimeoutMs(model);
+}
+
+function withTimeoutOptions(model: string): { signal: AbortSignal } {
+  return { signal: AbortSignal.timeout(resolveTimeoutMs(model)) };
+}
+
 export function getMistralTimeoutMs(model: string): number {
   const timeoutByModel: Array<{ match: string; env?: string; fallback: number }> = [
     { match: 'magistral', env: 'MISTRAL_REASONING_TIMEOUT_MS', fallback: 90_000 },
@@ -81,7 +93,6 @@ export class MistralProvider implements LLMProvider {
     const messages = ensureMessages(promptOrMessages);
 
     try {
-      const timeoutMs = getMistralTimeoutMs(this.model);
       const completion = await this.client.chat.completions.create(
         {
           model: this.model,
@@ -91,7 +102,7 @@ export class MistralProvider implements LLMProvider {
           response_format:
             options?.responseMimeType === 'application/json' ? { type: 'json_object' } : undefined,
         },
-        { signal: AbortSignal.timeout(timeoutMs) },
+        withTimeoutOptions(this.model),
       );
 
       const text = completion.choices[0]?.message?.content ?? '';
@@ -121,15 +132,18 @@ export class MistralProvider implements LLMProvider {
     messages: ProviderChatMessage[],
     options?: StreamOptions,
   ): AsyncGenerator<string> {
-    const stream = await this.client.chat.completions.create({
-      model: this.model,
-      messages,
-      stream: true,
-      temperature: options?.temperature ?? 0.3,
-      max_tokens: options?.maxTokens ?? 4096,
-      response_format:
-        options?.responseMimeType === 'application/json' ? { type: 'json_object' } : undefined,
-    });
+    const stream = await this.client.chat.completions.create(
+      {
+        model: this.model,
+        messages,
+        stream: true,
+        temperature: options?.temperature ?? 0.3,
+        max_tokens: options?.maxTokens ?? 4096,
+        response_format:
+          options?.responseMimeType === 'application/json' ? { type: 'json_object' } : undefined,
+      },
+      withTimeoutOptions(this.model),
+    );
 
     for await (const part of stream) {
       const token = part.choices[0]?.delta?.content ?? '';
@@ -141,10 +155,13 @@ export class MistralProvider implements LLMProvider {
   }
 
   async getEmbeddings(text: string): Promise<number[]> {
-    const response = await this.client.embeddings.create({
-      model: MistralProvider.MODELS.EMBED,
-      input: text,
-    });
+    const response = await this.client.embeddings.create(
+      {
+        model: MistralProvider.MODELS.EMBED,
+        input: text,
+      },
+      withTimeoutOptions(MistralProvider.MODELS.EMBED),
+    );
     return normalizeEmbeddingDimension(response.data[0]?.embedding ?? []);
   }
 
@@ -161,7 +178,7 @@ export class MistralProvider implements LLMProvider {
       const response = await fetch(`${baseUrl}/models`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${apiKey}` },
-        signal: AbortSignal.timeout(5000),
+        signal: AbortSignal.timeout(resolveTimeoutMs(MistralProvider.MODELS.SMALL)),
       });
       return { ok: response.ok, latencyMs: Date.now() - startedAt };
     } catch {
