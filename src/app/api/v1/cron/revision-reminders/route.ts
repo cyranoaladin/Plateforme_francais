@@ -5,7 +5,7 @@ import { getDueErrorBankItems } from '@/lib/store/premium-store';
 import { sendPushNotification } from '@/lib/notifications/push';
 import { logger } from '@/lib/logger';
 
-export const maxDuration = 300;
+// Timeout géré par PM2 kill_timeout (ecosystem.config.cjs).
 
 export async function POST(request: Request) {
   const expected = process.env.CRON_SECRET;

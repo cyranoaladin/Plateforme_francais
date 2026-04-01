@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-01T18:13:13.562Z",
+  "generatedAt": "2026-04-01T18:14:10.004Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -822,21 +822,21 @@
     },
     {
       "file": "src/app/api/v1/cron/weekly-reports/route.ts",
-      "line": 13,
+      "line": 15,
       "column": 39,
       "kind": "api-message",
       "text": "Configuration serveur manquante."
     },
     {
       "file": "src/app/api/v1/cron/weekly-reports/route.ts",
-      "line": 20,
+      "line": 22,
       "column": 39,
       "kind": "api-message",
       "text": "Non autorisé."
     },
     {
       "file": "src/app/api/v1/cron/weekly-reports/route.ts",
-      "line": 24,
+      "line": 26,
       "column": 39,
       "kind": "api-message",
       "text": "Base de données indisponible."
