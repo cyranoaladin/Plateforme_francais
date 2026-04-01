@@ -17,6 +17,7 @@
   "dependencies": {
     "@hono/node-server": "1.19.10",
     "@modelcontextprotocol/sdk": "^1.27.1",
+    "@nexus-eaf/shared-billing": "file:../shared-billing",
     "@prisma/client": "^6.0.0",
     "dotenv": "^16.4.5",
     "hono": "^4.12.8",

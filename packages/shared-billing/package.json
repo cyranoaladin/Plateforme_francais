@@ -1,0 +1,22 @@
+{
+  "name": "@nexus-eaf/shared-billing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./plan-catalog": {
+      "types": "./src/plan-catalog.ts",
+      "default": "./src/plan-catalog.ts"
+    },
+    "./programme-oeuvres": {
+      "types": "./src/programme-oeuvres.ts",
+      "default": "./src/programme-oeuvres.ts"
+    }
+  }
+}

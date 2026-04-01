@@ -99,6 +99,22 @@ describe('Billing Quotas - Fallback prod fail-closed', () => {
   });
 
   describe('checkQuota en production', () => {
+    it('court-circuite redis pour les plans illimités', async () => {
+      vi.stubEnv('NODE_ENV', 'production');
+
+      const { checkQuota } = await import('@/lib/billing/usage');
+
+      const result = await checkQuota('user-1', 'RAG_SEARCH', {
+        limit: 'unlimited',
+        period: 'day',
+      });
+
+      expect(result.allowed).toBe(true);
+      expect(result.limit).toBe('unlimited');
+      expect(mockRedisClient.ping).not.toHaveBeenCalled();
+      expect(mockRedisClient.eval).not.toHaveBeenCalled();
+    });
+
     it('fail-closed retourne allowed=false si Redis échoue (production)', async () => {
       vi.stubEnv('NODE_ENV', 'production');
       mockRedisClient.ping.mockRejectedValueOnce(new Error('Redis unavailable'));

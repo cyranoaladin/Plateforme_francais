@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import type { Prisma } from '@prisma/client'
 import { getDb } from '../lib/db.js'
-import { PLAN_CATALOG, type InternalPlanId, type PlanConfig, type QuotaEntry } from '../../src/lib/billing/plan-catalog'
+import { PLAN_CATALOG, getProgrammeOeuvres, type InternalPlanId, type PlanConfig, type QuotaEntry } from '@nexus-eaf/shared-billing'
 
 export const GetCorrectionSchema = z.object({
   copieId: z.string().min(1),
@@ -465,7 +465,7 @@ export async function getSubscription(input: z.infer<typeof GetSubscriptionSchem
     featureCheck = {
       feature: input.feature,
       allowed: value !== false,
-      reason: value === false ? `Feature non disponible en plan ${plan}` : undefined,
+      reason: value === false ? `Feature non disponible en plan ${planId}` : undefined,
       upgradeUrl: value === false ? '/pricing' : undefined,
     }
   }
@@ -523,21 +523,7 @@ export const GetProgramme2026Schema = z.object({
 })
 
 export async function getProgramme2026(input: z.infer<typeof GetProgramme2026Schema>) {
-  const oeuvres = [
-    { titre: 'Cahier de Douai', auteur: 'Arthur Rimbaud', genre: 'Poésie', siecle: '19e', objet_etude: 'poesie', parcours: 'Vouloir esquisser', themes: ['écriture', 'révolte'] },
-    { titre: "La rage de l'expression", auteur: 'Francis Ponge', genre: 'Poésie', siecle: '20e', objet_etude: 'poesie', parcours: 'Langage et matière', themes: ['langage', 'matière'] },
-    { titre: 'Mes forêts', auteur: 'Hélène Dorion', genre: 'Poésie', siecle: '21e', objet_etude: 'poesie', parcours: 'Éveiller l’espace', themes: ['nature', 'immersion'] },
-    { titre: 'Discours de la servitude volontaire', auteur: 'Étienne de La Boétie', genre: 'Littérature d’idées', siecle: '16e', objet_etude: 'litterature_idees', parcours: 'Liberté et pouvoir', themes: ['liberté', 'individualisme'] },
-    { titre: 'Entretiens sur la pluralité des mondes', auteur: 'Fontenelle', genre: 'Littérature d’idées', siecle: '17e', objet_etude: 'litterature_idees', parcours: 'Philosophie scientifique', themes: ['science', 'raison'] },
-    { titre: "Lettres d'une Péruvienne", auteur: 'Françoise de Graffigny', genre: 'Littérature d’idées', siecle: '18e', objet_etude: 'litterature_idees', parcours: 'Échanges épistolaires', themes: ['éloquence', 'émancipation'] },
-    { titre: 'Le Menteur', auteur: 'Pierre Corneille', genre: 'Théâtre', siecle: '17e', objet_etude: 'theatre', parcours: 'Comédie et identité', themes: ['mensonge', 'comédie'] },
-    { titre: 'On ne badine pas avec l’amour', auteur: 'Alfred de Musset', genre: 'Théâtre', siecle: '19e', objet_etude: 'theatre', parcours: 'Conflit amoureux', themes: ['orgueil', 'désir'] },
-    { titre: 'Pour un oui ou pour un non', auteur: 'Nathalie Sarraute', genre: 'Théâtre', siecle: '20e', objet_etude: 'theatre', parcours: 'Génération & langage', themes: ['langage', 'incommunicabilité'] },
-    { titre: 'Manon Lescaut', auteur: 'Abbé Prévost', genre: 'Roman', siecle: '18e', objet_etude: 'roman', parcours: 'Passion & destin', themes: ['passion', 'rupture'] },
-    { titre: 'La Peau de chagrin', auteur: 'Honoré de Balzac', genre: 'Roman', siecle: '19e', objet_etude: 'roman', parcours: 'Désir & limite', themes: ['quête', 'fatalité'] },
-    { titre: 'Sido & Les Vrilles de la vigne', auteur: 'Colette', genre: 'Roman', siecle: '20e', objet_etude: 'roman', parcours: 'Solitude moderne', themes: ['corps', 'intimité'] },
-  ]
-  const filtered = input.objet_etude === 'tous' ? oeuvres : oeuvres.filter(o => o.objet_etude === input.objet_etude)
+  const filtered = getProgrammeOeuvres(input.objet_etude)
   const examDate = new Date('2026-06-08')
   return { oeuvres: filtered, jours_avant_examen: Math.max(0, Math.ceil((examDate.getTime() - Date.now()) / 86400000)) }
 }

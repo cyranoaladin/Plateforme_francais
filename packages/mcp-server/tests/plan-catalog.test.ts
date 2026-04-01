@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { PLAN_CATALOG } from '../../src/lib/billing/plan-catalog'
+import { PLAN_CATALOG } from '@nexus-eaf/shared-billing/plan-catalog'
 import { getProgramme2026, PLAN_LIMITS } from '../src/tools/all-tools'
 
 describe('MCP Plan Limits sync', () => {

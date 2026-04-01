@@ -6,8 +6,17 @@
 import { describe, it, expect } from 'vitest';
 import { PLAN_CATALOG, PLAN_DISPLAY_LABELS, getPlanConfig, type EntitlementKey } from '@/lib/billing/plan-catalog';
 import { buildPaywallMessage } from '@/lib/billing/quotas';
+import {
+  PLAN_CATALOG as SHARED_PLAN_CATALOG,
+  PLAN_DISPLAY_LABELS as SHARED_PLAN_DISPLAY_LABELS,
+} from '../../../packages/shared-billing/src/plan-catalog';
 
 describe('Quotas Single Source of Truth', () => {
+  it('uses the shared workspace catalog as the canonical source', () => {
+    expect(PLAN_CATALOG).toEqual(SHARED_PLAN_CATALOG);
+    expect(PLAN_DISPLAY_LABELS).toEqual(SHARED_PLAN_DISPLAY_LABELS);
+  });
+
   it('should have the 3 effective plans defined in PLAN_CATALOG', () => {
     expect(PLAN_CATALOG.FREE).toBeDefined();
     expect(PLAN_CATALOG.PREMIUM).toBeDefined();

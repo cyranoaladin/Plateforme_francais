@@ -23,9 +23,8 @@ describe('consumeQuota atomicity', () => {
 
   it('allows only one concurrent request when the limit is 1', async () => {
     redisMock.eval
-      .mockResolvedValueOnce(1)
-      .mockResolvedValueOnce(-1);
-    redisMock.get.mockResolvedValue('1');
+      .mockResolvedValueOnce([1, 1])
+      .mockResolvedValueOnce([0, 1]);
 
     const { consumeQuota } = await import('@/lib/billing/usage');
 
@@ -39,5 +38,18 @@ describe('consumeQuota atomicity', () => {
 
     expect(passed).toBe(1);
     expect(failed).toBe(1);
+  });
+
+  it('does not touch redis for unlimited plans', async () => {
+    const { consumeQuota } = await import('@/lib/billing/usage');
+
+    const result = await consumeQuota('user-1', 'ORAL_SESSIONS', {
+      limit: 'unlimited',
+      period: 'week',
+    });
+
+    expect(result.limit).toBe('unlimited');
+    expect(redisMock.ping).not.toHaveBeenCalled();
+    expect(redisMock.eval).not.toHaveBeenCalled();
   });
 });
