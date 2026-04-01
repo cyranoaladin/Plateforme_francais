@@ -279,5 +279,5 @@ export async function listCopieProgressEvents(copieId: string): Promise<CopiePro
   const store = await readEpreuvesFallbackStore();
   return store.progressEvents
     .filter((item) => item.copieId === copieId)
-    .sort((left, right) => left.createdAt.localeCompare(right.createdAt) || left.id.localeCompare(right.id));
+    .slice();
 }

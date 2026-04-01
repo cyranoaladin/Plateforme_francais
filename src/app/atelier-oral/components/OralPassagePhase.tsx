@@ -211,7 +211,7 @@ export function OralPassagePhase({
                 className="mt-4 inline-flex items-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-surface)] px-4 py-2.5 text-sm font-medium text-[var(--c-primary)] transition-all duration-[var(--transition-normal)] disabled:opacity-50"
               >
                 {isJuryLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Headphones className="h-4 w-4" />}
-                Obtenir une relance examinateur
+                Obtenir une question de l'examinateur
               </button>
 
               {juryTurns.length > 0 ? (

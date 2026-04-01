@@ -489,7 +489,7 @@ export function useOralSession(input: { initialWork: string }) {
           }),
         });
         if (!response.ok) {
-          throw new Error('Impossible de générer une relance examinateur.');
+          throw new Error("Impossible de générer une question de l'examinateur.");
         }
 
         const payload = (await response.json()) as { juryText: string };
