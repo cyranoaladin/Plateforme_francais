@@ -85,9 +85,7 @@ jobs:
         run: npm run lint
       - name: CSRF route audit
         run: npm run ci:audit-csrf
-      - name: Contrôle FR (baseline copy)
-        run: npm run ci:fr-copy
-      - name: Check FR copy violations
+      - name: Contrôle copy FR — zero banned-phrases
         run: |
           npm run ci:fr-copy -- --update
           VIOLATIONS=$(node -e "
@@ -113,7 +111,7 @@ jobs:
               git commit -m "chore(ci): auto-update fr-copy-baseline [skip ci]"
               git push
             else
-              echo "::warning::FR baseline changed but auto-push is disabled for this event type."
+              echo "::warning::FR baseline changed but auto-push disabled (PR context)"
               git --no-pager diff --stat config/fr-copy-baseline.json
             fi
           fi
@@ -188,6 +186,19 @@ jobs:
       - run: npm ci
       - name: Vitest coverage (tests unitaires uniquement)
         run: npx vitest run tests/unit --coverage
+      - name: Diagnostic couverture actuelle
+        run: |
+          node -e "
+            const fs=require('fs');
+            const p='coverage/coverage-summary.json';
+            if(!fs.existsSync(p)){console.log('Pas de coverage summary');process.exit(0)}
+            const c=JSON.parse(fs.readFileSync(p,'utf8')).total;
+            console.log('Lines:     ' + c.lines.pct + '% (gate: ' + process.env.COVERAGE_GATE_LINES + '%)');
+            console.log('Functions: ' + c.functions.pct + '% (gate: ' + process.env.COVERAGE_GATE_FUNCTIONS + '%)');
+            console.log('Branches:  ' + c.branches.pct + '% (gate: ' + process.env.COVERAGE_GATE_BRANCHES + '%)');
+            console.log('Statements:' + c.statements.pct + '% (gate: ' + process.env.COVERAGE_GATE_STATEMENTS + '%)');
+          "
+        continue-on-error: true
       - name: Coverage gate (progressif, 4 métriques)
         run: |
           node -e "
