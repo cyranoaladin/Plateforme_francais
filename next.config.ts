@@ -48,7 +48,9 @@ const nextConfig: NextConfig = {
   },
   // Remove X-Powered-By header (information disclosure)
   poweredByHeader: false,
-  // turbopack is configured via `next dev --turbo` in dev, not here.
+  // Next.js 16 defaults to Turbopack; empty config silences the
+  // "webpack config without turbopack config" build error.
+  turbopack: {},
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.alias['pdfjs-dist'] = false;
