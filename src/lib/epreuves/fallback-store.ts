@@ -1,11 +1,12 @@
 import { randomUUID } from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { type CopieRecord, type EpreuveRecord } from '@/lib/epreuves/types';
+import { type CopieProgressEventRecord, type CopieRecord, type EpreuveRecord } from '@/lib/epreuves/types';
 
 type EpreuvesStore = {
   epreuves: EpreuveRecord[];
   copies: CopieRecord[];
+  progressEvents: CopieProgressEventRecord[];
 };
 
 const STORE_PATH = path.join(process.cwd(), '.data', 'epreuves-store.json');
@@ -17,13 +18,18 @@ async function ensureStoreExists() {
     JSON.parse(await fs.readFile(STORE_PATH, 'utf8'));
   } catch {
     await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
-    await fs.writeFile(STORE_PATH, JSON.stringify({ epreuves: [], copies: [] }, null, 2), 'utf8');
+    await fs.writeFile(STORE_PATH, JSON.stringify({ epreuves: [], copies: [], progressEvents: [] }, null, 2), 'utf8');
   }
 }
 
 export async function readEpreuvesFallbackStore(): Promise<EpreuvesStore> {
   await ensureStoreExists();
-  return JSON.parse(await fs.readFile(STORE_PATH, 'utf8')) as EpreuvesStore;
+  const parsed = JSON.parse(await fs.readFile(STORE_PATH, 'utf8')) as Partial<EpreuvesStore>;
+  return {
+    epreuves: parsed.epreuves ?? [],
+    copies: parsed.copies ?? [],
+    progressEvents: parsed.progressEvents ?? [],
+  };
 }
 
 export async function writeEpreuvesFallbackStore(update: (store: EpreuvesStore) => EpreuvesStore) {

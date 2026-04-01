@@ -13,6 +13,15 @@ export type EpreuveRecord = {
 
 export type CopieStatus = 'pending' | 'processing' | 'done' | 'error';
 
+export type CopieProgressStage =
+  | 'queued'
+  | 'ocr_started'
+  | 'ocr_done'
+  | 'correction_started'
+  | 'correction_done'
+  | 'report_ready'
+  | 'failed';
+
 export type CorrectionJson = {
   note: number;
   mention: string;
@@ -48,4 +57,14 @@ export type CopieRecord = {
   correction: CorrectionJson | null;
   createdAt: string;
   correctedAt: string | null;
+};
+
+export type CopieProgressEventRecord = {
+  id: string;
+  copieId: string;
+  stage: CopieProgressStage;
+  message: string;
+  progress: number | null;
+  payload: Record<string, unknown> | null;
+  createdAt: string;
 };

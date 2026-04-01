@@ -210,9 +210,23 @@ model CopieDeposee {
   correction  Json?
   createdAt   DateTime       @default(now())
   correctedAt DateTime?
+  events      CopieProgressEvent[]
 
   @@index([userId, createdAt])
   @@index([epreuveId])
+}
+
+model CopieProgressEvent {
+  id        String       @id @default(uuid())
+  copieId   String
+  copie     CopieDeposee @relation(fields: [copieId], references: [id], onDelete: Cascade)
+  stage     String
+  message   String
+  progress  Int?
+  payload   Json?
+  createdAt DateTime     @default(now())
+
+  @@index([copieId, createdAt])
 }
 
 enum OralSessionStatus {

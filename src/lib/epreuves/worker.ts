@@ -4,6 +4,7 @@ import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { extractTextFromCopie, getUserSafeOcrText, isOcrFailureText } from '@/lib/correction/ocr';
 import { normalizeCorrectionPayload } from '@/lib/correction/normalize-correction';
 import {
+  appendCopieProgressEvent,
   findCopieById,
   findEpreuveById,
   updateCopieStatus,
@@ -37,6 +38,12 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
     }
 
     await updateCopieStatus({ copieId, status: 'processing' });
+    await appendCopieProgressEvent({
+      copieId,
+      stage: 'ocr_started',
+      message: 'Lecture OCR en cours.',
+      progress: 20,
+    });
 
     const persistedOcrText = getUserSafeOcrText(copie.ocrText);
     const ocrText = persistedOcrText ?? await extractTextFromCopie({
@@ -45,6 +52,12 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
     });
 
     if (isOcrFailureText(ocrText)) {
+      await appendCopieProgressEvent({
+        copieId,
+        stage: 'failed',
+        message: "La lecture OCR a échoué.",
+        progress: 100,
+      });
       await updateCopieStatus({
         copieId,
         status: 'error',
@@ -55,6 +68,19 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
       success = true;
       return;
     }
+
+    await appendCopieProgressEvent({
+      copieId,
+      stage: 'ocr_done',
+      message: 'Lecture OCR terminée.',
+      progress: 40,
+    });
+    await appendCopieProgressEvent({
+      copieId,
+      stage: 'correction_started',
+      message: 'Correction détaillée en cours.',
+      progress: 60,
+    });
 
     const correction = normalizeCorrectionPayload(await corrigerCopie({
       texteOCR: ocrText,
@@ -73,6 +99,12 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
       ocrText,
       correction,
       correctedAt: new Date().toISOString(),
+    });
+    await appendCopieProgressEvent({
+      copieId,
+      stage: 'correction_done',
+      message: 'Correction terminée.',
+      progress: 85,
     });
 
     await createEvaluation({
@@ -125,6 +157,13 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
       logger.warn({ copieId, modelError }, 'epreuves.worker.student_modeler_error');
     }
 
+    await appendCopieProgressEvent({
+      copieId,
+      stage: 'report_ready',
+      message: 'Rapport prêt.',
+      progress: 100,
+    });
+
     success = true;
   } catch (error) {
     if (throwOnError) {
@@ -144,6 +183,14 @@ export async function processCorrection(copieId: string, attempt = 1, throwOnErr
     }
 
     logger.error({ copieId, attempt, error }, 'epreuves.worker.dlq_after_max_attempts');
+    await appendCopieProgressEvent({
+      copieId,
+      stage: 'failed',
+      message: error instanceof Error ? error.message : 'Erreur inconnue lors de la correction.',
+      progress: 100,
+    }).catch((progressError) => {
+      logger.warn({ copieId, progressError }, 'epreuves.worker.progress_event_failed');
+    });
     await updateCopieStatus({
       copieId,
       status: 'error',

@@ -2,7 +2,15 @@ import { randomUUID } from 'crypto';
 import { type Prisma } from '@prisma/client';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { readEpreuvesFallbackStore, writeEpreuvesFallbackStore } from '@/lib/epreuves/fallback-store';
-import { type CopieRecord, type CopieStatus, type CorrectionJson, type EpreuveRecord, type EpreuveType } from '@/lib/epreuves/types';
+import {
+  type CopieProgressEventRecord,
+  type CopieProgressStage,
+  type CopieRecord,
+  type CopieStatus,
+  type CorrectionJson,
+  type EpreuveRecord,
+  type EpreuveType,
+} from '@/lib/epreuves/types';
 
 function mapEpreuve(input: {
   id: string;
@@ -49,6 +57,26 @@ function mapCopie(input: {
     correction: (input.correction as CorrectionJson | null) ?? null,
     createdAt: input.createdAt.toISOString(),
     correctedAt: input.correctedAt ? input.correctedAt.toISOString() : null,
+  };
+}
+
+function mapCopieProgressEvent(input: {
+  id: string;
+  copieId: string;
+  stage: string;
+  message: string;
+  progress: number | null;
+  payload: Prisma.JsonValue | null;
+  createdAt: Date;
+}): CopieProgressEventRecord {
+  return {
+    id: input.id,
+    copieId: input.copieId,
+    stage: input.stage as CopieProgressStage,
+    message: input.message,
+    progress: input.progress,
+    payload: (input.payload as Record<string, unknown> | null) ?? null,
+    createdAt: input.createdAt.toISOString(),
   };
 }
 
@@ -189,4 +217,67 @@ export async function findCopieById(copieId: string): Promise<CopieRecord | null
 
   const store = await readEpreuvesFallbackStore();
   return store.copies.find((item) => item.id === copieId) ?? null;
+}
+
+export async function appendCopieProgressEvent(input: {
+  copieId: string;
+  stage: CopieProgressStage;
+  message: string;
+  progress?: number | null;
+  payload?: Record<string, unknown> | null;
+}): Promise<CopieProgressEventRecord> {
+  if (await isDatabaseAvailable()) {
+    const created = await prisma.copieProgressEvent.create({
+      data: {
+        copieId: input.copieId,
+        stage: input.stage,
+        message: input.message,
+        progress: input.progress ?? null,
+        payload: (input.payload ?? null) as Prisma.InputJsonValue,
+      },
+    });
+
+    return mapCopieProgressEvent({ ...created, payload: created.payload });
+  }
+
+  const record: CopieProgressEventRecord = {
+    id: randomUUID(),
+    copieId: input.copieId,
+    stage: input.stage,
+    message: input.message,
+    progress: input.progress ?? null,
+    payload: input.payload ?? null,
+    createdAt: new Date().toISOString(),
+  };
+
+  await writeEpreuvesFallbackStore((current) => ({
+    ...current,
+    progressEvents: [...current.progressEvents, record],
+  }));
+
+  return record;
+}
+
+export async function listCopieProgressEvents(copieId: string): Promise<CopieProgressEventRecord[]> {
+  if (await isDatabaseAvailable()) {
+    const events = await prisma.copieProgressEvent.findMany({
+      where: { copieId },
+      orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
+    });
+
+    return events.map((event: {
+      id: string;
+      copieId: string;
+      stage: string;
+      message: string;
+      progress: number | null;
+      payload: Prisma.JsonValue | null;
+      createdAt: Date;
+    }) => mapCopieProgressEvent({ ...event, payload: event.payload }));
+  }
+
+  const store = await readEpreuvesFallbackStore();
+  return store.progressEvents
+    .filter((item) => item.copieId === copieId)
+    .sort((left, right) => left.createdAt.localeCompare(right.createdAt) || left.id.localeCompare(right.id));
 }

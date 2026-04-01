@@ -3,14 +3,18 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const mockFindCopieById = vi.fn();
 const mockFindEpreuveById = vi.fn();
 const mockUpdateCopieStatus = vi.fn();
+const mockAppendCopieProgressEvent = vi.fn();
 const mockExtractTextFromCopie = vi.fn();
 const mockCorrigerCopie = vi.fn();
 const mockProcessInteraction = vi.fn();
+const mockCreateEvaluation = vi.fn();
+const mockCreateMemoryEventRecord = vi.fn();
 
 vi.mock('@/lib/epreuves/repository', () => ({
   findCopieById: mockFindCopieById,
   findEpreuveById: mockFindEpreuveById,
   updateCopieStatus: mockUpdateCopieStatus,
+  appendCopieProgressEvent: mockAppendCopieProgressEvent,
 }));
 
 vi.mock('@/lib/correction/ocr', () => ({
@@ -29,6 +33,18 @@ vi.mock('@/lib/correction/correcteur', () => ({
 
 vi.mock('@/lib/agents/student-modeler', () => ({
   processInteraction: mockProcessInteraction,
+}));
+
+vi.mock('@/lib/db/repositories/evaluationRepo', () => ({
+  createEvaluation: mockCreateEvaluation,
+}));
+
+vi.mock('@/lib/db/repositories/memoryRepo', () => ({
+  createMemoryEventRecord: mockCreateMemoryEventRecord,
+}));
+
+vi.mock('@/lib/memory/store', () => ({
+  createMemoryEvent: vi.fn().mockReturnValue({}),
 }));
 
 vi.mock('@/lib/logger', () => ({
@@ -53,6 +69,9 @@ describe('processCorrection', () => {
     });
     mockExtractTextFromCopie.mockResolvedValue('Texte OCR');
     mockProcessInteraction.mockResolvedValue({});
+    mockAppendCopieProgressEvent.mockResolvedValue(undefined);
+    mockCreateEvaluation.mockResolvedValue(undefined);
+    mockCreateMemoryEventRecord.mockResolvedValue(undefined);
   });
 
   it('planifie un retry avec backoff exponentiel', async () => {
@@ -125,6 +144,43 @@ describe('processCorrection', () => {
       expect.objectContaining({
         copieId: 'copie-1',
         status: 'done',
+      }),
+    );
+  });
+
+  it('publie les jalons de progression dans l ordre nominal', async () => {
+    mockCorrigerCopie.mockResolvedValue({
+      note: 14,
+      mention: 'Bien',
+      bilan: { global: 'Bonne copie.', points_forts: ['Structure'], axes_amelioration: ['Préciser'] },
+      rubriques: [],
+      annotations: [],
+      corrige_type: 'commentaire',
+      conseil_final: 'Continue.',
+    });
+
+    const { processCorrection } = await import('@/lib/epreuves/worker');
+    await processCorrection('copie-1', 1);
+
+    expect(mockAppendCopieProgressEvent.mock.calls.map(([arg]) => arg.stage)).toEqual([
+      'ocr_started',
+      'ocr_done',
+      'correction_started',
+      'correction_done',
+      'report_ready',
+    ]);
+  });
+
+  it('publie un jalon failed lorsque la correction termine en erreur finale', async () => {
+    mockCorrigerCopie.mockRejectedValue(new Error('hard failure'));
+
+    const { processCorrection } = await import('@/lib/epreuves/worker');
+    await processCorrection('copie-1', 3);
+
+    expect(mockAppendCopieProgressEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        copieId: 'copie-1',
+        stage: 'failed',
       }),
     );
   });

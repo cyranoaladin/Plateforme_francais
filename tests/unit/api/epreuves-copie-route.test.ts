@@ -39,6 +39,7 @@ vi.mock('@/lib/billing/usage', () => ({
 vi.mock('@/lib/epreuves/repository', () => ({
   findEpreuveById: vi.fn(),
   createCopie: vi.fn(),
+  appendCopieProgressEvent: vi.fn(),
 }));
 
 vi.mock('@/lib/storage/copies', () => ({
@@ -69,7 +70,7 @@ vi.mock('@/lib/epreuves/worker', () => ({
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { getBillingContext } from '@/lib/billing/context';
 import { consumeQuota } from '@/lib/billing/usage';
-import { findEpreuveById } from '@/lib/epreuves/repository';
+import { appendCopieProgressEvent, createCopie, findEpreuveById } from '@/lib/epreuves/repository';
 
 describe('POST /api/v1/epreuves/[epreuveId]/copie', () => {
   beforeEach(() => {
@@ -105,6 +106,18 @@ describe('POST /api/v1/epreuves/[epreuveId]/copie', () => {
         rateLimits: { oralStartPerHour: 6 },
       },
     } as never);
+    vi.mocked(createCopie).mockResolvedValue({
+      id: 'copie-1',
+      epreuveId: 'ep-1',
+      userId: 'user-free',
+      filePath: 'uploads/copie.pdf',
+      fileType: 'application/pdf',
+      status: 'pending',
+      ocrText: null,
+      correction: null,
+      createdAt: new Date().toISOString(),
+      correctedAt: null,
+    } as never);
   });
 
   it('refuse le depot de copie quand OCR_COPIES est bloque sur FREE', async () => {
@@ -132,5 +145,38 @@ describe('POST /api/v1/epreuves/[epreuveId]/copie', () => {
     expect(String(payload.error)).toMatch(/limite OCR/i);
     expect(consumeQuota).toHaveBeenNthCalledWith(1, 'user-free', 'WRITTEN_CORRECTIONS', { limit: 2, period: 'month' });
     expect(consumeQuota).toHaveBeenNthCalledWith(2, 'user-free', 'OCR_COPIES', { limit: 0, period: 'month' });
+  });
+
+  it('enregistre un événement queued quand la copie est acceptée', async () => {
+    vi.mocked(consumeQuota)
+      .mockResolvedValueOnce({ current: 1, limit: 2, remaining: 1 })
+      .mockResolvedValueOnce({ current: 1, limit: 2, remaining: 1 });
+
+    const { saveCopieFile } = await import('@/lib/storage/copies');
+    const { runCorrectionWorker } = await import('@/lib/epreuves/worker');
+    vi.mocked(saveCopieFile).mockResolvedValue({
+      filePath: 'uploads/copie.pdf',
+      fileType: 'application/pdf',
+    } as never);
+
+    const { POST } = await import('@/app/api/v1/epreuves/[epreuveId]/copie/route');
+    const formData = new FormData();
+    formData.append('file', new File(['fake pdf'], 'copy.pdf', { type: 'application/pdf' }));
+
+    const request = new Request('http://localhost/api/v1/epreuves/ep-1/copie', {
+      method: 'POST',
+      headers: { 'X-CSRF-Token': 'tok' },
+      body: formData,
+    });
+
+    const response = await POST(request, { params: Promise.resolve({ epreuveId: 'ep-1' }) });
+    expect(response.status).toBe(202);
+    expect(appendCopieProgressEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        copieId: 'copie-1',
+        stage: 'queued',
+      }),
+    );
+    expect(runCorrectionWorker).toHaveBeenCalledWith('copie-1');
   });
 });

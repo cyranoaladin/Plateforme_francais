@@ -41,6 +41,16 @@ type CorrectionPayload = {
   } | null;
 };
 
+type ProgressEventPayload = {
+  id: string;
+  copieId: string;
+  stage: string;
+  message: string;
+  progress: number | null;
+  payload: Record<string, unknown> | null;
+  createdAt: string;
+};
+
 const PROCESSING_STEPS = ['Lecture de la copie...', 'Analyse littéraire...', 'Rédaction du bilan...'];
 
 const ANNOTATION_STYLES = {
@@ -55,6 +65,7 @@ export default function CorrectionCopiePage() {
   const epreuveId = searchParams.get('epreuveId');
 
   const [payload, setPayload] = useState<CorrectionPayload | null>(null);
+  const [progressEvents, setProgressEvents] = useState<ProgressEventPayload[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [activeAnnotation, setActiveAnnotation] = useState<number>(0);
@@ -66,8 +77,9 @@ export default function CorrectionCopiePage() {
 
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
     let cancelled = false;
+    let eventSource: EventSource | null = null;
 
-    const load = async () => {
+    const loadStatusSnapshot = async (allowRetryPolling = false) => {
       try {
         const statusUrl = epreuveId
           ? `/api/v1/epreuves/${epreuveId}/copie/${params.copieId}`
@@ -86,8 +98,10 @@ export default function CorrectionCopiePage() {
         }
         setPayload(data);
 
-        if (data.status === 'pending' || data.status === 'processing') {
-          timeoutId = setTimeout(load, 3000);
+        if (allowRetryPolling && (data.status === 'pending' || data.status === 'processing')) {
+          timeoutId = setTimeout(() => {
+            void loadStatusSnapshot(true);
+          }, 3000);
         } else if (data.status === 'done') {
           await fetch(`/api/v1/epreuves/copies/${params.copieId}/report`).catch(() => undefined);
         }
@@ -97,11 +111,49 @@ export default function CorrectionCopiePage() {
       }
     };
 
-    void load();
+    const connectProgressStream = () => {
+      if (typeof window === 'undefined' || typeof window.EventSource === 'undefined') {
+        void loadStatusSnapshot(true);
+        return;
+      }
+
+      void loadStatusSnapshot(false);
+
+      eventSource = new EventSource(`/api/v1/epreuves/copies/${params.copieId}/events`);
+      eventSource.addEventListener('progress', (event) => {
+        const messageEvent = event as MessageEvent<string>;
+        const parsed = JSON.parse(messageEvent.data) as { type: 'progress'; event: ProgressEventPayload };
+        setProgressEvents((prev) => {
+          if (prev.some((item) => item.id === parsed.event.id)) {
+            return prev;
+          }
+          return [...prev, parsed.event];
+        });
+
+        const stageIndex = ['queued', 'ocr_started', 'ocr_done', 'correction_started', 'correction_done', 'report_ready'].indexOf(parsed.event.stage);
+        if (stageIndex >= 0) {
+          setStepIndex(Math.min(stageIndex, PROCESSING_STEPS.length - 1));
+        }
+
+        if (parsed.event.stage === 'report_ready' || parsed.event.stage === 'failed') {
+          void loadStatusSnapshot();
+          eventSource?.close();
+        }
+      });
+      eventSource.onerror = () => {
+        eventSource?.close();
+        timeoutId = setTimeout(() => {
+          void loadStatusSnapshot(true);
+        }, 3000);
+      };
+    };
+
+    connectProgressStream();
 
     return () => {
       cancelled = true;
       if (timeoutId) clearTimeout(timeoutId);
+      eventSource?.close();
     };
   }, [epreuveId, params.copieId]);
 
@@ -119,6 +171,7 @@ export default function CorrectionCopiePage() {
   const note = correction?.note ?? 0;
   const imageUrl = payload ? `/api/v1/epreuves/copies/${payload.copieId}/file` : null;
   const isImageCopy = Boolean(payload?.fileType?.startsWith('image/'));
+  const latestProgressMessage = progressEvents.at(-1)?.message ?? PROCESSING_STEPS[stepIndex];
 
   const annotationRegions = useMemo(() => {
     if (!correction) return [];
@@ -167,7 +220,7 @@ export default function CorrectionCopiePage() {
         <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="flex items-center gap-3 text-[var(--c-primary)]">
             <Loader2 className="h-5 w-5 animate-spin" />
-            <span className="text-sm font-semibold">Rapport de correction en cours...</span>
+            <span className="text-sm font-semibold">{latestProgressMessage}</span>
           </div>
           <div className="mt-6 space-y-3">
             {PROCESSING_STEPS.map((step, index) => (

@@ -6,7 +6,7 @@ import { getResetMessage } from '@/lib/billing/quota-messages';
 import { consumeQuota, QuotaExceededError as BillingQuotaExceededError } from '@/lib/billing/usage';
 import { createMemoryEventRecord, listMemoryEventsByUser } from '@/lib/db/repositories/memoryRepo';
 import { updateUserProfile } from '@/lib/db/repositories/userRepo';
-import { createCopie, findEpreuveById } from '@/lib/epreuves/repository';
+import { appendCopieProgressEvent, createCopie, findEpreuveById } from '@/lib/epreuves/repository';
 import { runCorrectionWorker } from '@/lib/epreuves/worker';
 import { evaluateBadges } from '@/lib/gamification/badges';
 import { createMemoryEvent } from '@/lib/memory/store';
@@ -146,6 +146,12 @@ export async function POST(
     userId: auth.user.id,
     filePath: saved.filePath,
     fileType: saved.fileType,
+  });
+  await appendCopieProgressEvent({
+    copieId: copie.id,
+    stage: 'queued',
+    message: 'Copie déposée et mise en file de correction.',
+    progress: 0,
   });
 
   await createMemoryEventRecord(
