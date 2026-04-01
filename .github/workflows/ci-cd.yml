@@ -370,7 +370,7 @@ jobs:
           SERVER_PID=$!
           echo "Server PID: $SERVER_PID"
           echo "Waiting for health endpoint..."
-          npx wait-on --timeout 60000 http://127.0.0.1:3000/api/v1/health || {
+          npx wait-on --timeout 60000 http-get://127.0.0.1:3000/api/v1/health || {
             echo "Server failed to start within timeout"
             echo "Server logs:"
             cat server.log
