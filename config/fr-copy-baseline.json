@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-01T18:51:56.427Z",
+  "generatedAt": "2026-04-01T19:26:20.409Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -1893,77 +1893,77 @@
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 122,
+      "line": 121,
       "column": 102,
       "kind": "jsx-text",
       "text": "Cadre de travail"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 142,
+      "line": 141,
       "column": 78,
       "kind": "jsx-text",
       "text": "Pourquoi cette page existe"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 143,
+      "line": 142,
       "column": 64,
       "kind": "jsx-text",
       "text": "Écrire, déposer, corriger, puis retravailler"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 147,
+      "line": 146,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le bon usage de l'atelier écrit n'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 153,
+      "line": 152,
       "column": 103,
       "kind": "jsx-text",
       "text": "Sujet actif"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 162,
+      "line": 161,
       "column": 17,
       "kind": "jsx-text",
       "text": "Questionner le sujet avec le guidage"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 177,
+      "line": 176,
       "column": 13,
       "kind": "jsx-text",
       "text": "Badge débloqué :"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 26,
+      "line": 25,
       "column": 15,
       "kind": "jsx-text",
       "text": "Atelier écrit"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 29,
+      "line": 28,
       "column": 15,
       "kind": "jsx-text",
       "text": "Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 32,
+      "line": 31,
       "column": 15,
       "kind": "jsx-text",
       "text": "Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser entre dix écrans. L'interface suit un seul objectif : te faire passer d'une intention floue à un rapport exploitable."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 73,
+      "line": 72,
       "column": 15,
       "kind": "jsx-text",
       "text": "Découvrir les plans"
@@ -2285,45 +2285,45 @@
     },
     {
       "file": "src/app/atelier-oral/components/passage/PassageFeedback.tsx",
-      "line": 101,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Écouter"
-    },
-    {
-      "file": "src/app/atelier-oral/components/passage/PassageFeedback.tsx",
-      "line": 105,
-      "column": 21,
-      "kind": "jsx-text",
-      "text": "Relance de l’examinateur :"
-    },
-    {
-      "file": "src/app/atelier-oral/components/passage/PassageFeedback.tsx",
-      "line": 29,
+      "line": 23,
       "column": 11,
       "kind": "jsx-text",
       "text": "Feedbacks intermédiaires"
     },
     {
       "file": "src/app/atelier-oral/components/passage/PassageFeedback.tsx",
-      "line": 58,
+      "line": 52,
       "column": 19,
       "kind": "jsx-text",
       "text": "⚠️ Évaluation indisponible - score non comptabilisé"
     },
     {
       "file": "src/app/atelier-oral/components/passage/PassageFeedback.tsx",
-      "line": 65,
+      "line": 59,
       "column": 21,
       "kind": "jsx-text",
       "text": "Points forts"
     },
     {
       "file": "src/app/atelier-oral/components/passage/PassageFeedback.tsx",
-      "line": 81,
+      "line": 75,
       "column": 21,
       "kind": "jsx-text",
       "text": "Axes d’amélioration"
+    },
+    {
+      "file": "src/app/atelier-oral/components/passage/PassageFeedback.tsx",
+      "line": 95,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Écouter"
+    },
+    {
+      "file": "src/app/atelier-oral/components/passage/PassageFeedback.tsx",
+      "line": 99,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Relance de l’examinateur :"
     },
     {
       "file": "src/app/atelier-oral/components/passage/PassageInput.tsx",
