@@ -276,6 +276,11 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
 
 ### Pull Requests
 
+**Règle absolue**:
+- Aucun push direct sur `main`
+- Toute modification passe par une branche dédiée + une PR
+- La PR doit passer `pr-gate` avant merge
+
 #### Checklist PR
 
 - [ ] **Branch à jour** avec main/develop
@@ -286,6 +291,30 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
 - [ ] **Breaking changes** documentés
 - [ ] **Migrations DB** testées si applicable
 - [ ] **Revue code** demandée
+
+#### Branch Protection Rules (GitHub)
+
+Configurer dans GitHub > Settings > Branches > `main` :
+- [ ] Require pull request before merging
+- [ ] Require 1 approving review
+- [ ] Require status checks to pass: `pr-gate`
+- [ ] Require branches to be up to date before merging
+- [ ] Do not allow bypassing the above settings
+
+#### Vérification locale avant push
+
+Commande standard :
+
+```bash
+npm run pre-push
+```
+
+Cette commande exécute :
+- `npm run typecheck`
+- `npm run lint`
+- `npm run test:unit -- --run`
+- `npm run ci:fr-copy -- --update`
+- `npm run check-banned`
 
 #### Template PR
 

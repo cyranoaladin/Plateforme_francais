@@ -1,0 +1,49 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: "20"
+  DATABASE_URL: "postgresql://test:test@localhost:5432/eaf_test"
+  DIRECT_URL: "postgresql://test:test@localhost:5432/eaf_test"
+  REDIS_URL: "redis://localhost:6379"
+  LLM_PROVIDER: "mock"
+  LLM_TIER_1_PROVIDER: "mock"
+  LLM_TIER_2_PROVIDER: "mock"
+  LLM_TIER_3_PROVIDER: "mock"
+  LLM_ROUTER_ENABLED: "false"
+  LLM_COST_TRACKING: "false"
+  RAG_API_URL: "http://localhost:9999"
+  SESSION_SECRET: "ci_session_secret_32chars_minimum_ok_here"
+  CSRF_SECRET: "ci_csrf_secret_32chars_minimum_ok_here_now"
+  COOKIE_SECURE: "false"
+  NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+  NEXT_PUBLIC_API_URL: "http://localhost:3000/api/v1"
+  MISTRAL_API_KEY: "ci_mock_mistral_key_not_real"
+
+jobs:
+  pr-gate:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pr-gate-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test:unit -- --run
+      - name: Check banned-phrases
+        run: |
+          npm run ci:fr-copy -- --update
+          BANNED=$(node -e "
+            const b = require('./config/fr-copy-baseline.json');
+            console.log(b.violations.filter(v => v.kind === 'banned-phrase').length);
+          ")
+          [ "$BANNED" -eq "0" ] || (echo "❌ Banned phrases détectées" && exit 1)
