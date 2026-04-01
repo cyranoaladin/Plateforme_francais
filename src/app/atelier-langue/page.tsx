@@ -16,7 +16,7 @@ import {
 import { useTrackInteraction } from '@/components/tracking/tracking-provider';
 import { Button, Select, StateNotice, Surface, Textarea } from '@/components/ui';
 import { buildLangueExerciseSeries } from '@/lib/langue/exercise-bank';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 
 type Exercise = {
@@ -104,11 +104,12 @@ export default function AtelierLangue() {
     setUserAnswer('');
 
     try {
+      const csrfToken = await getCsrfToken();
       const response = await fetch('/api/v1/langue/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({ theme: selectedTheme, count: 5 }),
       });
@@ -160,11 +161,12 @@ export default function AtelierLangue() {
     });
     setIsSubmitting(true);
     try {
+      const csrfToken = await getCsrfToken();
       const response = await fetch('/api/v1/evaluations/langue', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({
           exerciseId: currentExercise.id,

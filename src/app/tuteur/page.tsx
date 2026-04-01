@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from 'lucide-react';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { Badge, Button } from '@/components/ui';
 import { StateNotice } from '@/components/ui';
@@ -78,11 +78,12 @@ function TuteurPageContent() {
     setIsSending(true);
 
     try {
+      const csrfToken = await getCsrfToken();
       const response = await fetch('/api/v1/tuteur/message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({ message: trimmed, conversationHistory: history, workId, parcours, sessionId }),
       });

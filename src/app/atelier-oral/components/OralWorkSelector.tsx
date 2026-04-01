@@ -13,6 +13,7 @@ type Props = {
   examinerProfile: ExamPersona;
   onChangeProfile: (profile: ExamPersona) => void;
   showProgrammeWarning?: boolean;
+  warningMessage?: string;
 };
 
 export function OralWorkSelector({
@@ -24,6 +25,7 @@ export function OralWorkSelector({
   examinerProfile,
   onChangeProfile,
   showProgrammeWarning,
+  warningMessage,
 }: Props) {
   return (
     <section className="space-y-4">
@@ -72,8 +74,8 @@ export function OralWorkSelector({
       </div>
       {showProgrammeWarning && (
         <div className="rounded-lg border border-amber-500 bg-amber-50 p-3 text-amber-700 text-sm">
-          Le programme 2026-2027 n’est pas encore publié : nous affichons temporairement le
-          programme 2025-2026.
+          {warningMessage ??
+            'Le programme 2026-2027 n’est pas encore publié : nous affichons temporairement le programme 2025-2026.'}
         </div>
       )}
     </section>

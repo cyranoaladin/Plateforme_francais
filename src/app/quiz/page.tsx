@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { BookOpen, Brain, GraduationCap, Sparkles, Target } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { Button } from '@/components/ui';
 import { StateNotice } from '@/components/ui';
@@ -105,11 +105,12 @@ export default function QuizPage() {
     setActiveThemeLabel(null);
 
     try {
+      const csrfToken = await getCsrfToken();
       const response = await fetch('/api/v1/quiz/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({ theme, difficulte, nbQuestions }),
       });
@@ -141,6 +142,7 @@ export default function QuizPage() {
     const weakSkillLabel = selectedOption?.label ?? theme;
 
     if (pct < 60) {
+      const csrfToken = await getCsrfToken();
       const profileResponse = await fetch('/api/v1/student/profile');
       if (!profileResponse.ok) return;
 
@@ -151,18 +153,19 @@ export default function QuizPage() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({ weakSkills: weak }),
       });
     }
 
     // Persist quiz evaluation to database
+    const csrfToken = await getCsrfToken();
     await fetch('/api/v1/quiz/evaluate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': getCsrfTokenFromDocument(),
+        'X-CSRF-Token': csrfToken,
       },
       body: JSON.stringify({
         theme,
@@ -177,7 +180,7 @@ export default function QuizPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({ trigger: 'quiz_perfect' }),
       });

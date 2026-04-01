@@ -59,6 +59,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -84,7 +85,7 @@ jobs:
         run: npm run ci:fr-copy
       - name: Regenerate FR baseline guard
         run: |
-          npm run ci:fr-copy -- --write-baseline
+          npm run ci:fr-copy -- --update
           if git diff --quiet config/fr-copy-baseline.json; then
             echo "FR baseline unchanged"
           else
@@ -112,6 +113,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -147,6 +149,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -211,6 +214,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -254,6 +258,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -332,6 +337,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -387,6 +393,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -452,6 +459,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -487,6 +495,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -528,6 +537,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
+            node_modules
             ~/.npm
             ~/.npm/_cacache
             ~/.cache
@@ -599,7 +609,7 @@ jobs:
       - name: Post-deploy health check
         if: steps.check-secrets.outputs.configured == 'true'
         run: |
-          curl --retry 10 --retry-delay 3 --fail https://eaf.nexusreussite.academy/api/v1/health
+          curl --retry 10 --retry-delay 3 --max-time 30 --fail https://eaf.nexusreussite.academy/api/v1/health
 
   post-deploy-monitoring:
     name: "Post-Deploy - Health & Canary"

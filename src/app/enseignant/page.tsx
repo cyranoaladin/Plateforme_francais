@@ -16,7 +16,7 @@ import {
   Sparkles,
   Users,
 } from 'lucide-react';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 import { StateNotice, Surface, Textarea } from '@/components/ui';
 
 type StudentItem = {
@@ -143,10 +143,11 @@ export default function EnseignantPage() {
   const distributionMax = Math.max(...((payload?.distribution ?? []).map((item) => item.count)), 1);
 
   const generateClassCode = async () => {
+    const csrfToken = await getCsrfToken();
     const response = await fetch('/api/v1/enseignant/class-code', {
       method: 'POST',
       headers: {
-        'X-CSRF-Token': getCsrfTokenFromDocument(),
+        'X-CSRF-Token': csrfToken,
       },
     });
 
@@ -162,11 +163,12 @@ export default function EnseignantPage() {
     const value = commentDrafts[copieId]?.trim();
     if (!value) return;
 
+    const csrfToken = await getCsrfToken();
     const response = await fetch(`/api/v1/enseignant/corrections/${copieId}/comment`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': getCsrfTokenFromDocument(),
+        'X-CSRF-Token': csrfToken,
       },
       body: JSON.stringify({ comment: value }),
     });

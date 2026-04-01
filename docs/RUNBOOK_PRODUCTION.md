@@ -137,8 +137,10 @@ server {
     }
 
     # CSP et Security Headers
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';" always;
-    add_header X-Frame-Options "SAMEORIGIN" always;
+    # La CSP applicative est émise dynamiquement par Next.js middleware avec un nonce
+    # par requête. Nginx ne doit pas réinjecter une ancienne politique permissive.
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'nonce-{NONCE}'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://api.mistral.ai; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self';" always;
+    add_header X-Frame-Options "DENY" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 }
@@ -152,6 +154,12 @@ server {
 ```
 
 ### Logs et Monitoring
+
+### Note CSP / Nonce
+
+- En production, le nonce CSP est généré côté `middleware.ts` à chaque requête.
+- Les scripts inline autorisés doivent utiliser ce nonce; ne réintroduisez jamais `'unsafe-eval'`.
+- Si un reverse proxy doit poser une CSP de secours, elle doit rester strictement alignée sur la politique applicative ci-dessus.
 
 **Emplacements logs**:
 ```

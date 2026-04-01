@@ -147,4 +147,19 @@ describe('checkRateLimit', () => {
     const req = new Request('http://localhost/');
     expect(getClientIp(req)).toBe('unknown');
   });
+
+  it('désactive complètement le rate limit quand E2E_DISABLE_RATE_LIMIT=1, même sous NODE_ENV=production', async () => {
+    vi.stubEnv('E2E_DISABLE_RATE_LIMIT', '1');
+    vi.stubEnv('NODE_ENV', 'production');
+
+    try {
+      const { checkRateLimit } = await import('@/lib/security/rate-limit');
+      const result = await checkRateLimit({ request: makeRequest('1.2.3.4'), key: 'test', limit: 1 });
+      expect(result).toEqual({ allowed: true, retryAfter: 0 });
+      expect(redisMock.ping).not.toHaveBeenCalled();
+      expect(redisMock.incr).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
 });

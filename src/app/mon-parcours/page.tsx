@@ -16,7 +16,7 @@ import {
   Target,
 } from 'lucide-react';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 import { Card, Badge } from '@/components/ui';
 import { StateNotice } from '@/components/ui';
 
@@ -173,6 +173,7 @@ export default function MonParcoursPage() {
       try {
         setIsLoading(true);
         setError(null);
+        const csrfToken = await getCsrfToken();
 
         const [profileResponse, planResponse] = await Promise.all([
           fetch('/api/v1/student/profile'),
@@ -180,7 +181,7 @@ export default function MonParcoursPage() {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'X-CSRF-Token': getCsrfTokenFromDocument(),
+              'X-CSRF-Token': csrfToken,
             },
             body: JSON.stringify({}),
           }),
@@ -263,11 +264,12 @@ export default function MonParcoursPage() {
     setCheckedIds(next);
 
     try {
+      const csrfToken = await getCsrfToken();
       await fetch('/api/v1/memory/events', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({
           type: 'interaction',

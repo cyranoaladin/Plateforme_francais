@@ -144,5 +144,41 @@ describe('Billing Quotas - Fallback prod fail-closed', () => {
       expect(result.allowed).toBe(true);
       expect(result.remaining).toBe(100_000);
     });
+
+    it('permet aussi le fallback en E2E sous NODE_ENV=production quand E2E_DISABLE_RATE_LIMIT=1', async () => {
+      vi.stubEnv('NODE_ENV', 'production');
+      vi.stubEnv('E2E_DISABLE_RATE_LIMIT', '1');
+      mockRedisClient.ping.mockRejectedValueOnce(new Error('Redis down'));
+
+      const { checkQuota } = await import('@/lib/billing/usage');
+
+      const result = await checkQuota('user-1', 'WRITTEN_CORRECTIONS', {
+        limit: 2,
+        period: 'month',
+      });
+
+      expect(result.allowed).toBe(true);
+      expect(result.remaining).toBe(2);
+    });
+  });
+
+  describe('consumeQuota en E2E', () => {
+    it('autorise le fallback Redis pour les quotas numériques en E2E, mais pas pour les limites à 0', async () => {
+      vi.stubEnv('NODE_ENV', 'production');
+      vi.stubEnv('E2E_DISABLE_RATE_LIMIT', '1');
+      mockRedisClient.ping.mockRejectedValueOnce(new Error('Redis down'));
+
+      const { consumeQuota } = await import('@/lib/billing/usage');
+
+      const result = await consumeQuota('user-1', 'WRITTEN_CORRECTIONS', {
+        limit: 2,
+        period: 'month',
+      });
+      expect(result.remaining).toBe(2);
+
+      await expect(
+        consumeQuota('user-1', 'OCR_COPIES', { limit: 0, period: 'month' }),
+      ).rejects.toThrow(QuotaExceededError);
+    });
   });
 });

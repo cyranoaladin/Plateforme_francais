@@ -28,7 +28,7 @@ import {
   getRessourcesByCategory,
 } from '@/data/ressources';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 import { PdfPreviewViewer } from '@/components/ui/pdf-preview-viewer';
 import { FREE_LIBRARY_LIMITS, FREE_TOTAL_LIMIT, LIBRARY_TOTAL_RESOURCES } from '@/lib/billing/library-gating';
 import { Badge, Button, StateNotice, Surface } from '@/components/ui';
@@ -231,11 +231,12 @@ export default function BibliothequePage() {
     setRagError(null);
 
     try {
+      const csrfToken = await getCsrfToken();
       const response = await fetch('/api/v1/rag/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({ query: searchQuery, maxResults: 8 }),
       });

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CheckCircle2, ClipboardList, Plus, ShieldCheck, Trash2 } from 'lucide-react';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 import { Badge, Button, Input, Select, StateNotice, Surface } from '@/components/ui';
 
 type ObjetEtude = 'poesie' | 'roman' | 'theatre' | 'litterature_idees';
@@ -140,9 +140,10 @@ export default function DescriptifPage() {
     setSuccessMsg('');
     setSubmitError(null);
     try {
+      const csrfToken = await getCsrfToken();
       const response = await fetch('/api/v1/student/descriptif', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfTokenFromDocument() },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
         body: JSON.stringify({
           textes: textes.map(({ objetEtude, oeuvre, auteur, typeExtrait, titre, premieresLignes }) => ({
             objetEtude,

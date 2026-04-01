@@ -136,6 +136,7 @@ async function seedUser(data: SeedUser) {
       preferredObjects: ['Poésie', 'Roman'],
       weakSkills: data.weakSkills,
       eafDate: new Date('2026-06-08'),
+      anneeScolaire: '2025-2026',
     },
   });
 
@@ -192,6 +193,7 @@ async function main() {
         selectedOeuvres: ['La Rage de l\u2019expression'],
         preferredObjects: ['Poésie', 'Roman'],
         weakSkills: ['Problématisation', 'Grammaire'],
+        anneeScolaire: '2025-2026',
       },
     });
   }

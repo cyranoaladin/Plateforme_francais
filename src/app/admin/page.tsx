@@ -15,7 +15,7 @@ import {
 import { Card, Button, Input, Badge } from '@/components/ui';
 import { getAdminDataLoadTargets, type AdminDashboardTab } from '@/lib/admin/dashboard-tab-data';
 import { formatPlanLabel, normalizePlanId } from '@/lib/billing/plan-catalog';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 
 type User = {
   id: string;
@@ -156,7 +156,7 @@ export default function AdminDashboard() {
     setLastGeneratedCode(null);
 
     try {
-      const csrfToken = getCsrfTokenFromDocument();
+      const csrfToken = await getCsrfToken();
       const res = await fetch('/api/v1/admin/activation-codes', {
         method: 'POST',
         headers: {
@@ -195,7 +195,7 @@ export default function AdminDashboard() {
     setError(null);
 
     try {
-      const csrfToken = getCsrfTokenFromDocument();
+      const csrfToken = await getCsrfToken();
       const res = await fetch('/api/v1/admin/manual-payment', {
         method: 'POST',
         headers: {

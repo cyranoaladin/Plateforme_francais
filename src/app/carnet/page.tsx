@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { BookOpen, Download, Plus, Quote, Sparkles } from 'lucide-react';
-import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
+import { getCsrfToken } from '@/lib/security/csrf-client';
 import { Badge, Button, Input, Select, StateNotice, Surface, Textarea } from '@/components/ui';
 
 type CarnetEntry = {
@@ -66,11 +66,12 @@ export default function CarnetPage() {
     setSaving(true);
     setError(null);
     try {
+      const csrfToken = await getCsrfToken();
       const response = await fetch('/api/v1/carnet/entry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': getCsrfTokenFromDocument(),
+          'X-CSRF-Token': csrfToken,
         },
         body: JSON.stringify({
           oeuvre: oeuvre.trim(),

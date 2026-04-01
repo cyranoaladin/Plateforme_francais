@@ -29,6 +29,7 @@ export type PhaseEvaluation = {
   axes: string[];
   relance?: string;
   citations?: Citation[];
+  evaluationFailed?: boolean;
 };
 
 /** Full bilan result for a completed oral session (4 phases, /20). */
@@ -200,6 +201,7 @@ export async function evaluateOralPhase(input: {
       max: PHASE_MAX_SCORES[input.phase],
       points_forts: [],
       axes: ['Vérifiez votre connexion et recommencez.'],
+      evaluationFailed: true,
     };
   }
 }

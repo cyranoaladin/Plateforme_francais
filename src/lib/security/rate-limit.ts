@@ -68,7 +68,9 @@ export async function checkRateLimit(input: {
   limit: number;
   windowMs?: number;
 }): Promise<{ allowed: boolean; retryAfter: number }> {
-  if (process.env.E2E_DISABLE_RATE_LIMIT === '1' && process.env.NODE_ENV !== 'production') {
+  // E2E runs through `next start`, which sets NODE_ENV=production.
+  // Keep the bypass explicitly opt-in via env so test flows stay deterministic.
+  if (process.env.E2E_DISABLE_RATE_LIMIT === '1') {
     return { allowed: true, retryAfter: 0 };
   }
 

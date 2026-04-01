@@ -163,7 +163,7 @@ export async function checkQuota(
   }
   const numericQuotaEntry: NumericQuotaEntry = { ...quotaEntry, limit: quotaEntry.limit };
 
-  const isDev = process.env.NODE_ENV !== 'production';
+  const allowRedisFallback = process.env.NODE_ENV !== 'production' || process.env.E2E_DISABLE_RATE_LIMIT === '1';
 
   try {
     return await runNumericQuotaCheck({
@@ -173,8 +173,8 @@ export async function checkQuota(
       amount: 0,
     });
   } catch (err) {
-    if (isDev) {
-      logger.warn({ userId, entitlement, err }, 'quota:check:redis_unavailable (dev fallback allow)');
+    if (allowRedisFallback) {
+      logger.warn({ userId, entitlement, err }, 'quota:check:redis_unavailable (fallback allow)');
       return { allowed: true, current: 0, limit: numericQuotaEntry.limit, remaining: numericQuotaEntry.limit };
     }
     // FAIL-CLOSED in production
@@ -204,7 +204,7 @@ export async function consumeQuota(
   }
   const numericQuotaEntry: NumericQuotaEntry = { ...quotaEntry, limit: quotaEntry.limit };
 
-  const isDev = process.env.NODE_ENV !== 'production';
+  const allowRedisFallback = process.env.NODE_ENV !== 'production' || process.env.E2E_DISABLE_RATE_LIMIT === '1';
 
   try {
     const result = await runNumericQuotaCheck({
@@ -224,8 +224,8 @@ export async function consumeQuota(
       throw err;
     }
 
-    if (isDev) {
-      logger.warn({ userId, entitlement, err }, 'quota:consume:redis_unavailable (dev fallback allow)');
+    if (allowRedisFallback) {
+      logger.warn({ userId, entitlement, err }, 'quota:consume:redis_unavailable (fallback allow)');
       return { current: 0, limit: numericQuotaEntry.limit, remaining: numericQuotaEntry.limit };
     }
 

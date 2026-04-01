@@ -249,7 +249,7 @@ export function writeBaseline(
 }
 
 export function runCli(args = process.argv.slice(2)): number {
-  const writeMode = args.includes('--write-baseline');
+  const writeMode = args.includes('--write-baseline') || args.includes('--update');
   const bannedPhrases = loadBannedPhrases();
   const violations = scanRepository({ bannedPhrases });
 
