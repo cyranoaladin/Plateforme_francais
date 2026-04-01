@@ -44,12 +44,12 @@ env:
   COOKIE_SECURE: "false"
   NEXT_PUBLIC_APP_URL: "http://localhost:3000"
   NEXT_PUBLIC_API_URL: "http://localhost:3000/api/v1"
-  MISTRAL_API_KEY: "ci_mock_mistral_key_not_real"
+  MISTRAL_API_KEY: ${{ secrets.CI_MISTRAL_API_KEY }}
 
 jobs:
   static-analysis:
     name: "Gate 1 - Analyse Statique"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-static-analysis-${{ github.ref }}
       cancel-in-progress: true
@@ -160,7 +160,7 @@ jobs:
   worker-build-prod-deps:
     name: "Gate 1b - Worker Build sans devDeps"
     needs: static-analysis
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-worker-build-${{ github.ref }}
       cancel-in-progress: true
@@ -197,7 +197,7 @@ jobs:
   unit-tests:
     name: "Gate 2 - Tests Unitaires (sans postgres requis)"
     needs: [static-analysis, worker-build-prod-deps]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-unit-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -271,7 +271,7 @@ jobs:
   integration-tests:
     name: "Gate 3 - Tests Integration"
     needs: unit-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-integration-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -318,7 +318,7 @@ jobs:
   contract-tests:
     name: "Gate 3b - API Contract Tests"
     needs: integration-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-contract-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -400,7 +400,7 @@ jobs:
   e2e-tests:
     name: "Gate 4 - Tests E2E Playwright"
     needs: [integration-tests, contract-tests]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-e2e-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -475,7 +475,7 @@ jobs:
   security-scan:
     name: "Gate 5 - Securite"
     needs: unit-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-security-scan-${{ github.ref }}
       cancel-in-progress: true
@@ -543,7 +543,7 @@ jobs:
   performance-tests:
     name: "Gate 5b - Performance Artillery"
     needs: integration-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
     concurrency:
       group: ci-performance-tests-${{ github.ref }}
@@ -572,7 +572,7 @@ jobs:
   zap-security-tests:
     name: "Gate 5c - OWASP ZAP"
     needs: integration-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 2 * * 1')
     concurrency:
       group: ci-zap-security-tests-${{ github.ref }}
@@ -585,7 +585,7 @@ jobs:
   mutation-tests:
     name: "Gate 5d - Mutation Tests"
     needs: unit-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 3 1 * *')
     concurrency:
       group: ci-mutation-tests-${{ github.ref }}
@@ -627,7 +627,7 @@ jobs:
       (startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-')) ||
       github.event_name == 'workflow_dispatch'
     environment: production
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: deploy-${{ github.ref }}
       cancel-in-progress: false
@@ -734,7 +734,7 @@ jobs:
     if: |
       (startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-')) ||
       (github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch')
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Health check 5min
