@@ -13,6 +13,7 @@ import type { OralPhaseKey } from '@/lib/oral/scoring';
 import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionEndBodySchema } from '@/lib/validation/schemas';
+import { logger } from '@/lib/logger';
 
 /**
  * POST /api/v1/oral/session/{sessionId}/end
@@ -75,18 +76,22 @@ export async function POST(
     personaType: parsed.data.examinerProfile,
   });
 
-  await createEvaluation({
-    userId: auth.user.id,
-    kind: 'oral',
-    score: bilan.note,
-    maxScore: bilan.maxNote,
-    status: 'success',
-    payload: {
-      sessionId,
-      phases: phaseInputs,
-      axes: weakSkills,
-    } as Prisma.InputJsonValue,
-  });
+  try {
+    await createEvaluation({
+      userId: auth.user.id,
+      kind: 'oral',
+      score: bilan.note,
+      maxScore: bilan.maxNote,
+      status: 'success',
+      payload: {
+        sessionId,
+        phases: phaseInputs,
+        axes: weakSkills,
+      } as Prisma.InputJsonValue,
+    });
+  } catch (err) {
+    logger.error({ err, sessionId }, 'oral.end.createEvaluation.failed');
+  }
 
   await processInteraction({
     studentId: auth.user.id,

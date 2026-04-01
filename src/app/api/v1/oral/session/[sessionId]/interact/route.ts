@@ -3,6 +3,8 @@ import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createMemoryEvent } from '@/lib/memory/store';
+import { getBillingContext } from '@/lib/billing/context';
+import { checkQuota } from '@/lib/billing/usage';
 import { appendOralInteraction, findOralSessionById } from '@/lib/oral/repository';
 import { evaluateOralPhase } from '@/lib/oral/service';
 import { PHASE_MAX_SCORES, type OralPhaseKey } from '@/lib/oral/scoring';
@@ -22,6 +24,7 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ sessionId: string }> },
 ) {
+  const interactableStatuses = new Set(['DRAFT', 'PASSAGE_RUNNING']);
   const { auth, errorResponse } = await requireAuthenticatedUser();
   if (!auth || errorResponse) {
     return errorResponse;
@@ -38,6 +41,12 @@ export async function POST(
   if (!session || session.userId !== auth.user.id) {
     return NextResponse.json({ error: 'Ressource non disponible.' }, { status: 404 });
   }
+  if (session.status && !interactableStatuses.has(session.status)) {
+    return NextResponse.json(
+      { error: 'Cette session ne peut plus recevoir d’interaction.' },
+      { status: 409 },
+    );
+  }
 
   const parsed = await parseJsonBody(request, oralSessionInteractBodySchema);
   if (!parsed.success) {
@@ -47,6 +56,21 @@ export async function POST(
   const phase = parsed.data.step as OralPhaseKey;
   if (!(phase in PHASE_MAX_SCORES)) {
     return NextResponse.json({ error: 'Phase invalide.' }, { status: 400 });
+  }
+
+  const billing = await getBillingContext(auth.user.id);
+  const llmQuota = billing.config.quotas.LLM_TOKENS;
+  if (llmQuota) {
+    const tokenCheck = await checkQuota(auth.user.id, 'LLM_TOKENS', llmQuota);
+    if (!tokenCheck.allowed) {
+      return NextResponse.json(
+        {
+          error: 'Limite de tokens LLM atteinte pour la période. Réessaie demain.',
+          code: 'LLM_QUOTA_EXCEEDED',
+        },
+        { status: 402 },
+      );
+    }
   }
 
   const profile = await prisma.studentProfile.findUnique({ where: { userId: auth.user.id } });

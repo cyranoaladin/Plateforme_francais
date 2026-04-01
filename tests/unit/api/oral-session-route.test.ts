@@ -75,6 +75,7 @@ describe('GET /api/v1/oral/session/[sessionId]', () => {
     expect(response.status).toBe(200);
     const body = await response.json();
     expect(body.session).toMatchObject({ id: 's1', oeuvre: 'Manon Lescaut' });
+    expect(body.session.userId).toBeUndefined();
     expect(body.session.interactions).toBeUndefined();
   });
 });

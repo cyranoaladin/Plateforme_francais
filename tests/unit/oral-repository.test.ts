@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const {
   mockIsDatabaseAvailable,
+  mockCreate,
   mockFindUnique,
   mockUpdate,
   mockPhaseUpsert,
@@ -9,6 +10,7 @@ const {
   mockBilanUpsert,
 } = vi.hoisted(() => ({
   mockIsDatabaseAvailable: vi.fn(),
+  mockCreate: vi.fn(),
   mockFindUnique: vi.fn(),
   mockUpdate: vi.fn(),
   mockPhaseUpsert: vi.fn(),
@@ -20,6 +22,7 @@ vi.mock('@/lib/db/client', () => ({
   isDatabaseAvailable: mockIsDatabaseAvailable,
   prisma: {
     oralSession: {
+      create: mockCreate,
       findUnique: mockFindUnique,
       update: mockUpdate,
     },
@@ -35,14 +38,39 @@ vi.mock('@/lib/db/client', () => ({
   },
 }));
 
+vi.mock('@/lib/logger', () => ({
+  logger: {
+    error: vi.fn(),
+    warn: vi.fn(),
+    info: vi.fn(),
+  },
+}));
+
 describe('oral repository persistence', () => {
   beforeEach(() => {
     mockIsDatabaseAvailable.mockResolvedValue(true);
+    mockCreate.mockReset();
     mockFindUnique.mockReset();
     mockUpdate.mockReset();
     mockPhaseUpsert.mockReset();
     mockTranscriptUpsert.mockReset();
     mockBilanUpsert.mockReset();
+    vi.unstubAllEnvs();
+  });
+
+  it('rejette la création en production si la base est indisponible', async () => {
+    vi.stubEnv('NODE_ENV', 'production');
+    mockIsDatabaseAvailable.mockResolvedValue(false);
+
+    const { createOralSession } = await import('@/lib/oral/repository');
+
+    await expect(createOralSession({
+      userId: 'user-1',
+      oeuvre: 'Manon Lescaut',
+      extrait: 'Extrait',
+      questionGrammaire: 'Question',
+    })).rejects.toThrow('Base de données indisponible en production');
+    expect(mockCreate).not.toHaveBeenCalled();
   });
 
   it('appendOralInteraction met à jour la session et persiste le score de phase', async () => {

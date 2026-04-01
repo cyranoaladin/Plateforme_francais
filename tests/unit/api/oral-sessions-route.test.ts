@@ -45,7 +45,7 @@ describe('GET /api/v1/oral/sessions', () => {
       config: { flags: { ORAL_REPORT_HISTORY: true } },
     } as never);
     vi.mocked(listOralSessionsByUser).mockResolvedValue([
-      { id: 's1', oeuvre: 'Manon Lescaut', interactions: [{ step: 'LECTURE' }], score: 12, maxScore: 20 },
+      { id: 's1', oeuvre: 'Manon Lescaut', score: 12, maxScore: 20 },
     ] as never);
 
     const response = await GET(new Request('http://localhost/api/v1/oral/sessions?limit=1'));

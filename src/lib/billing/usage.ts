@@ -81,6 +81,9 @@ export async function checkQuota(
   if (quotaEntry.limit === 'unlimited') {
     return { allowed: true, current: 0, limit: 'unlimited', remaining: 'unlimited' };
   }
+  if (quotaEntry.limit === 0) {
+    return { allowed: false, current: 0, limit: 0, remaining: 0 };
+  }
 
   const { key: pk } = periodInfo(quotaEntry.period);
   const rk = redisKey(userId, entitlement, pk);

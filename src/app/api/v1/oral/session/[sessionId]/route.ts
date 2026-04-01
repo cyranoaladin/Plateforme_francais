@@ -21,7 +21,6 @@ export async function GET(
     {
       session: {
         id: session.id,
-        userId: session.userId,
         status: session.status,
         mode: session.mode,
         oeuvre: session.oeuvre,

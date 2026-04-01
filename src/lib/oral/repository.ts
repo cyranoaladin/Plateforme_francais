@@ -3,6 +3,7 @@ import { type ExamPersona, type Prisma } from '@prisma/client';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { logger } from '@/lib/logger';
 
 type OralStep = 'LECTURE' | 'EXPLICATION' | 'GRAMMAIRE' | 'ENTRETIEN';
 
@@ -42,6 +43,18 @@ export type OralSessionState = {
   endedAt: string | null;
 };
 
+export type OralSessionSummary = {
+  id: string;
+  status?: string;
+  mode?: string;
+  oeuvre: string;
+  score?: number | null;
+  maxScore?: number | null;
+  finalFeedback?: Prisma.JsonValue | null;
+  createdAt: string;
+  endedAt: string | null;
+};
+
 type FallbackStore = {
   sessions: OralSessionState[];
 };
@@ -70,10 +83,25 @@ async function writeStore(update: (store: FallbackStore) => FallbackStore) {
     const next = update(current);
     const tmp = `${STORE_PATH}.${process.pid}.${randomUUID()}.tmp`;
     await fs.writeFile(tmp, JSON.stringify(next, null, 2), 'utf8');
+    const fileHandle = await fs.open(tmp, 'r+');
+    await fileHandle.sync();
+    await fileHandle.close();
     await fs.rename(tmp, STORE_PATH);
   });
 
   await writeQueue;
+}
+
+async function shouldUseFallbackStore(): Promise<boolean> {
+  const databaseAvailable = await isDatabaseAvailable();
+  if (databaseAvailable) {
+    return false;
+  }
+  if (process.env.NODE_ENV === 'production') {
+    logger.error('oral.repository.json_fallback_blocked_in_production');
+    throw new Error('Base de données indisponible en production pour les sessions orales.');
+  }
+  return true;
 }
 
 function mapDbToState(input: {
@@ -113,7 +141,7 @@ export async function createOralSession(input: {
   extrait: string;
   questionGrammaire: string;
 }): Promise<OralSessionState> {
-  if (await isDatabaseAvailable()) {
+  if (!(await shouldUseFallbackStore())) {
     const created = await prisma.oralSession.create({
       data: {
         userId: input.userId,
@@ -126,6 +154,8 @@ export async function createOralSession(input: {
 
     return mapDbToState({ ...created, feedback: created.feedback });
   }
+
+  // DEV ONLY fallback for local development without database.
 
   const state: OralSessionState = {
     id: randomUUID(),
@@ -143,7 +173,7 @@ export async function createOralSession(input: {
 }
 
 export async function findOralSessionById(id: string): Promise<OralSessionState | null> {
-  if (await isDatabaseAvailable()) {
+  if (!(await shouldUseFallbackStore())) {
     const found = await prisma.oralSession.findUnique({ where: { id } });
     return found ? mapDbToState({ ...found, feedback: found.feedback }) : null;
   }
@@ -155,8 +185,8 @@ export async function findOralSessionById(id: string): Promise<OralSessionState 
 export async function listOralSessionsByUser(
   userId: string,
   options?: { limit?: number; cursor?: string },
-): Promise<OralSessionState[]> {
-  if (await isDatabaseAvailable()) {
+): Promise<OralSessionSummary[]> {
+  if (!(await shouldUseFallbackStore())) {
     const sessions = await prisma.oralSession.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
@@ -164,20 +194,27 @@ export async function listOralSessionsByUser(
       ...(options?.cursor ? { cursor: { id: options.cursor }, skip: 1 } : {}),
       select: {
         id: true,
-        userId: true,
         status: true,
         mode: true,
         oeuvre: true,
-        extrait: true,
-        question: true,
         score: true,
         maxScore: true,
-        feedback: true,
         createdAt: true,
         endedAt: true,
+        feedback: true,
       },
     });
-    return sessions.map((session) => mapDbToState({ ...session, feedback: session.feedback }));
+    return sessions.map((session) => ({
+      id: session.id,
+      status: session.status,
+      mode: session.mode,
+      oeuvre: session.oeuvre,
+      score: session.score ?? null,
+      maxScore: session.maxScore ?? null,
+      finalFeedback: ((session.feedback as { final?: Prisma.JsonValue } | null)?.final ?? null),
+      createdAt: session.createdAt.toISOString(),
+      endedAt: session.endedAt ? session.endedAt.toISOString() : null,
+    }));
   }
 
   const store = await readStore();
@@ -198,7 +235,7 @@ export async function appendOralInteraction(input: {
   sessionId: string;
   interaction: OralInteraction;
 }) {
-  if (await isDatabaseAvailable()) {
+  if (!(await shouldUseFallbackStore())) {
     const found = await prisma.oralSession.findUnique({ where: { id: input.sessionId } });
     if (!found) return;
 
@@ -267,7 +304,7 @@ export async function finalizeOralSession(input: {
   maxScore: number;
   personaType?: ExamPersona;
 }) {
-  if (await isDatabaseAvailable()) {
+  if (!(await shouldUseFallbackStore())) {
     const found = await prisma.oralSession.findUnique({ where: { id: input.sessionId } });
     if (!found) return;
 
@@ -350,7 +387,7 @@ export async function finalizeOralSession(input: {
 }
 
 export async function startOralPrep(sessionId: string) {
-  if (await isDatabaseAvailable()) {
+  if (!(await shouldUseFallbackStore())) {
     return await prisma.oralSession.update({
       where: { id: sessionId },
       data: {
@@ -362,7 +399,7 @@ export async function startOralPrep(sessionId: string) {
 }
 
 export async function endOralPrep(sessionId: string) {
-  if (await isDatabaseAvailable()) {
+  if (!(await shouldUseFallbackStore())) {
     return await prisma.oralSession.update({
       where: { id: sessionId },
       data: {
@@ -374,7 +411,7 @@ export async function endOralPrep(sessionId: string) {
 }
 
 export async function startOralPassage(sessionId: string) {
-  if (await isDatabaseAvailable()) {
+  if (!(await shouldUseFallbackStore())) {
     return await prisma.oralSession.update({
       where: { id: sessionId },
       data: {

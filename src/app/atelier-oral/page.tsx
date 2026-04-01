@@ -237,7 +237,8 @@ function useCountdown(totalSeconds: number, running: boolean, persistenceKey?: s
 export default function AtelierOralPage() {
   const availableWorks = useMemo(() => {
     const currentYearWorks = getOeuvresForYear(getCurrentAnneeScolaire());
-    return currentYearWorks.length > 0 ? currentYearWorks : getOeuvresForYear('2025-2026');
+    const filteredWorks = currentYearWorks.filter((item) => !item.includes('à mettre à jour'));
+    return filteredWorks.length > 0 ? filteredWorks : getOeuvresForYear('2025-2026');
   }, []);
   const [oeuvre, setOeuvre] = useState(() => availableWorks[0] ?? '');
   const [mode, setMode] = useState<OralMode>('SIMULATION');

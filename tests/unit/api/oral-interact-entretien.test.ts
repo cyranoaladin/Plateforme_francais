@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+vi.mock('@/lib/billing/context', () => ({
+  getBillingContext: vi.fn(),
+}));
+vi.mock('@/lib/billing/usage', () => ({
+  checkQuota: vi.fn(),
+}));
 vi.mock('@/lib/db/client', () => ({
   prisma: {
     studentProfile: { findUnique: vi.fn() },
@@ -33,6 +39,8 @@ vi.mock('@/lib/oral/scoring', () => ({
 
 import { prisma } from '@/lib/db/client';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { getBillingContext } from '@/lib/billing/context';
+import { checkQuota } from '@/lib/billing/usage';
 import { findOralSessionById } from '@/lib/oral/repository';
 import { evaluateOralPhase } from '@/lib/oral/service';
 import { POST } from '@/app/api/v1/oral/session/[sessionId]/interact/route';
@@ -51,6 +59,15 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
     vi.mocked(requireAuthenticatedUser).mockResolvedValue({
       auth: mockAuth,
       errorResponse: null,
+    } as never);
+    vi.mocked(getBillingContext).mockResolvedValue({
+      config: { quotas: { LLM_TOKENS: { limit: 8_000, period: 'day' } } },
+    } as never);
+    vi.mocked(checkQuota).mockResolvedValue({
+      allowed: true,
+      current: 0,
+      limit: 8_000,
+      remaining: 8_000,
     } as never);
     vi.mocked(findOralSessionById).mockResolvedValue(mockSession as never);
     vi.mocked(evaluateOralPhase).mockClear();
@@ -155,6 +172,27 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
     expect(evaluateOralPhase).not.toHaveBeenCalled();
   });
 
+  it('retourne 409 si la session est déjà finalisée', async () => {
+    vi.mocked(findOralSessionById).mockResolvedValue({
+      ...mockSession,
+      status: 'FINALIZED',
+    } as never);
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
+      body: JSON.stringify({
+        step: 'ENTRETIEN',
+        transcript: 'Session close.',
+        duration: 100,
+      }),
+    });
+
+    const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
+    expect(res.status).toBe(409);
+    expect(evaluateOralPhase).not.toHaveBeenCalled();
+  });
+
   it('retourne 400 si la phase est invalide', async () => {
     vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
       id: 'profile-1',
@@ -220,5 +258,32 @@ describe('POST /api/v1/oral/session/:id/interact — ENTRETIEN phase', () => {
 
     const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
     expect(res.status).toBe(429);
+  });
+
+  it('retourne 402 si le quota LLM_TOKENS est dépassé avant l’évaluation', async () => {
+    vi.mocked(checkQuota).mockResolvedValue({
+      allowed: false,
+      current: 8_000,
+      limit: 8_000,
+      remaining: 0,
+    } as never);
+    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({
+      id: 'profile-1',
+      oeuvreChoisieEntretien: 'Manon Lescaut',
+    } as never);
+
+    const req = new Request('http://localhost', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': 'tok' },
+      body: JSON.stringify({
+        step: 'ENTRETIEN',
+        transcript: 'Quota dépassé.',
+        duration: 240,
+      }),
+    });
+
+    const res = await POST(req, { params: Promise.resolve({ sessionId: 'session-1' }) });
+    expect(res.status).toBe(402);
+    expect(evaluateOralPhase).not.toHaveBeenCalled();
   });
 });

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ExamPersonaValues } from '@/lib/agents/prompts/examiner-persona';
 
 // Force all Zod error messages to French
 z.setErrorMap((issue, ctx) => {
@@ -121,12 +122,12 @@ export const oralSessionInteractBodySchema = z.object({
   step: z.enum(['LECTURE', 'EXPLICATION', 'GRAMMAIRE', 'ENTRETIEN']),
   transcript: z.string().trim().min(1),
   duration: z.number().int().min(1).max(1800),
-  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE', 'RANDOM']).optional(),
+  examinerProfile: z.enum(ExamPersonaValues).optional(),
 });
 
 export const oralSessionEndBodySchema = z.object({
   notes: z.string().trim().max(1000).optional(),
-  examinerProfile: z.enum(['BIENVEILLANT', 'NEUTRE', 'HOSTILE', 'RANDOM']).optional(),
+  examinerProfile: z.enum(ExamPersonaValues).optional(),
 });
 
 export const studentProfileBodySchema = z.object({

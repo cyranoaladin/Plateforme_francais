@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getPeriodKey, buildPaywallMessage } from '@/lib/billing/quotas';
-import { consumeQuota } from '@/lib/billing/usage';
+import { checkQuota, consumeQuota } from '@/lib/billing/usage';
 import { getPlanConfig, PLAN_CATALOG } from '@/lib/billing/plan-catalog';
 
 const redisMock = {
@@ -74,6 +74,14 @@ describe('Billing Quotas V2', () => {
         '2',
         String(2_037_600),
       );
+    });
+  });
+
+  describe('checkQuota', () => {
+    it('retourne immédiatement un refus si la limite vaut 0', async () => {
+      const result = await checkQuota('user-1', 'OCR_COPIES', { limit: 0, period: 'month' });
+      expect(result).toEqual({ allowed: false, current: 0, limit: 0, remaining: 0 });
+      expect(redisMock.ping).not.toHaveBeenCalled();
     });
   });
 

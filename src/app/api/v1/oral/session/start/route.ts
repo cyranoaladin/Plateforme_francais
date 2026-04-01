@@ -10,7 +10,7 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
 import { PLAN_CATALOG, PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { getResetMessage } from '@/lib/billing/quota-messages';
-import { checkQuota as checkBillingQuota, consumeQuota, rollbackQuota, QuotaExceededError } from '@/lib/billing/usage';
+import { consumeQuota, rollbackQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionStartBodySchema } from '@/lib/validation/schemas';
 
@@ -44,21 +44,6 @@ export async function POST(request: Request) {
     }
 
     const oralQuota = billing.config.quotas.ORAL_SESSIONS;
-    if (oralQuota && oralQuota.limit !== 0) {
-      const availability = await checkBillingQuota(auth.user.id, 'ORAL_SESSIONS', oralQuota);
-      if (!availability.allowed) {
-        return NextResponse.json(
-          {
-            error: `Tu as atteint la limite incluse pour l'oral (${oralQuota.limit} sessions par ${oralQuota.period === 'day' ? 'jour' : oralQuota.period === 'week' ? 'semaine' : 'mois'}, plan ${PLAN_DISPLAY_LABELS[billing.planId]}). Tes données restent en place. Passe au plan supérieur pour relancer une simulation tout de suite.`,
-            code: 'QUOTA_EXCEEDED',
-            upgradeUrl: '/pricing',
-            plan: toPublicPlanId(billing.planId),
-            reset_info: getResetMessage(oralQuota.period),
-          },
-          { status: 402 },
-        );
-      }
-    }
 
     const rl = await checkRateLimit({
       request,

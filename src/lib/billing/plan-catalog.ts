@@ -14,6 +14,10 @@
 
 export type InternalPlanId = 'FREE' | 'PREMIUM' | 'PRO';
 export type PublicPlanId = 'FREEMIUM' | 'PREMIUM' | 'MASTERIUM';
+/**
+ * @deprecated Legacy plan IDs conservés uniquement pour la compatibilité historique.
+ * Une migration de nettoyage restera nécessaire avant leur suppression définitive.
+ */
 export type LegacyPlanId =
   | InternalPlanId
   | PublicPlanId
