@@ -70,8 +70,8 @@ describe('Billing Quotas V2', () => {
         expect.any(String),
         1,
         'quota:user-1:WRITTEN_CORRECTIONS:2026-03',
-        '1',
         '2',
+        '1',
         String(2_037_600),
       );
     });
