@@ -94,6 +94,7 @@ model Session {
 
   @@index([userId])
   @@index([expiresAt])
+  @@index([lastSeenAt])
 }
 
 model MemoryEvent {
@@ -108,6 +109,7 @@ model MemoryEvent {
 
   @@index([userId, createdAt])
   @@index([type])
+  @@index([feature])
 }
 
 model StudentProfile {
@@ -135,7 +137,7 @@ model StudentProfile {
   maxStreak           Int         @default(0)
   // ADDENDUM fields
   voie                Voie        @default(GENERALE)
-  anneeScolaire       String
+  anneeScolaire       String      @default("2025-2026")
   targetExamDate      DateTime?
   weeklyGoalMinutes   Int         @default(120)
   prefWorkingHours    Json?
@@ -164,6 +166,8 @@ model StudentProfile {
   carnetEntries       CarnetEntry[]
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
+
+  @@index([classCode])
 }
 
 model Evaluation {

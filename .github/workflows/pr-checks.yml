@@ -21,7 +21,7 @@ env:
   COOKIE_SECURE: "false"
   NEXT_PUBLIC_APP_URL: "http://localhost:3000"
   NEXT_PUBLIC_API_URL: "http://localhost:3000/api/v1"
-  MISTRAL_API_KEY: "ci_mock_mistral_key_not_real"
+  MISTRAL_API_KEY: ${{ secrets.CI_MISTRAL_API_KEY }}
 
 jobs:
   pr-gate:
@@ -36,6 +36,8 @@ jobs:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - run: npm ci
+      - name: Build shared-billing (dist/ is gitignored)
+        run: npm run build:shared-billing
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run test:unit -- --run

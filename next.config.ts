@@ -1,7 +1,5 @@
 import { execSync } from 'child_process'
 import type { NextConfig } from 'next'
-import path from 'path'
-import { fileURLToPath } from 'url'
 
 function getGitSha(): string {
   // Prefer BUILD_GIT_SHA env var (injected by deploy.sh on server where .git is absent)
@@ -14,8 +12,6 @@ function getGitSha(): string {
     return 'unknown'
   }
 }
-
-const projectRoot = path.dirname(fileURLToPath(import.meta.url))
 
 const SECURITY_HEADERS = [
   { key: 'X-DNS-Prefetch-Control', value: 'on' },
@@ -40,6 +36,9 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   reactStrictMode: true,
   // Image optimization: SVG support + modern formats
+  // dangerouslyAllowSVG is enabled for internal pedagogical illustrations
+  // served only from /public/assets/illustrations/ (trusted sources).
+  // No user-uploaded SVGs are served via next/image.
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
@@ -49,9 +48,9 @@ const nextConfig: NextConfig = {
   },
   // Remove X-Powered-By header (information disclosure)
   poweredByHeader: false,
-  turbopack: {
-    root: projectRoot,
-  },
+  // Next.js 16 defaults to Turbopack; empty config silences the
+  // "webpack config without turbopack config" build error.
+  turbopack: {},
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.alias['pdfjs-dist'] = false;
@@ -76,10 +75,8 @@ const nextConfig: NextConfig = {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
-          {
-            key: 'Content-Type',
-            value: 'video/webm,video/x-matroska,video/mp4,application/pdf',
-          },
+          // Content-Type is determined dynamically by Nginx via mime.types
+          // (video/webm, video/mp4, application/pdf, etc.)
         ],
       },
     ]

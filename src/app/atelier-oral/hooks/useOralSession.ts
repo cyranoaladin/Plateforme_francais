@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { type ExamPersona } from '@/lib/agents/prompts/examiner-persona';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { createAudioRecorder, type BrowserAudioRecorder } from '@/lib/oral/audio-recorder';
+import { playAudioBase64, speakTextSafe } from '@/lib/oral/audio-utils';
 import { PASSAGE_DURATION_MS, PHASE_DURATIONS_S, PREP_DURATION_MS } from '@/lib/oral/state-machine';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 import { createBrowserStt } from '@/lib/stt/browser';
@@ -50,56 +51,6 @@ export const PREP_CHECKLIST = [
 
 const PREP_DURATION_S = PREP_DURATION_MS / 1000;
 const PASSAGE_DURATION_S = PASSAGE_DURATION_MS / 1000;
-
-function speakText(text: string) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return;
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'fr-FR';
-  const synth = window.speechSynthesis;
-  const voices = synth.getVoices();
-  const preferred =
-    voices.find(
-      (voice) =>
-        voice.lang.toLowerCase().startsWith('fr') &&
-        voice.name.toLowerCase().includes('google'),
-    ) ?? voices.find((voice) => voice.lang.toLowerCase().startsWith('fr'));
-  if (preferred) {
-    utterance.voice = preferred;
-  }
-  synth.speak(utterance);
-}
-
-function speakTextSafe(text: string) {
-  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-    speakText(text);
-  }
-}
-
-function playAudioBase64(base64: string, mimeType: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    try {
-      const binary = atob(base64);
-      const bytes = new Uint8Array(binary.length);
-      for (let index = 0; index < binary.length; index += 1) {
-        bytes[index] = binary.charCodeAt(index);
-      }
-      const blob = new Blob([bytes], { type: mimeType });
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      audio.onended = () => {
-        URL.revokeObjectURL(url);
-        resolve();
-      };
-      audio.onerror = () => {
-        URL.revokeObjectURL(url);
-        reject(new Error('Lecture audio impossible.'));
-      };
-      audio.play().catch(reject);
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
 
 export function useOralSession(input: { initialWork: string }) {
   const {

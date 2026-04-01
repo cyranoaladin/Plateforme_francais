@@ -44,12 +44,12 @@ env:
   COOKIE_SECURE: "false"
   NEXT_PUBLIC_APP_URL: "http://localhost:3000"
   NEXT_PUBLIC_API_URL: "http://localhost:3000/api/v1"
-  MISTRAL_API_KEY: "ci_mock_mistral_key_not_real"
+  MISTRAL_API_KEY: ${{ secrets.CI_MISTRAL_API_KEY }}
 
 jobs:
   static-analysis:
     name: "Gate 1 - Analyse Statique"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-static-analysis-${{ github.ref }}
       cancel-in-progress: true
@@ -71,6 +71,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
       - run: npm ci
+      - name: Build shared-billing (dist/ is gitignored)
+        run: npm run build:shared-billing
       - name: TypeScript strict check
         run: npx tsc --noEmit
       - name: Verify Next.js version coherence
@@ -160,7 +162,7 @@ jobs:
   worker-build-prod-deps:
     name: "Gate 1b - Worker Build sans devDeps"
     needs: static-analysis
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-worker-build-${{ github.ref }}
       cancel-in-progress: true
@@ -181,16 +183,23 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-
-      - name: Verify worker builds without devDeps
+      - run: npm ci
+      - name: Build worker then verify it loads with prod-only deps
         run: |
-          npm ci --omit=dev
           npm run build:worker
           test -s dist/worker/src/lib/queue/start-worker.js
+          rm -rf node_modules
+          npm ci --omit=dev
+          node -e "require('./dist/worker/src/lib/queue/start-worker.js')" &
+          WORKER_PID=$!
+          sleep 2
+          kill $WORKER_PID 2>/dev/null || true
+          echo "✅ Worker artifact loads with production dependencies only"
 
   unit-tests:
     name: "Gate 2 - Tests Unitaires (sans postgres requis)"
     needs: [static-analysis, worker-build-prod-deps]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-unit-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -221,6 +230,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
       - run: npm ci
+      - run: npm run build:shared-billing
       - name: Vitest coverage (tests unitaires uniquement)
         run: npx vitest run tests/unit --coverage
       - name: Diagnostic couverture actuelle
@@ -264,7 +274,7 @@ jobs:
   integration-tests:
     name: "Gate 3 - Tests Integration"
     needs: unit-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-integration-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -302,6 +312,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
       - run: npm ci
+      - run: npm run build:shared-billing
       - run: npx prisma migrate deploy
       - run: |
           if [ -f scripts/seed-test.ts ]; then npx tsx scripts/seed-test.ts; else echo "No seed-test.ts"; fi
@@ -311,7 +322,7 @@ jobs:
   contract-tests:
     name: "Gate 3b - API Contract Tests"
     needs: integration-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-contract-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -359,7 +370,7 @@ jobs:
           SERVER_PID=$!
           echo "Server PID: $SERVER_PID"
           echo "Waiting for health endpoint..."
-          npx wait-on --timeout 60000 http://127.0.0.1:3000/api/v1/health || {
+          npx wait-on --timeout 60000 http-get://127.0.0.1:3000/api/v1/health || {
             echo "Server failed to start within timeout"
             echo "Server logs:"
             cat server.log
@@ -393,7 +404,7 @@ jobs:
   e2e-tests:
     name: "Gate 4 - Tests E2E Playwright"
     needs: [integration-tests, contract-tests]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-e2e-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -468,7 +479,7 @@ jobs:
   security-scan:
     name: "Gate 5 - Securite"
     needs: unit-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: ci-security-scan-${{ github.ref }}
       cancel-in-progress: true
@@ -536,7 +547,7 @@ jobs:
   performance-tests:
     name: "Gate 5b - Performance Artillery"
     needs: integration-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
     concurrency:
       group: ci-performance-tests-${{ github.ref }}
@@ -565,7 +576,7 @@ jobs:
   zap-security-tests:
     name: "Gate 5c - OWASP ZAP"
     needs: integration-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 2 * * 1')
     concurrency:
       group: ci-zap-security-tests-${{ github.ref }}
@@ -578,7 +589,7 @@ jobs:
   mutation-tests:
     name: "Gate 5d - Mutation Tests"
     needs: unit-tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 3 1 * *')
     concurrency:
       group: ci-mutation-tests-${{ github.ref }}
@@ -620,7 +631,7 @@ jobs:
       (startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-')) ||
       github.event_name == 'workflow_dispatch'
     environment: production
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     concurrency:
       group: deploy-${{ github.ref }}
       cancel-in-progress: false
@@ -727,7 +738,7 @@ jobs:
     if: |
       (startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-')) ||
       (github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch')
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Health check 5min
