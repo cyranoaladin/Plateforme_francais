@@ -94,8 +94,8 @@ jobs:
             const b = require('./config/fr-copy-baseline.json');
             console.log((b.violations || []).filter(v => v.kind === 'banned-phrase').length);
           ")
-          if [ \"$VIOLATIONS\" -gt \"0\" ]; then
-            echo \"❌ $VIOLATIONS banned-phrase(s) détectée(s) dans le code :\"
+          if [ "$VIOLATIONS" -gt "0" ]; then
+            echo "❌ $VIOLATIONS banned-phrase(s) détectée(s) dans le code :"
             node -e "
               const b = require('./config/fr-copy-baseline.json');
               (b.violations || [])
@@ -106,7 +106,7 @@ jobs:
           fi
           echo "✅ Aucune banned-phrase détectée"
           if ! git diff --quiet config/fr-copy-baseline.json; then
-            if [ \"${{ github.event_name }}\" = \"push\" ] && [[ \"${{ github.ref }}\" == refs/heads/* ]]; then
+            if [ "${{ github.event_name }}" = "push" ] && [[ "${{ github.ref }}" == refs/heads/* ]]; then
               git config user.name "github-actions[bot]"
               git config user.email "github-actions[bot]@users.noreply.github.com"
               git add config/fr-copy-baseline.json
