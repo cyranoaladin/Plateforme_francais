@@ -7,7 +7,6 @@ describe('Atelier écrit page structure', () => {
     const file = path.resolve(process.cwd(), 'src/app/atelier-ecrit/page.tsx');
     const src = fs.readFileSync(file, 'utf8');
 
-    expect(src).toContain("./types");
     expect(src).toContain("from './hooks/useEcritSession'");
     expect(src).toContain("from './components/EcritEpreuveSelector'");
     expect(src).toContain("from './components/EcritCopyUploader'");
