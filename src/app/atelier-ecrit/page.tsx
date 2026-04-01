@@ -127,6 +127,9 @@ export default function AtelierEcritPage() {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const mobileInputRef = useRef<HTMLInputElement | null>(null);
+  const correctionPollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const processingStepTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const eventSourceRef = useRef<EventSource | null>(null);
 
   const previewUrl = useMemo(() => {
     if (!selectedFile) {
@@ -149,8 +152,28 @@ export default function AtelierEcritPage() {
       if (previewUrl) {
         URL.revokeObjectURL(previewUrl);
       }
+      if (correctionPollRef.current) {
+        clearInterval(correctionPollRef.current);
+      }
+      if (processingStepTimerRef.current) {
+        clearInterval(processingStepTimerRef.current);
+      }
+      eventSourceRef.current?.close();
     };
   }, [previewUrl]);
+
+  const stopCorrectionWatch = () => {
+    if (correctionPollRef.current) {
+      clearInterval(correctionPollRef.current);
+      correctionPollRef.current = null;
+    }
+    if (processingStepTimerRef.current) {
+      clearInterval(processingStepTimerRef.current);
+      processingStepTimerRef.current = null;
+    }
+    eventSourceRef.current?.close();
+    eventSourceRef.current = null;
+  };
 
   const handleGenerate = async () => {
     setError(null);
@@ -178,6 +201,7 @@ export default function AtelierEcritPage() {
       }
 
       const payload = (await response.json()) as EpreuvePayload;
+      stopCorrectionWatch();
       setEpreuve(payload);
       setSelectedFile(null);
       setPollingStatus(null);
@@ -193,13 +217,14 @@ export default function AtelierEcritPage() {
   };
 
   const pollCorrection = (input: { epreuveId: string; copieId: string }) => {
+    stopCorrectionWatch();
     setPollingStatus('pending');
 
-    const stepTimer = setInterval(() => {
+    processingStepTimerRef.current = setInterval(() => {
       setProcessingStepIndex((prev) => (prev + 1) % PROCESSING_STEPS.length);
     }, 2000);
 
-    const polling = setInterval(async () => {
+    correctionPollRef.current = setInterval(async () => {
       const response = await fetch(`/api/v1/epreuves/${input.epreuveId}/copie/${input.copieId}`);
       if (!response.ok) {
         return;
@@ -209,17 +234,70 @@ export default function AtelierEcritPage() {
       setPollingStatus(payload.status);
 
       if (payload.status === 'done') {
-        clearInterval(polling);
-        clearInterval(stepTimer);
+        stopCorrectionWatch();
         setCopieLink({ copieId: input.copieId, epreuveId: input.epreuveId });
       }
 
       if (payload.status === 'error') {
-        clearInterval(polling);
-        clearInterval(stepTimer);
+        stopCorrectionWatch();
         setError("L'analyse de ta copie n'a pas pu aboutir cette fois. Tu peux déposer à nouveau ta copie ou en soumettre une autre.");
       }
     }, 3000);
+  };
+
+  const watchCorrectionProgress = (input: { epreuveId: string; copieId: string }) => {
+    if (typeof window === 'undefined' || typeof window.EventSource === 'undefined') {
+      pollCorrection(input);
+      return;
+    }
+
+    stopCorrectionWatch();
+    setPollingStatus('pending');
+
+    processingStepTimerRef.current = setInterval(() => {
+      setProcessingStepIndex((prev) => (prev + 1) % PROCESSING_STEPS.length);
+    }, 2000);
+
+    eventSourceRef.current = new EventSource(`/api/v1/epreuves/copies/${input.copieId}/events`);
+    eventSourceRef.current.addEventListener('progress', (event) => {
+      const messageEvent = event as MessageEvent<string>;
+      const parsed = JSON.parse(messageEvent.data) as {
+        type: 'progress';
+        event: { stage: string; message: string };
+      };
+
+      if (parsed.type !== 'progress') {
+        return;
+      }
+
+      if (parsed.event.stage === 'queued') {
+        setPollingStatus('pending');
+        return;
+      }
+
+      if (parsed.event.stage === 'ocr_started' || parsed.event.stage === 'ocr_done' || parsed.event.stage === 'correction_started') {
+        setPollingStatus('processing');
+        return;
+      }
+
+      if (parsed.event.stage === 'correction_done' || parsed.event.stage === 'report_ready') {
+        setPollingStatus('done');
+        stopCorrectionWatch();
+        setCopieLink({ copieId: input.copieId, epreuveId: input.epreuveId });
+        return;
+      }
+
+      if (parsed.event.stage === 'failed') {
+        setPollingStatus('error');
+        stopCorrectionWatch();
+        setError("L'analyse de ta copie n'a pas pu aboutir cette fois. Tu peux déposer à nouveau ta copie ou en soumettre une autre.");
+      }
+    });
+
+    eventSourceRef.current.onerror = () => {
+      stopCorrectionWatch();
+      pollCorrection(input);
+    };
   };
 
   const handleUpload = async () => {
@@ -250,7 +328,7 @@ export default function AtelierEcritPage() {
         setTimeout(() => setBadgeToasts([]), 4500);
       }
 
-      pollCorrection({
+      watchCorrectionProgress({
         epreuveId: epreuve.epreuveId,
         copieId: created.copieId,
       });
