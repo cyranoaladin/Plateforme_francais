@@ -1,25 +1,19 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { type ExamPersona } from '@/lib/agents/prompts/examiner-persona';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { createAudioRecorder, type BrowserAudioRecorder } from '@/lib/oral/audio-recorder';
 import { PASSAGE_DURATION_MS, PHASE_DURATIONS_S, PREP_DURATION_MS } from '@/lib/oral/state-machine';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 import { createBrowserStt } from '@/lib/stt/browser';
-import { type VoiceMode, useVoiceMode } from './useVoiceMode';
+import { useOralApi } from './useOralApi';
+import { useOralQuota } from './useOralQuota';
+import { createEmptyFeedbacks, useOralSessionState } from './useOralSessionState';
+import { useVoiceMode } from './useVoiceMode';
 import { usePrepChecklist } from './usePrepChecklist';
 import { useCountdown } from './useCountdown';
-import {
-  type BilanResult,
-  type ExaminerProfile,
-  type JuryTurn,
-  type OralMode,
-  type OralStep,
-  type SessionPayload,
-  type StepFeedback,
-  type WizardPhase,
-} from '../types';
+import { type JuryTurn, type OralStep, type StepFeedback } from '../types';
 
 export const STEPS: OralStep[] = ['LECTURE', 'EXPLICATION', 'GRAMMAIRE', 'ENTRETIEN'];
 export const STEP_LABELS: Record<OralStep, string> = {
@@ -108,30 +102,50 @@ function playAudioBase64(base64: string, mimeType: string): Promise<void> {
 }
 
 export function useOralSession(input: { initialWork: string }) {
-  const [oeuvre, setOeuvre] = useState(input.initialWork);
-  const [mode, setMode] = useState<OralMode>('SIMULATION');
-  const [session, setSession] = useState<SessionPayload | null>(null);
-  const [wizardPhase, setWizardPhase] = useState<WizardPhase>('TIRAGE');
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [transcript, setTranscript] = useState('');
-  const [prepNotes, setPrepNotes] = useState('');
-  const [isMicOn, setIsMicOn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [feedbacks, setFeedbacks] = useState<Record<OralStep, StepFeedback | undefined>>({
-    LECTURE: undefined,
-    EXPLICATION: undefined,
-    GRAMMAIRE: undefined,
-    ENTRETIEN: undefined,
-  });
-  const [bilan, setBilan] = useState<BilanResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [upgradeUrl, setUpgradeUrl] = useState<string | null>(null);
-  const [badgeToasts, setBadgeToasts] = useState<string[]>([]);
-  const [examinerProfile, setExaminerProfile] = useState<ExaminerProfile>('NEUTRE');
-  const [juryTurns, setJuryTurns] = useState<JuryTurn[]>([]);
-  const [isJuryLoading, setIsJuryLoading] = useState(false);
-
+  const {
+    oeuvre,
+    setOeuvre,
+    mode,
+    setMode,
+    session,
+    setSession,
+    wizardPhase,
+    setWizardPhase,
+    currentStepIndex,
+    setCurrentStepIndex,
+    transcript,
+    setTranscript,
+    prepNotes,
+    setPrepNotes,
+    isMicOn,
+    setIsMicOn,
+    isLoading,
+    setIsLoading,
+    feedbacks,
+    setFeedbacks,
+    bilan,
+    setBilan,
+    error,
+    setError,
+    upgradeUrl,
+    setUpgradeUrl,
+    badgeToasts,
+    setBadgeToasts,
+    examinerProfile,
+    setExaminerProfile,
+    juryTurns,
+    setJuryTurns,
+    isJuryLoading,
+    setIsJuryLoading,
+    resetRuntimeState,
+  } = useOralSessionState(input.initialWork);
+  const quota = useOralQuota();
   const [voiceMode, setVoiceMode] = useVoiceMode();
+  const api = useOralApi({
+    resolveError: quota.resolveError,
+    onUpgradeUrl: setUpgradeUrl,
+    onVoiceModeDetected: setVoiceMode,
+  });
   const prepChecklistKey = useMemo(() => session?.sessionId ?? 'global', [session?.sessionId]);
   const {
     checked: prepChecklist,
@@ -149,7 +163,7 @@ export function useOralSession(input: { initialWork: string }) {
 
   useEffect(() => {
     setOeuvre(input.initialWork);
-  }, [input.initialWork]);
+  }, [input.initialWork, setOeuvre]);
 
   const currentStep = STEPS[currentStepIndex] ?? null;
   const isSimulation = mode === 'SIMULATION';
@@ -172,16 +186,7 @@ export function useOralSession(input: { initialWork: string }) {
   );
 
   useEffect(() => {
-    fetch('/api/v1/oral/capabilities')
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => {
-        if (data?.effectiveVoiceMode) {
-          setVoiceMode(data.effectiveVoiceMode as VoiceMode);
-        } else if (data?.voiceMode) {
-          setVoiceMode(data.voiceMode as VoiceMode);
-        }
-      })
-      .catch(() => {});
+    void api.syncCapabilities();
 
     sttRef.current = createBrowserStt();
     sttRef.current?.onResult((text: string) => setTranscript(text));
@@ -201,7 +206,7 @@ export function useOralSession(input: { initialWork: string }) {
         window.speechSynthesis.cancel();
       }
     };
-  }, [setVoiceMode]);
+  }, [api, setTranscript]);
 
   useEffect(() => {
     if (!juryContainerRef.current) return;
@@ -229,49 +234,12 @@ export function useOralSession(input: { initialWork: string }) {
     try {
       setIsLoading(true);
       setError(null);
-      const csrfToken = await getCsrfToken();
-
-      const response = await fetch('/api/v1/oral/session/start', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken,
-        },
-        body: JSON.stringify({ oeuvre, mode }),
-      });
-
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        if (errData.upgradeUrl) {
-          setUpgradeUrl(errData.upgradeUrl);
-        }
-        throw new Error(errData.error || 'Impossible de démarrer la session orale.');
-      }
-
-      const payload = (await response.json()) as SessionPayload;
+      setUpgradeUrl(null);
+      const payload = await api.startSession({ oeuvre, mode });
       setSession(payload);
-      await fetch(`/api/v1/oral/session/${payload.sessionId}/start-prep`, {
-        method: 'POST',
-        headers: { 'X-CSRF-Token': csrfToken },
-      }).catch((syncError) => {
-        console.warn('[oral] sync non-bloquant échoué:', syncError);
-      });
-
       setWizardPhase('PREP');
-      setCurrentStepIndex(0);
-      setTranscript('');
-      setPrepNotes('');
+      resetRuntimeState();
       resetPrepChecklist();
-      setBilan(null);
-      setFeedbacks({
-        LECTURE: undefined,
-        EXPLICATION: undefined,
-        GRAMMAIRE: undefined,
-        ENTRETIEN: undefined,
-      });
-      setExaminerProfile('NEUTRE');
-      setJuryTurns([]);
-      setIsJuryLoading(false);
       hasRequestedInitialJuryPromptRef.current = false;
       stepStartRef.current = Date.now();
     } catch (cause) {
@@ -279,22 +247,25 @@ export function useOralSession(input: { initialWork: string }) {
     } finally {
       setIsLoading(false);
     }
-  }, [mode, oeuvre, resetPrepChecklist]);
+  }, [
+    api,
+    mode,
+    oeuvre,
+    resetPrepChecklist,
+    resetRuntimeState,
+    setError,
+    setIsLoading,
+    setSession,
+    setUpgradeUrl,
+    setWizardPhase,
+  ]);
 
   const startPassage = useCallback(async () => {
     if (!session) return;
-    const csrfToken = await getCsrfToken();
-
-    await fetch(`/api/v1/oral/session/${session.sessionId}/start-passage`, {
-      method: 'POST',
-      headers: { 'X-CSRF-Token': csrfToken },
-    }).catch((syncError) => {
-      console.warn('[oral] sync non-bloquant échoué:', syncError);
-    });
-
+    await api.startPassage(session.sessionId);
     setWizardPhase('PASSAGE');
     stepStartRef.current = Date.now();
-  }, [session]);
+  }, [api, session, setWizardPhase]);
 
   const useServerVoice = voiceMode === 'server' && audioRecorderRef.current !== null;
 
@@ -327,7 +298,7 @@ export function useOralSession(input: { initialWork: string }) {
 
     sttRef.current?.start();
     setIsMicOn(true);
-  }, [isMicOn, useServerVoice]);
+  }, [isMicOn, setIsMicOn, useServerVoice]);
 
   const submitStep = useCallback(async () => {
     if (!session || !currentStep) return;
@@ -342,28 +313,16 @@ export function useOralSession(input: { initialWork: string }) {
 
     try {
       const duration = Math.max(1, Math.floor((Date.now() - stepStartRef.current) / 1000));
-      const csrfToken = await getCsrfToken();
       let payload: StepFeedback;
 
       if (hasAudio) {
-        const formData = new FormData();
-        formData.append('audio', audioData.blob, 'recording.webm');
-        formData.append('step', currentStep);
-        formData.append('duration', String(duration));
-        if (currentStep === 'ENTRETIEN') {
-          formData.append('examinerProfile', examinerProfile);
-        }
-
-        const response = await fetch(`/api/v1/oral/session/${session.sessionId}/audio-turn`, {
-          method: 'POST',
-          headers: { 'X-CSRF-Token': csrfToken },
-          body: formData,
+        const result = await api.submitAudioTurn({
+          sessionId: session.sessionId,
+          step: currentStep,
+          duration,
+          examinerProfile,
+          audio: audioData,
         });
-        if (!response.ok) {
-          throw new Error("Échec de l’analyse de la prestation.");
-        }
-
-        const result = await response.json();
         if (result.fallbackToWebSpeech && !result.transcript) {
           setError('Transcription serveur indisponible. Utilise le micro pour dicter ta réponse.');
           pendingAudioRef.current = null;
@@ -388,23 +347,13 @@ export function useOralSession(input: { initialWork: string }) {
           speakTextSafe(payload.relance);
         }
       } else {
-        const response = await fetch(`/api/v1/oral/session/${session.sessionId}/interact`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': csrfToken,
-          },
-          body: JSON.stringify({
-            step: currentStep,
-            transcript,
-            duration,
-            ...(currentStep === 'ENTRETIEN' ? { examinerProfile } : {}),
-          }),
+        payload = await api.submitTextTurn({
+          sessionId: session.sessionId,
+          step: currentStep,
+          transcript,
+          duration,
+          examinerProfile,
         });
-        if (!response.ok) {
-          throw new Error("Échec de l’analyse de la prestation.");
-        }
-        payload = (await response.json()) as StepFeedback;
         if (currentStep === 'ENTRETIEN' && payload.relance) {
           speakTextSafe(payload.relance);
         }
@@ -420,19 +369,11 @@ export function useOralSession(input: { initialWork: string }) {
         return;
       }
 
-      const endResponse = await fetch(`/api/v1/oral/session/${session.sessionId}/end`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken,
-        },
-        body: JSON.stringify({ notes: prepNotes, examinerProfile }),
+      const endPayload = await api.endSession({
+        sessionId: session.sessionId,
+        notes: prepNotes,
+        examinerProfile,
       });
-      if (!endResponse.ok) {
-        throw new Error('Échec de finalisation de la session.');
-      }
-
-      const endPayload = (await endResponse.json()) as BilanResult;
       setBilan(endPayload);
       setWizardPhase('BILAN');
       if (endPayload.newBadges?.length) {
@@ -453,12 +394,22 @@ export function useOralSession(input: { initialWork: string }) {
       }
     }
   }, [
+    api,
     currentStep,
     currentStepIndex,
     examinerProfile,
     isMicOn,
     prepNotes,
     session,
+    setBadgeToasts,
+    setBilan,
+    setCurrentStepIndex,
+    setError,
+    setFeedbacks,
+    setIsLoading,
+    setIsMicOn,
+    setTranscript,
+    setWizardPhase,
     transcript,
     useServerVoice,
   ]);
@@ -489,7 +440,7 @@ export function useOralSession(input: { initialWork: string }) {
           }),
         });
         if (!response.ok) {
-          throw new Error('Impossible de générer une relance examinateur.');
+          throw new Error("Impossible de générer une question de l'examinateur.");
         }
 
         const payload = (await response.json()) as { juryText: string };
@@ -505,7 +456,7 @@ export function useOralSession(input: { initialWork: string }) {
         setIsJuryLoading(false);
       }
     },
-    [currentStep, examinerProfile, session],
+    [currentStep, examinerProfile, session, setError, setIsJuryLoading, setJuryTurns],
   );
 
   const askExaminerFollowUp = useCallback(async () => {
@@ -544,6 +495,7 @@ export function useOralSession(input: { initialWork: string }) {
     setSession(null);
     setBilan(null);
     setWizardPhase('TIRAGE');
+    setFeedbacks(createEmptyFeedbacks());
     setExaminerProfile('NEUTRE');
     setJuryTurns([]);
     setIsJuryLoading(false);
@@ -554,7 +506,23 @@ export function useOralSession(input: { initialWork: string }) {
     resetPrepChecklist();
     setCurrentStepIndex(0);
     setError(null);
-  }, [resetPrepChecklist, setVoiceMode]);
+    setUpgradeUrl(null);
+  }, [
+    resetPrepChecklist,
+    setBilan,
+    setCurrentStepIndex,
+    setError,
+    setExaminerProfile,
+    setFeedbacks,
+    setIsJuryLoading,
+    setJuryTurns,
+    setPrepNotes,
+    setSession,
+    setTranscript,
+    setUpgradeUrl,
+    setVoiceMode,
+    setWizardPhase,
+  ]);
 
   return {
     oeuvre,

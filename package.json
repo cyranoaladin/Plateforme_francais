@@ -43,6 +43,8 @@
     "ci:config-sanity": "node scripts/check-env.js",
     "ci:audit-csrf": "node scripts/audit-csrf-routes.mjs",
     "ci:fr-copy": "tsx scripts/check-fr-copy.ts",
+    "check-banned": "node scripts/check-banned-phrases.mjs",
+    "pre-push": "npm run typecheck && npm run lint && npm run test:unit -- --run && npm run ci:fr-copy -- --update && npm run check-banned",
     "pw:webserver": "tsx scripts/pw_webserver_local.ts",
     "test:visual": "playwright test --config=playwright.visual.config.ts",
     "test:visual:update": "playwright test --config=playwright.visual.config.ts --update-snapshots",

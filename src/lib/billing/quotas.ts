@@ -34,8 +34,15 @@ export function buildPaywallMessage(planId: PlanId, entitlement: EntitlementKey)
   if (!quota) {
     return `Cette fonctionnalité n'est pas disponible dans ton plan actuel. Passe à un plan supérieur.`;
   }
+
+  if (quota.limit === 'unlimited') {
+    console.error(
+      `[billing] buildPaywallMessage appelé pour un plan illimité (${planId}/${entitlement}) — bug Redis probable`,
+    );
+    return 'Un problème technique temporaire bloque cette fonctionnalité. Réessaie dans quelques instants.';
+  }
   
-  const limitDisplay = quota.limit === 'unlimited' ? 'illimité' : String(quota.limit);
+  const limitDisplay = String(quota.limit);
   const periodLabel = periodLabels[quota.period];
 
   const displayName = PLAN_DISPLAY_LABELS[planId] ?? planId;
@@ -49,7 +56,7 @@ export function buildPaywallMessage(planId: PlanId, entitlement: EntitlementKey)
   }
 
   if (planId === 'PRO') {
-    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Ton quota se réinitialise à la prochaine période.`;
+    return `Tu as atteint la limite incluse dans ${displayName} : ${limitDisplay} ${label} par ${periodLabel}. Réessaie dans quelques instants.`;
   }
 
   if (planId === 'PREMIUM') {

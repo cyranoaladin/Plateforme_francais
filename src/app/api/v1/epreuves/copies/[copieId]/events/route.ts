@@ -1,8 +1,15 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { findCopieById, listCopieProgressEvents } from '@/lib/epreuves/repository';
+import { checkRateLimit } from '@/lib/security/rate-limit';
 
 const encoder = new TextEncoder();
+const SSE_TIMEOUT_MS = 120_000;
+const HEARTBEAT_MS = 15_000;
+const POLL_MS = 1_000;
+const TERMINAL_STAGES = new Set(['report_ready', 'failed']);
+
+export const maxDuration = 120;
 
 function encodeProgressEvent(event: {
   id: string;
@@ -28,6 +35,19 @@ export async function GET(
     return NextResponse.json({ error: 'Non authentifié.' }, { status: 401 });
   }
 
+  const rateLimit = await checkRateLimit({
+    request,
+    key: `sse:${auth.user.id}`,
+    limit: 5,
+    windowMs: 60_000,
+  });
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Trop de connexions actives.', retryAfter: rateLimit.retryAfter },
+      { status: 429, headers: { 'Retry-After': String(rateLimit.retryAfter) } },
+    );
+  }
+
   const { copieId } = await params;
   const copie = await findCopieById(copieId);
   if (!copie || copie.userId !== auth.user.id) {
@@ -42,19 +62,50 @@ export async function GET(
     start(controller) {
       let closed = false;
       let lastSeenId = initialEvents.at(-1)?.id ?? null;
+      let timeoutTimer: ReturnType<typeof setTimeout> | null = null;
       let heartbeatTimer: ReturnType<typeof setInterval> | null = null;
       let pollTimer: ReturnType<typeof setInterval> | null = null;
 
       const close = () => {
         if (closed) return;
         closed = true;
+        if (timeoutTimer) clearTimeout(timeoutTimer);
         if (heartbeatTimer) clearInterval(heartbeatTimer);
         if (pollTimer) clearInterval(pollTimer);
         controller.close();
       };
 
-      initialEvents.forEach((event) => {
+      const resetTimeout = () => {
+        if (timeoutTimer) clearTimeout(timeoutTimer);
+        timeoutTimer = setTimeout(() => {
+          if (closed) return;
+          controller.enqueue(encoder.encode('event: timeout\ndata: {}\n\n'));
+          close();
+        }, SSE_TIMEOUT_MS);
+      };
+
+      const pushEvent = (event: {
+        id: string;
+        copieId: string;
+        stage: string;
+        message: string;
+        progress: number | null;
+        payload: Record<string, unknown> | null;
+        createdAt: string;
+      }) => {
+        if (closed) return;
         controller.enqueue(encodeProgressEvent(event));
+        lastSeenId = event.id;
+        resetTimeout();
+        if (TERMINAL_STAGES.has(event.stage)) {
+          close();
+        }
+      };
+
+      resetTimeout();
+
+      initialEvents.forEach((event) => {
+        pushEvent(event);
       });
 
       if (snapshotOnly) {
@@ -65,8 +116,9 @@ export async function GET(
       heartbeatTimer = setInterval(() => {
         if (!closed) {
           controller.enqueue(encoder.encode(': keep-alive\n\n'));
+          resetTimeout();
         }
-      }, 15000);
+      }, HEARTBEAT_MS);
 
       pollTimer = setInterval(() => {
         void (async () => {
@@ -77,13 +129,12 @@ export async function GET(
             : -1;
           const unseen = startIndex >= 0 ? events.slice(startIndex + 1) : events;
           unseen.forEach((event) => {
-            controller.enqueue(encodeProgressEvent(event));
-            lastSeenId = event.id;
+            pushEvent(event);
           });
         })().catch(() => {
           close();
         });
-      }, 1000);
+      }, POLL_MS);
 
       request.signal.addEventListener('abort', close, { once: true });
     },
@@ -94,6 +145,7 @@ export async function GET(
     headers: {
       'Content-Type': 'text/event-stream; charset=utf-8',
       'Cache-Control': 'no-cache, no-transform',
+      'X-Accel-Buffering': 'no',
       Connection: 'keep-alive',
     },
   });
