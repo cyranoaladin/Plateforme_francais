@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-01T17:43:45.091Z",
+  "generatedAt": "2026-04-01T17:44:28.422Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -1430,6 +1430,251 @@
       "text": "Profil introuvable."
     },
     {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 108,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Photo"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 112,
+      "column": 26,
+      "kind": "jsx-prop",
+      "text": "Sélectionner un fichier de copie"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 120,
+      "column": 26,
+      "kind": "jsx-prop",
+      "text": "Prendre une photo de copie"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 136,
+      "column": 70,
+      "kind": "jsx-text",
+      "text": "MB"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 153,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "PDF prêt à l&apos;envoi"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 161,
+      "column": 75,
+      "kind": "jsx-text",
+      "text": "Envoi en cours…"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 176,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Lancer la correction détaillée"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 186,
+      "column": 73,
+      "kind": "jsx-text",
+      "text": "Ton rapport de correction est prêt"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 188,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire."
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 195,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Voir mon rapport"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 202,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Préparer le retravail avec le guidage"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 52,
+      "column": 100,
+      "kind": "jsx-text",
+      "text": "Étape 2"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 54,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Déposer ma copie"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 57,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Une photo nette ou un PDF propre suffit. Le studio suit l&apos;upload, puis bascule vers l&apos;analyse sans changer de contexte."
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 67,
+      "column": 73,
+      "kind": "jsx-text",
+      "text": "Ta copie est entre de bonnes mains"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 69,
+      "column": 64,
+      "kind": "jsx-text",
+      "text": "Cela prend généralement entre 30 secondes et 2 minutes."
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 84,
+      "column": 80,
+      "kind": "jsx-text",
+      "text": "Dépose ta copie ici"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 86,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "PDF, JPG, PNG ou WEBP (Max"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 86,
+      "column": 86,
+      "kind": "jsx-text",
+      "text": "MB)"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 97,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Choisir un fichier"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCorrectionProgress.tsx",
+      "line": 26,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Étape"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 109,
+      "column": 102,
+      "kind": "jsx-text",
+      "text": "Barème"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 117,
+      "column": 60,
+      "kind": "jsx-text",
+      "text": "pts"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 125,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Changer de sujet"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 40,
+      "column": 99,
+      "kind": "jsx-text",
+      "text": "Étape 1"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 42,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Génère un sujet d'épreuve blanche."
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 45,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l'œuvre ou au thème que tu veux réactiver."
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 55,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Type"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 63,
+      "column": 45,
+      "kind": "jsx-text",
+      "text": "Commentaire"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 64,
+      "column": 46,
+      "kind": "jsx-text",
+      "text": "Dissertation"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 65,
+      "column": 51,
+      "kind": "jsx-text",
+      "text": "Contraction / Essai"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 69,
+      "column": 22,
+      "kind": "jsx-prop",
+      "text": "Œuvre (optionnel)"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 73,
+      "column": 27,
+      "kind": "jsx-prop",
+      "text": "Ex: Sido"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 77,
+      "column": 21,
+      "kind": "jsx-prop",
+      "text": "Thème (optionnel)"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 81,
+      "column": 27,
+      "kind": "jsx-prop",
+      "text": "Ex: la mémoire"
+    },
+    {
       "file": "src/app/atelier-ecrit/correction/[copieId]/page.tsx",
       "line": 191,
       "column": 17,
@@ -1648,325 +1893,80 @@
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 356,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Atelier écrit"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 359,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF."
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 362,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser entre dix écrans. L'interface suit un seul objectif : te faire passer d'une intention floue à un rapport exploitable."
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 396,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Découvrir les plans"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 410,
-      "column": 103,
-      "kind": "jsx-text",
-      "text": "Étape"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 426,
-      "column": 105,
-      "kind": "jsx-text",
-      "text": "Étape 1"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 428,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Génère un sujet d'épreuve blanche."
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 431,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l'œuvre ou au thème que tu veux réactiver."
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 441,
-      "column": 23,
-      "kind": "jsx-text",
-      "text": "Type"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 449,
-      "column": 51,
-      "kind": "jsx-text",
-      "text": "Commentaire"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 450,
-      "column": 52,
-      "kind": "jsx-text",
-      "text": "Dissertation"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 451,
-      "column": 57,
-      "kind": "jsx-text",
-      "text": "Contraction / Essai"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 455,
-      "column": 28,
-      "kind": "jsx-prop",
-      "text": "Œuvre (optionnel)"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 459,
-      "column": 33,
-      "kind": "jsx-prop",
-      "text": "Ex: Sido"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 463,
-      "column": 27,
-      "kind": "jsx-prop",
-      "text": "Thème (optionnel)"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 467,
-      "column": 33,
-      "kind": "jsx-prop",
-      "text": "Ex: la mémoire"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 491,
-      "column": 108,
-      "kind": "jsx-text",
-      "text": "Barème"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 496,
-      "column": 66,
-      "kind": "jsx-text",
-      "text": "pts"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 501,
-      "column": 21,
-      "kind": "jsx-text",
-      "text": "Changer de sujet"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 514,
-      "column": 106,
-      "kind": "jsx-text",
-      "text": "Étape 2"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 516,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Déposer ma copie"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 519,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Une photo nette ou un PDF propre suffit. Le studio suit l'upload, puis bascule vers l'analyse sans changer de contexte."
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 529,
-      "column": 79,
-      "kind": "jsx-text",
-      "text": "Ta copie est entre de bonnes mains"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 531,
-      "column": 70,
-      "kind": "jsx-text",
-      "text": "Cela prend généralement entre 30 secondes et 2 minutes."
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 546,
-      "column": 86,
-      "kind": "jsx-text",
-      "text": "Dépose ta copie ici"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 547,
-      "column": 155,
-      "kind": "jsx-text",
-      "text": "MB)"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 547,
-      "column": 76,
-      "kind": "jsx-text",
-      "text": "PDF, JPG, PNG ou WEBP (Max"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 557,
-      "column": 23,
-      "kind": "jsx-text",
-      "text": "Choisir un fichier"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 568,
-      "column": 23,
-      "kind": "jsx-text",
-      "text": "Photo"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 572,
-      "column": 32,
-      "kind": "jsx-prop",
-      "text": "Sélectionner un fichier de copie"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 580,
-      "column": 32,
-      "kind": "jsx-prop",
-      "text": "Prendre une photo de copie"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 595,
-      "column": 127,
-      "kind": "jsx-text",
-      "text": "MB"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 607,
-      "column": 25,
-      "kind": "jsx-text",
-      "text": "PDF prêt à l'envoi"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 615,
-      "column": 81,
-      "kind": "jsx-text",
-      "text": "Envoi en cours…"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 630,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Lancer la correction détaillée"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 640,
-      "column": 79,
-      "kind": "jsx-text",
-      "text": "Ton rapport de correction est prêt"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 641,
-      "column": 109,
-      "kind": "jsx-text",
-      "text": "Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire."
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 647,
-      "column": 21,
-      "kind": "jsx-text",
-      "text": "Voir mon rapport"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 654,
-      "column": 21,
-      "kind": "jsx-text",
-      "text": "Préparer le retravail avec le guidage"
-    },
-    {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 664,
+      "line": 122,
       "column": 102,
       "kind": "jsx-text",
       "text": "Cadre de travail"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 684,
+      "line": 142,
       "column": 78,
       "kind": "jsx-text",
       "text": "Pourquoi cette page existe"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 685,
+      "line": 143,
       "column": 64,
       "kind": "jsx-text",
       "text": "Écrire, déposer, corriger, puis retravailler"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 689,
+      "line": 147,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le bon usage de l'atelier écrit n'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 695,
+      "line": 153,
       "column": 103,
       "kind": "jsx-text",
       "text": "Sujet actif"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 704,
+      "line": 162,
       "column": 17,
       "kind": "jsx-text",
       "text": "Questionner le sujet avec le guidage"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 719,
+      "line": 177,
       "column": 13,
       "kind": "jsx-text",
       "text": "Badge débloqué :"
+    },
+    {
+      "file": "src/app/atelier-ecrit/page.tsx",
+      "line": 26,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Atelier écrit"
+    },
+    {
+      "file": "src/app/atelier-ecrit/page.tsx",
+      "line": 29,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF."
+    },
+    {
+      "file": "src/app/atelier-ecrit/page.tsx",
+      "line": 32,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser entre dix écrans. L'interface suit un seul objectif : te faire passer d'une intention floue à un rapport exploitable."
+    },
+    {
+      "file": "src/app/atelier-ecrit/page.tsx",
+      "line": 73,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Découvrir les plans"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
