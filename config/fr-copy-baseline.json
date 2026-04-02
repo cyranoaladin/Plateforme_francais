@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-02T22:57:32.731Z",
+  "generatedAt": "2026-04-02T23:08:21.310Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -4469,7 +4469,7 @@
     },
     {
       "file": "src/app/layout.tsx",
-      "line": 78,
+      "line": 77,
       "column": 61,
       "kind": "jsx-text",
       "text": "Aller au contenu principal"
@@ -5463,21 +5463,21 @@
     },
     {
       "file": "src/app/page.tsx",
-      "line": 55,
+      "line": 59,
       "column": 15,
       "kind": "jsx-prop",
       "text": "Essayer une correction gratuite →"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 69,
+      "line": 73,
       "column": 15,
       "kind": "jsx-prop",
       "text": "Commencer gratuitement →"
     },
     {
       "file": "src/app/page.tsx",
-      "line": 79,
+      "line": 83,
       "column": 15,
       "kind": "jsx-prop",
       "text": "Tester Nexus maintenant →"
@@ -7602,6 +7602,13 @@
       "column": 11,
       "kind": "jsx-text",
       "text": "Freemium illimité en temps • Aucun engagement"
+    },
+    {
+      "file": "src/components/landing/Hero.tsx",
+      "line": 70,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Nexus Réussite :"
     },
     {
       "file": "src/components/landing/MethodSteps.tsx",
