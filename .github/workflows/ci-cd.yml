@@ -360,6 +360,8 @@ jobs:
       redis:
         image: redis:7-alpine
         ports: ["6379:6379"]
+    env:
+      HEALTH_CHECK_READY: "true"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -455,6 +457,8 @@ jobs:
       redis:
         image: redis:7-alpine
         ports: ["6379:6379"]
+    env:
+      HEALTH_CHECK_READY: "true"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -773,7 +777,7 @@ jobs:
             echo "⏳ Tentative $i/12 — HTTP $STATUS — attente 10s..."
             sleep 10
           done
-          echo "❌ Serveur ne répond pas après 120s"
+          echo "❌ Serveur ne répond pas après 120s (Requis: HTTP 200)"
           exit 1
 
   post-deploy-monitoring:
@@ -790,7 +794,7 @@ jobs:
           for i in {1..30}; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://eaf.nexusreussite.academy/api/v1/health)
             if [ "$STATUS" != "200" ]; then
-              echo "Health check failed"; exit 1
+              echo "Health check failed (HTTP $STATUS)"; exit 1
             fi
             sleep 10
           done
