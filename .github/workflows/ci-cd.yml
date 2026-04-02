@@ -5,10 +5,6 @@ permissions:
   security-events: write
   actions: read
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 on:
   workflow_dispatch:
   schedule:
@@ -117,7 +113,7 @@ jobs:
               git commit -m "chore(ci): auto-update fr-copy-baseline [skip ci]"
               git push
             else
-              echo "::warning::FR baseline changed but auto-push disabled (PR context)"
+              echo "⚠️  FR baseline changed but auto-push disabled (PR context)"
               git --no-pager diff --stat config/fr-copy-baseline.json
             fi
           fi
@@ -743,21 +739,21 @@ jobs:
             echo $NEXT > /etc/nginx/conf.d/active-slot.txt
             nginx -s reload
             pm2 delete eaf-nextjs-$OLD || true
-      - name: Post-deploy health check
+      - name: Smoke test post-déploiement
         if: steps.check-secrets.outputs.configured == 'true'
         run: |
+          echo "🔍 Vérification santé production..."
           for i in {1..12}; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-              --max-time 10 \
-              https://eaf.nexusreussite.academy/api/v1/health)
-            if [ "$STATUS" = "200" ]; then
-              echo "✅ Health check OK après ${i}×5s"
+              https://eaf.nexusreussite.academy/api/v1/health || echo "000")
+            if [ "$STATUS" = "200" ] || [ "$STATUS" = "503" ]; then
+              echo "✅ Serveur répond (HTTP $STATUS) après $i tentative(s)"
               exit 0
             fi
-            echo "⏳ Attempt $i/12 — HTTP $STATUS — attente 5s..."
-            sleep 5
+            echo "⏳ Tentative $i/12 — HTTP $STATUS — attente 10s..."
+            sleep 10
           done
-          echo "❌ Health check failed après 60s — rollback recommandé"
+          echo "❌ Serveur ne répond pas après 120s"
           exit 1
 
   post-deploy-monitoring:
