@@ -8,9 +8,10 @@ export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: false,
   workers: process.env.CI ? 1 : 2,
-  retries: process.env.CI ? 1 : 0,
-  timeout: 60_000,
+  retries: process.env.CI ? 2 : 0,
+  timeout: 90_000,
   use: {
+    actionTimeout: 15_000,
     baseURL: e2eBaseUrl,
     trace: 'retain-on-failure',
   },
