@@ -390,22 +390,25 @@ jobs:
           E2E_DISABLE_RATE_LIMIT=1 npm run start > server.log 2>&1 &
           SERVER_PID=$!
           echo "Server PID: $SERVER_PID"
-          echo "Waiting for health endpoint..."
+      - name: Attendre le démarrage du serveur (contract)
+        run: |
           npx wait-on \
             --timeout 120000 \
             --interval 2000 \
             --httpTimeout 5000 \
-            http-get://127.0.0.1:3000/api/v1/health || {
-            echo "❌ Serveur non prêt après 120s"
+            http://127.0.0.1:3000/api/v1/health || {
+            echo "❌ Serveur contract non prêt après 120s"
             echo "--- Logs serveur ---"
             cat server.log || true
             echo "--- Processus Node ---"
             ps aux | grep -E "(next|node)" | grep -v grep || echo "Aucun processus Node"
             echo "--- Port 3000 ---"
             ss -tlnp | grep 3000 || echo "Port 3000 non écouté"
+            echo "--- Health check direct ---"
+            curl -s http://127.0.0.1:3000/api/v1/health || echo "Curl failed"
             exit 1
           }
-          echo "Server is ready"
+          echo "✅ Serveur contract prêt"
       - name: Schemathesis public contracts
         run: npm run test:contracts | tee schemathesis-public.log
       - name: Schemathesis authenticated contracts
@@ -494,17 +497,19 @@ jobs:
             --timeout 120000 \
             --interval 2000 \
             --httpTimeout 5000 \
-            http-get://127.0.0.1:3000/api/v1/health || {
-            echo "❌ Serveur non prêt après 120s"
+            http://127.0.0.1:3000/api/v1/health || {
+            echo "❌ Serveur E2E non prêt après 120s"
             echo "--- Logs serveur ---"
             cat e2e-server.log || true
             echo "--- Processus Node ---"
             ps aux | grep -E "(next|node)" | grep -v grep || echo "Aucun processus Node"
             echo "--- Port 3000 ---"
             ss -tlnp | grep 3000 || echo "Port 3000 non écouté"
+            echo "--- Health check direct ---"
+            curl -s http://127.0.0.1:3000/api/v1/health || echo "Curl failed"
             exit 1
           }
-          echo "E2E Server is ready"
+          echo "✅ Serveur E2E prêt"
       - name: Playwright E2E tests
         run: npx playwright test --project=chromium
         env:
@@ -761,8 +766,8 @@ jobs:
           for i in {1..12}; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
               https://eaf.nexusreussite.academy/api/v1/health || echo "000")
-            if [ "$STATUS" = "200" ] || [ "$STATUS" = "503" ]; then
-              echo "✅ Serveur répond (HTTP $STATUS) après $i tentative(s)"
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Serveur répond HTTP 200 après $i tentative(s)"
               exit 0
             fi
             echo "⏳ Tentative $i/12 — HTTP $STATUS — attente 10s..."
