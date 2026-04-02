@@ -232,89 +232,30 @@ Avant de soumettre une PR:
 
 ## Processus Git et PR
 
-### Workflow Branches
+### Protection de main
 
-**Branches principales**:
-- `main`: Production (protégée)
-- `develop`: Intégration (si utilisée)
-- `feature/*`: Nouvelles fonctionnalités
-- `fix/*`: Corrections bugs
-- `remediation/*`: Améliorations techniques
-- `docs/*`: Documentation uniquement
+Aucun push direct sur `main`. Toute modification passe par une PR.
 
-### Commits
+**Configuration requise dans GitHub (Settings → Branches → main) :**
+- ✅ Require a pull request before merging
+- ✅ Require status checks to pass: `pr-gate`
+- ✅ Include administrators
 
-**Convention**: [Conventional Commits](https://www.conventionalcommits.org/)
+### Avant chaque push
 
-```bash
-# Format
-<type>(<scope>): <description>
-
-# Types
-feat: Nouvelle fonctionnalité
-fix: Correction bug
-docs: Documentation
-refactor: Refactoring sans changement fonctionnel
-test: Ajout/modification tests
-chore: Maintenance (deps, config)
-ci: CI/CD changes
-perf: Optimisation performance
-
-# Exemples
-feat(auth): add OAuth2 login support
-fix(billing): correct quota calculation for Premium plan
-docs(api): document health endpoint
-test(oral): add timing-safe auth tests
-```
-
-**Co-authorship** (si IA assistée):
-```bash
-git commit -m "feat: add feature
-
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
-```
-
-### Pull Requests
-
-**Règle absolue**:
-- Aucun push direct sur `main`
-- Toute modification passe par une branche dédiée + une PR
-- La PR doit passer `pr-gate` avant merge
-
-#### Checklist PR
-
-- [ ] **Branch à jour** avec main/develop
-- [ ] **Tests passent** (CI green)
-- [ ] **Pas de conflits** Git
-- [ ] **Description claire** (quoi, pourquoi, comment)
-- [ ] **Screenshots** si changement UI
-- [ ] **Breaking changes** documentés
-- [ ] **Migrations DB** testées si applicable
-- [ ] **Revue code** demandée
-
-#### Branch Protection Rules (GitHub)
-
-Configurer dans GitHub > Settings > Branches > `main` :
-- [ ] Require pull request before merging
-- [ ] Require 1 approving review
-- [ ] Require status checks to pass: `pr-gate`
-- [ ] Require branches to be up to date before merging
-- [ ] Do not allow bypassing the above settings
-
-#### Vérification locale avant push
-
-Commande standard :
+Lance la suite locale de vérification :
 
 ```bash
 npm run pre-push
 ```
 
-Cette commande exécute :
-- `npm run typecheck`
-- `npm run lint`
-- `npm run test:unit -- --run`
-- `npm run ci:fr-copy -- --update`
-- `npm run check-banned`
+Cette commande exécute séquentiellement :
+1. `npm run typecheck` — TypeScript strict
+2. `npm run lint` — ESLint 0 warning
+3. `npm run test:unit -- --run` — Tests unitaires
+4. `npm run ci:fr-copy -- --update` — Contrôle copy française
+5. `npm run check-banned` — Détection phrases bannies
+6. `npm run check:no-vercel` — Garde anti-Vercel
 
 #### Template PR
 
