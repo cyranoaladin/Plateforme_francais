@@ -287,10 +287,11 @@ jobs:
           POSTGRES_DB: eaf_test
         ports: ["5432:5432"]
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U test -d eaf_test"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 5
+          --health-retries 10
+          --health-start-period 30s
       redis:
         image: redis:7-alpine
         ports: ["6379:6379"]
@@ -351,10 +352,11 @@ jobs:
           POSTGRES_DB: eaf_test
         ports: ["5432:5432"]
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U test -d eaf_test"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 5
+          --health-retries 10
+          --health-start-period 30s
       redis:
         image: redis:7-alpine
         ports: ["6379:6379"]
@@ -389,12 +391,18 @@ jobs:
           SERVER_PID=$!
           echo "Server PID: $SERVER_PID"
           echo "Waiting for health endpoint..."
-          npx wait-on --timeout 60000 http-get://127.0.0.1:3000/api/v1/health || {
-            echo "Server failed to start within timeout"
-            echo "Server logs:"
-            cat server.log
-            echo "Process status:"
-            ps aux | grep -E "(next|node)" | grep -v grep || echo "No Node processes found"
+          npx wait-on \
+            --timeout 120000 \
+            --interval 2000 \
+            --httpTimeout 5000 \
+            http-get://127.0.0.1:3000/api/v1/health || {
+            echo "❌ Serveur non prêt après 120s"
+            echo "--- Logs serveur ---"
+            cat server.log || true
+            echo "--- Processus Node ---"
+            ps aux | grep -E "(next|node)" | grep -v grep || echo "Aucun processus Node"
+            echo "--- Port 3000 ---"
+            ss -tlnp | grep 3000 || echo "Port 3000 non écouté"
             exit 1
           }
           echo "Server is ready"
@@ -436,10 +444,11 @@ jobs:
           POSTGRES_DB: eaf_test
         ports: ["5432:5432"]
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U test -d eaf_test"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 5
+          --health-retries 10
+          --health-start-period 30s
       redis:
         image: redis:7-alpine
         ports: ["6379:6379"]
@@ -481,12 +490,18 @@ jobs:
           SERVER_PID=$!
           echo "E2E Server PID: $SERVER_PID"
           echo "Waiting for server..."
-          npx wait-on --timeout 60000 http-get://localhost:3000/api/v1/health || {
-            echo "E2E Server failed to start within timeout"
-            echo "E2E Server logs:"
-            cat e2e-server.log
-            echo "Process status:"
-            ps aux | grep -E "(next|node)" | grep -v grep || echo "No Node processes found"
+          npx wait-on \
+            --timeout 120000 \
+            --interval 2000 \
+            --httpTimeout 5000 \
+            http-get://127.0.0.1:3000/api/v1/health || {
+            echo "❌ Serveur non prêt après 120s"
+            echo "--- Logs serveur ---"
+            cat e2e-server.log || true
+            echo "--- Processus Node ---"
+            ps aux | grep -E "(next|node)" | grep -v grep || echo "Aucun processus Node"
+            echo "--- Port 3000 ---"
+            ss -tlnp | grep 3000 || echo "Port 3000 non écouté"
             exit 1
           }
           echo "E2E Server is ready"
