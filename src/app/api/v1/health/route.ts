@@ -72,25 +72,30 @@ export async function GET() {
       .catch(() => { checks.redis = 'down'; }),
   ]);
 
-  const criticalChecks = ['db', 'redis'];
-  const criticalOk = criticalChecks.every(k => checks[k] === 'ok');
-  const allOk = Object.values(checks).every(v => v === 'ok');
-
-  const status = allOk ? 'ok' : criticalOk ? 'degraded' : 'critical';
-  const httpStatus = criticalOk ? 200 : 503;
-
   // Validate env vars (non-throwing — just log warnings for recommended vars)
   let envStatus: { required: string; llm: string; recommended: { missing: string[] } } | null = null;
   try { envStatus = validateEnv(); } catch { /* env validation failure logged internally */ }
+
+  const allOk = Object.values(checks).every(v => v === 'ok');
+  // HTTP 200 si les services critiques (DB + Redis) sont opérationnels.
+  // RAG est un service optionnel — son absence ne doit pas bloquer l'app.
+  const criticalOk = checks.db === 'ok' && checks.redis === 'ok';
+  const status = allOk ? 'ok' : criticalOk ? 'degraded' : 'down';
+  const httpStatus = criticalOk ? 200 : 503;
 
   if (status !== 'ok') {
     logger.warn({ checks, status }, 'health_check_not_ok');
   }
 
+  // En CI (HEALTH_CHECK_READY=true), toujours retourner 200 si DB + Redis ok
+  // Note: Cette variable est injectée dans les workflows CI/CD pour stabiliser wait-on.
+  const isCiReady = process.env.HEALTH_CHECK_READY === 'true';
+
   return NextResponse.json(
     {
       status,
       checks,
+      isCiReady,
       timestamp: new Date().toISOString(),
       release: {
         gitSha: readLocalReleaseValue('.git_sha') ?? process.env['BUILD_GIT_SHA'] ?? 'unknown',
