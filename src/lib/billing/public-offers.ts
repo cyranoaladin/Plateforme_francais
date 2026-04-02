@@ -85,7 +85,7 @@ const PLAN_COPY: Record<InternalPlanId, Omit<PublicPlanOffer, 'publicId' | 'tech
     tagline: 'Pour travailler sans plafond et viser la mention.',
     pricingNote: 'Pensé pour une préparation intensive: oral, écrit, quiz et tuteur ne bloquent plus le rythme de travail.',
     landingNote: 'Pour travailler sans plafond et viser la mention.',
-    footer: 'Même parcours d’activation manuelle, avec le niveau de service le plus élevé.',
+    footer: 'Règlement par virement bancaire ou espèces, puis code d’activation.',
     cta: 'Passer à Masterium',
     ctaDisabledLabel: 'Plan actuel',
     highlighted: false,
@@ -179,49 +179,49 @@ export const PUBLIC_PLAN_FEATURE_ROWS = [
   {
     label: 'Sessions orales',
     values: {
-      FREEMIUM: PUBLIC_PLAN_OFFERS[0].summaries.oral,
-      PREMIUM: PUBLIC_PLAN_OFFERS[1].summaries.oral,
-      MASTERIUM: PUBLIC_PLAN_OFFERS[2].summaries.oral,
+      FREEMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'FREE')!.summaries.oral,
+      PREMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PREMIUM')!.summaries.oral,
+      MASTERIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PRO')!.summaries.oral,
     },
   },
   {
     label: 'Corrections écrites',
     values: {
-      FREEMIUM: PUBLIC_PLAN_OFFERS[0].summaries.written,
-      PREMIUM: PUBLIC_PLAN_OFFERS[1].summaries.written,
-      MASTERIUM: PUBLIC_PLAN_OFFERS[2].summaries.written,
+      FREEMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'FREE')!.summaries.written,
+      PREMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PREMIUM')!.summaries.written,
+      MASTERIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PRO')!.summaries.written,
     },
   },
   {
     label: 'Échanges guidés',
     values: {
-      FREEMIUM: PUBLIC_PLAN_OFFERS[0].summaries.tutor,
-      PREMIUM: PUBLIC_PLAN_OFFERS[1].summaries.tutor,
-      MASTERIUM: PUBLIC_PLAN_OFFERS[2].summaries.tutor,
+      FREEMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'FREE')!.summaries.tutor,
+      PREMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PREMIUM')!.summaries.tutor,
+      MASTERIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PRO')!.summaries.tutor,
     },
   },
   {
     label: 'Analyse de copies',
     values: {
-      FREEMIUM: PUBLIC_PLAN_OFFERS[0].summaries.ocr,
-      PREMIUM: PUBLIC_PLAN_OFFERS[1].summaries.ocr,
-      MASTERIUM: PUBLIC_PLAN_OFFERS[2].summaries.ocr,
+      FREEMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'FREE')!.summaries.ocr,
+      PREMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PREMIUM')!.summaries.ocr,
+      MASTERIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PRO')!.summaries.ocr,
     },
   },
   {
     label: 'Quiz',
     values: {
-      FREEMIUM: PUBLIC_PLAN_OFFERS[0].summaries.quiz,
-      PREMIUM: PUBLIC_PLAN_OFFERS[1].summaries.quiz,
-      MASTERIUM: PUBLIC_PLAN_OFFERS[2].summaries.quiz,
+      FREEMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'FREE')!.summaries.quiz,
+      PREMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PREMIUM')!.summaries.quiz,
+      MASTERIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PRO')!.summaries.quiz,
     },
   },
   {
     label: 'Bibliothèque',
     values: {
-      FREEMIUM: PUBLIC_PLAN_OFFERS[0].summaries.library,
-      PREMIUM: PUBLIC_PLAN_OFFERS[1].summaries.library,
-      MASTERIUM: PUBLIC_PLAN_OFFERS[2].summaries.library,
+      FREEMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'FREE')!.summaries.library,
+      PREMIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PREMIUM')!.summaries.library,
+      MASTERIUM: PUBLIC_PLAN_OFFERS.find(o => o.technicalId === 'PRO')!.summaries.library,
     },
   },
   {

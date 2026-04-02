@@ -26,6 +26,8 @@ async function loginViaApi(page: import('@playwright/test').Page, email: string,
 test.describe('Audit role dashboards on production', () => {
   test.skip(!isProductionAuditBaseUrl, 'Ces comptes d’audit existent uniquement sur la production réelle.');
 
+  const legacyPlansRegex = /\b(PRO|MAX)\b/g;
+
   test('parent dashboard is useful and free of legacy plan labels', async ({ page }) => {
     await loginViaApi(page, 'audit-parent-1774367337@test-nexus.dev', 'Audit2026!');
     await page.goto(`${baseURL}/parent`, { waitUntil: 'networkidle' });
@@ -33,8 +35,10 @@ test.describe('Audit role dashboards on production', () => {
     await expect(page.getByText('Espace parent')).toBeVisible();
     await expect(page.getByText('Conseil parental de la semaine')).toBeVisible();
     await expect(page.getByText('Aucun élève n’est encore rattaché', { exact: false })).toHaveCount(0);
-    await expect(page.locator('body')).not.toContainText(/\bPRO\b/);
-    await expect(page.locator('body')).not.toContainText(/\bMAX\b/);
+    
+    // Leak detection
+    const bodyText = await page.innerText('body');
+    expect(bodyText).not.toMatch(legacyPlansRegex);
   });
 
   test('teacher dashboard is useful and free of legacy plan labels', async ({ page }) => {
@@ -44,8 +48,10 @@ test.describe('Audit role dashboards on production', () => {
     await expect(page.getByText('Espace enseignant')).toBeVisible();
     await expect(page.getByText('Générer un code classe')).toBeVisible();
     await expect(page.getByText('Export CSV')).toBeVisible();
-    await expect(page.locator('body')).not.toContainText(/\bPRO\b/);
-    await expect(page.locator('body')).not.toContainText(/\bMAX\b/);
+    
+    // Leak detection
+    const bodyText = await page.innerText('body');
+    expect(bodyText).not.toMatch(legacyPlansRegex);
   });
 
   test('admin dashboard is in French and uses only business plan labels', async ({ page }) => {
@@ -55,7 +61,29 @@ test.describe('Audit role dashboards on production', () => {
     await expect(page.getByRole('heading', { name: 'Tableau de bord admin' })).toBeVisible();
     await page.getByRole('button', { name: "Codes d'activation" }).click();
     await expect(page.getByText('Générer un code d\'activation')).toBeVisible();
+    
+    // Leak detection
+    const bodyText = await page.innerText('body');
+    expect(bodyText).not.toMatch(legacyPlansRegex);
     await expect(page.locator('body')).not.toContainText('Dashboard Admin');
-    await expect(page.locator('body')).not.toContainText(/\bMAX\b/);
+  });
+
+  test('role security: parent cannot access admin dashboard', async ({ page }) => {
+    await loginViaApi(page, 'audit-parent-1774367337@test-nexus.dev', 'Audit2026!');
+    const response = await page.goto(`${baseURL}/admin`);
+    
+    // Standard behavior: redirect to their own dashboard or home if unauthorized
+    expect(page.url()).not.toContain('/admin');
+    if (page.url().includes('/parent') || page.url() === `${baseURL}/`) {
+      // Access blocked and redirected
+    } else {
+      expect(response?.status()).toBe(403);
+    }
+  });
+
+  test('role security: teacher cannot access admin dashboard', async ({ page }) => {
+    await loginViaApi(page, 'audit-teacher-1774367337@test-nexus.dev', 'Audit2026!');
+    await page.goto(`${baseURL}/admin`);
+    expect(page.url()).not.toContain('/admin');
   });
 });
