@@ -5,6 +5,10 @@ permissions:
   security-events: write
   actions: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   schedule:
@@ -313,9 +317,25 @@ jobs:
             ${{ runner.os }}-npm-
       - run: npm ci
       - run: npm run build:shared-billing
-      - run: npx prisma migrate deploy
-      - run: |
-          if [ -f scripts/seed-test.ts ]; then npx tsx scripts/seed-test.ts; else echo "No seed-test.ts"; fi
+      - name: Debug DB Connectivity
+        run: |
+          echo "Checking connectivity for: ${DATABASE_URL%%:*}"
+          pg_isready -h localhost -U test
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+      - name: Prisma Migrate
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+      - name: Seed Test Data
+        run: |
+          if [ -f scripts/seed-test.ts ]; then 
+            npx tsx scripts/seed-test.ts
+          else 
+            echo "No seed-test.ts"
+          fi
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
       - name: Vitest integration
         run: npx vitest run tests/integration
 
@@ -362,7 +382,10 @@ jobs:
       - run: npm ci
       - run: npm run build:worker
       - run: chmod +x tests/contracts/run-schemathesis.sh tests/contracts/run-schemathesis-auth.sh tests/contracts/run-schemathesis-teacher-rbac.sh tests/contracts/run-teacher-comment-rbac.sh tests/contracts/run-teacher-export-rbac.sh
-      - run: npx prisma migrate deploy
+      - name: Prisma Migrate
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
       - run: npm run build:ci
       - run: |
           echo "Starting Next.js server..."
@@ -448,7 +471,12 @@ jobs:
           PGPASSWORD=test psql -h localhost -U test -d eaf_test -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;'
           PGPASSWORD=test psql -h localhost -U test -d eaf_test -c 'CREATE EXTENSION IF NOT EXISTS "pgcrypto"; CREATE EXTENSION IF NOT EXISTS "vector";'
           npx prisma db push --accept-data-loss
-      - run: npm run db:seed
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+      - name: DB Seed
+        run: npm run db:seed
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
       - run: npx playwright install --with-deps chromium
       - run: npm run build:ci
       - run: |
