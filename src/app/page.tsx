@@ -13,6 +13,7 @@ import { PricingSection } from '@/components/landing/PricingSection';
 import { InlineCTA } from '@/components/landing/InlineCTA';
 import { FooterCTA } from '@/components/landing/FooterCTA';
 import { Footer } from '@/components/landing/Footer';
+import { Canonical } from '@/components/seo/Canonical';
 import { ROUTES } from '@/lib/routes';
 
 const BASE_URL = 'https://eaf.nexusreussite.academy';
@@ -40,9 +41,12 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+export const revalidate = 3600; // ISR Optimization: revalidate every hour
+
 export default function HomePage() {
   return (
     <>
+      <Canonical baseUrl={BASE_URL} />
       <StickyNav />
 
       <main>

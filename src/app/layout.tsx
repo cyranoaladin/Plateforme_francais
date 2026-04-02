@@ -50,8 +50,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Force dynamic rendering - required for ThemeProvider with Context
-export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic'; // Optimisation: moved to specific dynamic routes
 export const dynamicParams = true;
 
 export default async function RootLayout({

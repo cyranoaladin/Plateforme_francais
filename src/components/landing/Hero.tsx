@@ -67,7 +67,7 @@ export function Hero() {
           </div>
 
           <h1 className="editorial-heading mt-6 max-w-3xl text-4xl text-white sm:text-5xl lg:text-[4.35rem]">
-            {HERO_COPY.titleLead}
+            Nexus Réussite : {HERO_COPY.titleLead}
             <span className="block bg-gradient-to-r from-white via-sapphire-300 to-sapphire-500 bg-clip-text text-transparent">
               {HERO_COPY.titleAccent}
             </span>
