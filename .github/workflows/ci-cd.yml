@@ -457,7 +457,7 @@ jobs:
           SERVER_PID=$!
           echo "E2E Server PID: $SERVER_PID"
           echo "Waiting for server..."
-          npx wait-on --timeout 60000 http://localhost:3000 || {
+          npx wait-on --timeout 60000 http-get://localhost:3000/api/v1/health || {
             echo "E2E Server failed to start within timeout"
             echo "E2E Server logs:"
             cat e2e-server.log
