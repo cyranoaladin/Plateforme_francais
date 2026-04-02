@@ -113,7 +113,7 @@ jobs:
               git commit -m "chore(ci): auto-update fr-copy-baseline [skip ci]"
               git push
             else
-              echo "⚠️  FR baseline changed but auto-push disabled (PR context)"
+              echo "::warning::FR baseline changed but auto-push disabled (PR context)"
               git --no-pager diff --stat config/fr-copy-baseline.json
             fi
           fi
