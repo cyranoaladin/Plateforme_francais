@@ -72,8 +72,12 @@ export async function GET() {
       .catch(() => { checks.redis = 'down'; }),
   ]);
 
+  const criticalChecks = ['db', 'redis'];
+  const criticalOk = criticalChecks.every(k => checks[k] === 'ok');
   const allOk = Object.values(checks).every(v => v === 'ok');
-  const status = allOk ? 'ok' : checks.db === 'down' ? 'down' : 'degraded';
+
+  const status = allOk ? 'ok' : criticalOk ? 'degraded' : 'critical';
+  const httpStatus = criticalOk ? 200 : 503;
 
   // Validate env vars (non-throwing — just log warnings for recommended vars)
   let envStatus: { required: string; llm: string; recommended: { missing: string[] } } | null = null;
@@ -101,6 +105,6 @@ export async function GET() {
         ttsAvailable: getTtsCapability().available,
       },
     },
-    { status: allOk ? 200 : 503 },
+    { status: httpStatus },
   );
 }
