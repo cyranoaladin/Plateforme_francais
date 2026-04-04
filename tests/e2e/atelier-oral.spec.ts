@@ -47,7 +47,7 @@ test('Sélection œuvre → démarrage simulation → affichage extrait', async 
   await page.goto('/atelier-oral');
 
   await page.getByTestId('mode-practice-btn').click();
-  await page.getByTestId('oeuvre-select').selectOption({ index: 1 });
+  await page.locator('[data-testid^="oeuvre-option-"]').first().click();
   await page.getByTestId('start-session-btn').click();
 
   await expect(page.getByTestId('extrait-texte')).toBeVisible({ timeout: 20_000 });

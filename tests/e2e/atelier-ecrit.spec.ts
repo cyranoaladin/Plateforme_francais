@@ -84,16 +84,26 @@ test('Freemium - génère un sujet OK puis bloque le dépôt OCR', async ({ page
   await expect(page.getByText(/Déposer ma copie/i)).toBeVisible({ timeout: 20_000 });
 
   const fixturePath = `${process.cwd()}/tests/fixtures/copie-test.png`;
-  await page.getByLabel('Sélectionner un fichier de copie').setInputFiles(fixturePath);
-  const uploadResponsePromise = page.waitForResponse((response) => {
-    return response.url().includes('/api/v1/epreuves/') && response.url().includes('/copie') && response.request().method() === 'POST';
-  });
+  await page.getByTestId('copy-upload-input').setInputFiles(fixturePath);
+  const firstUploadPromise = page.waitForResponse(
+    (res) => res.url().includes('/api/v1/epreuves/') && res.url().includes('/copie') && res.request().method() === 'POST'
+  );
+  await page.getByTestId('start-correction-btn').click();
+  const firstRes = await firstUploadPromise;
+  expect(firstRes.status()).toBe(202);
 
-  await page.getByRole('button', { name: /Lancer la correction détaillée/i }).click();
+  // Recharge pour réinitialiser l'UI et tenter un second upload sur le même sujet
+  await page.reload();
+  await expect(page.getByText(/Déposer ma copie/i)).toBeVisible({ timeout: 20_000 });
+  await page.getByTestId('copy-upload-input').setInputFiles(fixturePath);
 
-  const uploadResponse = await uploadResponsePromise;
-  expect(uploadResponse.status()).toBe(402);
-  const payload = (await uploadResponse.json()) as { error?: string; code?: string };
+  const secondUploadPromise = page.waitForResponse(
+    (res) => res.url().includes('/api/v1/epreuves/') && res.url().includes('/copie') && res.request().method() === 'POST'
+  );
+  await page.getByTestId('start-correction-btn').click();
+  const secondRes = await secondUploadPromise;
+  expect(secondRes.status()).toBe(402);
+  const payload = (await secondRes.json()) as { error?: string; code?: string };
   expect(payload.code).toBe('QUOTA_EXCEEDED');
   expect(payload.error).toMatch(/OCR|quota|limite/i);
 
