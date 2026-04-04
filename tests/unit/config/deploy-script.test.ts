@@ -31,4 +31,21 @@ describe('scripts/deploy.sh', () => {
     expect(script).toContain('sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env');
     expect(script).toContain('sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save');
   });
+
+  it('verifies the durable resources volume and rechecks the symlink after build', () => {
+    const script = readFileSync(resolve(process.cwd(), 'scripts/deploy.sh'), 'utf8');
+
+    expect(script).toContain('REMOTE_RESOURCE_COUNT=$(ssh "$SSH_TARGET" "find -L $RESSOURCES_DIR -type f 2>/dev/null | wc -l")');
+    expect(script).toContain('rsync -az --delete ./ressources/ "$SSH_TARGET:$RESSOURCES_DIR/"');
+    expect(script).toContain('COUNT=\\$(find -L ./ressources -type f 2>/dev/null | wc -l)');
+  });
+
+  it('writes HEALTH_CHECK_READY and configures the uploads backup cron', () => {
+    const script = readFileSync(resolve(process.cwd(), 'scripts/deploy.sh'), 'utf8');
+
+    expect(script).toContain("HEALTH_CHECK_READY=true");
+    expect(script).toContain('/etc/cron.d/nexus-backup');
+    expect(script).toContain('bash scripts/backup-uploads.sh >> /var/log/nexus-backup.log 2>&1');
+    expect(script).toContain('fuser -k 3100/tcp 2>/dev/null || true; sleep 2');
+  });
 });

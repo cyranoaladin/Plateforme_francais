@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { Prisma, SkillTrend, WeakStatus, type EafSkill, type RevisionPhase as PrismaRevisionPhase, type WeakSeverity } from '@prisma/client';
-import { assertDatabaseAvailable, isDatabaseAvailable, prisma } from '@/lib/db/client';
+import { assertDatabaseAvailable, prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 import type { WeeklyReport } from '@/lib/types/premium';
@@ -195,10 +195,6 @@ function mapStoredMicroSkill(microSkillKey: string | null, skill: EafSkill): str
   return microSkillKey ?? SKILL_TO_MICRO_FALLBACK[skill] ?? 'methode_temps';
 }
 
-async function assertPremiumJsonFallbackAllowed() {
-  await assertDatabaseAvailable('premium-store JSON fallback interdit en production');
-}
-
 function skillTrend(previousScore: number | null, nextScore: number): SkillTrend {
   if (previousScore === null) return 'STABLE';
   if (nextScore > previousScore + 0.05) return 'IMPROVING';
@@ -227,10 +223,8 @@ function parseWeakSkillExamples(value: Prisma.JsonValue): Array<{ example: strin
     .filter((item): item is { example: string; correction: string } => item !== null);
 }
 
-async function resolveProfileId(studentId: string): Promise<string | null> {
-  if (!await isDatabaseAvailable()) {
-    return null;
-  }
+async function resolveProfileId(studentId: string): Promise<string> {
+  await assertDatabaseAvailable('Base de données indisponible — premium-store');
 
   const user = await prisma.user.findUnique({
     where: { id: studentId },
@@ -238,7 +232,7 @@ async function resolveProfileId(studentId: string): Promise<string | null> {
   });
 
   if (!user) {
-    return null;
+    throw new Error(`Utilisateur introuvable: ${studentId}`);
   }
 
   const profile = await prisma.studentProfile.upsert({
@@ -347,7 +341,7 @@ function weakSeverityForError(input: {
 
 export async function writePremiumStore(updater: (current: PremiumStore) => PremiumStore): Promise<void> {
   void updater;
-  await assertPremiumJsonFallbackAllowed();
+  await assertDatabaseAvailable('Base de données indisponible — premium-store');
   throw new Error('writePremiumStore n\'est plus disponible sans PostgreSQL.');
 }
 
@@ -383,77 +377,65 @@ export async function addErrorBankItem(input: {
   };
 
   const profileId = await resolveProfileId(input.studentId);
-  if (profileId) {
-    const mapping = mapMicroSkill(input.microSkillId);
-    await prisma.weakSkillEntry.create({
-      data: {
-        id: item.id,
-        profileId,
-        microSkillKey: input.microSkillId,
-        skill: mapping.skill,
-        pattern: input.errorType,
-        category: input.category,
-        examples: [{ example: input.example, correction: input.correction }] as Prisma.InputJsonValue,
-        severity: weakSeverityForError(input),
-        sourceInteractionId: input.sourceInteractionId,
-        sourceAgent: input.sourceAgent,
-        firstDetectedAt: new Date(createdAt),
-        lastOccurrence: new Date(createdAt),
-      },
-    });
-    return item;
-  }
-
-  await assertPremiumJsonFallbackAllowed();
-  throw new Error(`Profil introuvable pour premium-store: ${input.studentId}`);
+  const mapping = mapMicroSkill(input.microSkillId);
+  await prisma.weakSkillEntry.create({
+    data: {
+      id: item.id,
+      profileId,
+      microSkillKey: input.microSkillId,
+      skill: mapping.skill,
+      pattern: input.errorType,
+      category: input.category,
+      examples: [{ example: input.example, correction: input.correction }] as Prisma.InputJsonValue,
+      severity: weakSeverityForError(input),
+      sourceInteractionId: input.sourceInteractionId,
+      sourceAgent: input.sourceAgent,
+      firstDetectedAt: new Date(createdAt),
+      lastOccurrence: new Date(createdAt),
+    },
+  });
+  return item;
 }
 
 export async function recordRevisionAttempt(errorId: string, attempt: RevisionAttempt): Promise<void> {
-  if (await isDatabaseAvailable()) {
-    const entry = await prisma.weakSkillEntry.findUnique({
-      where: { id: errorId },
-      include: { revisions: true },
-    });
-    if (entry) {
-      await prisma.weakSkillRevision.create({
-        data: {
-          weakSkillEntryId: errorId,
-          phase: toPrismaRevisionPhase(attempt.phase),
-          success: attempt.success,
-          notes: attempt.notes,
-          createdAt: new Date(attempt.date),
-        },
-      });
+  await assertDatabaseAvailable('DB indisponible — recordRevisionAttempt');
+  const entry = await prisma.weakSkillEntry.findUnique({
+    where: { id: errorId },
+    include: { revisions: true },
+  });
 
-      const successCount = entry.revisions.filter((item) => item.success).length + (attempt.success ? 1 : 0);
-      await prisma.weakSkillEntry.update({
-        where: { id: errorId },
-        data: {
-          status: successCount >= 3 ? 'RESOLVED' : attempt.success ? 'IMPROVING' : entry.status,
-          resolvedAt: successCount >= 3 ? new Date(attempt.date) : null,
-        },
-      });
-      return;
-    }
+  if (!entry) {
+    throw new Error(`WeakSkillEntry introuvable pour revision: ${errorId}`);
   }
 
-  await assertPremiumJsonFallbackAllowed();
-  throw new Error(`WeakSkillEntry introuvable pour revision: ${errorId}`);
+  await prisma.weakSkillRevision.create({
+    data: {
+      weakSkillEntryId: errorId,
+      phase: toPrismaRevisionPhase(attempt.phase),
+      success: attempt.success,
+      notes: attempt.notes,
+      createdAt: new Date(attempt.date),
+    },
+  });
+
+  const successCount = entry.revisions.filter((item) => item.success).length + (attempt.success ? 1 : 0);
+  await prisma.weakSkillEntry.update({
+    where: { id: errorId },
+    data: {
+      status: successCount >= 3 ? 'RESOLVED' : attempt.success ? 'IMPROVING' : entry.status,
+      resolvedAt: successCount >= 3 ? new Date(attempt.date) : null,
+    },
+  });
 }
 
 export async function getErrorBankItems(studentId: string): Promise<ErrorBankItem[]> {
   const profileId = await resolveProfileId(studentId);
-  if (profileId) {
-    const items = await prisma.weakSkillEntry.findMany({
-      where: { profileId },
-      include: { revisions: true },
-      orderBy: { firstDetectedAt: 'desc' },
-    });
-    return items.map((entry) => mapWeakSkillRecordToItem(studentId, entry));
-  }
-
-  await assertPremiumJsonFallbackAllowed();
-  return [];
+  const items = await prisma.weakSkillEntry.findMany({
+    where: { profileId },
+    include: { revisions: true },
+    orderBy: { firstDetectedAt: 'desc' },
+  });
+  return items.map((entry) => mapWeakSkillRecordToItem(studentId, entry));
 }
 
 export async function getDueErrorBankItems(studentId: string): Promise<ErrorBankItem[]> {
@@ -475,12 +457,7 @@ export function createDefaultSkillMap(studentId: string): SkillMap {
 
 export async function getOrCreateSkillMap(studentId: string): Promise<SkillMap> {
   const profileId = await resolveProfileId(studentId);
-  if (profileId) {
-    return getSkillMapFromDb(studentId, profileId);
-  }
-
-  await assertPremiumJsonFallbackAllowed();
-  throw new Error(`Profil introuvable pour skill map: ${studentId}`);
+  return getSkillMapFromDb(studentId, profileId);
 }
 
 export async function updateSkillMap(
@@ -488,138 +465,105 @@ export async function updateSkillMap(
   updates: Array<{ microSkillId: string; score: number }>,
 ): Promise<SkillMap> {
   const profileId = await resolveProfileId(studentId);
-  if (profileId) {
-    const keys = updates.map((item) => item.microSkillId);
-    const existing = await prisma.skillMapEntry.findMany({
-      where: { profileId, microSkillKey: { in: keys } },
-    });
-    const existingByKey = new Map(existing.map((entry) => [entry.microSkillKey ?? '', entry]));
-    const now = new Date();
+  const keys = updates.map((item) => item.microSkillId);
+  const existing = await prisma.skillMapEntry.findMany({
+    where: { profileId, microSkillKey: { in: keys } },
+  });
+  const existingByKey = new Map(existing.map((entry) => [entry.microSkillKey ?? '', entry]));
+  const now = new Date();
 
-    await prisma.$transaction(
-      updates.map((update) => {
-        const boundedScore = Math.max(0, Math.min(1, update.score));
-        const mapping = mapMicroSkill(update.microSkillId);
-        const current = existingByKey.get(update.microSkillId);
+  await prisma.$transaction(
+    updates.map((update) => {
+      const boundedScore = Math.max(0, Math.min(1, update.score));
+      const mapping = mapMicroSkill(update.microSkillId);
+      const current = existingByKey.get(update.microSkillId);
 
-        if (current) {
-          return prisma.skillMapEntry.update({
-            where: { id: current.id },
-            data: {
-              skill: mapping.skill,
-              score: boundedScore,
-              confidence: Math.min(1, current.confidence + 0.1),
-              trend: skillTrend(current.score, boundedScore),
-              observationCount: { increment: 1 },
-              lastObservedAt: now,
-            },
-          });
-        }
-
-        return prisma.skillMapEntry.create({
+      if (current) {
+        return prisma.skillMapEntry.update({
+          where: { id: current.id },
           data: {
-            profileId,
-            microSkillKey: update.microSkillId,
             skill: mapping.skill,
             score: boundedScore,
-            confidence: 0.3,
-            trend: 'STABLE',
-            observationCount: 1,
+            confidence: Math.min(1, current.confidence + 0.1),
+            trend: skillTrend(current.score, boundedScore),
+            observationCount: { increment: 1 },
             lastObservedAt: now,
           },
         });
-      }),
-    );
+      }
 
-    return getSkillMapFromDb(studentId, profileId);
-  }
+      return prisma.skillMapEntry.create({
+        data: {
+          profileId,
+          microSkillKey: update.microSkillId,
+          skill: mapping.skill,
+          score: boundedScore,
+          confidence: 0.3,
+          trend: 'STABLE',
+          observationCount: 1,
+          lastObservedAt: now,
+        },
+      });
+    }),
+  );
 
-  await assertPremiumJsonFallbackAllowed();
-  throw new Error(`Profil introuvable pour updateSkillMap: ${studentId}`);
+  return getSkillMapFromDb(studentId, profileId);
 }
 
 export async function saveStudyPlan(plan: StudyPlan): Promise<void> {
   const profileId = await resolveProfileId(plan.studentId);
-  if (profileId) {
-    await prisma.studyPlanSnapshot.upsert({
-      where: { profileId },
-      update: {
-        payload: plan as Prisma.InputJsonValue,
-      },
-      create: {
-        profileId,
-        payload: plan as Prisma.InputJsonValue,
-      },
-    });
-    return;
-  }
-
-  await assertPremiumJsonFallbackAllowed();
-  throw new Error(`Profil introuvable pour study plan: ${plan.studentId}`);
+  await prisma.studyPlanSnapshot.upsert({
+    where: { profileId },
+    update: {
+      payload: plan as Prisma.InputJsonValue,
+    },
+    create: {
+      profileId,
+      payload: plan as Prisma.InputJsonValue,
+    },
+  });
 }
 
 export async function getPlan7Days(studentId: string): Promise<StudyPlan | null> {
   const profileId = await resolveProfileId(studentId);
-  if (profileId) {
-    const snapshot = await prisma.studyPlanSnapshot.findUnique({
-      where: { profileId },
-      select: { payload: true },
-    });
-    return (snapshot?.payload as StudyPlan | null) ?? null;
-  }
-
-  await assertPremiumJsonFallbackAllowed();
-  return null;
+  const snapshot = await prisma.studyPlanSnapshot.findUnique({
+    where: { profileId },
+    select: { payload: true },
+  });
+  return (snapshot?.payload as StudyPlan | null) ?? null;
 }
 
 export async function saveDiagnosticResult(result: { studentId: string; id?: string; completedAt?: string; [key: string]: unknown }): Promise<void> {
   const profileId = await resolveProfileId(result.studentId);
-  if (profileId) {
-    await prisma.diagnosticSnapshot.create({
-      data: {
-        id: typeof result.id === 'string' ? result.id : randomUUID(),
-        profileId,
-        payload: result as Prisma.InputJsonValue,
-        completedAt: result.completedAt ? new Date(result.completedAt) : new Date(),
-      },
-    });
-    return;
-  }
-
-  await assertPremiumJsonFallbackAllowed();
-  throw new Error(`Profil introuvable pour diagnostic snapshot: ${result.studentId}`);
+  await prisma.diagnosticSnapshot.create({
+    data: {
+      id: typeof result.id === 'string' ? result.id : randomUUID(),
+      profileId,
+      payload: result as Prisma.InputJsonValue,
+      completedAt: result.completedAt ? new Date(result.completedAt) : new Date(),
+    },
+  });
 }
 
 export async function getLatestWeeklyReport(studentId: string): Promise<WeeklyReport | null> {
   const profileId = await resolveProfileId(studentId);
-  if (profileId) {
-    const report = await prisma.weeklyReportSnapshot.findFirst({
-      where: { profileId },
-      orderBy: { generatedAt: 'desc' },
-      select: { payload: true },
-    });
-    return (report?.payload as WeeklyReport | null) ?? null;
-  }
-
-  await assertPremiumJsonFallbackAllowed();
-  return null;
+  const report = await prisma.weeklyReportSnapshot.findFirst({
+    where: { profileId },
+    orderBy: { generatedAt: 'desc' },
+    select: { payload: true },
+  });
+  return (report?.payload as WeeklyReport | null) ?? null;
 }
 
 export async function saveWeeklyReport(report: WeeklyReport): Promise<void> {
   const profileId = await resolveProfileId(report.studentId);
-  if (profileId) {
-    await prisma.weeklyReportSnapshot.create({
-      data: {
-        id: report.id,
-        profileId,
-        weekLabel: report.weekLabel,
-        payload: report as Prisma.InputJsonValue,
-        generatedAt: new Date(report.generatedAt),
-      },
-    });
-    return;
-  }
-
-  await assertPremiumJsonFallbackAllowed();
-  throw new Error(`Profil introuvable pour weekly report: ${report.studentId}`);
+  await prisma.weeklyReportSnapshot.create({
+    data: {
+      id: report.id,
+      profileId,
+      weekLabel: report.weekLabel,
+      payload: report as Prisma.InputJsonValue,
+      generatedAt: new Date(report.generatedAt),
+    },
+  });
 }

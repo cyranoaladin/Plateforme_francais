@@ -94,8 +94,24 @@ ssh "$SSH_TARGET" "id -u $APP_RUNTIME_USER >/dev/null 2>&1 || useradd -r -m -d $
 echo "[1c/8] Sécurisation des secrets post-sync..."
 ssh "$SSH_TARGET" "chown root:$APP_RUNTIME_USER $APP_DIR/.env $APP_DIR/.env.local $APP_DIR/packages/mcp-server/.env 2>/dev/null || true; chmod 640 $APP_DIR/.env $APP_DIR/.env.local $APP_DIR/packages/mcp-server/.env 2>/dev/null || true; rm -f $APP_DIR/.env.backup 2>/dev/null || true; echo '  ✅ Permissions secrets 640 appliquées'"
 
-echo "[1b/8] Préparation du volume ressources durable (symlink après build)..."
+echo "[1d/8] Vérification du volume ressources durable..."
 ssh "$SSH_TARGET" "mkdir -p $RESSOURCES_DIR"
+REMOTE_RESOURCE_COUNT=$(ssh "$SSH_TARGET" "find -L $RESSOURCES_DIR -type f 2>/dev/null | wc -l")
+if [ "${REMOTE_RESOURCE_COUNT:-0}" -lt 100 ]; then
+  if [ -d "./ressources" ]; then
+    echo "  → Ressources distantes insuffisantes (${REMOTE_RESOURCE_COUNT:-0}). Synchronisation depuis la machine locale..."
+    rsync -az --delete ./ressources/ "$SSH_TARGET:$RESSOURCES_DIR/"
+    REMOTE_RESOURCE_COUNT=$(ssh "$SSH_TARGET" "find -L $RESSOURCES_DIR -type f 2>/dev/null | wc -l")
+  fi
+fi
+if [ "${REMOTE_RESOURCE_COUNT:-0}" -lt 100 ]; then
+  echo "❌ Symlink ressources invalide ou volume incomplet: ${REMOTE_RESOURCE_COUNT:-0} fichiers dans $RESSOURCES_DIR"
+  echo "   Ajoutez les ressources localement ou copiez-les manuellement sur le serveur avant de relancer."
+  exit 1
+fi
+echo "  ✅ $REMOTE_RESOURCE_COUNT fichiers ressources disponibles dans $RESSOURCES_DIR"
+
+echo "[1e/8] Préparation du volume ressources durable (symlink après build)..."
 # Retirer le symlink temporairement pour que Turbopack ne le traverse pas pendant le build
 ssh "$SSH_TARGET" "[ -L $APP_DIR/ressources ] && rm -f $APP_DIR/ressources || true"
 
@@ -162,7 +178,7 @@ echo "[5/8] Build Next.js (production)..."
 LOCAL_GIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 echo "  → Build SHA: $LOCAL_GIT_SHA"
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-ssh "$SSH_TARGET" "cd $APP_DIR && printf 'BUILD_GIT_SHA=%s\nBUILD_TIME=%s\n' '$LOCAL_GIT_SHA' '$BUILD_TIME' > .release.env"
+ssh "$SSH_TARGET" "cd $APP_DIR && printf 'BUILD_GIT_SHA=%s\nBUILD_TIME=%s\nHEALTH_CHECK_READY=true\n' '$LOCAL_GIT_SHA' '$BUILD_TIME' > .release.env"
 ssh "$SSH_TARGET" "cd $APP_DIR && printf '%s\n' '$LOCAL_GIT_SHA' > .git_sha && printf '%s\n' '$BUILD_TIME' > .build_time"
 # Remove symlinks that break Turbopack before build (restored in step 7b)
 ssh "$SSH_TARGET" "cd $APP_DIR && { [ -L ressources ] && rm ressources || true; } && { [ -L public/ressources ] && rm public/ressources || true; }"
@@ -233,9 +249,22 @@ echo "[7b/8] Rétablissement du symlink ressources..."
 ssh "$SSH_TARGET" "ln -sfn $RESSOURCES_DIR $APP_DIR/ressources"
 echo "  ✅ Symlink $APP_DIR/ressources → $RESSOURCES_DIR"
 
+echo "[7c/8] Vérification du symlink ressources..."
+ssh "$SSH_TARGET" "cd $APP_DIR && COUNT=\$(find -L ./ressources -type f 2>/dev/null | wc -l); if [ \"\$COUNT\" -lt 100 ]; then echo '  ❌ Symlink ressources invalide: '\$COUNT' fichiers'; exit 1; else echo '  ✅ '\$COUNT' fichiers ressources accessibles'; fi"
+
+echo "[7d/8] Configuration du backup quotidien des uploads..."
+ssh "$SSH_TARGET" "cat > /etc/cron.d/nexus-backup <<'EOF'
+# Backup quotidien des uploads (03:00 heure serveur)
+0 3 * * * $APP_RUNTIME_USER cd $APP_DIR && bash scripts/backup-uploads.sh >> /var/log/nexus-backup.log 2>&1
+EOF
+chmod 644 /etc/cron.d/nexus-backup
+systemctl reload cron 2>/dev/null || service cron reload 2>/dev/null || true
+cat /etc/cron.d/nexus-backup"
+
 # --- 8. Restart PM2 ---
 echo "[8/8] Redémarrage des services PM2..."
 ssh "$SSH_TARGET" "for app in eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker; do pm2 delete \"\$app\" 2>/dev/null || true; done"
+ssh "$SSH_TARGET" "fuser -k 3100/tcp 2>/dev/null || true; sleep 2"
 ssh "$SSH_TARGET" "cd $APP_DIR && sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
 ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save"
 

@@ -101,3 +101,5 @@ docs/FINAL_*/
 docs/golden_tests_*/
 .env.test
 docs/eaf_arborescence_prod.txt
+vercel.json
+netlify.toml
