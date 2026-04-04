@@ -48,12 +48,12 @@ export async function GET(request: Request) {
           createdAt: {
             gte: startOfMonth,
           },
-          status: 'completed',
+          status: 'done',
         },
       }),
 
       // Tutor questions today
-      prisma.memoryEntry.count({
+      prisma.memoryEvent.count({
         where: {
           userId,
           createdAt: {
@@ -64,7 +64,7 @@ export async function GET(request: Request) {
       }),
 
       // LLM tokens today (mock - would need to be tracked)
-      prisma.memoryEntry.count({
+      prisma.memoryEvent.count({
         where: {
           userId,
           createdAt: {
@@ -74,7 +74,7 @@ export async function GET(request: Request) {
       }),
 
       // RAG searches today
-      prisma.memoryEntry.count({
+      prisma.memoryEvent.count({
         where: {
           userId,
           createdAt: {

@@ -18,25 +18,29 @@ export async function PATCH(request: Request) {
       );
     }
 
-    // Update user role to suspended
-    const user = await prisma.user.update({
+    const user = await prisma.user.findUnique({
       where: { id: userId },
-      data: {
-        role: 'suspended',
-        updatedAt: new Date(),
-      },
     });
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Utilisateur introuvable' },
+        { status: 404 }
+      );
+    }
 
-    // Pause subscription if exists
-    if (user.id) {
-      await prisma.subscription.updateMany({
+    // Revoke active sessions and pause subscription if exists (instead of changing role)
+    await prisma.$transaction([
+      prisma.session.deleteMany({
         where: { userId: user.id },
+      }),
+      prisma.subscription.updateMany({
+        where: { userId },
         data: {
           status: 'PAUSED',
           updatedAt: new Date(),
         },
-      });
-    }
+      }),
+    ]);
 
     return NextResponse.json({
       success: true,

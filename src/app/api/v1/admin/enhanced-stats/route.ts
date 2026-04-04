@@ -32,7 +32,6 @@ export async function GET() {
           id: true,
           email: true,
           createdAt: true,
-          lastLoginAt: true,
           subscription: {
             select: {
               plan: true,
@@ -104,7 +103,7 @@ export async function GET() {
       // Churned users (cancelled subscription this month)
       prisma.subscription.count({
         where: {
-          status: 'CANCELLED',
+          status: 'CANCELED',
           updatedAt: {
             gte: startOfMonth,
           },
