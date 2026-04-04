@@ -196,9 +196,8 @@ server {
 module.exports = {
   apps: [
     {
-      name: 'eaf-nextjs',      // App principale
-      script: 'node_modules/next/dist/bin/next',
-      args: 'start',
+      name: 'eaf-nextjs-blue', // App principale (slot actif par défaut)
+      script: '.next/standalone/server.js',
       instances: 1,
       max_memory_restart: '1536M',
       env_production: { NODE_ENV: 'production', PORT: 3000 }
@@ -231,16 +230,16 @@ pm2 start ecosystem.config.cjs --env production
 pm2 status
 
 # Logs temps réel
-pm2 logs eaf-nextjs --lines 50
+pm2 logs eaf-nextjs-blue --lines 50
 
 # Redémarrer une app
-pm2 reload eaf-nextjs
+pm2 reload eaf-nextjs-blue
 
 # Arrêter toutes les apps
 pm2 stop all
 
 # Supprimer du process list
-pm2 delete eaf-nextjs
+pm2 delete eaf-nextjs-blue
 
 # Sauvegarder config courante
 pm2 save

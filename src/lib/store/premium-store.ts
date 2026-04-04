@@ -1,8 +1,6 @@
 import { randomUUID } from 'node:crypto';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
 import { Prisma, SkillTrend, WeakStatus, type EafSkill, type RevisionPhase as PrismaRevisionPhase, type WeakSeverity } from '@prisma/client';
-import { isDatabaseAvailable, prisma } from '@/lib/db/client';
+import { assertDatabaseAvailable, isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 import type { WeeklyReport } from '@/lib/types/premium';
@@ -73,8 +71,6 @@ export type PremiumStore = {
   diagnostics: Record<string, unknown[]>;
   weeklyReports: Record<string, WeeklyReport[]>;
 };
-
-const STORE_PATH = path.resolve(process.cwd(), '.data/premium-store.json');
 
 const DEFAULT_PROFILE_DATA = {
   displayName: 'Élève',
@@ -149,48 +145,6 @@ const SKILL_TO_MICRO_FALLBACK: Partial<Record<EafSkill, string>> = {
   TRANS_CULTURE_GENERALE: 'oeuvres_reperes',
 };
 
-let memoryStore: PremiumStore = {
-  errorBankV2: [],
-  skillMaps: {},
-  plansByStudent: {},
-  diagnostics: {},
-  weeklyReports: {},
-};
-
-let queue: Promise<void> = Promise.resolve();
-
-function withLock<T>(fn: () => Promise<T>): Promise<T> {
-  const next = queue.then(fn, fn);
-  queue = next.then(() => undefined, () => undefined);
-  return next;
-}
-
-async function ensureDataDir(): Promise<void> {
-  await fs.mkdir(path.dirname(STORE_PATH), { recursive: true });
-}
-
-async function loadStoreFromDisk(): Promise<PremiumStore> {
-  await ensureDataDir();
-  try {
-    const raw = await fs.readFile(STORE_PATH, 'utf8');
-    const parsed = JSON.parse(raw) as Partial<PremiumStore>;
-    return {
-      errorBankV2: parsed.errorBankV2 ?? [],
-      skillMaps: parsed.skillMaps ?? {},
-      plansByStudent: parsed.plansByStudent ?? {},
-      diagnostics: parsed.diagnostics ?? {},
-      weeklyReports: parsed.weeklyReports ?? {},
-    };
-  } catch {
-    return memoryStore;
-  }
-}
-
-async function saveStoreToDisk(store: PremiumStore): Promise<void> {
-  await ensureDataDir();
-  await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2), 'utf8');
-}
-
 function addDays(baseIso: string, days: number): string {
   const d = new Date(baseIso);
   d.setUTCDate(d.getUTCDate() + days);
@@ -239,6 +193,10 @@ function mapMicroSkill(microSkillId: string): { axis: SkillAxis; skill: EafSkill
 
 function mapStoredMicroSkill(microSkillKey: string | null, skill: EafSkill): string {
   return microSkillKey ?? SKILL_TO_MICRO_FALLBACK[skill] ?? 'methode_temps';
+}
+
+async function assertPremiumJsonFallbackAllowed() {
+  await assertDatabaseAvailable('premium-store JSON fallback interdit en production');
 }
 
 function skillTrend(previousScore: number | null, nextScore: number): SkillTrend {
@@ -388,18 +346,9 @@ function weakSeverityForError(input: {
 }
 
 export async function writePremiumStore(updater: (current: PremiumStore) => PremiumStore): Promise<void> {
-  if (process.env.NODE_ENV === 'production') {
-    logger.warn(
-      { store: 'premium-store', path: STORE_PATH },
-      '[FALLBACK] writePremiumStore: DB unavailable in production — falling back to JSON. This should not happen with a healthy DB connection.',
-    );
-  }
-  await withLock(async () => {
-    const current = await loadStoreFromDisk();
-    const next = updater(current);
-    memoryStore = next;
-    await saveStoreToDisk(next);
-  });
+  void updater;
+  await assertPremiumJsonFallbackAllowed();
+  throw new Error('writePremiumStore n\'est plus disponible sans PostgreSQL.');
 }
 
 export async function addErrorBankItem(input: {
@@ -455,18 +404,8 @@ export async function addErrorBankItem(input: {
     return item;
   }
 
-  if (process.env.NODE_ENV === 'production') {
-    logger.warn(
-      { studentId: input.studentId, fn: 'addErrorBankItem' },
-      '[FALLBACK] addErrorBankItem: could not resolve profileId — writing to JSON fallback. Check DB connection and user record.',
-    );
-  }
-  await writePremiumStore((current) => ({
-    ...current,
-    errorBankV2: [...current.errorBankV2, item],
-  }));
-
-  return item;
+  await assertPremiumJsonFallbackAllowed();
+  throw new Error(`Profil introuvable pour premium-store: ${input.studentId}`);
 }
 
 export async function recordRevisionAttempt(errorId: string, attempt: RevisionAttempt): Promise<void> {
@@ -498,19 +437,8 @@ export async function recordRevisionAttempt(errorId: string, attempt: RevisionAt
     }
   }
 
-  await writePremiumStore((current) => ({
-    ...current,
-    errorBankV2: current.errorBankV2.map((item) => {
-      if (item.id !== errorId) return item;
-      const revisionHistory = [...item.revisionHistory, attempt];
-      const successCount = revisionHistory.filter((entry) => entry.success).length;
-      return {
-        ...item,
-        revisionHistory,
-        resolved: successCount >= 3 ? true : item.resolved,
-      };
-    }),
-  }));
+  await assertPremiumJsonFallbackAllowed();
+  throw new Error(`WeakSkillEntry introuvable pour revision: ${errorId}`);
 }
 
 export async function getErrorBankItems(studentId: string): Promise<ErrorBankItem[]> {
@@ -524,8 +452,8 @@ export async function getErrorBankItems(studentId: string): Promise<ErrorBankIte
     return items.map((entry) => mapWeakSkillRecordToItem(studentId, entry));
   }
 
-  const current = await loadStoreFromDisk();
-  return current.errorBankV2.filter((item) => item.studentId === studentId);
+  await assertPremiumJsonFallbackAllowed();
+  return [];
 }
 
 export async function getDueErrorBankItems(studentId: string): Promise<ErrorBankItem[]> {
@@ -551,16 +479,8 @@ export async function getOrCreateSkillMap(studentId: string): Promise<SkillMap> 
     return getSkillMapFromDb(studentId, profileId);
   }
 
-  const current = await loadStoreFromDisk();
-  const existing = current.skillMaps[studentId];
-  if (existing) return existing;
-
-  const created = createEmptySkillMap(studentId);
-  await writePremiumStore((store) => ({
-    ...store,
-    skillMaps: { ...store.skillMaps, [studentId]: created },
-  }));
-  return created;
+  await assertPremiumJsonFallbackAllowed();
+  throw new Error(`Profil introuvable pour skill map: ${studentId}`);
 }
 
 export async function updateSkillMap(
@@ -614,32 +534,8 @@ export async function updateSkillMap(
     return getSkillMapFromDb(studentId, profileId);
   }
 
-  const map = await getOrCreateSkillMap(studentId);
-  const next: SkillMap = {
-    ...map,
-    axes: { ...map.axes },
-    updatedAt: new Date().toISOString(),
-  };
-
-  for (const update of updates) {
-    const axis = inferAxis(update.microSkillId);
-    const boundedScore = Math.max(0, Math.min(1, update.score));
-    const index = next.axes[axis].findIndex((item) => item.microSkillId === update.microSkillId);
-    if (index >= 0) {
-      next.axes[axis][index] = { microSkillId: update.microSkillId, score: boundedScore };
-    } else {
-      next.axes[axis] = [...next.axes[axis], { microSkillId: update.microSkillId, score: boundedScore }];
-    }
-  }
-
-  await writePremiumStore((current) => ({
-    ...current,
-    skillMaps: {
-      ...current.skillMaps,
-      [studentId]: next,
-    },
-  }));
-  return next;
+  await assertPremiumJsonFallbackAllowed();
+  throw new Error(`Profil introuvable pour updateSkillMap: ${studentId}`);
 }
 
 export async function saveStudyPlan(plan: StudyPlan): Promise<void> {
@@ -658,10 +554,8 @@ export async function saveStudyPlan(plan: StudyPlan): Promise<void> {
     return;
   }
 
-  await writePremiumStore((current) => ({
-    ...current,
-    plansByStudent: { ...current.plansByStudent, [plan.studentId]: plan },
-  }));
+  await assertPremiumJsonFallbackAllowed();
+  throw new Error(`Profil introuvable pour study plan: ${plan.studentId}`);
 }
 
 export async function getPlan7Days(studentId: string): Promise<StudyPlan | null> {
@@ -674,8 +568,8 @@ export async function getPlan7Days(studentId: string): Promise<StudyPlan | null>
     return (snapshot?.payload as StudyPlan | null) ?? null;
   }
 
-  const current = await loadStoreFromDisk();
-  return current.plansByStudent[studentId] ?? null;
+  await assertPremiumJsonFallbackAllowed();
+  return null;
 }
 
 export async function saveDiagnosticResult(result: { studentId: string; id?: string; completedAt?: string; [key: string]: unknown }): Promise<void> {
@@ -692,16 +586,8 @@ export async function saveDiagnosticResult(result: { studentId: string; id?: str
     return;
   }
 
-  await writePremiumStore((current) => {
-    const currentList = current.diagnostics[result.studentId] ?? [];
-    return {
-      ...current,
-      diagnostics: {
-        ...current.diagnostics,
-        [result.studentId]: [...currentList, result],
-      },
-    };
-  });
+  await assertPremiumJsonFallbackAllowed();
+  throw new Error(`Profil introuvable pour diagnostic snapshot: ${result.studentId}`);
 }
 
 export async function getLatestWeeklyReport(studentId: string): Promise<WeeklyReport | null> {
@@ -715,9 +601,8 @@ export async function getLatestWeeklyReport(studentId: string): Promise<WeeklyRe
     return (report?.payload as WeeklyReport | null) ?? null;
   }
 
-  const current = await loadStoreFromDisk();
-  const reports = current.weeklyReports[studentId] ?? [];
-  return reports.length > 0 ? reports[reports.length - 1] : null;
+  await assertPremiumJsonFallbackAllowed();
+  return null;
 }
 
 export async function saveWeeklyReport(report: WeeklyReport): Promise<void> {
@@ -735,14 +620,6 @@ export async function saveWeeklyReport(report: WeeklyReport): Promise<void> {
     return;
   }
 
-  await writePremiumStore((current) => {
-    const list = current.weeklyReports[report.studentId] ?? [];
-    return {
-      ...current,
-      weeklyReports: {
-        ...current.weeklyReports,
-        [report.studentId]: [...list, report],
-      },
-    };
-  });
+  await assertPremiumJsonFallbackAllowed();
+  throw new Error(`Profil introuvable pour weekly report: ${report.studentId}`);
 }

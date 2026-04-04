@@ -6,6 +6,7 @@ const mockUpsert = vi.fn();
 
 vi.mock('@/lib/db/client', () => ({
   isDatabaseAvailable: vi.fn().mockResolvedValue(true),
+  assertDatabaseAvailable: vi.fn().mockResolvedValue(undefined),
   prisma: {
     user: {
       findUnique: (...args: unknown[]) => mockFindUnique(...args),

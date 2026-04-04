@@ -28,7 +28,7 @@ Conclusion: `local = origin = prod`.
 
 | Vérification | Résultat |
 | --- | --- |
-| PM2 EAF | `eaf-nextjs`, `eaf-mcp`, `eaf-worker` online après déploiement final |
+| PM2 EAF | `eaf-nextjs-blue` (ou `eaf-nextjs-green` selon slot), `eaf-mcp`, `eaf-worker` online après déploiement final |
 | Nginx | `nginx -t` OK pendant le déploiement final |
 | HTTPS | actif |
 | HSTS | présent |

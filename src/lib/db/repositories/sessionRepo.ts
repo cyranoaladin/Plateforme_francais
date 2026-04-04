@@ -1,6 +1,5 @@
 import { type SessionRecord } from '@/lib/auth/types';
-import { isDatabaseAvailable, prisma } from '@/lib/db/client';
-import { readFallbackStore, writeFallbackStore } from '@/lib/db/fallback-store';
+import { assertDatabaseAvailable, prisma } from '@/lib/db/client';
 
 function toSessionRecord(session: {
   token: string;
@@ -19,60 +18,36 @@ function toSessionRecord(session: {
 }
 
 export async function createSessionRecord(session: SessionRecord) {
-  if (await isDatabaseAvailable()) {
-    await prisma.session.create({
-      data: {
-        token: session.token,
-        userId: session.userId,
-        createdAt: new Date(session.createdAt),
-        expiresAt: new Date(session.expiresAt),
-        lastSeenAt: new Date(session.lastSeenAt),
-      },
-    });
-    return;
-  }
-
-  await writeFallbackStore((current) => ({
-    ...current,
-    sessions: [...current.sessions, session],
-  }));
+  await assertDatabaseAvailable('Base de données indisponible pour les sessions.');
+  await prisma.session.create({
+    data: {
+      token: session.token,
+      userId: session.userId,
+      createdAt: new Date(session.createdAt),
+      expiresAt: new Date(session.expiresAt),
+      lastSeenAt: new Date(session.lastSeenAt),
+    },
+  });
 }
 
 export async function findSessionByToken(token: string): Promise<SessionRecord | null> {
-  if (await isDatabaseAvailable()) {
-    const session = await prisma.session.findUnique({ where: { token } });
-    return session ? toSessionRecord(session) : null;
-  }
-
-  const store = await readFallbackStore();
-  return store.sessions.find((item) => item.token === token) ?? null;
+  await assertDatabaseAvailable('Base de données indisponible pour les sessions.');
+  const session = await prisma.session.findUnique({ where: { token } });
+  return session ? toSessionRecord(session) : null;
 }
 
 export async function listSessions(): Promise<SessionRecord[]> {
-  if (await isDatabaseAvailable()) {
-    const sessions = await prisma.session.findMany();
-    return sessions.map(toSessionRecord);
-  }
-
-  const store = await readFallbackStore();
-  return store.sessions;
+  await assertDatabaseAvailable('Base de données indisponible pour les sessions.');
+  const sessions = await prisma.session.findMany();
+  return sessions.map(toSessionRecord);
 }
 
 export async function touchSession(token: string) {
-  if (await isDatabaseAvailable()) {
-    await prisma.session.update({
-      where: { token },
-      data: { lastSeenAt: new Date() },
-    });
-    return;
-  }
-
-  await writeFallbackStore((current) => ({
-    ...current,
-    sessions: current.sessions.map((item) =>
-      item.token === token ? { ...item, lastSeenAt: new Date().toISOString() } : item,
-    ),
-  }));
+  await assertDatabaseAvailable('Base de données indisponible pour les sessions.');
+  await prisma.session.update({
+    where: { token },
+    data: { lastSeenAt: new Date() },
+  });
 }
 
 /**
@@ -81,47 +56,23 @@ export async function touchSession(token: string) {
  * Default: 3 active sessions max.
  */
 export async function enforceMaxSessions(userId: string, maxSessions: number = 3) {
-  if (await isDatabaseAvailable()) {
-    const sessions = await prisma.session.findMany({
-      where: { userId },
-      orderBy: { lastSeenAt: 'desc' },
-    });
-
-    if (sessions.length >= maxSessions) {
-      const tokensToDelete = sessions.slice(maxSessions - 1).map((s) => s.token);
-      if (tokensToDelete.length > 0) {
-        await prisma.session.deleteMany({
-          where: { token: { in: tokensToDelete } },
-        });
-      }
-    }
-    return;
-  }
-
-  await writeFallbackStore((current) => {
-    const userSessions = current.sessions
-      .filter((s) => s.userId === userId)
-      .sort((a, b) => new Date(b.lastSeenAt).getTime() - new Date(a.lastSeenAt).getTime());
-
-    if (userSessions.length >= maxSessions) {
-      const tokensToKeep = new Set(userSessions.slice(0, maxSessions - 1).map((s) => s.token));
-      return {
-        ...current,
-        sessions: current.sessions.filter((s) => s.userId !== userId || tokensToKeep.has(s.token)),
-      };
-    }
-    return current;
+  await assertDatabaseAvailable('Base de données indisponible pour les sessions.');
+  const sessions = await prisma.session.findMany({
+    where: { userId },
+    orderBy: { lastSeenAt: 'desc' },
   });
+
+  if (sessions.length >= maxSessions) {
+    const tokensToDelete = sessions.slice(maxSessions - 1).map((s) => s.token);
+    if (tokensToDelete.length > 0) {
+      await prisma.session.deleteMany({
+        where: { token: { in: tokensToDelete } },
+      });
+    }
+  }
 }
 
 export async function deleteSessionByToken(token: string) {
-  if (await isDatabaseAvailable()) {
-    await prisma.session.deleteMany({ where: { token } });
-    return;
-  }
-
-  await writeFallbackStore((current) => ({
-    ...current,
-    sessions: current.sessions.filter((item) => item.token !== token),
-  }));
+  await assertDatabaseAvailable('Base de données indisponible pour les sessions.');
+  await prisma.session.deleteMany({ where: { token } });
 }

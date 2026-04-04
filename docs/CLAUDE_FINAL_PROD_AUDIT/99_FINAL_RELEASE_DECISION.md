@@ -8,7 +8,7 @@
 | SHA origin | `b06cfbbb26389b7ec4438d8bfa206a50c2da039d` |
 | SHA prod | `b06cfbb` |
 | Heure de build servie | `2026-03-24T06:44:22Z` |
-| PM2 | `eaf-nextjs`, `eaf-mcp`, `eaf-worker` online |
+| PM2 | `eaf-nextjs-blue` (ou `eaf-nextjs-green` selon slot), `eaf-mcp`, `eaf-worker` online |
 | Nginx | OK, HTTPS + HSTS + CSP |
 | PostgreSQL | `24 migrations found`, aucune pending |
 | Redis | OK |

@@ -13,6 +13,8 @@ DOMAIN="eaf.nexusreussite.academy"
 APP_DIR="/opt/eaf_platform"
 RESSOURCES_DIR="/srv/eaf_ressources"
 BRANCH="${DEPLOY_BRANCH:-main}"
+APP_RUNTIME_USER="${APP_RUNTIME_USER:-nexus}"
+APP_RUNTIME_HOME="${APP_RUNTIME_HOME:-/opt/nexus}"
 SSH_TARGET="${1:?Usage: $0 user@host [--first-run]}"
 FIRST_RUN="${2:-}"
 
@@ -86,8 +88,11 @@ echo "  ✅ Code synchronisé"
 echo "[1a/8] Nettoyage artefacts non-production..."
 ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv .vscode .windsurf .windsurf_audit_logs .windsurfrules .superpowers forensics .claude UI_UX .env.test .vitest-unit-report.json coverage test-results tests dist .worktrees 2>/dev/null; find packages/mcp-server/dist \\( -name '*.js.map' -o -name '*.d.ts.map' \\) -exec rm -f {} + 2>/dev/null || true; rm -f create-pr-branch.sh test-admin.sh test-manual-flow.sh eaf.code-workspace proxy.ts stryker.conf.json tsconfig.tsbuildinfo 2>/dev/null; rm -f scripts/run-all-tests.sh scripts/test-production-locale.sh scripts/test-402-live.sh _*.ts 2>/dev/null; rm -f *.log 2>/dev/null; echo '  ✅ Artefacts nettoyés'"
 
-echo "[1b/8] Sécurisation des secrets post-sync..."
-ssh "$SSH_TARGET" "chmod 600 $APP_DIR/.env $APP_DIR/.env.local $APP_DIR/packages/mcp-server/.env 2>/dev/null || true; rm -f $APP_DIR/.env.backup 2>/dev/null || true; echo '  ✅ Permissions secrets 600 appliquées'"
+echo "[1b/8] Préparation de l'utilisateur runtime..."
+ssh "$SSH_TARGET" "id -u $APP_RUNTIME_USER >/dev/null 2>&1 || useradd -r -m -d $APP_RUNTIME_HOME -s /bin/bash $APP_RUNTIME_USER; mkdir -p $APP_RUNTIME_HOME/.pm2 /var/log/pm2 $APP_DIR/.data/uploads $APP_DIR/.data/migration-backups; chown -R $APP_RUNTIME_USER:$APP_RUNTIME_USER $APP_RUNTIME_HOME /var/log/pm2 $APP_DIR/.data/uploads $APP_DIR/.data/migration-backups; chown -R root:$APP_RUNTIME_USER $APP_DIR; chmod -R g+rX $APP_DIR; echo '  ✅ Runtime user prêt'"
+
+echo "[1c/8] Sécurisation des secrets post-sync..."
+ssh "$SSH_TARGET" "chown root:$APP_RUNTIME_USER $APP_DIR/.env $APP_DIR/.env.local $APP_DIR/packages/mcp-server/.env 2>/dev/null || true; chmod 640 $APP_DIR/.env $APP_DIR/.env.local $APP_DIR/packages/mcp-server/.env 2>/dev/null || true; rm -f $APP_DIR/.env.backup 2>/dev/null || true; echo '  ✅ Permissions secrets 640 appliquées'"
 
 echo "[1b/8] Préparation du volume ressources durable (symlink après build)..."
 ssh "$SSH_TARGET" "mkdir -p $RESSOURCES_DIR"
@@ -148,6 +153,9 @@ sudo -u postgres pg_dump -Fc "\$DB_NAME" > "\$BACKUP_FILE" 2>/dev/null || echo "
 
 npx prisma migrate deploy
 EOF
+
+echo "[4b/8] Archivage des file stores legacy..."
+ssh "$SSH_TARGET" "cd $APP_DIR && LEGACY_FILES='.data/memory-store.json .data/oral-sessions.json .data/premium-store.json .data/epreuves-store.json'; ACTIVE=''; for file in \$LEGACY_FILES; do if [ -f \$file ]; then ACTIVE=\"\$ACTIVE \$file\"; fi; done; if [ -n \"\${ACTIVE# }\" ]; then ARCHIVE_DIR=.data/migration-backups/\$(date +%Y%m%d_%H%M%S)_deploy_archive; mkdir -p \"\$ARCHIVE_DIR\"; mv \$ACTIVE \"\$ARCHIVE_DIR\"/; echo \"  Archived legacy stores to \$ARCHIVE_DIR\"; else echo '  No active legacy file stores'; fi"
 
 # --- 5. Build Next.js ---
 echo "[5/8] Build Next.js (production)..."
@@ -227,8 +235,9 @@ echo "  ✅ Symlink $APP_DIR/ressources → $RESSOURCES_DIR"
 
 # --- 8. Restart PM2 ---
 echo "[8/8] Redémarrage des services PM2..."
-ssh "$SSH_TARGET" "cd $APP_DIR && pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
-ssh "$SSH_TARGET" "pm2 save"
+ssh "$SSH_TARGET" "pm2 delete eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker 2>/dev/null || true"
+ssh "$SSH_TARGET" "cd $APP_DIR && sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
+ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save"
 
 # --- 9. Smoke test post-deploy ---
 echo "[9/9] Smoke test post-déploiement..."
@@ -252,6 +261,9 @@ else
   exit 1
 fi
 
+echo "  → Legacy file stores on active path"
+ssh "$SSH_TARGET" "cd $APP_DIR && ls .data/*.json 2>/dev/null || echo 'none'"
+
 echo ""
 echo "========================================="
 echo "  ✅ Déploiement terminé !"
@@ -261,7 +273,6 @@ echo "  🌐 https://$DOMAIN"
 echo ""
 echo "  Vérifications :"
 echo "    curl -s https://$DOMAIN/api/v1/health"
-echo "    ssh $SSH_TARGET 'pm2 status'"
-echo "    ssh $SSH_TARGET 'pm2 logs --lines 20'"
+echo "    ssh $SSH_TARGET 'sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 status'"
+echo "    ssh $SSH_TARGET 'sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 logs --lines 20'"
 echo ""
-

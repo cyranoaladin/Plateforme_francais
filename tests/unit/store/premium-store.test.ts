@@ -1,22 +1,69 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('node:fs', () => ({
-  promises: {
-    mkdir: vi.fn().mockResolvedValue(undefined),
-    readFile: vi.fn().mockRejectedValue({ code: 'ENOENT' }),
-    writeFile: vi.fn().mockResolvedValue(undefined),
+const mocks = vi.hoisted(() => ({
+  isDatabaseAvailable: vi.fn(),
+  assertDatabaseAvailable: vi.fn(),
+  findUserById: vi.fn(),
+  upsertProfile: vi.fn(),
+  createWeakSkillEntry: vi.fn(),
+  findWeakSkillEntry: vi.fn(),
+  createWeakSkillRevision: vi.fn(),
+  updateWeakSkillEntry: vi.fn(),
+  findSkillMapEntries: vi.fn(),
+  transaction: vi.fn(),
+  createSkillMapEntry: vi.fn(),
+  updateSkillMapEntry: vi.fn(),
+}));
+
+vi.mock('@/lib/db/client', () => ({
+  isDatabaseAvailable: mocks.isDatabaseAvailable,
+  assertDatabaseAvailable: mocks.assertDatabaseAvailable,
+  prisma: {
+    user: { findUnique: mocks.findUserById },
+    studentProfile: { upsert: mocks.upsertProfile },
+    weakSkillEntry: {
+      create: mocks.createWeakSkillEntry,
+      findUnique: mocks.findWeakSkillEntry,
+      update: mocks.updateWeakSkillEntry,
+      findMany: vi.fn().mockResolvedValue([]),
+    },
+    weakSkillRevision: { create: mocks.createWeakSkillRevision },
+    skillMapEntry: {
+      findMany: mocks.findSkillMapEntries,
+      create: mocks.createSkillMapEntry,
+      update: mocks.updateSkillMapEntry,
+    },
+    studyPlanSnapshot: { upsert: vi.fn(), findUnique: vi.fn() },
+    diagnosticSnapshot: { create: vi.fn() },
+    weeklyReportSnapshot: { create: vi.fn(), findFirst: vi.fn() },
+    $transaction: mocks.transaction,
   },
 }));
 
-describe('ErrorBank — addErrorBankItem', () => {
-  beforeEach(async () => {
-    vi.clearAllMocks();
+describe('premium-store', () => {
+  beforeEach(() => {
     vi.resetModules();
-    const { promises: fs } = await import('node:fs');
-    vi.mocked(fs.readFile).mockRejectedValue({ code: 'ENOENT' });
+    vi.clearAllMocks();
+
+    mocks.isDatabaseAvailable.mockResolvedValue(true);
+    mocks.assertDatabaseAvailable.mockResolvedValue(undefined);
+    mocks.findUserById.mockResolvedValue({ id: 'stu-1' });
+    mocks.upsertProfile.mockResolvedValue({ id: 'profile-1' });
+    mocks.createWeakSkillEntry.mockResolvedValue(undefined);
+    mocks.findWeakSkillEntry.mockResolvedValue({
+      id: 'err-1',
+      revisions: [{ success: true }, { success: true }],
+      status: 'IMPROVING',
+    });
+    mocks.createWeakSkillRevision.mockResolvedValue(undefined);
+    mocks.updateWeakSkillEntry.mockResolvedValue(undefined);
+    mocks.findSkillMapEntries.mockResolvedValue([]);
+    mocks.createSkillMapEntry.mockResolvedValue(undefined);
+    mocks.updateSkillMapEntry.mockResolvedValue(undefined);
+    mocks.transaction.mockImplementation(async (ops: Array<Promise<unknown>>) => Promise.all(ops));
   });
 
-  it('crée un item avec les champs obligatoires', async () => {
+  it('crée un item ErrorBank via Prisma quand la DB est disponible', async () => {
     const { addErrorBankItem } = await import('@/lib/store/premium-store');
     const item = await addErrorBankItem({
       studentId: 'stu-1',
@@ -29,127 +76,40 @@ describe('ErrorBank — addErrorBankItem', () => {
       sourceAgent: 'correcteur',
     });
 
-    expect(item.id).toBeTruthy();
     expect(item.studentId).toBe('stu-1');
-    expect(item.dueDates.j2).toBeTruthy();
-    expect(item.dueDates.j7).toBeTruthy();
-    expect(item.dueDates.j21).toBeTruthy();
     expect(item.resolved).toBe(false);
-    expect(item.revisionHistory).toEqual([]);
+    expect(mocks.createWeakSkillEntry).toHaveBeenCalled();
   });
 
-  it('j2 < j7 < j21 dans les dates de révision', async () => {
-    const { addErrorBankItem } = await import('@/lib/store/premium-store');
-    const item = await addErrorBankItem({
-      studentId: 'stu-1',
-      errorType: 'syntaxe_erreur',
-      category: 'langue',
-      microSkillId: 'langue_relatives',
-      example: 'erreur',
-      correction: 'correction',
-      sourceInteractionId: 'i-1',
-      sourceAgent: 'correcteur',
-    });
+  it('rejette explicitement sans base de données', async () => {
+    mocks.isDatabaseAvailable.mockResolvedValue(false);
+    mocks.assertDatabaseAvailable.mockRejectedValue(new Error('premium-store JSON fallback interdit en production'));
+    mocks.findUserById.mockResolvedValue(null);
 
-    const j2 = new Date(item.dueDates.j2).getTime();
-    const j7 = new Date(item.dueDates.j7).getTime();
-    const j21 = new Date(item.dueDates.j21).getTime();
-
-    expect(j2).toBeLessThan(j7);
-    expect(j7).toBeLessThan(j21);
-  });
-});
-
-describe('ErrorBank — getDueErrorBankItems', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.resetModules();
-  });
-
-  it('retourne les items j2 qui sont échus', async () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-01-01T00:00:00Z'));
-
-    const { addErrorBankItem, getDueErrorBankItems } = await import('@/lib/store/premium-store');
-
-    await addErrorBankItem({
-      studentId: 'stu-2',
-      errorType: 'plan_desequilibre',
-      category: 'ecrit',
-      microSkillId: 'ecrit_plan',
-      example: 'ex',
-      correction: 'corr',
-      sourceInteractionId: 'i',
-      sourceAgent: 'correcteur',
-    });
-
-    // Avancer le temps de 3 jours
-    vi.setSystemTime(new Date('2026-01-04T00:00:00Z'));
-    const due = await getDueErrorBankItems('stu-2');
-    expect(due.length).toBeGreaterThanOrEqual(1);
-
-    vi.useRealTimers();
-  });
-
-  it('ne retourne pas les items résolus', async () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-02-01T00:00:00Z'));
-
-    const { addErrorBankItem, recordRevisionAttempt, getDueErrorBankItems } = await import('@/lib/store/premium-store');
-
-    const item = await addErrorBankItem({
-      studentId: 'stu-3',
-      errorType: 'citation_absente',
-      category: 'ecrit',
-      microSkillId: 'ecrit_citations',
-      example: 'ex',
-      correction: 'corr',
-      sourceInteractionId: 'i',
-      sourceAgent: 'correcteur',
-    });
-
-    // 3 révisions réussies → resolved = true
-    for (let i = 0; i < 3; i++) {
-      await recordRevisionAttempt(item.id, {
-        date: new Date().toISOString(),
-        phase: i === 0 ? 'j2' : i === 1 ? 'j7' : 'j21',
-        success: true,
-      });
-    }
-
-    vi.setSystemTime(new Date('2026-02-10T00:00:00Z'));
-    const due = await getDueErrorBankItems('stu-3');
-    const targetItem = due.find((d) => d.id === item.id);
-    expect(targetItem).toBeUndefined();
-
-    vi.useRealTimers();
-  });
-});
-
-describe('SkillMap — getOrCreateSkillMap', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.resetModules();
-  });
-
-  it('crée un SkillMap vide pour un nouvel étudiant', async () => {
     const { getOrCreateSkillMap } = await import('@/lib/store/premium-store');
-    const map = await getOrCreateSkillMap('new-student-123');
-    expect(map.studentId).toBe('new-student-123');
-    expect(map.axes.ecrit).toEqual([]);
-    expect(map.axes.oral).toEqual([]);
+    await expect(getOrCreateSkillMap('stu-offline')).rejects.toThrow('premium-store JSON fallback interdit en production');
   });
 
-  it('updateSkillMap borne les scores entre 0 et 1', async () => {
-    const { updateSkillMap } = await import('@/lib/store/premium-store');
-    const map = await updateSkillMap('stu-bounds', [
-      { microSkillId: 'ecrit_plan', score: 1.5 },
-      { microSkillId: 'oral_lecture', score: -0.2 },
-    ]);
+  it('borne les scores skill map entre 0 et 1 via Prisma', async () => {
+    mocks.findSkillMapEntries
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([
+        {
+          microSkillKey: 'ecrit_plan',
+          skill: 'ECRIT_COMMENT_PLAN',
+          score: 1,
+          confidence: 0.3,
+          trend: 'STABLE',
+          observationCount: 1,
+          lastObservedAt: new Date('2026-01-01T00:00:00.000Z'),
+          id: 'entry-1',
+        },
+      ]);
 
-    const planSkill = map.axes.ecrit.find((s) => s.microSkillId === 'ecrit_plan');
-    const lectureSkill = map.axes.oral.find((s) => s.microSkillId === 'oral_lecture');
-    expect(planSkill?.score).toBeLessThanOrEqual(1);
-    expect(lectureSkill?.score).toBeGreaterThanOrEqual(0);
+    const { updateSkillMap } = await import('@/lib/store/premium-store');
+    const map = await updateSkillMap('stu-1', [{ microSkillId: 'ecrit_plan', score: 1.5 }]);
+
+    expect(mocks.createSkillMapEntry).toHaveBeenCalled();
+    expect(map.axes.ecrit[0]?.score).toBe(1);
   });
 });

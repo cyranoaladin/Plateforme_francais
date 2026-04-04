@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
+import { access, readFile } from 'node:fs/promises';
 import path from 'path';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
@@ -23,15 +23,19 @@ function getEffectiveVoiceMode(): string {
   return 'browser';
 }
 
-function readLocalReleaseValue(fileName: string): string | null {
+async function readLocalReleaseValue(fileName: string): Promise<string | null> {
   try {
     const appRoot = process.env.APP_ROOT?.trim();
     if (!appRoot) return null;
     const candidates = [path.join(path.resolve(appRoot), fileName)];
 
     for (const filePath of candidates) {
-      if (!fs.existsSync(filePath)) continue;
-      const raw = fs.readFileSync(filePath, 'utf8').trim();
+      try {
+        await access(filePath);
+      } catch {
+        continue;
+      }
+      const raw = (await readFile(filePath, 'utf8')).trim();
       if (raw) return raw;
     }
 
@@ -105,6 +109,11 @@ export async function GET() {
   // En CI (HEALTH_CHECK_READY=true), toujours retourner 200 si DB + Redis ok
   const isCiReady = process.env.HEALTH_CHECK_READY === 'true';
 
+  const [gitSha, buildTime] = await Promise.all([
+    readLocalReleaseValue('.git_sha'),
+    readLocalReleaseValue('.build_time'),
+  ]);
+
   return NextResponse.json(
     {
       status,
@@ -113,8 +122,8 @@ export async function GET() {
       isCiReady,
       timestamp: new Date().toISOString(),
       release: {
-        gitSha: readLocalReleaseValue('.git_sha') ?? process.env['BUILD_GIT_SHA'] ?? 'unknown',
-        buildTime: readLocalReleaseValue('.build_time') ?? process.env['BUILD_TIME'] ?? 'unknown',
+        gitSha: gitSha ?? process.env['BUILD_GIT_SHA'] ?? 'unknown',
+        buildTime: buildTime ?? process.env['BUILD_TIME'] ?? 'unknown',
         nodeEnv: process.env['NODE_ENV'] ?? 'unknown',
       },
       env: envStatus,
@@ -128,4 +137,3 @@ export async function GET() {
     { status: httpStatus },
   );
 }
-

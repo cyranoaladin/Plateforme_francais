@@ -23,4 +23,12 @@ describe('scripts/deploy.sh', () => {
 
     expect(script).toContain('npx prisma generate --schema=prisma/schema.prisma');
   });
+
+  it('runs PM2 under the dedicated nexus runtime user', () => {
+    const script = readFileSync(resolve(process.cwd(), 'scripts/deploy.sh'), 'utf8');
+
+    expect(script).toContain('APP_RUNTIME_USER="${APP_RUNTIME_USER:-nexus}"');
+    expect(script).toContain('sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env');
+    expect(script).toContain('sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save');
+  });
 });

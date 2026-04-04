@@ -44,14 +44,14 @@ Visible dans :
 
 1. **Santé** : `curl -s https://eaf.nexusreussite.academy/api/v1/health` → vérifier `status:"ok"`, `release.gitSha`, `voice.effectiveVoiceMode`
 2. **PM2** : `pm2 list | grep eaf` — vérifier que les 3 processus EAF sont `online`
-3. **Logs erreurs** : `pm2 logs eaf-nextjs --lines 50 --nostream | grep -i error`
+3. **Logs erreurs** : `pm2 logs eaf-nextjs-blue --lines 50 --nostream | grep -i error`
 4. **Sessions orales** : vérifier qu'aucune session ne reste en `PASSAGE_RUNNING` > 1h
 
 Si mode server actif :
 5. **Coûts OpenAI** : vérifier le dashboard OpenAI pour Whisper/TTS
-6. **Fallback rate** : `pm2 logs eaf-nextjs --nostream | grep 'audio-turn.fallback' | wc -l`
-7. **Latence** : `pm2 logs eaf-nextjs --nostream | grep 'audio-turn.completed'` → vérifier `totalLatencyMs`
-8. **Erreurs STT** : `pm2 logs eaf-nextjs --nostream | grep 'audio-turn.stt.error' | wc -l`
+6. **Fallback rate** : `pm2 logs eaf-nextjs-blue --nostream | grep 'audio-turn.fallback' | wc -l`
+7. **Latence** : `pm2 logs eaf-nextjs-blue --nostream | grep 'audio-turn.completed'` → vérifier `totalLatencyMs`
+8. **Erreurs STT** : `pm2 logs eaf-nextjs-blue --nostream | grep 'audio-turn.stt.error' | wc -l`
 
 ## Symptomes critiques et actions
 
@@ -82,7 +82,7 @@ Si mode server actif :
 | 2 | Budget API Whisper/TTS validé par le product owner | Accord écrit (email/Slack) | OUI |
 | 3 | Seuil budgétaire quotidien défini | Montant convenu en euros/jour | OUI |
 | 4 | Personne responsable identifiée | Nom + moyen de contact d'urgence | OUI |
-| 5 | Logs accessibles pour monitoring | `pm2 logs eaf-nextjs --lines 5` fonctionne | OUI |
+| 5 | Logs accessibles pour monitoring | `pm2 logs eaf-nextjs-blue --lines 5` fonctionne | OUI |
 | 6 | Health endpoint opérationnel | `/api/v1/health` → `status: "ok"` | OUI |
 
 ### Variables d'environnement requises
@@ -116,15 +116,15 @@ echo 'OPENAI_API_KEY=sk-...' >> .env
 echo 'ORAL_VOICE_MODE=server' >> .env
 
 # 3. Redémarrer le processus (delete+start OBLIGATOIRE, pas restart)
-pm2 delete eaf-nextjs
-pm2 start ecosystem.config.cjs --only eaf-nextjs --env production
+pm2 delete eaf-nextjs-blue
+pm2 start ecosystem.config.cjs --only eaf-nextjs-blue --env production
 pm2 save
 
 # 4. Attendre 5s que le processus démarre
 sleep 5
 
 # 5. Vérifier que les env vars sont chargées
-pm2 env $(pm2 id eaf-nextjs) | grep ORAL_VOICE_MODE
+pm2 env $(pm2 id eaf-nextjs-blue) | grep ORAL_VOICE_MODE
 # → doit afficher : ORAL_VOICE_MODE: server
 
 # 6. Vérifier le health endpoint
@@ -150,7 +150,7 @@ curl -s https://eaf.nexusreussite.academy/api/v1/health | python3 -m json.tool
 # d) Enregistrer un audio de 5-10 secondes via le micro
 # e) Soumettre : le transcript doit revenir du serveur (pas de fallback)
 # f) L'audio jury doit être audible (pas le speechSynthesis du navigateur)
-# g) Vérifier les logs : pm2 logs eaf-nextjs --lines 20 --nostream
+# g) Vérifier les logs : pm2 logs eaf-nextjs-blue --lines 20 --nostream
 #    → chercher "audio-turn.completed" avec sttOk:true, ttsOk:true
 ```
 
@@ -158,7 +158,7 @@ curl -s https://eaf.nexusreussite.academy/api/v1/health | python3 -m json.tool
 
 Avant d'annoncer publiquement le mode serveur :
 1. Tester avec 1-2 utilisateurs internes pendant 24h
-2. Surveiller les logs : `pm2 logs eaf-nextjs --nostream | grep audio-turn`
+2. Surveiller les logs : `pm2 logs eaf-nextjs-blue --nostream | grep audio-turn`
 3. Vérifier qu'aucun `audio-turn.fallback` n'apparaît
 4. Mesurer la latence via les logs (`totalLatencyMs`)
 5. Vérifier le coût OpenAI sur le dashboard après 24h
@@ -200,12 +200,12 @@ cd /opt/eaf_platform
 sed -i '/^ORAL_VOICE_MODE/d' .env
 
 # Étape 2 — Redémarrer (delete+start obligatoire pour rafraîchir l'env PM2)
-pm2 delete eaf-nextjs
-pm2 start ecosystem.config.cjs --only eaf-nextjs --env production
+pm2 delete eaf-nextjs-blue
+pm2 start ecosystem.config.cjs --only eaf-nextjs-blue --env production
 pm2 save
 
 # Étape 3 — Vérifier
-pm2 env $(pm2 id eaf-nextjs) | grep ORAL_VOICE_MODE
+pm2 env $(pm2 id eaf-nextjs-blue) | grep ORAL_VOICE_MODE
 # Ne doit rien afficher
 
 # Étape 4 — Vérifier le health endpoint
@@ -241,4 +241,3 @@ Pour vérifier que le bon code est déployé :
 ```bash
 curl -s https://eaf.nexusreussite.academy/api/v1/health | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'SHA: {d[\"release\"][\"gitSha\"]}  Build: {d[\"release\"][\"buildTime\"]}')"
 ```
-

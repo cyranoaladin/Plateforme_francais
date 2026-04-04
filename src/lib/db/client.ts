@@ -36,6 +36,12 @@ export async function isDatabaseAvailable(): Promise<boolean> {
   }
 }
 
+export async function assertDatabaseAvailable(message = 'Base de données indisponible.'): Promise<void> {
+  if (!await isDatabaseAvailable()) {
+    throw new Error(message);
+  }
+}
+
 export function resetDatabaseAvailabilityCache() {
   availabilityCache = null;
 }

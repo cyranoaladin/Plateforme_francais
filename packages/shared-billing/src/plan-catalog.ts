@@ -80,10 +80,10 @@ export const PLAN_CATALOG: Record<InternalPlanId, PlanConfig> = {
       ORAL_SESSIONS: { limit: 1, period: 'month' },
       WRITTEN_CORRECTIONS: { limit: 2, period: 'month' },
       TUTOR_QUESTIONS: { limit: 3, period: 'day' },
-      OCR_COPIES: { limit: 1, period: 'month' },
+      OCR_COPIES: { limit: 0, period: 'month' },
       LLM_TOKENS: { limit: 8_000, period: 'day' },
       RAG_SEARCH: { limit: 50, period: 'day' },
-      QUIZ_PER_DAY: { limit: 5, period: 'day' },
+      QUIZ_PER_DAY: { limit: 3, period: 'day' },
     },
     flags: {
       ORAL_PDF_REPORT: false,

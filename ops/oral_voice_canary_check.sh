@@ -14,6 +14,7 @@ set -euo pipefail
 DOMAIN="${1:-eaf.nexusreussite.academy}"
 LOG_LINES="${2:-200}"
 HEALTH_URL="https://$DOMAIN/api/v1/health"
+PM2_WEB_PREFIX="eaf-nextjs"
 ISSUES=0
 
 echo "============================================"
@@ -46,10 +47,12 @@ if [ "$REQ" = "server" ] && [ "$EFF" = "server" ] && [ "$STT" = "True" ]; then
 fi
 
 # ── 3. PM2 status ──
-echo -n "[3/4] PM2 eaf-nextjs... "
+echo -n "[3/4] PM2 web process... "
 if command -v pm2 &>/dev/null; then
-  PM2_STATUS=$(pm2 jlist 2>/dev/null | python3 -c "import sys,json; procs=json.load(sys.stdin); matches=[p for p in procs if p['name']=='eaf-nextjs']; print(matches[0]['pm2_env']['status'] if matches else 'missing')" 2>/dev/null || echo "?")
-  echo "$PM2_STATUS"
+  PM2_INFO=$(PM2_WEB_PREFIX="$PM2_WEB_PREFIX" pm2 jlist 2>/dev/null | python3 -c "import os,sys,json; prefix=os.environ.get('PM2_WEB_PREFIX','eaf-nextjs'); procs=json.load(sys.stdin); matches=[p for p in procs if p.get('name','').startswith(prefix)]; proc=matches[0] if matches else None; print(f\"{proc['name']}|{proc['pm2_env']['status']}\" if proc else 'missing|missing')" 2>/dev/null || echo "?|?")
+  PM2_NAME=${PM2_INFO%%|*}
+  PM2_STATUS=${PM2_INFO#*|}
+  echo "$PM2_NAME $PM2_STATUS"
   [ "$PM2_STATUS" != "online" ] && ISSUES=$((ISSUES+1))
 else
   echo "SKIP (run on server)"
@@ -59,7 +62,8 @@ fi
 echo ""
 echo "[4/4] Audio-turn log analysis (last $LOG_LINES lines)..."
 if command -v pm2 &>/dev/null; then
-  LOGS=$(pm2 logs eaf-nextjs --lines "$LOG_LINES" --nostream 2>/dev/null || echo "")
+  PM2_NAME=$(PM2_WEB_PREFIX="$PM2_WEB_PREFIX" pm2 jlist 2>/dev/null | python3 -c "import os,sys,json; prefix=os.environ.get('PM2_WEB_PREFIX','eaf-nextjs'); procs=json.load(sys.stdin); matches=[p for p in procs if p.get('name','').startswith(prefix)]; print(matches[0]['name'] if matches else '')" 2>/dev/null || echo "")
+  LOGS=$(pm2 logs "${PM2_NAME:-eaf-nextjs-blue}" --lines "$LOG_LINES" --nostream 2>/dev/null || echo "")
 
   COMPLETED=$(echo "$LOGS" | grep -c "audio-turn.completed" 2>/dev/null || echo "0")
   FALLBACKS=$(echo "$LOGS" | grep -c "audio-turn.fallback" 2>/dev/null || echo "0")

@@ -77,7 +77,7 @@ describe('GET /api/v1/health', () => {
     const data = await response.json();
 
     expect(response.status).toBe(503);
-    expect(data.status).toBe('down');
+    expect(data.status).toBe('critical');
     expect(data.checks.db).toBe('down');
   });
 
@@ -90,7 +90,7 @@ describe('GET /api/v1/health', () => {
     const data = await response.json();
 
     expect(response.status).toBe(503);
-    expect(data.status).toBe('down');
+    expect(data.status).toBe('critical');
     expect(data.checks.redis).toBe('down');
   });
 });

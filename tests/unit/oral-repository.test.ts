@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const {
   mockIsDatabaseAvailable,
+  mockAssertDatabaseAvailable,
   mockCreate,
   mockFindUnique,
   mockFindMany,
@@ -11,6 +12,7 @@ const {
   mockBilanUpsert,
 } = vi.hoisted(() => ({
   mockIsDatabaseAvailable: vi.fn(),
+  mockAssertDatabaseAvailable: vi.fn(),
   mockCreate: vi.fn(),
   mockFindUnique: vi.fn(),
   mockFindMany: vi.fn(),
@@ -22,6 +24,7 @@ const {
 
 vi.mock('@/lib/db/client', () => ({
   isDatabaseAvailable: mockIsDatabaseAvailable,
+  assertDatabaseAvailable: mockAssertDatabaseAvailable,
   prisma: {
     oralSession: {
       create: mockCreate,
@@ -52,6 +55,11 @@ vi.mock('@/lib/logger', () => ({
 describe('oral repository persistence', () => {
   beforeEach(() => {
     mockIsDatabaseAvailable.mockResolvedValue(true);
+    mockAssertDatabaseAvailable.mockImplementation(async (message?: string) => {
+      if (!await mockIsDatabaseAvailable()) {
+        throw new Error(message ?? 'db down');
+      }
+    });
     mockCreate.mockReset();
     mockFindUnique.mockReset();
     mockFindMany.mockReset();
@@ -73,7 +81,7 @@ describe('oral repository persistence', () => {
       oeuvre: 'Manon Lescaut',
       extrait: 'Extrait',
       questionGrammaire: 'Question',
-    })).rejects.toThrow('Base de données indisponible en production');
+    })).rejects.toThrow('Base de données indisponible pour les sessions orales.');
     expect(mockCreate).not.toHaveBeenCalled();
   });
 

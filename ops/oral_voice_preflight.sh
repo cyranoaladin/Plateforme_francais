@@ -13,6 +13,7 @@ set -euo pipefail
 DOMAIN="${1:-eaf.nexusreussite.academy}"
 HEALTH_URL="https://$DOMAIN/api/v1/health"
 APP_DIR="/opt/eaf_platform"
+PM2_WEB_PREFIX="eaf-nextjs"
 FAIL=0
 WARN=0
 
@@ -58,11 +59,13 @@ fi
 # ── 4. PM2 EAF processes ──
 echo -n "[4/8] PM2 EAF processes... "
 if command -v pm2 &>/dev/null; then
-  NEXTJS_STATUS=$(pm2 jlist 2>/dev/null | python3 -c "import sys,json; procs=json.load(sys.stdin); matches=[p for p in procs if p['name']=='eaf-nextjs']; print(matches[0]['pm2_env']['status'] if matches else 'not_found')" 2>/dev/null || echo "unknown")
+  PM2_INFO=$(PM2_WEB_PREFIX="$PM2_WEB_PREFIX" pm2 jlist 2>/dev/null | python3 -c "import os,sys,json; prefix=os.environ.get('PM2_WEB_PREFIX','eaf-nextjs'); procs=json.load(sys.stdin); matches=[p for p in procs if p.get('name','').startswith(prefix)]; proc=matches[0] if matches else None; print(f\"{proc['name']}|{proc['pm2_env']['status']}\" if proc else 'not_found|not_found')" 2>/dev/null || echo "unknown|unknown")
+  NEXTJS_NAME=${PM2_INFO%%|*}
+  NEXTJS_STATUS=${PM2_INFO#*|}
   if [ "$NEXTJS_STATUS" = "online" ]; then
-    echo "OK (eaf-nextjs: online)"
+    echo "OK ($NEXTJS_NAME: online)"
   else
-    echo "FAIL (eaf-nextjs: $NEXTJS_STATUS)"
+    echo "FAIL ($NEXTJS_NAME: $NEXTJS_STATUS)"
     FAIL=$((FAIL+1))
   fi
 else
