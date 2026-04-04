@@ -25,6 +25,24 @@ export type { CardProps, CardVariant, CardPadding } from './card';
 export { Badge } from './badge';
 export type { BadgeProps, BadgeVariant, BadgeSize } from './badge';
 
+export {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuGroup,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioGroup,
+} from './dropdown-menu';
+
 export { SectionHeader } from './section-header';
 export type { SectionHeaderProps, SectionHeaderSize } from './section-header';
 
