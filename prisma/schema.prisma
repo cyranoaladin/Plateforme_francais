@@ -75,7 +75,7 @@ model User {
   complianceLogs    ComplianceLog[]
   activationCodes   ActivationCode[]
   passwordResets PasswordResetToken[]
-  textesPrepares    TextePrepare[]
+  textesDescriptif  TexteDescriptif[]
   emailVerified      DateTime?
   emailVerifyToken   String?   @unique
   emailVerifyExpiry  DateTime?
@@ -162,7 +162,6 @@ model StudentProfile {
   weeklyReports       WeeklyReportSnapshot[]
   documentDeposits    DocumentDeposit[]
   agentInteractions   AgentInteraction[]
-  descriptifTextes    DescriptifTexte[]
   carnetEntries       CarnetEntry[]
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
@@ -246,6 +245,20 @@ enum OralSessionStatus {
 enum OralMode {
   SIMULATION
   FREE_PRACTICE
+}
+
+enum ObjetEtude {
+  POESIE
+  THEATRE
+  LITTERATURE_IDEES
+  ROMAN_RECIT
+}
+
+enum TypeTexteDescriptif {
+  EXTRAIT_OEUVRE
+  EXTRAIT_PARCOURS
+  LECTURE_CURSIVE
+  OEUVRE_CHOISIE_ENTRETIEN
 }
 
 enum Voie {
@@ -380,6 +393,8 @@ model OralSession {
   id               String            @id @default(uuid())
   userId           String
   user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  texteDescriptifId String?
+  texteDescriptif  TexteDescriptif?  @relation(fields: [texteDescriptifId], references: [id], onDelete: SetNull)
   status           OralSessionStatus @default(DRAFT)
   mode             OralMode          @default(SIMULATION)
   personaType      ExamPersona       @default(NEUTRE)
@@ -408,6 +423,7 @@ model OralSession {
   @@index([userId, createdAt])
   @@index([status])
   @@index([anneeScolaire])
+  @@index([texteDescriptifId])
 }
 
 model OralPhaseScore {
@@ -822,40 +838,31 @@ model AgentInteraction {
   @@index([agentType])
 }
 
-model DescriptifTexte {
-  id              String         @id @default(uuid())
-  studentId       String
-  student         StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  objetEtude      String
-  oeuvre          String
-  auteur          String
-  typeExtrait     String
-  titre           String
-  premieresLignes String?
-  createdAt       DateTime       @default(now())
+model TexteDescriptif {
+  id                String               @id @default(uuid())
+  userId            String
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  objetEtude        ObjetEtude
+  typeTexte         TypeTexteDescriptif
+  oeuvreAuteur      String
+  titreExtrait      String
+  incipit           String?
+  numeroPagesRef    String?
+  position          Int                  @default(0)
+  contenuTexte      String?              @db.Text
+  fichierPath       String?
+  fichierType       String?
+  parcourAssocie    String?
+  mouvements        Json?
+  notesPersonnelles String?              @db.Text
+  anneeScolaire     String               @default("2025-2026")
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  oralSessions      OralSession[]
 
-  @@index([studentId, objetEtude])
-}
-
-model TextePrepare {
-  id           String   @id @default(uuid())
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  // Infos obligatoires
-  oeuvreAuteur String   // "Cahier de Douai — Arthur Rimbaud"
-  titreExtrait String   // Titre ou incipit de l'extrait
-  
-  // Infos facultatives
-  incipit      String?  // Premiers mots de l'extrait
-  position     Int      @default(0) // Numéro dans le descriptif (1-16)
-  
-  // Métadonnées
-  anneeScolaire String  @default("2025-2026")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  
   @@index([userId])
+  @@index([userId, objetEtude])
+  @@index([userId, typeTexte])
   @@index([userId, anneeScolaire])
 }
 

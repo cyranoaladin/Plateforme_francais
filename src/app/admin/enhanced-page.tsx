@@ -479,7 +479,7 @@ export default function EnhancedAdminDashboard() {
               <Button
                 onClick={() => loadData()}
                 disabled={loading}
-                variant="outline"
+                variant="secondary"
                 className="flex items-center gap-2"
               >
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -757,7 +757,7 @@ export default function EnhancedAdminDashboard() {
                     <div className="flex gap-2">
                       <Button
                         onClick={exportUsers}
-                        variant="outline"
+                        variant="secondary"
                         className="flex items-center gap-2"
                       >
                         <Download className="w-4 h-4" />
@@ -785,7 +785,7 @@ export default function EnhancedAdminDashboard() {
                         <option value="lastLogin">Dernière connexion</option>
                       </select>
                       <Button
-                        variant="ghost"
+                        variant="secondary"
                         size="sm"
                         onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                       >
@@ -868,7 +868,7 @@ export default function EnhancedAdminDashboard() {
                             <td className="py-2 px-4">
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="sm">
+                                  <Button variant="secondary" size="sm">
                                     <MoreHorizontal className="w-4 h-4" />
                                   </Button>
                                 </DropdownMenuTrigger>
