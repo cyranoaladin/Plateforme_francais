@@ -1,6 +1,8 @@
 import { execSync } from 'child_process'
 import type { NextConfig } from 'next'
 
+const appRoot = process.cwd()
+
 function getGitSha(): string {
   // Prefer BUILD_GIT_SHA env var (injected by deploy.sh on server where .git is absent)
   if (process.env.BUILD_GIT_SHA && process.env.BUILD_GIT_SHA !== 'unknown') {
@@ -34,6 +36,15 @@ const nextConfig: NextConfig = {
   },
   // Skip static generation - use standalone server mode
   output: 'standalone',
+  // The pedagogical library is a durable volume mounted outside the build.
+  // It is restored as a symlink after deploy and must not be copied into standalone.
+  outputFileTracingExcludes: {
+    '*': [
+      'ressources/**/*',
+      '/srv/eaf_ressources/**/*',
+    ],
+  },
+  outputFileTracingRoot: appRoot,
   reactStrictMode: true,
   // Image optimization: SVG support + modern formats
   // dangerouslyAllowSVG is enabled for internal pedagogical illustrations
@@ -50,7 +61,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Next.js 16 defaults to Turbopack; empty config silences the
   // "webpack config without turbopack config" build error.
-  turbopack: {},
+  turbopack: {
+    root: appRoot,
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.alias['pdfjs-dist'] = false;
@@ -62,22 +75,6 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: SECURITY_HEADERS,
-      },
-      // Headers pour la lecture vidéo
-      {
-        source: '/ressources/:path*',
-        headers: [
-          {
-            key: 'Accept-Ranges',
-            value: 'bytes',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-          // Content-Type is determined dynamically by Nginx via mime.types
-          // (video/webm, video/mp4, application/pdf, etc.)
-        ],
       },
     ]
   },

@@ -6,8 +6,9 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { renderHtmlDocumentPdf } from '@/lib/pdf/document-html-pdf';
+import { getUploadsBaseDir } from '@/lib/storage/paths';
 
-const LOCAL_UPLOADS_DIR = path.resolve(process.cwd(), '.data/uploads');
+const LOCAL_UPLOADS_DIR = path.resolve(getUploadsBaseDir());
 
 function decodeStorageKey(paramsKey: string[]): string {
   return paramsKey.map((segment) => decodeURIComponent(segment)).join('/');

@@ -360,3 +360,16 @@ pm2 restart eaf-$PREVIOUS
 **Dernière mise à jour**: 2026-03-15
 **Version**: 1.0.0
 **Propriétaire**: DevOps Team
+## Monitoring externe
+
+### UptimeRobot
+- URL : https://eaf.nexusreussite.academy/api/v1/health
+- Interval : 5 minutes
+- Alerte : si `status != "ok"` ou HTTP != 200
+- Email alerte : contact@nexusreussite.academy
+
+### Alertes PM2
+```bash
+sudo -u nexus -H env PM2_HOME=/opt/nexus/.pm2 pm2 logs --lines 50
+sudo -u nexus -H env PM2_HOME=/opt/nexus/.pm2 pm2 list | grep -v online
+```

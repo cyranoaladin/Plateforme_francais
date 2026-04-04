@@ -14,6 +14,7 @@ import { getBillingContext } from '@/lib/billing/context';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { getStorageProvider } from '@/lib/storage/provider';
+import { resolveUploadsPath } from '@/lib/storage/paths';
 
 export enum PDFTemplate {
   BILAN_ORAL = 'bilan-oral',
@@ -49,7 +50,7 @@ export class BillingFeatureUnavailableError extends Error {
   }
 }
 
-const UPLOADS_DIR = path.resolve(process.cwd(), '.data/uploads/documents');
+const UPLOADS_DIR = path.resolve(resolveUploadsPath('documents'));
 
 /**
  * Ensure the uploads directory exists.

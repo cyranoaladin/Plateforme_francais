@@ -97,6 +97,7 @@ eaf_arborescence_*.txt
 
 # Internal docs not for prod
 UI_UX/
+docs/superpowers/plans/
 docs/V3_0_*/
 docs/WINDSURF_*/
 docs/FINAL_*/

@@ -1,13 +1,8 @@
-import { existsSync } from 'fs';
 import path from 'path';
 
 const appRoot = process.env.APP_ROOT?.trim()
   ? path.resolve(process.env.APP_ROOT)
   : process.cwd();
-
-function dedupe(values: string[]): string[] {
-  return [...new Set(values.filter(Boolean))];
-}
 
 export function getRessourcesRoot(): string {
   const explicitRoot = process.env.RESSOURCES_ROOT?.trim();
@@ -15,12 +10,11 @@ export function getRessourcesRoot(): string {
     return path.resolve(explicitRoot);
   }
 
-  const candidates = dedupe([
-    path.resolve(appRoot, '..', 'eaf_ressources'),
-    path.resolve(process.cwd(), '..', 'eaf_ressources'),
-  ]);
+  if (process.env.NODE_ENV === 'production') {
+    return '/srv/eaf_ressources';
+  }
 
-  return candidates.find((candidate) => existsSync(candidate)) ?? candidates[0];
+  return path.resolve(appRoot, '..', 'eaf_ressources');
 }
 
 export function resolveRessourcePath(relativePath: string): string {

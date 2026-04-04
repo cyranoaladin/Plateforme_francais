@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import path from 'path';
+import { resolveUploadsPath } from './paths';
 
 type SavedFile = {
   filePath: string;
@@ -56,7 +57,7 @@ export async function saveCopieFile(input: {
 
   return {
     filePath: key,
-    absolutePath: path.join(process.cwd(), '.data', 'uploads', key), // Backward compatibility for OCR if local
+    absolutePath: resolveUploadsPath(key),
     fileType: input.fileType,
   };
 }
@@ -64,7 +65,7 @@ export async function saveCopieFile(input: {
 export function resolveCopieAbsolutePath(filePath: string): string {
   // If local, it's relative to .data/uploads
   if (!filePath.startsWith('http')) {
-    return path.join(process.cwd(), '.data', 'uploads', filePath);
+    return resolveUploadsPath(filePath);
   }
   return filePath;
 }

@@ -173,6 +173,9 @@ EOF
 echo "[4b/8] Archivage des file stores legacy..."
 ssh "$SSH_TARGET" "cd $APP_DIR && LEGACY_FILES='.data/memory-store.json .data/oral-sessions.json .data/premium-store.json .data/epreuves-store.json'; ACTIVE=''; for file in \$LEGACY_FILES; do if [ -f \$file ]; then ACTIVE=\"\$ACTIVE \$file\"; fi; done; if [ -n \"\${ACTIVE# }\" ]; then ARCHIVE_DIR=.data/migration-backups/\$(date +%Y%m%d_%H%M%S)_deploy_archive; mkdir -p \"\$ARCHIVE_DIR\"; mv \$ACTIVE \"\$ARCHIVE_DIR\"/; echo \"  Archived legacy stores to \$ARCHIVE_DIR\"; else echo '  No active legacy file stores'; fi"
 
+echo "[4c/8] Sauvegarde préventive des uploads standalone avant build..."
+ssh "$SSH_TARGET" "if [ -d $APP_DIR/.next/standalone/.data/uploads ]; then COUNT=\$(find $APP_DIR/.next/standalone/.data/uploads -type f 2>/dev/null | wc -l); if [ \$COUNT -gt 0 ]; then echo '  ⚠ '\$COUNT' fichiers détectés dans standalone/.data/uploads — migration vers .data/uploads/'; rsync -a $APP_DIR/.next/standalone/.data/uploads/ $APP_DIR/.data/uploads/ 2>/dev/null || true; fi; fi"
+
 # --- 5. Build Next.js ---
 echo "[5/8] Build Next.js (production)..."
 LOCAL_GIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
@@ -185,6 +188,7 @@ ssh "$SSH_TARGET" "cd $APP_DIR && { [ -L ressources ] && rm ressources || true; 
 ssh "$SSH_TARGET" "cd $APP_DIR && npx prisma generate --schema=prisma/schema.prisma"
 ssh "$SSH_TARGET" "cd $APP_DIR && BUILD_GIT_SHA=$LOCAL_GIT_SHA BUILD_TIME=$BUILD_TIME NODE_ENV=production npm run build"
 ssh "$SSH_TARGET" "cd $APP_DIR && if [ -d .next/standalone ]; then cp -f .git_sha .build_time .next/standalone/; fi"
+ssh "$SSH_TARGET" "cd $APP_DIR && mkdir -p .next/standalone/.data && rm -rf .next/standalone/.data/uploads && ln -sfn $APP_DIR/.data/uploads .next/standalone/.data/uploads"
 
 # --- 6. Build MCP server ---
 echo "[6/8] Build MCP server..."
@@ -261,9 +265,23 @@ chmod 644 /etc/cron.d/nexus-backup
 systemctl reload cron 2>/dev/null || service cron reload 2>/dev/null || true
 cat /etc/cron.d/nexus-backup"
 
+echo "[7e/8] Configuration du healthcheck horaire..."
+ssh "$SSH_TARGET" "cat > /etc/cron.d/nexus-healthcheck <<'EOF'
+# Vérification santé applicative toutes les heures
+0 * * * * $APP_RUNTIME_USER curl -s http://localhost:3000/api/v1/health | python3 -c \"import json,sys; d=json.load(sys.stdin); s=d['status']; exit(0 if s=='ok' else 1)\" || echo \"HEALTH FAIL at \$(date)\" >> /var/log/nexus-health.log 2>&1
+EOF
+chmod 644 /etc/cron.d/nexus-healthcheck
+systemctl reload cron 2>/dev/null || service cron reload 2>/dev/null || true
+cat /etc/cron.d/nexus-healthcheck"
+
+echo "[7f/8] Configuration de la rotation des logs PM2..."
+ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 module:list | grep -q pm2-logrotate || sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 install pm2-logrotate"
+ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 set pm2-logrotate:max_size 50M && sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 set pm2-logrotate:retain 7"
+
 # --- 8. Restart PM2 ---
 echo "[8/8] Redémarrage des services PM2..."
 ssh "$SSH_TARGET" "for app in eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker; do pm2 delete \"\$app\" 2>/dev/null || true; done"
+ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 delete eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker 2>/dev/null || true"
 ssh "$SSH_TARGET" "fuser -k 3100/tcp 2>/dev/null || true; sleep 2"
 ssh "$SSH_TARGET" "cd $APP_DIR && sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
 ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save"

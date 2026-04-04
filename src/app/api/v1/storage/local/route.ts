@@ -2,8 +2,9 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { getUploadsBaseDir } from '@/lib/storage/paths';
 
-const LOCAL_UPLOADS_DIR = path.join(process.cwd(), '.data', 'uploads');
+const LOCAL_UPLOADS_DIR = getUploadsBaseDir();
 
 export async function GET(request: NextRequest) {
   if (process.env.NODE_ENV === 'production') {

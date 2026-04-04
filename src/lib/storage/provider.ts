@@ -3,6 +3,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { logger } from '@/lib/logger';
+import { getUploadsBaseDir } from './paths';
 
 export interface StorageProvider {
     uploadFile(key: string, buffer: Uint8Array, mimeType: string): Promise<string>;
@@ -11,7 +12,7 @@ export interface StorageProvider {
 }
 
 class LocalStorageProvider implements StorageProvider {
-    private baseDir = path.join(process.cwd(), '.data', 'uploads');
+    private baseDir = getUploadsBaseDir();
 
     async uploadFile(key: string, buffer: Uint8Array, mimeType: string): Promise<string> {
         const absolutePath = path.join(this.baseDir, key);
