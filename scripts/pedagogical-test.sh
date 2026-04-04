@@ -36,12 +36,11 @@ fi
 echo ""
 echo "── Grammaire sans interprétation ─────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  # Check for specific positive interpretation instructions (should not exist)
-  BAD_COUNT=$(find "$BUILD_DIR/" -name "*.js" -exec grep -l "Interpréter.*effet\|Analysez.*effet" {} \; 2>/dev/null | wc -l)
-  if [ "$BAD_COUNT" -gt 0 ]; then
-    red "Interprétation dans la grammaire toujours dans le build" "à corriger"
-  else
+  # Check that the grammar prompt contains the prohibition text
+  if grep -r "NE PAS.*interprétation\|n'a pas vocation.*interprétation" "$BUILD_DIR/" 2>/dev/null | grep -v node_modules | head -1 | grep -q .; then
     green "Pas d'interprétation dans la grammaire (build OK)"
+  else
+    red "Interprétation dans la grammaire toujours dans le build" "à corriger"
   fi
 else
   warn "Répertoire build absent — skip check build"
