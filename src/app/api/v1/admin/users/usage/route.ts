@@ -86,14 +86,14 @@ export async function GET(request: Request) {
     ]);
 
     // Mock token calculation (would need actual tracking)
-    const llmTokensToday = tutorQuestionsToday * 1500; // Average tokens per question
+    const calculatedTokensToday = tutorQuestionsToday * 1500; // Average tokens per question
 
     return NextResponse.json({
       usage: {
         oralSessionsThisMonth,
         correctionsThisMonth,
         tutorQuestionsToday,
-        llmTokensToday,
+        llmTokensToday: calculatedTokensToday,
         ragSearchesToday: ragSearchesToday,
       },
     }, { status: 200 });
