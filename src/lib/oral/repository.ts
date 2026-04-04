@@ -97,6 +97,8 @@ export async function createOralSession(input: {
   oeuvre: string;
   extrait: string;
   questionGrammaire: string;
+  texteDescriptifId?: string | null;
+  feedback?: Prisma.InputJsonValue;
 }): Promise<OralSessionState> {
   await ensureOralDatabaseAvailable();
   const created = await prisma.oralSession.create({
@@ -105,8 +107,9 @@ export async function createOralSession(input: {
       oeuvre: input.oeuvre,
       extrait: input.extrait,
       question: input.questionGrammaire,
+      ...(input.texteDescriptifId ? { texteDescriptifId: input.texteDescriptifId } : {}),
       status: 'DRAFT',
-      feedback: { interactions: [] },
+      feedback: input.feedback ?? { interactions: [] },
     },
   });
 

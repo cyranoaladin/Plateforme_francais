@@ -68,6 +68,13 @@ export interface MemoryProfile {
   voie?: string;
   selectedOeuvres?: string[];
   eafDate?: string;
+  descriptifLecture?: Array<{
+    objetEtude: string;
+    typeTexte: string;
+    oeuvreAuteur: string;
+    titreExtrait: string;
+    incipit?: string | null;
+  }>;
 }
 
 /**
@@ -120,6 +127,14 @@ export function composeMemoryContext(profile: MemoryProfile, opts: MemoryContext
 
   if (profile.selectedOeuvres && profile.selectedOeuvres.length > 0) {
     lines.push(`Œuvres choisies : ${profile.selectedOeuvres.join(', ')}`);
+  }
+
+  if (profile.descriptifLecture && profile.descriptifLecture.length > 0) {
+    lines.push(`Descriptif (${profile.descriptifLecture.length} textes) :`);
+    for (const texte of profile.descriptifLecture.slice(0, 6)) {
+      const incipit = texte.incipit ? ` — incipit : ${texte.incipit.slice(0, 50)}…` : '';
+      lines.push(`  [${texte.objetEtude}] ${texte.oeuvreAuteur} — "${texte.titreExtrait}"${incipit}`);
+    }
   }
 
   // Global level + scores

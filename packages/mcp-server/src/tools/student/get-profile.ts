@@ -19,6 +19,15 @@ function toSkillAxis(value: string): SkillAxis {
   return 'methode'
 }
 
+function groupByObjet(textes: Array<{ objetEtude?: string | null }>) {
+  const counts = new Map<string, number>()
+  for (const texte of textes) {
+    const key = texte.objetEtude ?? 'INCONNU'
+    counts.set(key, (counts.get(key) ?? 0) + 1)
+  }
+  return Array.from(counts.entries()).map(([objetEtude, count]) => ({ objetEtude, count }))
+}
+
 export async function getStudentProfile(input: GetStudentProfileInput): Promise<StudentProfile> {
   const db = getDb()
 
@@ -30,6 +39,8 @@ export async function getStudentProfile(input: GetStudentProfileInput): Promise<
         orderBy: { position: 'asc' },
         select: {
           id: true,
+          objetEtude: true,
+          typeTexte: true,
           oeuvreAuteur: true,
           titreExtrait: true,
           incipit: true,
@@ -100,9 +111,14 @@ export async function getStudentProfile(input: GetStudentProfileInput): Promise<
     streak: Number(profile?.streak ?? 0),
     maxStreak: Number(profile?.maxStreak ?? 0),
     skillMap,
-    descriptifTextes: Array.isArray(user.textesDescriptif) 
-      ? user.textesDescriptif.map((t: any) => ({ ...t, incipit: t.incipit ?? undefined }))
+    descriptifTextes: Array.isArray(user.textesDescriptif)
+      ? user.textesDescriptif.map((t) => ({ ...t, incipit: t.incipit ?? undefined }))
       : [],
+    descriptifLecture: {
+      total: Array.isArray(user.textesDescriptif) ? user.textesDescriptif.length : 0,
+      parObjet: Array.isArray(user.textesDescriptif) ? groupByObjet(user.textesDescriptif) : [],
+      estComplet: Array.isArray(user.textesDescriptif) ? user.textesDescriptif.length >= 16 : false,
+    },
   }
 }
 

@@ -38,11 +38,21 @@ export interface StudentProfile {
   skillMap?: SkillMap
   descriptifTextes?: Array<{
     id: string
+    objetEtude?: string
+    typeTexte?: string
     oeuvreAuteur: string
     titreExtrait: string
     incipit?: string
     position: number
   }>
+  descriptifLecture?: {
+    total: number
+    parObjet: Array<{
+      objetEtude: string
+      count: number
+    }>
+    estComplet: boolean
+  }
 }
 
 // --- ErrorBank ---

@@ -30,7 +30,7 @@ export type StudentNavItem = {
 export const studentNavItems: StudentNavItem[] = [
   { name: 'Tableau de bord', href: '/dashboard', icon: LayoutDashboard, section: 'Pilotage', hint: 'Vue d’ensemble' },
   { name: 'Mon Parcours', href: '/mon-parcours', icon: Map, section: 'Pilotage', hint: 'Plan de progression' },
-  { name: 'Mon descriptif', href: '/descriptif', icon: BookOpen, section: 'Pilotage', hint: 'Textes préparés pour l\'oral' },
+  { name: 'Mon descriptif', href: '/descriptif-lecture', icon: BookOpen, section: 'Pilotage', hint: 'Textes réellement étudiés pour l\'oral' },
   { name: 'Profil', href: '/profil', icon: UserCircle2, section: 'Pilotage', hint: 'Cap et repères' },
   { name: 'Tuteur de parcours', href: '/tuteur', icon: MessagesSquare, section: 'Ateliers', hint: 'Question guidée' },
   { name: 'Atelier Écrit', href: '/atelier-ecrit', icon: PenTool, section: 'Ateliers', hint: 'Sujet, copie, rapport' },
@@ -70,7 +70,8 @@ export const studentMobilePrimaryNavItems = [
 export const studentMobileOverflowItems = [
   { name: 'Parcours', href: '/mon-parcours', icon: Map },
   { name: 'Langue', href: '/atelier-langue', icon: Type },
-  { name: 'Carnet', href: '/carnet', icon: BookOpen },
+  { name: 'Descriptif', href: '/descriptif-lecture', icon: BookOpen },
+  { name: 'Carnet', href: '/carnet', icon: Quote },
   { name: 'Bibliothèque', href: '/bibliotheque', icon: Library },
   { name: 'Profil', href: '/profil', icon: UserCircle2 },
 ] as const;

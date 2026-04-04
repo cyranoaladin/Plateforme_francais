@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { prisma } from '@/lib/db/client';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { logger } from '@/lib/logger';
 import { createMemoryEvent } from '@/lib/memory/store';
 import { createOralSession } from '@/lib/oral/repository';
-import { pickOralExtrait } from '@/lib/oral/service';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
@@ -13,6 +13,87 @@ import { getResetMessage } from '@/lib/billing/quota-messages';
 import { consumeQuota, rollbackQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { parseJsonBody } from '@/lib/validation/request';
 import { oralSessionStartBodySchema } from '@/lib/validation/schemas';
+import { EXTRAITS_OEUVRES } from '@/data/extraits-oeuvres';
+
+function buildPhraseCandidate(text: string): string {
+  return text
+    .split(/[.!?]/)
+    .find((chunk) => chunk.trim().length > 20)
+    ?.trim() ?? text.trim();
+}
+
+async function choisirExtraitOfficiel(input: {
+  userId: string;
+  oeuvre: string;
+}): Promise<{
+  source: 'descriptif' | 'programme';
+  texteDescriptifId: string | null;
+  oeuvre: string;
+  titre: string;
+  contenu: string;
+  questionGrammaire: string;
+  phraseGrammaire: string;
+  avertissement?: string;
+}> {
+  const textesDisponibles = await prisma.texteDescriptif.findMany({
+    where: {
+      userId: input.userId,
+      typeTexte: {
+        in: ['EXTRAIT_OEUVRE', 'EXTRAIT_PARCOURS'],
+      },
+      ...(input.oeuvre
+        ? {
+            oeuvreAuteur: {
+              contains: input.oeuvre,
+              mode: 'insensitive',
+            },
+          }
+        : {}),
+    },
+    orderBy: { position: 'asc' },
+  });
+
+  const fallbackPool = textesDisponibles.length > 0
+    ? textesDisponibles
+    : await prisma.texteDescriptif.findMany({
+        where: {
+          userId: input.userId,
+          typeTexte: {
+            in: ['EXTRAIT_OEUVRE', 'EXTRAIT_PARCOURS'],
+          },
+        },
+        orderBy: { position: 'asc' },
+      });
+
+  if (fallbackPool.length > 0) {
+    const choisi = fallbackPool[Math.floor(Math.random() * fallbackPool.length)];
+    const contenu = choisi.contenuTexte ?? choisi.incipit ?? choisi.titreExtrait;
+    return {
+      source: 'descriptif',
+      texteDescriptifId: choisi.id,
+      oeuvre: choisi.oeuvreAuteur,
+      titre: choisi.titreExtrait,
+      contenu,
+      questionGrammaire: `Analysez syntaxiquement une phrase significative tirée de « ${choisi.titreExtrait} ».`,
+      phraseGrammaire: buildPhraseCandidate(contenu) || 'Phrase cible indisponible.',
+    };
+  }
+
+  const corpusMatch = EXTRAITS_OEUVRES.find((item) => item.oeuvre.toLowerCase().includes(input.oeuvre.toLowerCase()))
+    ?? EXTRAITS_OEUVRES[0];
+
+  return {
+    source: 'programme',
+    texteDescriptifId: null,
+    oeuvre: corpusMatch?.oeuvre ?? 'Texte du programme',
+    titre: corpusMatch?.oeuvre ?? 'Extrait au programme',
+    contenu: corpusMatch?.extrait ?? 'Extrait indisponible.',
+    questionGrammaire: corpusMatch?.questionGrammaire ?? 'Analysez syntaxiquement une phrase de cet extrait.',
+    phraseGrammaire: buildPhraseCandidate(corpusMatch?.extrait ?? '') || 'Phrase cible indisponible.',
+    avertissement:
+      'Ton descriptif de lecture est vide. Cette simulation utilise un texte générique du programme. Ajoute tes textes étudiés dans "Mon descriptif de lecture" pour simuler les vraies conditions de l’oral.',
+  };
+}
 
 /**
  * POST /api/v1/oral/session/start
@@ -85,10 +166,9 @@ export async function POST(request: Request) {
 
     let selected;
     try {
-      selected = await pickOralExtrait({
+      selected = await choisirExtraitOfficiel({
         oeuvre: parsed.data.oeuvre,
         userId: auth.user.id,
-        mode: parsed.data.mode as 'SIMULATION' | 'FREE_PRACTICE',
       });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erreur lors de la sélection de l’extrait';
@@ -103,10 +183,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: message }, { status: 400 });
     }
 
-    const texte = parsed.data.extrait ?? selected.texte;
+    const texte = parsed.data.extrait ?? selected.contenu;
     const questionGrammaire = parsed.data.questionGrammaire ?? selected.questionGrammaire;
     const phraseGrammaire = selected.phraseGrammaire;
-    const oeuvreChoisie = parsed.data.oeuvre;
+    const oeuvreChoisie = selected.oeuvre;
 
     try {
       const session = await createOralSession({
@@ -114,7 +194,17 @@ export async function POST(request: Request) {
         oeuvre: oeuvreChoisie,
         extrait: texte,
         questionGrammaire,
+        texteDescriptifId: selected.texteDescriptifId,
+        feedback: {
+          interactions: [],
+          source: selected.source,
+          ...(selected.avertissement ? { avertissement: selected.avertissement } : {}),
+        },
       });
+
+      if (selected.avertissement) {
+        logger.warn({ userId: auth.user.id }, 'oral.session.empty_descriptif');
+      }
 
       try {
         await createMemoryEventRecord(
@@ -123,11 +213,12 @@ export async function POST(request: Request) {
             feature: 'oral_session_start',
             path: '/atelier-oral',
             payload: {
-              sessionId: session.id,
-              oeuvre: oeuvreChoisie,
-              mode: parsed.data.mode ?? 'SIMULATION',
-            },
-          }),
+          sessionId: session.id,
+          oeuvre: oeuvreChoisie,
+          mode: parsed.data.mode ?? 'SIMULATION',
+          source: selected.source,
+        },
+      }),
         );
       } catch (error) {
         logger.warn({ err: error, userId: auth.user.id }, 'oral.start.memoryEvent.failed');
@@ -140,6 +231,8 @@ export async function POST(request: Request) {
           questionGrammaire,
           phraseGrammaire,
           oeuvreChoisie,
+          source: selected.source,
+          avertissement: selected.avertissement,
           instructions:
             'Suivez les 4 étapes officielles : lecture (2 min), explication (8 min), grammaire (2 min), entretien (8 min sur l’œuvre choisie).',
         },

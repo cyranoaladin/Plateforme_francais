@@ -154,7 +154,7 @@ export async function loadMemoryProfileForUser(
 
   if (await isDatabaseAvailable()) {
     // Parallelize all 3 independent DB queries (saves ~80-120ms)
-    const [recentTimeline, profile, evaluations] = await Promise.all([
+    const [recentTimeline, profile, evaluations, descriptifLecture] = await Promise.all([
       listMemoryEventsByUser(userId, 24) as Promise<LightweightEvent[]>,
       prisma.studentProfile.findUnique({
         where: { userId },
@@ -202,6 +202,17 @@ export async function loadMemoryProfileForUser(
           maxScore: true,
         },
       }),
+      prisma.texteDescriptif.findMany({
+        where: { userId },
+        orderBy: [{ objetEtude: 'asc' }, { position: 'asc' }],
+        select: {
+          objetEtude: true,
+          typeTexte: true,
+          oeuvreAuteur: true,
+          titreExtrait: true,
+          incipit: true,
+        },
+      }),
     ]);
 
     const oralScores = evaluations
@@ -247,6 +258,7 @@ export async function loadMemoryProfileForUser(
       voie: profile?.voie ?? undefined,
       selectedOeuvres: profile?.selectedOeuvres.length ? profile.selectedOeuvres : undefined,
       eafDate: profile?.eafDate ? profile.eafDate.toISOString().split('T')[0] : undefined,
+      descriptifLecture: descriptifLecture.length > 0 ? descriptifLecture : undefined,
     };
 
     profileCache.set(cacheKey, result);
