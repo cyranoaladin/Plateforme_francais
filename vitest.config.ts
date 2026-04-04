@@ -41,6 +41,7 @@ export default defineConfig({
       CSRF_SECRET: 'test-csrf-secret-minimum-32-chars',
       COOKIE_SECURE: 'false',
       NODE_ENV: 'test',
+      RESSOURCES_ROOT: '../eaf_ressources',
     },
   },
   resolve: {
