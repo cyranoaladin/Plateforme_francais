@@ -3,7 +3,7 @@
 // ============================================================
 
 // --- Plans d'abonnement ---
-export type SubscriptionPlan = 'FREE' | 'MONTHLY' | 'LIFETIME'
+export type SubscriptionPlan = 'FREE' | 'PREMIUM' | 'PRO'
 export type SubscriptionStatus = 'active' | 'trialing' | 'past_due' | 'canceled' | 'paused'
 
 // --- Axes de compétences (SkillMap) ---

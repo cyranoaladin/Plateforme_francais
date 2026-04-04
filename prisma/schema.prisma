@@ -22,10 +22,8 @@ enum CopieStatus {
   error
 }
 
-// Effective plans: FREE → Freemium, PREMIUM → Premium, PRO → Masterium
-// MAX, MONTHLY, LIFETIME are legacy values kept for backward-compatible DB rows.
-// The application normalizes them via normalizePlanId() in plan-catalog.ts.
-// TODO: migrate existing rows and drop legacy values in a future release.
+// Effective plans: FREE → Freemium, PREMIUM → Premium, PRO → Masterium.
+// Legacy literals are still accepted during rolling deploys and normalized via normalizePlanId().
 enum SubscriptionPlan {
   FREE
   PREMIUM

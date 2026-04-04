@@ -69,6 +69,8 @@ eaf.code-workspace
 
 # IDE and local tools
 .claude/
+.codex
+.codex/
 .vscode/
 .windsurf/
 .windsurf_audit_logs/

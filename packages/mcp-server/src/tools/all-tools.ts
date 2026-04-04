@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import type { Prisma } from '@prisma/client'
 import { getDb } from '../lib/db.js'
-import { PLAN_CATALOG, getProgrammeOeuvres, type InternalPlanId, type PlanConfig, type QuotaEntry } from '@nexus-eaf/shared-billing'
+import { PLAN_CATALOG, getProgrammeOeuvres, normalizePlanId, type InternalPlanId, type PlanConfig, type QuotaEntry } from '@nexus-eaf/shared-billing'
 
 export const GetCorrectionSchema = z.object({
   copieId: z.string().min(1),
@@ -455,8 +455,7 @@ export async function getSubscription(input: z.infer<typeof GetSubscriptionSchem
   }).catch(() => null)
 
   const rawPlan = subscription?.plan ?? 'FREE'
-  // Normalize legacy plan names to canonical internal IDs
-  const planId = (rawPlan === 'MONTHLY' ? 'PREMIUM' : rawPlan === 'LIFETIME' || rawPlan === 'MAX' ? 'PRO' : rawPlan) as InternalPlanId
+  const planId = normalizePlanId(rawPlan) as InternalPlanId
   const limits = PLAN_LIMITS[planId]
 
   let featureCheck: { feature: string; allowed: boolean; reason?: string; upgradeUrl?: string } | undefined

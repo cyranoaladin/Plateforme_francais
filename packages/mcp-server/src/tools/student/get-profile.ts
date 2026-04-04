@@ -2,6 +2,7 @@ import { z } from 'zod'
 import type { Prisma } from '@prisma/client'
 import { getDb } from '../../lib/db.js'
 import type { StudentProfile, SkillAxis, SkillMap } from '../../types/index.js'
+import { normalizePlanId } from '@nexus-eaf/shared-billing'
 
 export const GetStudentProfileSchema = z.object({
   studentId: z.string().min(1, 'studentId requis'),
@@ -60,7 +61,7 @@ export async function getStudentProfile(input: GetStudentProfileInput): Promise<
     subscription = null
   }
 
-  const plan = (subscription?.plan as 'FREE' | 'MONTHLY' | 'LIFETIME' | undefined) ?? 'FREE'
+  const plan = normalizePlanId(subscription?.plan ?? 'FREE')
 
   let skillMap: SkillMap | undefined
   if (input.includeSkillMap) {
