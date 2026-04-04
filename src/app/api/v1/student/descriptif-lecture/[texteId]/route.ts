@@ -57,14 +57,13 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
     );
   }
 
-  const data: Prisma.TexteDescriptifUpdateInput = {
+  const data = {
     ...parsed.data,
     ...(parsed.data.mouvements !== undefined
       ? {
-          mouvements:
-            parsed.data.mouvements === null
-              ? Prisma.JsonNull
-              : parsed.data.mouvements,
+          mouvements: parsed.data.mouvements && parsed.data.mouvements.length > 0
+            ? JSON.parse(JSON.stringify(parsed.data.mouvements))
+            : null,
         }
       : {}),
   };
