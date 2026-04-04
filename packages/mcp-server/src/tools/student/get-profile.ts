@@ -26,7 +26,7 @@ export async function getStudentProfile(input: GetStudentProfileInput): Promise<
     where: { id: input.studentId },
     include: {
       profile: true,
-      textesDescriptifs: {
+      textesDescriptif: {
         orderBy: { position: 'asc' },
         select: {
           id: true,
@@ -100,8 +100,8 @@ export async function getStudentProfile(input: GetStudentProfileInput): Promise<
     streak: Number(profile?.streak ?? 0),
     maxStreak: Number(profile?.maxStreak ?? 0),
     skillMap,
-    descriptifTextes: Array.isArray(user.textesDescriptifs) 
-      ? user.textesDescriptifs.map((t: any) => ({ ...t, incipit: t.incipit ?? undefined }))
+    descriptifTextes: Array.isArray(user.textesDescriptif) 
+      ? user.textesDescriptif.map((t: any) => ({ ...t, incipit: t.incipit ?? undefined }))
       : [],
   }
 }
