@@ -36,7 +36,8 @@ fi
 echo ""
 echo "── Grammaire sans interprétation ─────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  if grep -r "Interpréter.*effet\|interprétation.*gramm\|gramm.*interprét" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules\|ne pas\|pas de\|n'a pas\|jamais" | head -3 | grep -q .; then
+  BAD_INTERPRETATION=$(grep -r "Interpréter.*effet\|interprétation.*gramm\|gramm.*interprét" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules\|ne pas\|pas de\|n'a pas\|jamais" | head -3 | wc -l)
+  if [ "$BAD_INTERPRETATION" -gt 0 ]; then
     red "Interprétation dans la grammaire toujours dans le build" "à corriger"
   else
     green "Pas d'interprétation dans la grammaire (build OK)"
@@ -70,7 +71,8 @@ fi
 echo ""
 echo "── Référence Note de Service ─────────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  if grep -r "2019-042" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules" | head -1 | grep -q .; then
+  NOTE_FOUND=$(grep -r "2019-042" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules" | wc -l)
+  if [ "$NOTE_FOUND" -gt 0 ]; then
     green "Référence Note de Service 2019-042 présente dans le build"
   else
     red "Note de Service 2019-042" "absente du build"
