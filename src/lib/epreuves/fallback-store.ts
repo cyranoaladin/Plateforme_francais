@@ -10,10 +10,6 @@ function assertFallbackAllowed() {
   throw new Error('Epreuves fallback store désactivé: persistance DB obligatoire.');
 }
 
-async function ensureStoreExists() {
-  assertFallbackAllowed();
-}
-
 export async function readEpreuvesFallbackStore(): Promise<EpreuvesStore> {
   assertFallbackAllowed();
   return { epreuves: [], copies: [], progressEvents: [] };

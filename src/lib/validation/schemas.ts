@@ -145,6 +145,9 @@ export const studentProfileBodySchema = z.object({
   weakSkills: z.array(z.string().trim().min(1).max(120)).optional(),
   parentEmail: z.string().trim().email('Adresse e-mail invalide.').optional().nullable(),
   teacherEmail: z.string().trim().email('Adresse e-mail invalide.').optional().nullable(),
+  oeuvreChoisieEntretien: z.string().trim().min(1).max(300).optional(),
+  oeuvresEntretien: z.array(z.string().trim().min(1).max(300)).optional(),
+  lecturesCursives: z.array(z.string().trim().min(1).max(300)).max(10).optional(),
 });
 
 export const parcoursGenerateBodySchema = z.object({
@@ -181,6 +184,8 @@ export const onboardingCompleteBodySchema = z.object({
   weakSignals: z.array(z.string().trim().min(1).max(120)).max(6),
   classCode: z.string().trim().max(12).optional(),
   oeuvreChoisieEntretien: z.string().trim().min(1).max(300).optional(),
+  oeuvresEntretien: z.array(z.string().trim().min(1).max(300)).optional(),
+  lecturesCursives: z.array(z.string().trim().min(1).max(300)).max(10).optional(),
 });
 
 export const updateOeuvreChoisieSchema = z.object({

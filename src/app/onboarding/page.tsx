@@ -153,6 +153,8 @@ export default function OnboardingPage() {
   const [oeuvreSearch, setOeuvreSearch] = useState('');
   const [classCode, setClassCode] = useState('');
   const [oeuvresEntretien, setOeuvresEntretien] = useState<string[]>([]);
+  const [lecturesCursives, setLecturesCursives] = useState<string[]>([]);
+  const [cursiveInput, setCursiveInput] = useState('');
   const [welcomeMessage, setWelcomeMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -206,6 +208,16 @@ export default function OnboardingPage() {
 
   const saveProfile = useCallback(async () => {
     try {
+      console.log('[onboarding] saveProfile payload:', {
+        displayName,
+        classLevel,
+        establishment,
+        eafDate,
+        selectedOeuvres: allSelectedOeuvres,
+        weakSignals,
+        classCode,
+      });
+      
       await apiFetch('/api/v1/student/profile', {
         method: 'PUT',
         json: {
@@ -214,16 +226,28 @@ export default function OnboardingPage() {
           establishment: establishment || undefined,
           eafDate,
           selectedOeuvres: allSelectedOeuvres,
-          weakSkills: weakSignals,
+          weakSkills: weakSignals, // weakSignals -> weakSkills (schema mismatch)
           classCode: classCode || undefined,
         },
       });
+      
+      console.log('[onboarding] saveProfile success');
     } catch (err) {
-      if (isApiError(err) && err.status === 403) {
-        setError('Sécurité : rafraîchis la page puis réessaie.');
+      console.error('[onboarding] saveProfile failed:', err);
+      if (isApiError(err)) {
+        if (err.status === 403) {
+          setError('Sécurité : rafraîchis la page puis réessaie.');
+          return false;
+        }
+        if (err.status === 400) {
+          setError('Données invalides. Vérifie tous les champs.');
+          return false;
+        }
+        setError('Erreur technique. Réessaie plus tard.');
         return false;
       }
       console.warn('[onboarding] autosave failed:', err);
+      return false;
     }
     return true;
   }, [allSelectedOeuvres, classCode, classLevel, displayName, eafDate, establishment, weakSignals]);
@@ -265,6 +289,8 @@ export default function OnboardingPage() {
           weakSignals,
           classCode: classCode || undefined,
           oeuvreChoisieEntretien: oeuvresEntretien[0] || undefined,
+          oeuvresEntretien: oeuvresEntretien.length > 0 ? oeuvresEntretien : undefined,
+          lecturesCursives: lecturesCursives.length > 0 ? lecturesCursives : undefined,
         },
       });
 
@@ -592,6 +618,58 @@ export default function OnboardingPage() {
                           );
                         })}
                       </div>
+                    </div>
+                  )}
+
+                  {allSelectedOeuvres.length > 0 && (
+                    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
+                      <p className="text-sm font-semibold text-[var(--c-primary)]">Lectures cursives pour l&apos;entretien</p>
+                      <p className="mt-1 text-xs text-[var(--text-muted)]">Ajoute tes lectures cursives personnelles (jusqu&apos;à 10). Elles seront mobilisables pour la 2e partie de l&apos;oral.</p>
+                      <div className="mt-3 flex gap-2">
+                        <input
+                          type="text"
+                          value={cursiveInput}
+                          onChange={(e) => setCursiveInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && cursiveInput.trim() && lecturesCursives.length < 10) {
+                              e.preventDefault();
+                              setLecturesCursives((prev) => [...prev, cursiveInput.trim()]);
+                              setCursiveInput('');
+                            }
+                          }}
+                          placeholder="Ex : L'Étranger — Albert Camus"
+                          className="flex-1 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3 py-2 text-sm text-[var(--c-primary)] outline-none focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                        />
+                        <button
+                          type="button"
+                          disabled={!cursiveInput.trim() || lecturesCursives.length >= 10}
+                          onClick={() => {
+                            if (cursiveInput.trim() && lecturesCursives.length < 10) {
+                              setLecturesCursives((prev) => [...prev, cursiveInput.trim()]);
+                              setCursiveInput('');
+                            }
+                          }}
+                          className="rounded-xl bg-[var(--c-success)] px-3 py-2 text-sm font-medium text-white disabled:opacity-40"
+                        >
+                          Ajouter
+                        </button>
+                      </div>
+                      {lecturesCursives.length > 0 && (
+                        <div className="mt-3 space-y-1">
+                          {lecturesCursives.map((lc, i) => (
+                            <div key={i} className="flex items-center justify-between rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] px-3 py-2 text-sm text-[var(--c-primary)]">
+                              <span>{lc}</span>
+                              <button
+                                type="button"
+                                onClick={() => setLecturesCursives((prev) => prev.filter((_, idx) => idx !== i))}
+                                className="text-xs text-[var(--text-muted)] hover:text-[var(--c-accent-text)]"
+                              >
+                                Retirer
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

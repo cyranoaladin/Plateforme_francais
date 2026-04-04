@@ -36,6 +36,13 @@ export interface StudentProfile {
   streak: number
   maxStreak: number
   skillMap?: SkillMap
+  descriptifTextes?: Array<{
+    id: string
+    oeuvreAuteur: string
+    titreExtrait: string
+    incipit?: string
+    position: number
+  }>
 }
 
 // --- ErrorBank ---

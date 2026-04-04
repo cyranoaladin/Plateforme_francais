@@ -34,7 +34,7 @@ export const STEP_GUIDANCE: Record<OralStep, { title: string; body: string }> = 
   },
   GRAMMAIRE: {
     title: 'Question de grammaire',
-    body: 'Nomme précisément le fait de langue, rattache-le à la phrase, puis explique brièvement son effet.',
+    body: 'Identifie le fait de langue, nomme-le avec la terminologie exacte, précise sa fonction syntaxique dans la phrase.',
   },
   ENTRETIEN: {
     title: 'Entretien examinateur',
@@ -46,7 +46,7 @@ export const PREP_CHECKLIST = [
   { id: 'mouvement', label: "Repérer les mouvements du texte et l’articulation des parties" },
   { id: 'problematique', label: "Formuler une problématique d'analyse" },
   { id: 'procedes', label: 'Relever les procédés clés + citations à commenter' },
-  { id: 'grammaire', label: 'Anticiper la question de grammaire (nature, fonction, analyse)' },
+  { id: 'grammaire', label: 'Anticiper la question de grammaire (identification, dénomination, fonction syntaxique)' },
 ] as const;
 
 const PREP_DURATION_S = PREP_DURATION_MS / 1000;

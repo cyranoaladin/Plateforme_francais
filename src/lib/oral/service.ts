@@ -96,7 +96,15 @@ function normalizePhaseEvaluation(phase: OralPhaseKey, skill: Skill, payload: un
 }
 
 /**
- * Pick an extrait based on the student's "Descriptif de lecture" for simulations.
+ * Choose an excerpt based on the student's descriptif de lecture for simulations.
+ *
+ * Resolution order:
+ *   1. DescriptifTexte (rich descriptif from /descriptif page, linked to StudentProfile)
+ *   2. TextePrepare   (simplified entries from /descriptif-lecture, linked to User)
+ *   3. Corpus interne (EXTRAITS_OEUVRES fallback)
+ *
+ * RÈGLE OFFICIELLE : l'examinateur ne peut interroger QUE sur les textes
+ * du descriptif de lecture de l'élève.
  */
 export async function pickOralExtrait(params: {
   oeuvre: string;
@@ -107,38 +115,84 @@ export async function pickOralExtrait(params: {
   questionGrammaire: string;
   phraseGrammaire: string;
 }> {
+  // --- Priority 1: DescriptifTexte (rich entries from /descriptif page) ---
   const profile = await prisma.studentProfile.findUnique({
     where: { userId: params.userId },
-    include: { descriptifTextes: true },
+    select: { id: true },
   });
 
-  const descriptifTextes = profile?.descriptifTextes ?? [];
+  if (profile) {
+    const descriptifTextes = await prisma.descriptifTexte.findMany({
+      where: { studentId: profile.id },
+    });
 
-  const MIN_TEXTS_FOR_SIMULATION = 3;
-  if (params.mode === 'SIMULATION' && descriptifTextes.length < MIN_TEXTS_FOR_SIMULATION) {
-    logger.info(
-      { userId: params.userId, count: descriptifTextes.length, oeuvre: params.oeuvre },
-      'oral.pickExtrait.incomplete_descriptif — using corpus fallback',
-    );
+    if (descriptifTextes.length > 0) {
+      const pool = params.oeuvre
+        ? descriptifTextes.filter(t => matchesWork(params.oeuvre, `${t.oeuvre} — ${t.auteur}`))
+        : descriptifTextes;
+      const candidates = pool.length > 0 ? pool : descriptifTextes;
+      const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+      const texte = chosen.premieresLignes || chosen.titre;
+
+      logger.info(
+        {
+          userId: params.userId,
+          source: 'descriptif_texte',
+          oeuvre: chosen.oeuvre,
+          titre: chosen.titre,
+          totalTextes: descriptifTextes.length,
+        },
+        'oral.pickExtrait.from_descriptif_texte',
+      );
+
+      return {
+        texte,
+        questionGrammaire: `Analysez la construction d'une phrase significative tirée de « ${chosen.titre} » (${chosen.oeuvre}).`,
+        phraseGrammaire: buildPhraseCandidate(texte) || 'Phrase cible indisponible.',
+      };
+    }
   }
 
-  // First, try to find a match in the student's descriptif
-  const studentMatch = descriptifTextes.find((t) =>
-    t.typeExtrait === 'extrait_oeuvre' && matchesWork(params.oeuvre, t.oeuvre)
-  );
+  // --- Priority 2: TextePrepare (simplified entries) ---
+  const textesPrepares = await prisma.textePrepare.findMany({
+    where: { userId: params.userId },
+    orderBy: { position: 'asc' },
+  });
 
-  if (studentMatch?.premieresLignes?.trim()) {
-    const texte = studentMatch.premieresLignes.trim();
+  if (textesPrepares.length > 0) {
+    const pool = params.oeuvre
+      ? textesPrepares.filter(t => matchesWork(params.oeuvre, t.oeuvreAuteur))
+      : textesPrepares;
+    const candidates = pool.length > 0 ? pool : textesPrepares;
+    const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+    const texte = chosen.incipit || chosen.titreExtrait;
+
+    logger.info(
+      {
+        userId: params.userId,
+        source: 'texte_prepare',
+        oeuvre: chosen.oeuvreAuteur,
+        titre: chosen.titreExtrait,
+        totalTextes: textesPrepares.length,
+      },
+      'oral.pickExtrait.from_texte_prepare',
+    );
+
     return {
       texte,
-      questionGrammaire: `Analysez la construction d'une phrase significative tirée de « ${studentMatch.titre} ».`,
+      questionGrammaire: `Analysez la construction d'une phrase significative tirée de « ${chosen.titreExtrait} ».`,
       phraseGrammaire: buildPhraseCandidate(texte) || 'Phrase cible indisponible.',
     };
   }
 
-  // Fallback corpus interne si le descriptif élève ne contient pas encore d'extrait exploitable.
+  // --- Priority 3: Corpus fallback ---
+  logger.info(
+    { userId: params.userId, oeuvre: params.oeuvre },
+    'oral.pickExtrait.no_descriptif — using corpus fallback',
+  );
+
   const corpusMatch = EXTRAITS_OEUVRES.find((item) =>
-    matchesWork(params.oeuvre, item.oeuvre)
+    matchesWork(params.oeuvre, item.oeuvre),
   );
 
   if (corpusMatch) {
@@ -150,9 +204,9 @@ export async function pickOralExtrait(params: {
   }
 
   throw new Error(
-    params.mode === 'SIMULATION' && descriptifTextes.length < MIN_TEXTS_FOR_SIMULATION
-      ? `Descriptif incomplet et aucun extrait de secours disponible pour « ${params.oeuvre} ». Ajoute les premières lignes du texte dans ton descriptif ou choisis une œuvre prise en charge.`
-      : `Aucun extrait exploitable n'a été trouvé pour « ${params.oeuvre} ». Ajoute les premières lignes du texte dans ton descriptif ou choisis une œuvre prise en charge.`
+    params.mode === 'SIMULATION'
+      ? `Descriptif incomplet et aucun extrait de secours disponible pour « ${params.oeuvre} ». Ajoute les textes dans ton descriptif (/descriptif) ou choisis une œuvre prise en charge.`
+      : `Aucun extrait exploitable n'a été trouvé pour « ${params.oeuvre} ». Ajoute les textes dans ton descriptif ou choisis une œuvre prise en charge.`,
   );
 }
 

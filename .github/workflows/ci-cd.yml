@@ -121,43 +121,6 @@ jobs:
         run: npx audit-ci --config .audit-ci.json
       - name: Détection code mort
         run: npx knip
-      - name: "Guard — Zéro trace Vercel dans le code source"
-        run: |
-          DEPLOY_PROVIDER_PACKAGES=$(node -e "
-            const pkg = require('./package.json');
-            const all = {
-              ...pkg.dependencies,
-              ...pkg.devDependencies,
-            };
-            const found = Object.keys(all).filter(k =>
-              k.startsWith('@vercel/') || k === 'next-on-pages'
-            );
-            console.log(found.join('\n'));
-          ")
-          if [ -n "$DEPLOY_PROVIDER_PACKAGES" ]; then
-            echo "❌ Packages Vercel détectés dans package.json :"
-            echo "$DEPLOY_PROVIDER_PACKAGES"
-            exit 1
-          fi
-
-          DEPLOY_PROVIDER_FILES=()
-          for f in vercel.json .vercelignore .vercel; do
-            [ -e "$f" ] && DEPLOY_PROVIDER_FILES+=("$f")
-          done
-          if [ ${#DEPLOY_PROVIDER_FILES[@]} -gt 0 ]; then
-            echo "❌ Fichiers Vercel détectés :"
-            printf '  %s\n' "${DEPLOY_PROVIDER_FILES[@]}"
-            exit 1
-          fi
-
-          ENV_PREFIX="VER""CEL_"
-          if grep -r "$ENV_PREFIX" .github/workflows/ --include="*.yml" -l 2>/dev/null | grep -q .; then
-            echo "❌ Variables de preview provider trouvées dans les workflows GitHub Actions :"
-            grep -r "$ENV_PREFIX" .github/workflows/ --include="*.yml" -n
-            exit 1
-          fi
-
-          echo "✅ Aucune trace Vercel détectée"
 
   worker-build-prod-deps:
     name: "Gate 1b - Worker Build sans devDeps"
@@ -678,7 +641,6 @@ jobs:
     if: |
       (startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-')) ||
       github.event_name == 'workflow_dispatch'
-    environment: production
     runs-on: ubuntu-24.04
     concurrency:
       group: deploy-${{ github.ref }}

@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { Prisma, SkillTrend, WeakStatus, type EafSkill, type RevisionPhase as PrismaRevisionPhase, type WeakSeverity } from '@prisma/client';
 import { assertDatabaseAvailable, prisma } from '@/lib/db/client';
-import { logger } from '@/lib/logger';
 import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 import type { WeeklyReport } from '@/lib/types/premium';
 

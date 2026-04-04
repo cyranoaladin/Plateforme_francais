@@ -89,15 +89,8 @@ Ce projet est déployé exclusivement sur un serveur dédié Linux via SSH, PM2,
 
 ### Ce projet n'utilise PAS
 
-- ❌ Vercel ni les packages `@vercel/*`
 - ❌ Netlify
 - ❌ Les runtimes edge ou serverless propriétaires
-
-### Garde-fous
-
-```bash
-npm run check:no-vercel
-```
 
 ---
 

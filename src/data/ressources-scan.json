@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-03-18T23:02:01.124Z",
-  "totalResources": 548,
+  "generatedAt": "2026-04-04T12:44:28.108Z",
+  "totalResources": 551,
   "byCategory": {
     "Annales_EAF": 27,
     "Oeuvres": 9,
     "Videos": 322,
-    "Documents_Extraits": 160,
+    "Documents_Extraits": 163,
     "eaf_rapport_jury": 30
   },
   "resources": [
@@ -336,7 +336,7 @@
     },
     {
       "id": "Annales_EAF_23frgean1",
-      "title": "2023 - Bac Français Général - Sujet 1",
+      "title": "23frgean1",
       "originalTitle": "23frgean1.pdf",
       "type": "annales",
       "category": "Annales_EAF",
@@ -432,6 +432,17 @@
       "url": "/ressources/Documents_Extraits/2025_dossier_musset.pdf",
       "size": 2328581,
       "ext": ".pdf"
+    },
+    {
+      "id": "Documents_Extraits_Echelles-Descriptives-Academie-Nantes.md",
+      "title": "Echelles - Descriptives - Academie - Nantes.md",
+      "originalTitle": "Echelles-Descriptives-Academie-Nantes.md",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/Echelles-Descriptives-Academie-Nantes.md",
+      "url": "/ressources/Documents_Extraits/Echelles-Descriptives-Academie-Nantes.md",
+      "size": 3942,
+      "ext": ".md"
     },
     {
       "id": "Documents_Extraits_13-Francais-5e-attendus-eduscol_1114743",
@@ -553,6 +564,28 @@
       "url": "/ressources/Documents_Extraits/Musset-badine.pdf",
       "size": 334296,
       "ext": ".pdf"
+    },
+    {
+      "id": "Documents_Extraits_Note-de-Service-2019-042-EAF",
+      "title": "Note - de - Service - 2019 - 042 - EAF",
+      "originalTitle": "Note-de-Service-2019-042-EAF.pdf",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/Note-de-Service-2019-042-EAF.pdf",
+      "url": "/ressources/Documents_Extraits/Note-de-Service-2019-042-EAF.pdf",
+      "size": 0,
+      "ext": ".pdf"
+    },
+    {
+      "id": "Documents_Extraits_Note-de-Service-2019-042-EAF.md",
+      "title": "Note - de - Service - 2019 - 042 - EAF.md",
+      "originalTitle": "Note-de-Service-2019-042-EAF.md",
+      "type": "document",
+      "category": "Documents_Extraits",
+      "filePath": "ressources/Documents_Extraits/Note-de-Service-2019-042-EAF.md",
+      "url": "/ressources/Documents_Extraits/Note-de-Service-2019-042-EAF.md",
+      "size": 3077,
+      "ext": ".md"
     },
     {
       "id": "Documents_Extraits_ra24_lycee_gt_1_musset_badineamour_oeuvreparcours_jeuxcoeurparole",

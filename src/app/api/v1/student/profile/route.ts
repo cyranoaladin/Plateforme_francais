@@ -103,6 +103,7 @@ export async function PUT(request: Request) {
     parcoursProgress: parsed.data.parcoursProgress ?? auth.user.profile.parcoursProgress,
     preferredObjects: parsed.data.preferredObjects ?? auth.user.profile.preferredObjects,
     weakSkills: parsed.data.weakSkills ?? auth.user.profile.weakSkills,
+    lecturesCursives: parsed.data.lecturesCursives ?? auth.user.profile.lecturesCursives ?? [],
     parentEmail: parsed.data.parentEmail?.trim().toLowerCase() ?? auth.user.profile.parentEmail ?? null,
     teacherEmail: parsed.data.teacherEmail?.trim().toLowerCase() ?? auth.user.profile.teacherEmail ?? null,
   };

@@ -74,13 +74,13 @@ const THEME_OPTIONS: ThemeOption[] = [
 const METHOD_MARKERS = [
   'Identifier le fait de langue exact',
   'Nommer avec la terminologie du programme',
-  'Interpréter l’effet dans le contexte',
+  'Préciser la fonction syntaxique dans la phrase',
 ];
 
 const LANGUE_COPY = {
   heroBody:
-    'Nexus compose des phrases-cibles à partir de la banque interne, recentre la terminologie du programme et t’oblige à nommer le fait de langue avant de commenter son effet.',
-  answerTitle: 'Reste court, exact, exploitable à l’oral',
+    'Nexus compose des phrases-cibles à partir de la banque interne, recentre la terminologie du programme et t\'oblige à nommer le fait de langue puis à préciser sa fonction syntaxique.',
+  answerTitle: 'Reste syntaxique, précis, complet en 2-3 phrases',
 } as const;
 
 export default function AtelierLangue() {
@@ -386,7 +386,7 @@ export default function AtelierLangue() {
                     <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">Ton analyse</p>
                     <h3 className="mt-2 text-lg font-semibold text-[var(--c-primary)]">{LANGUE_COPY.answerTitle}</h3>
                   </div>
-                  <p className="text-sm text-[var(--text-secondary)]">Formule : identification, dénomination, interprétation.</p>
+                  <p className="text-sm text-[var(--text-secondary)]">Formule : identification, dénomination, fonction syntaxique.</p>
                 </div>
 
                 <Textarea

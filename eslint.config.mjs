@@ -2,10 +2,8 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
-// NOTE : eslint-config-next est maintenu par Vercel mais fonctionne parfaitement
-// en mode standalone (serveur dédié). Il fournit les règles React + TypeScript
-// recommandées pour Next.js indépendamment de la plateforme de déploiement.
-// Les règles spécifiques à Vercel sont désactivées ci-dessous.
+// NOTE : eslint-config-next fournit les règles React + TypeScript
+// recommandées pour Next.js dans notre déploiement serveur dédié.
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,

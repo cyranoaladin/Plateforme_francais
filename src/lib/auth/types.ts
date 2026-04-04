@@ -13,6 +13,7 @@ export type StudentProfile = {
   preferredObjects: string[];
   weakSkills: string[];
   oeuvreChoisieEntretien?: string;
+  lecturesCursives?: string[];
   isMinor?: boolean;
   parentEmail?: string | null;
   teacherEmail?: string | null;

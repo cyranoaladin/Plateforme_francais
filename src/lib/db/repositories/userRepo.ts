@@ -55,6 +55,7 @@ function toStudentProfile(profile: PrismaStudentProfileRecord): StudentProfile {
     preferredObjects: profile.preferredObjects,
     weakSkills: profile.weakSkills,
     oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien ?? undefined,
+    lecturesCursives: profile.lecturesCursives ?? [],
     parentEmail: profile.parentEmail ?? undefined,
     teacherEmail: teacherEmail ?? undefined,
     parentConsentToken: profile.parentConsentToken ?? undefined,
@@ -83,6 +84,7 @@ function sanitizeProfileForRole(profile: StudentProfile, role: UserRole): Studen
     preferredObjects: profile.preferredObjects,
     weakSkills: profile.weakSkills,
     oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien,
+    lecturesCursives: profile.lecturesCursives,
   };
 }
 
@@ -173,6 +175,7 @@ export async function createUser(input: {
     preferredObjects: input.profile.preferredObjects,
     weakSkills: input.profile.weakSkills,
     oeuvreChoisieEntretien: input.profile.oeuvreChoisieEntretien,
+    lecturesCursives: input.profile.lecturesCursives ?? [],
     parentEmail: input.profile.parentEmail ?? undefined,
     parentConsentToken: input.profile.parentConsentToken ?? undefined,
     parentConsentStatus: input.profile.parentConsentStatus ?? undefined,
@@ -208,6 +211,7 @@ export async function updateUserProfile(userId: string, profile: StudentProfile)
     preferredObjects: profile.preferredObjects,
     weakSkills: profile.weakSkills,
     oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien ?? null,
+    lecturesCursives: profile.lecturesCursives ?? [],
     parentEmail: profile.parentEmail ?? null,
     parentConsentToken: profile.parentConsentToken ?? null,
     parentConsentStatus: profile.parentConsentStatus ?? undefined,
@@ -231,6 +235,7 @@ export async function updateUserProfile(userId: string, profile: StudentProfile)
     preferredObjects: profile.preferredObjects,
     weakSkills: profile.weakSkills,
     oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien ?? null,
+    lecturesCursives: profile.lecturesCursives ?? [],
     parentEmail: profile.parentEmail ?? undefined,
     parentConsentToken: profile.parentConsentToken ?? undefined,
     parentConsentStatus: profile.parentConsentStatus ?? undefined,

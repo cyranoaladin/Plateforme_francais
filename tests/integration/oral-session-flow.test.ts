@@ -11,8 +11,10 @@ vi.mock('@prisma/client', () => ({
   PrismaClient: class { $queryRaw = async () => []; },
 }));
 
-const { mockFindUnique, mockOrchestrate } = vi.hoisted(() => ({
+const { mockFindUnique, mockDescriptifFindMany, mockTextPrepareFindMany, mockOrchestrate } = vi.hoisted(() => ({
   mockFindUnique: vi.fn(),
+  mockDescriptifFindMany: vi.fn(),
+  mockTextPrepareFindMany: vi.fn(),
   mockOrchestrate: vi.fn(),
 }));
 
@@ -20,6 +22,12 @@ vi.mock('@/lib/db/client', () => ({
   prisma: {
     studentProfile: {
       findUnique: mockFindUnique,
+    },
+    descriptifTexte: {
+      findMany: mockDescriptifFindMany,
+    },
+    textePrepare: {
+      findMany: mockTextPrepareFindMany,
     },
   },
 }));
@@ -50,16 +58,21 @@ describe('Oral Session Flow — integration', () => {
   beforeEach(() => {
     capturedOrchestrateInput.length = 0;
     mockFindUnique.mockReset();
+    mockDescriptifFindMany.mockReset();
+    mockTextPrepareFindMany.mockReset();
     mockOrchestrate.mockClear();
-    mockFindUnique.mockResolvedValue({
-      userId: 'user-test',
-      descriptifTextes: Array.from({ length: 20 }).map((_, i) => ({
+    mockFindUnique.mockResolvedValue({ id: 'profile-test' });
+    mockDescriptifFindMany.mockResolvedValue(
+      Array.from({ length: 20 }).map((_, i) => ({
+        id: `d${i}`,
         oeuvre: i < 10 ? 'Baudelaire' : 'Rimbaud',
+        auteur: i < 10 ? 'Charles Baudelaire' : 'Arthur Rimbaud',
         titre: `Texte ${i + 1}`,
         typeExtrait: 'extrait_oeuvre',
         premieresLignes: i < 10 ? `Premières lignes Baudelaire ${i + 1}.` : `Premières lignes Rimbaud ${i + 1}.`,
       })),
-    });
+    );
+    mockTextPrepareFindMany.mockResolvedValue([]);
   });
 
   describe('pickOralExtrait', () => {
@@ -76,6 +89,8 @@ describe('Oral Session Flow — integration', () => {
     });
 
     it('échoue proprement pour une œuvre inconnue au lieu de choisir un texte aléatoire', async () => {
+      mockDescriptifFindMany.mockResolvedValueOnce([]);
+      mockTextPrepareFindMany.mockResolvedValueOnce([]);
       await expect(
         pickOralExtrait({
           oeuvre: 'OeuvreInexistante12345',
@@ -86,29 +101,16 @@ describe('Oral Session Flow — integration', () => {
     });
 
     it('utilise les premières lignes du descriptif si aucun extrait corpus ne correspond', async () => {
-      mockFindUnique.mockResolvedValueOnce({
-        userId: 'user-test',
-        descriptifTextes: [
-          {
-            oeuvre: 'Œuvre locale de test',
-            titre: 'Lettre III',
-            typeExtrait: 'extrait_oeuvre',
-            premieresLignes: 'Zilia compare le quipu à une mémoire nouée et fidèle.',
-          },
-          {
-            oeuvre: 'Autre œuvre',
-            titre: 'Texte 2',
-            typeExtrait: 'extrait_oeuvre',
-            premieresLignes: 'Autre passage.',
-          },
-          {
-            oeuvre: 'Autre œuvre',
-            titre: 'Texte 3',
-            typeExtrait: 'extrait_parcours',
-            premieresLignes: 'Autre parcours.',
-          },
-        ],
-      });
+      mockDescriptifFindMany.mockResolvedValueOnce([
+        {
+          id: 'dl1',
+          oeuvre: 'Œuvre locale de test',
+          auteur: 'Auteur Test',
+          titre: 'Lettre III',
+          typeExtrait: 'extrait_oeuvre',
+          premieresLignes: 'Zilia compare le quipu à une mémoire nouée et fidèle.',
+        },
+      ]);
 
       const result = await pickOralExtrait({
         oeuvre: 'Œuvre locale de test',

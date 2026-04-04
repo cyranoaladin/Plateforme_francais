@@ -11,6 +11,7 @@ import { OralChecklistWarning } from './components/OralChecklistWarning';
 import { OralPassagePhase } from './components/OralPassagePhase';
 import { OralResultsPanel } from './components/OralResultsPanel';
 import { OralWorkSelector } from './components/OralWorkSelector';
+import { DescriptifStatus } from './components/DescriptifStatus';
 import {
   PREP_CHECKLIST,
   STEPS,
@@ -233,6 +234,8 @@ export default function AtelierOralPage() {
                 <OralChecklistWarning completed={oral.prepChecklist.length} total={PREP_CHECKLIST.length} />
               </div>
             </section>
+
+            <DescriptifStatus />
 
             <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Rappel</p>

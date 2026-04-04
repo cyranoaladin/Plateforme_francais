@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 export default function GlobalError({
   error,
   reset,
@@ -101,7 +103,7 @@ export default function GlobalError({
             >
               Réessayer
             </button>
-            <a
+            <Link
               href="/"
               style={{
                 color: '#2E86C1',
@@ -110,8 +112,8 @@ export default function GlobalError({
                 textUnderlineOffset: '2px',
               }}
             >
-              Retour à l'accueil
-            </a>
+              {"Retour à l'accueil"}
+            </Link>
           </div>
         </div>
         <p

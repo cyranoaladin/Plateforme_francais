@@ -75,6 +75,7 @@ model User {
   complianceLogs    ComplianceLog[]
   activationCodes   ActivationCode[]
   passwordResets PasswordResetToken[]
+  textesPrepares    TextePrepare[]
   emailVerified      DateTime?
   emailVerifyToken   String?   @unique
   emailVerifyExpiry  DateTime?
@@ -130,6 +131,7 @@ model StudentProfile {
   preferredObjects    String[]    @default([])
   weakSkills          String[]    @default([])
   oeuvreChoisieEntretien String?
+  lecturesCursives    String[]    @default([])
   skillMap            Json?
   streak              Int         @default(0)
   maxStreak           Int         @default(0)
@@ -833,6 +835,28 @@ model DescriptifTexte {
   createdAt       DateTime       @default(now())
 
   @@index([studentId, objetEtude])
+}
+
+model TextePrepare {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Infos obligatoires
+  oeuvreAuteur String   // "Cahier de Douai — Arthur Rimbaud"
+  titreExtrait String   // Titre ou incipit de l'extrait
+  
+  // Infos facultatives
+  incipit      String?  // Premiers mots de l'extrait
+  position     Int      @default(0) // Numéro dans le descriptif (1-16)
+  
+  // Métadonnées
+  anneeScolaire String  @default("2025-2026")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([userId, anneeScolaire])
 }
 
 model WebVital {

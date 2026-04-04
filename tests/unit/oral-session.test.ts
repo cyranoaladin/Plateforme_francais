@@ -31,31 +31,13 @@ vi.mock('@/lib/logger', () => ({
 vi.mock('@/lib/db/client', () => ({
   prisma: {
     studentProfile: {
-      findUnique: vi.fn().mockResolvedValue({
-        userId: 'user-test',
-        descriptifTextes: [
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 1' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 2' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 3' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 4' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 5' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 6' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 7' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 8' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 9' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 10' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 11' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 12' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 13' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 14' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 15' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 16' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 17' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 18' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 19' },
-          { oeuvre: 'Le Mariage forcé', titre: 'Texte 20' },
-        ],
-      }),
+      findUnique: vi.fn().mockResolvedValue({ id: 'profile-test' }),
+    },
+    descriptifTexte: {
+      findMany: vi.fn().mockResolvedValue([]),
+    },
+    textePrepare: {
+      findMany: vi.fn().mockResolvedValue([]),
     },
   },
 }));
@@ -75,19 +57,22 @@ describe('Oral Service', () => {
     vi.doMock('@/lib/db/client', () => ({
       prisma: {
         studentProfile: {
-          findUnique: vi.fn().mockResolvedValue({
-            userId: 'user-test',
-            descriptifTextes: [
-              {
-                oeuvre: 'Le Mariage forcé',
-                titre: 'Scène 1',
-                typeExtrait: 'extrait_oeuvre',
-                premieresLignes: 'Sganarelle expose ses doutes avec une énergie déjà comique.',
-              },
-              { oeuvre: 'Le Mariage forcé', titre: 'Texte 2', typeExtrait: 'extrait_oeuvre', premieresLignes: '...' },
-              { oeuvre: 'Le Mariage forcé', titre: 'Texte 3', typeExtrait: 'extrait_oeuvre', premieresLignes: '...' },
-            ],
-          }),
+          findUnique: vi.fn().mockResolvedValue({ id: 'profile-test' }),
+        },
+        descriptifTexte: {
+          findMany: vi.fn().mockResolvedValue([
+            {
+              id: 'd1',
+              oeuvre: 'Le Mariage forcé',
+              auteur: 'Molière',
+              titre: 'Scène 1',
+              typeExtrait: 'extrait_oeuvre',
+              premieresLignes: 'Sganarelle expose ses doutes avec une énergie déjà comique.',
+            },
+          ]),
+        },
+        textePrepare: {
+          findMany: vi.fn().mockResolvedValue([]),
         },
       },
     }));
@@ -113,6 +98,24 @@ describe('Oral Service', () => {
   });
 
   it('pickOralExtrait échoue proprement pour une œuvre inconnue', async () => {
+    vi.doMock('@/lib/db/client', () => ({
+      prisma: {
+        studentProfile: {
+          findUnique: vi.fn().mockResolvedValue({ id: 'profile-test' }),
+        },
+        descriptifTexte: {
+          findMany: vi.fn().mockResolvedValue([]),
+        },
+        textePrepare: {
+          findMany: vi.fn().mockResolvedValue([]),
+        },
+      },
+    }));
+    vi.doMock('@/data/extraits-oeuvres', () => ({
+      EXTRAITS_OEUVRES: [],
+    }));
+    vi.resetModules();
+
     const { pickOralExtrait } = await import('@/lib/oral/service');
     await expect(pickOralExtrait({
       oeuvre: 'Oeuvre inexistante',
@@ -121,23 +124,28 @@ describe('Oral Service', () => {
     })).rejects.toThrow("Aucun extrait exploitable");
   });
 
-  it('pickOralExtrait utilise les premières lignes du descriptif si le corpus ne couvre pas l’œuvre', async () => {
+  it('pickOralExtrait utilise les premières lignes du descriptif si le corpus ne couvre pas l\'œuvre', async () => {
     vi.doMock('@/lib/db/client', () => ({
       prisma: {
         studentProfile: {
-          findUnique: vi.fn().mockResolvedValue({
-            userId: 'user-test',
-            descriptifTextes: [
-              {
-                oeuvre: "Lettres d'une Péruvienne",
-                titre: 'Lettre II',
-                typeExtrait: 'extrait_oeuvre',
-                premieresLignes: 'Zilia écrit à Aza et décrit le quipu comme un lien vivant avec sa mémoire.',
-              },
-              { oeuvre: 'Autre œuvre', titre: 'Texte 2', typeExtrait: 'extrait_oeuvre', premieresLignes: '...' },
-              { oeuvre: 'Autre œuvre', titre: 'Texte 3', typeExtrait: 'extrait_parcours', premieresLignes: '...' },
-            ],
-          }),
+          findUnique: vi.fn().mockResolvedValue({ id: 'profile-test' }),
+        },
+        descriptifTexte: {
+          findMany: vi.fn().mockResolvedValue([
+            {
+              id: 'd1',
+              oeuvre: "Lettres d'une Péruvienne",
+              auteur: 'Graffigny',
+              titre: 'Lettre II',
+              typeExtrait: 'extrait_oeuvre',
+              premieresLignes: 'Zilia écrit à Aza et décrit le quipu comme un lien vivant avec sa mémoire.',
+            },
+            { id: 'd2', oeuvre: 'Autre œuvre', auteur: 'Autre', titre: 'Texte 2', typeExtrait: 'extrait_oeuvre', premieresLignes: '...' },
+            { id: 'd3', oeuvre: 'Autre œuvre', auteur: 'Autre', titre: 'Texte 3', typeExtrait: 'extrait_parcours', premieresLignes: '...' },
+          ]),
+        },
+        textePrepare: {
+          findMany: vi.fn().mockResolvedValue([]),
         },
       },
     }));

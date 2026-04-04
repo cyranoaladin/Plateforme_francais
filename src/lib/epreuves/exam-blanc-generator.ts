@@ -84,10 +84,20 @@ function buildExamPrompt(config: ExamBlancConfig): string {
 
 function getDefaultBareme(type: ExamType): Record<string, number> {
   if (type === 'commentaire') {
-    return { introduction: 3, analyse: 8, plan: 4, expression: 3, conclusion: 2 };
+    return {
+      comprehension_interpretation: 6,
+      construction_reflexion: 6,
+      culture_litteraire: 4,
+      maitrise_langue: 4,
+    };
   }
   if (type === 'dissertation') {
-    return { problematique: 4, argumentation: 8, exemples: 4, expression: 4 };
+    return {
+      prise_en_compte_sujet: 4,
+      construction_reflexion: 8,
+      culture_litteraire: 4,
+      maitrise_langue: 4,
+    };
   }
   return { contraction: 10, essai: 10 };
 }

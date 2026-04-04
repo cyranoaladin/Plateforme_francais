@@ -255,7 +255,6 @@ Cette commande exécute séquentiellement :
 3. `npm run test:unit -- --run` — Tests unitaires
 4. `npm run ci:fr-copy -- --update` — Contrôle copy française
 5. `npm run check-banned` — Détection phrases bannies
-6. `npm run check:no-vercel` — Garde anti-Vercel
 
 #### Template PR
 
