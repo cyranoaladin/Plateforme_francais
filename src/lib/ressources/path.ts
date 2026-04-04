@@ -14,6 +14,7 @@ export function getRessourcesRoot(): string {
     return '/srv/eaf_ressources';
   }
   // Priority 3 : dev local — résolution RUNTIME uniquement, jamais au build
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { join } = require('path') as typeof import('path');
   return join(process.cwd(), '..', 'eaf_ressources');
 }

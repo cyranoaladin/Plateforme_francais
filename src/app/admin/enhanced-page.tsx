@@ -222,7 +222,7 @@ export default function EnhancedAdminDashboard() {
 
     // Sort
     filtered.sort((a, b) => {
-      let aValue: any, bValue: any;
+      let aValue: string | number | Date, bValue: string | number | Date;
       
       switch (sortBy) {
         case 'email':
@@ -735,7 +735,7 @@ export default function EnhancedAdminDashboard() {
                       </div>
                       <select
                         value={planFilter}
-                        onChange={(e) => setPlanFilter(e.target.value as any)}
+                        onChange={(e) => setPlanFilter(e.target.value as 'ALL' | 'FREE' | 'PREMIUM' | 'PRO')}
                         className="px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
                         <option value="ALL">Tous les plans</option>
@@ -745,7 +745,7 @@ export default function EnhancedAdminDashboard() {
                       </select>
                       <select
                         value={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value as any)}
+                        onChange={(e) => setStatusFilter(e.target.value as 'ALL' | 'ACTIVE' | 'INACTIVE' | 'PENDING')}
                         className="px-3 py-2 border border-[var(--border-primary)] rounded-lg"
                       >
                         <option value="ALL">Tous les statuts</option>
@@ -777,7 +777,7 @@ export default function EnhancedAdminDashboard() {
                       <span>Trier par:</span>
                       <select
                         value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value as any)}
+                        onChange={(e) => setSortBy(e.target.value as 'createdAt' | 'email' | 'lastLogin')}
                         className="px-2 py-1 border border-[var(--border-primary)] rounded text-sm"
                       >
                         <option value="createdAt">Date d'inscription</option>
