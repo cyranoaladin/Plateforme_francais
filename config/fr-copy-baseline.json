@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-02T23:08:21.310Z",
+  "generatedAt": "2026-04-04T08:40:28.623Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -213,210 +213,210 @@
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 511,
+      "line": 512,
       "column": 49,
       "kind": "jsx-text",
       "text": "Premium (99 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 512,
+      "line": 513,
       "column": 51,
       "kind": "jsx-text",
       "text": "Masterium (129 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 516,
+      "line": 517,
       "column": 73,
       "kind": "jsx-text",
       "text": "Durée (jours)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 539,
+      "line": 540,
       "column": 73,
       "kind": "jsx-text",
       "text": "✅ Code généré avec succès !"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 542,
+      "line": 543,
       "column": 66,
       "kind": "jsx-text",
       "text": "Copiez ce code et communiquez-le à l'utilisateur :"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 554,
+      "line": 555,
       "column": 25,
       "kind": "jsx-text",
       "text": "Copier"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 557,
+      "line": 558,
       "column": 62,
       "kind": "jsx-text",
       "text": "⚠️ Ce code ne sera plus affiché. Assurez-vous de le sauvegarder."
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 562,
+      "line": 563,
       "column": 58,
       "kind": "jsx-text",
       "text": "Codes d'activation"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 567,
+      "line": 568,
       "column": 63,
       "kind": "jsx-text",
       "text": "Hash (8 premiers)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 568,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Plan"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
       "line": 569,
       "column": 63,
       "kind": "jsx-text",
-      "text": "Durée"
+      "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
       "line": 570,
       "column": 63,
       "kind": "jsx-text",
-      "text": "Statut"
+      "text": "Durée"
     },
     {
       "file": "src/app/admin/page.tsx",
       "line": 571,
       "column": 63,
       "kind": "jsx-text",
-      "text": "Créé le"
+      "text": "Statut"
     },
     {
       "file": "src/app/admin/page.tsx",
       "line": 572,
       "column": 63,
       "kind": "jsx-text",
+      "text": "Créé le"
+    },
+    {
+      "file": "src/app/admin/page.tsx",
+      "line": 573,
+      "column": 63,
+      "kind": "jsx-text",
       "text": "Utilisé le"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 608,
+      "line": 609,
       "column": 56,
       "kind": "jsx-text",
       "text": "Valider un paiement manuel"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 611,
+      "line": 612,
       "column": 71,
       "kind": "jsx-text",
       "text": "Utilisateur"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 617,
+      "line": 618,
       "column": 40,
       "kind": "jsx-text",
       "text": "Sélectionner un utilisateur"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 628,
+      "line": 629,
       "column": 73,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 638,
+      "line": 640,
       "column": 49,
       "kind": "jsx-text",
       "text": "Premium (99 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 639,
+      "line": 641,
       "column": 51,
       "kind": "jsx-text",
       "text": "Masterium (129 TND/mois)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 644,
+      "line": 646,
       "column": 73,
       "kind": "jsx-text",
       "text": "Montant (millimes)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 652,
+      "line": 654,
       "column": 71,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 659,
+      "line": 661,
       "column": 73,
       "kind": "jsx-text",
       "text": "Méthode de paiement"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 665,
+      "line": 667,
       "column": 50,
       "kind": "jsx-text",
       "text": "Virement bancaire"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 666,
+      "line": 668,
       "column": 49,
       "kind": "jsx-text",
       "text": "Espèces"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 667,
+      "line": 669,
       "column": 47,
       "kind": "jsx-text",
       "text": "Autre"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 672,
+      "line": 674,
       "column": 73,
       "kind": "jsx-text",
       "text": "Référence *"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 677,
+      "line": 679,
       "column": 37,
       "kind": "jsx-prop",
       "text": "REF-2026-001"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 683,
+      "line": 685,
       "column": 71,
       "kind": "jsx-text",
       "text": "Notes (optionnel)"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 689,
+      "line": 691,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Informations complémentaires..."
@@ -1445,63 +1445,63 @@
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 120,
+      "line": 121,
       "column": 26,
       "kind": "jsx-prop",
       "text": "Prendre une photo de copie"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 136,
+      "line": 137,
       "column": 70,
       "kind": "jsx-text",
       "text": "MB"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 153,
+      "line": 154,
       "column": 19,
       "kind": "jsx-text",
       "text": "PDF prêt à l&apos;envoi"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 161,
+      "line": 162,
       "column": 75,
       "kind": "jsx-text",
       "text": "Envoi en cours…"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 176,
+      "line": 178,
       "column": 13,
       "kind": "jsx-text",
       "text": "Lancer la correction détaillée"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 186,
+      "line": 188,
       "column": 73,
       "kind": "jsx-text",
       "text": "Ton rapport de correction est prêt"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 188,
+      "line": 190,
       "column": 13,
       "kind": "jsx-text",
       "text": "Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire."
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 195,
+      "line": 198,
       "column": 15,
       "kind": "jsx-text",
       "text": "Voir mon rapport"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 202,
+      "line": 205,
       "column": 15,
       "kind": "jsx-text",
       "text": "Préparer le retravail avec le guidage"
@@ -1578,21 +1578,21 @@
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 109,
+      "line": 110,
       "column": 102,
       "kind": "jsx-text",
       "text": "Barème"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 117,
+      "line": 118,
       "column": 60,
       "kind": "jsx-text",
       "text": "pts"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 125,
+      "line": 126,
       "column": 15,
       "kind": "jsx-text",
       "text": "Changer de sujet"
@@ -2243,14 +2243,14 @@
     },
     {
       "file": "src/app/atelier-oral/components/OralWorkSelector.tsx",
-      "line": 45,
+      "line": 46,
       "column": 11,
       "kind": "jsx-text",
       "text": "Pratique libre"
     },
     {
       "file": "src/app/atelier-oral/components/OralWorkSelector.tsx",
-      "line": 49,
+      "line": 50,
       "column": 9,
       "kind": "jsx-text",
       "text": "Œuvre choisie :"
@@ -2391,7 +2391,7 @@
     {
       "file": "src/app/atelier-oral/page.tsx",
       "line": 114,
-      "column": 15,
+      "column": 17,
       "kind": "jsx-text",
       "text": "Tirer un extrait"
     },
@@ -2488,42 +2488,42 @@
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 209,
+      "line": 215,
       "column": 17,
       "kind": "jsx-text",
       "text": "Commencer le passage (20 min)"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 224,
+      "line": 230,
       "column": 69,
       "kind": "jsx-text",
       "text": "étapes complétées"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 232,
+      "line": 238,
       "column": 103,
       "kind": "jsx-text",
       "text": "Rappel"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 234,
+      "line": 240,
       "column": 17,
       "kind": "jsx-text",
       "text": "La préparation utile ne cherche pas à tout écrire. Elle cherche à sécuriser les mouvements du texte, deux ou trois procédés décisifs et une réponse propre à la grammaire."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 240,
+      "line": 246,
       "column": 17,
       "kind": "jsx-text",
       "text": "Débloquer un point avant le passage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 289,
+      "line": 295,
       "column": 13,
       "kind": "jsx-text",
       "text": "Badge débloqué :"
