@@ -22,7 +22,7 @@ export async function GET() {
     return errorResponse;
   }
 
-  const textes = await prisma.textePrepare.findMany({
+  const textes = await prisma.texteDescriptif.findMany({
     where: { userId: auth.user.id },
     orderBy: { position: 'asc' },
   });
