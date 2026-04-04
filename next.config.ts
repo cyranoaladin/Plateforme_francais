@@ -43,6 +43,7 @@ const nextConfig: NextConfig = {
       'ressources',
       'ressources/**/*',
       '/srv/eaf_ressources/**/*',
+      'src/lib/ressources/path.ts',
     ],
   },
   outputFileTracingRoot: appRoot,

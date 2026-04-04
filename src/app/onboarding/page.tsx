@@ -295,7 +295,7 @@ export default function OnboardingPage() {
       });
 
       track({ name: 'onboarding_complete', props: {} });
-      setWelcomeMessage(payload.welcomeMessage ?? 'Ton parcours est prêt.');
+      setWelcomeMessage(payload.welcomeMessage ?? 'Ton parcours est prêt. Pense à compléter ton descriptif de lecture !');
       setTimeout(() => {
         router.push('/dashboard');
         router.refresh();
