@@ -28,8 +28,8 @@ describe('scripts/deploy.sh', () => {
     const script = readFileSync(resolve(process.cwd(), 'scripts/deploy.sh'), 'utf8');
 
     expect(script).toContain('APP_RUNTIME_USER="${APP_RUNTIME_USER:-nexus}"');
-    expect(script).toContain('sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env');
-    expect(script).toContain('sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save');
+    expect(script).toContain('sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env');
+    expect(script).toContain('sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save');
   });
 
   it('verifies the durable resources volume and rechecks the symlink after build', () => {

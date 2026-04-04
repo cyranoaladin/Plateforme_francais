@@ -275,16 +275,16 @@ systemctl reload cron 2>/dev/null || service cron reload 2>/dev/null || true
 cat /etc/cron.d/nexus-healthcheck"
 
 echo "[7f/8] Configuration de la rotation des logs PM2..."
-ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 module:list | grep -q pm2-logrotate || sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 install pm2-logrotate"
-ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 set pm2-logrotate:max_size 50M && sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 set pm2-logrotate:retain 7"
+ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 module:list | grep -q pm2-logrotate || sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 install pm2-logrotate"
+ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 set pm2-logrotate:max_size 50M && sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 set pm2-logrotate:retain 7"
 
 # --- 8. Restart PM2 ---
 echo "[8/8] Redémarrage des services PM2..."
 ssh "$SSH_TARGET" "for app in eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker; do pm2 delete \"\$app\" 2>/dev/null || true; done"
-ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 delete eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker 2>/dev/null || true"
+ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 delete eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker 2>/dev/null || true"
 ssh "$SSH_TARGET" "fuser -k 3100/tcp 2>/dev/null || true; sleep 2"
-ssh "$SSH_TARGET" "cd $APP_DIR && sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
-ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save"
+ssh "$SSH_TARGET" "cd $APP_DIR && sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
+ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save"
 
 # --- 9. Smoke test post-deploy ---
 echo "[9/9] Smoke test post-déploiement..."
@@ -320,6 +320,6 @@ echo "  🌐 https://$DOMAIN"
 echo ""
 echo "  Vérifications :"
 echo "    curl -s https://$DOMAIN/api/v1/health"
-echo "    ssh $SSH_TARGET 'sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 status'"
-echo "    ssh $SSH_TARGET 'sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 logs --lines 20'"
+echo "    ssh $SSH_TARGET 'sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 status'"
+echo "    ssh $SSH_TARGET 'sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 logs --lines 20'"
 echo ""
