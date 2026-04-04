@@ -3,7 +3,7 @@
  * @description Test de la route health pour valider la logique de liveness
  * @author Codex
  */
-import { describe, it, expect, vi, beforeEach, MockedFunction } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { GET } from '@/app/api/v1/health/route';
 import { prisma } from '@/lib/db/client';
 import { getRedisClient } from '@/lib/queue/correction-queue';
@@ -39,9 +39,9 @@ describe('GET /api/v1/health', () => {
   });
 
   it('devrait retourner 200 quand tout est OK', async () => {
-    (prisma.$queryRawUnsafe as MockedFunction<typeof prisma.$queryRawUnsafe>).mockResolvedValueOnce([1]);
-    (getRedisClient as MockedFunction<typeof getRedisClient>).mockReturnValue({ ping: vi.fn().mockResolvedValue('PONG') } as unknown as ReturnType<typeof getRedisClient>);
-    (global.fetch as MockedFunction<typeof global.fetch>).mockResolvedValueOnce({ ok: true } as unknown as Response);
+    vi.mocked(prisma.$queryRawUnsafe).mockResolvedValueOnce([1]);
+    vi.mocked(getRedisClient).mockReturnValue({ ping: vi.fn().mockResolvedValue('PONG') } as unknown as ReturnType<typeof getRedisClient>);
+    vi.mocked(global.fetch).mockResolvedValueOnce({ ok: true } as unknown as Response);
 
     const response = await GET();
     const data = await response.json();
@@ -54,9 +54,9 @@ describe('GET /api/v1/health', () => {
   });
 
   it('devrait retourner 200 (degraded) si seul RAG est down', async () => {
-    (prisma.$queryRawUnsafe as MockedFunction<typeof prisma.$queryRawUnsafe>).mockResolvedValueOnce([1]);
-    (getRedisClient as MockedFunction<typeof getRedisClient>).mockReturnValue({ ping: vi.fn().mockResolvedValue('PONG') } as unknown as ReturnType<typeof getRedisClient>);
-    (global.fetch as MockedFunction<typeof global.fetch>).mockRejectedValueOnce(new Error('RAG down'));
+    vi.mocked(prisma.$queryRawUnsafe).mockResolvedValueOnce([1]);
+    vi.mocked(getRedisClient).mockReturnValue({ ping: vi.fn().mockResolvedValue('PONG') } as unknown as ReturnType<typeof getRedisClient>);
+    vi.mocked(global.fetch).mockRejectedValueOnce(new Error('RAG down'));
 
     const response = await GET();
     const data = await response.json();
@@ -69,9 +69,9 @@ describe('GET /api/v1/health', () => {
   });
 
   it('devrait retourner 503 si la DB est down', async () => {
-    (prisma.$queryRawUnsafe as MockedFunction<typeof prisma.$queryRawUnsafe>).mockRejectedValueOnce(new Error('DB connection failed'));
-    (getRedisClient as MockedFunction<typeof getRedisClient>).mockReturnValue({ ping: vi.fn().mockResolvedValue('PONG') } as unknown as ReturnType<typeof getRedisClient>);
-    (global.fetch as MockedFunction<typeof global.fetch>).mockResolvedValueOnce({ ok: true } as unknown as Response);
+    vi.mocked(prisma.$queryRawUnsafe).mockRejectedValueOnce(new Error('DB connection failed'));
+    vi.mocked(getRedisClient).mockReturnValue({ ping: vi.fn().mockResolvedValue('PONG') } as unknown as ReturnType<typeof getRedisClient>);
+    vi.mocked(global.fetch).mockResolvedValueOnce({ ok: true } as unknown as Response);
 
     const response = await GET();
     const data = await response.json();
@@ -82,9 +82,9 @@ describe('GET /api/v1/health', () => {
   });
 
   it('devrait retourner 503 si Redis est down', async () => {
-    (prisma.$queryRawUnsafe as MockedFunction<typeof prisma.$queryRawUnsafe>).mockResolvedValueOnce([1]);
-    (getRedisClient as MockedFunction<typeof getRedisClient>).mockReturnValue({ ping: vi.fn().mockRejectedValue(new Error('Redis down')) } as unknown as ReturnType<typeof getRedisClient>);
-    (global.fetch as MockedFunction<typeof global.fetch>).mockResolvedValueOnce({ ok: true } as unknown as Response);
+    vi.mocked(prisma.$queryRawUnsafe).mockResolvedValueOnce([1]);
+    vi.mocked(getRedisClient).mockReturnValue({ ping: vi.fn().mockRejectedValue(new Error('Redis down')) } as unknown as ReturnType<typeof getRedisClient>);
+    vi.mocked(global.fetch).mockResolvedValueOnce({ ok: true } as unknown as Response);
 
     const response = await GET();
     const data = await response.json();
