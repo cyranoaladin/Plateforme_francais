@@ -295,9 +295,9 @@ export default function OnboardingPage() {
       });
 
       track({ name: 'onboarding_complete', props: {} });
-      setWelcomeMessage(payload.welcomeMessage ?? 'Ton parcours est prêt. Pense à compléter ton descriptif de lecture !');
+      setWelcomeMessage(payload.welcomeMessage ?? 'Ton parcours est prêt. Complète ton descriptif de lecture pour simuler l\'épreuve orale dans les conditions réelles !');
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/descriptif-lecture?onboarding=true');
         router.refresh();
       }, 1200);
     } catch (err) {

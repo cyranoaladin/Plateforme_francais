@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { BookOpen, FileWarning, Plus } from 'lucide-react';
 import { AddTexteForm } from './AddTexteForm';
 import { TexteCard } from './TexteCard';
@@ -46,6 +47,8 @@ const TYPE_SECTIONS: Array<{
 ];
 
 export default function DescriptifLecturePage() {
+  const searchParams = useSearchParams();
+  const isFromOnboarding = searchParams.get('onboarding') === 'true';
   const [textes, setTextes] = useState<TexteDescriptif[]>([]);
   const [conformite, setConformite] = useState<ConformiteObjet[]>([]);
   const [total, setTotal] = useState(0);
@@ -180,6 +183,16 @@ export default function DescriptifLecturePage() {
       <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="space-y-6">
           <div className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
+            {isFromOnboarding && (
+              <div className="mb-4 rounded-2xl border border-[var(--c-primary)]/20 bg-[var(--c-primary)]/5 p-4">
+                <h3 className="font-semibold text-[var(--c-primary)] mb-2">
+                  🎉 Bienvenue ! Complète ton descriptif de lecture
+                </h3>
+                <p className="text-sm text-[var(--text-body)]">
+                  Pour que l'atelier oral simule les vraies conditions de l'épreuve, saisis ici les textes étudiés en classe avec ton enseignant.
+                </p>
+              </div>
+            )}
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <h2 className="text-xl font-semibold text-[var(--text-heading)]">
@@ -187,8 +200,8 @@ export default function DescriptifLecturePage() {
                 </h2>
                 <p className="mt-2 text-sm text-[var(--text-muted)]">
                   {selectedConformite?.conforme
-                    ? 'Objet d’étude conforme.'
-                    : `Manquant : ${selectedConformite?.manquant.join(' · ') ?? 'compléter cet objet d’étude'}`}
+                    ? 'Objet d&apos;étude conforme.'
+                    : `Manquant : ${selectedConformite?.manquant?.join(' · ') ?? 'compléter cet objet d&apos;étude'}`}
                 </p>
               </div>
               <Button onClick={() => setShowAddForm((value) => !value)} icon={<Plus className="h-4 w-4" />}>

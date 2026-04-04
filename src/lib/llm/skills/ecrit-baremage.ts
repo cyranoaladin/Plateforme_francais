@@ -72,14 +72,18 @@ Format JSON uniquement :
 }`;
 }
 
-export const ecritBaremageSkill: SkillConfig<EcritBaremageOutput> = {
-  prompt: buildCorrecteurPrompt('commentaire'),
-  outputSchema: schema,
-  fallback: {
-    exercice: 'commentaire',
-    evaluation: [],
-    total: 0,
-    bilan: 'Évaluation indisponible.',
-    priorites: [],
-  },
-};
+export function createEcritBaremageSkill(exercice: ExerciceEcrit): SkillConfig<EcritBaremageOutput> {
+  return {
+    prompt: buildCorrecteurPrompt(exercice),
+    outputSchema: schema,
+    fallback: {
+      exercice,
+      evaluation: [],
+      total: 0,
+      bilan: 'Évaluation indisponible.',
+      priorites: [],
+    },
+  };
+}
+
+export const ecritBaremageSkill = createEcritBaremageSkill('commentaire');

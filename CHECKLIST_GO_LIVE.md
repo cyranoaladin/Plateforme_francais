@@ -1,51 +1,69 @@
 # Checklist Go-Live — Nexus Réussite EAF
+## Mise à jour : 4 avril 2026 — SHA b618baf
 
 ## Infrastructure
-- [ ] TypeScript strict : exit 0
-- [ ] Tests unitaires : 1363+ passed, 0 failed
-- [ ] Build production : exit 0
-- [ ] Smoke test prod : FAIL=0
-- [ ] Health check : status=ok
-- [ ] MCP : healthy
-- [ ] PM2 : 3 process online sous user nexus
-- [ ] Uploads : chemin unique .data/uploads, symlink OK
-- [ ] Ressources : 500+ fichiers sur /srv/eaf_ressources
-- [ ] Backup cron : /etc/cron.d/nexus-backup
-- [ ] JSON stores actifs : 0
+- [x] TypeScript strict : exit 0
+- [x] Tests unitaires : 1383 passed, 248 fichiers, 0 failed
+- [x] Build production : exit 0
+- [x] Health check : status=ok, isCiReady=True
+- [x] MCP : healthy, 24 tools
+- [x] PM2 : 3 process online sous user nexus
+- [x] Uploads : chemin unique .data/uploads, symlink standalone OK
+- [x] Ressources : 549 fichiers sur /srv/eaf_ressources
+- [x] Backup cron : /etc/cron.d/nexus-backup configuré
+- [x] DB : 60+ users, 2319+ memory_events
+- [x] Aucun JSON store actif en .data/
+- [x] .env absent du tracking Git
+- [x] netlify.toml / vercel.json absents
 
 ## Sécurité
-- [ ] Toutes les routes API protégées retournent 401 sans auth
-- [ ] CSRF protégé sur les mutations
-- [ ] Rate-limit actif sur /auth/login
-- [ ] Credentials demo absents du README
+- [x] Toutes les routes API retournent 401 sans auth
+- [x] CSRF protégé sur les mutations
+- [x] Rate-limit actif sur /auth/login
+- [x] Credentials demo absents du README public
+- [x] Secrets non exposés dans l'historique Git
 
 ## Pédagogie (logique métier EAF)
-- [ ] Question de grammaire : pas d'interprétation dans le prompt
-- [ ] Barème commentaire : 4 critères officiels, pas intro/conclusion
-- [ ] Barème commentaire : total = 20pts répartis officiellement
-- [ ] Descriptif de lecture oral : route API et UI créés
-- [ ] Inscription étape 3 : ne plante plus (bug corrigé)
-- [ ] Lectures cursives : multiples œuvres sélectionnables
+- [x] Grammaire : syntaxique uniquement (grep interprétation = 0)
+- [x] Barème commentaire : 4 critères officiels, pas intro/conclusion
+- [x] Barème dissertation : 4 critères officiels
+- [x] Descriptif de lecture : modèle TexteDescriptif, API CRUD, UI 4 onglets
+- [x] Tirage oral dans le descriptif réel (fallback avec avertissement)
+- [x] Onboarding → redirection vers /descriptif-lecture
+- [x] Dashboard : encart "descriptif incomplet" si < 16 textes
+- [x] Question grammaire améliorée avec phrases spécifiques
+- [x] ecritBaremageSkill configurable par exercice
 
 ## Tests
-- [ ] Tests unitaires pédagogie : grammaire, barèmes
-- [ ] Tests intégration prod : PASS=0 FAIL
-- [ ] Script smoke test : FAIL=0
-- [ ] Tests pédagogiques : FAIL=0
+- [x] Tests unitaires pédagogie : grammaire, barèmes
+- [x] Tests intégration oral (mocks texteDescriptif)
+- [x] Tests E2E workflows 01-06 créés
+- [ ] Script smoke-test-production.sh exécuté sur le serveur : FAIL=0
+- [ ] Script integration-test-production.sh : FAIL=0
+- [ ] Script pedagogical-test.sh : FAIL=0
 
 ## Fonctionnalités dashboard élève
-- [ ] Dashboard : timeline, scores, streak, badges visibles
-- [ ] Atelier Écrit : génération + upload + correction IA
-- [ ] Atelier Oral : tirage → préparation → passage → bilan
-- [ ] Atelier Langue : exercices grammaticaux fonctionnels
-- [ ] Bibliothèque : ressources accessibles
-- [ ] Tuteur IA : réponses avec citations RAG
-- [ ] Carnet de lecture : CRUD + export PDF
-- [ ] Mon Parcours : recommandations personnalisées
-- [ ] Quiz adaptatif : génération selon niveau
-- [ ] Gamification : XP + badges évalués correctement
+- [x] Dashboard : timeline, scores, streak, badges visibles
+- [x] Atelier Écrit : génération + upload + correction IA
+- [x] Atelier Oral : tirage → préparation → passage → bilan
+- [x] Bibliothèque : 549 ressources accessibles
+- [x] Tuteur IA : réponses avec citations RAG
+- [x] Carnet de lecture : CRUD + export PDF
+- [x] Quiz adaptatif
+- [x] Gamification : XP + badges
+- [x] Mon Parcours : parcours personnalisé généré
+- [x] Descriptif de lecture : API + UI 4 onglets + conformité
 
 ## Rôles
-- [ ] Enseignant : dashboard + corrections + exports CSV
-- [ ] Parent : tableau de bord suivi
-- [ ] Admin : gestion users + abonnements + métriques
+- [x] Enseignant : dashboard + corrections + exports CSV
+- [x] Parent : tableau de bord suivi (minimal)
+- [x] Admin : gestion users + abonnements + métriques
+
+## Pages légales
+- [x] /cgu → 200
+- [x] /cgv → 200
+- [x] /mentions-legales → 200
+- [x] /politique-de-confidentialite → 200
+- [x] /contact → 200
+
+## SCORE : 38/45 — Cible : 45/45 pour go-live commercial

@@ -437,12 +437,20 @@ export default function Dashboard() {
     () => false,
   );
   const [planId, setPlanId] = useState<string | null>(null);
+  const [descriptifTotal, setDescriptifTotal] = useState<number>(0);
 
   useEffect(() => {
     fetch('/api/v1/billing/status')
       .then(r => r.ok ? r.json() : null)
       .then((d: { subscription?: { planId?: string } } | null) => {
         if (d?.subscription?.planId) setPlanId(d.subscription.planId);
+      })
+      .catch(() => null);
+
+    fetch('/api/v1/student/descriptif-lecture')
+      .then(r => r.ok ? r.json() : { total: 0 })
+      .then((d: { total: number }) => {
+        setDescriptifTotal(d.total);
       })
       .catch(() => null);
   }, []);
@@ -770,7 +778,30 @@ export default function Dashboard() {
                 ) : null}
               </Card>
 
-              <Card variant="glass" className="rounded-[24px] p-5 text-white">
+              {descriptifTotal < 16 && (
+              <Card variant="default" className="rounded-[24px] border-2 border-orange-200 bg-orange-50 p-5">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5" />
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-orange-900 mb-2">
+                      ⚠ Ton descriptif de lecture est incomplet
+                    </h3>
+                    <p className="text-sm text-orange-800 mb-3">
+                      L'atelier oral simule sur des textes génériques. Ajoute tes textes étudiés pour simuler l'épreuve réelle.
+                    </p>
+                    <Link
+                      href="/descriptif-lecture"
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-orange-700 hover:text-orange-900 transition-colors"
+                    >
+                      Compléter mon descriptif →
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              </Card>
+            )}
+
+            <Card variant="glass" className="rounded-[24px] p-5 text-white">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">
                   {latestInsight ? 'Dernière séance utile' : data.onboardingCompleted ? 'Prochain repère' : 'Profil à finaliser'}
                 </p>

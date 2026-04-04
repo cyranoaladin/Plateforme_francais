@@ -19,7 +19,19 @@ function buildPhraseCandidate(text: string): string {
   return text
     .split(/[.!?]/)
     .find((chunk) => chunk.trim().length > 20)
-    ?.trim() ?? text.trim();
+    ?.trim() ?? '';
+}
+
+function buildPhraseCandidateForQuestion(contenu: string): string | null {
+  // Extraire des phrases de 10-25 mots (longueur idéale pour une question de grammaire)
+  const sentences = contenu
+    .split(/[.!?;]/)
+    .map(s => s.trim())
+    .filter(s => {
+      const words = s.split(/\s+/).filter(Boolean).length;
+      return words >= 8 && words <= 25;
+    });
+  return sentences[Math.floor(Math.random() * sentences.length)] ?? null;
 }
 
 async function choisirExtraitOfficiel(input: {
@@ -74,7 +86,12 @@ async function choisirExtraitOfficiel(input: {
       oeuvre: choisi.oeuvreAuteur,
       titre: choisi.titreExtrait,
       contenu,
-      questionGrammaire: `Analysez syntaxiquement une phrase significative tirée de « ${choisi.titreExtrait} ».`,
+      questionGrammaire: (() => {
+        const phrase = buildPhraseCandidateForQuestion(contenu);
+        return phrase 
+          ? `Analysez syntaxiquement le groupe souligné dans : « ${phrase} »`
+          : `Analysez syntaxiquement une phrase significative tirée de « ${choisi.titreExtrait} ».`;
+      })(),
       phraseGrammaire: buildPhraseCandidate(contenu) || 'Phrase cible indisponible.',
     };
   }

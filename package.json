@@ -17,7 +17,7 @@
     "typecheck": "tsc --noEmit",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test --config=playwright.config.ts",
+    "test:e2e": "npm run test:e2e:setup && playwright test",
     "test:all": "npm run test:unit && npm run mcp:test",
     "test:ops": "bash scripts/run-all-tests.sh",
     "test:contracts": "bash tests/contracts/run-schemathesis.sh",
@@ -52,7 +52,12 @@
     "test:visual:public": "playwright test --config=playwright.visual.config.ts --project=public-visual",
     "test:visual:connected": "playwright test --config=playwright.visual.config.ts --project=connected-visual",
     "test:visual:mobile": "playwright test --config=playwright.visual.config.ts --project=mobile-visual",
-    "check:quotes": "tsx scripts/check-curly-quotes.ts"
+    "check:quotes": "tsx scripts/check-curly-quotes.ts",
+    "test:e2e:setup": "npx tsx scripts/seed-test-users.ts",
+    "test:e2e:prod": "E2E_BASE_URL=https://eaf.nexusreussite.academy playwright test",
+    "test:smoke": "bash scripts/smoke-test-production.sh",
+    "test:integration:prod": "bash scripts/integration-test-production.sh",
+    "test:pedagogical": "bash scripts/pedagogical-test.sh"
   },
   "overrides": {
     "picomatch@2": "^2.3.2",

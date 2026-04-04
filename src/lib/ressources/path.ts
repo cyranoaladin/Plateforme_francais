@@ -5,18 +5,17 @@ const appRoot = process.env.APP_ROOT?.trim()
   : process.cwd();
 
 export function getRessourcesRoot(): string {
-  // Always use environment variable or production path
-  const explicitRoot = process.env.RESSOURCES_ROOT?.trim();
-  if (explicitRoot) {
-    return explicitRoot;
+  // Priority 1 : variable d'environnement explicite (prod et dev configurés)
+  if (process.env.RESSOURCES_ROOT?.trim()) {
+    return process.env.RESSOURCES_ROOT.trim();
   }
-
+  // Priority 2 : chemin prod VPS
   if (process.env.NODE_ENV === 'production') {
     return '/srv/eaf_ressources';
   }
-
-  // Dev: fallback should never be used in production
-  throw new Error('RESSOURCES_ROOT environment variable must be set in development');
+  // Priority 3 : dev local — résolution RUNTIME uniquement, jamais au build
+  const { join } = require('path') as typeof import('path');
+  return join(process.cwd(), '..', 'eaf_ressources');
 }
 
 export function resolveRessourcePath(relativePath: string): string {
