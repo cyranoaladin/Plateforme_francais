@@ -25,8 +25,16 @@ COMMIT;
 -- the enum.
 
 
-ALTER TYPE "public"."PaymentProvider" ADD VALUE 'VIREMENT';
-ALTER TYPE "public"."PaymentProvider" ADD VALUE 'FLOUCI';
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_enum WHERE enumlabel = 'VIREMENT' AND enumtypid = (SELECT oid FROM pg_type WHERE typname = 'PaymentProvider')) THEN
+    ALTER TYPE "public"."PaymentProvider" ADD VALUE 'VIREMENT';
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_enum WHERE enumlabel = 'FLOUCI' AND enumtypid = (SELECT oid FROM pg_type WHERE typname = 'PaymentProvider')) THEN
+    ALTER TYPE "public"."PaymentProvider" ADD VALUE 'FLOUCI';
+  END IF;
+END $$;
 
 -- DropForeignKey
 ALTER TABLE "public"."ActivationCode" DROP CONSTRAINT "ActivationCode_redeemedByUserId_fkey";
