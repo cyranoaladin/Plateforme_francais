@@ -44,6 +44,7 @@ type User = {
   email: string;
   role: string;
   createdAt: string;
+  lastLoginAt?: string;
   subscription: {
     plan: string;
     status: string;
@@ -69,7 +70,6 @@ type User = {
     tutorQuestionsToday: number;
     llmTokensToday: number;
   };
-  lastLoginAt?: string;
 };
 
 type ActivationCode = {
@@ -81,7 +81,7 @@ type ActivationCode = {
   expiresAt: string | null;
   createdAt: string;
   redeemedAt: string | null;
-  plainCode?: string; // Seulement lors de la création
+  plainCode?: string;
 };
 
 type Stats = {
@@ -92,8 +92,8 @@ type Stats = {
   subscriptionsByPlan: Array<{ plan: string; count: number }>;
   newUsersThisMonth: number;
   churnRate: number;
-  mrr: number;
-  arr: number;
+  mrr: number; // Monthly Recurring Revenue
+  arr: number; // Annual Recurring Revenue
   averageRevenuePerUser: number;
   topFeatures: Array<{ feature: string; usage: number }>;
 };
@@ -109,7 +109,7 @@ type Payment = {
   user: { email: string };
 };
 
-export default function AdminDashboard() {
+export default function EnhancedAdminDashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -128,13 +128,12 @@ export default function AdminDashboard() {
   const [sortBy, setSortBy] = useState<'email' | 'createdAt' | 'lastLogin'>('createdAt');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
-  // Formulaire génération code
+  // Forms
   const [newCodePlan, setNewCodePlan] = useState<'PREMIUM' | 'MASTERIUM'>('PREMIUM');
   const [newCodeDuration, setNewCodeDuration] = useState('30');
   const [generatingCode, setGeneratingCode] = useState(false);
   const [lastGeneratedCode, setLastGeneratedCode] = useState<string | null>(null);
 
-  // Formulaire paiement manuel
   const [selectedUserId, setSelectedUserId] = useState('');
   const [paymentPlan, setPaymentPlan] = useState<'PREMIUM' | 'MASTERIUM'>('PREMIUM');
   const [paymentAmount, setPaymentAmount] = useState('99000');
@@ -334,10 +333,99 @@ export default function AdminDashboard() {
     }
   }
 
+  async function updateUserPlan(userId: string, newPlan: 'FREE' | 'PREMIUM' | 'PRO') {
+    setUserActionLoading(true);
+    setError(null);
+
+    try {
+      const csrfToken = await getCsrfToken();
+      const res = await fetch('/api/v1/admin/users/plan', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken,
+        },
+        body: JSON.stringify({
+          userId,
+          plan: newPlan,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Erreur lors de la modification du plan');
+      }
+
+      await loadData();
+      setSelectedUser(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur inconnue');
+    } finally {
+      setUserActionLoading(false);
+    }
+  }
+
+  async function suspendUser(userId: string) {
+    setUserActionLoading(true);
+    setError(null);
+
+    try {
+      const csrfToken = await getCsrfToken();
+      const res = await fetch('/api/v1/admin/users/suspend', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken,
+        },
+        body: JSON.stringify({ userId }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Erreur lors de la suspension de l\'utilisateur');
+      }
+
+      await loadData();
+      setSelectedUser(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur inconnue');
+    } finally {
+      setUserActionLoading(false);
+    }
+  }
+
+  async function exportUsers() {
+    try {
+      const csv = [
+        'Email,Plan,Statut,Inscription,Dernière connexion,Sessions orales/mois,Corrections/mois,Questions tuteur/jour',
+        ...filteredUsers.map(user => [
+          user.email,
+          user.subscription ? toPublicPlanId(normalizePlanId(user.subscription.plan)) : 'FREEMIUM',
+          user.subscription ? user.subscription.status : 'INACTIVE',
+          new Date(user.createdAt).toLocaleDateString('fr-FR'),
+          user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString('fr-FR') : 'Jamais',
+          user.usage?.oralSessionsThisMonth || 0,
+          user.usage?.correctionsThisMonth || 0,
+          user.usage?.tutorQuestionsToday || 0,
+        ].join(','))
+      ].join('\n');
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `users_export_${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      setError('Erreur lors de l\'export des données');
+    }
+  }
+
   const planColors: Record<'FREE' | 'PREMIUM' | 'PRO', string> = {
     FREE: 'bg-surface-secondary text-body',
     PREMIUM: 'bg-brand-subtle text-brand',
-    PRO: 'bg-brand-subtle text-brand',
+    PRO: 'bg-accent-subtle text-accent',
   };
 
   function getVisiblePlanColor(plan: string) {
@@ -378,12 +466,27 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-[var(--bg-primary)]">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="font-display mb-2 text-3xl font-bold">
-            Tableau de bord admin
-          </h1>
-          <p className="text-[var(--text-secondary)]">
-            Gestion des utilisateurs, abonnements et paiements
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="font-display mb-2 text-3xl font-bold">
+                Tableau de bord admin
+              </h1>
+              <p className="text-[var(--text-secondary)]">
+                Gestion complète de la plateforme, des utilisateurs et des abonnements
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                onClick={() => loadData()}
+                disabled={loading}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                Actualiser
+              </Button>
+            </div>
+          </div>
         </div>
 
         {error && (
@@ -396,7 +499,7 @@ export default function AdminDashboard() {
         )}
 
         {/* Tabs */}
-        <div className="mb-6 flex gap-2 border-b border-[var(--border-primary)]" role="tablist" aria-label="Navigation administration">
+        <div className="mb-6 flex gap-2 border-b border-[var(--border-primary)]" role="tablist">
           <button
             type="button"
             role="tab"
@@ -408,7 +511,7 @@ export default function AdminDashboard() {
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'
             }`}
           >
-            <TrendingUp className="w-4 h-4 inline mr-2" />
+            <BarChart3 className="w-4 h-4 inline mr-2" />
             Vue d'ensemble
           </button>
           <button
@@ -461,15 +564,20 @@ export default function AdminDashboard() {
           </div>
         ) : (
           <>
-            {/* Overview Tab */}
+            {/* Enhanced Overview Tab */}
             {activeTab === 'overview' && stats && (
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                {/* Key Metrics */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <Card className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-[var(--text-secondary)]">Utilisateurs</p>
+                        <p className="text-sm text-[var(--text-secondary)]">Utilisateurs totaux</p>
                         <p className="text-2xl font-bold mt-1">{stats.totalUsers}</p>
+                        <p className="text-xs text-success mt-1 flex items-center">
+                          <ArrowUpRight className="w-3 h-3 mr-1" />
+                          +{stats.newUsersThisMonth} ce mois
+                        </p>
                       </div>
                       <Users className="w-8 h-8 text-[var(--c-accent)]" />
                     </div>
@@ -478,8 +586,25 @@ export default function AdminDashboard() {
                   <Card className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
+                        <p className="text-sm text-[var(--text-secondary)]">Revenu mensuel récurrent (MRR)</p>
+                        <p className="text-2xl font-bold mt-1">{stats.mrr.toFixed(0)} TND</p>
+                        <p className="text-xs text-[var(--text-secondary)] mt-1">
+                          ARR: {stats.arr.toFixed(0)} TND/an
+                        </p>
+                      </div>
+                      <DollarSign className="w-8 h-8 text-success" />
+                    </div>
+                  </Card>
+
+                  <Card className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
                         <p className="text-sm text-[var(--text-secondary)]">Abonnements actifs</p>
                         <p className="text-2xl font-bold mt-1">{stats.activeSubscriptions}</p>
+                        <p className="text-xs text-warning mt-1 flex items-center">
+                          <ArrowDownRight className="w-3 h-3 mr-1" />
+                          {(stats.churnRate * 100).toFixed(1)}% churn
+                        </p>
                       </div>
                       <CheckCircle className="w-8 h-8 text-success" />
                     </div>
@@ -488,40 +613,71 @@ export default function AdminDashboard() {
                   <Card className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-[var(--text-secondary)]">Paiements en attente</p>
-                        <p className="text-2xl font-bold mt-1">{stats.pendingPayments}</p>
+                        <p className="text-sm text-[var(--text-secondary)]">Revenu moyen/utilisateur</p>
+                        <p className="text-2xl font-bold mt-1">{stats.averageRevenuePerUser.toFixed(0)} TND</p>
+                        <p className="text-xs text-[var(--text-secondary)] mt-1">
+                          Total: {stats.totalRevenueTND.toFixed(0)} TND
+                        </p>
                       </div>
-                      <Clock className="w-8 h-8 text-warning" />
-                    </div>
-                  </Card>
-
-                  <Card className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-[var(--text-secondary)]">Revenu total</p>
-                        <p className="text-2xl font-bold mt-1">{stats.totalRevenueTND.toFixed(2)} TND</p>
-                      </div>
-                      <DollarSign className="w-8 h-8 text-success" />
+                      <TrendingUp className="w-8 h-8 text-brand" />
                     </div>
                   </Card>
                 </div>
 
-                <Card className="p-6">
-                  <h2 className="text-xl font-bold mb-4">Répartition par plan</h2>
-                  <div className="space-y-2">
-                    {stats.subscriptionsByPlan.map((item) => (
-                      <div key={item.plan} className="flex items-center justify-between">
-                        <span className="font-medium">{formatPlanLabel(item.plan)}</span>
-                        <Badge className={getVisiblePlanColor(item.plan)}>
-                          {item.count} utilisateur{item.count > 1 ? 's' : ''}
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
+                {/* Plan Distribution */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <Card className="p-6">
+                    <h2 className="text-xl font-bold mb-4">Répartition par plan</h2>
+                    <div className="space-y-3">
+                      {stats.subscriptionsByPlan.map((item) => {
+                        const publicPlan = toPublicPlanId(normalizePlanId(item.plan));
+                        const percentage = stats.totalUsers > 0 ? (item.count / stats.totalUsers * 100).toFixed(1) : '0';
+                        return (
+                          <div key={item.plan} className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium">{publicPlan}</span>
+                                <Badge className={getVisiblePlanColor(item.plan)}>
+                                  {item.count} utilisateur{item.count > 1 ? 's' : ''}
+                                </Badge>
+                              </div>
+                              <span className="text-sm text-[var(--text-secondary)]">{percentage}%</span>
+                            </div>
+                            <div className="w-full bg-surface rounded-full h-2">
+                              <div
+                                className={`h-2 rounded-full ${
+                                  item.plan === 'FREE' ? 'bg-surface-secondary' :
+                                  item.plan === 'PREMIUM' ? 'bg-brand' :
+                                  'bg-accent'
+                                }`}
+                                style={{ width: `${percentage}%` }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </Card>
 
+                  <Card className="p-6">
+                    <h2 className="text-xl font-bold mb-4">Fonctionnalités les plus utilisées</h2>
+                    <div className="space-y-2">
+                      {stats.topFeatures.map((feature, index) => (
+                        <div key={feature.feature} className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">#{index + 1}</span>
+                            <span>{feature.feature}</span>
+                          </div>
+                          <span className="text-sm text-[var(--text-secondary)]">{feature.usage} utilisations</span>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+                </div>
+
+                {/* Recent Activity */}
                 <Card className="p-6">
-                  <h2 className="text-xl font-bold mb-4">Derniers paiements</h2>
+                  <h2 className="text-xl font-bold mb-4">Activité récente</h2>
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead>
@@ -538,11 +694,15 @@ export default function AdminDashboard() {
                           <tr key={payment.id} className="border-b border-[var(--border-primary)]">
                             <td className="py-2 px-4">{payment.user.email}</td>
                             <td className="py-2 px-4">
-                              <Badge className={getVisiblePlanColor(payment.plan)}>{formatPlanLabel(payment.plan)}</Badge>
+                              <Badge className={getVisiblePlanColor(payment.plan)}>
+                                {formatPlanLabel(payment.plan)}
+                              </Badge>
                             </td>
                             <td className="py-2 px-4">{(payment.amountMillimes / 1000).toFixed(2)} TND</td>
                             <td className="py-2 px-4">
-                              <Badge className={statusColors[payment.status]}>{statusLabels[payment.status] || payment.status}</Badge>
+                              <Badge className={statusColors[payment.status]}>
+                                {statusLabels[payment.status] || payment.status}
+                              </Badge>
                             </td>
                             <td className="py-2 px-4">
                               {new Date(payment.createdAt).toLocaleDateString('fr-FR')}
@@ -556,58 +716,199 @@ export default function AdminDashboard() {
               </div>
             )}
 
-            {/* Users Tab */}
+            {/* Enhanced Users Tab */}
             {activeTab === 'users' && (
-              <Card className="p-6">
-                <h2 className="text-xl font-bold mb-4">Liste des utilisateurs</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-[var(--border-primary)]">
-                        <th className="text-left py-2 px-4">Email</th>
-                        <th className="text-left py-2 px-4">Rôle</th>
-                        <th className="text-left py-2 px-4">Plan</th>
-                        <th className="text-left py-2 px-4">Statut</th>
-                        <th className="text-left py-2 px-4">Inscription</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users.map((user) => (
-                        <tr key={user.id} className="border-b border-[var(--border-primary)]">
-                          <td className="py-2 px-4">{user.email}</td>
-                          <td className="py-2 px-4">
-                            <Badge>{user.role}</Badge>
-                          </td>
-                          <td className="py-2 px-4">
-                            {user.subscription ? (
-                              <Badge className={getVisiblePlanColor(user.subscription.plan)}>
-                                {PLAN_DISPLAY_LABELS[normalizePlanId(user.subscription.plan)] || formatPlanLabel(user.subscription.plan)}
-                              </Badge>
-                            ) : (
-                              <span className="text-[var(--text-secondary)]">Aucun</span>
-                            )}
-                          </td>
-                          <td className="py-2 px-4">
-                            {user.subscription ? (
-                              <Badge className={statusColors[user.subscription.status]}>
-                                {statusLabels[user.subscription.status] || user.subscription.status}
-                              </Badge>
-                            ) : (
-                              <span className="text-[var(--text-secondary)]">-</span>
-                            )}
-                          </td>
-                          <td className="py-2 px-4">
-                            {new Date(user.createdAt).toLocaleDateString('fr-FR')}
-                          </td>
+              <div className="space-y-6">
+                {/* Search and Filters */}
+                <Card className="p-6">
+                  <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+                    <div className="flex flex-col sm:flex-row gap-4 flex-1">
+                      <div className="relative flex-1 max-w-md">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[var(--text-secondary)]" />
+                        <Input
+                          type="text"
+                          placeholder="Rechercher par email ou nom..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                      <select
+                        value={planFilter}
+                        onChange={(e) => setPlanFilter(e.target.value as any)}
+                        className="px-3 py-2 border border-[var(--border-primary)] rounded-lg"
+                      >
+                        <option value="ALL">Tous les plans</option>
+                        <option value="FREE">Freemium</option>
+                        <option value="PREMIUM">Premium</option>
+                        <option value="PRO">Masterium</option>
+                      </select>
+                      <select
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value as any)}
+                        className="px-3 py-2 border border-[var(--border-primary)] rounded-lg"
+                      >
+                        <option value="ALL">Tous les statuts</option>
+                        <option value="ACTIVE">Actifs</option>
+                        <option value="INACTIVE">Inactifs</option>
+                        <option value="PENDING">En attente</option>
+                      </select>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={exportUsers}
+                        variant="outline"
+                        className="flex items-center gap-2"
+                      >
+                        <Download className="w-4 h-4" />
+                        Exporter
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Users Table */}
+                <Card className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold">
+                      Utilisateurs ({filteredUsers.length} / {users.length})
+                    </h2>
+                    <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+                      <span>Trier par:</span>
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value as any)}
+                        className="px-2 py-1 border border-[var(--border-primary)] rounded text-sm"
+                      >
+                        <option value="createdAt">Date d'inscription</option>
+                        <option value="email">Email</option>
+                        <option value="lastLogin">Dernière connexion</option>
+                      </select>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                      >
+                        {sortOrder === 'asc' ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-[var(--border-primary)]">
+                          <th className="text-left py-2 px-4">Utilisateur</th>
+                          <th className="text-left py-2 px-4">Plan</th>
+                          <th className="text-left py-2 px-4">Statut</th>
+                          <th className="text-left py-2 px-4">Utilisation</th>
+                          <th className="text-left py-2 px-4">Dernière connexion</th>
+                          <th className="text-left py-2 px-4">Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Card>
+                      </thead>
+                      <tbody>
+                        {filteredUsers.map((user) => (
+                          <tr key={user.id} className="border-b border-[var(--border-primary)]">
+                            <td className="py-2 px-4">
+                              <div>
+                                <div className="font-medium">{user.email}</div>
+                                {user.profile?.displayName && (
+                                  <div className="text-sm text-[var(--text-secondary)]">{user.profile.displayName}</div>
+                                )}
+                                <div className="text-xs text-[var(--text-secondary)]">
+                                  Inscrit le {new Date(user.createdAt).toLocaleDateString('fr-FR')}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-2 px-4">
+                              {user.subscription ? (
+                                <Badge className={getVisiblePlanColor(user.subscription.plan)}>
+                                  {toPublicPlanId(normalizePlanId(user.subscription.plan))}
+                                </Badge>
+                              ) : (
+                                <Badge className="bg-surface-secondary text-body">FREEMIUM</Badge>
+                              )}
+                            </td>
+                            <td className="py-2 px-4">
+                              {user.subscription ? (
+                                <Badge className={statusColors[user.subscription.status]}>
+                                  {statusLabels[user.subscription.status] || user.subscription.status}
+                                </Badge>
+                              ) : (
+                                <Badge className="bg-surface-secondary text-body">Inactif</Badge>
+                              )}
+                            </td>
+                            <td className="py-2 px-4">
+                              <div className="text-sm space-y-1">
+                                <div className="flex items-center gap-1">
+                                  <Zap className="w-3 h-3 text-brand" />
+                                  <span>{user.usage?.oralSessionsThisMonth || 0} oraux</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <Edit className="w-3 h-3 text-success" />
+                                  <span>{user.usage?.correctionsThisMonth || 0} corr.</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <Mail className="w-3 h-3 text-warning" />
+                                  <span>{user.usage?.tutorQuestionsToday || 0} questions</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-2 px-4">
+                              {user.lastLoginAt ? (
+                                <div className="text-sm">
+                                  {new Date(user.lastLoginAt).toLocaleDateString('fr-FR')}
+                                  <div className="text-xs text-[var(--text-secondary)]">
+                                    {new Date(user.lastLoginAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                                  </div>
+                                </div>
+                              ) : (
+                                <span className="text-sm text-[var(--text-secondary)]">Jamais</span>
+                              )}
+                            </td>
+                            <td className="py-2 px-4">
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="sm">
+                                    <MoreHorizontal className="w-4 h-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem onClick={() => setSelectedUser(user)}>
+                                    <Eye className="w-4 h-4 mr-2" />
+                                    Voir détails
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem onClick={() => updateUserPlan(user.id, 'PREMIUM')}>
+                                    <Crown className="w-4 h-4 mr-2" />
+                                    Passer en Premium
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem onClick={() => updateUserPlan(user.id, 'PRO')}>
+                                    <Star className="w-4 h-4 mr-2" />
+                                    Passer en Masterium
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem onClick={() => updateUserPlan(user.id, 'FREE')}>
+                                    <Users className="w-4 h-4 mr-2" />
+                                    Passer en Freemium
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem 
+                                    onClick={() => suspendUser(user.id)}
+                                    className="text-accent"
+                                  >
+                                    <Ban className="w-4 h-4 mr-2" />
+                                    Suspendre
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </Card>
+              </div>
             )}
 
-            {/* Codes Tab */}
+            {/* Codes Tab - Same as before */}
             {activeTab === 'codes' && (
               <div className="space-y-6">
                 <Card className="p-6">
@@ -715,7 +1016,7 @@ export default function AdminDashboard() {
               </div>
             )}
 
-            {/* Payments Tab */}
+            {/* Payments Tab - Same as before */}
             {activeTab === 'payments' && (
               <Card className="p-6">
                 <h2 className="text-xl font-bold mb-4">Valider un paiement manuel</h2>
@@ -730,7 +1031,7 @@ export default function AdminDashboard() {
                       <option value="">Sélectionner un utilisateur</option>
                       {users.map((user) => (
                         <option key={user.id} value={user.id}>
-                          {user.email} ({formatPlanLabel(user.subscription?.plan || 'FREE')})
+                          {user.email} ({toPublicPlanId(normalizePlanId(user.subscription?.plan || 'FREE'))})
                         </option>
                       ))}
                     </select>

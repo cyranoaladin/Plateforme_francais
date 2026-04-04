@@ -1,0 +1,65 @@
+import { NextResponse } from 'next/server';
+import { requireUserRole } from '@/lib/auth/guard';
+import { prisma } from '@/lib/db/client';
+import { normalizePlanId } from '@nexus-eaf/shared-billing';
+
+export async function PATCH(request: Request) {
+  const { auth, errorResponse } = await requireUserRole('admin');
+  if (!auth || errorResponse) {
+    return errorResponse;
+  }
+
+  try {
+    const { userId, plan } = await request.json();
+
+    if (!userId || !plan) {
+      return NextResponse.json(
+        { error: 'userId et plan sont requis' },
+        { status: 400 }
+      );
+    }
+
+    // Validate plan
+    const normalizedPlan = normalizePlanId(plan);
+    if (!['FREE', 'PREMIUM', 'PRO'].includes(normalizedPlan)) {
+      return NextResponse.json(
+        { error: 'Plan invalide' },
+        { status: 400 }
+      );
+    }
+
+    // Update or create subscription
+    const subscription = await prisma.subscription.upsert({
+      where: { userId },
+      update: {
+        plan: normalizedPlan,
+        status: 'ACTIVE',
+        currentPeriodStart: new Date(),
+        currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+        updatedAt: new Date(),
+      },
+      create: {
+        userId,
+        plan: normalizedPlan,
+        status: 'ACTIVE',
+        currentPeriodStart: new Date(),
+        currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      subscription,
+      message: `Plan mis à jour vers ${normalizedPlan} avec succès`,
+    }, { status: 200 });
+
+  } catch (error) {
+    console.error('Error updating user plan:', error);
+    return NextResponse.json(
+      { error: 'Erreur lors de la mise à jour du plan' },
+      { status: 500 }
+    );
+  }
+}
