@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-04T08:40:28.623Z",
+  "generatedAt": "2026-04-04T13:34:51.588Z",
   "violations": [
     {
       "file": "src/app/admin/page.tsx",
@@ -843,28 +843,28 @@
     },
     {
       "file": "src/app/api/v1/documents/[...key]/route.ts",
-      "line": 109,
+      "line": 110,
       "column": 39,
       "kind": "api-message",
       "text": "Ressource non disponible."
     },
     {
       "file": "src/app/api/v1/documents/[...key]/route.ts",
-      "line": 62,
+      "line": 63,
       "column": 56,
       "kind": "api-message",
       "text": "Non authentifié."
     },
     {
       "file": "src/app/api/v1/documents/[...key]/route.ts",
-      "line": 68,
+      "line": 69,
       "column": 39,
       "kind": "api-message",
       "text": "Ressource non disponible."
     },
     {
       "file": "src/app/api/v1/documents/[...key]/route.ts",
-      "line": 85,
+      "line": 86,
       "column": 43,
       "kind": "api-message",
       "text": "Ressource non disponible."
@@ -1078,6 +1078,13 @@
       "column": 39,
       "kind": "api-message",
       "text": "Payload invalide"
+    },
+    {
+      "file": "src/app/api/v1/onboarding/complete/route.ts",
+      "line": 77,
+      "column": 27,
+      "kind": "api-message",
+      "text": "Impossible de sauvegarder le profil. Réessaie."
     },
     {
       "file": "src/app/api/v1/oral/session/[sessionId]/audio-turn/route.ts",
@@ -1389,38 +1396,45 @@
     },
     {
       "file": "src/app/api/v1/storage/local/route.ts",
-      "line": 10,
+      "line": 11,
       "column": 39,
       "kind": "api-message",
       "text": "Non disponible en production."
     },
     {
       "file": "src/app/api/v1/storage/local/route.ts",
-      "line": 15,
+      "line": 16,
       "column": 56,
       "kind": "api-message",
       "text": "Non authentifié."
     },
     {
       "file": "src/app/api/v1/storage/local/route.ts",
-      "line": 20,
+      "line": 21,
       "column": 39,
       "kind": "api-message",
       "text": "Clé manquante."
     },
     {
       "file": "src/app/api/v1/storage/local/route.ts",
-      "line": 25,
+      "line": 26,
       "column": 39,
       "kind": "api-message",
       "text": "Accès refusé."
     },
     {
       "file": "src/app/api/v1/storage/local/route.ts",
-      "line": 38,
+      "line": 39,
       "column": 39,
       "kind": "api-message",
       "text": "Fichier introuvable."
+    },
+    {
+      "file": "src/app/api/v1/student/descriptif-lecture/route.ts",
+      "line": 47,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Données invalides"
     },
     {
       "file": "src/app/api/v1/student/descriptif/route.ts",
@@ -2106,7 +2120,7 @@
       "line": 389,
       "column": 71,
       "kind": "jsx-text",
-      "text": "Formule : identification, dénomination, interprétation."
+      "text": "Formule : identification, dénomination, fonction syntaxique."
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
@@ -2156,6 +2170,90 @@
       "column": 25,
       "kind": "jsx-text",
       "text": "Exercice suivant"
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 44,
+      "column": 98,
+      "kind": "jsx-text",
+      "text": "Descriptif de lecture"
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 45,
+      "column": 62,
+      "kind": "jsx-text",
+      "text": "Chargement..."
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 54,
+      "column": 96,
+      "kind": "jsx-text",
+      "text": "Descriptif de lecture"
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 60,
+      "column": 58,
+      "kind": "jsx-text",
+      "text": "textes dans ton descriptif"
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 63,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Le tirage se fera dans ta liste personnelle."
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 73,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "… et"
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 73,
+      "column": 41,
+      "kind": "jsx-text",
+      "text": "autre(s)"
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 80,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Modifier mon descriptif"
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 88,
+      "column": 43,
+      "kind": "jsx-text",
+      "text": "Descriptif vide"
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 91,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Ton descriptif de lecture est vide. L'atelier va simuler sur la liste générale du programme."
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 94,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Pour t'entraîner sur TES textes, configure ton descriptif :"
+    },
+    {
+      "file": "src/app/atelier-oral/components/DescriptifStatus.tsx",
+      "line": 99,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Configurer mon descriptif"
     },
     {
       "file": "src/app/atelier-oral/components/OralChecklistWarning.tsx",
@@ -2390,171 +2488,171 @@
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 114,
+      "line": 100,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Choisis ton œuvre et le niveau de contrainte. La plateforme tire l’extrait, la question de grammaire puis t’installe directement dans le rythme de l’épreuve."
+    },
+    {
+      "file": "src/app/atelier-oral/page.tsx",
+      "line": 115,
       "column": 17,
       "kind": "jsx-text",
       "text": "Tirer un extrait"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 120,
+      "line": 121,
       "column": 104,
       "kind": "jsx-text",
       "text": "Ce qui va suivre"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 141,
+      "line": 142,
       "column": 103,
       "kind": "jsx-text",
       "text": "Bon usage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 143,
+      "line": 144,
       "column": 17,
       "kind": "jsx-text",
       "text": "Une bonne simulation orale ne cherche pas à parler beaucoup. Elle cherche à rendre la parole plus nette, plus articulée et plus défendable étape après étape."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 149,
+      "line": 150,
       "column": 17,
       "kind": "jsx-text",
       "text": "Préparer cette œuvre avec le guidage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 161,
+      "line": 162,
       "column": 105,
       "kind": "jsx-text",
       "text": "Préparation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 163,
+      "line": 164,
       "column": 19,
       "kind": "jsx-text",
       "text": "Préparation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 166,
+      "line": 167,
       "column": 19,
       "kind": "jsx-text",
       "text": "Lis, structure, choisis tes procédés et prépare la grammaire. Les notes restent un brouillon de travail, pas un objet évalué."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 171,
+      "line": 172,
       "column": 105,
       "kind": "jsx-text",
       "text": "Extrait tiré"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 177,
+      "line": 178,
       "column": 77,
       "kind": "jsx-text",
       "text": "Question de grammaire :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 182,
+      "line": 183,
       "column": 79,
       "kind": "jsx-text",
       "text": "Phrase cible :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 188,
+      "line": 189,
       "column": 79,
       "kind": "jsx-text",
       "text": "Œuvre choisie (entretien) :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 197,
+      "line": 198,
       "column": 19,
       "kind": "jsx-text",
       "text": "Notes de préparation (brouillon — non évaluées)"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 204,
+      "line": 205,
       "column": 31,
       "kind": "jsx-prop",
       "text": "Structure ton explication linéaire, prépare tes axes, note les procédés..."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 215,
+      "line": 216,
       "column": 17,
       "kind": "jsx-text",
       "text": "Commencer le passage (20 min)"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 230,
+      "line": 231,
       "column": 69,
       "kind": "jsx-text",
       "text": "étapes complétées"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 238,
+      "line": 241,
       "column": 103,
       "kind": "jsx-text",
       "text": "Rappel"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 240,
+      "line": 243,
       "column": 17,
       "kind": "jsx-text",
       "text": "La préparation utile ne cherche pas à tout écrire. Elle cherche à sécuriser les mouvements du texte, deux ou trois procédés décisifs et une réponse propre à la grammaire."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 246,
+      "line": 249,
       "column": 17,
       "kind": "jsx-text",
       "text": "Débloquer un point avant le passage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 295,
+      "line": 298,
       "column": 13,
       "kind": "jsx-text",
       "text": "Badge débloqué :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 46,
+      "line": 47,
       "column": 15,
       "kind": "jsx-text",
       "text": "Découvrir les plans"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 94,
+      "line": 95,
       "column": 105,
       "kind": "jsx-text",
       "text": "Démarrage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 96,
+      "line": 97,
       "column": 19,
       "kind": "jsx-text",
       "text": "Tirage au sort de l’extrait"
-    },
-    {
-      "file": "src/app/atelier-oral/page.tsx",
-      "line": 99,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Choisis ton œuvre et le niveau de contrainte. La plateforme tire l’extrait, la question de grammaire puis t’installe directement dans le rythme de l’épreuve."
     },
     {
       "file": "src/app/bibliotheque/page.tsx",
@@ -3999,6 +4097,104 @@
       "text": "Nom"
     },
     {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 100,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Important :"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 100,
+      "column": 42,
+      "kind": "jsx-text",
+      "text": "Tu peux ajouter jusqu'à 20 textes (16 en classe + lectures personnelles). Le tirage au sort pour l'atelier oral se fera uniquement dans ta liste."
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 118,
+      "column": 14,
+      "kind": "jsx-text",
+      "text": "Chargement..."
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 127,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Texte #"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 143,
+      "column": 23,
+      "kind": "jsx-text",
+      "text": "Œuvre — Auteur *"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 150,
+      "column": 35,
+      "kind": "jsx-prop",
+      "text": "Ex: Cahier de Douai — Arthur Rimbaud"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 157,
+      "column": 23,
+      "kind": "jsx-text",
+      "text": "Titre ou incipit de l'extrait *"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 164,
+      "column": 35,
+      "kind": "jsx-prop",
+      "text": "Ex: Le Bateau ivre"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 171,
+      "column": 23,
+      "kind": "jsx-text",
+      "text": "Premiers mots de l'extrait (optionnel)"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 178,
+      "column": 35,
+      "kind": "jsx-prop",
+      "text": "Ex: « Comme je descendais des Fleuves impassibles... »"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 194,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Ajouter un texte"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 210,
+      "column": 18,
+      "kind": "jsx-text",
+      "text": "Commence par ajouter ton premier texte"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 92,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Mon descriptif de lecture"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 95,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Saisis ici les textes de ton descriptif de lecture, tels que ton enseignant les a préparés avec toi. L'atelier oral ne tirera que dans CETTE liste."
+    },
+    {
       "file": "src/app/descriptif/page.tsx",
       "line": 194,
       "column": 17,
@@ -4448,24 +4644,52 @@
     },
     {
       "file": "src/app/global-error.tsx",
-      "line": 16,
-      "column": 42,
-      "kind": "jsx-text",
-      "text": "Une erreur inattendue est survenue"
-    },
-    {
-      "file": "src/app/global-error.tsx",
-      "line": 17,
-      "column": 38,
-      "kind": "jsx-text",
-      "text": "Nos équipes ont été notifiées."
-    },
-    {
-      "file": "src/app/global-error.tsx",
-      "line": 29,
-      "column": 11,
+      "line": 104,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Réessayer"
+    },
+    {
+      "file": "src/app/global-error.tsx",
+      "line": 127,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Nexus Réussite — Session 2026"
+    },
+    {
+      "file": "src/app/global-error.tsx",
+      "line": 51,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Une erreur est survenue"
+    },
+    {
+      "file": "src/app/global-error.tsx",
+      "line": 61,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Une erreur inattendue s&apos;est produite hors du flux normal de l&apos;application. La page n&apos;a pas pu être reconstruite automatiquement, mais le problème a été journalisé pour diagnostic."
+    },
+    {
+      "file": "src/app/global-error.tsx",
+      "line": 73,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Si le problème persiste, contacte l&apos;équipe Nexus Réussite à"
+    },
+    {
+      "file": "src/app/global-error.tsx",
+      "line": 78,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "contact@nexusreussite.academy"
+    },
+    {
+      "file": "src/app/global-error.tsx",
+      "line": 80,
+      "column": 18,
+      "kind": "jsx-text",
+      "text": "en précisant l&apos;heure et l&apos;action effectuée."
     },
     {
       "file": "src/app/layout.tsx",
@@ -5211,245 +5435,280 @@
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 313,
+      "line": 339,
       "column": 15,
       "kind": "jsx-text",
       "text": "Configuration du parcours"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 318,
+      "line": 344,
       "column": 15,
       "kind": "jsx-text",
       "text": "Revoir l’accueil"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 322,
+      "line": 348,
       "column": 15,
       "kind": "jsx-text",
       "text": "Environ 3 minutes"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 332,
+      "line": 358,
       "column": 17,
       "kind": "jsx-text",
       "text": "Mise en route"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 336,
+      "line": 362,
       "column": 17,
       "kind": "jsx-text",
       "text": "Nous réglons la plateforme autour de ton vrai contexte."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 340,
+      "line": 366,
       "column": 17,
       "kind": "jsx-text",
       "text": "L’objectif n’est pas de remplir un profil pour la forme. L’objectif est de caler les premiers ateliers sur tes œuvres, ton rythme, tes points d’appui et les attendus officiels dès la première connexion."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 357,
+      "line": 383,
       "column": 113,
       "kind": "jsx-text",
       "text": "Ce que Nexus a déjà compris"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 362,
+      "line": 388,
       "column": 63,
       "kind": "jsx-text",
       "text": "Profil"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 369,
+      "line": 395,
       "column": 63,
       "kind": "jsx-text",
       "text": "Corpus"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 380,
+      "line": 406,
       "column": 63,
       "kind": "jsx-text",
       "text": "Priorités"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 393,
+      "line": 419,
       "column": 21,
       "kind": "jsx-text",
       "text": "Les informations saisies ici servent à cadrer les premières recommandations, les ressources mobilisées et la progression visible. Elles restent modifiables ensuite dans le profil."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 427,
+      "line": 453,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Nom affiché"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 430,
+      "line": 456,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Comment veux-tu apparaître dans la plateforme ?"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 438,
+      "line": 464,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Classe"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 447,
+      "line": 473,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Date EAF"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 456,
+      "line": 482,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Établissement"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 459,
+      "line": 485,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Nom de ton lycée"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 465,
+      "line": 491,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Code classe enseignant"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 468,
+      "line": 494,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Ex : PMF-1G2-2026"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 474,
+      "line": 500,
       "column": 111,
       "kind": "jsx-text",
       "text": "Prévisualisation"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 477,
+      "line": 503,
       "column": 105,
       "kind": "jsx-text",
       "text": "Nom"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 481,
+      "line": 507,
       "column": 105,
       "kind": "jsx-text",
       "text": "Classe"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 485,
+      "line": 511,
       "column": 105,
       "kind": "jsx-text",
       "text": "Échéance"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 498,
+      "line": 524,
       "column": 33,
       "kind": "jsx-prop",
       "text": "Rechercher une œuvre, un auteur, un objet d’étude..."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 505,
+      "line": 531,
       "column": 113,
       "kind": "jsx-text",
       "text": "Sélection en cours"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 549,
+      "line": 575,
       "column": 27,
       "kind": "jsx-prop",
       "text": "Œuvre absente de la liste"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 552,
+      "line": 578,
       "column": 34,
       "kind": "jsx-prop",
       "text": "Saisis exactement l’œuvre donnée par ton professeur"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 590,
+      "line": 616,
       "column": 192,
       "kind": "jsx-text",
       "text": "Principale"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 615,
+      "line": 626,
+      "column": 84,
+      "kind": "jsx-text",
+      "text": "Lectures cursives pour l&apos;entretien"
+    },
+    {
+      "file": "src/app/onboarding/page.tsx",
+      "line": 627,
+      "column": 76,
+      "kind": "jsx-text",
+      "text": "Ajoute tes lectures cursives personnelles (jusqu&apos;à 10). Elles seront mobilisables pour la 2e partie de l&apos;oral."
+    },
+    {
+      "file": "src/app/onboarding/page.tsx",
+      "line": 640,
+      "column": 39,
+      "kind": "jsx-prop",
+      "text": "Ex : L'Étranger — Albert Camus"
+    },
+    {
+      "file": "src/app/onboarding/page.tsx",
+      "line": 654,
+      "column": 27,
+      "kind": "jsx-text",
+      "text": "Ajouter"
+    },
+    {
+      "file": "src/app/onboarding/page.tsx",
+      "line": 667,
+      "column": 33,
+      "kind": "jsx-text",
+      "text": "Retirer"
+    },
+    {
+      "file": "src/app/onboarding/page.tsx",
+      "line": 693,
       "column": 79,
       "kind": "jsx-text",
       "text": "Réglage initial pour prioriser les prochains ateliers."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 633,
+      "line": 711,
       "column": 35,
       "kind": "jsx-text",
       "text": "Fragile"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 634,
+      "line": 712,
       "column": 35,
       "kind": "jsx-text",
       "text": "Solide"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 642,
+      "line": 720,
       "column": 111,
       "kind": "jsx-text",
       "text": "Priorisation détectée"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 663,
+      "line": 741,
       "column": 19,
       "kind": "jsx-text",
       "text": "Retour"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 666,
+      "line": 744,
       "column": 67,
       "kind": "jsx-text",
       "text": "Étape"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 666,
+      "line": 744,
       "column": 80,
       "kind": "jsx-text",
       "text": "sur 3"
