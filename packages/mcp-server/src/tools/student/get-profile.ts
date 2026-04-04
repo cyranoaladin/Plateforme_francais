@@ -100,7 +100,9 @@ export async function getStudentProfile(input: GetStudentProfileInput): Promise<
     streak: Number(profile?.streak ?? 0),
     maxStreak: Number(profile?.maxStreak ?? 0),
     skillMap,
-    descriptifTextes: Array.isArray(user.textesPrepares) ? user.textesPrepares : [],
+    descriptifTextes: Array.isArray(user.textesPrepares) 
+      ? user.textesPrepares.map((t: any) => ({ ...t, incipit: t.incipit ?? undefined }))
+      : [],
   }
 }
 
