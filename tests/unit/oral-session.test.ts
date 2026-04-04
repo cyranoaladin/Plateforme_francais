@@ -30,13 +30,7 @@ vi.mock('@/lib/logger', () => ({
 
 vi.mock('@/lib/db/client', () => ({
   prisma: {
-    studentProfile: {
-      findUnique: vi.fn().mockResolvedValue({ id: 'profile-test' }),
-    },
-    descriptifTexte: {
-      findMany: vi.fn().mockResolvedValue([]),
-    },
-    textePrepare: {
+    texteDescriptif: {
       findMany: vi.fn().mockResolvedValue([]),
     },
   },
@@ -56,23 +50,18 @@ describe('Oral Service', () => {
   it('pickOralExtrait privilégie le descriptif élève quand il existe', async () => {
     vi.doMock('@/lib/db/client', () => ({
       prisma: {
-        studentProfile: {
-          findUnique: vi.fn().mockResolvedValue({ id: 'profile-test' }),
-        },
-        descriptifTexte: {
+        texteDescriptif: {
           findMany: vi.fn().mockResolvedValue([
             {
               id: 'd1',
-              oeuvre: 'Le Mariage forcé',
-              auteur: 'Molière',
-              titre: 'Scène 1',
-              typeExtrait: 'extrait_oeuvre',
-              premieresLignes: 'Sganarelle expose ses doutes avec une énergie déjà comique.',
+              oeuvreAuteur: 'Le Mariage forcé — Molière',
+              titreExtrait: 'Scène 1',
+              typeTexte: 'EXTRAIT_OEUVRE',
+              incipit: 'Sganarelle expose ses doutes avec une énergie déjà comique.',
+              contenuTexte: null,
+              position: 1,
             },
           ]),
-        },
-        textePrepare: {
-          findMany: vi.fn().mockResolvedValue([]),
         },
       },
     }));
@@ -100,13 +89,7 @@ describe('Oral Service', () => {
   it('pickOralExtrait échoue proprement pour une œuvre inconnue', async () => {
     vi.doMock('@/lib/db/client', () => ({
       prisma: {
-        studentProfile: {
-          findUnique: vi.fn().mockResolvedValue({ id: 'profile-test' }),
-        },
-        descriptifTexte: {
-          findMany: vi.fn().mockResolvedValue([]),
-        },
-        textePrepare: {
+        texteDescriptif: {
           findMany: vi.fn().mockResolvedValue([]),
         },
       },
@@ -127,25 +110,20 @@ describe('Oral Service', () => {
   it('pickOralExtrait utilise les premières lignes du descriptif si le corpus ne couvre pas l\'œuvre', async () => {
     vi.doMock('@/lib/db/client', () => ({
       prisma: {
-        studentProfile: {
-          findUnique: vi.fn().mockResolvedValue({ id: 'profile-test' }),
-        },
-        descriptifTexte: {
+        texteDescriptif: {
           findMany: vi.fn().mockResolvedValue([
             {
               id: 'd1',
-              oeuvre: "Lettres d'une Péruvienne",
-              auteur: 'Graffigny',
-              titre: 'Lettre II',
-              typeExtrait: 'extrait_oeuvre',
-              premieresLignes: 'Zilia écrit à Aza et décrit le quipu comme un lien vivant avec sa mémoire.',
+              oeuvreAuteur: "Lettres d'une Péruvienne — Graffigny",
+              titreExtrait: 'Lettre II',
+              typeTexte: 'EXTRAIT_OEUVRE',
+              incipit: 'Zilia écrit à Aza et décrit le quipu comme un lien vivant avec sa mémoire.',
+              contenuTexte: null,
+              position: 1,
             },
-            { id: 'd2', oeuvre: 'Autre œuvre', auteur: 'Autre', titre: 'Texte 2', typeExtrait: 'extrait_oeuvre', premieresLignes: '...' },
-            { id: 'd3', oeuvre: 'Autre œuvre', auteur: 'Autre', titre: 'Texte 3', typeExtrait: 'extrait_parcours', premieresLignes: '...' },
+            { id: 'd2', oeuvreAuteur: 'Autre œuvre — Autre', titreExtrait: 'Texte 2', typeTexte: 'EXTRAIT_OEUVRE', incipit: '...', contenuTexte: null, position: 2 },
+            { id: 'd3', oeuvreAuteur: 'Autre œuvre — Autre', titreExtrait: 'Texte 3', typeTexte: 'EXTRAIT_PARCOURS', incipit: '...', contenuTexte: null, position: 3 },
           ]),
-        },
-        textePrepare: {
-          findMany: vi.fn().mockResolvedValue([]),
         },
       },
     }));

@@ -57,7 +57,7 @@ export async function PATCH(request: Request) {
     }, { status: 200 });
 
   } catch (error) {
-    logger.error('Error updating user plan:', error);
+    logger.error('Error updating user plan:', error as Error);
     return NextResponse.json(
       { error: 'Erreur lors de la mise à jour du plan' },
       { status: 500 }

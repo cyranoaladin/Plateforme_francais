@@ -100,7 +100,7 @@ export async function GET(request: Request) {
     }, { status: 200 });
 
   } catch (error) {
-    logger.error('Error fetching user usage:', error);
+    logger.error('Error fetching user usage:', error as Error);
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des données d\'utilisation' },
       { status: 500 }

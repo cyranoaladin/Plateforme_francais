@@ -11,23 +11,15 @@ vi.mock('@prisma/client', () => ({
   PrismaClient: class { $queryRaw = async () => []; },
 }));
 
-const { mockFindUnique, mockDescriptifFindMany, mockTextPrepareFindMany, mockOrchestrate } = vi.hoisted(() => ({
-  mockFindUnique: vi.fn(),
-  mockDescriptifFindMany: vi.fn(),
-  mockTextPrepareFindMany: vi.fn(),
+const { mockTexteDescriptifFindMany, mockOrchestrate } = vi.hoisted(() => ({
+  mockTexteDescriptifFindMany: vi.fn(),
   mockOrchestrate: vi.fn(),
 }));
 
 vi.mock('@/lib/db/client', () => ({
   prisma: {
-    studentProfile: {
-      findUnique: mockFindUnique,
-    },
-    descriptifTexte: {
-      findMany: mockDescriptifFindMany,
-    },
-    textePrepare: {
-      findMany: mockTextPrepareFindMany,
+    texteDescriptif: {
+      findMany: mockTexteDescriptifFindMany,
     },
   },
 }));
@@ -57,22 +49,19 @@ import {
 describe('Oral Session Flow — integration', () => {
   beforeEach(() => {
     capturedOrchestrateInput.length = 0;
-    mockFindUnique.mockReset();
-    mockDescriptifFindMany.mockReset();
-    mockTextPrepareFindMany.mockReset();
+    mockTexteDescriptifFindMany.mockReset();
     mockOrchestrate.mockClear();
-    mockFindUnique.mockResolvedValue({ id: 'profile-test' });
-    mockDescriptifFindMany.mockResolvedValue(
+    mockTexteDescriptifFindMany.mockResolvedValue(
       Array.from({ length: 20 }).map((_, i) => ({
         id: `d${i}`,
-        oeuvre: i < 10 ? 'Baudelaire' : 'Rimbaud',
-        auteur: i < 10 ? 'Charles Baudelaire' : 'Arthur Rimbaud',
-        titre: `Texte ${i + 1}`,
-        typeExtrait: 'extrait_oeuvre',
-        premieresLignes: i < 10 ? `Premières lignes Baudelaire ${i + 1}.` : `Premières lignes Rimbaud ${i + 1}.`,
+        oeuvreAuteur: i < 10 ? 'Baudelaire — Charles Baudelaire' : 'Rimbaud — Arthur Rimbaud',
+        titreExtrait: `Texte ${i + 1}`,
+        typeTexte: 'EXTRAIT_OEUVRE',
+        incipit: i < 10 ? `Premières lignes Baudelaire ${i + 1}.` : `Premières lignes Rimbaud ${i + 1}.`,
+        contenuTexte: null,
+        position: i + 1,
       })),
     );
-    mockTextPrepareFindMany.mockResolvedValue([]);
   });
 
   describe('pickOralExtrait', () => {
@@ -89,8 +78,7 @@ describe('Oral Session Flow — integration', () => {
     });
 
     it('échoue proprement pour une œuvre inconnue au lieu de choisir un texte aléatoire', async () => {
-      mockDescriptifFindMany.mockResolvedValueOnce([]);
-      mockTextPrepareFindMany.mockResolvedValueOnce([]);
+      mockTexteDescriptifFindMany.mockResolvedValueOnce([]);
       await expect(
         pickOralExtrait({
           oeuvre: 'OeuvreInexistante12345',
@@ -101,14 +89,15 @@ describe('Oral Session Flow — integration', () => {
     });
 
     it('utilise les premières lignes du descriptif si aucun extrait corpus ne correspond', async () => {
-      mockDescriptifFindMany.mockResolvedValueOnce([
+      mockTexteDescriptifFindMany.mockResolvedValueOnce([
         {
           id: 'dl1',
-          oeuvre: 'Œuvre locale de test',
-          auteur: 'Auteur Test',
-          titre: 'Lettre III',
-          typeExtrait: 'extrait_oeuvre',
-          premieresLignes: 'Zilia compare le quipu à une mémoire nouée et fidèle.',
+          oeuvreAuteur: 'Œuvre locale de test — Auteur Test',
+          titreExtrait: 'Lettre III',
+          typeTexte: 'EXTRAIT_OEUVRE',
+          incipit: 'Zilia compare le quipu à une mémoire nouée et fidèle.',
+          contenuTexte: null,
+          position: 1,
         },
       ]);
 

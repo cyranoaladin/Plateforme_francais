@@ -176,7 +176,7 @@ export async function GET() {
       { status: 200 }
     );
   } catch (error) {
-    logger.error('Error fetching enhanced stats:', error);
+    logger.error('Error fetching enhanced stats:', error as Error);
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des statistiques avancées.' },
       { status: 500 }

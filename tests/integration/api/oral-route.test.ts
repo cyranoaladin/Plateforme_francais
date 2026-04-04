@@ -30,15 +30,15 @@ vi.mock('@/lib/billing/usage', () => ({
 vi.mock('@/lib/oral/repository', () => ({
   createOralSession: vi.fn(),
 }));
-vi.mock('@/lib/oral/service', () => ({
-  pickOralExtrait: vi.fn().mockReturnValue({
-    texte: 'Extrait',
-    questionGrammaire: 'Question',
-    phraseGrammaire: 'Phrase',
-  }),
+const { texteDescriptifFindMany } = vi.hoisted(() => ({
+  texteDescriptifFindMany: vi.fn(),
 }));
 vi.mock('@/lib/db/client', () => ({
-  prisma: {},
+  prisma: {
+    texteDescriptif: {
+      findMany: texteDescriptifFindMany,
+    },
+  },
 }));
 
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
@@ -46,7 +46,6 @@ import { checkRateLimit } from '@/lib/security/rate-limit';
 import { getBillingContext } from '@/lib/billing/context';
 import { consumeQuota, rollbackQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { createOralSession } from '@/lib/oral/repository';
-import { pickOralExtrait } from '@/lib/oral/service';
 
 describe('Integration API /oral/session/start', () => {
   beforeEach(() => {
@@ -69,11 +68,16 @@ describe('Integration API /oral/session/start', () => {
     vi.mocked(createOralSession).mockResolvedValue({
       id: 'os_1',
     } as never);
-    vi.mocked(pickOralExtrait).mockResolvedValue({
-      texte: 'Extrait',
-      questionGrammaire: 'Question',
-      phraseGrammaire: 'Phrase',
-    } as never);
+    texteDescriptifFindMany.mockResolvedValue([
+      {
+        id: 'td_1',
+        oeuvreAuteur: 'Manon Lescaut — Abbé Prévost',
+        titreExtrait: 'Extrait test',
+        contenuTexte: 'Extrait',
+        incipit: 'Extrait',
+        position: 1,
+      },
+    ]);
   });
 
   it('retourne 429 si rate limit oral depasse', async () => {
@@ -99,13 +103,12 @@ describe('Integration API /oral/session/start', () => {
     });
     const res = await POST(req);
     expect(res.status).toBe(402);
-    expect(pickOralExtrait).not.toHaveBeenCalled();
     expect(createOralSession).not.toHaveBeenCalled();
   });
 
   it("rollback le quota si la sélection de l'extrait échoue après réservation", async () => {
     vi.mocked(checkRateLimit).mockResolvedValue({ allowed: true, retryAfter: 0 } as never);
-    vi.mocked(pickOralExtrait).mockRejectedValue(new Error('selection failed') as never);
+    texteDescriptifFindMany.mockRejectedValue(new Error('selection failed'));
 
     const { POST } = await import('@/app/api/v1/oral/session/start/route');
     const req = new Request('http://localhost/api/v1/oral/session/start', {

@@ -1,22 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { profileFindUnique, descriptifFindMany, textPrepareFindMany, info } = vi.hoisted(() => ({
-  profileFindUnique: vi.fn(),
-  descriptifFindMany: vi.fn(),
-  textPrepareFindMany: vi.fn(),
+const { texteDescriptifFindMany, info } = vi.hoisted(() => ({
+  texteDescriptifFindMany: vi.fn(),
   info: vi.fn(),
 }));
 
 vi.mock('@/lib/db/client', () => ({
   prisma: {
-    studentProfile: {
-      findUnique: profileFindUnique,
-    },
-    descriptifTexte: {
-      findMany: descriptifFindMany,
-    },
-    textePrepare: {
-      findMany: textPrepareFindMany,
+    texteDescriptif: {
+      findMany: texteDescriptifFindMany,
     },
   },
 }));
@@ -43,9 +35,7 @@ describe('pickOralExtrait', () => {
   });
 
   it('uses corpus fallback when descriptif is empty in simulation mode', async () => {
-    profileFindUnique.mockResolvedValue({ id: 'profile-1' });
-    descriptifFindMany.mockResolvedValue([]);
-    textPrepareFindMany.mockResolvedValue([]);
+    texteDescriptifFindMany.mockResolvedValue([]);
 
     const result = await pickOralExtrait({
       oeuvre: 'Andromaque',
@@ -60,10 +50,16 @@ describe('pickOralExtrait', () => {
     );
   });
 
-  it('uses DescriptifTexte entries when available', async () => {
-    profileFindUnique.mockResolvedValue({ id: 'profile-1' });
-    descriptifFindMany.mockResolvedValue([
-      { id: 'd1', oeuvre: 'Andromaque', auteur: 'Racine', titre: 'Acte I sc 1', premieresLignes: 'Oui puisque je retrouve un ami si fidèle' },
+  it('uses TexteDescriptif entries when available', async () => {
+    texteDescriptifFindMany.mockResolvedValue([
+      {
+        id: 'd1',
+        oeuvreAuteur: 'Andromaque — Racine',
+        titreExtrait: 'Acte I sc 1',
+        incipit: 'Oui puisque je retrouve un ami si fidèle',
+        contenuTexte: null,
+        position: 1,
+      },
     ]);
 
     const result = await pickOralExtrait({
@@ -74,28 +70,8 @@ describe('pickOralExtrait', () => {
 
     expect(result.texte).toContain('Oui puisque je retrouve');
     expect(info).toHaveBeenCalledWith(
-      expect.objectContaining({ source: 'descriptif_texte' }),
-      expect.stringContaining('oral.pickExtrait.from_descriptif_texte'),
-    );
-  });
-
-  it('falls back to TextePrepare when no DescriptifTexte but TextePrepare exists', async () => {
-    profileFindUnique.mockResolvedValue({ id: 'profile-1' });
-    descriptifFindMany.mockResolvedValue([]);
-    textPrepareFindMany.mockResolvedValue([
-      { id: 'tp1', oeuvreAuteur: 'Andromaque — Racine', titreExtrait: 'Acte V', incipit: 'Grâce aux Dieux' },
-    ]);
-
-    const result = await pickOralExtrait({
-      oeuvre: 'Andromaque',
-      userId: 'u1',
-      mode: 'SIMULATION',
-    });
-
-    expect(result.texte).toContain('Grâce aux Dieux');
-    expect(info).toHaveBeenCalledWith(
-      expect.objectContaining({ source: 'texte_prepare' }),
-      expect.stringContaining('oral.pickExtrait.from_texte_prepare'),
+      expect.objectContaining({ source: 'texte_descriptif' }),
+      expect.stringContaining('oral.pickExtrait.from_texte_descriptif'),
     );
   });
 });
