@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
+import { logger } from '@/lib/logger';
 import { countAdminVisiblePlans, toAdminVisibleSubscription } from '@/lib/admin/plan-visibility';
 import { normalizePlanId, toPublicPlanId } from '@nexus-eaf/shared-billing';
 
@@ -175,7 +176,7 @@ export async function GET() {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error fetching enhanced stats:', error);
+    logger.error('Error fetching enhanced stats:', error);
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des statistiques avancées.' },
       { status: 500 }

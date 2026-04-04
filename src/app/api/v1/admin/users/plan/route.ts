@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { normalizePlanId } from '@nexus-eaf/shared-billing';
+import { logger } from '@/lib/logger';
 
 export async function PATCH(request: Request) {
   const { auth, errorResponse } = await requireUserRole('admin');
@@ -56,7 +57,7 @@ export async function PATCH(request: Request) {
     }, { status: 200 });
 
   } catch (error) {
-    console.error('Error updating user plan:', error);
+    logger.error('Error updating user plan:', error);
     return NextResponse.json(
       { error: 'Erreur lors de la mise à jour du plan' },
       { status: 500 }

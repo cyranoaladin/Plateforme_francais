@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
+import { logger } from '@/lib/logger';
 
 export async function PATCH(request: Request) {
   const { auth, errorResponse } = await requireUserRole('admin');
@@ -48,7 +49,7 @@ export async function PATCH(request: Request) {
     }, { status: 200 });
 
   } catch (error) {
-    console.error('Error suspending user:', error);
+    logger.error('Error suspending user:', error);
     return NextResponse.json(
       { error: 'Erreur lors de la suspension de l\'utilisateur' },
       { status: 500 }

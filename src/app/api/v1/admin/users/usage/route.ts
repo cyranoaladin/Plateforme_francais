@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
+import { logger } from '@/lib/logger';
 
 export async function GET(request: Request) {
   const { auth, errorResponse } = await requireUserRole('admin');
@@ -99,7 +100,7 @@ export async function GET(request: Request) {
     }, { status: 200 });
 
   } catch (error) {
-    console.error('Error fetching user usage:', error);
+    logger.error('Error fetching user usage:', error);
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des données d\'utilisation' },
       { status: 500 }
