@@ -101,18 +101,18 @@ export default function AtelierOralPage() {
               </div>
             </div>
 
-            <Button
-              data-testid="start-session-btn"
-              onClick={() => void oral.startSession()}
-              disabled={oral.isLoading}
-              variant="primary"
-              size="md"
-              loading={oral.isLoading}
-              icon={!oral.isLoading ? <Play className="h-4 w-4" /> : undefined}
-              className="mt-6"
-            >
-              Tirer un extrait
-            </Button>
+              <Button
+                data-testid="start-session-btn"
+                onClick={() => void oral.startSession()}
+                disabled={oral.isLoading}
+                variant="primary"
+                size="md"
+                loading={oral.isLoading}
+                icon={!oral.isLoading ? <Play className="h-4 w-4" /> : undefined}
+                className="mt-6"
+              >
+                Tirer un extrait
+              </Button>
           </section>
 
           <aside className="space-y-6">
@@ -205,7 +205,13 @@ export default function AtelierOralPage() {
                 />
               </div>
 
-              <Button onClick={() => void oral.startPassage()} variant="primary" size="md" icon={<Play className="h-4 w-4" />}>
+              <Button
+                data-testid="commencer-passage-btn"
+                onClick={() => void oral.startPassage()}
+                variant="primary"
+                size="md"
+                icon={<Play className="h-4 w-4" />}
+              >
                 Commencer le passage (20 min)
               </Button>
             </div>

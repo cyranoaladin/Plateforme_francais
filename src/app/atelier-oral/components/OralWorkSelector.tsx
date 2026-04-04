@@ -41,6 +41,7 @@ export function OralWorkSelector({
           variant={selectedMode === 'FREE_PRACTICE' ? 'primary' : 'ghost'}
           size="sm"
           onClick={() => onChangeMode('FREE_PRACTICE')}
+          data-testid="mode-practice-btn"
         >
           Pratique libre
         </Button>
@@ -48,10 +49,11 @@ export function OralWorkSelector({
       <p className="text-sm text-muted-foreground">
         Œuvre choisie : <strong>{currentWork}</strong>
       </p>
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid gap-2 sm:grid-cols-2" data-testid="oeuvre-select">
         {availableWorks.map((work) => (
           <Badge
             key={work}
+            data-testid={`oeuvre-option-${work}`}
             variant={work === currentWork ? 'navy' : 'outline'}
             className="cursor-pointer"
             onClick={() => onSelectWork(work)}

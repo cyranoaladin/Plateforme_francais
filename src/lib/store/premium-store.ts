@@ -3,6 +3,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { Prisma, SkillTrend, WeakStatus, type EafSkill, type RevisionPhase as PrismaRevisionPhase, type WeakSeverity } from '@prisma/client';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
+import { logger } from '@/lib/logger';
 import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
 import type { WeeklyReport } from '@/lib/types/premium';
 
@@ -387,6 +388,12 @@ function weakSeverityForError(input: {
 }
 
 export async function writePremiumStore(updater: (current: PremiumStore) => PremiumStore): Promise<void> {
+  if (process.env.NODE_ENV === 'production') {
+    logger.warn(
+      { store: 'premium-store', path: STORE_PATH },
+      '[FALLBACK] writePremiumStore: DB unavailable in production — falling back to JSON. This should not happen with a healthy DB connection.',
+    );
+  }
   await withLock(async () => {
     const current = await loadStoreFromDisk();
     const next = updater(current);
@@ -448,6 +455,12 @@ export async function addErrorBankItem(input: {
     return item;
   }
 
+  if (process.env.NODE_ENV === 'production') {
+    logger.warn(
+      { studentId: input.studentId, fn: 'addErrorBankItem' },
+      '[FALLBACK] addErrorBankItem: could not resolve profileId — writing to JSON fallback. Check DB connection and user record.',
+    );
+  }
   await writePremiumStore((current) => ({
     ...current,
     errorBankV2: [...current.errorBankV2, item],

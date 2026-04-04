@@ -83,6 +83,7 @@ export function EcritEpreuveSelector({
             />
           </div>
           <Button
+            data-testid="generate-subject-btn"
             onClick={() => void onGenerate()}
             loading={isGenerating}
             icon={<Sparkles className="h-4 w-4" />}

@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { Card, Button, Input, Badge } from '@/components/ui';
 import { getAdminDataLoadTargets, type AdminDashboardTab } from '@/lib/admin/dashboard-tab-data';
-import { formatPlanLabel, normalizePlanId } from '@/lib/billing/plan-catalog';
+import { formatPlanLabel, normalizePlanId, PLAN_DISPLAY_LABELS } from '@/lib/billing/plan-catalog';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 
 type User = {
@@ -469,7 +469,7 @@ export default function AdminDashboard() {
                           <td className="py-2 px-4">
                             {user.subscription ? (
                               <Badge className={getVisiblePlanColor(user.subscription.plan)}>
-                                {formatPlanLabel(user.subscription.plan)}
+                                {PLAN_DISPLAY_LABELS[normalizePlanId(user.subscription.plan)] || formatPlanLabel(user.subscription.plan)}
                               </Badge>
                             ) : (
                               <span className="text-[var(--text-secondary)]">Aucun</span>
@@ -504,6 +504,7 @@ export default function AdminDashboard() {
                     <div>
                       <label className="block text-sm font-medium mb-2">Plan</label>
                       <select
+                        id="new-code-plan"
                         value={newCodePlan}
                         onChange={(e) => setNewCodePlan(e.target.value as 'PREMIUM' | 'MASTERIUM')}
                         className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
@@ -627,6 +628,7 @@ export default function AdminDashboard() {
                     <div>
                       <label className="block text-sm font-medium mb-2">Plan</label>
                       <select
+                        id="manual-payment-plan"
                         value={paymentPlan}
                         onChange={(e) => {
                           const plan = e.target.value as 'PREMIUM' | 'MASTERIUM';

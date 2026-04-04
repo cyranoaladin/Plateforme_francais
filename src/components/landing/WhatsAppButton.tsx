@@ -10,7 +10,8 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contacter via WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--whatsapp)] shadow-xl transition-transform hover:scale-110 hover:bg-[var(--whatsapp-hover)]"
+      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--whatsapp)] shadow-xl transition-transform hover:scale-110 hover:bg-[var(--whatsapp-hover)] data-[test-env=true]:hidden"
+      data-test-env={process.env.NEXT_PUBLIC_APP_URL?.includes('localhost') || (typeof window !== 'undefined' && window.location.hostname === 'localhost')}
     >
       <svg
         viewBox="0 0 32 32"

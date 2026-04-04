@@ -110,6 +110,7 @@ export function EcritCopyUploader({
             </div>
             <input
               aria-label="Sélectionner un fichier de copie"
+              data-testid="copy-upload-input"
               ref={fileInputRef}
               type="file"
               accept="image/jpeg,image/png,image/webp,application/pdf"
@@ -166,6 +167,7 @@ export function EcritCopyUploader({
           ) : null}
 
           <Button
+            data-testid="start-correction-btn"
             disabled={!epreuve || !selectedFile}
             loading={isUploading}
             onClick={() => void onUpload()}
@@ -190,6 +192,7 @@ export function EcritCopyUploader({
           <div className="mt-6 flex flex-col items-center gap-3">
             <Link
               href={`/atelier-ecrit/correction/${copieLink.copieId}?epreuveId=${copieLink.epreuveId}`}
+              data-testid="view-report-link"
               className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[var(--c-success)] px-6 py-3 text-sm font-bold text-[var(--text-on-primary)] transition hover:bg-[var(--color-emerald-400)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-success)]"
             >
               Voir mon rapport
