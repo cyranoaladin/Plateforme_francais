@@ -7,41 +7,41 @@ import { descriptifUpsertSchema } from '@/lib/validation/schemas';
 
 /**
  * GET /api/v1/student/descriptif
- * Returns the student's descriptif textes from the DescriptifTexte table.
+ * Returns the student's descriptif textes from the canonical TexteDescriptif table.
  */
 export async function GET() {
   const { auth, errorResponse } = await requireAuthenticatedUser();
   if (!auth || errorResponse) return errorResponse;
 
-  const profile = await prisma.studentProfile.findUnique({
+  const textes = await prisma.texteDescriptif.findMany({
     where: { userId: auth.user.id },
-    select: { id: true },
-  });
-
-  if (!profile) {
-    return NextResponse.json({ textes: [] });
-  }
-
-  const textes = await prisma.descriptifTexte.findMany({
-    where: { studentId: profile.id },
-    orderBy: { createdAt: 'asc' },
+    orderBy: [{ objetEtude: 'asc' }, { position: 'asc' }],
     select: {
       id: true,
       objetEtude: true,
-      oeuvre: true,
-      auteur: true,
-      typeExtrait: true,
-      titre: true,
-      premieresLignes: true,
+      oeuvreAuteur: true,
+      typeTexte: true,
+      titreExtrait: true,
+      incipit: true,
     },
   });
 
-  return NextResponse.json({ textes });
+  return NextResponse.json({
+    textes: textes.map((texte) => ({
+      id: texte.id,
+      objetEtude: texte.objetEtude,
+      oeuvre: texte.oeuvreAuteur,
+      auteur: '',
+      typeExtrait: texte.typeTexte,
+      titre: texte.titreExtrait,
+      premieresLignes: texte.incipit,
+    })),
+  });
 }
 
 /**
  * POST /api/v1/student/descriptif
- * Replaces all descriptif textes (delete + insert) in the DescriptifTexte table.
+ * Replaces all descriptif textes in the canonical TexteDescriptif table.
  */
 export async function POST(request: Request) {
   const { auth, errorResponse } = await requireAuthenticatedUser();
@@ -53,28 +53,17 @@ export async function POST(request: Request) {
   const parsed = await parseJsonBody(request, descriptifUpsertSchema);
   if (!parsed.success) return parsed.response;
 
-  const profile = await prisma.studentProfile.findUnique({
-    where: { userId: auth.user.id },
-    select: { id: true },
-  });
-
-  if (!profile) {
-    return NextResponse.json({ error: 'Profil introuvable.' }, { status: 404 });
-  }
-
-  // Replace all: delete existing + insert new
   await prisma.$transaction([
-    prisma.descriptifTexte.deleteMany({ where: { studentId: profile.id } }),
+    prisma.texteDescriptif.deleteMany({ where: { userId: auth.user.id } }),
     ...parsed.data.textes.map((texte) =>
-      prisma.descriptifTexte.create({
+      prisma.texteDescriptif.create({
         data: {
-          studentId: profile.id,
+          userId: auth.user.id,
           objetEtude: texte.objetEtude,
-          oeuvre: texte.oeuvre,
-          auteur: texte.auteur,
-          typeExtrait: texte.typeExtrait,
-          titre: texte.titre,
-          premieresLignes: texte.premieresLignes ?? null,
+          typeTexte: texte.typeExtrait,
+          oeuvreAuteur: texte.auteur ? `${texte.oeuvre} — ${texte.auteur}` : texte.oeuvre,
+          titreExtrait: texte.titre,
+          incipit: texte.premieresLignes ?? null,
         },
       }),
     ),

@@ -99,9 +99,8 @@ function normalizePhaseEvaluation(phase: OralPhaseKey, skill: Skill, payload: un
  * Choose an excerpt based on the student's descriptif de lecture for simulations.
  *
  * Resolution order:
- *   1. DescriptifTexte (rich descriptif from /descriptif page, linked to StudentProfile)
- *   2. TextePrepare   (simplified entries from /descriptif-lecture, linked to User)
- *   3. Corpus interne (EXTRAITS_OEUVRES fallback)
+ *   1. TexteDescriptif (canonical student descriptif linked to User)
+ *   2. Corpus interne (EXTRAITS_OEUVRES fallback)
  *
  * RÈGLE OFFICIELLE : l'examinateur ne peut interroger QUE sur les textes
  * du descriptif de lecture de l'élève.
@@ -115,77 +114,43 @@ export async function pickOralExtrait(params: {
   questionGrammaire: string;
   phraseGrammaire: string;
 }> {
-  // --- Priority 1: DescriptifTexte (rich entries from /descriptif page) ---
-  const profile = await prisma.studentProfile.findUnique({
-    where: { userId: params.userId },
-    select: { id: true },
-  });
-
-  if (profile) {
-    const descriptifTextes = await prisma.descriptifTexte.findMany({
-      where: { studentId: profile.id },
-    });
-
-    if (descriptifTextes.length > 0) {
-      const pool = params.oeuvre
-        ? descriptifTextes.filter(t => matchesWork(params.oeuvre, `${t.oeuvre} — ${t.auteur}`))
-        : descriptifTextes;
-      const candidates = pool.length > 0 ? pool : descriptifTextes;
-      const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-      const texte = chosen.premieresLignes || chosen.titre;
-
-      logger.info(
-        {
-          userId: params.userId,
-          source: 'descriptif_texte',
-          oeuvre: chosen.oeuvre,
-          titre: chosen.titre,
-          totalTextes: descriptifTextes.length,
-        },
-        'oral.pickExtrait.from_descriptif_texte',
-      );
-
-      return {
-        texte,
-        questionGrammaire: `Analysez la construction d'une phrase significative tirée de « ${chosen.titre} » (${chosen.oeuvre}).`,
-        phraseGrammaire: buildPhraseCandidate(texte) || 'Phrase cible indisponible.',
-      };
-    }
-  }
-
-  // --- Priority 2: TextePrepare (simplified entries) ---
-  const textesPrepares = await prisma.textePrepare.findMany({
-    where: { userId: params.userId },
+  const descriptifTextes = await prisma.texteDescriptif.findMany({
+    where: {
+      userId: params.userId,
+      typeTexte: {
+        in: ['EXTRAIT_OEUVRE', 'EXTRAIT_PARCOURS'],
+      },
+    },
     orderBy: { position: 'asc' },
   });
 
-  if (textesPrepares.length > 0) {
+  if (descriptifTextes.length > 0) {
     const pool = params.oeuvre
-      ? textesPrepares.filter(t => matchesWork(params.oeuvre, t.oeuvreAuteur))
-      : textesPrepares;
-    const candidates = pool.length > 0 ? pool : textesPrepares;
+      ? descriptifTextes.filter((t) => matchesWork(params.oeuvre, t.oeuvreAuteur))
+      : descriptifTextes;
+    const candidates = pool.length > 0 ? pool : descriptifTextes;
     const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-    const texte = chosen.incipit || chosen.titreExtrait;
+    const texte = chosen.contenuTexte || chosen.incipit || chosen.titreExtrait;
 
     logger.info(
       {
         userId: params.userId,
-        source: 'texte_prepare',
+        source: 'texte_descriptif',
         oeuvre: chosen.oeuvreAuteur,
         titre: chosen.titreExtrait,
-        totalTextes: textesPrepares.length,
+        totalTextes: descriptifTextes.length,
       },
-      'oral.pickExtrait.from_texte_prepare',
+      'oral.pickExtrait.from_texte_descriptif',
     );
 
     return {
       texte,
-      questionGrammaire: `Analysez la construction d'une phrase significative tirée de « ${chosen.titreExtrait} ».`,
+      questionGrammaire: `Analysez la construction d'une phrase significative tirée de « ${chosen.titreExtrait} » (${chosen.oeuvreAuteur}).`,
       phraseGrammaire: buildPhraseCandidate(texte) || 'Phrase cible indisponible.',
     };
   }
 
-  // --- Priority 3: Corpus fallback ---
+  // --- Priority 2: Corpus fallback ---
   logger.info(
     { userId: params.userId, oeuvre: params.oeuvre },
     'oral.pickExtrait.no_descriptif — using corpus fallback',

@@ -50,10 +50,12 @@ export async function PUT(req: NextRequest) {
   }
 
   await prisma.$transaction([
-    prisma.textePrepare.deleteMany({ where: { userId: auth.user.id } }),
-    prisma.textePrepare.createMany({
+    prisma.texteDescriptif.deleteMany({ where: { userId: auth.user.id } }),
+    prisma.texteDescriptif.createMany({
       data: parsed.data.textes.map((t, i) => ({
         userId: auth.user.id,
+        objetEtude: 'ROMAN_RECIT',
+        typeTexte: 'EXTRAIT_OEUVRE',
         oeuvreAuteur: t.oeuvreAuteur,
         titreExtrait: t.titreExtrait,
         incipit: t.incipit ?? null,
@@ -62,7 +64,7 @@ export async function PUT(req: NextRequest) {
     }),
   ]);
 
-  const saved = await prisma.textePrepare.findMany({
+  const saved = await prisma.texteDescriptif.findMany({
     where: { userId: auth.user.id },
     orderBy: { position: 'asc' },
   });
