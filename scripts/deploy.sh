@@ -47,6 +47,8 @@ rsync -avz --delete \
   --exclude='/ressources/' \
   --exclude='coverage' \
   --exclude='test-results' \
+  --exclude='tests' \
+  --exclude='dist' \
   --exclude='.venv' \
   --exclude='.vscode' \
   --exclude='.antigravity' \
@@ -82,7 +84,10 @@ rsync -avz --delete \
 echo "  ✅ Code synchronisé"
 
 echo "[1a/8] Nettoyage artefacts non-production..."
-ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv .vscode .windsurf .windsurf_audit_logs .windsurfrules .superpowers forensics .claude UI_UX .env.test .vitest-unit-report.json coverage test-results 2>/dev/null; find packages/mcp-server/dist \\( -name '*.js.map' -o -name '*.d.ts.map' \\) -exec rm -f {} + 2>/dev/null || true; rm -f create-pr-branch.sh test-admin.sh test-manual-flow.sh eaf.code-workspace proxy.ts stryker.conf.json tsconfig.tsbuildinfo 2>/dev/null; rm -f scripts/run-all-tests.sh scripts/test-production-locale.sh scripts/test-402-live.sh _*.ts 2>/dev/null; rm -f *.log 2>/dev/null; echo '  ✅ Artefacts nettoyés'"
+ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv .vscode .windsurf .windsurf_audit_logs .windsurfrules .superpowers forensics .claude UI_UX .env.test .vitest-unit-report.json coverage test-results tests dist .worktrees 2>/dev/null; find packages/mcp-server/dist \\( -name '*.js.map' -o -name '*.d.ts.map' \\) -exec rm -f {} + 2>/dev/null || true; rm -f create-pr-branch.sh test-admin.sh test-manual-flow.sh eaf.code-workspace proxy.ts stryker.conf.json tsconfig.tsbuildinfo 2>/dev/null; rm -f scripts/run-all-tests.sh scripts/test-production-locale.sh scripts/test-402-live.sh _*.ts 2>/dev/null; rm -f *.log 2>/dev/null; echo '  ✅ Artefacts nettoyés'"
+
+echo "[1b/8] Sécurisation des secrets post-sync..."
+ssh "$SSH_TARGET" "chmod 600 $APP_DIR/.env $APP_DIR/.env.local $APP_DIR/packages/mcp-server/.env 2>/dev/null || true; rm -f $APP_DIR/.env.backup 2>/dev/null || true; echo '  ✅ Permissions secrets 600 appliquées'"
 
 echo "[1b/8] Préparation du volume ressources durable (symlink après build)..."
 ssh "$SSH_TARGET" "mkdir -p $RESSOURCES_DIR"
@@ -225,6 +230,28 @@ echo "[8/8] Redémarrage des services PM2..."
 ssh "$SSH_TARGET" "cd $APP_DIR && pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
 ssh "$SSH_TARGET" "pm2 save"
 
+# --- 9. Smoke test post-deploy ---
+echo "[9/9] Smoke test post-déploiement..."
+sleep 5  # laisser PM2 démarrer proprement
+
+HEALTH_URL="https://$DOMAIN/api/v1/health"
+echo "  → GET $HEALTH_URL"
+
+HEALTH_STATUS=$(curl -s --max-time 15 "$HEALTH_URL" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('status','unknown'))" 2>/dev/null || echo "unreachable")
+
+if [ "$HEALTH_STATUS" = "ok" ]; then
+  echo "  ✅ Health check OK (status: ok)"
+elif [ "$HEALTH_STATUS" = "degraded" ]; then
+  echo "  ⚠️  Health check DEGRADED — vérifier RAG ou voice"
+  echo "     curl -s $HEALTH_URL | jq ."
+else
+  echo ""
+  echo "  ❌ SMOKE TEST ÉCHOUÉ — statut reçu: $HEALTH_STATUS"
+  echo "     Vérifiez les logs : ssh $SSH_TARGET 'pm2 logs --lines 50'"
+  echo ""
+  exit 1
+fi
+
 echo ""
 echo "========================================="
 echo "  ✅ Déploiement terminé !"
@@ -237,3 +264,4 @@ echo "    curl -s https://$DOMAIN/api/v1/health"
 echo "    ssh $SSH_TARGET 'pm2 status'"
 echo "    ssh $SSH_TARGET 'pm2 logs --lines 20'"
 echo ""
+

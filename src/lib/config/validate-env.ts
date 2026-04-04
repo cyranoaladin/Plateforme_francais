@@ -23,7 +23,11 @@ const REQUIRED_LLM = [
 ] as const;
 
 // ── Nice-to-have vars (warn only) ──────────────────────────────────
+// DIRECT_URL: required by Prisma schema (directUrl) for PgBouncer/Accelerate.
+// In standard direct-connection setups, it equals DATABASE_URL.
+// Missing in dev is acceptable; missing in prod with a pool is a schema mismatch.
 const RECOMMENDED_ENV = [
+  'DIRECT_URL',
   'SMTP_HOST',
   'SMTP_USER',
   'SMTP_PASS',

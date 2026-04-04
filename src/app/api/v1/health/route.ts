@@ -76,25 +76,40 @@ export async function GET() {
   let envStatus: { required: string; llm: string; recommended: { missing: string[] } } | null = null;
   try { envStatus = validateEnv(); } catch { /* env validation failure logged internally */ }
 
+  // ── Status logic: 3 levels ─────────────────────────────────────────────────
+  // critical → DB or Redis down. App cannot function. HTTP 503.
+  // degraded → RAG or voice down. Core auth/billing still works. HTTP 200.
+  // ok       → All systems operational. HTTP 200.
+  const criticalDown = checks.db === 'down' || checks.redis === 'down';
   const allOk = Object.values(checks).every(v => v === 'ok');
-  // HTTP 200 si les services critiques (DB + Redis) sont opérationnels.
-  // RAG est un service optionnel — son absence ne doit pas bloquer l'app.
-  const criticalOk = checks.db === 'ok' && checks.redis === 'ok';
-  const status = allOk ? 'ok' : criticalOk ? 'degraded' : 'down';
-  const httpStatus = criticalOk ? 200 : 503;
+  const status = criticalDown ? 'critical' : allOk ? 'ok' : 'degraded';
+  const httpStatus = criticalDown ? 503 : 200;
+
+  // ── Commercial feature health (for observability) ──────────────────────────
+  // This surfaces the real user-facing impact beyond infra checks.
+  const features = {
+    // Core billing and auth work if DB + Redis are up
+    auth_billing: checks.db === 'ok' && checks.redis === 'ok' ? 'ok' : 'down',
+    // AI correction requires DB (for quota) + at least one LLM key
+    correction_ia: checks.db === 'ok' && (envStatus?.llm === 'ok') ? 'ok' : 'degraded',
+    // RAG-powered tutor and search
+    tuteur_rag: checks.rag === 'ok' ? 'ok' : 'degraded',
+    // Oral passages (browser STT always available, server STT optional)
+    oral: 'ok' as const,
+  };
 
   if (status !== 'ok') {
-    logger.warn({ checks, status }, 'health_check_not_ok');
+    logger.warn({ checks, status, features }, 'health_check_not_ok');
   }
 
   // En CI (HEALTH_CHECK_READY=true), toujours retourner 200 si DB + Redis ok
-  // Note: Cette variable est injectée dans les workflows CI/CD pour stabiliser wait-on.
   const isCiReady = process.env.HEALTH_CHECK_READY === 'true';
 
   return NextResponse.json(
     {
       status,
       checks,
+      features,
       isCiReady,
       timestamp: new Date().toISOString(),
       release: {
@@ -113,3 +128,4 @@ export async function GET() {
     { status: httpStatus },
   );
 }
+
