@@ -1,15 +1,13 @@
 /**
- * Barèmes officiels EAF alignés sur les échelles descriptives
- * Source : Échelles descriptives — Académie de Nantes
- *        + Note de Service n°2019-042 du 18-4-2019
+ * Barèmes officiels EAF — Commentaire, Dissertation, Grammaire
+ * Source : Échelles descriptives officielles + Note de Service n°2019-042
  *
- * NOTE : L'introduction et la conclusion ne sont PAS des critères autonomes.
- * Ce qui est évalué : l'organisation du propos, le fil de l'argumentation.
+ * Introduction et conclusion ne sont pas des critères autonomes.
  */
 
 export type NiveauBareme = {
   level: 1 | 2 | 3 | 4;
-  label: string;
+  description: string;
   points: number;
 };
 
@@ -17,160 +15,294 @@ export type CritereBareme = {
   id: string;
   label: string;
   points: number;
-  description: string;
   niveaux: readonly NiveauBareme[];
 };
 
 export type Bareme = {
   exercice: string;
   total: number;
-  source: string;
   criteres: readonly CritereBareme[];
 };
 
 export const BAREME_COMMENTAIRE_SERIE_GENERALE = {
-  exercice: 'commentaire' as const,
-  source: 'Échelles descriptives — Académie de Nantes',
+  exercice: 'commentaire',
   total: 20,
   criteres: [
     {
-      id: 'comprehension_interpretation',
-      label: 'Compréhension et interprétation du texte',
+      id: 'lecture_analyse_interpretation',
+      label: 'Aptitude à lire, à analyser et à interpréter des textes',
       points: 6,
-      description: 'Aptitude à lire, analyser et interpréter. '
-        + 'Compréhension du sens général et des nuances. '
-        + 'Citations pertinentes et analysées.',
       niveaux: [
-        { level: 1, label: 'Compréhension lacunaire ou fautive', points: 0 },
-        { level: 2, label: 'Compréhension partielle', points: 2 },
-        { level: 3, label: 'Compréhension de la globalité', points: 4 },
-        { level: 4, label: 'Bonne compréhension, nuances saisies', points: 6 },
+        {
+          level: 1,
+          description:
+            "Compréhension très lacunaire, voire fautive du texte. Pas ou très peu d'éléments d'interprétation du sens. Absence de citation ou montage de citations sans analyse.",
+          points: 0,
+        },
+        {
+          level: 2,
+          description:
+            "Compréhension partielle du texte. Des éléments ponctuels d'interprétation du sens. Analyses qui s'appuient sur quelques citations.",
+          points: 2,
+        },
+        {
+          level: 3,
+          description:
+            "Compréhension de la globalité du texte. Éléments d'interprétation justes, mais qui abordent seulement quelques enjeux du texte. Analyses qui s'appuient sur des citations interprétées avec pertinence.",
+          points: 4,
+        },
+        {
+          level: 4,
+          description:
+            "Bonne compréhension du texte dans son sens général et ses nuances. Éléments d'interprétation justes qui mettent en valeur les enjeux principaux du texte. Analyse qui prend en compte différents aspects du texte et qui s'appuie sur des citations pertinentes.",
+          points: 6,
+        },
       ],
     },
     {
       id: 'construction_reflexion',
-      label: 'Construction de la réflexion et projet de lecture',
+      label: 'Aptitude à construire une réflexion en prenant appui sur le texte',
       points: 6,
-      description: 'Organisation du propos, fil de l\'argumentation, '
-        + 'projet de lecture adapté au texte, progression cohérente, '
-        + 'absence de paraphrase.',
       niveaux: [
-        { level: 1, label: 'Absence de projet de lecture, paraphrase', points: 0 },
-        { level: 2, label: 'Projet de lecture mal adapté, ébauche d\'organisation', points: 2 },
-        { level: 3, label: 'Organisation cohérente, étapes identifiées', points: 4 },
-        { level: 4, label: 'Réflexion organisée, progression vers une réponse', points: 6 },
+        {
+          level: 1,
+          description:
+            "Projet de lecture absent. Juxtaposition de remarques sans organisation ou simple paraphrase du texte.",
+          points: 0,
+        },
+        {
+          level: 2,
+          description:
+            "Projet de lecture présent, mais mal adapté au texte. Une ébauche d'organisation de la réflexion.",
+          points: 2,
+        },
+        {
+          level: 3,
+          description:
+            "Projet de lecture globalement adapté au texte. Organisation cohérente de la réflexion qui permet d'en suivre le cheminement (présence d'étapes identifiées).",
+          points: 4,
+        },
+        {
+          level: 4,
+          description:
+            "Projet de lecture bien adapté au texte. Réflexion organisée (présence d'étapes identifiées), facile à suivre et qui répond progressivement au projet de lecture.",
+          points: 6,
+        },
       ],
     },
     {
       id: 'culture_litteraire',
-      label: 'Mobilisation d\'une culture littéraire',
+      label: "Aptitude à mobiliser une culture littéraire (vocabulaire d'analyse, connaissances linguistiques, histoire littéraire, genres, objet d'étude…)",
       points: 4,
-      description: 'Vocabulaire d\'analyse, connaissances linguistiques, '
-        + 'histoire littéraire, genres, objets d\'étude, '
-        + 'mises au service de l\'interprétation.',
       niveaux: [
-        { level: 1, label: 'Pas ou très peu de connaissances', points: 0 },
-        { level: 2, label: 'Connaissances approximatives ou mal exploitées', points: 1 },
-        { level: 3, label: 'Connaissances adaptées et correctement exploitées', points: 3 },
-        { level: 4, label: 'Connaissances variées, mises au service du texte', points: 4 },
+        {
+          level: 1,
+          description: 'Pas ou très peu de connaissances littéraires.',
+          points: 0,
+        },
+        {
+          level: 2,
+          description: 'Connaissances littéraires approximatives ou mal exploitées.',
+          points: 1,
+        },
+        {
+          level: 3,
+          description: "Connaissances littéraires adaptées à l'analyse du texte et correctement exploitées.",
+          points: 3,
+        },
+        {
+          level: 4,
+          description: "Connaissances littéraires variées mises au service d'une interprétation du texte sur l'ensemble du devoir.",
+          points: 4,
+        },
       ],
     },
     {
       id: 'maitrise_langue',
-      label: 'Maîtrise de la langue et de l\'expression',
+      label: "Maîtrise de la langue et de l'expression",
       points: 4,
-      description: 'Correction orthographique et syntaxique, '
-        + 'précision lexicale, lisibilité du devoir.',
       niveaux: [
-        { level: 1, label: 'Incorrections nombreuses, clarté compromise', points: 0 },
-        { level: 2, label: 'Maladresses qui altèrent la clarté', points: 1 },
-        { level: 3, label: 'Expression correcte et compréhensible', points: 3 },
-        { level: 4, label: 'Expression satisfaisante, précision lexicale', points: 4 },
+        {
+          level: 1,
+          description: 'De nombreuses incorrections ou des expressions confuses qui nuisent fortement à la clarté du propos.',
+          points: 0,
+        },
+        {
+          level: 2,
+          description: "Des maladresses syntaxiques et des incorrections orthographiques et/ou grammaticales qui altèrent par endroits la clarté du propos.",
+          points: 1,
+        },
+        {
+          level: 3,
+          description: 'Une expression correcte et compréhensible.',
+          points: 3,
+        },
+        {
+          level: 4,
+          description: "L'expression est satisfaisante et témoigne de précision lexicale ; le devoir est facile à lire.",
+          points: 4,
+        },
       ],
     },
   ],
-} as const;
+} as const satisfies Bareme;
 
 export const BAREME_DISSERTATION = {
-  exercice: 'dissertation' as const,
-  source: 'Échelles descriptives — Académie de Nantes',
+  exercice: 'dissertation',
   total: 20,
   criteres: [
     {
       id: 'prise_en_compte_sujet',
       label: 'Prise en compte du sujet',
       points: 4,
-      description: 'Compréhension de la portée du sujet et de ses enjeux.',
       niveaux: [
-        { level: 1, label: 'Sujet non traité', points: 0 },
-        { level: 2, label: 'Sujet partiellement traité', points: 1 },
-        { level: 3, label: 'Sujet globalement traité', points: 3 },
-        { level: 4, label: 'Sujet bien traité, portée saisie', points: 4 },
+        {
+          level: 1,
+          description: "Le candidat n'a pas traité le sujet donné sur l'œuvre.",
+          points: 0,
+        },
+        {
+          level: 2,
+          description: "Le candidat a partiellement traité le sujet donné sur l'œuvre.",
+          points: 1,
+        },
+        {
+          level: 3,
+          description: 'Le candidat a globalement traité le sujet.',
+          points: 3,
+        },
+        {
+          level: 4,
+          description: "Le candidat a bien traité le sujet sur l'œuvre au programme et bien saisi sa portée.",
+          points: 4,
+        },
       ],
     },
     {
       id: 'construction_reflexion',
-      label: 'Construction de la réflexion argumentative',
+      label: "Aptitude à construire une réflexion en prenant en compte d'autres points de vue que le sien",
       points: 8,
-      description: 'Fil de l\'argumentation, organisation du propos, '
-        + 'pertinence et variété des arguments, progression vers une réponse.',
       niveaux: [
-        { level: 1, label: 'Absence d\'arguments ou hors sujet', points: 0 },
-        { level: 2, label: 'Quelques arguments peu pertinents', points: 2 },
-        { level: 3, label: 'Arguments intéressants, organisation repérable', points: 5 },
-        { level: 4, label: 'Stratégie argumentative maîtrisée, réponse claire', points: 8 },
+        {
+          level: 1,
+          description:
+            "Le devoir est une suite de remarques sans structure apparente. Le candidat n'avance pas d'arguments.",
+          points: 0,
+        },
+        {
+          level: 2,
+          description:
+            'Le candidat propose un discours inégalement organisé : il oublie la question à traiter à plusieurs reprises. Le candidat ne développe que de rares arguments.',
+          points: 2,
+        },
+        {
+          level: 3,
+          description:
+            'Le candidat structure son propos pour guider son lecteur : le discours progresse globalement vers une réponse à la question. Le propos du candidat est clairement argumentatif, mais les arguments sont de qualité inégale.',
+          points: 5,
+        },
+        {
+          level: 4,
+          description:
+            "La stratégie argumentative du candidat est maîtrisée. Le discours est tendu vers une réponse claire à la question posée et aux enjeux qu'elle soulève. Les arguments du candidat, par leur pertinence, charpentent la réflexion littéraire engagée.",
+          points: 8,
+        },
       ],
     },
     {
       id: 'culture_litteraire',
-      label: 'Mobilisation d\'une culture littéraire',
+      label: "Aptitude à mobiliser une culture littéraire fondée sur les travaux conduits en cours de français, sur des connaissances et des lectures personnelles",
       points: 4,
-      description: 'Références à l\'œuvre, au parcours associé, '
-        + 'aux lectures personnelles. Richesse et pertinence.',
       niveaux: [
-        { level: 1, label: 'Pas de référence à l\'œuvre', points: 0 },
-        { level: 2, label: 'Références en nombre limité', points: 1 },
-        { level: 3, label: 'Références pertinentes de l\'œuvre', points: 3 },
-        { level: 4, label: 'Références riches et bien exploitées', points: 4 },
+        {
+          level: 1,
+          description: "Le propos ne s'appuie sur aucune ou très peu de connaissances précises de l'œuvre.",
+          points: 0,
+        },
+        {
+          level: 2,
+          description: "L'argumentation du candidat présente des références de l'œuvre au programme, mais leur mise en relation avec le sujet à traiter manque de pertinence.",
+          points: 1,
+        },
+        {
+          level: 3,
+          description: "L'argumentation présente des références pertinentes, prises dans l'œuvre au programme éventuellement complétées par le parcours associé et les connaissances personnelles du candidat.",
+          points: 3,
+        },
+        {
+          level: 4,
+          description: "L'argumentation du candidat est nourrie de références littéraires et culturelles pertinentes et bien exploitées. Les références sont prises dans l'œuvre au programme, éventuellement enrichies par le parcours associé et les lectures personnelles.",
+          points: 4,
+        },
       ],
     },
     {
       id: 'maitrise_langue',
-      label: 'Maîtrise de la langue et de l\'expression',
+      label: "Maîtrise de la langue et de l'expression",
       points: 4,
-      description: 'Correction de l\'expression, précision lexicale, lisibilité.',
       niveaux: [
-        { level: 1, label: 'Langue incorrecte, intelligibilité compromise', points: 0 },
-        { level: 2, label: 'Expression ponctuellement incorrecte', points: 1 },
-        { level: 3, label: 'Expression correcte et lexique adapté', points: 3 },
-        { level: 4, label: 'Expression satisfaisante, précision lexicale', points: 4 },
+        {
+          level: 1,
+          description: "Le candidat s'exprime dans une langue largement incorrecte qui menace l'intelligibilité du texte écrit.",
+          points: 0,
+        },
+        {
+          level: 2,
+          description: "L'expression du candidat est ponctuellement incorrecte, mais reste globalement intelligible.",
+          points: 1,
+        },
+        {
+          level: 3,
+          description: "L'expression du candidat est correcte et le lexique adapté.",
+          points: 3,
+        },
+        {
+          level: 4,
+          description: "L'expression est satisfaisante et témoigne de précision lexicale ; le devoir est facile à lire.",
+          points: 4,
+        },
       ],
     },
   ],
-} as const;
+} as const satisfies Bareme;
 
 export const BAREME_GRAMMAIRE = {
-  exercice: 'grammaire' as const,
-  source: 'Note de Service n°2019-042 du 18-4-2019',
+  exercice: 'grammaire',
   total: 2,
-  description: 'Analyse syntaxique uniquement. Pas d\'interprétation stylistique.',
   criteres: [
     {
       id: 'analyse_syntaxique',
       label: 'Analyse syntaxique',
       points: 2,
       niveaux: [
-        { level: 1, label: 'Réponse absente ou erronée, pas de raisonnement', points: 0 },
-        { level: 2, label: 'Réponse incomplète ou inexacte, raisonnement partiel', points: 1 },
-        { level: 3, label: 'Réponse satisfaisante : identification + dénomination + fonction', points: 2 },
-      ],
+        {
+          level: 1,
+          description: 'Réponse absente, totalement erronée ou aucun raisonnement syntaxique identifiable.',
+          points: 0,
+        },
+        {
+          level: 2,
+          description: 'Réponse incomplète ou inexacte, raisonnement syntaxique partiel ou approximatif.',
+          points: 1,
+        },
+        {
+          level: 3,
+          description: "Identification précise de l'unité syntaxique, dénomination correcte et fonction clairement précisée.",
+          points: 2,
+        },
+      ] as const,
     },
   ],
 } as const;
 
-export const BAREMES = {
-  commentaire_serie_generale: BAREME_COMMENTAIRE_SERIE_GENERALE,
-  commentaire_serie_techno: BAREME_COMMENTAIRE_SERIE_GENERALE, // same structure
-  dissertation: BAREME_DISSERTATION,
-  grammaire: BAREME_GRAMMAIRE,
+export const TOTAUX = {
+  commentaire: BAREME_COMMENTAIRE_SERIE_GENERALE.criteres.reduce((sum, critere) => sum + critere.points, 0),
+  dissertation: BAREME_DISSERTATION.criteres.reduce((sum, critere) => sum + critere.points, 0),
 } as const;
+
+export const BAREMES = {
+  commentaire: { criteres: BAREME_COMMENTAIRE_SERIE_GENERALE.criteres, total: TOTAUX.commentaire },
+  dissertation: { criteres: BAREME_DISSERTATION.criteres, total: TOTAUX.dissertation },
+} as const;
+
+export type ExerciceEcrit = keyof typeof BAREMES;

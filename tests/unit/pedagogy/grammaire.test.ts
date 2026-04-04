@@ -11,7 +11,7 @@ describe('Question de grammaire — règles officielles', () => {
   });
 
   it('le niveau 3 (complet) donne 2 points', () => {
-    const n3 = BAREME_GRAMMAIRE.criteres[0].niveaux.find(n => n.level === 3);
+    const n3 = BAREME_GRAMMAIRE.criteres[0].niveaux.find((n: any) => n.level === 3);
     expect(n3?.points).toBe(2);
   });
 

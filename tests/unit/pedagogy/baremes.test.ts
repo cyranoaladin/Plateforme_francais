@@ -3,6 +3,7 @@ import {
   BAREME_COMMENTAIRE_SERIE_GENERALE,
   BAREME_DISSERTATION,
   BAREME_GRAMMAIRE,
+  TOTAUX,
 } from '@/data/baremes-officiels';
 
 describe('Barèmes officiels EAF', () => {
@@ -25,7 +26,7 @@ describe('Barèmes officiels EAF', () => {
     it('a 4 critères exacts selon les échelles descriptives', () => {
       expect(BAREME_COMMENTAIRE_SERIE_GENERALE.criteres).toHaveLength(4);
       expect(BAREME_COMMENTAIRE_SERIE_GENERALE.criteres.map(c => c.id)).toEqual([
-        'comprehension_interpretation',
+        'lecture_analyse_interpretation',
         'construction_reflexion',
         'culture_litteraire',
         'maitrise_langue',
@@ -48,6 +49,7 @@ describe('Barèmes officiels EAF', () => {
     it('totalise 20 points', () => {
       const sum = BAREME_DISSERTATION.criteres.reduce((acc, c) => acc + c.points, 0);
       expect(sum).toBe(20);
+      expect(TOTAUX.dissertation).toBe(20);
     });
 
     it('la construction argumentative pèse 8 pts (poids principal)', () => {
@@ -64,6 +66,12 @@ describe('Barèmes officiels EAF', () => {
     it('est sur 2 points, 3 niveaux', () => {
       expect(BAREME_GRAMMAIRE.total).toBe(2);
       expect(BAREME_GRAMMAIRE.criteres[0].niveaux).toHaveLength(3);
+    });
+
+    it("reste exclusivement syntaxique", () => {
+      const descriptions = BAREME_GRAMMAIRE.criteres[0].niveaux.map((niveau) => niveau.description.toLowerCase()).join(' ');
+      expect(descriptions.includes('stylist')).toBe(false);
+      expect(descriptions.includes('interpr')).toBe(false);
     });
   });
 });

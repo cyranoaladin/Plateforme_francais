@@ -1,5 +1,6 @@
 import { Sparkles } from 'lucide-react';
 import { Button, Input } from '@/components/ui';
+import { BAREMES } from '@/data/baremes-officiels';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { type EpreuvePayload, type EpreuveType } from '../types';
 
@@ -30,6 +31,10 @@ export function EcritEpreuveSelector({
   baremeEntries = [],
   onReset,
 }: Props) {
+  const baremeOfficiel = type === 'commentaire' || type === 'dissertation'
+    ? BAREMES[type]
+    : null;
+
   return (
     <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
       <div className="flex items-start gap-4">
@@ -109,15 +114,30 @@ export function EcritEpreuveSelector({
           <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-success)]">Barème</p>
             <div className="mt-4 space-y-2.5">
-              {baremeEntries.map(([label, points]) => (
-                <div
-                  key={label}
-                  className="flex items-center justify-between rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-3 py-3 text-sm text-[var(--c-primary)]"
-                >
-                  <span className="capitalize">{label.replace(/_/g, ' ')}</span>
-                  <span className="font-semibold">{points} pts</span>
-                </div>
-              ))}
+              {baremeOfficiel
+                ? baremeOfficiel.criteres.map((critere) => (
+                    <div
+                      key={critere.id}
+                      className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-3 py-3 text-sm text-[var(--c-primary)]"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <span>{critere.label}</span>
+                        <span className="font-semibold">{critere.points} pts</span>
+                      </div>
+                      <p className="mt-2 text-xs leading-5 text-[var(--text-secondary)]">
+                        Niveaux : {critere.niveaux.map((niveau) => `N${niveau.level} (${niveau.points})`).join(' · ')}
+                      </p>
+                    </div>
+                  ))
+                : baremeEntries.map(([label, points]) => (
+                    <div
+                      key={label}
+                      className="flex items-center justify-between rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-3 py-3 text-sm text-[var(--c-primary)]"
+                    >
+                      <span className="capitalize">{label.replace(/_/g, ' ')}</span>
+                      <span className="font-semibold">{points} pts</span>
+                    </div>
+                  ))}
             </div>
             <button
               onClick={onReset}

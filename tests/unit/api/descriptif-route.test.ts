@@ -8,10 +8,7 @@ vi.mock('@/lib/security/csrf', () => ({
 }));
 vi.mock('@/lib/db/client', () => ({
   prisma: {
-    studentProfile: {
-      findUnique: vi.fn(),
-    },
-    descriptifTexte: {
+    texteDescriptif: {
       findMany: vi.fn(),
       deleteMany: vi.fn(),
       create: vi.fn(),
@@ -33,20 +30,19 @@ describe('GET /api/v1/student/descriptif', () => {
   });
 
   it('retourne les textes du descriptif', async () => {
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({ id: 'profile-1' } as never);
-    vi.mocked(prisma.descriptifTexte.findMany).mockResolvedValue([
-      { id: '1', objetEtude: 'roman', oeuvre: 'Manon Lescaut', auteur: 'Prévost', typeExtrait: 'extrait_oeuvre', titre: 'La rencontre', premieresLignes: null },
+    vi.mocked(prisma.texteDescriptif.findMany).mockResolvedValue([
+      { id: '1', objetEtude: 'ROMAN_RECIT', oeuvreAuteur: 'Manon Lescaut — Prévost', typeTexte: 'EXTRAIT_OEUVRE', titreExtrait: 'La rencontre', incipit: null, position: 1 },
     ] as never);
 
     const res = await GET();
     const body = await res.json();
     expect(res.status).toBe(200);
     expect(body.textes).toHaveLength(1);
-    expect(body.textes[0].oeuvre).toBe('Manon Lescaut');
+    expect(body.textes[0].oeuvre).toBe('Manon Lescaut — Prévost');
   });
 
-  it('retourne tableau vide si pas de profil', async () => {
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue(null);
+  it('retourne tableau vide si aucun texte', async () => {
+    vi.mocked(prisma.texteDescriptif.findMany).mockResolvedValue([]);
 
     const res = await GET();
     const body = await res.json();
@@ -86,7 +82,8 @@ describe('POST /api/v1/student/descriptif', () => {
   });
 
   it('sauvegarde les textes et retourne ok + count', async () => {
-    vi.mocked(prisma.studentProfile.findUnique).mockResolvedValue({ id: 'profile-1' } as never);
+    vi.mocked(prisma.texteDescriptif.deleteMany).mockReturnValue({} as never);
+    vi.mocked(prisma.texteDescriptif.create).mockReturnValue({} as never);
     vi.mocked(prisma.$transaction).mockResolvedValue(undefined as never);
 
     const textes = [
