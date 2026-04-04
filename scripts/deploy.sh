@@ -235,7 +235,7 @@ echo "  ✅ Symlink $APP_DIR/ressources → $RESSOURCES_DIR"
 
 # --- 8. Restart PM2 ---
 echo "[8/8] Redémarrage des services PM2..."
-ssh "$SSH_TARGET" "pm2 delete eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker 2>/dev/null || true"
+ssh "$SSH_TARGET" "for app in eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker; do pm2 delete \"\$app\" 2>/dev/null || true; done"
 ssh "$SSH_TARGET" "cd $APP_DIR && sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
 ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER -H env PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save"
 
