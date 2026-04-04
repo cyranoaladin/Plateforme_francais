@@ -5,6 +5,24 @@ import { validateCsrf } from '@/lib/security/csrf';
 import { parseJsonBody } from '@/lib/validation/request';
 import { descriptifUpsertSchema } from '@/lib/validation/schemas';
 
+function toObjetEtude(value: 'poesie' | 'roman' | 'theatre' | 'litterature_idees'): 'POESIE' | 'THEATRE' | 'LITTERATURE_IDEES' | 'ROMAN_RECIT' {
+  switch (value) {
+    case 'poesie':
+      return 'POESIE' as const;
+    case 'theatre':
+      return 'THEATRE' as const;
+    case 'litterature_idees':
+      return 'LITTERATURE_IDEES' as const;
+    case 'roman':
+    default:
+      return 'ROMAN_RECIT' as const;
+  }
+}
+
+function toTypeTexte(value: 'extrait_oeuvre' | 'extrait_parcours'): 'EXTRAIT_OEUVRE' | 'EXTRAIT_PARCOURS' {
+  return value === 'extrait_parcours' ? 'EXTRAIT_PARCOURS' : 'EXTRAIT_OEUVRE';
+}
+
 /**
  * GET /api/v1/student/descriptif
  * Returns the student's descriptif textes from the canonical TexteDescriptif table.
@@ -59,8 +77,8 @@ export async function POST(request: Request) {
       prisma.texteDescriptif.create({
         data: {
           userId: auth.user.id,
-          objetEtude: texte.objetEtude,
-          typeTexte: texte.typeExtrait,
+          objetEtude: toObjetEtude(texte.objetEtude),
+          typeTexte: toTypeTexte(texte.typeExtrait),
           oeuvreAuteur: texte.auteur ? `${texte.oeuvre} — ${texte.auteur}` : texte.oeuvre,
           titreExtrait: texte.titre,
           incipit: texte.premieresLignes ?? null,

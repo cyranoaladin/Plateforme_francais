@@ -1,21 +1,67 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
+import { logger } from '@/lib/logger';
 import { validateCsrf } from '@/lib/security/csrf';
 import { z } from 'zod';
 
-const TexteSchema = z.object({
-  oeuvreAuteur: z.string().min(2).max(200),
-  titreExtrait: z.string().min(2).max(500),
-  incipit: z.string().max(1000).optional(),
-  position: z.number().int().min(1).max(20).optional(),
+const OBJETS = ['POESIE', 'THEATRE', 'LITTERATURE_IDEES', 'ROMAN_RECIT'] as const;
+const TYPES = ['EXTRAIT_OEUVRE', 'EXTRAIT_PARCOURS', 'LECTURE_CURSIVE', 'OEUVRE_CHOISIE_ENTRETIEN'] as const;
+
+const mouvementSchema = z.object({
+  debut: z.string().min(1).max(100),
+  fin: z.string().min(1).max(100),
+  titre: z.string().min(1).max(200),
 });
 
-const UpdateDescriptifSchema = z.object({
-  textes: z.array(TexteSchema).max(20),
+const texteSchema = z.object({
+  objetEtude: z.enum(OBJETS),
+  typeTexte: z.enum(TYPES),
+  oeuvreAuteur: z.string().min(2).max(300),
+  titreExtrait: z.string().min(1).max(500),
+  incipit: z.string().max(2000).optional(),
+  numeroPagesRef: z.string().max(50).optional(),
+  position: z.number().int().min(1).max(30).optional(),
+  contenuTexte: z.string().max(50000).optional(),
+  parcourAssocie: z.string().max(200).optional(),
+  mouvements: z.array(mouvementSchema).max(12).optional(),
+  notesPersonnelles: z.string().max(5000).optional(),
 });
 
-// GET : récupérer les textes préparés pour l'oral
+const bulkUpdateSchema = z.object({
+  textes: z.array(texteSchema).min(0).max(30),
+});
+
+type ObjetEtude = (typeof OBJETS)[number];
+type TypeTexte = (typeof TYPES)[number];
+
+type TexteRow = {
+  objetEtude: ObjetEtude;
+  typeTexte: TypeTexte;
+};
+
+function groupByObjet(textes: TexteRow[]) {
+  return OBJETS.map((objetEtude) => ({
+    objetEtude,
+    extraitsOeuvre: textes.filter((texte) => texte.objetEtude === objetEtude && texte.typeTexte === 'EXTRAIT_OEUVRE').length,
+    extraitsParcours: textes.filter((texte) => texte.objetEtude === objetEtude && texte.typeTexte === 'EXTRAIT_PARCOURS').length,
+    lecturesCursives: textes.filter((texte) => texte.objetEtude === objetEtude && texte.typeTexte === 'LECTURE_CURSIVE').length,
+    oeuvresEntretien: textes.filter((texte) => texte.objetEtude === objetEtude && texte.typeTexte === 'OEUVRE_CHOISIE_ENTRETIEN').length,
+  }));
+}
+
+function verifierConformite(parObjet: ReturnType<typeof groupByObjet>) {
+  return parObjet.map((objet) => ({
+    objetEtude: objet.objetEtude,
+    conforme: objet.extraitsOeuvre >= 2 && objet.extraitsParcours >= 1 && objet.lecturesCursives >= 1,
+    manquant: [
+      objet.extraitsOeuvre < 2 ? `${2 - objet.extraitsOeuvre} extrait(s) d'œuvre` : null,
+      objet.extraitsParcours < 1 ? '1 texte de parcours associé' : null,
+      objet.lecturesCursives < 1 ? '1 lecture cursive' : null,
+    ].filter((item): item is string => Boolean(item)),
+  }));
+}
+
 export async function GET() {
   const { auth, errorResponse } = await requireAuthenticatedUser();
   if (!auth || errorResponse) {
@@ -24,13 +70,58 @@ export async function GET() {
 
   const textes = await prisma.texteDescriptif.findMany({
     where: { userId: auth.user.id },
-    orderBy: { position: 'asc' },
+    orderBy: [{ objetEtude: 'asc' }, { position: 'asc' }, { createdAt: 'asc' }],
   });
 
-  return NextResponse.json({ textes, total: textes.length });
+  const parObjet = groupByObjet(textes);
+  const conformite = verifierConformite(parObjet);
+
+  return NextResponse.json({
+    textes,
+    total: textes.length,
+    parObjet,
+    conformite,
+    estCompletReglementairement: textes.length >= 16 && conformite.every((item) => item.conforme),
+  });
 }
 
-// PUT : sauvegarder le descriptif complet (transactionnel)
+export async function POST(req: NextRequest) {
+  const { auth, errorResponse } = await requireAuthenticatedUser();
+  if (!auth || errorResponse) {
+    return errorResponse;
+  }
+
+  const csrfError = await validateCsrf(req);
+  if (csrfError) {
+    return csrfError;
+  }
+
+  const body = await req.json();
+  const parsed = texteSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: 'Données invalides', details: parsed.error.flatten() },
+      { status: 400 },
+    );
+  }
+
+  const count = await prisma.texteDescriptif.count({ where: { userId: auth.user.id } });
+  if (count >= 30) {
+    return NextResponse.json({ error: 'Limite de 30 textes atteinte.' }, { status: 400 });
+  }
+
+  const texte = await prisma.texteDescriptif.create({
+    data: {
+      userId: auth.user.id,
+      ...parsed.data,
+      position: parsed.data.position ?? count + 1,
+    },
+  });
+
+  logger.info({ userId: auth.user.id, texteId: texte.id }, 'descriptif.lecture.created');
+  return NextResponse.json({ texte }, { status: 201 });
+}
+
 export async function PUT(req: NextRequest) {
   const { auth, errorResponse } = await requireAuthenticatedUser();
   if (!auth || errorResponse) {
@@ -38,10 +129,12 @@ export async function PUT(req: NextRequest) {
   }
 
   const csrfError = await validateCsrf(req);
-  if (csrfError) return csrfError;
+  if (csrfError) {
+    return csrfError;
+  }
 
   const body = await req.json();
-  const parsed = UpdateDescriptifSchema.safeParse(body);
+  const parsed = bulkUpdateSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
       { error: 'Données invalides', details: parsed.error.flatten() },
@@ -52,22 +145,18 @@ export async function PUT(req: NextRequest) {
   await prisma.$transaction([
     prisma.texteDescriptif.deleteMany({ where: { userId: auth.user.id } }),
     prisma.texteDescriptif.createMany({
-      data: parsed.data.textes.map((t, i) => ({
+      data: parsed.data.textes.map((texte, index) => ({
         userId: auth.user.id,
-        objetEtude: 'ROMAN_RECIT',
-        typeTexte: 'EXTRAIT_OEUVRE',
-        oeuvreAuteur: t.oeuvreAuteur,
-        titreExtrait: t.titreExtrait,
-        incipit: t.incipit ?? null,
-        position: t.position ?? i + 1,
+        ...texte,
+        position: texte.position ?? index + 1,
       })),
     }),
   ]);
 
-  const saved = await prisma.texteDescriptif.findMany({
+  const textes = await prisma.texteDescriptif.findMany({
     where: { userId: auth.user.id },
-    orderBy: { position: 'asc' },
+    orderBy: [{ objetEtude: 'asc' }, { position: 'asc' }, { createdAt: 'asc' }],
   });
 
-  return NextResponse.json({ textes: saved, total: saved.length });
+  return NextResponse.json({ textes, total: textes.length });
 }
