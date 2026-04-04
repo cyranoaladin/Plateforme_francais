@@ -40,6 +40,7 @@ const nextConfig: NextConfig = {
   // It is restored as a symlink after deploy and must not be copied into standalone.
   outputFileTracingExcludes: {
     '*': [
+      'ressources',
       'ressources/**/*',
       '/srv/eaf_ressources/**/*',
     ],

@@ -49,7 +49,7 @@ export async function PATCH(request: Request) {
     }, { status: 200 });
 
   } catch (error) {
-    logger.error('Error suspending user:', error as Error);
+    logger.error({ error }, 'admin.users.suspend.failed');
     return NextResponse.json(
       { error: 'Erreur lors de la suspension de l\'utilisateur' },
       { status: 500 }

@@ -3,7 +3,7 @@ import { requireUserRole } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { countAdminVisiblePlans, toAdminVisibleSubscription } from '@/lib/admin/plan-visibility';
-import { normalizePlanId, toPublicPlanId } from '@nexus-eaf/shared-billing';
+import { normalizePlanId } from '@nexus-eaf/shared-billing';
 
 export async function GET() {
   const { auth, errorResponse } = await requireUserRole('admin');
@@ -176,7 +176,7 @@ export async function GET() {
       { status: 200 }
     );
   } catch (error) {
-    logger.error('Error fetching enhanced stats:', error as Error);
+    logger.error({ error }, 'admin.enhanced-stats.failed');
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des statistiques avancées.' },
       { status: 500 }
