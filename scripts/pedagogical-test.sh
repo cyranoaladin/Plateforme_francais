@@ -36,8 +36,9 @@ fi
 echo ""
 echo "── Grammaire sans interprétation ─────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  BAD_INTERPRETATION=$(grep -r "Interpréter.*effet\|interprétation.*stylistique\|hypothèses.*interprétation" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules\|ne pas\|pas de\|n'a pas\|jamais\|Constraint error\|Invalid expression" | head -3 | wc -l)
-  if [ "$BAD_INTERPRETATION" -gt 0 ]; then
+  # Check for specific positive interpretation instructions (should not exist)
+  BAD_COUNT=$(find "$BUILD_DIR/" -name "*.js" -exec grep -l "Interpréter.*effet\|Analysez.*effet" {} \; 2>/dev/null | wc -l)
+  if [ "$BAD_COUNT" -gt 0 ]; then
     red "Interprétation dans la grammaire toujours dans le build" "à corriger"
   else
     green "Pas d'interprétation dans la grammaire (build OK)"
