@@ -36,8 +36,8 @@ fi
 echo ""
 echo "── Grammaire sans interprétation ─────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  # Check that the grammar prompt contains the prohibition text
-  if grep -r "NE PAS.*interprétation\|n'a pas vocation.*interprétation" "$BUILD_DIR/" 2>/dev/null | grep -v node_modules | head -1 | grep -q .; then
+  # Check that the grammar prompt contains the prohibition text (handle escaped chars)
+  if grep -r "n.*a pas vocati.*interpr" "$BUILD_DIR/" 2>/dev/null | head -1 | grep -q .; then
     green "Pas d'interprétation dans la grammaire (build OK)"
   else
     red "Interprétation dans la grammaire toujours dans le build" "à corriger"
