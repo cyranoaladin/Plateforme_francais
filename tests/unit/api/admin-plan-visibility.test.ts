@@ -8,6 +8,7 @@ vi.mock('@/lib/db/client', () => ({
   prisma: {
     user: {
       findMany: vi.fn(),
+      count: vi.fn().mockResolvedValue(1),
     },
     paymentTransaction: {
       count: vi.fn(),
@@ -47,7 +48,8 @@ describe('admin plan visibility routes', () => {
     ] as never);
 
     const { GET } = await import('@/app/api/v1/admin/users/route');
-    const response = await GET();
+    const mockReq = new Request('http://localhost/api/v1/admin/users') as never;
+    const response = await GET(mockReq);
     const body = await response.json();
 
     expect(response.status).toBe(200);
@@ -57,6 +59,8 @@ describe('admin plan visibility routes', () => {
       currentPeriodStart: null,
       currentPeriodEnd: null,
     });
+    expect(body.pagination).toBeDefined();
+    expect(body.pagination.total).toBe(1);
   });
 
   it('counts plan distribution with Freemium fallback and hides MAX as Masterium', async () => {
