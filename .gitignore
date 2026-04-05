@@ -94,6 +94,7 @@ eaf_arborescence_*.txt
 *.orig
 *.swp
 .DS_Store
+cookies.txt
 
 # Internal docs not for prod
 UI_UX/

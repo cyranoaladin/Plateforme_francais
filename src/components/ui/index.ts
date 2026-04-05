@@ -49,3 +49,6 @@ export type { SectionHeaderProps, SectionHeaderSize } from './section-header';
 export { StateNotice } from './state-notice';
 export { Surface } from './surface';
 export type { SurfaceProps, SurfaceTone, SurfacePadding } from './surface';
+
+export { Icon } from './Icon';
+export { UpgradePrompt } from './UpgradePrompt';

@@ -126,6 +126,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
     "@playwright/test": "^1.56.1",
     "@stryker-mutator/core": "^9.6.0",
     "@tailwindcss/postcss": "^4",

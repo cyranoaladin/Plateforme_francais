@@ -276,6 +276,20 @@ body {
   }
 }
 
+/* === Touch targets — WCAG 2.5.5 ===
+ * Cibles tactiles minimales 44×44px sur appareils tactiles
+ */
+@media (pointer: coarse) {
+  button:not(.inline),
+  [role="button"]:not(.inline),
+  a:not(.inline),
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
 .dyslexia-mode {
   font-family: "OpenDyslexic", "Comic Sans MS", "Trebuchet MS", sans-serif;
   letter-spacing: 0.08em;

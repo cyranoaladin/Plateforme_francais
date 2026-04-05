@@ -106,8 +106,8 @@ export function TexteCard({ texte, onDelete, onRefresh }: TexteCardProps) {
           <Button variant="ghost" size="sm" onClick={() => setExpanded((value) => !value)}>
             {expanded ? 'Réduire' : 'Ouvrir'}
           </Button>
-          <Button variant="danger" size="sm" onClick={() => void onDelete()}>
-            <Trash2 className="h-4 w-4" />
+          <Button variant="danger" size="sm" onClick={() => void onDelete()} aria-label="Supprimer ce texte">
+            <Trash2 className="h-4 w-4" aria-hidden="true" />
           </Button>
         </div>
       </div>
