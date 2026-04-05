@@ -31,7 +31,6 @@
       ],
       "ignoreBinaries": [
         "audit-ci",
-        "wait-on",
         "snyk",
         "artillery",
         "react-email"
@@ -41,6 +40,8 @@
         "src/lib/epreuves/exam-blanc-generator.ts",
         "src/lib/llm/context-manager.ts",
         "src/lib/llm/self-reflection.ts",
+        "src/lib/llm/skills/oral-grammaire-generateur.ts",
+        "src/lib/llm/skills/oral-grammaire-evaluateur.ts",
         "src/lib/portfolio/profil-card-generator.ts",
         "src/lib/storage/s3-provider.ts",
         "src/lib/design-tokens.ts",
@@ -58,7 +59,6 @@
       ],
       "ignoreDependencies": [
         "@hono/node-server",
-        "express-rate-limit",
         "hono",
         "pino-pretty"
       ],
