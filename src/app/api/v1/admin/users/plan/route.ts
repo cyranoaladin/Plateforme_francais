@@ -1,10 +1,16 @@
 import { NextResponse } from 'next/server';
 import { requireUserRole } from '@/lib/auth/guard';
+import { validateCsrf } from '@/lib/security/csrf';
 import { prisma } from '@/lib/db/client';
 import { normalizePlanId } from '@nexus-eaf/shared-billing';
 import { logger } from '@/lib/logger';
 
 export async function PATCH(request: Request) {
+  const csrfError = await validateCsrf(request);
+  if (csrfError) {
+    return csrfError;
+  }
+
   const { auth, errorResponse } = await requireUserRole('admin');
   if (!auth || errorResponse) {
     return errorResponse;
