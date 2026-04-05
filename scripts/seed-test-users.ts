@@ -1,13 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import { createHash, randomUUID } from 'node:crypto';
+import { createPasswordCredentials } from '../src/lib/auth/session';
 
 const prisma = new PrismaClient();
-
-function hashPassword(password: string): { hash: string; salt: string } {
-  const salt = randomUUID();
-  const hash = createHash('sha256').update(password + salt).digest('hex');
-  return { hash, salt };
-}
 
 const USERS = [
   { email: 'test-eleve@nexus-eaf.local', role: 'eleve' as const },
@@ -18,13 +12,13 @@ const USERS = [
 async function main() {
   const password = process.env.TEST_USER_PASSWORD ?? 'NexusTest2026!';
   for (const user of USERS) {
-    const { hash, salt } = hashPassword(password);
+    const credentials = createPasswordCredentials(password);
     await prisma.user.upsert({
       where: { email: user.email },
       create: {
         email: user.email,
-        passwordHash: hash,
-        passwordSalt: salt,
+        passwordHash: credentials.passwordHash,
+        passwordSalt: credentials.passwordSalt,
         role: user.role,
         emailVerified: new Date(),
         profile: {
@@ -47,12 +41,9 @@ async function main() {
     await prisma.subscription.upsert({
       where: { userId: eleve.id },
       create: {
-        userId: eleve.id, plan: 'PREMIUM', status: 'active',
-        provider: 'manual',
-        startDate: new Date(),
-        endDate: new Date(Date.now() + 365 * 24 * 3600 * 1000),
+        userId: eleve.id, plan: 'PREMIUM', status: 'ACTIVE',
       },
-      update: { plan: 'PREMIUM', status: 'active' },
+      update: { plan: 'PREMIUM', status: 'ACTIVE' },
     });
     console.log(`✓ PREMIUM activé pour ${USERS[0].email}`);
   }

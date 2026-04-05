@@ -16,7 +16,7 @@ test.describe('04 — Descriptif de lecture', () => {
   });
 
   test('4.2 - API GET /student/descriptif-lecture répond 200', async ({ page }) => {
-    const res = await page.request.get('/api/v1/student/descriptif-lecture');
+    const res = await page.context().request.get('/api/v1/student/descriptif-lecture');
     expect(res.status()).toBe(200);
     const data = await res.json();
     expect(data).toHaveProperty('textes');
@@ -25,7 +25,7 @@ test.describe('04 — Descriptif de lecture', () => {
   });
 
   test('4.3 - API POST ajoute un texte', async ({ page }) => {
-    const res = await page.request.post('/api/v1/student/descriptif-lecture', {
+    const res = await page.context().request.post('/api/v1/student/descriptif-lecture', {
       data: {
         objetEtude: 'POESIE',
         typeTexte: 'EXTRAIT_OEUVRE',
@@ -40,7 +40,7 @@ test.describe('04 — Descriptif de lecture', () => {
     expect(data.texte).toHaveProperty('id');
     // Nettoyage
     if (data.texte?.id) {
-      await page.request.delete(`/api/v1/student/descriptif-lecture/${data.texte.id}`);
+      await page.context().request.delete(`/api/v1/student/descriptif-lecture/${data.texte.id}`);
     }
   });
 

@@ -14,7 +14,7 @@ test.describe('05 — Espace Enseignant', () => {
   });
 
   test('5.2 - API dashboard répond 200', async ({ page }) => {
-    const res = await page.request.get('/api/v1/enseignant/dashboard');
+    const res = await page.context().request.get('/api/v1/enseignant/dashboard');
     expect(res.status()).toBe(200);
   });
 
