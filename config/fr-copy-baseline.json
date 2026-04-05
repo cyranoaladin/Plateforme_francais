@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-05T10:36:14.714Z",
+  "generatedAt": "2026-04-05T12:50:39.309Z",
   "violations": [
     {
       "file": "src/app/admin/enhanced-page.tsx",
@@ -1214,7 +1214,7 @@
     },
     {
       "file": "src/app/api/v1/admin/users/route.ts",
-      "line": 57,
+      "line": 71,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la récupération des utilisateurs."
@@ -5197,6 +5197,13 @@
     },
     {
       "file": "src/app/descriptif-lecture/TexteCard.tsx",
+      "line": 109,
+      "column": 89,
+      "kind": "jsx-prop",
+      "text": "Supprimer ce texte"
+    },
+    {
+      "file": "src/app/descriptif-lecture/TexteCard.tsx",
       "line": 121,
       "column": 19,
       "kind": "jsx-text",
@@ -9058,6 +9065,27 @@
       "column": 65,
       "kind": "jsx-text",
       "text": "réinitialiser le zoom."
+    },
+    {
+      "file": "src/components/ui/UpgradePrompt.tsx",
+      "line": 37,
+      "column": 9,
+      "kind": "jsx-text",
+      "text": "Passer en"
+    },
+    {
+      "file": "src/components/ui/UpgradePrompt.tsx",
+      "line": 45,
+      "column": 18,
+      "kind": "jsx-prop",
+      "text": "Fonctionnalité Premium"
+    },
+    {
+      "file": "src/components/ui/UpgradePrompt.tsx",
+      "line": 61,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Passer en"
     }
   ]
 }
