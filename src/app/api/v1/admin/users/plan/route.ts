@@ -70,7 +70,7 @@ export async function PATCH(request: Request) {
           plan: normalizedPlan,
           transactionId: `ADMIN-${Date.now()}`,
           startDate: new Date(),
-          nextBillingDate: subscription.currentPeriodEnd,
+          nextBillingDate: subscription.currentPeriodEnd ?? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         });
       })
       .then((r) => { if (r && !r.success) logger.warn({ userId, error: r.error }, 'admin.plan_change.email_failed'); })
