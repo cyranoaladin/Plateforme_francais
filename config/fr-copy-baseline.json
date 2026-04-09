@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-09T14:38:57.798Z",
+  "generatedAt": "2026-04-09T14:41:41.206Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -6275,224 +6275,224 @@
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 455,
+      "line": 460,
       "column": 13,
       "kind": "jsx-text",
       "text": "Se connecter"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 464,
+      "line": 469,
       "column": 13,
       "kind": "jsx-text",
       "text": "Créer un compte"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 470,
+      "line": 475,
       "column": 103,
       "kind": "jsx-text",
       "text": "Je me connecte en tant que"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 506,
+      "line": 511,
       "column": 17,
       "kind": "jsx-text",
       "text": "Email"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 517,
+      "line": 522,
       "column": 29,
       "kind": "jsx-prop",
       "text": "prenom@exemple.fr"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 524,
+      "line": 529,
       "column": 128,
       "kind": "jsx-prop",
       "text": "Confirmer le nouveau mot de passe"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 528,
+      "line": 533,
       "column": 111,
       "kind": "jsx-prop",
       "text": "Confirmer le mot de passe"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 539,
+      "line": 544,
       "column": 154,
       "kind": "jsx-text",
       "text": "Conditions d’utilisation"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 539,
+      "line": 544,
       "column": 186,
       "kind": "jsx-text",
       "text": "et la"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 539,
+      "line": 544,
       "column": 21,
       "kind": "jsx-text",
       "text": "J’accepte les"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 539,
+      "line": 544,
       "column": 336,
       "kind": "jsx-text",
       "text": "Politique de confidentialité"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 556,
+      "line": 561,
       "column": 104,
       "kind": "jsx-text",
       "text": "Consentement parental"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 558,
+      "line": 563,
       "column": 21,
       "kind": "jsx-text",
       "text": "Un email sera envoyé à ton parent pour confirmer ton inscription. Obligatoire pour les moins de 15 ans."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 562,
+      "line": 567,
       "column": 23,
       "kind": "jsx-text",
       "text": "Email du parent"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 570,
+      "line": 575,
       "column": 35,
       "kind": "jsx-prop",
       "text": "parent@email.com"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 581,
+      "line": 586,
       "column": 100,
       "kind": "jsx-text",
       "text": "(facultatif)"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 581,
+      "line": 586,
       "column": 21,
       "kind": "jsx-text",
       "text": "Email du parent"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 589,
+      "line": 594,
       "column": 33,
       "kind": "jsx-prop",
       "text": "parent@email.com"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 639,
+      "line": 644,
       "column": 15,
       "kind": "jsx-text",
       "text": "Mot de passe oublié ?"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 647,
+      "line": 652,
       "column": 17,
       "kind": "jsx-text",
       "text": "Problème de connexion ?"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 661,
+      "line": 666,
       "column": 15,
       "kind": "jsx-text",
       "text": "Retour à la connexion"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 672,
+      "line": 677,
       "column": 19,
       "kind": "jsx-text",
       "text": "Contacte-nous sur WhatsApp"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 674,
+      "line": 679,
       "column": 22,
       "kind": "jsx-text",
       "text": "pour une réinitialisation rapide."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 683,
+      "line": 688,
       "column": 17,
       "kind": "jsx-text",
       "text": "Après inscription, tu configures tes œuvres et ton niveau en quelques minutes, puis tu accèdes directement à tes premiers ateliers."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 691,
+      "line": 696,
       "column": 13,
       "kind": "jsx-text",
       "text": "Accueil"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 695,
+      "line": 700,
       "column": 13,
       "kind": "jsx-text",
       "text": "Tarifs"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 699,
+      "line": 704,
       "column": 13,
       "kind": "jsx-text",
       "text": "FAQ"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 703,
+      "line": 708,
       "column": 13,
       "kind": "jsx-text",
       "text": "Mentions légales"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 724,
+      "line": 729,
       "column": 15,
       "kind": "jsx-text",
       "text": "Espace sécurisé"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 729,
+      "line": 734,
       "column": 15,
       "kind": "jsx-text",
       "text": "Retour accueil"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 732,
+      "line": 737,
       "column": 15,
       "kind": "jsx-text",
       "text": "Voir les tarifs"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 738,
+      "line": 743,
       "column": 15,
       "kind": "jsx-text",
       "text": "Démarrer gratuitement"
