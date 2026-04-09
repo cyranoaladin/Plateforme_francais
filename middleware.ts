@@ -75,7 +75,7 @@ const ALLOWED_METHODS_BY_PATH: Readonly<Record<string, ReadonlySet<string>>> = {
   '/api/v1/oral/session/start': new Set(['POST']),
   '/api/v1/oral/sessions': new Set(['GET']),
   '/api/v1/oral/voice-submit': new Set(['POST']),
-  '/api/v1/student/profile': new Set(['GET', 'PATCH']),
+  '/api/v1/student/profile': new Set(['GET', 'PUT']),
   '/api/v1/student/descriptif': new Set(['GET', 'POST']),
   '/api/v1/student/oeuvre-choisie': new Set(['PUT']),
 };
