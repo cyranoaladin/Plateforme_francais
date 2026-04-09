@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
+  Trash2,
 } from 'lucide-react';
 import { ensurePublicCsrfToken } from '@/lib/security/csrf-client';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
@@ -213,6 +214,10 @@ export default function ProfilPage() {
   );
   const [savingProfile, setSavingProfile] = useState(false);
   const [saveFeedback, setSaveFeedback] = useState<SaveFeedback>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteEmail, setDeleteEmail] = useState('');
+  const [deletingAccount, setDeletingAccount] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -795,6 +800,87 @@ export default function ProfilPage() {
                 </p>
               </article>
             ))}
+          </div>
+        )}
+      </Card>
+
+      {/* ── Zone dangereuse — Suppression de compte (RGPD Art. 17) ── */}
+      <Card className="mt-8 border-red-500/30">
+        <h2 className="flex items-center gap-2 text-lg font-bold text-red-500">
+          <Trash2 className="h-5 w-5" />
+          Zone dangereuse
+        </h2>
+        <p className="mt-2 text-sm text-[var(--text-muted)]">
+          Conformément au RGPD (article 17), tu peux demander la suppression définitive de ton compte et de toutes tes données.
+          Cette action est irréversible.
+        </p>
+
+        {!showDeleteConfirm ? (
+          <Button
+            type="button"
+            variant="secondary"
+            className="mt-4 border-red-500/40 text-red-500 hover:bg-red-500/10"
+            onClick={() => setShowDeleteConfirm(true)}
+          >
+            Supprimer mon compte
+          </Button>
+        ) : (
+          <div className="mt-4 space-y-3 rounded-xl border border-red-500/30 bg-red-500/5 p-4">
+            <p className="text-sm font-semibold text-red-500">
+              Confirme la suppression en saisissant ton adresse e-mail :
+            </p>
+            <Input
+              type="email"
+              value={deleteEmail}
+              onChange={(e) => { setDeleteEmail(e.target.value); setDeleteError(null); }}
+              placeholder="ton-email@exemple.com"
+              className="border-red-500/30"
+            />
+            {deleteError && (
+              <p className="text-xs font-medium text-red-500">{deleteError}</p>
+            )}
+            <div className="flex gap-3">
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => { setShowDeleteConfirm(false); setDeleteEmail(''); setDeleteError(null); }}
+                disabled={deletingAccount}
+              >
+                Annuler
+              </Button>
+              <Button
+                type="button"
+                className="bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+                disabled={deletingAccount || !deleteEmail.trim()}
+                onClick={async () => {
+                  setDeletingAccount(true);
+                  setDeleteError(null);
+                  try {
+                    const csrfToken = await ensurePublicCsrfToken();
+                    const res = await fetch('/api/v1/account/delete', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        ...(csrfToken ? { 'X-CSRF-Token': csrfToken } : {}),
+                      },
+                      body: JSON.stringify({ confirmEmail: deleteEmail.trim() }),
+                    });
+                    if (res.ok) {
+                      window.location.href = '/login?deleted=1';
+                    } else {
+                      const body = await res.json().catch(() => ({}));
+                      setDeleteError(body.error ?? 'Une erreur est survenue. Contacte dpo@nexusreussite.academy.');
+                    }
+                  } catch {
+                    setDeleteError('Erreur réseau. Réessaie ou contacte dpo@nexusreussite.academy.');
+                  } finally {
+                    setDeletingAccount(false);
+                  }
+                }}
+              >
+                {deletingAccount ? 'Suppression...' : 'Confirmer la suppression'}
+              </Button>
+            </div>
           </div>
         )}
       </Card>
