@@ -32,7 +32,7 @@ describe('parseJsonBody', () => {
     expect(result.success).toBe(false);
     if (!result.success) {
       const body = await result.response.json();
-      expect(body.error).toBe('Payload invalide.');
+      expect(body.error).toBe('Données invalides.');
       expect(body.details).toBeDefined();
       expect(Array.isArray(body.details)).toBe(true);
       expect(body.details.length).toBeGreaterThan(0);

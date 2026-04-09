@@ -5,6 +5,7 @@ import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { prisma } from '@/lib/db/client';
 import { sendPasswordResetEmail } from '@/lib/email/service';
+import { logAdminAction, getClientIp } from '@/lib/admin/audit';
 import { logger } from '@/lib/logger';
 import { z } from 'zod';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -86,6 +87,7 @@ export async function POST(request: Request) {
     { adminId: auth.user.id, targetUserId: user.id },
     'admin.reset_password.triggered',
   );
+  logAdminAction({ adminId: auth.user.id, action: 'user.reset-password', targetType: 'user', targetId: user.id, details: { email: user.email }, ip: getClientIp(request) });
 
   return NextResponse.json({
     ok: true,

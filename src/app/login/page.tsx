@@ -338,7 +338,7 @@ function AuthCard() {
           password,
           ...(mode === 'register'
             ? {
-                displayName,
+                ...(displayName.trim() ? { displayName: displayName.trim() } : {}),
                 acceptedCgu: acceptTerms,
                 cguVersion: '2026-03',
                 isMinor,

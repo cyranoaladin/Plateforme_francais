@@ -3,6 +3,7 @@ import { requireUserRole } from '@/lib/auth/guard';
 import { validateCsrf } from '@/lib/security/csrf';
 import { prisma } from '@/lib/db/client';
 import { normalizePlanId } from '@nexus-eaf/shared-billing';
+import { logAdminAction, getClientIp } from '@/lib/admin/audit';
 import { logger } from '@/lib/logger';
 
 export async function PATCH(request: Request) {
@@ -55,6 +56,8 @@ export async function PATCH(request: Request) {
         updatedAt: new Date(),
       },
     });
+
+    logAdminAction({ adminId: auth.user.id, action: 'user.plan-change', targetType: 'user', targetId: userId, details: { plan: normalizedPlan }, ip: getClientIp(request) });
 
     return NextResponse.json({
       success: true,

@@ -44,15 +44,15 @@ export const loginBodySchema = z.object({
 export const registerBodySchema = z.object({
   email: z.string().trim().email('Adresse e-mail invalide.'),
   password: passwordSchema,
-  displayName: z.string().trim().min(1).max(120).optional(),
-  acceptedCgu: z.boolean().refine((v) => v === true, { message: 'Vous devez accepter les CGU.' }),
+  displayName: z.string().trim().max(120, 'Le nom affiché ne doit pas dépasser 120 caractères.').optional().transform((v) => (v && v.length > 0 ? v : undefined)),
+  acceptedCgu: z.boolean().refine((v) => v === true, { message: 'Tu dois accepter les conditions d\u2019utilisation.' }),
   cguVersion: z.string().trim().min(1).max(20).default('2026-03'),
   isMinor: z.boolean().default(false),
-  parentEmail: z.string().trim().email('Adresse e-mail invalide.').optional(),
-  teacherEmail: z.string().trim().email('Adresse e-mail invalide.').optional(),
+  parentEmail: z.string().trim().email('L\u2019adresse e-mail du parent est invalide.').optional().transform((v) => (v && v.length > 0 ? v : undefined)),
+  teacherEmail: z.string().trim().email('L\u2019adresse e-mail de l\u2019enseignant est invalide.').optional().transform((v) => (v && v.length > 0 ? v : undefined)),
 }).refine(
   (data) => !data.isMinor || (data.parentEmail && data.parentEmail.length > 0),
-  { message: 'Email parental requis pour les mineurs de moins de 15 ans.', path: ['parentEmail'] },
+  { message: 'L\u2019e-mail d\u2019un parent est obligatoire pour les mineurs de moins de 15 ans.', path: ['parentEmail'] },
 );
 
 export const forgotPasswordBodySchema = z.object({

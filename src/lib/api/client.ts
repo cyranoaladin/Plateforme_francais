@@ -64,14 +64,15 @@ export async function apiFetch<T>(
     }
 
     const retryAfter = res.headers.get('Retry-After');
-    let msg = 'Une erreur est survenue.';
+    let msg = 'Une erreur est survenue. Réessaie ou contacte le support.';
     let code: string | undefined;
     try {
       const data = (await res.json()) as { error?: string; message?: string; code?: string; details?: string[] };
-      msg = data?.error ?? data?.message ?? msg;
-      // Append validation details if present (Zod errors)
       if (data?.details?.length) {
-        msg = data.details.join(' ');
+        // Show the first validation error only — cleaner for the user
+        msg = data.details[0];
+      } else {
+        msg = data?.error ?? data?.message ?? msg;
       }
       code = data?.code;
     } catch {

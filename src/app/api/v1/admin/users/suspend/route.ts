@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireUserRole } from '@/lib/auth/guard';
 import { validateCsrf } from '@/lib/security/csrf';
 import { prisma } from '@/lib/db/client';
+import { logAdminAction, getClientIp } from '@/lib/admin/audit';
 import { logger } from '@/lib/logger';
 
 export async function PATCH(request: Request) {
@@ -48,6 +49,8 @@ export async function PATCH(request: Request) {
         },
       }),
     ]);
+
+    logAdminAction({ adminId: auth.user.id, action: 'user.suspend', targetType: 'user', targetId: userId, details: { email: user.email }, ip: getClientIp(request) });
 
     return NextResponse.json({
       success: true,

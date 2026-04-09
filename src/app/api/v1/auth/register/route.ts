@@ -62,6 +62,8 @@ export async function POST(request: Request) {
   const parentEmail = parsed.data.parentEmail?.trim().toLowerCase();
   const teacherEmail = parsed.data.teacherEmail?.trim().toLowerCase();
 
+  try {
+
   const existing = await findUserByEmail(email);
   if (existing) {
     return NextResponse.json({ error: 'Un compte existe déjà pour cet email.' }, { status: 409 });
@@ -240,4 +242,12 @@ export async function POST(request: Request) {
   const response = NextResponse.json({ ok: true }, { status: 201 });
   await ensureCsrfCookie(response);
   return response;
+
+  } catch (err) {
+    logger.error({ err }, 'register.unhandled_error');
+    return NextResponse.json(
+      { error: 'Une erreur interne est survenue lors de l\u2019inscription. Réessaie dans quelques instants.' },
+      { status: 500 },
+    );
+  }
 }

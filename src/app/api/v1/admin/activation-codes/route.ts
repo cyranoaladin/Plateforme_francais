@@ -8,6 +8,7 @@ import { z } from 'zod';
 import crypto from 'crypto';
 import { hashCode, normalizeCode } from '@/lib/billing/redeem';
 import { parseCommercialPlanId } from '@/lib/billing/plan-catalog';
+import { logAdminAction, getClientIp } from '@/lib/admin/audit';
 
 const generateCodeSchema = z.object({
   plan: z.enum(['PREMIUM', 'MASTERIUM']),
@@ -97,7 +98,9 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json({ 
+    logAdminAction({ adminId: auth.user.id, action: 'code.generate', targetType: 'code', targetId: activationCode.id, details: { plan: internalPlan, durationDays: durationDays || 30 }, ip: getClientIp(request) });
+
+    return NextResponse.json({
       code: {
         ...activationCode,
         plainCode: code, // Retourner le code en clair une seule fois

@@ -37,7 +37,7 @@ export async function parseJsonBody<T>(request: Request, schema: ZodType<T>) {
         success: false as const,
         response: NextResponse.json(
           {
-            error: 'Payload invalide.',
+            error: 'Données invalides.',
             details: error.issues.map((issue) => issue.message),
           },
           { status: 400 },

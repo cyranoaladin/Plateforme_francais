@@ -75,6 +75,7 @@ model User {
   complianceLogs    ComplianceLog[]
   activationCodes   ActivationCode[]
   passwordResets PasswordResetToken[]
+  adminAuditLogs AdminAuditLog[]
   textesDescriptif  TexteDescriptif[]
   emailVerified      DateTime?
   emailVerifyToken   String?   @unique
@@ -904,4 +905,20 @@ model PasswordResetToken {
 
   @@index([userId])
   @@index([expiresAt])
+}
+
+model AdminAuditLog {
+  id          String   @id @default(cuid())
+  adminId     String
+  admin       User     @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  action      String
+  targetType  String?
+  targetId    String?
+  details     Json?
+  ip          String?
+  createdAt   DateTime @default(now())
+
+  @@index([adminId, createdAt])
+  @@index([action, createdAt])
+  @@index([targetType, targetId])
 }

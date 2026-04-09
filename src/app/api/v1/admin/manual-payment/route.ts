@@ -8,6 +8,7 @@ import { z } from 'zod';
 import type { SubscriptionPlan } from '@prisma/client';
 import { formatPlanLabel, parseCommercialPlanId } from '@/lib/billing/plan-catalog';
 import { sendSubscriptionConfirmationEmail } from '@/lib/email/service';
+import { logAdminAction, getClientIp } from '@/lib/admin/audit';
 import { logger } from '@/lib/logger';
 
 const manualPaymentSchema = z.object({
@@ -126,6 +127,8 @@ export async function POST(request: Request) {
         }
       })
       .catch((err) => logger.error({ err, userId }, 'admin:manual_payment:subscription_email_error'));
+
+    logAdminAction({ adminId: auth.user.id, action: 'payment.manual', targetType: 'user', targetId: userId, details: { plan, amountMillimes, reference, paymentMethod }, ip: getClientIp(request) });
 
     return NextResponse.json(
       {

@@ -8,6 +8,7 @@ import { z } from 'zod';
 import type { SubscriptionPlan } from '@prisma/client';
 import { formatPlanLabel } from '@/lib/billing/plan-catalog';
 import { sendSubscriptionConfirmationEmail } from '@/lib/email/service';
+import { logAdminAction, getClientIp } from '@/lib/admin/audit';
 import { logger } from '@/lib/logger';
 
 const confirmOrderSchema = z.object({
@@ -147,6 +148,7 @@ export async function POST(request: Request) {
       },
       'admin:order_confirmed',
     );
+    logAdminAction({ adminId: auth.user.id, action: 'payment.confirm', targetType: 'payment', targetId: orderId, details: { userId: payment.userId, plan: payment.plan, orderRef: payment.orderRef }, ip: getClientIp(request) });
 
     return NextResponse.json(
       {

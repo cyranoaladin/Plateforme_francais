@@ -3,6 +3,7 @@ import { requireUserRole } from '@/lib/auth/guard';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { prisma } from '@/lib/db/client';
+import { logAdminAction, getClientIp } from '@/lib/admin/audit';
 import { logger } from '@/lib/logger';
 import { z } from 'zod';
 import { parseJsonBody } from '@/lib/validation/request';
@@ -57,6 +58,7 @@ export async function POST(request: Request) {
     { adminId: auth.user.id, targetUserId: parsed.data.userId },
     'admin.reset_onboarding.success',
   );
+  logAdminAction({ adminId: auth.user.id, action: 'user.reset-onboarding', targetType: 'user', targetId: parsed.data.userId, ip: getClientIp(request) });
 
   return NextResponse.json({
     ok: true,

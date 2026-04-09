@@ -18,6 +18,7 @@ const PUBLIC_PATHS = new Set([
   '/cgu',
   '/cgv',
   '/politique-de-confidentialite',
+  '/admin/login',
   '/_next',
   '/manifest.json',
   '/images',
@@ -100,6 +101,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
   requestHeaders.set('x-csp-nonce', nonce);
+  requestHeaders.set('x-next-pathname', request.nextUrl.pathname);
 
   const response = NextResponse.next({
     request: {
