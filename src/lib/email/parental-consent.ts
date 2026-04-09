@@ -19,8 +19,9 @@ export async function sendParentalConsentEmail({
   consentToken: string;
 }) {
   try {
-    const consentUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://eaf.nexusreussite.academy'}/api/v1/rgpd/consent?token=${consentToken}&action=grant`;
-    const refusalUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://eaf.nexusreussite.academy'}/api/v1/rgpd/consent?token=${consentToken}&action=refuse`;
+    const _appUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
+    const consentUrl = `${_appUrl}/api/v1/rgpd/consent?token=${consentToken}&action=grant`;
+    const refusalUrl = `${_appUrl}/api/v1/rgpd/consent?token=${consentToken}&action=refuse`;
 
     const result = await sendEmail({
       to: parentEmail,

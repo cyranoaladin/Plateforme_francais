@@ -11,7 +11,7 @@ import { formatPlanLabel } from '@/lib/billing/plan-catalog';
 import { getPublicOfferFromAnyPlan } from '@/lib/billing/public-offers';
 
 const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
+  process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
 
 // ── Email #1 : Bienvenue après inscription ──────────────────────
 export async function sendWelcomeEmail(user: {

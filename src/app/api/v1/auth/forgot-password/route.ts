@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       data: { userId: user.id, tokenHash, expiresAt },
     });
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
+    const appUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
     const resetLink = `${appUrl}/login?mode=reset&token=${rawToken}`;
 
     const fmt = (d: Date) =>

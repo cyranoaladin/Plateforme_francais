@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     data: { emailVerifyToken: tokenHash, emailVerifyExpiry },
   });
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
+  const appUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
   const verifyLink = `${appUrl}/api/v1/auth/verify-email?token=${rawToken}`;
 
   void sendEmailVerificationEmail({

@@ -62,7 +62,7 @@ export async function POST(request: Request) {
 
   logger.info({ userId: resetToken.userId }, 'auth.reset_password.success');
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
+  const appUrl = process.env.APP_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
   const fmt = (d: Date) =>
     d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
