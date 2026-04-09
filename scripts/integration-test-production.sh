@@ -56,13 +56,17 @@ LOGIN_RESPONSE=$(curl -si -X POST "$HOST/api/v1/auth/login" \
   -d "{\"email\":\"$TEST_EMAIL\",\"password\":\"$TEST_PASSWORD\"}" \
   --max-time 10 2>/dev/null)
 
-ELEVE_COOKIE=$(echo "$LOGIN_RESPONSE" | grep -i "set-cookie:" | head -1 | \
-  sed 's/[Ss]et-[Cc]ookie: \([^;]*\).*/\1/' || echo "")
+# Capture all three cookies (eaf_csrf, eaf_session, eaf_role) and join them
+ELEVE_COOKIE=$(echo "$LOGIN_RESPONSE" | grep -i "set-cookie:" | \
+  sed 's/[Ss]et-[Cc]ookie: \([^;]*\).*/\1/' | paste -sd '; ' - || echo "")
 
-if [ -n "$ELEVE_COOKIE" ] && [ "$ELEVE_COOKIE" != " " ]; then
+# Verify eaf_session is present (required by middleware)
+SESSION_CHECK=$(echo "$LOGIN_RESPONSE" | grep -i "set-cookie:.*eaf_session" | head -1)
+
+if [ -n "$SESSION_CHECK" ]; then
   green "Login élève réussi"
 else
-  red "Login élève" "cookie absent — vérifiez les identifiants"
+  red "Login élève" "cookie eaf_session absent — vérifiez les identifiants"
   echo "Abort: impossible de tester sans session"
   exit 1
 fi

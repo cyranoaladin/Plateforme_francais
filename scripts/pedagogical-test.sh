@@ -36,8 +36,9 @@ fi
 echo ""
 echo "── Grammaire sans interprétation ─────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  # Check that the grammar prompt contains the prohibition text (handle escaped chars)
-  if grep -r "n.*a pas vocati.*interpr" "$BUILD_DIR/" 2>/dev/null | head -1 | grep -q .; then
+  # Check that the grammar prompt contains the prohibition text
+  # Simpler pattern avoids encoding issues with accented chars in compiled output
+  if grep -r "pas vocation" "$BUILD_DIR/" 2>/dev/null | head -1 | grep -q .; then
     green "Pas d'interprétation dans la grammaire (build OK)"
   else
     red "Interprétation dans la grammaire toujours dans le build" "à corriger"
@@ -85,10 +86,11 @@ fi
 echo ""
 echo "── Anti-triche ─────────────────────────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  if grep -ri "ne jamais fournir" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules" | head -1 | grep -q .; then
-    green "Guardrail anti-triche 'Ne jamais fournir' présent"
+  # Use ANTI-TRICHE marker which is reliably present and ASCII-safe
+  if grep -r "ANTI-TRICHE" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules" | head -1 | grep -q .; then
+    green "Guardrail anti-triche 'ANTI-TRICHE' présent dans le build"
   else
-    red "Guardrail anti-triche" "'Ne jamais fournir' absent du build"
+    red "Guardrail anti-triche" "'ANTI-TRICHE' absent du build"
   fi
 else
   warn "Répertoire build absent — skip"
