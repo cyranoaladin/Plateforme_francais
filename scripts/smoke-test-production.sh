@@ -57,6 +57,7 @@ echo ""
 echo "── Infrastructure ──────────────────────────────────────"
 check_json "Health status=ok"       "$HOST/api/v1/health"   ".status" "ok"
 check_json "MCP status=healthy"     "$HOST/api/mcp/health"  ".status" "healthy"
+check_json "RAG status=ok"          "$HOST/api/v1/rag/health" ".status" "ok"
 
 # ─── Pages publiques ───────────────────────────────────────────────────────
 echo ""

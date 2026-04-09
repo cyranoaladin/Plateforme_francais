@@ -118,7 +118,7 @@ export async function POST(request: Request) {
     }
 
     // Send confirmation email (non-blocking)
-    const firstName = (payment.user.profile?.displayName ?? '').split(/\s+/)[0] || '';
+    const firstName = (payment.user.profile?.displayName ?? '').trim().split(/\s+/)[0] || 'Élève';
     sendSubscriptionConfirmationEmail({
       user: { firstName, email: payment.user.email },
       plan: payment.plan,
