@@ -73,14 +73,8 @@ Voir `.env.example` pour la liste complète.
 
 Ce projet est déployé exclusivement sur un serveur Linux dédié via SSH, PM2, nginx, PostgreSQL et Redis locaux.
 
-### Ce projet n'utilise PAS
-- Vercel ni les packages `@vercel/*` 
-- Netlify
-- Les runtimes edge ou serverless propriétaires
-
 ```bash
 bash scripts/deploy.sh root@88.99.254.59
-npm run check:no-vercel
 ```
 
 ---

@@ -14,7 +14,6 @@
 - [x] DB : 60+ users, 2319+ memory_events
 - [x] Aucun JSON store actif en .data/
 - [x] .env absent du tracking Git
-- [x] netlify.toml / vercel.json absents
 
 ## Sécurité
 - [x] Toutes les routes API retournent 401 sans auth
