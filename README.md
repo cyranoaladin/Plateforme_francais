@@ -100,7 +100,7 @@ npm run check:no-vercel
 |------------|--------|
 | URL | https://eaf.nexusreussite.academy |
 | Health | https://eaf.nexusreussite.academy/api/v1/health |
-| SHA servi | b618baf |
+| SHA servi | 5ca0719 |
 | PM2 | eaf-nextjs-blue, eaf-mcp, eaf-worker (user nexus) |
 | Déploiement | `bash scripts/deploy.sh root@88.99.254.59` |
 

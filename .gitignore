@@ -23,6 +23,7 @@ tests/.auth/
 /build
 /dist
 packages/shared-billing/dist/
+packages/mcp-server/dist/
 .build_time
 .git_sha
 
