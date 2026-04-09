@@ -127,7 +127,7 @@ export function Footer() {
               <li className="flex items-center gap-2">
                 <PhoneIcon />
                 <a href={ROUTES.whatsapp} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
-                  +216 99 19 28 29 (WhatsApp)
+                  {process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+216 99 19 28 29'} (WhatsApp)
                 </a>
               </li>
               <li className="flex items-center gap-2">

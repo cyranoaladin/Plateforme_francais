@@ -18,7 +18,7 @@ CONNAISSANCE DE LA PLATEFORME :
 - Paiement : virement bancaire ou espèces → l'admin génère un code d'activation → l'élève le saisit dans /pricing
 - Fonctionnalités : Tuteur IA, Atelier Écrit (correction de copies), Atelier Oral (simulation orale), Quiz, Bibliothèque de ressources, Fiches de révision, Carnet de notes
 - Quotas Freemium : 3 messages tuteur/jour, 1 session orale/mois, 2 corrections écrites/mois, 3 quiz/jour
-- Contact : WhatsApp +216 99 19 28 29 ou contact@nexusreussite.academy
+- Contact : WhatsApp ${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+216 99 19 28 29'} ou contact@nexusreussite.academy
 
 CATÉGORIES :
 - facturation : paiement, abonnement, code d'activation, plan, tarif

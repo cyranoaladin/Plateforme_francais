@@ -711,7 +711,7 @@ export default function PricingPage() {
                 Ouvrir WhatsApp
               </a>
               <a
-                href={`https://wa.me/21699192829?text=${encodeURIComponent('Bonjour, je souhaite souscrire à un abonnement Nexus Réussite.')}`}
+                href={`${WHATSAPP_LINK}?text=${encodeURIComponent('Bonjour, je souhaite souscrire à un abonnement Nexus Réussite.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--whatsapp)] bg-[var(--bg-surface)] px-7 py-3.5 text-base font-semibold text-[var(--whatsapp)] transition-all hover:-translate-y-0.5 hover:bg-[var(--support-success-bg)]"

@@ -74,7 +74,7 @@ export function DescriptifStatus() {
               </div>
             )}
           </div>
-          <Link href="/descriptif">
+          <Link href="/descriptif-lecture">
             <Button variant="ghost" size="sm" className="mt-3 text-xs">
               <BookOpen className="h-3 w-3 mr-1" />
               Modifier mon descriptif
@@ -93,7 +93,7 @@ export function DescriptifStatus() {
           <p className="text-xs text-[var(--text-secondary)] mb-3">
             Pour t'entraîner sur TES textes, configure ton descriptif :
           </p>
-          <Link href="/descriptif">
+          <Link href="/descriptif-lecture">
             <Button variant="primary" size="sm" className="text-xs">
               <BookOpen className="h-3 w-3 mr-1" />
               Configurer mon descriptif

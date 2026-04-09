@@ -44,7 +44,7 @@ const LOGIN_COPY = {
     'L’inscription prend environ trois minutes. Si tu as déjà un compte, connecte-toi pour retrouver ton parcours là où tu l’as laissé.',
   minorNotice: 'J’ai moins de 15 ans. Un consentement parental est nécessaire.',
   helpBody:
-    'Vérifie ton email et ton mot de passe. En cas d’erreur persistante, rafraîchis la page ou utilise « Mot de passe oublié ». Tu peux aussi nous contacter sur WhatsApp au +216 99 19 28 29.',
+    `Vérifie ton email et ton mot de passe. En cas d’erreur persistante, rafraîchis la page ou utilise « Mot de passe oublié ». Tu peux aussi nous contacter sur WhatsApp au ${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+216 99 19 28 29'}.`,
   resetHelpLead: 'Besoin d’aide ?',
   parentLoginHint:
     'Connecte-toi avec l’email que ton enfant a renseigné. Lors de la première connexion, utilise le lien reçu par email ou « mot de passe oublié » pour définir ton mot de passe.',
@@ -56,7 +56,7 @@ const PROOF_CARDS = [
   {
     icon: BookOpen,
     title: 'Ton parcours, tes œuvres',
-    body: 'Chaque séance part de tes textes au programme. Tu travailles l\u2019écrit, l\u2019oral et la langue dans un ordre qui a du sens pour toi.',
+    body: 'Chaque séance part de tes textes au programme. Tu travailles l’écrit, l’oral et la langue dans un ordre qui a du sens pour toi.',
   },
   {
     icon: ShieldCheck,
@@ -297,7 +297,7 @@ function AuthCard() {
         return;
       }
       if (!acceptTerms) {
-        setError('Tu dois accepter les conditions d\u2019utilisation.');
+        setError('Tu dois accepter les conditions d’utilisation.');
         return;
       }
     }
@@ -316,7 +316,7 @@ function AuthCard() {
           method: 'POST',
           json: { email },
         });
-        setSuccessMessage('Si un compte existe pour cet email, un lien de réinitialisation a été envoyé. Si tu ne reçois rien sous 5 minutes, contacte-nous via WhatsApp au +216 99 19 28 29 pour une réinitialisation manuelle.');
+        setSuccessMessage(`Si un compte existe pour cet email, un lien de réinitialisation a été envoyé. Si tu ne reçois rien sous 5 minutes, contacte-nous via WhatsApp au ${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+216 99 19 28 29'} pour une réinitialisation manuelle.`);
         setIsSubmitting(false);
         return;
       }

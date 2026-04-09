@@ -2,9 +2,9 @@
 
 **Version :** 1.0.0 | **Mise à jour :** 4 avril 2026 | **Production :** https://eaf.nexusreussite.academy
 
-[![Tests](https://img.shields.io/badge/tests-1383%20passed-green)]()
+[![CI](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml)
 [![TypeScript](https://img.shields.io/badge/typescript-strict-blue)]()
-[![Next.js](https://img.shields.io/badge/next.js-16.x-black)]()
+[![Next.js](https://img.shields.io/badge/next.js-16.2-black)]()
 [![Ressources](https://img.shields.io/badge/ressources-549-orange)]()
 
 Plateforme SaaS de préparation aux **Épreuves Anticipées de Français** (Première générale).
@@ -34,7 +34,7 @@ Plateforme SaaS de préparation aux **Épreuves Anticipées de Français** (Prem
 
 ## Stack Technique
 
-**Frontend :** Next.js 16.x (App Router), React 19, TypeScript strict, Tailwind CSS 4
+**Frontend :** Next.js 16.2 (App Router), React 19, TypeScript strict, Tailwind CSS 4
 **Backend :** Prisma 6, PostgreSQL 16 + pgvector, Redis, BullMQ worker, Pino
 **IA :** Gemini API, OpenAI API (OCR + STT), Mistral AI, MCP Server (24 outils)
 **Tests :** Vitest (1383 tests unitaires, 248 fichiers), Playwright (E2E)
