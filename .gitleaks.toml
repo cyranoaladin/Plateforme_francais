@@ -6,7 +6,9 @@ description = "Allow known false positives and documentation examples"
 paths = [
   '''tests/unit/auth/reset-password-schema\.test\.ts''',
   '''tests/unit/security/csrf\.test\.ts''',
+  '''tests/unit/api/cron-session-cleanup\.test\.ts''',
   '''docs/GUIDE_DEPLOIEMENT_PREPROD\.md''',
   '''docs/RAPPORT_FINAL_PRODUCTION_LOCALE\.md''',
+  '''docs/audit_proofs/.*''',
   '''AUDIT_REPORT_2026-03-05\.md''',
 ]
