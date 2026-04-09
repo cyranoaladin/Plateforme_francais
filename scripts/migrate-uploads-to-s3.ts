@@ -64,8 +64,9 @@ async function migrateDir(localDir: string, s3Prefix: string) {
       }));
       console.log(`  ✅ ${s3Key} (${(body.length / 1024).toFixed(1)} KB)`);
       success++;
-    } catch (err: any) {
-      console.error(`  ❌ ${s3Key}: ${err.message?.split("\n")[0]}`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`  ❌ ${s3Key}: ${msg.split("\n")[0]}`);
       failed++;
     }
   }
