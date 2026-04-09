@@ -1,6 +1,874 @@
 {
-  "generatedAt": "2026-04-09T00:41:10.171Z",
+  "generatedAt": "2026-04-09T12:56:29.371Z",
   "violations": [
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 106,
+      "column": 50,
+      "kind": "jsx-text",
+      "text": "Utilisateurs actifs par jour"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 134,
+      "column": 50,
+      "kind": "jsx-text",
+      "text": "Utilisation par fonctionnalite"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 157,
+      "column": 50,
+      "kind": "jsx-text",
+      "text": "Couts LLM par skill"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 162,
+      "column": 57,
+      "kind": "jsx-text",
+      "text": "Skill"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 163,
+      "column": 58,
+      "kind": "jsx-text",
+      "text": "Appels"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 164,
+      "column": 58,
+      "kind": "jsx-text",
+      "text": "Tokens"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 165,
+      "column": 58,
+      "kind": "jsx-text",
+      "text": "Cout"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 177,
+      "column": 56,
+      "kind": "jsx-text",
+      "text": "EUR"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 189,
+      "column": 48,
+      "kind": "jsx-text",
+      "text": "Types d'evenements"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 201,
+      "column": 48,
+      "kind": "jsx-text",
+      "text": "Evenements recents"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 206,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Email"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 207,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Type"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 208,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Feature"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 209,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Date"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 82,
+      "column": 25,
+      "kind": "jsx-prop",
+      "text": "Evenements"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 84,
+      "column": 17,
+      "kind": "jsx-prop",
+      "text": "Appels LLM"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 90,
+      "column": 17,
+      "kind": "jsx-prop",
+      "text": "Cout LLM"
+    },
+    {
+      "file": "src/app/admin/components/activity-tab.tsx",
+      "line": 96,
+      "column": 17,
+      "kind": "jsx-prop",
+      "text": "Tokens"
+    },
+    {
+      "file": "src/app/admin/components/admin-shell.tsx",
+      "line": 125,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Deconnexion"
+    },
+    {
+      "file": "src/app/admin/components/admin-shell.tsx",
+      "line": 141,
+      "column": 78,
+      "kind": "jsx-text",
+      "text": "Administration"
+    },
+    {
+      "file": "src/app/admin/components/admin-shell.tsx",
+      "line": 80,
+      "column": 86,
+      "kind": "jsx-text",
+      "text": "Administration"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 100,
+      "column": 30,
+      "kind": "jsx-text",
+      "text": "Toutes les actions"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 107,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "CSV"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 117,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Date"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 118,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Admin"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 119,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Action"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 120,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Cible"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 121,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Details"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 122,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "IP"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 172,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Aucune entree dans le journal d'audit"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 184,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Page"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 192,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Precedent"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 199,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Suivant"
+    },
+    {
+      "file": "src/app/admin/components/audit-tab.tsx",
+      "line": 88,
+      "column": 45,
+      "kind": "jsx-text",
+      "text": "Journal d'audit ("
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 109,
+      "column": 48,
+      "kind": "jsx-text",
+      "text": "Generer des codes d'activation"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 112,
+      "column": 87,
+      "kind": "jsx-text",
+      "text": "Plan"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 119,
+      "column": 39,
+      "kind": "jsx-text",
+      "text": "Premium (99 TND/mois)"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 120,
+      "column": 41,
+      "kind": "jsx-text",
+      "text": "Masterium (129 TND/mois)"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 124,
+      "column": 63,
+      "kind": "jsx-text",
+      "text": "Duree (jours)"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 134,
+      "column": 63,
+      "kind": "jsx-text",
+      "text": "Quantite (1-10)"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 154,
+      "column": 37,
+      "kind": "jsx-text",
+      "text": "code"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 154,
+      "column": 80,
+      "kind": "jsx-text",
+      "text": "genere"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 181,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Ces codes ne seront plus affiches. Assurez-vous de les sauvegarder."
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 187,
+      "column": 48,
+      "kind": "jsx-text",
+      "text": "Codes d'activation ("
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 192,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Hash"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 193,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Plan"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 194,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Duree"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 195,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Statut"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 196,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Cree le"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 197,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Utilise le"
+    },
+    {
+      "file": "src/app/admin/components/codes-tab.tsx",
+      "line": 198,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Actions"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 19,
+      "column": 25,
+      "kind": "jsx-prop",
+      "text": "Utilisateurs"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 20,
+      "column": 25,
+      "kind": "jsx-prop",
+      "text": "Abonnements actifs"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 21,
+      "column": 25,
+      "kind": "jsx-prop",
+      "text": "Paiements en attente"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 22,
+      "column": 25,
+      "kind": "jsx-prop",
+      "text": "Revenu total"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 26,
+      "column": 48,
+      "kind": "jsx-text",
+      "text": "Repartition par plan"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 32,
+      "column": 30,
+      "kind": "jsx-text",
+      "text": "utilisateur"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 40,
+      "column": 48,
+      "kind": "jsx-text",
+      "text": "Derniers paiements"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 45,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Email"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 46,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Plan"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 47,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Montant"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 48,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Statut"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 49,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Date"
+    },
+    {
+      "file": "src/app/admin/components/overview-tab.tsx",
+      "line": 59,
+      "column": 90,
+      "kind": "jsx-text",
+      "text": "TND"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 100,
+      "column": 93,
+      "kind": "jsx-text",
+      "text": "Plan"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 111,
+      "column": 39,
+      "kind": "jsx-text",
+      "text": "Premium (99 TND/mois)"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 112,
+      "column": 41,
+      "kind": "jsx-text",
+      "text": "Masterium (129 TND/mois)"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 117,
+      "column": 63,
+      "kind": "jsx-text",
+      "text": "Montant (millimes)"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 125,
+      "column": 61,
+      "kind": "jsx-text",
+      "text": "TND"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 132,
+      "column": 63,
+      "kind": "jsx-text",
+      "text": "Methode de paiement"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 140,
+      "column": 40,
+      "kind": "jsx-text",
+      "text": "Virement bancaire"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 141,
+      "column": 39,
+      "kind": "jsx-text",
+      "text": "Especes"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 142,
+      "column": 37,
+      "kind": "jsx-text",
+      "text": "Autre"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 147,
+      "column": 63,
+      "kind": "jsx-text",
+      "text": "Reference *"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 152,
+      "column": 27,
+      "kind": "jsx-prop",
+      "text": "REF-2026-001"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 158,
+      "column": 61,
+      "kind": "jsx-text",
+      "text": "Notes (optionnel)"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 164,
+      "column": 25,
+      "kind": "jsx-prop",
+      "text": "Informations complementaires..."
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 73,
+      "column": 46,
+      "kind": "jsx-text",
+      "text": "Valider un paiement manuel"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 83,
+      "column": 61,
+      "kind": "jsx-text",
+      "text": "Utilisateur"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 89,
+      "column": 30,
+      "kind": "jsx-text",
+      "text": "Selectionner un utilisateur"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 103,
+      "column": 48,
+      "kind": "jsx-text",
+      "text": "Sessions actives par utilisateur"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 108,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Utilisateur"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 109,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Role"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 110,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Sessions"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 111,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Derniere activite"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 112,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Connecte depuis"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 113,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Actions"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 166,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Aucune session active"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 80,
+      "column": 67,
+      "kind": "jsx-text",
+      "text": "Sessions actives"
+    },
+    {
+      "file": "src/app/admin/components/sessions-tab.tsx",
+      "line": 89,
+      "column": 67,
+      "kind": "jsx-text",
+      "text": "Utilisateurs connectes"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 136,
+      "column": 25,
+      "kind": "jsx-prop",
+      "text": "Rechercher par email ou nom..."
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 145,
+      "column": 31,
+      "kind": "jsx-text",
+      "text": "Tous les plans"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 146,
+      "column": 32,
+      "kind": "jsx-text",
+      "text": "Freemium"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 147,
+      "column": 35,
+      "kind": "jsx-text",
+      "text": "Premium"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 148,
+      "column": 31,
+      "kind": "jsx-text",
+      "text": "Masterium"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 152,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Ajouter"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 159,
+      "column": 50,
+      "kind": "jsx-text",
+      "text": "Creer un utilisateur"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 162,
+      "column": 65,
+      "kind": "jsx-text",
+      "text": "Email *"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 167,
+      "column": 29,
+      "kind": "jsx-prop",
+      "text": "email@exemple.com"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 171,
+      "column": 65,
+      "kind": "jsx-text",
+      "text": "Mot de passe *"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 176,
+      "column": 29,
+      "kind": "jsx-prop",
+      "text": "min. 8 caracteres"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 180,
+      "column": 65,
+      "kind": "jsx-text",
+      "text": "Role"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 186,
+      "column": 39,
+      "kind": "jsx-text",
+      "text": "Eleve"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 187,
+      "column": 44,
+      "kind": "jsx-text",
+      "text": "Enseignant"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 188,
+      "column": 40,
+      "kind": "jsx-text",
+      "text": "Parent"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 189,
+      "column": 39,
+      "kind": "jsx-text",
+      "text": "Administrateur"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 193,
+      "column": 65,
+      "kind": "jsx-text",
+      "text": "Nom affiche"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 198,
+      "column": 29,
+      "kind": "jsx-prop",
+      "text": "Optionnel"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 213,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Annuler"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 222,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Utilisateurs ("
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 228,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Email"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 229,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Role"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 230,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Plan"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 231,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Statut"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 232,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Onboarding"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 233,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Inscription"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 234,
+      "column": 53,
+      "kind": "jsx-text",
+      "text": "Actions"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 260,
+      "column": 70,
+      "kind": "jsx-text",
+      "text": "Aucun"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 275,
+      "column": 76,
+      "kind": "jsx-text",
+      "text": "Fait"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 277,
+      "column": 72,
+      "kind": "jsx-text",
+      "text": "En attente"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 315,
+      "column": 61,
+      "kind": "jsx-text",
+      "text": "Reset mot de passe"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 337,
+      "column": 68,
+      "kind": "jsx-text",
+      "text": "Reset onboarding"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 342,
+      "column": 62,
+      "kind": "jsx-text",
+      "text": "Suspendre"
+    },
+    {
+      "file": "src/app/admin/components/users-tab.tsx",
+      "line": 353,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Aucun utilisateur trouve"
+    },
     {
       "file": "src/app/admin/enhanced-page.tsx",
       "line": 1022,
@@ -667,466 +1535,67 @@
       "text": "Utilisé le"
     },
     {
-      "file": "src/app/admin/page.tsx",
-      "line": 383,
-      "column": 13,
+      "file": "src/app/admin/login/page.tsx",
+      "line": 121,
+      "column": 19,
       "kind": "jsx-text",
-      "text": "Tableau de bord admin"
+      "text": "Connexion..."
     },
     {
-      "file": "src/app/admin/page.tsx",
-      "line": 386,
-      "column": 13,
+      "file": "src/app/admin/login/page.tsx",
+      "line": 131,
+      "column": 11,
       "kind": "jsx-text",
-      "text": "Gestion des utilisateurs, abonnements et paiements"
+      "text": "Acces restreint. Toute tentative non autorisee est enregistree."
     },
     {
-      "file": "src/app/admin/page.tsx",
-      "line": 400,
-      "column": 108,
+      "file": "src/app/admin/login/page.tsx",
+      "line": 54,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Administration"
+    },
+    {
+      "file": "src/app/admin/login/page.tsx",
+      "line": 57,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Nexus Reussite EAF — Portail admin"
+    },
+    {
+      "file": "src/app/admin/login/page.tsx",
+      "line": 72,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Email administrateur"
+    },
+    {
+      "file": "src/app/admin/login/page.tsx",
+      "line": 83,
+      "column": 29,
       "kind": "jsx-prop",
-      "text": "Navigation administration"
+      "text": "admin@nexusreussite.academy"
     },
     {
-      "file": "src/app/admin/page.tsx",
-      "line": 413,
-      "column": 13,
+      "file": "src/app/admin/login/page.tsx",
+      "line": 89,
+      "column": 17,
       "kind": "jsx-text",
-      "text": "Vue d'ensemble"
+      "text": "Mot de passe"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 427,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Utilisateurs"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 441,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Codes d'activation"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 455,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Paiements manuels"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 472,
-      "column": 77,
-      "kind": "jsx-text",
-      "text": "Utilisateurs"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 482,
-      "column": 77,
-      "kind": "jsx-text",
-      "text": "Abonnements actifs"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 492,
-      "column": 77,
-      "kind": "jsx-text",
-      "text": "Paiements en attente"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 502,
-      "column": 77,
-      "kind": "jsx-text",
-      "text": "Revenu total"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 503,
-      "column": 99,
-      "kind": "jsx-text",
-      "text": "TND"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 511,
-      "column": 58,
-      "kind": "jsx-text",
-      "text": "Répartition par plan"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 517,
-      "column": 40,
-      "kind": "jsx-text",
-      "text": "utilisateur"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 525,
-      "column": 58,
-      "kind": "jsx-text",
-      "text": "Derniers paiements"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 530,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Email"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 531,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Plan"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 532,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Montant"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 533,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Statut"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 534,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Date"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 544,
-      "column": 100,
-      "kind": "jsx-text",
-      "text": "TND"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 563,
-      "column": 56,
-      "kind": "jsx-text",
-      "text": "Liste des utilisateurs"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 568,
-      "column": 61,
-      "kind": "jsx-text",
-      "text": "Email"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 569,
-      "column": 61,
-      "kind": "jsx-text",
-      "text": "Rôle"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 570,
-      "column": 61,
-      "kind": "jsx-text",
-      "text": "Plan"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 571,
-      "column": 61,
-      "kind": "jsx-text",
-      "text": "Statut"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 572,
-      "column": 61,
-      "kind": "jsx-text",
-      "text": "Onboarding"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 573,
-      "column": 61,
-      "kind": "jsx-text",
-      "text": "Inscription"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 574,
-      "column": 61,
-      "kind": "jsx-text",
-      "text": "Actions"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 597,
-      "column": 78,
-      "kind": "jsx-text",
-      "text": "Aucun"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 612,
-      "column": 84,
-      "kind": "jsx-text",
-      "text": "Fait"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 614,
-      "column": 80,
-      "kind": "jsx-text",
-      "text": "En attente"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 649,
-      "column": 69,
-      "kind": "jsx-text",
-      "text": "Reset mot de passe"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 671,
-      "column": 76,
-      "kind": "jsx-text",
-      "text": "Reset onboarding"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 689,
-      "column": 58,
-      "kind": "jsx-text",
-      "text": "Générer un code d'activation"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 692,
-      "column": 73,
-      "kind": "jsx-text",
-      "text": "Plan"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 699,
-      "column": 49,
-      "kind": "jsx-text",
-      "text": "Premium (99 TND/mois)"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 700,
-      "column": 51,
-      "kind": "jsx-text",
-      "text": "Masterium (129 TND/mois)"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 704,
-      "column": 73,
-      "kind": "jsx-text",
-      "text": "Durée (jours)"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 727,
-      "column": 73,
-      "kind": "jsx-text",
-      "text": "✅ Code généré avec succès !"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 730,
-      "column": 66,
-      "kind": "jsx-text",
-      "text": "Copiez ce code et communiquez-le à l'utilisateur :"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 742,
-      "column": 25,
-      "kind": "jsx-text",
-      "text": "Copier"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 745,
+      "line": 175,
       "column": 62,
       "kind": "jsx-text",
-      "text": "⚠️ Ce code ne sera plus affiché. Assurez-vous de le sauvegarder."
+      "text": "Tableau de bord"
     },
     {
       "file": "src/app/admin/page.tsx",
-      "line": 750,
-      "column": 58,
+      "line": 177,
+      "column": 11,
       "kind": "jsx-text",
-      "text": "Codes d'activation"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 755,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Hash (8 premiers)"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 756,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Plan"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 757,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Durée"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 758,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Statut"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 759,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Créé le"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 760,
-      "column": 63,
-      "kind": "jsx-text",
-      "text": "Utilisé le"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 796,
-      "column": 56,
-      "kind": "jsx-text",
-      "text": "Valider un paiement manuel"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 799,
-      "column": 71,
-      "kind": "jsx-text",
-      "text": "Utilisateur"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 805,
-      "column": 40,
-      "kind": "jsx-text",
-      "text": "Sélectionner un utilisateur"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 816,
-      "column": 73,
-      "kind": "jsx-text",
-      "text": "Plan"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 827,
-      "column": 49,
-      "kind": "jsx-text",
-      "text": "Premium (99 TND/mois)"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 828,
-      "column": 51,
-      "kind": "jsx-text",
-      "text": "Masterium (129 TND/mois)"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 833,
-      "column": 73,
-      "kind": "jsx-text",
-      "text": "Montant (millimes)"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 841,
-      "column": 71,
-      "kind": "jsx-text",
-      "text": "TND"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 848,
-      "column": 73,
-      "kind": "jsx-text",
-      "text": "Méthode de paiement"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 854,
-      "column": 50,
-      "kind": "jsx-text",
-      "text": "Virement bancaire"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 855,
-      "column": 49,
-      "kind": "jsx-text",
-      "text": "Espèces"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 856,
-      "column": 47,
-      "kind": "jsx-text",
-      "text": "Autre"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 861,
-      "column": 73,
-      "kind": "jsx-text",
-      "text": "Référence *"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 866,
-      "column": 37,
-      "kind": "jsx-prop",
-      "text": "REF-2026-001"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 872,
-      "column": 71,
-      "kind": "jsx-text",
-      "text": "Notes (optionnel)"
-    },
-    {
-      "file": "src/app/admin/page.tsx",
-      "line": 878,
-      "column": 35,
-      "kind": "jsx-prop",
-      "text": "Informations complémentaires..."
+      "text": "Gestion des utilisateurs, abonnements et paiements"
     },
     {
       "file": "src/app/api/v1/account/delete/route.ts",
@@ -1164,32 +1633,74 @@
       "text": "Erreur lors de la suppression. Contacte le DPO : dpo@nexusreussite.academy"
     },
     {
+      "file": "src/app/api/v1/admin/activation-codes/revoke/route.ts",
+      "line": 40,
+      "column": 41,
+      "kind": "api-message",
+      "text": "Code introuvable."
+    },
+    {
+      "file": "src/app/api/v1/admin/activation-codes/revoke/route.ts",
+      "line": 45,
+      "column": 18,
+      "kind": "api-message",
+      "text": "Impossible de revoquer un code deja utilise."
+    },
+    {
+      "file": "src/app/api/v1/admin/activation-codes/revoke/route.ts",
+      "line": 60,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Code revoque avec succes."
+    },
+    {
+      "file": "src/app/api/v1/admin/activation-codes/revoke/route.ts",
+      "line": 64,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur lors de la revocation du code."
+    },
+    {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
-      "line": 108,
+      "line": 111,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la création du code."
     },
     {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
-      "line": 48,
+      "line": 49,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la récupération des codes."
     },
     {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
-      "line": 67,
+      "line": 68,
       "column": 39,
       "kind": "api-message",
       "text": "Trop de requêtes."
     },
     {
       "file": "src/app/api/v1/admin/activation-codes/route.ts",
-      "line": 79,
+      "line": 80,
       "column": 39,
       "kind": "api-message",
       "text": "Plan d’activation invalide."
+    },
+    {
+      "file": "src/app/api/v1/admin/activity/route.ts",
+      "line": 129,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur lors de la recuperation de l'activite."
+    },
+    {
+      "file": "src/app/api/v1/admin/audit-log/route.ts",
+      "line": 57,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur lors de la recuperation du journal d'audit."
     },
     {
       "file": "src/app/api/v1/admin/enhanced-stats/route.ts",
@@ -1200,28 +1711,28 @@
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 140,
+      "line": 143,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la validation du paiement."
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 35,
+      "line": 36,
       "column": 39,
       "kind": "api-message",
       "text": "Trop de requêtes."
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 47,
+      "line": 48,
       "column": 39,
       "kind": "api-message",
       "text": "Plan de paiement manuel invalide."
     },
     {
       "file": "src/app/api/v1/admin/manual-payment/route.ts",
-      "line": 58,
+      "line": 59,
       "column": 41,
       "kind": "api-message",
       "text": "Utilisateur introuvable."
@@ -1235,31 +1746,45 @@
     },
     {
       "file": "src/app/api/v1/admin/orders/confirm/route.ts",
-      "line": 164,
+      "line": 166,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la confirmation de la commande."
     },
     {
       "file": "src/app/api/v1/admin/orders/confirm/route.ts",
-      "line": 45,
+      "line": 46,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de requêtes."
     },
     {
       "file": "src/app/api/v1/admin/orders/confirm/route.ts",
-      "line": 62,
+      "line": 63,
       "column": 41,
       "kind": "api-message",
       "text": "Commande introuvable."
     },
     {
       "file": "src/app/api/v1/admin/orders/confirm/route.ts",
-      "line": 66,
+      "line": 67,
       "column": 41,
       "kind": "api-message",
       "text": "Cette commande est déjà confirmée."
+    },
+    {
+      "file": "src/app/api/v1/admin/sessions/route.ts",
+      "line": 104,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur lors de la revocation des sessions."
+    },
+    {
+      "file": "src/app/api/v1/admin/sessions/route.ts",
+      "line": 60,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur lors de la recuperation des sessions."
     },
     {
       "file": "src/app/api/v1/admin/stats/route.ts",
@@ -1269,57 +1794,78 @@
       "text": "Erreur lors de la récupération des statistiques."
     },
     {
+      "file": "src/app/api/v1/admin/users/create/route.ts",
+      "line": 106,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Erreur lors de la creation du compte."
+    },
+    {
+      "file": "src/app/api/v1/admin/users/create/route.ts",
+      "line": 45,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Trop de requetes."
+    },
+    {
+      "file": "src/app/api/v1/admin/users/create/route.ts",
+      "line": 62,
+      "column": 18,
+      "kind": "api-message",
+      "text": "Un compte avec cet email existe deja."
+    },
+    {
       "file": "src/app/api/v1/admin/users/plan/route.ts",
-      "line": 24,
+      "line": 25,
       "column": 18,
       "kind": "api-message",
       "text": "userId et plan sont requis"
     },
     {
       "file": "src/app/api/v1/admin/users/plan/route.ts",
-      "line": 33,
+      "line": 34,
       "column": 18,
       "kind": "api-message",
       "text": "Plan invalide"
     },
     {
       "file": "src/app/api/v1/admin/users/plan/route.ts",
-      "line": 68,
+      "line": 71,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la mise à jour du plan"
     },
     {
       "file": "src/app/api/v1/admin/users/reset-onboarding/route.ts",
-      "line": 34,
+      "line": 35,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de tentatives."
     },
     {
       "file": "src/app/api/v1/admin/users/reset-onboarding/route.ts",
-      "line": 48,
+      "line": 49,
       "column": 39,
       "kind": "api-message",
       "text": "Profil élève introuvable."
     },
     {
       "file": "src/app/api/v1/admin/users/reset-onboarding/route.ts",
-      "line": 63,
+      "line": 65,
       "column": 14,
       "kind": "api-message",
       "text": "Onboarding réinitialisé. L'élève repassera par la configuration au prochain accès."
     },
     {
       "file": "src/app/api/v1/admin/users/reset-password/route.ts",
-      "line": 36,
+      "line": 37,
       "column": 16,
       "kind": "api-message",
       "text": "Trop de tentatives."
     },
     {
       "file": "src/app/api/v1/admin/users/reset-password/route.ts",
-      "line": 50,
+      "line": 51,
       "column": 39,
       "kind": "api-message",
       "text": "Utilisateur introuvable."
@@ -1333,28 +1879,28 @@
     },
     {
       "file": "src/app/api/v1/admin/users/suspend/route.ts",
-      "line": 23,
+      "line": 24,
       "column": 18,
       "kind": "api-message",
       "text": "userId est requis"
     },
     {
       "file": "src/app/api/v1/admin/users/suspend/route.ts",
-      "line": 33,
+      "line": 34,
       "column": 18,
       "kind": "api-message",
       "text": "Utilisateur introuvable"
     },
     {
       "file": "src/app/api/v1/admin/users/suspend/route.ts",
-      "line": 54,
+      "line": 57,
       "column": 16,
       "kind": "api-message",
       "text": "Utilisateur suspendu avec succès"
     },
     {
       "file": "src/app/api/v1/admin/users/suspend/route.ts",
-      "line": 60,
+      "line": 63,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la suspension de l'utilisateur"
@@ -1403,6 +1949,13 @@
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
+      "line": 249,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Une erreur interne est survenue lors de l’inscription. Réessaie dans quelques instants."
+    },
+    {
+      "file": "src/app/api/v1/auth/register/route.ts",
       "line": 46,
       "column": 16,
       "kind": "api-message",
@@ -1410,7 +1963,7 @@
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
-      "line": 67,
+      "line": 69,
       "column": 39,
       "kind": "api-message",
       "text": "Un compte existe déjà pour cet email."
