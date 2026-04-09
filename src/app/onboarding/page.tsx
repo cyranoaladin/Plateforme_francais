@@ -243,7 +243,7 @@ export default function OnboardingPage() {
           setError('Données invalides. Vérifie tous les champs.');
           return false;
         }
-        setError('Erreur technique. Réessaie plus tard.');
+        setError(err.message || 'Erreur technique. Réessaie plus tard.');
         return false;
       }
       console.warn('[onboarding] autosave failed:', err);
@@ -479,7 +479,7 @@ export default function OnboardingPage() {
                     />
 
                     <Input
-                      label="Établissement"
+                      label="Établissement (facultatif)"
                       value={establishment}
                       onChange={(e) => setEstablishment(e.target.value)}
                       placeholder="Nom de ton lycée"
@@ -488,10 +488,10 @@ export default function OnboardingPage() {
                     />
 
                     <Input
-                      label="Code classe enseignant"
+                      label="Code classe enseignant (facultatif)"
                       value={classCode}
                       onChange={(e) => setClassCode(e.target.value)}
-                      placeholder="Ex : PMF-1G2-2026"
+                      placeholder="Fourni par ton enseignant, sinon laisse vide"
                       size="lg"
                     />
                   </div>
@@ -707,9 +707,13 @@ export default function OnboardingPage() {
                             className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[var(--border-default)] accent-[var(--c-primary)]"
                             aria-label={`${skill.label} : ${value} sur 5`}
                           />
-                          <div className="mt-2 flex justify-between text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--text-muted)]">
-                            <span>Fragile</span>
-                            <span>Solide</span>
+                          <div className="mt-2 flex justify-between text-[11px] font-medium tracking-[0.12em] text-[var(--text-muted)]">
+                            <span>0 — Pas vu</span>
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5 — Solide</span>
                           </div>
                         </div>
                       </Card>

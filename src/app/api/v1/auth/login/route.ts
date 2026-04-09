@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     request,
     key: 'auth:login',
     limit: 5,
+    windowMs: 5 * 60 * 1000, // M3: 5 attempts per 5 minutes (stricter than default 1min)
   });
 
   if (!limit.allowed) {

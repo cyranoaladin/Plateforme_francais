@@ -21,8 +21,16 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Non autorisé.' }, { status: 401 });
   }
 
+  const now = new Date();
+  const idleThreshold = new Date(now.getTime() - 30 * 60 * 1000); // M2: 30-min idle timeout
+
   const result = await prisma.session.deleteMany({
-    where: { expiresAt: { lt: new Date() } },
+    where: {
+      OR: [
+        { expiresAt: { lt: now } },
+        { lastSeenAt: { lt: idleThreshold } },
+      ],
+    },
   });
 
   logger.info({ deletedCount: result.count }, 'cron.session_cleanup');

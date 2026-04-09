@@ -115,8 +115,13 @@ export function createSession(userId: string): SessionRecord {
   };
 }
 
+const SESSION_IDLE_TIMEOUT_MS = 30 * 60 * 1000; // M2: 30 minutes idle timeout
+
 export function isSessionExpired(session: SessionRecord): boolean {
-  return new Date(session.expiresAt).getTime() <= Date.now();
+  const now = Date.now();
+  const absoluteExpiry = new Date(session.expiresAt).getTime();
+  const idleExpiry = new Date(session.lastSeenAt).getTime() + SESSION_IDLE_TIMEOUT_MS;
+  return now > absoluteExpiry || now > idleExpiry;
 }
 
 export function createMemoryEvent(

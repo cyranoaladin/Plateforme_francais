@@ -198,10 +198,10 @@ export default function DescriptifLecturePage() {
                 <h2 className="text-xl font-semibold text-[var(--text-heading)]">
                   {OBJETS_ETUDE.find((objet) => objet.id === selectedObjet)?.label}
                 </h2>
-                <p className="mt-2 text-sm text-[var(--text-muted)]">
+                <p className={`mt-2 text-sm ${selectedConformite?.conforme ? 'text-emerald-700' : 'text-amber-700'}`}>
                   {selectedConformite?.conforme
-                    ? 'Objet d&apos;étude conforme.'
-                    : `Manquant : ${selectedConformite?.manquant?.join(' · ') ?? 'compléter cet objet d&apos;étude'}`}
+                    ? 'Objet d\u2019étude conforme au programme.'
+                    : `Il manque : ${selectedConformite?.manquant?.join(', ') ?? 'compléter cet objet d\u2019étude'}.`}
                 </p>
               </div>
               <Button onClick={() => setShowAddForm((value) => !value)} icon={<Plus className="h-4 w-4" />}>
@@ -243,7 +243,10 @@ export default function DescriptifLecturePage() {
 
                 {items.length === 0 ? (
                   <div className="rounded-2xl border border-dashed border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5 text-sm text-[var(--text-muted)]">
-                    Aucun texte pour cette catégorie.
+                    Aucun texte pour cette catégorie.{' '}
+                    <button type="button" onClick={() => setShowAddForm(true)} className="font-medium text-[var(--c-primary)] underline underline-offset-2">
+                      Ajouter un {section.label.toLowerCase().replace(/s$/, '')}
+                    </button>
                   </div>
                 ) : (
                   <div className="space-y-3">

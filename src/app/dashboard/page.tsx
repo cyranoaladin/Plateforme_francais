@@ -44,6 +44,7 @@ const SKILL_META = [
     textColor: 'text-[var(--text-primary-on-subtle)]',
     barColor: 'var(--c-primary)',
     copy: 'Structurer vite, sans perdre la tension de l’argumentation.',
+    href: '/atelier-ecrit',
   },
   {
     key: 'oral' as const,
@@ -52,6 +53,7 @@ const SKILL_META = [
     textColor: 'text-[var(--text-success-on-subtle)]',
     barColor: 'var(--c-success)',
     copy: 'Garder une parole nette, mobile et assez solide pour tenir la relance.',
+    href: '/atelier-oral',
   },
   {
     key: 'grammaire' as const,
@@ -60,6 +62,7 @@ const SKILL_META = [
     textColor: 'text-[var(--c-accent-text)]',
     barColor: 'var(--c-accent)',
     copy: 'Verrouiller les notions qui coûtent des points trop rapidement.',
+    href: '/atelier-langue',
   },
   {
     key: 'lectureCursive' as const,
@@ -68,6 +71,7 @@ const SKILL_META = [
     textColor: 'text-[var(--text-reward-on-subtle)]',
     barColor: 'var(--c-reward)',
     copy: 'Réactiver les œuvres pour qu’elles restent disponibles à l’oral.',
+    href: '/mon-parcours',
   },
 ];
 
@@ -941,7 +945,13 @@ export default function Dashboard() {
                       <span className={skill.textColor}>{skill.label}</span>
                       <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{skill.copy}</p>
                     </div>
-                    <span className="shrink-0 text-[var(--text-muted)]">{formatScoreLabel(score)}</span>
+                    {score === null || score === undefined ? (
+                      <Link href={skill.href} className="shrink-0 text-sm font-medium text-[var(--c-primary)] underline underline-offset-2">
+                        Diagnostic à lancer
+                      </Link>
+                    ) : (
+                      <span className="shrink-0 text-[var(--text-muted)]">{formatScoreLabel(score)}</span>
+                    )}
                   </div>
                   <div className="h-2.5 w-full rounded-full bg-[var(--border-default)]">
                     <div className="h-2.5 rounded-full" style={{ width: `${((score ?? 0) / 20) * 100}%`, background: skill.barColor }} />

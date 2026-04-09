@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAuthenticatedUser } from '@/lib/auth/guard';
+import { requireAuthenticatedUser, requireVerifiedEmail } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { logger } from '@/lib/logger';
@@ -121,6 +121,12 @@ export async function POST(request: Request) {
     const { auth, errorResponse } = await requireAuthenticatedUser();
     if (!auth || errorResponse) {
       return errorResponse;
+    }
+
+    // H6: Require verified email before starting oral sessions
+    const { errorResponse: emailError } = await requireVerifiedEmail();
+    if (emailError) {
+      return emailError;
     }
 
     const csrfError = await validateCsrf(request);

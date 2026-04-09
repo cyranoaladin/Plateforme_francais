@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyParentalConsent } from '@/lib/email/parental-consent';
+import { checkRateLimit } from '@/lib/security/rate-limit';
 import { logger } from '@/lib/logger';
 
 /**
@@ -9,6 +10,20 @@ import { logger } from '@/lib/logger';
  */
 export async function GET(request: Request) {
   try {
+    // H4: Rate-limit to prevent token brute-force
+    const limit = await checkRateLimit({
+      request,
+      key: 'rgpd:consent',
+      limit: 10,
+      windowMs: 60 * 60 * 1000, // 10 attempts per hour per IP
+    });
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'Trop de tentatives. Réessayez plus tard.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } },
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
     const action = searchParams.get('action') as 'grant' | 'refuse' | 'withdraw' | null;
@@ -16,6 +31,14 @@ export async function GET(request: Request) {
     if (!token || !action) {
       return NextResponse.json(
         { error: 'Paramètres manquants. Token et action requis.' },
+        { status: 400 }
+      );
+    }
+
+    // Validate token format (must be 64 hex chars)
+    if (!/^[a-f0-9]{64}$/.test(token)) {
+      return NextResponse.json(
+        { error: 'Token invalide.' },
         { status: 400 }
       );
     }

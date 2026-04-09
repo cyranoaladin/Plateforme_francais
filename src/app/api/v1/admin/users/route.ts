@@ -38,6 +38,8 @@ export async function GET(request: Request) {
               globalLevel: true,
               classLevel: true,
               voie: true,
+              displayName: true,
+              onboardingCompleted: true,
             },
           },
           payments: {

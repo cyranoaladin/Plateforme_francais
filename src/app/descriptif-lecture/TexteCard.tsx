@@ -27,6 +27,7 @@ export function TexteCard({ texte, onDelete, onRefresh }: TexteCardProps) {
   const [savingText, setSavingText] = useState(false);
   const [savingNotes, setSavingNotes] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [uploadFeedback, setUploadFeedback] = useState<{ ocrExtracted: boolean; charCount?: number } | null>(null);
 
   async function patchTexte(payload: Record<string, unknown>, kind: 'texte' | 'notes') {
     if (kind === 'texte') setSavingText(true);
@@ -68,6 +69,14 @@ export function TexteCard({ texte, onDelete, onRefresh }: TexteCardProps) {
       if (!response.ok) {
         const data = await response.json().catch(() => ({ error: 'Upload impossible.' }));
         throw new Error(String(data.error ?? 'Upload impossible.'));
+      }
+
+      const data = await response.json().catch(() => ({}));
+      if (data.ocrExtracted) {
+        const charCount = data.texte?.contenuTexte?.length ?? 0;
+        setUploadFeedback({ ocrExtracted: true, charCount });
+      } else {
+        setUploadFeedback({ ocrExtracted: false });
       }
 
       await onRefresh();
@@ -142,6 +151,13 @@ export function TexteCard({ texte, onDelete, onRefresh }: TexteCardProps) {
                 />
               </label>
             </div>
+            {uploadFeedback ? (
+              <p className={`mt-3 text-sm ${uploadFeedback.ocrExtracted ? 'text-emerald-700' : 'text-amber-700'}`}>
+                {uploadFeedback.ocrExtracted
+                  ? `Texte extrait par OCR (${uploadFeedback.charCount ?? 0} caractères). Vérifie et corrige si besoin.`
+                  : 'Fichier uploadé mais le texte n\u2019a pas pu être extrait. Colle-le manuellement ci-dessous.'}
+              </p>
+            ) : null}
           </div>
 
           <Textarea

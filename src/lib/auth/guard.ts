@@ -61,3 +61,28 @@ export async function requireEleve() {
   }
   return { auth, errorResponse: null };
 }
+
+/**
+ * H6: Guard for routes requiring verified email (premium features).
+ * Allows admin to bypass.
+ */
+export async function requireVerifiedEmail() {
+  const { auth, errorResponse } = await requireAuthenticatedUser();
+  if (!auth || errorResponse) {
+    return { auth: null, errorResponse };
+  }
+  const role = auth.user.role as string;
+  if (role === 'admin') {
+    return { auth, errorResponse: null };
+  }
+  if (!auth.user.emailVerified) {
+    return {
+      auth: null,
+      errorResponse: NextResponse.json(
+        { error: 'Vérifie ton adresse email pour accéder à cette fonctionnalité.', code: 'EMAIL_NOT_VERIFIED' },
+        { status: 403 },
+      ),
+    };
+  }
+  return { auth, errorResponse: null };
+}

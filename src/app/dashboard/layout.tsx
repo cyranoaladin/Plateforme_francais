@@ -14,6 +14,10 @@ export default async function DashboardLayout({
   }
 
   if (auth.user.role === 'eleve') {
+    // C1: Enforce onboarding completion server-side
+    if (!auth.user.profile?.onboardingCompleted) {
+      redirect('/onboarding');
+    }
     return <>{children}</>;
   }
 

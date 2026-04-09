@@ -9,8 +9,7 @@ import {
 import { type StudentProfile } from '@/lib/auth/types';
 import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { createUser, findUserByEmail } from '@/lib/db/repositories/userRepo';
-import { sendWelcomeEmail, sendParentNotificationEmail, sendTeacherNotificationEmail } from '@/lib/email/service';
-import { sendTransactionalEmail } from '@/lib/email/client';
+import { sendWelcomeEmail, sendParentNotificationEmail, sendTeacherNotificationEmail, sendEmailVerificationEmail } from '@/lib/email/service';
 import { generateConsentToken, sendParentalConsentEmail } from '@/lib/email/parental-consent';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
@@ -147,22 +146,17 @@ export async function POST(request: Request) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://eaf.nexusreussite.academy';
   const verifyLink = `${appUrl}/api/v1/auth/verify-email?token=${rawToken}`;
 
-  void sendTransactionalEmail({
-    to: email,
-    subject: 'Confirme ton adresse email — Nexus EAF',
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto;">
-        <h2 style="color: #17324D;">Nexus EAF — Vérification</h2>
-        <p>Bonjour${firstName ? ` ${firstName}` : ''},</p>
-        <p>Confirme ton adresse email en cliquant sur le bouton ci-dessous :</p>
-        <p style="text-align: center; margin: 24px 0;">
-          <a href="${verifyLink}" style="background: #0F766E; color: white; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: bold;">
-            Confirmer mon email
-          </a>
-        </p>
-        <p style="color: #888; font-size: 13px;">Ce lien expire dans 24 heures. Si tu n'as pas créé de compte, ignore cet email.</p>
-      </div>
-    `,
+  void sendEmailVerificationEmail({
+    firstName: firstName || '',
+    email,
+    verifyUrl: verifyLink,
+    expiresAt: emailVerifyExpiry.toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }),
   }).catch((err) => logger.error({ err, userId }, 'register.verify_email_send_failed'));
 
   // RGPD: Send parental consent email if minor with parent email

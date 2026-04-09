@@ -22,8 +22,8 @@ export async function ensureCsrfCookie(response: NextResponse) {
   const token = current ?? createCsrfToken();
 
   response.cookies.set(CSRF_COOKIE, token, {
-    httpOnly: false,
-    sameSite: 'lax',
+    httpOnly: false, // Required: double-submit pattern needs JS to read the cookie
+    sameSite: 'strict', // H3: Strict prevents cross-site request forgery more effectively
     secure: shouldUseSecureCookie(),
     path: '/',
     maxAge: 14 * 24 * 60 * 60,

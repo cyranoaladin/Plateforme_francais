@@ -55,6 +55,7 @@ type User = {
     classLevel: string | null;
     voie: string | null;
     displayName?: string;
+    onboardingCompleted?: boolean;
   } | null;
   payments: Array<{
     id: string;
@@ -568,13 +569,22 @@ export default function AdminDashboard() {
                         <th className="text-left py-2 px-4">Rôle</th>
                         <th className="text-left py-2 px-4">Plan</th>
                         <th className="text-left py-2 px-4">Statut</th>
+                        <th className="text-left py-2 px-4">Onboarding</th>
                         <th className="text-left py-2 px-4">Inscription</th>
+                        <th className="text-left py-2 px-4">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {users.map((user) => (
                         <tr key={user.id} className="border-b border-[var(--border-primary)]">
-                          <td className="py-2 px-4">{user.email}</td>
+                          <td className="py-2 px-4">
+                            <div>
+                              <span>{user.email}</span>
+                              {user.profile?.displayName && (
+                                <p className="text-xs text-[var(--text-secondary)]">{user.profile.displayName}</p>
+                              )}
+                            </div>
+                          </td>
                           <td className="py-2 px-4">
                             <Badge>{user.role}</Badge>
                           </td>
@@ -597,7 +607,72 @@ export default function AdminDashboard() {
                             )}
                           </td>
                           <td className="py-2 px-4">
+                            {user.role === 'eleve' ? (
+                              user.profile?.onboardingCompleted ? (
+                                <Badge className="bg-emerald-100 text-emerald-800">Fait</Badge>
+                              ) : (
+                                <Badge className="bg-amber-100 text-amber-800">En attente</Badge>
+                              )
+                            ) : (
+                              <span className="text-[var(--text-secondary)]">-</span>
+                            )}
+                          </td>
+                          <td className="py-2 px-4">
                             {new Date(user.createdAt).toLocaleDateString('fr-FR')}
+                          </td>
+                          <td className="py-2 px-4">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <button type="button" className="p-1 rounded hover:bg-[var(--bg-surface-secondary)]">
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem
+                                  onClick={async () => {
+                                    if (!confirm(`Envoyer un email de réinitialisation de mot de passe à ${user.email} ?`)) return;
+                                    try {
+                                      const csrf = await getCsrfToken();
+                                      const res = await fetch('/api/v1/admin/users/reset-password', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrf },
+                                        body: JSON.stringify({ userId: user.id }),
+                                      });
+                                      const data = await res.json();
+                                      if (!res.ok) throw new Error(data.error);
+                                      alert(data.message);
+                                    } catch (err) {
+                                      alert(`Erreur : ${err instanceof Error ? err.message : 'Échec'}`);
+                                    }
+                                  }}
+                                >
+                                  <Mail className="h-4 w-4 mr-2" /> Reset mot de passe
+                                </DropdownMenuItem>
+                                {user.role === 'eleve' && (
+                                  <DropdownMenuItem
+                                    onClick={async () => {
+                                      if (!confirm(`Réinitialiser l'onboarding de ${user.email} ?`)) return;
+                                      try {
+                                        const csrf = await getCsrfToken();
+                                        const res = await fetch('/api/v1/admin/users/reset-onboarding', {
+                                          method: 'POST',
+                                          headers: { 'Content-Type': 'application/json', 'x-csrf-token': csrf },
+                                          body: JSON.stringify({ userId: user.id }),
+                                        });
+                                        const data = await res.json();
+                                        if (!res.ok) throw new Error(data.error);
+                                        alert(data.message);
+                                        router.refresh();
+                                      } catch (err) {
+                                        alert(`Erreur : ${err instanceof Error ? err.message : 'Échec'}`);
+                                      }
+                                    }}
+                                  >
+                                    <RefreshCw className="h-4 w-4 mr-2" /> Reset onboarding
+                                  </DropdownMenuItem>
+                                )}
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </td>
                         </tr>
                       ))}
