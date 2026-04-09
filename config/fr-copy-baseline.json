@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-09T15:49:39.855Z",
+  "generatedAt": "2026-04-09T15:54:35.949Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -9414,7 +9414,7 @@
       "line": 85,
       "column": 15,
       "kind": "jsx-text",
-      "text": "98% de mention AB ou plus"
+      "text": "98% mention AB+ (session 2025*)"
     },
     {
       "file": "src/components/landing/Footer.tsx",
@@ -9498,7 +9498,7 @@
       "line": 31,
       "column": 13,
       "kind": "jsx-text",
-      "text": "98% de mention Assez Bien ou plus"
+      "text": "98% de mention AB ou plus (session 2025*)"
     },
     {
       "file": "src/components/landing/SocialProofStrip.tsx",
@@ -9527,6 +9527,13 @@
       "column": 73,
       "kind": "jsx-prop",
       "text": "Résultats mesurables"
+    },
+    {
+      "file": "src/components/landing/StatsSection.tsx",
+      "line": 111,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "*Résultats observés sur un échantillon d&apos;élèves Premium actifs. Les résultats individuels peuvent varier selon l&apos;assiduité et le niveau initial."
     },
     {
       "file": "src/components/landing/TestimonialsSection.tsx",
