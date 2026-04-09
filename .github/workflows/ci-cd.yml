@@ -117,6 +117,15 @@ jobs:
               git --no-pager diff --stat config/fr-copy-baseline.json
             fi
           fi
+      - name: Vérification APP_URL sans localhost
+        run: |
+          COUNT=$(grep -rn "localhost:3000" src/ --include="*.ts" --include="*.tsx" | grep -v "//.*localhost" | grep -v "test" | wc -l)
+          if [ "$COUNT" -gt "0" ]; then
+            echo "❌ $COUNT occurrence(s) de localhost:3000 trouvée(s) dans src/ :"
+            grep -rn "localhost:3000" src/ --include="*.ts" --include="*.tsx" | grep -v "//.*localhost" | grep -v "test"
+            exit 1
+          fi
+          echo "✅ Aucun localhost:3000 dans le code source"
       - name: Audit dépendances npm
         run: npx audit-ci --config .audit-ci.json
       - name: Détection code mort
