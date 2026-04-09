@@ -38,10 +38,6 @@ const OEUVRES = [
 
 type Voie = 'GENERALE' | 'TECHNOLOGIQUE';
 
-function getOeuvresForVoie(voie: Voie) {
-  return voie === 'TECHNOLOGIQUE' ? OEUVRES : OEUVRES;
-}
-
 const VOIE_OPTIONS = [
   { value: 'GENERALE' as const, label: 'Première générale' },
   { value: 'TECHNOLOGIQUE' as const, label: 'Première technologique' },

@@ -112,7 +112,6 @@ export function formatFileSize(bytes?: number): string {
 }
 
 /** Formatage du titre pour affichage */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function formatResourceTitle(title: string, _ext?: string): string {
   // Enlever l'extension si présente dans le titre
   let formatted = title.replace(/\.(pdf|webm|mkv|mp4)$/i, '');

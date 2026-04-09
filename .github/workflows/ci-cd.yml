@@ -84,7 +84,7 @@ jobs:
       - name: Check curly quotes in props
         run: npm run check:quotes
       - name: ESLint
-        run: npm run lint -- --max-warnings=100
+        run: npm run lint -- --max-warnings=0
       - name: CSRF route audit
         run: npm run ci:audit-csrf
       - name: Contrôle copy FR — zero banned-phrases

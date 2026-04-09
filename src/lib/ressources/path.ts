@@ -1,9 +1,5 @@
 import path from 'path';
 
-const appRoot = process.env.APP_ROOT?.trim()
-  ? path.resolve(process.env.APP_ROOT)
-  : process.cwd();
-
 export function getRessourcesRoot(): string {
   // Priority 1 : variable d'environnement explicite (prod et dev configurés)
   if (process.env.RESSOURCES_ROOT?.trim()) {

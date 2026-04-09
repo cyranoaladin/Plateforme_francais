@@ -14,7 +14,7 @@ import {
   Activity,
   FileText,
 } from 'lucide-react';
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import { type AdminDashboardTab } from '@/lib/admin/dashboard-tab-data';
 
 const NAV_ITEMS: { id: AdminDashboardTab; label: string; icon: typeof BarChart3 }[] = [

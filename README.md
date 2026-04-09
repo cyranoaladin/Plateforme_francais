@@ -1,6 +1,6 @@
 # Nexus Réussite EAF — Préparation au Bac de Français
 
-**Version :** 1.0.0 | **Mise à jour :** 4 avril 2026 | **Production :** https://eaf.nexusreussite.academy
+**Version :** 1.0.0 | **Mise à jour :** 10 avril 2026 | **Production :** https://eaf.nexusreussite.academy
 
 [![CI](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/cyranoaladin/Plateforme_francais/actions/workflows/ci-cd.yml)
 [![TypeScript](https://img.shields.io/badge/typescript-strict-blue)]()
@@ -94,7 +94,7 @@ bash scripts/deploy.sh root@88.99.254.59
 |------------|--------|
 | URL | https://eaf.nexusreussite.academy |
 | Health | https://eaf.nexusreussite.academy/api/v1/health |
-| SHA servi | 5ca0719 |
+| SHA servi | b592867 |
 | PM2 | eaf-nextjs-blue, eaf-mcp, eaf-worker (user nexus) |
 | Déploiement | `bash scripts/deploy.sh root@88.99.254.59` |
 

@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
       "@next/next/no-img-element": "off",
       "react/no-unescaped-entities": "off",
       "@next/next/no-sync-scripts": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_", "caughtErrorsIgnorePattern": "^_" },
+      ],
     },
   },
   // Override default ignores of eslint-config-next.

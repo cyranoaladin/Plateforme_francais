@@ -8,35 +8,26 @@ import {
   TrendingUp,
   Key,
   CheckCircle,
-  Clock,
   AlertCircle,
   DollarSign,
   Search,
-  Filter,
   Download,
   Edit,
   Ban,
   RefreshCw,
   BarChart3,
-  Activity,
-  Settings,
   Mail,
-  Calendar,
   Zap,
-  Shield,
   Eye,
-  Trash2,
-  UserPlus,
   Crown,
   Star,
-  Target,
   ArrowUpRight,
   ArrowDownRight,
   MoreHorizontal,
 } from 'lucide-react';
 import { Card, Button, Input, Badge, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui';
 import { getAdminDataLoadTargets, type AdminDashboardTab } from '@/lib/admin/dashboard-tab-data';
-import { formatPlanLabel, normalizePlanId, PLAN_DISPLAY_LABELS, toPublicPlanId } from '@/lib/billing/plan-catalog';
+import { formatPlanLabel, normalizePlanId, toPublicPlanId } from '@/lib/billing/plan-catalog';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 
 type User = {
@@ -143,8 +134,8 @@ export default function EnhancedAdminDashboard() {
   const [processingPayment, setProcessingPayment] = useState(false);
 
   // User management
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [userActionLoading, setUserActionLoading] = useState(false);
+  const [_selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [_userActionLoading, setUserActionLoading] = useState(false);
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -417,7 +408,7 @@ export default function EnhancedAdminDashboard() {
       a.download = `users_export_${new Date().toISOString().split('T')[0]}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
-    } catch (err) {
+    } catch (_err) {
       setError('Erreur lors de l\'export des données');
     }
   }

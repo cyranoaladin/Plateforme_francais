@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Mail, RefreshCw, MoreHorizontal, UserPlus, Ban, Search } from 'lucide-react';
 import {
   Card,
@@ -33,7 +32,6 @@ export function UsersTab({
   users: AdminUser[];
   onReload: () => void;
 }) {
-  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [planFilter, setPlanFilter] = useState<'ALL' | 'FREE' | 'PREMIUM' | 'PRO'>('ALL');
   const [showCreateForm, setShowCreateForm] = useState(false);

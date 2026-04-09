@@ -29,7 +29,7 @@ export async function GET(request: Request) {
       oralSessionsThisMonth,
       correctionsThisMonth,
       tutorQuestionsToday,
-      llmTokensToday,
+      _llmTokensToday,
       ragSearchesToday,
     ] = await Promise.all([
       // Oral sessions this month

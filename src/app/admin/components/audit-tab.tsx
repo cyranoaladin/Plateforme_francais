@@ -78,8 +78,6 @@ export function AuditTab({
     URL.revokeObjectURL(url);
   }
 
-  const uniqueActions = Array.from(new Set(logs.map((l) => l.action)));
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
