@@ -1,26 +1,37 @@
 # Checklist Go-Live — Nexus Réussite EAF
-## Mise à jour : 4 avril 2026 — SHA b618baf
+## Mise à jour : 9 avril 2026 — SHA 4840274
 
 ## Infrastructure
 - [x] TypeScript strict : exit 0
 - [x] Tests unitaires : 1383 passed, 248 fichiers, 0 failed
 - [x] Build production : exit 0
 - [x] Health check : status=ok, isCiReady=True
-- [x] MCP : healthy, 24 tools
+- [x] MCP : healthy, 24 tools (127.0.0.1:3100)
 - [x] PM2 : 3 process online sous user nexus
 - [x] Uploads : chemin unique .data/uploads, symlink standalone OK
 - [x] Ressources : 549 fichiers sur /srv/eaf_ressources
 - [x] Backup cron : /etc/cron.d/nexus-backup configuré
-- [x] DB : 60+ users, 2319+ memory_events
+- [x] DB : 67 users, 2425+ memory_events
 - [x] Aucun JSON store actif en .data/
 - [x] .env absent du tracking Git
+- [x] SMTP : smtp.hostinger.com:587 opérationnel (ajouté 09/04/2026)
 
 ## Sécurité
 - [x] Toutes les routes API retournent 401 sans auth
-- [x] CSRF protégé sur les mutations
-- [x] Rate-limit actif sur /auth/login
+- [x] CSRF protégé sur les mutations (billing, badges, parcours)
+- [x] Rate-limit actif sur /auth/login et /auth/register
 - [x] Credentials demo absents du README public
 - [x] Secrets non exposés dans l'historique Git
+- [x] MCP port 3100 bindé sur 127.0.0.1 uniquement
+
+## Email
+- [x] Inscription → email bienvenue + email vérification (confirmé logs 22:22)
+- [x] Forgot-password → email reset (expire en 1h)
+- [x] Reset réussi → email confirmation "mot de passe modifié"
+- [x] Activation code → email confirmation plan (redeem-code)
+- [x] Admin change plan → email notification élève (fix 09/04/2026)
+- [x] EmailVerificationBanner visible dans dashboard (fix 09/04/2026)
+- [x] Resend-verification : route POST protégée, rate-limited
 
 ## Pédagogie (logique métier EAF)
 - [x] Grammaire : syntaxique uniquement (grep interprétation = 0)
@@ -37,26 +48,32 @@
 - [x] Tests unitaires pédagogie : grammaire, barèmes
 - [x] Tests intégration oral (mocks texteDescriptif)
 - [x] Tests E2E workflows 01-06 créés
-- [ ] Script smoke-test-production.sh exécuté sur le serveur : FAIL=0
+- [x] Script smoke-test-production.sh : PASS=22 | FAIL=0 | WARN=0 (09/04/2026)
 - [ ] Script integration-test-production.sh : FAIL=0
 - [ ] Script pedagogical-test.sh : FAIL=0
 
 ## Fonctionnalités dashboard élève
 - [x] Dashboard : timeline, scores, streak, badges visibles
-- [x] Atelier Écrit : génération + upload + correction IA
+- [x] Atelier Écrit : génération + upload + correction IA (OCR Mistral Pixtral)
 - [x] Atelier Oral : tirage → préparation → passage → bilan
 - [x] Bibliothèque : 549 ressources accessibles
-- [x] Tuteur IA : réponses avec citations RAG
+- [x] Tuteur IA : réponses avec citations RAG (11 937 docs indexés)
 - [x] Carnet de lecture : CRUD + export PDF
 - [x] Quiz adaptatif
-- [x] Gamification : XP + badges
-- [x] Mon Parcours : parcours personnalisé généré
+- [x] Gamification : XP + badges (évalués sur memory events)
+- [x] Mon Parcours : parcours personnalisé généré (LLM orchestrator)
 - [x] Descriptif de lecture : API + UI 4 onglets + conformité
+
+## Crons
+- [x] session-cleanup (GET) : 183 sessions nettoyées — OK
+- [x] revision-reminders (POST) : 43 élèves traités — OK
+- [x] weekly-reports (POST) : 43/43 rapports générés — OK
+- [x] Crons ajoutés à PUBLIC_API_PATHS (fix 09/04/2026 — étaient bloqués à 401)
 
 ## Rôles
 - [x] Enseignant : dashboard + corrections + exports CSV
 - [x] Parent : tableau de bord suivi (minimal)
-- [x] Admin : gestion users + abonnements + métriques
+- [x] Admin : gestion users + abonnements + métriques + audit log
 
 ## Pages légales
 - [x] /cgu → 200
@@ -65,4 +82,5 @@
 - [x] /politique-de-confidentialite → 200
 - [x] /contact → 200
 
-## SCORE : 38/45 — Cible : 45/45 pour go-live commercial
+## SCORE : 43/45 — Cible : 45/45 pour go-live commercial
+### Manquants : integration-test-production.sh + pedagogical-test.sh à exécuter sur serveur
