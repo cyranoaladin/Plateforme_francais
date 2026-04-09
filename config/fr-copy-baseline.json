@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-09T14:14:03.800Z",
+  "generatedAt": "2026-04-09T14:38:57.798Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -8235,353 +8235,395 @@
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 409,
+      "line": 414,
       "column": 17,
       "kind": "jsx-prop",
       "text": "Chargement de ton profil de progression"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 410,
+      "line": 415,
       "column": 23,
       "kind": "jsx-prop",
       "text": "Tes compétences, erreurs récurrentes et badges sont en cours de chargement. Cela ne prend que quelques secondes."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 429,
+      "line": 434,
       "column": 15,
       "kind": "jsx-text",
       "text": "Profil de progression EAF"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 432,
+      "line": 437,
       "column": 28,
       "kind": "jsx-text",
       "text": ", ton profil doit te dire où appuyer, pas seulement où tu en es."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 435,
+      "line": 440,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges déjà acquis."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 441,
+      "line": 446,
       "column": 17,
       "kind": "jsx-text",
       "text": "Niveau moyen"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 444,
+      "line": 449,
       "column": 17,
       "kind": "jsx-text",
       "text": "Point fort"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 447,
+      "line": 452,
       "column": 17,
       "kind": "jsx-text",
       "text": "Axe à retendre"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 450,
+      "line": 455,
       "column": 17,
       "kind": "jsx-text",
       "text": "Mise à jour"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 459,
+      "line": 464,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ouvrir mon parcours"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 466,
+      "line": 471,
       "column": 17,
       "kind": "jsx-text",
       "text": "Débloquer un point précis"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 492,
+      "line": 497,
       "column": 75,
       "kind": "jsx-text",
       "text": "Signal global"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 502,
+      "line": 507,
       "column": 17,
       "kind": "jsx-prop",
       "text": "Impossible de charger certaines données du profil"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 511,
+      "line": 516,
       "column": 98,
       "kind": "jsx-text",
       "text": "Réglages du profil"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 513,
+      "line": 518,
       "column": 15,
       "kind": "jsx-text",
       "text": "Mets à jour les informations qui structurent vraiment ton accompagnement."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 516,
+      "line": 521,
       "column": 15,
       "kind": "jsx-text",
       "text": "Nom affiché, classe, objectif, établissement et contacts de suivi peuvent être modifiés ici sans repasser par l’onboarding."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 520,
+      "line": 525,
       "column": 13,
       "kind": "jsx-text",
       "text": "Mise à jour en direct"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 526,
+      "line": 531,
       "column": 19,
       "kind": "jsx-prop",
       "text": "Nom affiché"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 535,
+      "line": 540,
       "column": 19,
       "kind": "jsx-prop",
       "text": "Classe"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 542,
+      "line": 547,
       "column": 19,
       "kind": "jsx-prop",
       "text": "Objectif visé"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 546,
+      "line": 551,
       "column": 25,
       "kind": "jsx-prop",
       "text": "Ex. 14/20"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 550,
+      "line": 555,
       "column": 19,
       "kind": "jsx-prop",
       "text": "Établissement"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 557,
+      "line": 562,
       "column": 19,
       "kind": "jsx-prop",
       "text": "E-mail parent"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 566,
+      "line": 571,
       "column": 19,
       "kind": "jsx-prop",
       "text": "E-mail enseignant"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 577,
+      "line": 582,
       "column": 76,
       "kind": "jsx-text",
       "text": "Enregistrement sécurisé"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 579,
+      "line": 584,
       "column": 17,
       "kind": "jsx-text",
       "text": "Cette action utilise le même contrôle CSRF que les autres mutations sensibles de la plateforme."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 596,
+      "line": 601,
       "column": 15,
       "kind": "jsx-text",
       "text": "Enregistrer le profil"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 604,
+      "line": 609,
       "column": 96,
       "kind": "jsx-text",
       "text": "Cartographie actuelle"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 606,
+      "line": 611,
       "column": 13,
       "kind": "jsx-text",
       "text": "Quatre axes lisibles, pour éviter une lecture floue de tes progrès."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 636,
+      "line": 641,
       "column": 105,
       "kind": "jsx-text",
       "text": "Axe fort"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 645,
+      "line": 650,
       "column": 105,
       "kind": "jsx-text",
       "text": "Axe prioritaire"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 658,
+      "line": 663,
       "column": 98,
       "kind": "jsx-text",
       "text": "Points de vigilance"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 660,
+      "line": 665,
       "column": 15,
       "kind": "jsx-text",
       "text": "Les erreurs récurrentes doivent rester visibles, pas seulement ressenties."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 666,
+      "line": 671,
       "column": 25,
       "kind": "jsx-prop",
       "text": "Aucune erreur récurrente identifiée"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 667,
+      "line": 672,
       "column": 31,
       "kind": "jsx-prop",
       "text": "Au fil de tes ateliers et évaluations, les points de vigilance récurrents apparaîtront ici pour t’aider à cibler tes prochaines révisions."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 685,
+      "line": 690,
       "column": 43,
       "kind": "jsx-text",
       "text": "occurrences"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 698,
+      "line": 703,
       "column": 104,
       "kind": "jsx-text",
       "text": "72 prochaines heures"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 700,
+      "line": 705,
       "column": 15,
       "kind": "jsx-text",
       "text": "Les prochaines tâches doivent être courtes, claires et immédiatement lançables."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 712,
+      "line": 717,
       "column": 49,
       "kind": "jsx-text",
       "text": "min ·"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 723,
+      "line": 728,
       "column": 67,
       "kind": "jsx-text",
       "text": "Pas encore de tâches planifiées"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 725,
+      "line": 730,
       "column": 21,
       "kind": "jsx-text",
       "text": "Ouvre ton parcours ou lance un atelier pour que les prochaines actions concrètes apparaissent ici."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 736,
+      "line": 741,
       "column": 17,
       "kind": "jsx-text",
       "text": "Voir tout le plan"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 743,
+      "line": 748,
       "column": 17,
       "kind": "jsx-text",
       "text": "Demander une relance"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 753,
+      "line": 758,
       "column": 98,
       "kind": "jsx-text",
       "text": "Badges et traces positives"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 755,
+      "line": 760,
       "column": 15,
       "kind": "jsx-text",
       "text": "Les marqueurs de progression comptent aussi pour soutenir la constance."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 759,
+      "line": 764,
       "column": 45,
       "kind": "jsx-text",
       "text": "badges actifs"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 766,
+      "line": 771,
       "column": 21,
       "kind": "jsx-prop",
       "text": "Tes premiers badges arrivent bientôt"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 767,
+      "line": 772,
       "column": 27,
       "kind": "jsx-prop",
       "text": "Chaque atelier terminé, chaque série de jours actifs et chaque seuil franchi te rapprochent d’un nouveau badge. Continue sur ta lancée !"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 776,
+      "line": 781,
       "column": 19,
       "kind": "jsx-text",
       "text": "Lancer un atelier"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 794,
+      "line": 799,
       "column": 19,
       "kind": "jsx-text",
       "text": "Trace de progression utile : ce badge matérialise une régularité ou un passage de seuil déjà atteint."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 811,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Zone dangereuse"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 814,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Conformément au RGPD (article 17), tu peux demander la suppression définitive de ton compte et de toutes tes données. Cette action est irréversible."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 825,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Supprimer mon compte"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 830,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Confirme la suppression en saisissant ton adresse e-mail :"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 836,
+      "column": 27,
+      "kind": "jsx-prop",
+      "text": "ton-email@exemple.com"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 849,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Annuler"
     },
     {
       "file": "src/app/quiz/page.tsx",
