@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/lib/auth/guard', () => ({
   requireAuthenticatedUser: vi.fn(),
+  requireVerifiedEmail: vi.fn().mockResolvedValue({ errorResponse: null }),
 }));
 vi.mock('@/lib/security/csrf', () => ({
   validateCsrf: vi.fn().mockResolvedValue(null),
