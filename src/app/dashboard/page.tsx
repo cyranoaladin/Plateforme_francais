@@ -655,6 +655,9 @@ export default function Dashboard() {
 
             <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
               <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
+                Voie: <strong>{data.classLevel}</strong>
+              </span>
+              <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
                 {DASHBOARD_COPY.strongPoint} <strong>{data.hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
               </span>
               <span className="hero-chip px-4 py-2 text-[var(--hero-glass-text)]">
@@ -984,6 +987,48 @@ export default function Dashboard() {
         </div>
 
         <div className="space-y-6">
+          {(data.oeuvreChoisieEntretien || data.lecturesCursives.length > 0 || data.selectedOeuvres.length > 0) && (
+            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Mon corpus</p>
+              <h2 className="font-display mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-3xl">
+                Les œuvres qui structurent ton parcours.
+              </h2>
+
+              {data.oeuvreChoisieEntretien && (
+                <div className="mt-5 rounded-[18px] border border-[var(--c-success)]/20 bg-[var(--c-success)]/5 px-4 py-3">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">{"Œuvre principale pour l\u2019entretien"}</p>
+                  <p className="mt-2 text-sm font-semibold text-[var(--c-primary)]">{data.oeuvreChoisieEntretien}</p>
+                </div>
+              )}
+
+              {data.selectedOeuvres.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">{"Œuvres au programme"}</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {data.selectedOeuvres.map((oeuvre) => (
+                      <span key={oeuvre} className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-3 py-1.5 text-xs font-semibold text-[var(--c-primary)]">
+                        {oeuvre}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {data.lecturesCursives.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Lectures cursives</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {data.lecturesCursives.map((lc) => (
+                      <span key={lc} className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-reward)]/30 px-3 py-1.5 text-xs font-semibold text-[var(--text-reward-on-subtle)]">
+                        {lc}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>

@@ -38,6 +38,7 @@ export async function POST(request: Request) {
   const sanitizedData = {
     displayName: sanitizeString(parsed.data.displayName, { maxLength: 100, allowHtml: false }),
     classLevel: sanitizeString(parsed.data.classLevel, { maxLength: 50, allowHtml: false }),
+    voie: parsed.data.voie ?? (parsed.data.classLevel.toLowerCase().includes('techno') ? 'TECHNOLOGIQUE' : 'GENERALE'),
     establishment: parsed.data.establishment
       ? sanitizeString(parsed.data.establishment, { maxLength: 200, allowHtml: false })
       : undefined,
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
     classCode: parsed.data.classCode,
     weakSignals: parsed.data.weakSignals,
     oeuvresEntretien: parsed.data.oeuvresEntretien,
-    lecturesCursives: parsed.data.lecturesCursives,
+    lecturesCursives: parsed.data.lecturesCursives ?? [],
   };
 
   const nextWeak = Array.from(new Set([
@@ -63,6 +64,7 @@ export async function POST(request: Request) {
       ...auth.user.profile,
       displayName: sanitizedData.displayName ?? auth.user.profile?.displayName ?? 'Élève',
       classLevel: sanitizedData.classLevel ?? auth.user.profile?.classLevel ?? 'Première générale',
+      voie: sanitizedData.voie as 'GENERALE' | 'TECHNOLOGIQUE',
       establishment: sanitizedData.establishment ?? auth.user.profile?.establishment,
       eafDate: sanitizedData.eafDate ?? auth.user.profile?.eafDate,
       selectedOeuvres: sanitizedData.selectedOeuvres ?? auth.user.profile?.selectedOeuvres ?? [],

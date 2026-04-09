@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
-import { Button, Card, Input, Select, Surface } from '@/components/ui';
+import { Button, Card, Input, Surface } from '@/components/ui';
 
 const OEUVRES = [
   { id: 'douai', title: 'Cahier de Douai', author: 'Arthur Rimbaud', type: 'Poésie' },
@@ -36,16 +36,16 @@ const OEUVRES = [
   { id: 'sido', title: 'Sido / Les Vrilles de la vigne', author: 'Colette', type: 'Roman' },
 ];
 
-const CLASS_LEVELS = [
-  'Première générale',
-  'Première technologique',
-  'Première STMG',
-  'Première ST2S',
-  'Première STI2D',
-  'Première STL',
-];
+type Voie = 'GENERALE' | 'TECHNOLOGIQUE';
 
-const CLASS_LEVEL_OPTIONS = CLASS_LEVELS.map((level) => ({ value: level, label: level }));
+function getOeuvresForVoie(voie: Voie) {
+  return voie === 'TECHNOLOGIQUE' ? OEUVRES : OEUVRES;
+}
+
+const VOIE_OPTIONS = [
+  { value: 'GENERALE' as const, label: 'Première générale' },
+  { value: 'TECHNOLOGIQUE' as const, label: 'Première technologique' },
+];
 
 const SKILLS = [
   { key: 'comprehension', label: 'Compréhension du texte', icon: BookOpen, color: 'text-[var(--color-amber-300)]' },
@@ -145,7 +145,9 @@ export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [displayName, setDisplayName] = useState('');
-  const [classLevel, setClassLevel] = useState('Première générale');
+  const [voie, setVoie] = useState<Voie>('GENERALE');
+  const [lecturesCursives, setLecturesCursives] = useState<string[]>([]);
+  const [cursiveInput, setCursiveInput] = useState('');
   const [establishment, setEstablishment] = useState('');
   const [eafDate, setEafDate] = useState('');
   const [selectedOeuvres, setSelectedOeuvres] = useState<string[]>([]);
@@ -153,8 +155,6 @@ export default function OnboardingPage() {
   const [oeuvreSearch, setOeuvreSearch] = useState('');
   const [classCode, setClassCode] = useState('');
   const [oeuvresEntretien, setOeuvresEntretien] = useState<string[]>([]);
-  const [lecturesCursives, setLecturesCursives] = useState<string[]>([]);
-  const [cursiveInput, setCursiveInput] = useState('');
   const [welcomeMessage, setWelcomeMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -206,6 +206,8 @@ export default function OnboardingPage() {
     setSelectedOeuvres((prev) => (prev.includes(title) ? prev.filter((item) => item !== title) : [...prev, title]));
   };
 
+  const classLevel = voie === 'TECHNOLOGIQUE' ? 'Première technologique' : 'Première générale';
+
   const saveProfile = useCallback(async () => {
     try {
       console.log('[onboarding] saveProfile payload:', {
@@ -223,11 +225,13 @@ export default function OnboardingPage() {
         json: {
           displayName,
           classLevel,
+          voie,
           establishment: establishment || undefined,
           eafDate,
           selectedOeuvres: allSelectedOeuvres,
           weakSkills: weakSignals, // weakSignals -> weakSkills (schema mismatch)
           classCode: classCode || undefined,
+          lecturesCursives: lecturesCursives.length > 0 ? lecturesCursives : undefined,
         },
       });
       
@@ -250,7 +254,7 @@ export default function OnboardingPage() {
       return false;
     }
     return true;
-  }, [allSelectedOeuvres, classCode, classLevel, displayName, eafDate, establishment, weakSignals]);
+  }, [allSelectedOeuvres, classCode, classLevel, voie, displayName, eafDate, establishment, weakSignals, lecturesCursives]);
 
   const handleNext = async () => {
     setError(null);
@@ -283,6 +287,7 @@ export default function OnboardingPage() {
         json: {
           displayName,
           classLevel,
+          voie,
           establishment: establishment || undefined,
           eafDate,
           selectedOeuvres: allSelectedOeuvres,
@@ -319,7 +324,7 @@ export default function OnboardingPage() {
     if (step > 1) setStep((prev) => (prev - 1) as 1 | 2 | 3);
   };
 
-  const step1Valid = displayName.trim().length > 0 && classLevel.trim().length > 0 && eafDate.length > 0;
+  const step1Valid = displayName.trim().length > 0 && eafDate.length > 0;
   const step2Valid = allSelectedOeuvres.length > 0;
   const canProceed = (step === 1 && step1Valid) || (step === 2 && step2Valid) || step === 3;
   const currentMeta = STEP_META[step];
@@ -460,13 +465,25 @@ export default function OnboardingPage() {
                       className="md:col-span-2"
                     />
 
-                    <Select
-                      label="Classe"
-                      value={classLevel}
-                      onChange={(e) => setClassLevel(e.target.value)}
-                      options={CLASS_LEVEL_OPTIONS}
-                      size="lg"
-                    />
+                    <div>
+                      <p className="mb-2 text-sm font-semibold text-[var(--c-primary)]">Voie</p>
+                      <div className="flex gap-2">
+                        {VOIE_OPTIONS.map((opt) => (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() => { setVoie(opt.value); setSelectedOeuvres([]); setOeuvresEntretien([]); }}
+                            className={`flex-1 rounded-[var(--radius-lg)] border px-4 py-3 text-sm font-semibold transition-all ${
+                              voie === opt.value
+                                ? 'border-[var(--c-success)] bg-[var(--c-success)]/10 text-[var(--c-primary)]'
+                                : 'border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:border-[var(--c-success)]/40'
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
                     <Input
                       id="ob-date"
@@ -504,7 +521,7 @@ export default function OnboardingPage() {
                         <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{displayName.trim() || 'À renseigner'}</p>
                       </div>
                       <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Classe</p>
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Voie</p>
                         <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{classLevel}</p>
                       </div>
                       <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">

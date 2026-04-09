@@ -50,7 +50,6 @@ const LOGIN_COPY = {
     'Connecte-toi avec l’email que ton enfant a renseigné. Lors de la première connexion, utilise le lien reçu par email ou « mot de passe oublié » pour définir ton mot de passe.',
   teacherLoginHint:
     'Connecte-toi avec ton email professionnel. Lors de la première connexion, utilise le lien reçu par email ou « mot de passe oublié » pour définir ton mot de passe.',
-  teacherEmailLabel: 'Email de l’enseignant',
 } as const;
 
 const PROOF_CARDS = [
@@ -230,10 +229,8 @@ function AuthCard() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
   const [isMinor, setIsMinor] = useState(false);
   const [parentEmail, setParentEmail] = useState('');
-  const [teacherEmail, setTeacherEmail] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [loginRole, setLoginRole] = useState<'eleve' | 'parent' | 'enseignant'>('eleve');
   const [showHelp, setShowHelp] = useState(false);
@@ -338,12 +335,10 @@ function AuthCard() {
           password,
           ...(mode === 'register'
             ? {
-                ...(displayName.trim() ? { displayName: displayName.trim() } : {}),
                 acceptedCgu: acceptTerms,
                 cguVersion: '2026-03',
                 isMinor,
                 ...(parentEmail ? { parentEmail } : {}),
-                ...(teacherEmail ? { teacherEmail } : {}),
               }
             : {}),
         },
@@ -505,22 +500,6 @@ function AuthCard() {
         {rateLimitSec !== null && rateLimitSec > 0 ? <div className="mt-5"><RateLimitNotice retryAfterSec={rateLimitSec} /></div> : null}
 
         <form ref={formRef} onSubmit={handleSubmit} className="mt-5 space-y-4">
-          {mode === 'register' ? (
-            <div>
-              <label className="mb-2 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="displayName">
-                Prénom ou nom affiché
-              </label>
-              <input
-                id="displayName"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                autoComplete="given-name"
-                className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
-                placeholder="Ton prénom"
-              />
-            </div>
-          ) : null}
-
           {mode !== 'reset' && (
             <div>
               <label className="mb-2 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="email">
@@ -572,15 +551,34 @@ function AuthCard() {
                 </label>
               </div>
 
-              <div className="rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-4 space-y-4">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[var(--c-reward)]">Facultatif — Liens parent et enseignant</p>
-                <p className="text-xs leading-5 text-[var(--text-muted)]">
-                  Tu peux ajouter les emails de ton parent et/ou de ton enseignant. Ils pourront suivre ta progression sans accéder à tes copies.
-                  {isMinor ? ' (Obligatoire pour les moins de 15 ans.)' : ''}
-                </p>
+              {isMinor && (
+                <div className="rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-4 space-y-4">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--c-reward)]">Consentement parental</p>
+                  <p className="text-xs leading-5 text-[var(--text-muted)]">
+                    Un email sera envoyé à ton parent pour confirmer ton inscription. Obligatoire pour les moins de 15 ans.
+                  </p>
+                  <div>
+                    <label className="mb-1 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="parentEmail">
+                      Email du parent
+                    </label>
+                    <input
+                      id="parentEmail"
+                      type="email"
+                      value={parentEmail}
+                      onChange={(e) => setParentEmail(e.target.value)}
+                      className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                      placeholder="parent@email.com"
+                      required
+                      autoComplete="email"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {!isMinor && (
                 <div>
                   <label className="mb-1 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="parentEmail">
-                    Email du parent
+                    Email du parent <span className="text-xs font-normal text-[var(--text-muted)]">(facultatif)</span>
                   </label>
                   <input
                     id="parentEmail"
@@ -589,25 +587,10 @@ function AuthCard() {
                     onChange={(e) => setParentEmail(e.target.value)}
                     className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                     placeholder="parent@email.com"
-                    required={isMinor}
                     autoComplete="email"
                   />
                 </div>
-                <div>
-                  <label className="mb-1 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="teacherEmail">
-                    {LOGIN_COPY.teacherEmailLabel}
-                  </label>
-                  <input
-                    id="teacherEmail"
-                    type="email"
-                    value={teacherEmail}
-                    onChange={(e) => setTeacherEmail(e.target.value)}
-                    className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
-                    placeholder="enseignant@etablissement.fr"
-                    autoComplete="email"
-                  />
-                </div>
-              </div>
+              )}
             </>
           ) : null}
 

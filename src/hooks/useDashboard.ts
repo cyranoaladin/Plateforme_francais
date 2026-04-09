@@ -17,9 +17,12 @@ type TimelineResponse = {
   profile: {
     displayName: string;
     onboardingCompleted: boolean;
+    classLevel?: string;
+    voie?: 'GENERALE' | 'TECHNOLOGIQUE';
     eafDate?: string;
     selectedOeuvres?: string[];
     oeuvreChoisieEntretien?: string;
+    lecturesCursives?: string[];
   };
   timeline: MemoryEvent[];
   weakSignals: Record<string, number>;
@@ -53,9 +56,12 @@ export type DashboardMetrics = {
   timeline: MemoryEvent[];
   displayName: string;
   onboardingCompleted: boolean;
+  classLevel: string;
+  voie: 'GENERALE' | 'TECHNOLOGIQUE';
   eafDate: string | null;
   selectedOeuvres: string[];
   oeuvreChoisieEntretien: string | null;
+  lecturesCursives: string[];
   countdownDays: number | null;
   countdownEcrit: number | null;
   countdownOral: number | null;
@@ -227,9 +233,12 @@ export function computeDashboardMetricsFromTimeline(
     timeline,
     displayName: data?.profile.displayName ?? 'Élève',
     onboardingCompleted: data?.profile.onboardingCompleted ?? false,
+    classLevel: data?.profile.classLevel ?? 'Première générale',
+    voie: data?.profile.voie ?? 'GENERALE',
     eafDate: data?.profile.eafDate ?? null,
     selectedOeuvres: data?.profile.selectedOeuvres ?? [],
     oeuvreChoisieEntretien: data?.profile.oeuvreChoisieEntretien ?? null,
+    lecturesCursives: data?.profile.lecturesCursives ?? [],
     countdownDays: countdowns.countdownDays,
     countdownEcrit: countdowns.countdownEcrit,
     countdownOral: countdowns.countdownOral,

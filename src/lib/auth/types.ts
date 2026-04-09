@@ -1,6 +1,7 @@
 export type StudentProfile = {
   displayName: string;
   classLevel: string;
+  voie?: 'GENERALE' | 'TECHNOLOGIQUE';
   targetScore: string;
   anneeScolaire?: string;
   establishment?: string;
