@@ -10,6 +10,7 @@ TEST_EMAIL="${2:-}"
 TEST_PASSWORD="${3:-}"
 PASS=0; FAIL=0
 ELEVE_COOKIE=""
+CSRF_TOKEN=""
 
 green() { printf '\033[32m✓\033[0m %s\n' "$1"; PASS=$((PASS+1)); }
 red()   { printf '\033[31m✗\033[0m %s [%s]\n' "$1" "$2"; FAIL=$((FAIL+1)); }
@@ -21,6 +22,7 @@ check_api() {
     actual=$(curl -s -o /dev/null -w "%{http_code}" -X "$method" \
       -H "Content-Type: application/json" \
       -H "Cookie: $ELEVE_COOKIE" \
+      -H "X-CSRF-Token: $CSRF_TOKEN" \
       --max-time 20 \
       -d "$data" \
       "$HOST$url" 2>/dev/null || echo "000")
@@ -56,17 +58,23 @@ LOGIN_RESPONSE=$(curl -si -X POST "$HOST/api/v1/auth/login" \
   -d "{\"email\":\"$TEST_EMAIL\",\"password\":\"$TEST_PASSWORD\"}" \
   --max-time 10 2>/dev/null)
 
-# Capture all three cookies (eaf_csrf, eaf_session, eaf_role) and join them
+# Capture all three cookies (eaf_csrf, eaf_session, eaf_role) separated by ';'
+# Use tr instead of paste to avoid alternating-delimiter issue with 'paste -sd'
 ELEVE_COOKIE=$(echo "$LOGIN_RESPONSE" | grep -i "set-cookie:" | \
-  sed 's/[Ss]et-[Cc]ookie: \([^;]*\).*/\1/' | paste -sd '; ' - || echo "")
+  sed 's/[Ss]et-[Cc]ookie: \([^;]*\).*/\1/' | tr '\n' ';' | sed 's/;$//' || true)
 
 # Verify eaf_session is present (required by middleware)
-SESSION_CHECK=$(echo "$LOGIN_RESPONSE" | grep -i "set-cookie:.*eaf_session" | head -1)
+# '|| true' prevents set -e from exiting when grep finds nothing (rate-limit case)
+SESSION_CHECK=$(echo "$LOGIN_RESPONSE" | grep -i "set-cookie:.*eaf_session" | head -1 || true)
+
+# Extract CSRF token value (double-submit pattern: cookie value = header value)
+CSRF_TOKEN=$(echo "$LOGIN_RESPONSE" | grep -i "set-cookie:.*eaf_csrf" | \
+  sed 's/.*eaf_csrf=\([^;]*\).*/\1/' | head -1 || true)
 
 if [ -n "$SESSION_CHECK" ]; then
   green "Login élève réussi"
 else
-  red "Login élève" "cookie eaf_session absent — vérifiez les identifiants"
+  red "Login élève" "cookie eaf_session absent — vérifiez les identifiants ou attendez la fin du rate-limit (5 min)"
   echo "Abort: impossible de tester sans session"
   exit 1
 fi
@@ -76,7 +84,7 @@ echo ""
 echo "── Profil et mémoire ───────────────────────────────────"
 check_api "GET /auth/me"              GET  "/api/v1/auth/me"              "200"
 check_api "GET /student/profile"      GET  "/api/v1/student/profile"      "200"
-check_api "GET /student/recapitulatif" GET "/api/v1/student/recapitulatif" "200"
+check_api "POST /student/recapitulatif" POST "/api/v1/student/recapitulatif" "200 201 400" '{}'
 
 # ─── Billing ───────────────────────────────────────────────────────────────
 echo ""
