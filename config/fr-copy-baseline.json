@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-09T13:01:33.186Z",
+  "generatedAt": "2026-04-09T13:47:50.098Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -1949,7 +1949,7 @@
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
-      "line": 249,
+      "line": 220,
       "column": 16,
       "kind": "api-message",
       "text": "Une erreur interne est survenue lors de l’inscription. Réessaie dans quelques instants."
@@ -1963,7 +1963,7 @@
     },
     {
       "file": "src/app/api/v1/auth/register/route.ts",
-      "line": 69,
+      "line": 67,
       "column": 39,
       "kind": "api-message",
       "text": "Un compte existe déjà pour cet email."
@@ -2481,7 +2481,7 @@
     },
     {
       "file": "src/app/api/v1/onboarding/complete/route.ts",
-      "line": 77,
+      "line": 79,
       "column": 27,
       "kind": "api-message",
       "text": "Impossible de sauvegarder le profil. Réessaie."
@@ -5575,31 +5575,59 @@
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 791,
-      "column": 23,
+      "line": 1019,
+      "column": 109,
       "kind": "jsx-text",
-      "text": "⚠ Ton descriptif de lecture est incomplet"
+      "text": "Lectures cursives"
+    },
+    {
+      "file": "src/app/dashboard/page.tsx",
+      "line": 658,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Voie:"
     },
     {
       "file": "src/app/dashboard/page.tsx",
       "line": 794,
       "column": 23,
       "kind": "jsx-text",
+      "text": "⚠ Ton descriptif de lecture est incomplet"
+    },
+    {
+      "file": "src/app/dashboard/page.tsx",
+      "line": 797,
+      "column": 23,
+      "kind": "jsx-text",
       "text": "L'atelier oral simule sur des textes génériques. Ajoute tes textes étudiés pour simuler l'épreuve réelle."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 800,
+      "line": 803,
       "column": 23,
       "kind": "jsx-text",
       "text": "Compléter mon descriptif →"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 950,
+      "line": 953,
       "column": 25,
       "kind": "jsx-text",
       "text": "Diagnostic à lancer"
+    },
+    {
+      "file": "src/app/dashboard/page.tsx",
+      "line": 992,
+      "column": 100,
+      "kind": "jsx-text",
+      "text": "Mon corpus"
+    },
+    {
+      "file": "src/app/dashboard/page.tsx",
+      "line": 994,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Les œuvres qui structurent ton parcours."
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
@@ -6233,245 +6261,245 @@
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 181,
+      "line": 180,
       "column": 11,
       "kind": "jsx-text",
       "text": "Espace élève Nexus Réussite"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 185,
+      "line": 184,
       "column": 11,
       "kind": "jsx-text",
       "text": "Ton espace de préparation au Bac de Français commence ici."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 460,
+      "line": 455,
       "column": 13,
       "kind": "jsx-text",
       "text": "Se connecter"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 469,
+      "line": 464,
       "column": 13,
       "kind": "jsx-text",
       "text": "Créer un compte"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 475,
+      "line": 470,
       "column": 103,
       "kind": "jsx-text",
       "text": "Je me connecte en tant que"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 511,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Prénom ou nom affiché"
-    },
-    {
-      "file": "src/app/login/page.tsx",
-      "line": 519,
-      "column": 29,
-      "kind": "jsx-prop",
-      "text": "Ton prénom"
-    },
-    {
-      "file": "src/app/login/page.tsx",
-      "line": 527,
+      "line": 506,
       "column": 17,
       "kind": "jsx-text",
       "text": "Email"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 538,
+      "line": 517,
       "column": 29,
       "kind": "jsx-prop",
       "text": "prenom@exemple.fr"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 545,
+      "line": 524,
       "column": 128,
       "kind": "jsx-prop",
       "text": "Confirmer le nouveau mot de passe"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 549,
+      "line": 528,
       "column": 111,
       "kind": "jsx-prop",
       "text": "Confirmer le mot de passe"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 560,
+      "line": 539,
       "column": 154,
       "kind": "jsx-text",
       "text": "Conditions d’utilisation"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 560,
+      "line": 539,
       "column": 186,
       "kind": "jsx-text",
       "text": "et la"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 560,
+      "line": 539,
       "column": 21,
       "kind": "jsx-text",
       "text": "J’accepte les"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 560,
+      "line": 539,
       "column": 336,
       "kind": "jsx-text",
       "text": "Politique de confidentialité"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 576,
-      "column": 102,
+      "line": 556,
+      "column": 104,
       "kind": "jsx-text",
-      "text": "Facultatif — Liens parent et enseignant"
+      "text": "Consentement parental"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 578,
-      "column": 19,
+      "line": 558,
+      "column": 21,
       "kind": "jsx-text",
-      "text": "Tu peux ajouter les emails de ton parent et/ou de ton enseignant. Ils pourront suivre ta progression sans accéder à tes copies."
+      "text": "Un email sera envoyé à ton parent pour confirmer ton inscription. Obligatoire pour les moins de 15 ans."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 583,
+      "line": 562,
+      "column": 23,
+      "kind": "jsx-text",
+      "text": "Email du parent"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 570,
+      "column": 35,
+      "kind": "jsx-prop",
+      "text": "parent@email.com"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 581,
+      "column": 100,
+      "kind": "jsx-text",
+      "text": "(facultatif)"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 581,
       "column": 21,
       "kind": "jsx-text",
       "text": "Email du parent"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 591,
+      "line": 589,
       "column": 33,
       "kind": "jsx-prop",
       "text": "parent@email.com"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 606,
-      "column": 33,
-      "kind": "jsx-prop",
-      "text": "enseignant@etablissement.fr"
-    },
-    {
-      "file": "src/app/login/page.tsx",
-      "line": 656,
+      "line": 639,
       "column": 15,
       "kind": "jsx-text",
       "text": "Mot de passe oublié ?"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 664,
+      "line": 647,
       "column": 17,
       "kind": "jsx-text",
       "text": "Problème de connexion ?"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 678,
+      "line": 661,
       "column": 15,
       "kind": "jsx-text",
       "text": "Retour à la connexion"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 689,
+      "line": 672,
       "column": 19,
       "kind": "jsx-text",
       "text": "Contacte-nous sur WhatsApp"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 691,
+      "line": 674,
       "column": 22,
       "kind": "jsx-text",
       "text": "pour une réinitialisation rapide."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 700,
+      "line": 683,
       "column": 17,
       "kind": "jsx-text",
       "text": "Après inscription, tu configures tes œuvres et ton niveau en quelques minutes, puis tu accèdes directement à tes premiers ateliers."
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 708,
+      "line": 691,
       "column": 13,
       "kind": "jsx-text",
       "text": "Accueil"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 712,
+      "line": 695,
       "column": 13,
       "kind": "jsx-text",
       "text": "Tarifs"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 716,
+      "line": 699,
       "column": 13,
       "kind": "jsx-text",
       "text": "FAQ"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 720,
+      "line": 703,
       "column": 13,
       "kind": "jsx-text",
       "text": "Mentions légales"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 741,
+      "line": 724,
       "column": 15,
       "kind": "jsx-text",
       "text": "Espace sécurisé"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 746,
+      "line": 729,
       "column": 15,
       "kind": "jsx-text",
       "text": "Retour accueil"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 749,
+      "line": 732,
       "column": 15,
       "kind": "jsx-text",
       "text": "Voir les tarifs"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 755,
+      "line": 738,
       "column": 15,
       "kind": "jsx-text",
       "text": "Démarrer gratuitement"
     },
     {
       "file": "src/app/login/page.tsx",
-      "line": 89,
+      "line": 88,
       "column": 9,
       "kind": "jsx-text",
       "text": "Trop de tentatives. Réessaie dans"
@@ -6968,280 +6996,280 @@
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 339,
+      "line": 344,
       "column": 15,
       "kind": "jsx-text",
       "text": "Configuration du parcours"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 344,
+      "line": 349,
       "column": 15,
       "kind": "jsx-text",
       "text": "Revoir l’accueil"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 348,
+      "line": 353,
       "column": 15,
       "kind": "jsx-text",
       "text": "Environ 3 minutes"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 358,
+      "line": 363,
       "column": 17,
       "kind": "jsx-text",
       "text": "Mise en route"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 362,
+      "line": 367,
       "column": 17,
       "kind": "jsx-text",
       "text": "Nous réglons la plateforme autour de ton vrai contexte."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 366,
+      "line": 371,
       "column": 17,
       "kind": "jsx-text",
       "text": "L’objectif n’est pas de remplir un profil pour la forme. L’objectif est de caler les premiers ateliers sur tes œuvres, ton rythme, tes points d’appui et les attendus officiels dès la première connexion."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 383,
+      "line": 388,
       "column": 113,
       "kind": "jsx-text",
       "text": "Ce que Nexus a déjà compris"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 388,
+      "line": 393,
       "column": 63,
       "kind": "jsx-text",
       "text": "Profil"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 395,
+      "line": 400,
       "column": 63,
       "kind": "jsx-text",
       "text": "Corpus"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 406,
+      "line": 411,
       "column": 63,
       "kind": "jsx-text",
       "text": "Priorités"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 419,
+      "line": 424,
       "column": 21,
       "kind": "jsx-text",
       "text": "Les informations saisies ici servent à cadrer les premières recommandations, les ressources mobilisées et la progression visible. Elles restent modifiables ensuite dans le profil."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 453,
+      "line": 458,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Nom affiché"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 456,
+      "line": 461,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Comment veux-tu apparaître dans la plateforme ?"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 464,
-      "column": 29,
-      "kind": "jsx-prop",
-      "text": "Classe"
+      "line": 469,
+      "column": 89,
+      "kind": "jsx-text",
+      "text": "Voie"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 473,
+      "line": 490,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Date EAF"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 482,
+      "line": 499,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Établissement (facultatif)"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 485,
+      "line": 502,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Nom de ton lycée"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 491,
+      "line": 508,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Code classe enseignant (facultatif)"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 494,
+      "line": 511,
       "column": 35,
       "kind": "jsx-prop",
       "text": "Fourni par ton enseignant, sinon laisse vide"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 500,
+      "line": 517,
       "column": 111,
       "kind": "jsx-text",
       "text": "Prévisualisation"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 503,
+      "line": 520,
       "column": 105,
       "kind": "jsx-text",
       "text": "Nom"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 507,
+      "line": 524,
       "column": 105,
       "kind": "jsx-text",
-      "text": "Classe"
+      "text": "Voie"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 511,
+      "line": 528,
       "column": 105,
       "kind": "jsx-text",
       "text": "Échéance"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 524,
+      "line": 541,
       "column": 33,
       "kind": "jsx-prop",
       "text": "Rechercher une œuvre, un auteur, un objet d’étude..."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 531,
+      "line": 548,
       "column": 113,
       "kind": "jsx-text",
       "text": "Sélection en cours"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 575,
+      "line": 592,
       "column": 27,
       "kind": "jsx-prop",
       "text": "Œuvre absente de la liste"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 578,
+      "line": 595,
       "column": 34,
       "kind": "jsx-prop",
       "text": "Saisis exactement l’œuvre donnée par ton professeur"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 616,
+      "line": 633,
       "column": 192,
       "kind": "jsx-text",
       "text": "Principale"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 626,
+      "line": 643,
       "column": 84,
       "kind": "jsx-text",
       "text": "Lectures cursives pour l&apos;entretien"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 627,
+      "line": 644,
       "column": 76,
       "kind": "jsx-text",
       "text": "Ajoute tes lectures cursives personnelles (jusqu&apos;à 10). Elles seront mobilisables pour la 2e partie de l&apos;oral."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 640,
+      "line": 657,
       "column": 39,
       "kind": "jsx-prop",
       "text": "Ex : L'Étranger — Albert Camus"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 654,
+      "line": 671,
       "column": 27,
       "kind": "jsx-text",
       "text": "Ajouter"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 667,
+      "line": 684,
       "column": 33,
       "kind": "jsx-text",
       "text": "Retirer"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 693,
+      "line": 710,
       "column": 79,
       "kind": "jsx-text",
       "text": "Réglage initial pour prioriser les prochains ateliers."
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 711,
+      "line": 728,
       "column": 35,
       "kind": "jsx-text",
       "text": "0 — Pas vu"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 716,
+      "line": 733,
       "column": 35,
       "kind": "jsx-text",
       "text": "5 — Solide"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 724,
+      "line": 741,
       "column": 111,
       "kind": "jsx-text",
       "text": "Priorisation détectée"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 745,
+      "line": 762,
       "column": 19,
       "kind": "jsx-text",
       "text": "Retour"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 748,
+      "line": 765,
       "column": 67,
       "kind": "jsx-text",
       "text": "Étape"
     },
     {
       "file": "src/app/onboarding/page.tsx",
-      "line": 748,
+      "line": 765,
       "column": 80,
       "kind": "jsx-text",
       "text": "sur 3"
