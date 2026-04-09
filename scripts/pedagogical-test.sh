@@ -23,7 +23,7 @@ echo "── Barèmes officiels ────────────────
 
 # 1. Vérifier que le barème commentaire n'a pas intro/conclusion comme critère
 if [ -d "$BUILD_DIR" ]; then
-  if grep -r "Introduction.*pts\|Conclusion.*pts" "$BUILD_DIR/" 2>/dev/null | grep -iv "history\|introd.*text\|node_modules" | head -3 | grep -q .; then
+  if grep -rl --include="*.js" "Introduction.*pts\|Conclusion.*pts" "$BUILD_DIR/" 2>/dev/null | grep -iv "history\|introd.*text\|node_modules" | grep -q .; then
     red "Introduction/Conclusion comme critère autonome dans le build" "à corriger"
   else
     green "Pas de critère 'Introduction (Xpts)' dans le build"
@@ -36,9 +36,8 @@ fi
 echo ""
 echo "── Grammaire sans interprétation ─────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  # Check that the grammar prompt contains the prohibition text
-  # Simpler pattern avoids encoding issues with accented chars in compiled output
-  if grep -r "pas vocation" "$BUILD_DIR/" 2>/dev/null | head -1 | grep -q .; then
+  # Use -rl (files-with-matches) to avoid binary file stdout suppression
+  if grep -rl "pas vocation" "$BUILD_DIR/" 2>/dev/null | grep -q .; then
     green "Pas d'interprétation dans la grammaire (build OK)"
   else
     red "Interprétation dans la grammaire toujours dans le build" "à corriger"
@@ -72,7 +71,7 @@ fi
 echo ""
 echo "── Référence Note de Service ─────────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  NOTE_FOUND=$(grep -r "2019-042" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules" | wc -l)
+  NOTE_FOUND=$(grep -rl "2019-042" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules" | wc -l)
   if [ "$NOTE_FOUND" -gt 0 ]; then
     green "Référence Note de Service 2019-042 présente dans le build"
   else
@@ -86,8 +85,8 @@ fi
 echo ""
 echo "── Anti-triche ─────────────────────────────────────────"
 if [ -d "$BUILD_DIR" ]; then
-  # Use ANTI-TRICHE marker which is reliably present and ASCII-safe
-  if grep -r "ANTI-TRICHE" "$BUILD_DIR/" 2>/dev/null | grep -iv "node_modules" | head -1 | grep -q .; then
+  # Use -rl (files-with-matches) to avoid binary file stdout suppression
+  if grep -rl "ANTI-TRICHE" "$BUILD_DIR/" 2>/dev/null | grep -q .; then
     green "Guardrail anti-triche 'ANTI-TRICHE' présent dans le build"
   else
     red "Guardrail anti-triche" "'ANTI-TRICHE' absent du build"
