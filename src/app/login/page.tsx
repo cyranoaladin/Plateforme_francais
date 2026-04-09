@@ -263,6 +263,11 @@ function AuthCard() {
     if (verified === 'true') {
       setSuccessMessage('Ton adresse email a été vérifiée avec succès. Tu peux te connecter.');
     }
+    // Show feedback after account deletion
+    const deleted = searchParams.get('deleted');
+    if (deleted === '1') {
+      setSuccessMessage('Ton compte et toutes tes données ont été supprimés. Tu peux créer un nouveau compte si tu le souhaites.');
+    }
     // Show feedback when verification token is expired or invalid
     const errorParam = searchParams.get('error');
     if (errorParam === 'token-expired') {
