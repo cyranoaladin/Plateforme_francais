@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getAuthenticatedUser } from '@/lib/auth/session';
+import { EmailVerificationBanner } from '@/components/ui/EmailVerificationBanner';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,12 @@ export default async function DashboardLayout({
     if (!auth.user.profile?.onboardingCompleted) {
       redirect('/onboarding');
     }
-    return <>{children}</>;
+    return (
+      <>
+        <EmailVerificationBanner emailVerified={!!auth.user.emailVerified} />
+        {children}
+      </>
+    );
   }
 
   if (auth.user.role === 'admin') {

@@ -4,6 +4,7 @@ import { validateCsrf } from '@/lib/security/csrf';
 import { prisma } from '@/lib/db/client';
 import { normalizePlanId } from '@nexus-eaf/shared-billing';
 import { logAdminAction, getClientIp } from '@/lib/admin/audit';
+import { sendSubscriptionConfirmationEmail } from '@/lib/email/service';
 import { logger } from '@/lib/logger';
 
 export async function PATCH(request: Request) {
@@ -58,6 +59,22 @@ export async function PATCH(request: Request) {
     });
 
     logAdminAction({ adminId: auth.user.id, action: 'user.plan-change', targetType: 'user', targetId: userId, details: { plan: normalizedPlan }, ip: getClientIp(request) });
+
+    // Notify user by email (non-blocking)
+    prisma.user.findUnique({ where: { id: userId }, select: { email: true, profile: { select: { displayName: true } } } })
+      .then((user) => {
+        if (!user) return;
+        const firstName = (user.profile?.displayName ?? '').split(/\s+/)[0] || '';
+        return sendSubscriptionConfirmationEmail({
+          user: { firstName, email: user.email },
+          plan: normalizedPlan,
+          transactionId: `ADMIN-${Date.now()}`,
+          startDate: new Date(),
+          nextBillingDate: subscription.currentPeriodEnd,
+        });
+      })
+      .then((r) => { if (r && !r.success) logger.warn({ userId, error: r.error }, 'admin.plan_change.email_failed'); })
+      .catch((err) => logger.error({ err, userId }, 'admin.plan_change.email_error'));
 
     return NextResponse.json({
       success: true,
