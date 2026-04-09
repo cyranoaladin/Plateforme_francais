@@ -121,7 +121,12 @@ describe('GET /api/v1/cron/session-cleanup - Timing-safe auth', () => {
     expect(body.ok).toBe(true);
     expect(body.deletedSessions).toBe(5);
     expect(mockPrisma.session.deleteMany).toHaveBeenCalledWith({
-      where: { expiresAt: { lt: expect.any(Date) } },
+      where: {
+        OR: [
+          { expiresAt: { lt: expect.any(Date) } },
+          { lastSeenAt: { lt: expect.any(Date) } },
+        ],
+      },
     });
   });
 

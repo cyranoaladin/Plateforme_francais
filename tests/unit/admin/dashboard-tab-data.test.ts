@@ -8,6 +8,9 @@ describe('admin dashboard tab data requirements', () => {
       stats: false,
       users: true,
       codes: false,
+      sessions: false,
+      activity: false,
+      audit: false,
     });
   });
 });

@@ -14,6 +14,10 @@ vi.mock('@/lib/auth/session', () => ({
   getAuthenticatedUser: getAuthenticatedUserMock,
 }));
 
+vi.mock('next/headers', () => ({
+  headers: vi.fn().mockResolvedValue(new Map([['x-next-pathname', '/admin']])),
+}));
+
 describe('role-protected layouts', () => {
   beforeEach(() => {
     redirectMock.mockClear();
@@ -80,7 +84,7 @@ describe('role-protected layouts', () => {
   it('routes each role to the correct main dashboard', async () => {
     const DashboardLayout = (await import('@/app/dashboard/layout')).default;
 
-    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'eleve' } });
+    getAuthenticatedUserMock.mockResolvedValueOnce({ user: { role: 'eleve', profile: { onboardingCompleted: true } } });
     const studentResult = await DashboardLayout({ children: 'ok' });
     expect(studentResult).toBeTruthy();
     expect(redirectMock).not.toHaveBeenCalled();

@@ -12,6 +12,24 @@ vi.mock('@/lib/security/rate-limit', () => ({
   checkRateLimit: vi.fn().mockResolvedValue({ allowed: true, retryAfter: 0 }),
 }));
 
+vi.mock('@/lib/billing/redeem', () => ({
+  hashCode: vi.fn().mockReturnValue('hashed'),
+  normalizeCode: vi.fn((c: string) => c),
+}));
+
+vi.mock('@/lib/admin/audit', () => ({
+  logAdminAction: vi.fn(),
+  getClientIp: vi.fn().mockReturnValue('127.0.0.1'),
+}));
+
+vi.mock('@/lib/logger', () => ({
+  logger: { info: vi.fn(), error: vi.fn(), warn: vi.fn() },
+}));
+
+vi.mock('@/lib/email/service', () => ({
+  sendSubscriptionConfirmationEmail: vi.fn().mockResolvedValue({ success: true }),
+}));
+
 vi.mock('@/lib/db/client', () => ({
   prisma: {
     activationCode: {
@@ -26,6 +44,9 @@ vi.mock('@/lib/db/client', () => ({
     subscription: {
       update: vi.fn(),
       create: vi.fn(),
+    },
+    studentProfile: {
+      findUnique: vi.fn().mockResolvedValue({ displayName: 'Test' }),
     },
   },
 }));
