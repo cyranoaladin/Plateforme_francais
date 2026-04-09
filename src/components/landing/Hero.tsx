@@ -26,7 +26,7 @@ const HERO_COPY = {
     correctionValue: '3 min',
     postureValue: 'Anti-copie',
     quickBody: 'Grille orale officielle directement exploitable.',
-    correctionBody: 'Retour immédiat sur l\u2019écrit et les axes de progression.',
+    correctionBody: 'Premier feedback IA sur l\u2019écrit et les axes de progression.',
     postureBody: 'Le système guide, questionne et entraîne sans faire à ta place.',
   },
   previewMeta: {
@@ -41,7 +41,7 @@ const HERO_COPY = {
 
 const TRUST_ITEMS = [
   'Pas de carte bancaire',
-  'Freemium illimité en temps',
+  'Freemium sans limite de durée',
   'Sources BO 2026 officielles',
 ];
 

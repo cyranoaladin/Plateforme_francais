@@ -22,7 +22,7 @@ packages/
   mcp-server/           # Serveur MCP autonome (24 outils pour agents IA)
 prisma/
   schema.prisma         # Schéma de la base de données
-  migrations/           # 19 migrations Prisma
+  migrations/           # 31 migrations Prisma
 emails/                 # Templates React Email (vérification, reset, etc.)
 scripts/                # Scripts d'exploitation (deploy.sh, etc.)
 ```

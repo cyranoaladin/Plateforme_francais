@@ -28,7 +28,7 @@ export function SocialProofStrip() {
         <div className="mb-6 flex justify-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border-success)] bg-success-subtle px-4 py-1.5 text-sm font-medium text-success">
             <StarIcon />
-            98% de mention Assez Bien ou plus
+            98% de mention AB ou plus (session 2025*)
           </span>
         </div>
 

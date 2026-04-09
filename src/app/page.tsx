@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description:
     "IA entraînée sur le BO 2026. Simulation d'oral /2 /8 /2 /8, correction en 3 min, anti-copie. Freemium gratuit.",
   openGraph: {
-    title: "Nexus Réussite — De 10 à 17+ à l'oral EAF",
+    title: "Nexus Réussite — Prépare l'oral et l'écrit EAF avec l'IA",
     description: "L'IA pédagogique entraînée sur le BO 2026 et les rapports de jury. Oral simulé, correction en 3 min, anti-copie.",
     url: BASE_URL,
     siteName: 'Nexus Réussite',

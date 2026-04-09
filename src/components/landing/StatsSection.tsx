@@ -20,16 +20,16 @@ const STATS: Stat[] = [
     value: 4.2,
     unit: 'pts',
     prefix: '+',
-    label: "à l'oral en 4 semaines",
-    sub: 'Vs 0 point gagné avec ChatGPT seul',
+    label: "de progression moyenne à l'oral",
+    sub: 'Observé sur 4 semaines d\u2019entraînement régulier*',
     decimals: 1,
   },
   {
     value: 3,
     unit: 'min',
     prefix: '',
-    label: 'pour corriger une copie',
-    sub: 'Contre 48h chez un prof particulier',
+    label: 'pour un premier retour IA',
+    sub: 'Feedback initial automatisé, hors relecture enseignant',
     decimals: 0,
   },
   {
@@ -37,7 +37,7 @@ const STATS: Stat[] = [
     unit: '%',
     prefix: '',
     label: 'de mention (AB et plus)',
-    sub: 'Élèves Premium, session 2025',
+    sub: 'Élèves Premium actifs, session 2025 (n=47)*',
     decimals: 0,
   },
 ];
@@ -107,6 +107,9 @@ export function StatsSection() {
             <AnimatedNumber key={stat.label} stat={stat} />
           ))}
         </div>
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          *Résultats observés sur un échantillon d&apos;élèves Premium actifs. Les résultats individuels peuvent varier selon l&apos;assiduité et le niveau initial.
+        </p>
       </div>
     </section>
   );
