@@ -54,6 +54,7 @@ function toStudentProfile(profile: PrismaStudentProfileRecord): StudentProfile {
     badges: profile.badges,
     preferredObjects: profile.preferredObjects,
     weakSkills: profile.weakSkills,
+    voie: (profile.voie as 'GENERALE' | 'TECHNOLOGIQUE') ?? 'GENERALE',
     oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien ?? undefined,
     lecturesCursives: profile.lecturesCursives ?? [],
     parentEmail: profile.parentEmail ?? undefined,
@@ -83,6 +84,7 @@ function sanitizeProfileForRole(profile: StudentProfile, role: UserRole): Studen
     badges: profile.badges,
     preferredObjects: profile.preferredObjects,
     weakSkills: profile.weakSkills,
+    voie: profile.voie,
     oeuvreChoisieEntretien: profile.oeuvreChoisieEntretien,
     lecturesCursives: profile.lecturesCursives,
   };
@@ -175,6 +177,7 @@ export async function createUser(input: {
     preferredObjects: input.profile.preferredObjects,
     weakSkills: input.profile.weakSkills,
     oeuvreChoisieEntretien: input.profile.oeuvreChoisieEntretien,
+    ...(input.profile.voie ? { voie: input.profile.voie } : {}),
     lecturesCursives: input.profile.lecturesCursives ?? [],
     parentEmail: input.profile.parentEmail ?? undefined,
     parentConsentToken: input.profile.parentConsentToken ?? undefined,
