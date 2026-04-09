@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-09T14:41:41.206Z",
+  "generatedAt": "2026-04-09T15:49:39.855Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -9377,9 +9377,9 @@
     {
       "file": "src/components/landing/Footer.tsx",
       "line": 130,
-      "column": 19,
+      "column": 83,
       "kind": "jsx-text",
-      "text": "+216 99 19 28 29 (WhatsApp)"
+      "text": "(WhatsApp)"
     },
     {
       "file": "src/components/landing/Footer.tsx",
