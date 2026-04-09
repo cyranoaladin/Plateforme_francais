@@ -147,7 +147,7 @@ fi
 echo ""
 echo "── Crons ───────────────────────────────────────────────"
 if [ -f /etc/cron.d/nexus-backup ]; then
-  if grep -q backup "$_" 2>/dev/null; then
+  if grep -q backup /etc/cron.d/nexus-backup 2>/dev/null; then
     green "Cron backup uploads configuré"
   else
     warn "Cron backup présent mais contenu inattendu"

@@ -189,6 +189,8 @@ ssh "$SSH_TARGET" "cd $APP_DIR && npx prisma generate --schema=prisma/schema.pri
 ssh "$SSH_TARGET" "cd $APP_DIR && BUILD_GIT_SHA=$LOCAL_GIT_SHA BUILD_TIME=$BUILD_TIME NODE_ENV=production npm run build"
 ssh "$SSH_TARGET" "cd $APP_DIR && if [ -d .next/standalone ]; then cp -f .git_sha .build_time .next/standalone/; fi"
 ssh "$SSH_TARGET" "cd $APP_DIR && mkdir -p .next/standalone/.data && rm -rf .next/standalone/.data/uploads && ln -sfn $APP_DIR/.data/uploads .next/standalone/.data/uploads"
+# Sync server chunks missing from standalone (Turbopack sometimes omits action chunks)
+ssh "$SSH_TARGET" "cd $APP_DIR && rsync -a --ignore-existing .next/server/chunks/ .next/standalone/.next/server/chunks/ 2>/dev/null && echo '  ✅ Server chunks synced to standalone'"
 
 # --- 6. Build MCP server ---
 echo "[6/8] Build MCP server..."
