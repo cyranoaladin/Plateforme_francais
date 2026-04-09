@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-09T18:50:58.955Z",
+  "generatedAt": "2026-04-09T20:32:42.440Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -1816,21 +1816,21 @@
     },
     {
       "file": "src/app/api/v1/admin/users/plan/route.ts",
-      "line": 25,
+      "line": 26,
       "column": 18,
       "kind": "api-message",
       "text": "userId et plan sont requis"
     },
     {
       "file": "src/app/api/v1/admin/users/plan/route.ts",
-      "line": 34,
+      "line": 35,
       "column": 18,
       "kind": "api-message",
       "text": "Plan invalide"
     },
     {
       "file": "src/app/api/v1/admin/users/plan/route.ts",
-      "line": 71,
+      "line": 88,
       "column": 16,
       "kind": "api-message",
       "text": "Erreur lors de la mise à jour du plan"
