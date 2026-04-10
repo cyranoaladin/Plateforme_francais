@@ -96,7 +96,7 @@ export function PaymentsTab({
           <select
             value={selectedUserId}
             onChange={(e) => setSelectedUserId(e.target.value)}
-            className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
+            className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg bg-[var(--bg-surface)] text-[var(--text-heading)] [&>option]:bg-black [&>option]:text-white"
           >
             <option value="">Selectionner un utilisateur</option>
             {localUsers.map((user) => (
