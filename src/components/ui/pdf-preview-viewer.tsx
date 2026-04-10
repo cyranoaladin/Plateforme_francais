@@ -723,7 +723,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
                 onChange={(event) => setSearchQuery(event.target.value)}
                 type="search"
                 placeholder="Rechercher un auteur, une notion, une citation..."
-                className="w-full rounded-[18px] border border-[var(--border-success)] bg-[var(--bg-success)] py-3 pl-11 pr-4 text-sm text-[var(--c-primary)] outline-none transition placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:bg-[var(--bg-surface)]"
+                className="w-full rounded-[18px] border border-[var(--border-success)] bg-[var(--bg-success)] py-3 pl-11 pr-4 text-sm text-[var(--c-primary)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--c-success)] focus:bg-[var(--bg-surface)]"
               />
             </label>
             <button

@@ -336,7 +336,7 @@ function TuteurPageContent() {
                 <label htmlFor="tuteur-input" className="sr-only">Message au tuteur de parcours</label>
                 <input
                   id="tuteur-input"
-                  className="w-full rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] px-5 py-4 pr-16 text-sm text-[var(--c-primary)] shadow-[var(--shadow-sm)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-placeholder)] focus:border-[var(--c-success)] focus:bg-[var(--bg-surface)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                  className="w-full rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] px-5 py-4 pr-16 text-sm text-[var(--c-primary)] shadow-[var(--shadow-sm)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-muted)] focus:border-[var(--c-success)] focus:bg-[var(--bg-surface)] focus:ring-2 focus:ring-[var(--c-success)]/20"
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
                   onKeyDown={handleKeyDown}

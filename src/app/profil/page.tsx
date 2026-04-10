@@ -588,7 +588,7 @@ export default function ProfilPage() {
                   className={`text-sm font-medium ${
                     saveFeedback.tone === 'success'
                       ? 'text-[var(--c-success)]'
-                      : 'text-[var(--error)]'
+                      : 'text-[var(--c-accent)]'
                   }`}
                   role={saveFeedback.tone === 'success' ? 'status' : 'alert'}
                   aria-live={saveFeedback.tone === 'success' ? 'polite' : 'assertive'}

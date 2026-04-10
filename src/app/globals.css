@@ -58,8 +58,10 @@ html { overflow-x: clip; }
   --whatsapp: #25d366;
   --whatsapp-hover: #1fba59;
 
-  /* ─── Compatibility aliases (runtime consumers still depend on them) ── */
-  --text-placeholder: var(--text-muted);
+  /* ─── Compatibility aliases (deprecated, use tokens directly) ── */
+  --text-placeholder: var(--text-muted);  /* @deprecated: use --text-muted */
+  --c-error: var(--c-accent);  /* @deprecated: use --c-accent directly */
+  --c-warning: var(--c-reward);  /* @deprecated: use --c-reward */
   --text-chart: var(--text-secondary);
   --text-chart-muted: var(--text-muted);
   --text-icon: var(--text-muted);
@@ -133,8 +135,10 @@ html { overflow-x: clip; }
   --border: var(--border-default);
   --input: var(--bg-surface-secondary);
 
-  /* ─── Compatibility aliases (dark) ─────────────────── */
-  --text-placeholder: var(--text-muted);
+  /* ─── Compatibility aliases (dark, deprecated) ─────────────────── */
+  --text-placeholder: var(--text-muted);  /* @deprecated */
+  --c-error: var(--c-accent);  /* @deprecated */
+  --c-warning: var(--c-reward);  /* @deprecated */
   --text-chart: var(--text-secondary);
   --text-chart-muted: var(--text-muted);
   --text-icon: var(--text-muted);

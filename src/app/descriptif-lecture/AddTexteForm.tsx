@@ -186,7 +186,7 @@ export function AddTexteForm({ selectedObjet, onSaved, onCancel }: AddTexteFormP
       </div>
 
       {error ? (
-        <p className="mt-4 text-sm text-[var(--error)]">{error}</p>
+        <p className="mt-4 text-sm text-[var(--c-accent)]">{error}</p>
       ) : null}
 
       <div className="mt-5 flex flex-wrap items-center justify-end gap-3">

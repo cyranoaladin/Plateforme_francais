@@ -1,10 +1,5 @@
 import * as React from 'react';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: Parameters<typeof clsx>) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '@/lib/utils';
 
 // ---------------------------------------------------------------------------
 // Variant & size maps
@@ -16,9 +11,9 @@ const variantStyles = {
   success:
     'bg-[var(--bg-success)] text-[var(--c-success)] border border-[var(--c-success)]/20',
   warning:
-    'bg-[var(--bg-reward)] text-[var(--warning)] border border-[var(--warning)]/20',
+    'bg-[var(--bg-reward)] text-[var(--c-reward)] border border-[var(--c-reward)]/20',
   error:
-    'bg-[var(--c-accent-subtle)] text-[var(--error)] border border-[var(--error)]/20',
+    'bg-[var(--c-accent-subtle)] text-[var(--c-accent)] border border-[var(--c-accent)]/20',
   info:
     'bg-[var(--info-bg)] text-[var(--info)] border border-[var(--info)]/20',
   premium:

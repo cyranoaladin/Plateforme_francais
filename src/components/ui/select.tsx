@@ -2,12 +2,7 @@
 
 import * as React from 'react';
 import { ChevronDown } from 'lucide-react';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: Parameters<typeof clsx>) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '@/lib/utils';
 
 // ---------------------------------------------------------------------------
 // Size map
@@ -93,7 +88,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
               'focus:outline-none focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20 focus:ring-offset-0',
               'disabled:opacity-60 disabled:cursor-not-allowed',
               error
-                ? 'border-[var(--error)] focus:border-[var(--error)] focus:ring-[var(--error)]/20'
+                ? 'border-[var(--c-accent)] focus:border-[var(--c-accent)] focus:ring-[var(--c-accent)]/20'
                 : 'border-[var(--border-strong)]',
               sizeStyles[size],
             )}
@@ -126,7 +121,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         </div>
 
         {error && (
-          <p id={`${selectId}-error`} className="text-sm text-[var(--error)]" role="alert">
+          <p id={`${selectId}-error`} className="text-sm text-[var(--c-accent)]" role="alert">
             {error}
           </p>
         )}

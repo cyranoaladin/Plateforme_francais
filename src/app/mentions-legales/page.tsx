@@ -188,11 +188,11 @@ export default function MentionsLegalesPage() {
             <ArrowLeft className="h-4 w-4" />
             Retour à l{'\u2019'}accueil
           </Link>
-          <span className="text-[var(--text-placeholder)]">·</span>
+          <span className="text-[var(--text-muted)]">·</span>
           <Link href="/cgu" className="text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
             CGU détaillées
           </Link>
-          <span className="text-[var(--text-placeholder)]">·</span>
+          <span className="text-[var(--text-muted)]">·</span>
           <Link href="/politique-de-confidentialite" className="text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
             Politique de confidentialité
           </Link>

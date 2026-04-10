@@ -29,7 +29,7 @@ export function PassageSubmitBar({
         Soumettre — {currentStepLabel}
       </Button>
       <div className="flex flex-col gap-1">
-        <p className="text-[10px] font-medium uppercase tracking-widest text-[var(--text-placeholder)]">
+        <p className="text-[10px] font-medium uppercase tracking-widest text-[var(--text-muted)]">
           {useServerVoice ? 'Mode vocal serveur' : 'Mode vocal navigateur'}
         </p>
         <p className="text-xs text-[var(--text-muted)]">

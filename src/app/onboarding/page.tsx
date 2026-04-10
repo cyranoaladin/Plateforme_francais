@@ -625,7 +625,7 @@ export default function OnboardingPage() {
                                 className="accent-[var(--c-success)]"
                               />
                               <span className="text-sm font-medium text-[var(--c-primary)]">{title}</span>
-                              {authorName && <span className="text-xs text-[var(--text-placeholder)]">{authorName}</span>}
+                              {authorName && <span className="text-xs text-[var(--text-muted)]">{authorName}</span>}
                               {isPrimary && <span className="ml-auto rounded-full bg-[var(--c-success)]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--c-success)]">Principale</span>}
                             </label>
                           );

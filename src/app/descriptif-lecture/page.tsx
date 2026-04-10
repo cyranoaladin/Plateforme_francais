@@ -152,7 +152,7 @@ export default function DescriptifLecturePage() {
           <p className="mt-4 text-sm text-emerald-700">{message}</p>
         ) : null}
         {error ? (
-          <p className="mt-4 text-sm text-[var(--error)]">{error}</p>
+          <p className="mt-4 text-sm text-[var(--c-accent)]">{error}</p>
         ) : null}
       </div>
 

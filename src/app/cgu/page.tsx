@@ -113,11 +113,11 @@ export default function CguPage() {
             <ArrowLeft className="h-4 w-4" />
             Retour à l{'\u2019'}accueil
           </Link>
-          <span className="text-[var(--text-placeholder)]">·</span>
+          <span className="text-[var(--text-muted)]">·</span>
           <Link href="/mentions-legales" className="text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
             Mentions légales
           </Link>
-          <span className="text-[var(--text-placeholder)]">·</span>
+          <span className="text-[var(--text-muted)]">·</span>
           <Link href="/politique-de-confidentialite" className="text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
             Politique de confidentialité
           </Link>

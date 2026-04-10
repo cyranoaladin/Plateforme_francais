@@ -2,12 +2,7 @@
 
 import * as React from 'react';
 import { Loader2 } from 'lucide-react';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: Parameters<typeof clsx>) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '@/lib/utils';
 
 // ---------------------------------------------------------------------------
 // Variant & size maps
@@ -21,7 +16,7 @@ const variantStyles = {
   ghost:
     'bg-transparent text-[var(--c-primary)] hover:bg-[var(--bg-surface-secondary)]',
   danger:
-    'bg-[var(--error)] text-[var(--text-on-accent)] hover:brightness-90',
+    'bg-[var(--c-accent)] text-[var(--text-on-accent)] hover:brightness-90',
   gold:
     'bg-gradient-to-r from-[var(--c-reward)] to-[var(--color-amber-300)] text-[var(--text-reward-on-subtle)] font-semibold hover:brightness-110 hover:-translate-y-[1px] hover:shadow-[var(--shadow-md)]',
   teal:

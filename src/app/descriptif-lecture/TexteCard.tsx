@@ -178,7 +178,7 @@ export function TexteCard({ texte, onDelete, onRefresh }: TexteCardProps) {
           />
 
           {error ? (
-            <p className="text-sm text-[var(--error)]">{error}</p>
+            <p className="text-sm text-[var(--c-accent)]">{error}</p>
           ) : null}
         </div>
       ) : null}
