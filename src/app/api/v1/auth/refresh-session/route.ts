@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession, updateSessionActivity } from '@/lib/auth/session';
+import { validateCsrf } from '@/lib/security/csrf';
 import { logger } from '@/lib/logger';
 
 /**
@@ -7,8 +8,17 @@ import { logger } from '@/lib/logger';
  * Rafraîchit la session active de l'utilisateur.
  * Prolonge la durée de validité de la session sans nécessiter de re-connexion.
  */
-export async function POST(_request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
+    // Vérification CSRF pour les routes mutatives avec cookie de session
+    const csrfError = await validateCsrf(request);
+    if (csrfError) {
+      return NextResponse.json(
+        { error: 'Token CSRF invalide ou manquant' },
+        { status: 403 }
+      );
+    }
+
     const session = await getSession();
     
     if (!session?.userId) {
