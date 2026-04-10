@@ -14,13 +14,14 @@ test.describe('05 — Espace Enseignant', () => {
   });
 
   test('5.2 - API dashboard répond 200', async ({ page }) => {
-    const res = await page.context().request.get('/api/v1/enseignant/dashboard');
+    const res = await page.request.get('/api/v1/enseignant/dashboard');
     expect(res.status()).toBe(200);
   });
 
   test('5.3 - Élève non enseignant ne peut pas accéder', async ({ page }) => {
     await loginAs(page, 'eleve');
     await page.goto('/enseignant');
-    await expect(page).not.toHaveURL(/enseignant(?!.*\/(login|register))/);
+    // Le layout redirige un élève vers /dashboard (cf. enseignant/layout.tsx:26)
+    await expect(page).toHaveURL(/\/dashboard/);
   });
 });
