@@ -4,6 +4,7 @@ import { logger } from '@/lib/logger';
 import { runCorrectionWorker } from '@/lib/epreuves/worker';
 
 export const CORRECTION_QUEUE_NAME = 'correction-jobs';
+export const DEAD_LETTER_QUEUE_NAME = 'correction-jobs-dlq';
 
 export class CorrectionQueueUnavailableError extends Error {
   readonly code = 'CORRECTION_QUEUE_UNAVAILABLE';
@@ -28,6 +29,7 @@ const redisUrl = process.env.REDIS_URL ?? 'redis://localhost:6379';
 
 let connection: IORedis | null = null;
 let queue: Queue | null = null;
+let deadLetterQueue: Queue | null = null;
 
 /* ─── Circuit breaker state ─── */
 let circuitOpen = false;
@@ -132,6 +134,22 @@ function getQueue(): Queue {
   return queue;
 }
 
+export function getDeadLetterQueue(): Queue {
+  if (deadLetterQueue) {
+    return deadLetterQueue;
+  }
+
+  deadLetterQueue = new Queue<CorrectionJobPayload>(DEAD_LETTER_QUEUE_NAME, {
+    connection: getConnection(),
+    defaultJobOptions: {
+      removeOnComplete: 10,
+      removeOnFail: 50,
+    },
+  });
+
+  return deadLetterQueue;
+}
+
 export async function enqueueCorrectionJob(payload: CorrectionJobPayload): Promise<void> {
   const isProduction = process.env.NODE_ENV === 'production';
   try {
@@ -155,6 +173,19 @@ export async function enqueueCorrectionJob(payload: CorrectionJobPayload): Promi
   }
 }
 
+export async function moveToDeadLetter(job: CorrectionJobPayload, error: Error): Promise<void> {
+  try {
+    await getDeadLetterQueue().add('failed-correction', {
+      ...job,
+      errorMessage: error.message,
+      failedAt: new Date().toISOString(),
+    } as CorrectionJobPayload & { errorMessage: string; failedAt: string });
+    logger.info({ copieId: job.copieId, error: error.message }, 'worker.moved_to_dlq');
+  } catch (dlqError) {
+    logger.error({ copieId: job.copieId, error: dlqError }, 'worker.dlq_failed');
+  }
+}
+
 export async function getCorrectionQueueLength(): Promise<number> {
   try {
     const q = getQueue();
@@ -166,6 +197,19 @@ export async function getCorrectionQueueLength(): Promise<number> {
     ]);
 
     return waiting + active + delayed + prioritized;
+  } catch {
+    return 0;
+  }
+}
+
+export async function getDeadLetterQueueLength(): Promise<number> {
+  try {
+    const q = getDeadLetterQueue();
+    const [waiting, failed] = await Promise.all([
+      q.getWaitingCount(),
+      q.getFailedCount(),
+    ]);
+    return waiting + failed;
   } catch {
     return 0;
   }

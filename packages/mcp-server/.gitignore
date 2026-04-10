@@ -2,3 +2,5 @@
 dist/
 node_modules/
 *.log
+*.log
+mcp_*.log

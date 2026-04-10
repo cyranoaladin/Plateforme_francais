@@ -76,3 +76,14 @@ export async function deleteSessionByToken(token: string) {
   await assertDatabaseAvailable('Base de données indisponible pour les sessions.');
   await prisma.session.deleteMany({ where: { token } });
 }
+
+export async function updateSessionExpiresAt(token: string, newExpiresAt: Date) {
+  await assertDatabaseAvailable('Base de données indisponible pour les sessions.');
+  await prisma.session.update({
+    where: { token },
+    data: { 
+      expiresAt: newExpiresAt,
+      lastSeenAt: new Date(),
+    },
+  });
+}

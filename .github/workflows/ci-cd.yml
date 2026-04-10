@@ -25,10 +25,11 @@ env:
   NODE_VERSION: "20"
   # Coverage thresholds raised 2026-03-31 to reflect the current floor (~35%)
   # Next target: +2% per sprint until lines/statements reach 45% and branches 35%
-  COVERAGE_GATE_LINES: "39"
-  COVERAGE_GATE_FUNCTIONS: "37"
-  COVERAGE_GATE_BRANCHES: "32"
-  COVERAGE_GATE_STATEMENTS: "39"
+  # Coverage thresholds raised 2026-04-10 (audit) - target: 55% minimum
+  COVERAGE_GATE_LINES: "55"
+  COVERAGE_GATE_FUNCTIONS: "50"
+  COVERAGE_GATE_BRANCHES: "45"
+  COVERAGE_GATE_STATEMENTS: "55"
   DATABASE_URL: "postgresql://test:test@localhost:5432/eaf_test"
   DIRECT_URL: "postgresql://test:test@localhost:5432/eaf_test"
   REDIS_URL: "redis://localhost:6379"

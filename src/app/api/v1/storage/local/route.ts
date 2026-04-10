@@ -6,8 +6,21 @@ import { getUploadsBaseDir } from '@/lib/storage/paths';
 
 const LOCAL_UPLOADS_DIR = getUploadsBaseDir();
 
+// Mode storage actif - si S3 est configuré, le stockage local est désactivé
+const STORAGE_PROVIDER = process.env.STORAGE_PROVIDER || 'local';
+const IS_S3_MODE = STORAGE_PROVIDER === 's3';
+
 export async function GET(request: NextRequest) {
-  if (process.env.NODE_ENV === 'production') {
+  // En production avec S3, cette route est complètement désactivée
+  if (IS_S3_MODE) {
+    return NextResponse.json(
+      { error: 'Stockage S3 actif. Utilisez les URLs S3 présignées.' },
+      { status: 404 }
+    );
+  }
+
+  // En production sans S3, accès restreint
+  if (process.env.NODE_ENV === 'production' && !IS_S3_MODE) {
     return NextResponse.json({ error: 'Non disponible en production.' }, { status: 403 });
   }
 

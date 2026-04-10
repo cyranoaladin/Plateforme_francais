@@ -8,6 +8,7 @@ import {
   enforceMaxSessions,
   findSessionByToken,
   touchSession,
+  updateSessionExpiresAt,
 } from '@/lib/db/repositories/sessionRepo';
 import { findUserById } from '@/lib/db/repositories/userRepo';
 import { createMemoryEvent, createSession, isSessionExpired } from '@/lib/memory/store';
@@ -82,6 +83,21 @@ export async function getSessionTokenFromCookies(): Promise<string | null> {
   return token ?? null;
 }
 
+export async function getSession() {
+  const token = await getSessionTokenFromCookies();
+  if (!token) {
+    return null;
+  }
+
+  const session = await findSessionByToken(token);
+  if (!session || isSessionExpired(session)) {
+    return null;
+  }
+
+  await touchSession(token);
+  return session;
+}
+
 export async function getAuthenticatedUser() {
   const token = await getSessionTokenFromCookies();
   if (!token) {
@@ -126,4 +142,22 @@ export async function createUserSession(userId: string) {
     }),
   );
   return session;
+}
+
+/**
+ * Prolonge la session active de 14 jours supplémentaires.
+ * À appeler lors d'une activité utilisateur pour éviter la déconnexion.
+ */
+export async function updateSessionActivity(userId: string): Promise<void> {
+  const token = await getSessionTokenFromCookies();
+  if (!token) return;
+
+  const session = await findSessionByToken(token);
+  if (!session || session.userId !== userId) return;
+
+  // Prolonger de 14 jours
+  const newExpiresAt = new Date();
+  newExpiresAt.setDate(newExpiresAt.getDate() + 14);
+
+  await updateSessionExpiresAt(token, newExpiresAt);
 }
