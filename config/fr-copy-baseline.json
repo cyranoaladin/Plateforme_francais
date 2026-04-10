@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-10T07:49:27.166Z",
+  "generatedAt": "2026-04-10T08:11:44.003Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -451,115 +451,115 @@
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 100,
+      "line": 101,
+      "column": 30,
+      "kind": "jsx-text",
+      "text": "Selectionner un utilisateur"
+    },
+    {
+      "file": "src/app/admin/components/payments-tab.tsx",
+      "line": 112,
       "column": 93,
       "kind": "jsx-text",
       "text": "Plan"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 111,
+      "line": 123,
       "column": 39,
       "kind": "jsx-text",
       "text": "Premium (99 TND/mois)"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 112,
+      "line": 124,
       "column": 41,
       "kind": "jsx-text",
       "text": "Masterium (129 TND/mois)"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 117,
+      "line": 129,
       "column": 63,
       "kind": "jsx-text",
       "text": "Montant (millimes)"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 125,
+      "line": 137,
       "column": 61,
       "kind": "jsx-text",
       "text": "TND"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 132,
+      "line": 144,
       "column": 63,
       "kind": "jsx-text",
       "text": "Methode de paiement"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 140,
+      "line": 152,
       "column": 40,
       "kind": "jsx-text",
       "text": "Virement bancaire"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 141,
+      "line": 153,
       "column": 39,
       "kind": "jsx-text",
       "text": "Especes"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 142,
+      "line": 154,
       "column": 37,
       "kind": "jsx-text",
       "text": "Autre"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 147,
+      "line": 159,
       "column": 63,
       "kind": "jsx-text",
       "text": "Reference *"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 152,
+      "line": 164,
       "column": 27,
       "kind": "jsx-prop",
       "text": "REF-2026-001"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 158,
+      "line": 170,
       "column": 61,
       "kind": "jsx-text",
       "text": "Notes (optionnel)"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 164,
+      "line": 176,
       "column": 25,
       "kind": "jsx-prop",
       "text": "Informations complementaires..."
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 73,
+      "line": 85,
       "column": 46,
       "kind": "jsx-text",
       "text": "Valider un paiement manuel"
     },
     {
       "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 83,
+      "line": 95,
       "column": 61,
       "kind": "jsx-text",
       "text": "Utilisateur"
-    },
-    {
-      "file": "src/app/admin/components/payments-tab.tsx",
-      "line": 89,
-      "column": 30,
-      "kind": "jsx-text",
-      "text": "Selectionner un utilisateur"
     },
     {
       "file": "src/app/admin/components/sessions-tab.tsx",
