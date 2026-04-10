@@ -7,7 +7,7 @@ import { logger } from '@/lib/logger';
  * Rafraîchit la session active de l'utilisateur.
  * Prolonge la durée de validité de la session sans nécessiter de re-connexion.
  */
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const session = await getSession();
     

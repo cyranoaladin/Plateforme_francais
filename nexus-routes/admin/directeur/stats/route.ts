@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session || !['ADMIN', 'DIRECTEUR'].includes(session.user?.role ?? '')) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });

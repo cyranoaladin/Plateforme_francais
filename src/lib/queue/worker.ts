@@ -1,5 +1,5 @@
 import { Worker, Job } from 'bullmq';
-import { CORRECTION_QUEUE_NAME, getWorkerRedisClient, getDeadLetterQueue, type CorrectionJobPayload, DEAD_LETTER_QUEUE_NAME } from './correction-queue';
+import { CORRECTION_QUEUE_NAME, getWorkerRedisClient, getDeadLetterQueue, type CorrectionJobPayload } from './correction-queue';
 import { processCorrection } from '@/lib/epreuves/worker';
 import { logger } from '@/lib/logger';
 import { prisma } from '@/lib/db/client';
