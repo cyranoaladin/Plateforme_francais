@@ -19,13 +19,13 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
-      const data = await apiFetch<{ user: { role: string } }>('/api/v1/auth/login', {
+      const data = await apiFetch<{ ok: boolean; role: string }>('/api/v1/auth/login', {
         method: 'POST',
         json: { email: email.trim().toLowerCase(), password },
         redirectOnUnauthorized: false,
       });
 
-      if (data.user.role !== 'admin') {
+      if (data.role !== 'admin') {
         setError('Ce portail est reserve aux administrateurs.');
         setLoading(false);
         return;
