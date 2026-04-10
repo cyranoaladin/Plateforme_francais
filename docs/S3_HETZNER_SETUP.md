@@ -1,85 +1,111 @@
-# Guide de configuration S3 Hetzner Object Storage — EAF Production
+# Configuration S3 Hetzner Object Storage
 
-## Prerequis
+Ce document décrit la configuration du stockage S3 pour la production EAF.
 
-Le code `S3StorageProvider` est deja implemente dans `src/lib/storage/provider.ts`.
-Il suffit de configurer les credentials dans `.env` production.
+## Prérequis
 
-## 1. Creer le bucket Hetzner
+- Compte Hetzner Cloud (https://console.hetzner.cloud)
+- Projet créé dans Hetzner Cloud
 
-Dans la console Hetzner Cloud (https://console.hetzner.cloud) :
+## Étape 1 : Créer le bucket
 
-1. Aller dans "Object Storage" > "Create Bucket"
-2. Nom du bucket : `nexus-eaf-uploads`
-3. Region : `nbg1` (Nuremberg) — meme region que le VPS
-4. Visibilite : **Private** (copies d'eleves confidentielles)
-5. Generer des credentials S3 : "Generate credentials" > noter Access Key + Secret Key
+1. Se connecter à https://console.hetzner.cloud
+2. Naviguer vers "Object Storage"
+3. Cliquer sur "Create Bucket"
+4. Configurer :
+   - **Name** : `nexus-eaf-uploads`
+   - **Region** : `nbg1` (Nuremberg)
+   - **Visibility** : **Private** (important pour la sécurité)
 
-## 2. Configurer le .env EAF production
+## Étape 2 : Générer les credentials
 
-Sur le serveur, dans `/opt/eaf_platform/.env` (NE PAS commiter) :
+1. Dans Object Storage, aller sur l'onglet "Access Keys"
+2. Cliquer sur "Generate credentials"
+3. Noter :
+   - **Access Key ID**
+   - **Secret Access Key** (ne sera affiché qu'une seule fois)
+
+## Étape 3 : Configurer le .env de production
+
+Sur le serveur de production, éditer le fichier `.env` :
 
 ```env
-# Storage S3 Hetzner
+# Storage Configuration
 STORAGE_PROVIDER=s3
-S3_BUCKET=nexus-eaf-uploads
+S3_BUCKET_NAME=nexus-eaf-uploads
 S3_REGION=eu-central-1
 S3_ENDPOINT=https://nbg1.your-objectstorage.com
-S3_ACCESS_KEY_ID=<votre_access_key_hetzner>
-S3_SECRET_ACCESS_KEY=<votre_secret_key_hetzner>
+S3_ACCESS_KEY_ID=<votre_access_key_id>
+S3_SECRET_ACCESS_KEY=<votre_secret_access_key>
 S3_PUBLIC_URL=
 ```
 
-## 3. Test de connectivite
+⚠️ **Ne jamais commiter ces credentials dans Git !**
+
+## Étape 4 : Tester la connexion
 
 ```bash
 cd /opt/eaf_platform
 node -e "
-const { S3Client, ListBucketsCommand } = require('@aws-sdk/client-s3');
-const client = new S3Client({
+const { S3Client, HeadBucketCommand } = require('@aws-sdk/client-s3');
+require('dotenv').config();
+const c = new S3Client({
   region: process.env.S3_REGION,
   endpoint: process.env.S3_ENDPOINT,
-  credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  credentials: { 
+    accessKeyId: process.env.S3_ACCESS_KEY_ID, 
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY 
   },
   forcePathStyle: true,
 });
-client.send(new ListBucketsCommand({}))
-  .then(r => console.log('OK:', r.Buckets?.map(b => b.Name)))
-  .catch(e => console.error('ERREUR:', e.message));
+c.send(new HeadBucketCommand({ Bucket: process.env.S3_BUCKET_NAME }))
+  .then(() => console.log('✅ Bucket S3 accessible'))
+  .catch(e => console.error('❌', e.message));
 "
 ```
 
-## 4. Redemarrer l'application
+## Étape 5 : Redémarrer les services
 
 ```bash
-sudo -u nexus env HOME=/opt/nexus PM2_HOME=/opt/nexus/.pm2 pm2 reload eaf-nextjs-blue
-sudo -u nexus env HOME=/opt/nexus PM2_HOME=/opt/nexus/.pm2 pm2 logs eaf-nextjs-blue --lines 20
+pm2 reload ecosystem.config.cjs --only eaf-nextjs-blue
+pm2 restart eaf-worker
 ```
 
-Verifier qu'aucune erreur S3 n'apparait au demarrage.
-
-## 5. Migration des fichiers locaux existants (si applicable)
+## Étape 6 : Vérifier le health check
 
 ```bash
-find /opt/eaf_platform/.data/uploads -type f 2>/dev/null | wc -l
+curl -sf https://eaf.nexusreussite.academy/api/v1/health | python3 -m json.tool
 ```
 
-Si des fichiers existent, les migrer avec :
+Le champ `storage` doit indiquer `provider: s3`.
+
+## Migration des fichiers existants
+
+Si des fichiers existent encore en local :
 
 ```bash
+# Vérifier s'il reste des fichiers locaux
+find /opt/eaf_platform/.data/uploads -type f | wc -l
+
+# Si > 0, exécuter le script de migration
 npx tsx scripts/migrate-uploads-to-s3.ts
 ```
 
-## Variables d'environnement requises
+## Sécurité
 
-| Variable | Description | Exemple |
-|----------|-------------|---------|
-| `STORAGE_PROVIDER` | `local` ou `s3` | `s3` |
-| `S3_BUCKET` | Nom du bucket | `nexus-eaf-uploads` |
-| `S3_REGION` | Region AWS/Hetzner | `eu-central-1` |
-| `S3_ENDPOINT` | Endpoint S3-compatible | `https://nbg1.your-objectstorage.com` |
-| `S3_ACCESS_KEY_ID` | Cle d'acces | (secret) |
-| `S3_SECRET_ACCESS_KEY` | Cle secrete | (secret) |
-| `S3_PUBLIC_URL` | URL publique CDN (optionnel) | (vide pour URLs signees) |
+- Le bucket est en **private** : les fichiers ne sont pas accessibles publiquement
+- Les URLs présignées sont utilisées pour l'accès temporaire
+- Les credentials sont stockés uniquement dans le `.env` du serveur
+- La rotation des credentials est recommandée tous les 90 jours
+
+## Dépannage
+
+### Erreur "Bucket not found"
+Vérifier que le endpoint correspond bien à la région du bucket :
+- Nuremberg (nbg1) : `https://nbg1.your-objectstorage.com`
+
+### Erreur "Invalid credentials"
+Vérifier que les credentials n'ont pas de caractères spéciaux mal échappés dans le `.env`.
+
+### Erreur "Access Denied"
+Vérifier que la clé d'accès a les permissions nécessaires sur le bucket.

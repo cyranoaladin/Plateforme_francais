@@ -8,9 +8,7 @@ Dernière mise à jour : 25 février 2026
 3. Utiliser le bouton œil pour afficher/masquer le mot de passe.
 4. En cas d'inscription, terminer l'onboarding (`/onboarding`).
 
-Compte démo :
-- Email : `jean@eaf.local`
-- Mot de passe : `demo1234`
+Compte démo : disponible sur demande — contacter l'équipe Nexus Réussite EAF
 
 ## 2. Onboarding (3 étapes)
 ## Étape 1 - Qui es-tu ?
