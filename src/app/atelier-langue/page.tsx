@@ -14,7 +14,7 @@ import {
   Type,
 } from 'lucide-react';
 import { useTrackInteraction } from '@/components/tracking/tracking-provider';
-import { Button, Select, StateNotice, Surface, Textarea } from '@/components/ui';
+import { Button, StateNotice, Textarea } from '@/components/ui';
 import { buildLangueExerciseSeries } from '@/lib/langue/exercise-bank';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
@@ -79,7 +79,7 @@ const METHOD_MARKERS = [
 
 const LANGUE_COPY = {
   heroBody:
-    'Nexus compose des phrases-cibles à partir de la banque interne, recentre la terminologie du programme et t\'oblige à nommer le fait de langue puis à préciser sa fonction syntaxique.',
+    "Nexus compose des phrases-cibles à partir de la banque interne, recentre la terminologie du programme et t'oblige à nommer le fait de langue puis à préciser sa fonction syntaxique.",
   answerTitle: 'Reste syntaxique, précis, complet en 2-3 phrases',
 } as const;
 
@@ -149,10 +149,6 @@ export default function AtelierLangue() {
     return `${feedback.score}/${feedback.max}`;
   }, [feedback]);
   const feedbackDescriptionId = feedback ? 'atelier-langue-feedback' : undefined;
-  const themeOptions = THEME_OPTIONS.map((option) => ({
-    value: option.value,
-    label: option.label,
-  }));
 
   const handleSubmit = async () => {
     if (!currentExercise) return;
@@ -214,32 +210,69 @@ export default function AtelierLangue() {
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
-        <div className="absolute inset-y-0 right-[-8%] hidden w-[38%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
-        <div className="absolute left-[-4%] top-[-22%] h-40 w-40 rounded-full bg-[rgba(216,163,99,0.15)] blur-3xl" />
+      {/* Hero - Gradient bleu-nuit */}
+      <section
+        className="relative overflow-hidden rounded-2xl px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10"
+        style={{
+          background: 'linear-gradient(135deg, #0d1a35 0%, #111c30 60%, #0f1629 100%)',
+          border: '1px solid rgba(123, 142, 255, 0.15)',
+        }}
+      >
+        {/* Glow effects */}
+        <div
+          className="absolute -right-[5%] top-1/2 hidden h-[60%] w-[30%] -translate-y-1/2 rounded-full blur-3xl lg:block"
+          style={{ background: 'radial-gradient(circle at center, rgba(123, 142, 255, 0.12), transparent 70%)' }}
+        />
+        <div
+          className="absolute -left-[3%] -top-[15%] h-36 w-36 rounded-full blur-3xl"
+          style={{ background: 'radial-gradient(circle at center, rgba(255, 181, 71, 0.12), transparent 60%)' }}
+        />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
-            <div className="hero-kicker">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em]"
+              style={{
+                background: 'rgba(26, 213, 160, 0.12)',
+                color: 'var(--eaf-teal)',
+              }}
+            >
               <Type className="h-4 w-4" />
               Atelier langue
             </div>
-            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+            <h1
+              className="mt-5 max-w-4xl text-4xl leading-tight text-white md:text-[44px]"
+              style={{ fontFamily: 'var(--font-heading, Fraunces, serif)', letterSpacing: '-1.5px' }}
+            >
               Un entraînement court pour verrouiller les 2 points de grammaire qui font basculer une prestation orale.
             </h1>
-            <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/70 md:text-base">
               {LANGUE_COPY.heroBody}
             </p>
           </div>
 
+          {/* Stats */}
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
             {[
-              { label: 'Série', value: `${safeCompletedCount}/${exercises.length || 5}` },
-              { label: 'Axe actif', value: activeTheme.eyebrow },
-              { label: 'Dernière note', value: scoreLabel },
+              { label: 'Série', value: `${safeCompletedCount}/${exercises.length || 5}`, color: 'gold' as const },
+              { label: 'Axe actif', value: activeTheme.eyebrow, color: 'indigo' as const },
+              { label: 'Dernière note', value: scoreLabel, color: feedback ? 'teal' : ('fg3' as const) },
             ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] px-4 py-4">
-                <p className="ui-stat-label text-[var(--hero-kicker-text)]">{item.label}</p>
+              <div
+                key={item.label}
+                className="rounded-xl px-4 py-4"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  backdropFilter: 'blur(8px)',
+                }}
+              >
+                <p
+                  className="text-[11px] font-semibold uppercase tracking-[0.2em]"
+                  style={{ color: item.color === 'fg3' ? 'var(--eaf-fg3)' : `var(--eaf-${item.color})` }}
+                >
+                  {item.label}
+                </p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
@@ -248,104 +281,225 @@ export default function AtelierLangue() {
       </section>
 
       {loadError && (
-        <StateNotice title="Série locale chargée" description={loadError} variant="warning" />
+        <div
+          className="rounded-xl border px-4 py-3 text-sm"
+          style={{
+            background: 'var(--eaf-bg2)',
+            borderColor: 'var(--eaf-gold)/30',
+            color: 'var(--eaf-gold)',
+          }}
+        >
+          {loadError}
+        </div>
       )}
 
       <div className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
-        <aside className="space-y-6">
-          <Surface tone="default" padding="md">
+        {/* Sidebar */}
+        <aside className="space-y-4">
+          {/* Série de travail */}
+          <section
+            className="rounded-xl p-5"
+            style={{
+              background: 'var(--eaf-bg2)',
+              border: '1px solid rgba(123, 142, 255, 0.12)',
+            }}
+          >
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
-                <Sparkles className="h-5 w-5" />
+              <div
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+                style={{ background: 'var(--eaf-indigo)/10', color: 'var(--eaf-indigo)' }}
+              >
+                <Sparkles className="h-5 w-5" style={{ color: 'var(--eaf-indigo)' }} />
               </div>
               <div>
-                <p className="ui-kicker text-[var(--c-reward)]">Série de travail</p>
-                <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-indigo)]">
+                  Série de travail
+                </p>
+                <h2
+                  className="mt-2 text-3xl leading-tight text-[var(--eaf-fg0)]"
+                  style={{ fontFamily: 'var(--font-heading, Fraunces, serif)', letterSpacing: '-1px' }}
+                >
                   Régler la séance
                 </h2>
               </div>
             </div>
 
-            <Select
-              id="langue-theme"
-              label="Axe du programme"
-              value={theme}
-              onChange={(event) => setTheme(event.target.value as ThemeKey)}
-              options={themeOptions}
-              disabled={isLoading}
-            />
+            {/* Select Axe du programme */}
+            <div className="mt-5">
+              <label
+                htmlFor="langue-theme"
+                className="mb-1.5 block text-sm font-medium text-[var(--eaf-fg2)]"
+              >
+                Axe du programme
+              </label>
+              <select
+                id="langue-theme"
+                value={theme}
+                onChange={(event) => setTheme(event.target.value as ThemeKey)}
+                disabled={isLoading}
+                className="w-full appearance-none rounded-lg border px-3 py-3 text-sm outline-none transition-all focus:border-[var(--eaf-indigo)] focus:ring-2 focus:ring-[var(--eaf-indigo)]/20 disabled:cursor-not-allowed disabled:opacity-60"
+                style={{
+                  borderColor: 'rgba(123, 142, 255, 0.2)',
+                  background: 'var(--eaf-bg1)',
+                  color: 'var(--eaf-fg0)',
+                }}
+              >
+                {THEME_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-            <Surface tone="subtle" padding="sm" className="mt-4">
-              <p className="ui-kicker text-[var(--c-reward)]">{activeTheme.eyebrow}</p>
-              <p className="mt-2 text-sm font-semibold text-[var(--c-primary)]">{activeTheme.label}</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{activeTheme.description}</p>
-            </Surface>
+            {/* Card ROTATION COMPLÈTE */}
+            <div
+              className="mt-4 rounded-lg p-4"
+              style={{
+                background: 'var(--eaf-bg1)',
+                borderLeft: '3px solid var(--eaf-gold)',
+                borderTopRightRadius: '10px',
+                borderBottomRightRadius: '10px',
+              }}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--eaf-gold)]">
+                {activeTheme.eyebrow}
+              </p>
+              <p className="mt-1 text-sm font-semibold text-[var(--eaf-fg0)]">{activeTheme.label}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--eaf-fg2)]">{activeTheme.description}</p>
+            </div>
 
-            <Button
+            {/* Bouton Composer */}
+            <button
               onClick={() => void loadExercises(theme)}
               disabled={isLoading}
-              variant="primary"
-              size="md"
-              fullWidth
-              icon={<RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />}
-              className="mt-5"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-medium transition-all hover:border-[var(--eaf-indigo)]/30 hover:bg-[var(--eaf-indigo)]/5 disabled:opacity-50"
+              style={{
+                borderColor: 'rgba(123, 142, 255, 0.2)',
+                background: 'var(--eaf-bg1)',
+                color: 'var(--eaf-fg1)',
+              }}
             >
+              <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
               {isLoading ? 'Génération...' : 'Composer une nouvelle série'}
-            </Button>
-          </Surface>
+            </button>
+          </section>
 
-          <Surface tone="primary" padding="md">
+          {/* Méthode attendue */}
+          <section
+            className="rounded-xl p-5"
+            style={{
+              background: 'var(--eaf-bg2)',
+              border: '1px solid rgba(123, 142, 255, 0.15)',
+            }}
+          >
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/10 text-[var(--c-primary)]">
-                <Target className="h-5 w-5" />
+              <div
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+                style={{ background: 'var(--eaf-indigo)/10', color: 'var(--eaf-indigo)' }}
+              >
+                <Target className="h-5 w-5" style={{ color: 'var(--eaf-indigo)' }} />
               </div>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Méthode attendue</p>
-                <h2 className="mt-2 text-lg font-semibold text-[var(--c-primary)]">Ce que l’examinateur veut entendre</h2>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-indigo)]">
+                  Méthode attendue
+                </p>
+                <h2 className="mt-2 text-lg font-semibold text-[var(--eaf-indigo)]">
+                  Ce que l'examinateur veut entendre
+                </h2>
               </div>
             </div>
-            <div className="mt-4 space-y-3">
+            <div className="mt-4 space-y-2">
               {METHOD_MARKERS.map((marker, index) => (
-                <Surface key={marker} tone="default" padding="sm" className="rounded-[var(--radius-xl)]">
-                  <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--c-primary)]/10 text-xs font-bold text-[var(--c-primary)]">
+                <div
+                  key={marker}
+                  className="flex items-center gap-3 rounded-lg border px-4 py-3"
+                  style={{
+                    background: 'var(--eaf-bg1)',
+                    borderColor: 'rgba(123, 142, 255, 0.1)',
+                  }}
+                >
+                  <span
+                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+                    style={{
+                      background: 'var(--eaf-indigo)/15',
+                      color: 'var(--eaf-indigo)',
+                    }}
+                  >
                     {index + 1}
                   </span>
-                  {marker}
-                </Surface>
+                  <span className="text-sm text-[var(--eaf-fg1)]">{marker}</span>
+                </div>
               ))}
             </div>
-          </Surface>
+          </section>
 
-          <Surface tone="subtle" padding="md">
-            <p className="ui-kicker text-[var(--c-reward)]">Progression</p>
-            <div className="mt-4 rounded-full bg-[var(--bg-surface)] p-1">
-              <div className="h-3 overflow-hidden rounded-full bg-[var(--border-default)]">
-                <div className="h-3 rounded-full bg-[var(--c-primary)] transition-all duration-500" style={{ width: `${progressPercent}%` }} />
-              </div>
+          {/* Progression */}
+          <section
+            className="rounded-xl p-5"
+            style={{
+              background: 'var(--eaf-bg2)',
+              border: '1px solid rgba(123, 142, 255, 0.12)',
+            }}
+          >
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-indigo)]">
+              Progression
+            </p>
+            <div className="mt-4 rounded-full p-1" style={{ background: 'var(--eaf-bg3)' }}>
+              <div
+                className="h-2 overflow-hidden rounded-full transition-all duration-500"
+                style={{
+                  width: `${progressPercent}%`,
+                  background: 'var(--eaf-gradient-progress)',
+                }}
+              />
             </div>
-            <div className="mt-3 flex items-center justify-between text-sm text-[var(--text-secondary)]">
+            <div className="mt-3 flex items-center justify-between text-sm text-[var(--eaf-fg2)]">
               <span>{safeCompletedCount} exercice(s) validés</span>
-              <span>{progressPercent}%</span>
+              <span className="font-semibold text-[var(--eaf-indigo)]">{progressPercent}%</span>
             </div>
-          </Surface>
+          </section>
         </aside>
 
-        <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] shadow-[var(--shadow-md)]">
-          <div className="border-b border-[var(--border-default)] bg-[var(--bg-surface)] px-5 py-4 md:px-6">
+        {/* Zone exercice */}
+        <section
+          className="overflow-hidden rounded-xl"
+          style={{
+            background: 'var(--eaf-bg1)',
+            border: '1px solid rgba(123, 142, 255, 0.12)',
+          }}
+        >
+          {/* Header */}
+          <div
+            className="border-b px-5 py-4 md:px-6"
+            style={{ borderColor: 'rgba(123, 142, 255, 0.1)', background: 'var(--eaf-bg2)' }}
+          >
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--c-primary)]/10 text-[var(--c-primary)]">
-                  <BookOpen className="h-5 w-5" />
+                <div
+                  className="flex h-12 w-12 items-center justify-center rounded-xl"
+                  style={{ background: 'var(--eaf-indigo)/10', color: 'var(--eaf-indigo)' }}
+                >
+                  <BookOpen className="h-5 w-5" style={{ color: 'var(--eaf-indigo)' }} />
                 </div>
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">Phrase cible</p>
-                  <h2 className="text-lg font-semibold text-[var(--c-primary)]">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--eaf-indigo)]">
+                    Phrase cible
+                  </p>
+                  <h2 className="text-lg font-semibold text-[var(--eaf-fg0)]">
                     {currentExercise ? `Exercice ${currentIndex + 1}/${exercises.length}` : 'Atelier en attente'}
                   </h2>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] px-3 py-1.5 text-xs font-medium text-[var(--c-primary)]">
-                <Activity className="h-3.5 w-3.5 text-[var(--c-reward)]" />
+              <div
+                className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium"
+                style={{
+                  borderColor: 'rgba(255, 181, 71, 0.3)',
+                  background: 'var(--eaf-gold)/10',
+                  color: 'var(--eaf-gold)',
+                }}
+              >
+                <Activity className="h-3.5 w-3.5" />
                 Terminologie EAF première
               </div>
             </div>
@@ -355,7 +509,7 @@ export default function AtelierLangue() {
             <div className="p-6 md:p-8">
               <StateNotice
                 title="Génération de la série en cours"
-                description="Nexus compose une petite suite d’exercices sur le thème choisi pour garder un rythme court et exploitable."
+                description="Nexus compose une petite suite d'exercices sur le thème choisi pour garder un rythme court et exploitable."
                 variant="loading"
               />
             </div>
@@ -369,41 +523,94 @@ export default function AtelierLangue() {
             </div>
           ) : (
             <div className="space-y-6 p-5 md:p-8">
-              <Surface tone="default" padding="md">
-                <p className="ui-kicker text-[var(--c-reward)]">Phrase à analyser</p>
-                <p className="font-display mt-4 text-2xl leading-10 tracking-[-0.02em] text-[var(--c-primary)] md:text-3xl">
+              {/* Phrase à analyser */}
+              <div
+                className="rounded-xl border p-5"
+                style={{
+                  background: 'var(--eaf-bg2)',
+                  borderColor: 'rgba(123, 142, 255, 0.1)',
+                }}
+              >
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--eaf-gold)]">
+                  Phrase à analyser
+                </p>
+                <p
+                  className="mt-4 text-2xl leading-10 md:text-3xl"
+                  style={{
+                    fontFamily: 'var(--font-heading, Fraunces, serif)',
+                    letterSpacing: '-0.8px',
+                    color: 'var(--eaf-indigo)',
+                  }}
+                >
                   « {sanitizeLlmText(currentExercise.sentence)} »
                 </p>
-                <Surface tone="primary" padding="sm" className="mt-5 rounded-[var(--radius-xl)]">
-                  <p className="ui-kicker text-[var(--text-muted)]">Question d’oral</p>
-                  <p className="mt-2 text-sm leading-7 text-[var(--text-body)]">{sanitizeLlmText(currentExercise.question)}</p>
-                </Surface>
-              </Surface>
+                <div
+                  className="mt-5 rounded-xl border p-4"
+                  style={{
+                    background: 'var(--eaf-indigo)/5',
+                    borderColor: 'rgba(123, 142, 255, 0.15)',
+                  }}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--eaf-indigo)]">
+                    Question d'oral
+                  </p>
+                  <p className="mt-2 text-sm leading-7 text-[var(--eaf-fg1)]">
+                    {sanitizeLlmText(currentExercise.question)}
+                  </p>
+                </div>
+              </div>
 
-              <Surface tone="default" padding="md">
+              {/* Ton analyse */}
+              <div
+                className="rounded-xl border p-5"
+                style={{
+                  background: 'var(--eaf-bg2)',
+                  borderColor: 'rgba(123, 142, 255, 0.1)',
+                }}
+              >
                 <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">Ton analyse</p>
-                    <h3 className="mt-2 text-lg font-semibold text-[var(--c-primary)]">{LANGUE_COPY.answerTitle}</h3>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--eaf-teal)]">
+                      Ton analyse
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-[var(--eaf-fg0)]">
+                      {LANGUE_COPY.answerTitle}
+                    </h3>
                   </div>
-                  <p className="text-sm text-[var(--text-secondary)]">Formule : identification, dénomination, fonction syntaxique.</p>
+                  <p className="text-right text-sm text-[var(--eaf-fg3)]">
+                    Formule : identification, dénomination, fonction syntaxique.
+                  </p>
                 </div>
 
-                <Textarea
-                  id="langue-answer"
-                  data-testid="langue-answer"
-                  className="mt-5"
-                  placeholder="Rédige ton analyse grammaticale complète ici..."
-                  value={userAnswer}
-                  onChange={(event) => setUserAnswer(event.target.value)}
-                  disabled={feedback !== null}
-                  rows={6}
-                  size="lg"
-                  label="Réponse grammaticale"
-                  hint="Une réponse courte et précise suffit: fait de langue, nom exact, effet."
-                  aria-describedby={feedbackDescriptionId}
-                  autoComplete="off"
-                />
+                <div className="mt-5">
+                  <label
+                    htmlFor="langue-answer"
+                    className="mb-2 block text-sm font-medium text-[var(--eaf-fg2)]"
+                  >
+                    Réponse grammaticale
+                  </label>
+                  <textarea
+                    id="langue-answer"
+                    data-testid="langue-answer"
+                    value={userAnswer}
+                    onChange={(event) => setUserAnswer(event.target.value)}
+                    disabled={feedback !== null}
+                    rows={6}
+                    placeholder="Rédige ton analyse grammaticale complète ici..."
+                    className="w-full resize-y rounded-xl border px-4 py-3 text-sm leading-7 outline-none transition-all duration-200 placeholder:text-[var(--eaf-fg3)] focus:border-[var(--eaf-teal)] focus:ring-2 focus:ring-[var(--eaf-teal)]/20 disabled:opacity-60"
+                    style={{
+                      borderColor: 'rgba(123, 142, 255, 0.2)',
+                      background: 'var(--eaf-bg1)',
+                      color: 'var(--eaf-fg0)',
+                      fontFamily: 'var(--eaf-font-body, DM Sans, sans-serif)',
+                    }}
+                    aria-describedby={feedbackDescriptionId}
+                    autoComplete="off"
+                  />
+                  <p className="mt-2 text-xs text-[var(--eaf-fg3)]">
+                    Une réponse courte et précise suffit : fait de langue, nom exact, effet.
+                  </p>
+                </div>
 
                 {!feedback ? (
                   <div className="mt-6 flex justify-end">
@@ -411,56 +618,99 @@ export default function AtelierLangue() {
                       data-testid="langue-submit"
                       onClick={handleSubmit}
                       disabled={userAnswer.length === 0 || isSubmitting}
-                      variant="primary"
                       size="md"
                       loading={isSubmitting}
                       icon={!isSubmitting ? <CheckCircle2 className="h-4 w-4" /> : undefined}
+                      className="rounded-xl font-semibold"
+                      style={{
+                        background: 'var(--eaf-orange)',
+                        color: '#050913',
+                      }}
                     >
                       {isSubmitting ? 'Évaluation...' : 'Soumettre la réponse'}
                     </Button>
                   </div>
                 ) : (
                   <div className="mt-8 space-y-5 animate-in slide-in-from-bottom-4 duration-500">
+                    {/* Feedback */}
                     <div
                       data-testid="langue-feedback"
                       id="atelier-langue-feedback"
                       role="status"
                       aria-live="polite"
-                      className={`rounded-[var(--radius-2xl)] border p-6 ${
-                        feedback.status === 'success'
-                          ? 'border-[var(--border-success)] bg-[var(--bg-success)]'
-                          : feedback.status === 'warning'
-                            ? 'border-[var(--border-reward)] bg-[var(--bg-reward)]'
-                            : 'border-[var(--border-accent)] bg-[var(--c-accent-subtle)]'
-                      }`}
+                      className="rounded-xl border p-6"
+                      style={{
+                        background:
+                          feedback.status === 'success'
+                            ? 'var(--eaf-teal)/5'
+                            : feedback.status === 'warning'
+                              ? 'var(--eaf-gold)/5'
+                              : 'rgba(239, 68, 68, 0.05)',
+                        borderColor:
+                          feedback.status === 'success'
+                            ? 'var(--eaf-teal)/30'
+                            : feedback.status === 'warning'
+                              ? 'var(--eaf-gold)/30'
+                              : 'rgba(239, 68, 68, 0.3)',
+                      }}
                     >
                       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
-                          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">Retour de séance</p>
-                          <h4 className="mt-2 flex items-center gap-2 text-base font-semibold text-[var(--c-primary)]">
-                            {feedback.status === 'success' && <CheckCircle2 className="h-5 w-5 text-[var(--c-success)]" />}
-                            {feedback.status === 'warning' && <RefreshCw className="h-5 w-5 text-[var(--c-reward)]" />}
-                            {feedback.status === 'error' && <Type className="h-5 w-5 text-[var(--c-accent)]" />}
+                          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--eaf-gold)]">
+                            Retour de séance
+                          </p>
+                          <h4 className="mt-2 flex items-center gap-2 text-base font-semibold text-[var(--eaf-fg0)]">
+                            {feedback.status === 'success' && (
+                              <CheckCircle2 className="h-5 w-5" style={{ color: 'var(--eaf-teal)' }} />
+                            )}
+                            {feedback.status === 'warning' && (
+                              <RefreshCw className="h-5 w-5" style={{ color: 'var(--eaf-gold)' }} />
+                            )}
+                            {feedback.status === 'error' && (
+                              <Type className="h-5 w-5" style={{ color: '#EF4444' }} />
+                            )}
                             Retour sur la réponse
                           </h4>
                         </div>
-                        <span className="inline-flex rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-3 py-1 text-sm font-semibold text-[var(--c-primary)]">
+                        <span
+                          className="inline-flex rounded-full border px-3 py-1 text-sm font-semibold"
+                          style={{
+                            borderColor: 'rgba(123, 142, 255, 0.2)',
+                            background: 'var(--eaf-bg2)',
+                            color: 'var(--eaf-fg0)',
+                          }}
+                        >
                           {feedback.score}/{feedback.max}
                         </span>
                       </div>
-                      <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">{sanitizeLlmText(feedback.message)}</p>
+                      <p className="mt-4 text-sm leading-7 text-[var(--eaf-fg2)]">
+                        {sanitizeLlmText(feedback.message)}
+                      </p>
                     </div>
 
+                    {/* Axes à reprendre */}
                     {feedback.missing.length > 0 && (
-                      <div className="rounded-[var(--radius-2xl)] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-5">
-                        <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">
+                      <div
+                        className="rounded-xl border p-5"
+                        style={{
+                          background: 'var(--eaf-gold)/5',
+                          borderColor: 'var(--eaf-gold)/20',
+                        }}
+                      >
+                        <p
+                          className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em]"
+                          style={{ color: 'var(--eaf-gold)' }}
+                        >
                           <AlertCircle className="h-4 w-4" />
                           Axes à reprendre
                         </p>
-                        <ul className="mt-3 space-y-2 text-sm leading-7 text-[var(--text-reward-on-subtle)]">
+                        <ul className="mt-3 space-y-2 text-sm leading-7 text-[var(--eaf-fg1)]">
                           {feedback.missing.map((item) => (
                             <li key={item} className="flex gap-2">
-                              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[var(--c-reward)]" />
+                              <span
+                                className="mt-2 h-1.5 w-1.5 rounded-full"
+                                style={{ background: 'var(--eaf-gold)' }}
+                              />
                               <span>{sanitizeLlmText(item)}</span>
                             </li>
                           ))}
@@ -468,28 +718,44 @@ export default function AtelierLangue() {
                       </div>
                     )}
 
-                    <div className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
-                      <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-success)]">
+                    {/* Correction */}
+                    <div
+                      className="rounded-xl border p-5"
+                      style={{
+                        background: 'var(--eaf-teal)/5',
+                        borderColor: 'var(--eaf-teal)/20',
+                      }}
+                    >
+                      <p
+                        className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em]"
+                        style={{ color: 'var(--eaf-teal)' }}
+                      >
                         <Star className="h-4 w-4" />
                         Correction attendue
                       </p>
-                      <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{sanitizeLlmText(currentExercise.correction)}</p>
+                      <p className="mt-3 text-sm leading-7 text-[var(--eaf-fg2)]">
+                        {sanitizeLlmText(currentExercise.correction)}
+                      </p>
                     </div>
 
                     <div className="flex justify-end">
                       <Button
                         onClick={handleNext}
-                        variant="secondary"
                         size="md"
                         icon={<ArrowRight className="h-4 w-4" />}
                         iconPosition="right"
+                        className="rounded-xl font-semibold"
+                        style={{
+                          background: 'var(--eaf-indigo)',
+                          color: '#050913',
+                        }}
                       >
                         Exercice suivant
                       </Button>
                     </div>
                   </div>
                 )}
-              </Surface>
+              </div>
             </div>
           )}
         </section>
