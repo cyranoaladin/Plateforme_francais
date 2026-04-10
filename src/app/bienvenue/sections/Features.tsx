@@ -71,7 +71,7 @@ export function Features() {
           {FEATURE_GROUPS.map((feature, index) => (
             <article
               key={feature.title}
-              className={`${feature.span} ${feature.tone} rounded-[24px] border p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.82s_ease-out_both] md:p-7`}
+              className={`${feature.span} ${feature.tone} rounded-[var(--radius-2xl)] border p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.82s_ease-out_both] md:p-7`}
               style={{ animationDelay: `${0.08 + index * 0.06}s` }}
             >
               <div className="flex items-center justify-between gap-4">
@@ -103,7 +103,7 @@ export function Features() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div className="mt-10 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Fil directeur</p>
@@ -117,7 +117,7 @@ export function Features() {
                 { icon: ScanSearch, title: 'Justifier', text: 'Les réponses exploitables gardent la trace des sources et des attentes.' },
                 { icon: BrainCircuit, title: 'Réactiver', text: 'Le retour alimente ensuite le parcours au lieu de se perdre.' },
               ].map((item) => (
-                <div key={item.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                <div key={item.title} className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                   <item.icon className="h-5 w-5 text-[var(--c-success)]" />
                   <p className="mt-3 text-sm font-bold text-[var(--c-primary)]">{item.title}</p>
                   <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.text}</p>

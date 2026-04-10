@@ -59,7 +59,7 @@ function ComparisonColumn({
         {items.map((item, i) => (
           <div key={i} className="flex items-start gap-3">
             <Icon />
-            <span className="text-sm leading-snug text-slate-300">{item}</span>
+            <span className="text-sm leading-snug text-[var(--text-muted)]">{item}</span>
           </div>
         ))}
       </div>
@@ -80,7 +80,7 @@ export function AntiChatGPTBanner() {
           <span className="text-brand">Nexus t&apos;apprend.</span>
         </h2>
 
-        <p className="mx-auto mb-12 max-w-2xl text-center text-base leading-relaxed text-slate-300 sm:text-lg">
+        <p className="mx-auto mb-12 max-w-2xl text-center text-base leading-relaxed text-[var(--text-muted)] sm:text-lg">
           Un élève qui copie-colle ChatGPT est immédiatement repéré
           par le correcteur — et sanctionné. Nexus ne rédige jamais :
           il pose des questions, cite les sources officielles, et te

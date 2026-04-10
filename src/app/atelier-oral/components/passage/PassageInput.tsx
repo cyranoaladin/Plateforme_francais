@@ -17,7 +17,7 @@ export function PassageInput({
 }: Props) {
   return (
     <>
-      <div className="flex flex-col items-center rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] px-5 py-6 text-center">
+      <div className="flex flex-col items-center rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] px-5 py-6 text-center">
         {!isMicOn ? (
           <>
             <button

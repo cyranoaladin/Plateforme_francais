@@ -57,7 +57,7 @@ function ClockIcon() {
 
 export function Footer() {
   return (
-    <footer className="bg-ink-950 px-4 py-16 text-slate-400">
+    <footer className="bg-ink-950 px-4 py-16 text-[var(--text-muted)]">
       <div className="mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Col 1: Brand */}
@@ -88,7 +88,7 @@ export function Footer() {
 
           {/* Col 2: Quick links */}
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-300">Liens rapides</p>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">Liens rapides</p>
             <ul className="space-y-2">
               {QUICK_LINKS.map((link) => (
                 <li key={link.href + link.label}>
@@ -102,7 +102,7 @@ export function Footer() {
 
           {/* Col 3: Workshops */}
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-300">Les ateliers</p>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">Les ateliers</p>
             <ul className="space-y-2">
               {WORKSHOP_LINKS.map((link) => (
                 <li key={link.href + link.label}>
@@ -116,7 +116,7 @@ export function Footer() {
 
           {/* Col 4: Contact & Legal */}
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-slate-300">Contact &amp; Légal</p>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)]">Contact &amp; Légal</p>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <EmailIcon />
@@ -148,7 +148,7 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
+        <div className="mt-12 border-t border-[var(--border-strong)] pt-6 text-center text-xs text-[var(--text-muted)]">
           © 2026 Nexus Réussite. Tous droits réservés. — Préparation EAF Session 2026.
         </div>
       </div>

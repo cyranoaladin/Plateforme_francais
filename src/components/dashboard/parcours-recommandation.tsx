@@ -104,7 +104,7 @@ export function ParcoursRecommandation({ weakSignals, weakSkills = [], className
   const Icon = recommended.icon;
 
   return (
-    <div className={`mt-6 overflow-hidden rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] ${className}`.trim()}>
+    <div className={`mt-6 overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] ${className}`.trim()}>
       <div className={`bg-gradient-to-r ${recommended.accent} px-5 py-4 text-white`}>
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-white/80">
           <Sparkles className="h-4 w-4" />

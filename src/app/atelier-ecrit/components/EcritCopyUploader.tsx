@@ -43,7 +43,7 @@ export function EcritCopyUploader({
   const isProcessing = Boolean(pollingStatus && pollingStatus !== 'done' && !copieLink);
 
   return (
-    <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+    <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
       <div className="flex items-start gap-4">
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-success)]/8 text-[var(--c-success)]">
           <Upload className="h-5 w-5" />
@@ -60,7 +60,7 @@ export function EcritCopyUploader({
       </div>
 
       {isProcessing ? (
-        <div className="mt-6 rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] px-6 py-10 text-center">
+        <div className="mt-6 rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] px-6 py-10 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--bg-surface)] shadow-[var(--shadow-sm)]">
             <Loader2 className="h-8 w-8 animate-spin text-[var(--c-success)]" />
           </div>
@@ -77,7 +77,7 @@ export function EcritCopyUploader({
               const file = event.dataTransfer.files?.[0];
               if (file) onSelectFile(file);
             }}
-            className={`rounded-[24px] border-2 border-dashed p-8 text-center transition ${epreuve ? 'cursor-pointer border-[var(--border-success)] bg-[var(--bg-success)]/45 hover:border-[var(--c-success)]/35 hover:bg-[var(--bg-success)]' : 'pointer-events-none border-[var(--border-default)] bg-[var(--bg-surface)] opacity-60'}`}
+            className={`rounded-[var(--radius-2xl)] border-2 border-dashed p-8 text-center transition ${epreuve ? 'cursor-pointer border-[var(--border-success)] bg-[var(--bg-success)]/45 hover:border-[var(--c-success)]/35 hover:bg-[var(--bg-success)]' : 'pointer-events-none border-[var(--border-default)] bg-[var(--bg-surface)] opacity-60'}`}
             onClick={() => epreuve && onTriggerFileDialog()}
           >
             <UploadCloud className="mx-auto h-12 w-12 text-[var(--text-icon)]" />
@@ -92,7 +92,7 @@ export function EcritCopyUploader({
                   onTriggerFileDialog();
                 }}
                 disabled={!epreuve}
-                className="min-h-[44px] rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-2.5 text-sm font-medium text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:opacity-50"
+                className="min-h-[44px] rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-2.5 text-sm font-medium text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:opacity-50"
               >
                 Choisir un fichier
               </button>
@@ -102,7 +102,7 @@ export function EcritCopyUploader({
                   onTriggerCameraDialog();
                 }}
                 disabled={!epreuve}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-2.5 text-sm font-medium text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:opacity-50"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-2.5 text-sm font-medium text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:opacity-50"
               >
                 <Camera className="h-4 w-4" />
                 Photo
@@ -129,7 +129,7 @@ export function EcritCopyUploader({
           </div>
 
           {selectedFile ? (
-            <div className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
+            <div className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div>
                   <p className="text-sm font-semibold text-[var(--c-primary)]">{selectedFile.name}</p>
@@ -145,11 +145,11 @@ export function EcritCopyUploader({
                 <img
                   src={previewUrl}
                   alt="Aperçu copie"
-                  className="mt-4 max-h-72 rounded-[16px] border border-[var(--border-default)] object-contain"
+                  className="mt-4 max-h-72 rounded-[var(--radius-lg)] border border-[var(--border-default)] object-contain"
                 />
               ) : null}
               {selectedFile.type === 'application/pdf' ? (
-                <div className="mt-4 inline-flex items-center gap-2 rounded-[16px] bg-[var(--bg-success)] px-4 py-3 text-sm text-[var(--c-success)]">
+                <div className="mt-4 inline-flex items-center gap-2 rounded-[var(--radius-lg)] bg-[var(--bg-success)] px-4 py-3 text-sm text-[var(--c-success)]">
                   <FileText className="h-4 w-4" />
                   PDF prêt à l&apos;envoi
                 </div>
@@ -158,7 +158,7 @@ export function EcritCopyUploader({
           ) : null}
 
           {isUploading ? (
-            <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
+            <div className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
               <p className="text-sm text-[var(--text-success-on-subtle)]">Envoi en cours… {uploadProgress}%</p>
               <div className="mt-3 h-2 overflow-hidden rounded-full bg-[var(--bg-surface)]/80">
                 <div className="h-2 rounded-full bg-[var(--c-success)] transition-all" style={{ width: `${uploadProgress}%` }} />
@@ -173,7 +173,7 @@ export function EcritCopyUploader({
             onClick={() => void onUpload()}
             icon={<Upload className="h-4 w-4" />}
             size="lg"
-            className="rounded-[16px] bg-[var(--c-success)] font-semibold hover:bg-[var(--c-success)]"
+            className="rounded-[var(--radius-lg)] bg-[var(--c-success)] font-semibold hover:bg-[var(--c-success)]"
           >
             Lancer la correction détaillée
           </Button>
@@ -181,7 +181,7 @@ export function EcritCopyUploader({
       )}
 
       {copieLink ? (
-        <div className="mt-6 rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] px-6 py-8 text-center">
+        <div className="mt-6 rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] px-6 py-8 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--bg-surface)] text-[var(--c-success)] shadow-[var(--shadow-md)]">
             <FileText className="h-8 w-8" />
           </div>

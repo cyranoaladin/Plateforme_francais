@@ -37,7 +37,7 @@ export function StickyNav() {
       aria-label={STICKY_NAV_COPY.navAria}
     >
       <div
-        className={`pointer-events-auto mx-auto flex max-w-6xl items-center justify-between rounded-[22px] border px-4 py-2.5 transition-all duration-300 ease-out sm:px-5 sm:py-3 ${
+        className={`pointer-events-auto mx-auto flex max-w-6xl items-center justify-between rounded-[var(--radius-xl)] border px-4 py-2.5 transition-all duration-300 ease-out sm:px-5 sm:py-3 ${
           scrolled
             ? 'border-[var(--border-default)] bg-surface/92 shadow-[0_10px_30px_rgba(15,23,42,0.10)] backdrop-blur-xl'
             : 'border-white/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.08))] shadow-[0_12px_40px_rgba(2,6,23,0.22)] backdrop-blur-lg'

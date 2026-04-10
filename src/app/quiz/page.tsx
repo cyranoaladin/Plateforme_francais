@@ -197,7 +197,7 @@ export default function QuizPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -221,7 +221,7 @@ export default function QuizPage() {
               { label: 'Réponses', value: String(answeredCount).padStart(2, '0') },
               { label: 'Résultat', value: submitted ? `${score}%` : 'En attente' },
             ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[24px] px-4 py-4">
+              <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] px-4 py-4">
                 <p className="ui-stat-label text-[var(--hero-kicker-text)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
@@ -248,7 +248,7 @@ export default function QuizPage() {
 
       <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Sparkles className="h-5 w-5" />
@@ -329,19 +329,19 @@ export default function QuizPage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Usage conseillé</p>
             <div className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
-              <p className="rounded-[20px] border border-[var(--border-strong)] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
-              <p className="rounded-[20px] border border-[var(--border-strong)] bg-white/88 px-4 py-4">Lis l'explication après validation : c'est elle qui transforme le score en progrès réel.</p>
-              <p className="rounded-[20px] border border-[var(--border-strong)] bg-white/88 px-4 py-4">Un score faible n'est pas un échec : c'est un signal pour cibler la prochaine révision.</p>
+              <p className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/88 px-4 py-4">Lance un quiz court avant un atelier pour réactiver les repères utiles.</p>
+              <p className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/88 px-4 py-4">Lis l'explication après validation : c'est elle qui transforme le score en progrès réel.</p>
+              <p className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-white/88 px-4 py-4">Un score faible n'est pas un échec : c'est un signal pour cibler la prochaine révision.</p>
             </div>
           </section>
         </aside>
 
         <section className="space-y-5">
           {activeThemeLabel && questions.length > 0 && (
-            <div className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-5 py-4 shadow-[var(--shadow-md)] text-sm text-[var(--text-secondary)]">
+            <div className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface)] px-5 py-4 shadow-[var(--shadow-md)] text-sm text-[var(--text-secondary)]">
               Quiz : <span className="font-semibold text-[var(--c-primary)]">{activeThemeLabel}</span> — {questions.length} question{questions.length > 1 ? 's' : ''}
             </div>
           )}
@@ -358,7 +358,7 @@ export default function QuizPage() {
           ) : (
             <div className="space-y-4">
               {questions.map((question, index) => (
-                <section key={question.id} className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
+                <section key={question.id} className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
                   <div className="flex items-start gap-4">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-sm font-semibold text-[var(--c-primary)]">
                       {index + 1}
@@ -374,7 +374,7 @@ export default function QuizPage() {
                           return (
                             <label
                               key={`${question.id}-${optionIndex}`}
-                              className={`cursor-pointer rounded-[20px] border p-4 text-sm leading-7 transition-all duration-[var(--transition-normal)] focus-within:ring-2 focus-within:ring-[var(--c-success)]/20 ${isGood ? 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--c-success)] font-semibold' : isBad ? 'border-[var(--border-accent)] bg-[var(--c-accent-subtle)] text-[var(--c-accent)]' : checked ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)] text-[var(--c-primary)]' : 'border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--text-body)] hover:border-[var(--c-primary)]/18'}`}
+                              className={`cursor-pointer rounded-[var(--radius-xl)] border p-4 text-sm leading-7 transition-all duration-[var(--transition-normal)] focus-within:ring-2 focus-within:ring-[var(--c-success)]/20 ${isGood ? 'border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--c-success)] font-semibold' : isBad ? 'border-[var(--border-accent)] bg-[var(--c-accent-subtle)] text-[var(--c-accent)]' : checked ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)] text-[var(--c-primary)]' : 'border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--text-body)] hover:border-[var(--c-primary)]/18'}`}
                             >
                               <input
                                 type="radio"
@@ -390,7 +390,7 @@ export default function QuizPage() {
                         })}
                       </div>
                       {submitted && (
-                        <div className="mt-4 rounded-[20px] border border-[var(--border-success)] bg-[var(--bg-success)] p-4 text-sm leading-7 text-[var(--text-body)]">
+                        <div className="mt-4 rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-4 text-sm leading-7 text-[var(--text-body)]">
                           {sanitizeLlmText(question.explication)}
                         </div>
                       )}
@@ -402,7 +402,7 @@ export default function QuizPage() {
           )}
 
           {questions.length > 0 && (
-            <div className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
+            <div className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)]">
               {!submitted ? (
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-sm text-[var(--text-secondary)]">
@@ -452,7 +452,7 @@ export default function QuizPage() {
 
       <div className="fixed bottom-24 right-6 z-50 space-y-2 md:bottom-6">
         {badgeToasts.map((badge) => (
-          <div key={badge} className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)] shadow-[var(--shadow-md)]" role="status" aria-live="polite">
+          <div key={badge} className="rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)] shadow-[var(--shadow-md)]" role="status" aria-live="polite">
             Badge débloqué : {badge}
           </div>
         ))}

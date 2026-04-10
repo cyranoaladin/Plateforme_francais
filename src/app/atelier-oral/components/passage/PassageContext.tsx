@@ -6,7 +6,7 @@ type Props = {
 
 export function PassageContext({ session }: Props) {
   return (
-    <details className="mt-6 rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
+    <details className="mt-6 rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
       <summary className="cursor-pointer text-sm font-semibold text-[var(--c-primary)]">
         Extrait & question de grammaire
       </summary>

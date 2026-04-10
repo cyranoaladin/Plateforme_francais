@@ -128,7 +128,7 @@ function TuteurPageContent() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] px-6 py-7 md:px-8 md:py-8">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] px-6 py-7 md:px-8 md:py-8">
         <div className="absolute inset-y-0 right-[-8%] hidden w-[36%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-4%] top-[-24%] h-40 w-40 rounded-full bg-[rgba(216,163,99,0.15)] blur-3xl" />
 
@@ -153,7 +153,7 @@ function TuteurPageContent() {
               { label: 'Relances visibles', value: displaySuggestions.length.toString().padStart(2, '0') },
               { label: 'Cadre sécurisé', value: 'EAF' },
             ].map((item) => (
-              <div key={item.label} className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
+              <div key={item.label} className="rounded-[var(--radius-2xl)] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
@@ -164,7 +164,7 @@ function TuteurPageContent() {
 
       <div className="grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
         <aside className="space-y-4">
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Questions qui marchent</p>
             <div className="mt-4 space-y-2.5">
               {STARTER_PROMPTS.map((prompt) => (
@@ -172,7 +172,7 @@ function TuteurPageContent() {
                   key={prompt}
                   type="button"
                   onClick={() => void sendMessage(prompt)}
-                  className="flex w-full items-start justify-between gap-3 rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)]/80 px-4 py-3 text-left text-sm leading-6 text-[var(--c-primary)] transition-all duration-[var(--transition-normal)] hover:border-[var(--c-primary)]/22 hover:bg-[var(--bg-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)]"
+                  className="flex w-full items-start justify-between gap-3 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]/80 px-4 py-3 text-left text-sm leading-6 text-[var(--c-primary)] transition-all duration-[var(--transition-normal)] hover:border-[var(--c-primary)]/22 hover:bg-[var(--bg-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)]"
                 >
                   <span>{prompt}</span>
                   <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-[var(--c-reward)]" />
@@ -181,13 +181,13 @@ function TuteurPageContent() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-5 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Mode opératoire</p>
             <div className="mt-4 space-y-3">
               {OPERATING_RULES.map((rule) => {
                 const Icon = rule.icon;
                 return (
-                  <div key={rule.title} className="rounded-[16px] border border-[var(--border-primary)] bg-[var(--bg-surface)]/85 p-4">
+                  <div key={rule.title} className="rounded-[var(--radius-lg)] border border-[var(--border-primary)] bg-[var(--bg-surface)]/85 p-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--c-primary)]/10 text-[var(--c-primary)]">
                         <Icon className="h-4 w-4" />
@@ -202,7 +202,7 @@ function TuteurPageContent() {
           </section>
         </aside>
 
-        <section className="overflow-hidden rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] shadow-[var(--shadow-md)]">
+        <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] shadow-[var(--shadow-md)]">
           <div className="border-b border-[var(--border-default)] bg-[var(--bg-surface)]/85 px-5 py-4 md:px-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
@@ -234,7 +234,7 @@ function TuteurPageContent() {
             <div className="flex-1 overflow-y-auto px-4 py-5 md:px-6 md:py-6" role="log" aria-live="polite">
               {messages.length === 0 ? (
                 <div className="flex min-h-[50vh] flex-col items-center justify-center px-4 text-center">
-                  <div className="flex h-20 w-20 items-center justify-center rounded-[24px] bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-[var(--radius-2xl)] bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                     <Sparkles className="h-9 w-9" />
                   </div>
                   <h3 className="font-display mt-6 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
@@ -250,7 +250,7 @@ function TuteurPageContent() {
                         key={prompt}
                         type="button"
                         onClick={() => void sendMessage(prompt)}
-                        className="rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-4 text-left text-sm leading-6 text-[var(--c-primary)] shadow-[var(--shadow-sm)] transition-all duration-[var(--transition-normal)] hover:border-[var(--c-primary)]/22 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)]"
+                        className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-4 text-left text-sm leading-6 text-[var(--c-primary)] shadow-[var(--shadow-sm)] transition-all duration-[var(--transition-normal)] hover:border-[var(--c-primary)]/22 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)]"
                       >
                         {prompt}
                       </button>
@@ -275,7 +275,7 @@ function TuteurPageContent() {
                       </div>
 
                       <div
-                        className={`rounded-[24px] px-4 py-4 shadow-[var(--shadow-sm)] md:px-5 ${message.role === 'user' ? 'bg-[var(--c-primary)] text-[var(--text-on-primary)]' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)]'}`}
+                        className={`rounded-[var(--radius-2xl)] px-4 py-4 shadow-[var(--shadow-sm)] md:px-5 ${message.role === 'user' ? 'bg-[var(--c-primary)] text-[var(--text-on-primary)]' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)]'}`}
                         role={message.role === 'assistant' ? 'status' : undefined}
                         aria-live={message.role === 'assistant' ? 'polite' : undefined}
                       >
@@ -286,7 +286,7 @@ function TuteurPageContent() {
                             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">Citations et points d’appui</p>
                             <div className="grid gap-2">
                               {message.citations.map((citation) => (
-                                <div key={`${citation.index}-${citation.title}`} className="rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-3 py-3 text-xs leading-6 text-[var(--text-body)]">
+                                <div key={`${citation.index}-${citation.title}`} className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)] px-3 py-3 text-xs leading-6 text-[var(--text-body)]">
                                   <span className="font-semibold text-[var(--c-primary)]">[{citation.index}] {citation.title}</span>
                                   <span className="block text-[var(--text-body)]">{citation.source}</span>
                                 </div>
@@ -303,7 +303,7 @@ function TuteurPageContent() {
                       <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[var(--border-success)] bg-[var(--bg-success)] text-[var(--c-success)]">
                         <img src="/images/logo.png" alt="" className="h-6 w-6 object-contain" />
                       </div>
-                      <div className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] px-5 py-4 shadow-[var(--shadow-sm)]">
+                      <div className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface)] px-5 py-4 shadow-[var(--shadow-sm)]">
                         <p className="mb-2 text-xs font-medium text-[var(--text-muted)]">Le tuteur rédige sa réponse...</p>
                         <div className="flex items-center gap-1.5">
                           <span className="h-2 w-2 rounded-full bg-[var(--c-success)] animate-bounce opacity-60" />

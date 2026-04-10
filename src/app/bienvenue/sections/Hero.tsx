@@ -117,7 +117,7 @@ export function Hero() {
             <div className="absolute -left-6 top-12 hidden h-24 w-24 rounded-full bg-[var(--color-amber-300)]/18 blur-2xl lg:block" />
             <div className="absolute -right-4 top-20 hidden h-16 w-16 rounded-full bg-[var(--c-success)]/20 blur-2xl lg:block [animation:bienvenueFloat_8s_ease-in-out_infinite]" />
 
-            <div className="rounded-[24px] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
+            <div className="rounded-[var(--radius-2xl)] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-slate-300)]">Ton tableau de bord</p>
@@ -131,11 +131,11 @@ export function Hero() {
                 </div>
               </div>
 
-              <div className="mt-6 rounded-[24px] border border-white/10 bg-white/8 p-4">
+              <div className="mt-6 rounded-[var(--radius-2xl)] border border-white/10 bg-white/8 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-amber-300)]">Simulation orale</p>
-                    <p className="mt-1 text-sm text-slate-200">Score ventilé selon le format officiel, sans zone floue.</p>
+                    <p className="mt-1 text-sm text-[var(--text-secondary)]">Score ventilé selon le format officiel, sans zone floue.</p>
                   </div>
                   <div className="rounded-full bg-[var(--c-success)]/25 px-3 py-1 text-xs font-bold text-[var(--bg-page)]">16.5 / 20</div>
                 </div>
@@ -143,7 +143,7 @@ export function Hero() {
                 <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
                   {ORAL_PHASES.map((phase) => (
                     <div key={phase.label} className="rounded-2xl border border-white/10 bg-[var(--c-primary-active)] px-3 py-3">
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">{phase.label}</p>
+                      <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">{phase.label}</p>
                       <p className="mt-2 text-lg font-bold text-white">{phase.score}</p>
                     </div>
                   ))}
@@ -151,19 +151,19 @@ export function Hero() {
               </div>
 
               <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+                <div className="rounded-[var(--radius-2xl)] border border-white/10 bg-white/8 p-4">
                   <div className="flex items-center gap-2 text-sm font-semibold text-white">
                     <LibraryBig className="h-4 w-4 text-[var(--color-slate-300)]" />
                     Citations internes mobilisées
                   </div>
-                  <ul className="mt-4 space-y-3 text-sm text-slate-200">
+                  <ul className="mt-4 space-y-3 text-sm text-[var(--text-secondary)]">
                     <li className="rounded-2xl bg-black/10 px-3 py-2">BO 2025, annexe 3 — attendus de l{'\u2019'}explication</li>
                     <li className="rounded-2xl bg-black/10 px-3 py-2">Rapport jury EAF 2024 — erreurs fréquentes à l{'\u2019'}oral</li>
                     <li className="rounded-2xl bg-black/10 px-3 py-2">Œuvre au programme — extrait contextualisé</li>
                   </ul>
                 </div>
 
-                <div className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+                <div className="rounded-[var(--radius-2xl)] border border-white/10 bg-white/8 p-4">
                   <div className="flex items-center gap-2 text-sm font-semibold text-white">
                     <ChartColumn className="h-4 w-4 text-[var(--color-slate-300)]" />
                     Axes prioritaires de relance
@@ -171,7 +171,7 @@ export function Hero() {
                   <div className="mt-4 space-y-4">
                     {SIGNALS.map((signal) => (
                       <div key={signal.label}>
-                        <div className="mb-1 flex items-center justify-between text-xs font-medium text-slate-300">
+                        <div className="mb-1 flex items-center justify-between text-xs font-medium text-[var(--text-muted)]">
                           <span>{signal.label}</span>
                           <span>à retravailler</span>
                         </div>
@@ -184,7 +184,7 @@ export function Hero() {
                 </div>
               </div>
 
-              <div className="mt-4 rounded-[24px] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)] shadow-inner">
+              <div className="mt-4 rounded-[var(--radius-2xl)] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)] shadow-inner">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Chaîne de valeur</p>
@@ -204,7 +204,7 @@ export function Hero() {
           {HERO_STATS.map((stat, index) => (
             <div
               key={stat.label}
-              className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
+              className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
               style={{ animationDelay: `${0.18 + index * 0.08}s` }}
             >
               <p className="font-display text-3xl tracking-[-0.03em] text-[var(--c-primary)]">

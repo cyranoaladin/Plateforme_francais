@@ -14,7 +14,7 @@ export default function AtelierEcritPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -46,7 +46,7 @@ export default function AtelierEcritPage() {
                     : 'À venir',
               },
             ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[24px] px-4 py-4">
+              <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] px-4 py-4">
                 <p className="ui-stat-label text-[var(--hero-kicker-text)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
@@ -117,7 +117,7 @@ export default function AtelierEcritPage() {
         </div>
 
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-5 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Cadre de travail</p>
             <div className="mt-4 space-y-3">
               {[
@@ -125,14 +125,14 @@ export default function AtelierEcritPage() {
                 'Privilégie des photos nettes, plates, bien éclairées.',
                 'Relis le rapport immédiatement pour transformer les conseils en prochaine action.',
               ].map((item) => (
-                <div key={item} className="rounded-[16px] border border-[var(--border-primary)] bg-[var(--bg-surface)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
+                <div key={item} className="rounded-[var(--radius-lg)] border border-[var(--border-primary)] bg-[var(--bg-surface)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]">
                   {item}
                 </div>
               ))}
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--color-amber-300)]/10 text-[var(--c-reward)]">
                 <ShieldCheck className="h-5 w-5" />
@@ -148,7 +148,7 @@ export default function AtelierEcritPage() {
           </section>
 
           {session.epreuve && (
-            <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
+            <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Sujet actif</p>
               <p className="mt-3 text-sm font-semibold leading-7 text-[var(--c-primary)]">{sanitizeLlmText(session.epreuve.sujet)}</p>
               <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
@@ -169,7 +169,7 @@ export default function AtelierEcritPage() {
         {session.badgeToasts.map((badge) => (
           <div
             key={badge}
-            className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)] shadow-[var(--shadow-md)]"
+            className="rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)] shadow-[var(--shadow-md)]"
             role="status"
             aria-live="polite"
           >

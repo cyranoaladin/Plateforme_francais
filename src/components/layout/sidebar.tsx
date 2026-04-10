@@ -258,7 +258,7 @@ export function Sidebar() {
           <div className="mx-4 mb-3">
             <Link
               href="/pricing"
-              className="group relative flex items-center gap-3 overflow-hidden rounded-[20px] bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] px-4 py-3.5 shadow-[var(--shadow-md)] transition-all hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5"
+              className="group relative flex items-center gap-3 overflow-hidden rounded-[var(--radius-xl)] bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] px-4 py-3.5 shadow-[var(--shadow-md)] transition-all hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5"
             >
               <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.12)_0%,transparent_50%)]" />
               <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-white/20 text-white">
@@ -366,7 +366,7 @@ export function Sidebar() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`group flex items-center gap-2.5 rounded-[16px] border px-3 py-2.5 text-sm transition-all ${
+                      className={`group flex items-center gap-2.5 rounded-[var(--radius-lg)] border px-3 py-2.5 text-sm transition-all ${
                         isActive
                           ? 'border-[var(--color-indigo-700)] bg-[var(--color-indigo-700)] text-[var(--hero-surface-text)] shadow-[var(--shadow-sm)]'
                           : 'border-transparent bg-[var(--bg-surface)]/50 text-[var(--text-secondary)] hover:border-[var(--border-default)] hover:bg-[var(--bg-surface)] hover:text-[var(--c-primary)]'

@@ -118,7 +118,7 @@ export default function CarnetPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -137,18 +137,18 @@ export default function CarnetPage() {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-            <div className="hero-glass-card rounded-[24px] px-4 py-4">
+            <div className="hero-glass-card rounded-[var(--radius-2xl)] px-4 py-4">
               <p className="ui-stat-label text-[var(--hero-kicker-text)]">Entrées</p>
               <p className="mt-2 text-2xl font-semibold text-white">{entries.length}</p>
             </div>
-            <div className="hero-glass-card rounded-[24px] px-4 py-4">
+            <div className="hero-glass-card rounded-[var(--radius-2xl)] px-4 py-4">
               <p className="ui-stat-label text-[var(--hero-kicker-text)]">Œuvres</p>
               <p className="mt-2 text-2xl font-semibold text-white">{grouped.length}</p>
             </div>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- download endpoint */}
             <a
               href="/api/v1/carnet/export"
-              className="hero-glass-card rounded-[24px] px-4 py-4 text-white transition-colors hover:bg-[var(--hero-glass-bg-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--c-primary)]"
+              className="hero-glass-card rounded-[var(--radius-2xl)] px-4 py-4 text-white transition-colors hover:bg-[var(--hero-glass-bg-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--c-primary)]"
             >
               <p className="ui-stat-label text-[var(--hero-kicker-text)]">Export</p>
               <p className="mt-2 inline-flex items-center gap-2 text-base font-semibold"><Download className="h-4 w-4" /> Exporter en PDF</p>
@@ -229,11 +229,11 @@ export default function CarnetPage() {
             </div>
           </Surface>
 
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Répartition des notes</p>
             <div className="mt-4 space-y-3">
               {typeStats.map((item) => (
-                <div key={item.key} className="flex items-center justify-between rounded-[16px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--text-body)]">
+                <div key={item.key} className="flex items-center justify-between rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--text-body)]">
                   <span>{item.label}</span>
                   <span className="font-semibold text-[var(--c-primary)]">{item.count}</span>
                 </div>
@@ -261,7 +261,7 @@ export default function CarnetPage() {
             />
           ) : (
             grouped.map(([oeuvreName, oeuvreEntries]) => (
-              <section key={oeuvreName} className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
+              <section key={oeuvreName} className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
                 <div className="flex items-center justify-between gap-3">
                   <h2 className="text-xl font-semibold text-[var(--c-primary)]">{oeuvreName}</h2>
                   <span className="rounded-full bg-[var(--c-primary)]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--c-primary)]">
@@ -270,7 +270,7 @@ export default function CarnetPage() {
                 </div>
                 <div className="mt-4 space-y-3">
                   {oeuvreEntries.map((entry) => (
-                    <article key={entry.id} className="rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-4 shadow-[var(--shadow-sm)]">
+                    <article key={entry.id} className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-4 shadow-[var(--shadow-sm)]">
                       <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--text-body)]">
                         <Badge variant="navy" size="sm" className="bg-[var(--c-primary)]/8 text-[var(--c-primary)]">{TYPE_LABELS[entry.type]}</Badge>
                         <span>{new Date(entry.createdAt).toLocaleDateString('fr-FR')}</span>

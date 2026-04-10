@@ -200,7 +200,7 @@ export default function CorrectionCopiePage() {
   if (!payload || payload.status === 'pending' || payload.status === 'processing') {
     return (
       <div className="mx-auto max-w-4xl space-y-6 p-6 md:p-10" role="status">
-        <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] px-6 py-8 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-10">
+        <section className="relative overflow-hidden rounded-[var(--radius-2xl)] border border-white/10 bg-[var(--c-primary)] px-6 py-8 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-10">
           <div className="absolute inset-y-0 right-[-10%] hidden w-[40%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_70%)] blur-2xl lg:block" />
           <div className="absolute left-[-6%] top-[-22%] h-40 w-40 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
           <div className="relative">
@@ -217,7 +217,7 @@ export default function CorrectionCopiePage() {
           </div>
         </section>
 
-        <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+        <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="flex items-center gap-3 text-[var(--c-primary)]">
             <Loader2 className="h-5 w-5 animate-spin" />
             <span className="text-sm font-semibold">{latestProgressMessage}</span>
@@ -226,7 +226,7 @@ export default function CorrectionCopiePage() {
             {PROCESSING_STEPS.map((step, index) => (
               <div
                 key={step}
-                className={`rounded-[16px] border px-4 py-4 text-sm transition ${index === stepIndex ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)] text-[var(--c-primary)] shadow-[var(--shadow-sm)]' : 'border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--text-muted)]'}`}
+                className={`rounded-[var(--radius-lg)] border px-4 py-4 text-sm transition ${index === stepIndex ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)] text-[var(--c-primary)] shadow-[var(--shadow-sm)]' : 'border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--text-muted)]'}`}
               >
                 {index + 1}. {step}
               </div>
@@ -262,7 +262,7 @@ export default function CorrectionCopiePage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[var(--c-primary)] px-6 py-7 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="relative overflow-hidden rounded-[var(--radius-2xl)] border border-white/10 bg-[var(--c-primary)] px-6 py-7 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -281,16 +281,16 @@ export default function CorrectionCopiePage() {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-            <div className={`rounded-[24px] border px-4 py-4 backdrop-blur-sm ${noteTone}`}>
+            <div className={`rounded-[var(--radius-2xl)] border px-4 py-4 backdrop-blur-sm ${noteTone}`}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em]">Note finale</p>
               <p className="mt-2 text-3xl font-semibold">{correction.note}/20</p>
               <p className="text-sm">{correction.mention}</p>
             </div>
-            <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
+            <div className="rounded-[var(--radius-2xl)] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">Rubriques</p>
               <p className="mt-2 text-3xl font-semibold text-white">{correction.rubriques.length}</p>
             </div>
-            <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
+            <div className="rounded-[var(--radius-2xl)] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">Annotations</p>
               <p className="mt-2 text-3xl font-semibold text-white">{correction.annotations.length}</p>
             </div>
@@ -300,7 +300,7 @@ export default function CorrectionCopiePage() {
 
       <div className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
         <section className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Target className="h-5 w-5" />
@@ -314,7 +314,7 @@ export default function CorrectionCopiePage() {
             </div>
             <p className="mt-5 text-sm leading-7 text-[var(--text-body)]">{sanitizeLlmText(correction.bilan.global)}</p>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              <div className="rounded-[22px] border border-[var(--border-success)] bg-[var(--bg-success)] p-4">
+              <div className="rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-4">
                 <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-success)]">Points forts</p>
                 <ul className="mt-3 space-y-2 text-sm leading-7 text-[var(--text-body)]">
                   {correction.bilan.points_forts.map((item) => (
@@ -322,7 +322,7 @@ export default function CorrectionCopiePage() {
                   ))}
                 </ul>
               </div>
-              <div className="rounded-[22px] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-4">
+              <div className="rounded-[var(--radius-xl)] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-4">
                 <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">Axes d’amélioration</p>
                 <ul className="mt-3 space-y-2 text-sm leading-7 text-[var(--text-reward-on-subtle)]">
                   {correction.bilan.axes_amelioration.map((item) => (
@@ -333,7 +333,7 @@ export default function CorrectionCopiePage() {
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Sparkles className="h-5 w-5" />
@@ -349,7 +349,7 @@ export default function CorrectionCopiePage() {
                 const barColor = pct >= 75 ? 'bg-[var(--c-success)]' : pct >= 50 ? 'bg-[var(--c-reward)]' : 'bg-[var(--c-accent-text)]';
                 const scoreColor = pct >= 75 ? 'text-[var(--c-success)]' : pct >= 50 ? 'text-[var(--c-reward)]' : 'text-[var(--c-accent-text)]';
                 return (
-                  <article key={`${item.titre}-${item.max}`} className="rounded-[22px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
+                  <article key={`${item.titre}-${item.max}`} className="rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-sm font-semibold text-[var(--c-primary)]">{item.titre}</span>
                       <span className={`rounded-full border px-3 py-1 text-sm font-bold ${scoreColor} ${pct >= 75 ? 'border-[var(--border-success)] bg-[var(--bg-success)]' : pct >= 50 ? 'border-[var(--border-reward)] bg-[var(--bg-reward)]' : 'border-[var(--border-accent)] bg-[var(--c-accent-subtle)]'}`}>
@@ -361,7 +361,7 @@ export default function CorrectionCopiePage() {
                     </div>
                     <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[var(--text-body)]">{sanitizeLlmText(item.appreciation)}</p>
                     {item.conseils.length > 0 && (
-                      <div className="mt-4 rounded-[16px] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-3.5">
+                      <div className="mt-4 rounded-[var(--radius-lg)] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-3.5">
                         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--c-reward)]">Conseils pour progresser</p>
                         <ul className="mt-2 space-y-2 text-sm leading-6 text-[var(--text-reward-on-subtle)]">
                           {item.conseils.map((conseil) => (
@@ -377,7 +377,7 @@ export default function CorrectionCopiePage() {
           </section>
 
           {correction.corrige_type && (
-            <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+            <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
               <div className="flex items-center gap-3">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-success)]/8 text-[var(--c-success)]">
                   <Quote className="h-5 w-5" />
@@ -387,7 +387,7 @@ export default function CorrectionCopiePage() {
                   <h2 className="text-lg font-semibold text-[var(--c-primary)]">Corrigé type</h2>
                 </div>
               </div>
-              <div className="mt-5 whitespace-pre-line rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 text-sm leading-7 text-[var(--text-body)]">
+              <div className="mt-5 whitespace-pre-line rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 text-sm leading-7 text-[var(--text-body)]">
                 {sanitizeLlmText(correction.corrige_type)}
               </div>
               <p className="mt-3 text-xs italic text-[var(--text-muted)]">
@@ -398,7 +398,7 @@ export default function CorrectionCopiePage() {
         </section>
 
         <aside className="space-y-6">
-          <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-lg font-semibold text-[var(--c-primary)]">Annotations ciblées</h2>
               <span className="rounded-full bg-[var(--c-success)]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--c-success)]">
@@ -415,7 +415,7 @@ export default function CorrectionCopiePage() {
                       key={`${item.extrait}-${index}`}
                       type="button"
                       onClick={() => setActiveAnnotation(index)}
-                      className={`w-full rounded-[16px] border px-4 py-4 text-left text-sm transition ${selected ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)] shadow-[var(--shadow-sm)]' : 'border-[var(--border-success)] bg-[var(--bg-surface)]/80'} `}
+                      className={`w-full rounded-[var(--radius-lg)] border px-4 py-4 text-left text-sm transition ${selected ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)] shadow-[var(--shadow-sm)]' : 'border-[var(--border-success)] bg-[var(--bg-surface)]/80'} `}
                     >
                       <span className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${tone}`}>
                         {item.type}
@@ -427,9 +427,9 @@ export default function CorrectionCopiePage() {
                 })}
               </div>
 
-              <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-surface)] p-4 shadow-[var(--shadow-sm)]">
+              <div className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-surface)] p-4 shadow-[var(--shadow-sm)]">
                 {isImageCopy && imageUrl ? (
-                  <div className="relative overflow-hidden rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface)]">
+                  <div className="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)]">
                     <img src={imageUrl} alt="Copie manuscrite" className="w-full" />
                     <div className="pointer-events-none absolute inset-0">
                       {annotationRegions.map((region, idx) => {
@@ -451,13 +451,13 @@ export default function CorrectionCopiePage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
+                  <div className="rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                     Aperçu visuel indisponible pour ce format de copie.
                   </div>
                 )}
 
                 {activeAnnotationItem && (
-                  <div className="mt-4 rounded-[16px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-4">
+                  <div className="mt-4 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-4">
                     <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">Annotation active</p>
                     <p className="mt-3 text-sm font-semibold text-[var(--c-primary)]">{sanitizeLlmText(activeAnnotationItem.extrait)}</p>
                     <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{sanitizeLlmText(activeAnnotationItem.commentaire)}</p>
@@ -467,7 +467,7 @@ export default function CorrectionCopiePage() {
             </div>
           </section>
 
-          <section className="relative overflow-hidden rounded-[24px] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <section className="relative overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="absolute right-[-8%] top-[-20%] h-32 w-32 rounded-full bg-[rgba(216,163,99,0.18)] blur-3xl" />
             <div className="relative">
               <div className="flex items-center gap-3">
@@ -479,13 +479,13 @@ export default function CorrectionCopiePage() {
                   <h2 className="text-lg font-semibold text-[var(--c-primary)]">Lettre du professeur</h2>
                 </div>
               </div>
-              <div className="mt-5 rounded-[16px] border border-[var(--color-amber-300)]/30 bg-white/50 p-5">
+              <div className="mt-5 rounded-[var(--radius-lg)] border border-[var(--color-amber-300)]/30 bg-white/50 p-5">
                 <p className="whitespace-pre-line text-sm leading-8 text-[var(--text-body)]">{sanitizeLlmText(correction.conseil_final)}</p>
               </div>
             </div>
           </section>
 
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
             <div className="flex items-start gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Quote className="h-5 w-5" />
@@ -501,7 +501,7 @@ export default function CorrectionCopiePage() {
               onClick={() => { window.location.href = `/api/v1/epreuves/copies/${payload.copieId}/report`; }}
               icon={<Download className="h-4 w-4" />}
               size="lg"
-              className="mt-5 rounded-[16px] font-semibold"
+              className="mt-5 rounded-[var(--radius-lg)] font-semibold"
             >
               Télécharger mon rapport PDF
             </Button>

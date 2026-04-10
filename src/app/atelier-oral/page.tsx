@@ -34,7 +34,7 @@ export default function AtelierOralPage() {
       {oral.error ? (
         <div
           data-testid="error-alert"
-          className="space-y-3 rounded-[24px] border border-[var(--border-accent)] bg-[var(--c-accent-subtle)] px-5 py-4 text-sm text-[var(--c-accent-text)]"
+          className="space-y-3 rounded-[var(--radius-2xl)] border border-[var(--border-accent)] bg-[var(--c-accent-subtle)] px-5 py-4 text-sm text-[var(--c-accent-text)]"
           role="alert"
           aria-live="assertive"
         >
@@ -51,7 +51,7 @@ export default function AtelierOralPage() {
       ) : null}
 
       {oral.session ? (
-        <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] px-5 py-4 shadow-[var(--shadow-md)]">
+        <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] px-5 py-4 shadow-[var(--shadow-md)]">
           <div className="flex flex-wrap items-center gap-3">
             {(['TIRAGE', 'PREP', 'PASSAGE', 'BILAN'] as const).map((phase) => (
               <Badge
@@ -75,7 +75,7 @@ export default function AtelierOralPage() {
 
       {oral.wizardPhase === 'TIRAGE' && !oral.session ? (
         <div className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <OralWorkSelector
               availableWorks={programmeSelection.availableWorks}
               currentWork={oral.oeuvre}
@@ -117,7 +117,7 @@ export default function AtelierOralPage() {
           </section>
 
           <aside className="space-y-6">
-            <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
+            <section className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Ce qui va suivre</p>
               <div className="mt-4 space-y-3">
                 {[
@@ -127,7 +127,7 @@ export default function AtelierOralPage() {
                 ].map((item, index) => (
                   <div
                     key={item}
-                    className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]"
+                    className="rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-surface)]/88 px-4 py-4 text-sm leading-7 text-[var(--text-body)]"
                   >
                     <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--c-success)]/10 text-xs font-semibold text-[var(--c-success)]">
                       {index + 1}
@@ -138,7 +138,7 @@ export default function AtelierOralPage() {
               </div>
             </section>
 
-            <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+            <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Bon usage</p>
               <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
                 Une bonne simulation orale ne cherche pas à parler beaucoup. Elle cherche à rendre la parole plus nette, plus articulée et plus défendable étape après étape.
@@ -156,7 +156,7 @@ export default function AtelierOralPage() {
 
       {oral.wizardPhase === 'PREP' && oral.session ? (
         <div className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
-          <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="space-y-4">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Préparation</p>
@@ -168,7 +168,7 @@ export default function AtelierOralPage() {
                 </p>
               </div>
 
-              <div className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
+              <div className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]">
                 <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">Extrait tiré</p>
                 <p data-testid="extrait-texte" className="mt-4 font-serif text-base leading-8 text-[var(--c-primary)]">
                   {oral.session.texte}
@@ -219,7 +219,7 @@ export default function AtelierOralPage() {
           </section>
 
           <aside className="space-y-6">
-            <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
+            <section className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
               <OralPrepPhase
                 remainingSeconds={oral.prepRemaining}
                 onReset={oral.resetPrepChecklist}
@@ -237,7 +237,7 @@ export default function AtelierOralPage() {
 
             <DescriptifStatus />
 
-            <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+            <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Rappel</p>
               <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
                 La préparation utile ne cherche pas à tout écrire. Elle cherche à sécuriser les mouvements du texte, deux ou trois procédés décisifs et une réponse propre à la grammaire.
@@ -291,7 +291,7 @@ export default function AtelierOralPage() {
         {oral.badgeToasts.map((badge) => (
           <div
             key={badge}
-            className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)] shadow-[var(--shadow-md)]"
+            className="rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)] shadow-[var(--shadow-md)]"
             role="status"
             aria-live="polite"
           >

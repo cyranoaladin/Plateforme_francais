@@ -27,7 +27,7 @@ export function OralTimer({
 }: OralTimerProps) {
   if (mode === 'free') {
     return (
-      <span className="inline-flex items-center gap-2 rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)]">
+      <span className="inline-flex items-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-medium text-[var(--c-success)]">
         <Zap className="h-4 w-4" />
         Mode libre
       </span>
@@ -40,7 +40,7 @@ export function OralTimer({
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-[16px] border ${sizeClasses} ${timerTone(remaining)}`}
+      className={`inline-flex items-center gap-2 rounded-[var(--radius-lg)] border ${sizeClasses} ${timerTone(remaining)}`}
       role="timer"
       aria-live="polite"
       aria-label={`${label} : ${formatTimer(remaining)}`}

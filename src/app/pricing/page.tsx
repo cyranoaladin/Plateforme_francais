@@ -151,7 +151,7 @@ function BillingFaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 shadow-[var(--shadow-md)]">
+    <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 shadow-[var(--shadow-md)]">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
@@ -264,7 +264,7 @@ export default function PricingPage() {
       <div className="pointer-events-none absolute left-0 top-[38rem] h-72 w-72 rounded-full bg-[var(--color-amber-300)]/10 blur-3xl" />
 
       <main className="relative mx-auto max-w-7xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 lg:pb-24">
-        <header className="flex flex-col gap-5 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/80 px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-5 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/80 px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
           <Link href="/" className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--c-primary)]">
@@ -332,7 +332,7 @@ export default function PricingPage() {
             </div>
           </div>
 
-          <aside className="hero-premium-panel rounded-[24px] p-6 md:p-8">
+          <aside className="hero-premium-panel rounded-[var(--radius-2xl)] p-6 md:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="ui-kicker text-[var(--support-warm-text)]">Ton statut</p>
@@ -346,7 +346,7 @@ export default function PricingPage() {
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              <div className="hero-glass-card rounded-[24px] p-4">
+              <div className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                 {loading ? (
                   <div className="hero-body flex items-center gap-2 text-sm">
                     <Loader2 className="h-4 w-4 animate-spin" /> Chargement du statut...
@@ -381,7 +381,7 @@ export default function PricingPage() {
                 )}
               </div>
 
-              <div className="hero-glass-card rounded-[24px] p-4">
+              <div className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                 <p className="ui-meta-label hero-body-muted">Dernier paiement</p>
                 {!isAuthenticated ? (
                   <div className="hero-body mt-3 space-y-2 text-sm">
@@ -402,7 +402,7 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <div className="mt-4 rounded-[24px] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)]">
+            <div className="mt-4 rounded-[var(--radius-2xl)] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)]">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Devise et moyens de paiement</p>
@@ -417,7 +417,7 @@ export default function PricingPage() {
         </section>
 
         {error ? (
-          <div className="mb-8 flex items-start gap-3 rounded-[24px] border border-[var(--support-error-border)] bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--support-error-text)]" role="alert">
+          <div className="mb-8 flex items-start gap-3 rounded-[var(--radius-2xl)] border border-[var(--support-error-border)] bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--support-error-text)]" role="alert">
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
             <span>{error}</span>
           </div>
@@ -446,7 +446,7 @@ export default function PricingPage() {
                   : 'border-[var(--border-strong)] bg-[var(--bg-surface)]/85 text-[var(--c-primary)]';
 
               return (
-                <article key={plan.id} className={`${accent} rounded-[24px] border p-6`}>
+                <article key={plan.id} className={`${accent} rounded-[var(--radius-2xl)] border p-6`}>
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-[11px] font-bold uppercase tracking-[0.26em] opacity-70">{plan.kicker}</p>
@@ -522,7 +522,7 @@ export default function PricingPage() {
         </section>
 
         <section className="pb-16">
-          <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/80 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/80 p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Aide à la décision</p>
@@ -532,7 +532,7 @@ export default function PricingPage() {
               </div>
               <div className="grid gap-3 md:grid-cols-3">
                 {DECISION_GUIDES.map((guide) => (
-                  <article key={guide.title} className="rounded-[26px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <article key={guide.title} className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <p className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--c-primary)]">{guide.title}</p>
                     <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{guide.body}</p>
                   </article>
@@ -543,7 +543,7 @@ export default function PricingPage() {
         </section>
 
         <section id="activation-et-paiement" className="grid gap-5 scroll-mt-24 pb-16 lg:grid-cols-2">
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 shadow-[var(--shadow-md)] md:p-7">
+          <article className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex items-center gap-2">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-[var(--text-on-primary)]">
                 <KeyRound className="h-5 w-5" />
@@ -579,26 +579,26 @@ export default function PricingPage() {
                 </button>
               </form>
             ) : (
-              <div className="mt-6 rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
+              <div className="mt-6 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                 <Link href="/login" className="font-semibold text-[var(--c-primary)] underline">Connecte-toi d’abord</Link> pour rattacher le code à ton compte, puis reviens ici pour l’activer.
               </div>
             )}
 
             {codeSuccess ? (
-              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--border-success)] bg-[var(--bg-success)] p-4 text-sm text-[var(--text-success-on-subtle)]" role="status">
+              <div className="mt-4 flex items-start gap-3 rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-4 text-sm text-[var(--text-success-on-subtle)]" role="status">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{codeSuccess.message}</span>
               </div>
             ) : null}
             {codeError ? (
-              <div className="mt-4 flex items-start gap-3 rounded-[22px] border border-[var(--support-error-border)] bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--support-error-text)]" role="alert">
+              <div className="mt-4 flex items-start gap-3 rounded-[var(--radius-xl)] border border-[var(--support-error-border)] bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--support-error-text)]" role="alert">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{codeError}</span>
               </div>
             ) : null}
           </article>
 
-          <article className="hero-premium-panel rounded-[24px] p-6 md:p-7">
+          <article className="hero-premium-panel rounded-[var(--radius-2xl)] p-6 md:p-7">
             <div className="flex items-center gap-2">
               <div className="hero-icon-badge h-11 w-11">
                 <Landmark className="h-5 w-5" />
@@ -614,7 +614,7 @@ export default function PricingPage() {
             <p className="hero-body mt-4 text-sm leading-7">{PRICING_COPY.alternativePaymentIntro}</p>
 
             <div className="mt-6 space-y-3">
-              <div className="hero-glass-card rounded-[24px] p-4">
+              <div className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                 <div className="flex items-start gap-3">
                   <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-[var(--support-warm-text)]" />
                   <div>
@@ -623,13 +623,13 @@ export default function PricingPage() {
                   </div>
                 </div>
               </div>
-              <div className="hero-glass-card rounded-[24px] p-4">
+              <div className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                 <div className="flex items-start gap-3">
                   <Landmark className="mt-0.5 h-5 w-5 shrink-0 text-[var(--support-warm-text)]" />
                   <div>
                     <p className="text-sm font-semibold text-white">Virement bancaire</p>
                     <p className="hero-body mt-2 text-sm leading-6">Ajoute l’email du compte ou l’identifiant utilisateur en motif. Le plan est activé après vérification du règlement.</p>
-                    <div className="mt-4 grid gap-2 rounded-[16px] bg-[var(--c-primary-active)] p-4 text-sm sm:grid-cols-2">
+                    <div className="mt-4 grid gap-2 rounded-[var(--radius-lg)] bg-[var(--c-primary-active)] p-4 text-sm sm:grid-cols-2">
                       {BANK_TRANSFER_ROWS.map((row) => (
                         <div key={row.label} className={row.label === 'Titulaire' ? 'sm:col-span-2' : ''}>
                           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--support-warm-text)]">{row.label}</p>
@@ -650,7 +650,7 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <div className="mt-6 rounded-[24px] bg-[var(--c-primary-active)] p-4">
+            <div className="mt-6 rounded-[var(--radius-2xl)] bg-[var(--c-primary-active)] p-4">
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--support-warm-text)]" />
                 <p className="hero-body text-sm leading-6">
@@ -662,7 +662,7 @@ export default function PricingPage() {
         </section>
 
         <section className="pb-16">
-          <div className="rounded-[24px] border-2 border-[var(--whatsapp)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-8">
+          <div className="rounded-[var(--radius-2xl)] border-2 border-[var(--whatsapp)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-center gap-3">
               <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--whatsapp)] text-white">
                 <MessageCircle className="h-7 w-7" />
@@ -680,14 +680,14 @@ export default function PricingPage() {
             </p>
 
             <div className="mt-6 grid gap-5 md:grid-cols-2">
-              <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
+              <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Numéro WhatsApp</p>
                 <p className="mt-2 text-2xl font-bold tracking-wide text-[var(--c-primary)]">{WHATSAPP_NUMBER}</p>
                 <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                   {PRICING_COPY.whatsappHelp}
                 </p>
               </div>
-              <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
+              <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Comment ça marche</p>
                 <ol className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-body)]">
                   {PRICING_COPY.whatsappSteps.map((step, index) => (
@@ -720,7 +720,7 @@ export default function PricingPage() {
               </a>
             </div>
 
-            <div className="mt-5 flex items-start gap-3 rounded-[16px] bg-[var(--support-success-bg)] p-4">
+            <div className="mt-5 flex items-start gap-3 rounded-[var(--radius-lg)] bg-[var(--support-success-bg)] p-4">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--whatsapp)]" />
               <p className="text-sm leading-6 text-[var(--text-secondary)]">
                 Ce numéro est géré par l’équipe Nexus Réussite. Aucun paiement n’est demandé via WhatsApp — le règlement se fait par virement bancaire ou en espèces, puis activation par code.
@@ -743,7 +743,7 @@ export default function PricingPage() {
             </div>
           </div>
 
-          <div className="mt-10 overflow-x-auto rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 shadow-[var(--shadow-md)]">
+          <div className="mt-10 overflow-x-auto rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 shadow-[var(--shadow-md)]">
             <table className="w-full min-w-[760px] text-sm">
               <thead>
                 <tr className="bg-[var(--bg-surface-secondary)] text-left">
@@ -777,7 +777,7 @@ export default function PricingPage() {
               Si la page est bonne, elle coupe court aux hésitations inutiles : quotas, changement de plan, paiement et alternatives sont lisibles sans jargon.
             </p>
 
-            <div className="hero-premium-panel mt-8 rounded-[24px] p-6">
+            <div className="hero-premium-panel mt-8 rounded-[var(--radius-2xl)] p-6">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--support-warm-text)]">Prêt à passer à l’action ?</p>
               <h3 className="editorial-heading mt-3 text-3xl text-white">
                 La préparation sérieuse commence avec Premium.

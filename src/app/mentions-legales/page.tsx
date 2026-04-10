@@ -34,7 +34,7 @@ export default function MentionsLegalesPage() {
         </section>
 
         <div className="mt-10 space-y-6">
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Building2 className="h-5 w-5" />
@@ -56,7 +56,7 @@ export default function MentionsLegalesPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Globe className="h-5 w-5" />
@@ -67,12 +67,12 @@ export default function MentionsLegalesPage() {
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-body)]">Le site est hébergé par :</p>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Infrastructure</p>
                     <p className="mt-2 text-sm font-semibold text-[var(--c-primary)]">OVH SAS</p>
                     <p className="mt-1 text-sm text-[var(--text-secondary)]">2 rue Kellermann, 59100 Roubaix, France</p>
                   </div>
-                  <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Déploiement</p>
                     <p className="mt-2 text-sm font-semibold text-[var(--c-primary)]">Serveur dédié (VPS)</p>
                     <p className="mt-1 text-sm text-[var(--text-secondary)]">Déploiement et exploitation en interne (Nexus Réussite)</p>
@@ -82,7 +82,7 @@ export default function MentionsLegalesPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-success)]/10 text-[var(--c-success)]">
                 <Lock className="h-5 w-5" />
@@ -102,7 +102,7 @@ export default function MentionsLegalesPage() {
                     { label: 'Pas de revente', body: 'Vos données ne sont jamais vendues à des tiers.' },
                     { label: 'Sécurité', body: 'Les mots de passe sont hachés, les sessions sécurisées par cookies HttpOnly.' },
                   ].map((item) => (
-                    <div key={item.label} className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3">
+                    <div key={item.label} className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3">
                       <p className="text-sm font-semibold text-[var(--c-primary)]">{item.label}</p>
                       <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">{item.body}</p>
                     </div>
@@ -112,7 +112,7 @@ export default function MentionsLegalesPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Scale className="h-5 w-5" />
@@ -133,7 +133,7 @@ export default function MentionsLegalesPage() {
                     'Nexus EAF se réserve le droit de suspendre un compte en cas d\u2019usage abusif ou frauduleux.',
                     'Les tarifs des plans Premium et Masterium sont affichés en TND et peuvent être modifiés avec un préavis de 30 jours.',
                   ].map((item) => (
-                    <div key={item} className="flex items-start gap-3 rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3">
+                    <div key={item} className="flex items-start gap-3 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--c-primary)]" />
                       <p className="text-sm leading-6 text-[var(--text-body)]">{item}</p>
                     </div>
@@ -143,7 +143,7 @@ export default function MentionsLegalesPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <FileText className="h-5 w-5" />
@@ -160,7 +160,7 @@ export default function MentionsLegalesPage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
                 <Mail className="h-5 w-5" />
@@ -183,7 +183,7 @@ export default function MentionsLegalesPage() {
           </article>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-6 py-5 shadow-[var(--shadow-md)]">
+        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-6 py-5 shadow-[var(--shadow-md)]">
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:text-[var(--c-success)]">
             <ArrowLeft className="h-4 w-4" />
             Retour à l{'\u2019'}accueil

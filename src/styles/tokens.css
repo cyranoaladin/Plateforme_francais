@@ -123,10 +123,11 @@
   --border-reward:   var(--color-amber-200);
 
   /* Rayons */
-  --radius-sm:  6px;
-  --radius-md:  10px;
-  --radius-lg:  14px;
-  --radius-xl:  18px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   18px;
+  --radius-2xl:  24px;
   --radius-pill: 100px;
 
   /* Ombres */

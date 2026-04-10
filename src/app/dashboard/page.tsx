@@ -575,7 +575,7 @@ export default function Dashboard() {
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
       <EmailVerificationBanner emailVerified={!!data.emailVerified} />
       {upgradeState && (
-        <section className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] px-6 py-5 shadow-[0_4px_20px_var(--shadow-md)]">
+        <section className="relative overflow-hidden rounded-[var(--radius-2xl)] bg-gradient-to-r from-[var(--color-indigo-600)] to-[var(--color-indigo-400)] px-6 py-5 shadow-[0_4px_20px_var(--shadow-md)]">
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_0%,transparent_60%)]" />
           <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-3">
@@ -596,7 +596,7 @@ export default function Dashboard() {
         </section>
       )}
 
-      <section className="relative overflow-hidden rounded-[28px] border border-[var(--border-primary)] bg-[linear-gradient(135deg,var(--color-indigo-700)_0%,var(--color-indigo-600)_44%,var(--color-indigo-800)_100%)] p-5 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
+      <section className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border-primary)] bg-[linear-gradient(135deg,var(--color-indigo-700)_0%,var(--color-indigo-600)_44%,var(--color-indigo-800)_100%)] p-5 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
         <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-white/12 blur-2xl" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-14 left-[14%] h-32 w-32 rounded-full bg-[var(--color-amber-300)]/12 blur-3xl" />
 
@@ -672,7 +672,7 @@ export default function Dashboard() {
             </div>
 
             {!data.onboardingCompleted ? (
-              <div className="hero-glass-card mt-6 rounded-[24px] p-4 text-white shadow-[var(--shadow-md)]">
+              <div className="hero-glass-card mt-6 rounded-[var(--radius-2xl)] p-4 text-white shadow-[var(--shadow-md)]">
                 <p className="text-sm font-semibold">{DASHBOARD_COPY.profileTitle}</p>
                 <p className="hero-body mt-2 text-sm leading-7">{DASHBOARD_COPY.profileBody}</p>
                 <Link
@@ -696,7 +696,7 @@ export default function Dashboard() {
                 },
                 { label: 'Repère fort', value: data.hasEvaluationData ? strongestSkill.label : 'À construire', icon: GraduationCap },
               ].map((item) => (
-                <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
+                <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                   <div className="flex items-center gap-3">
                     <div className="hero-icon-badge h-11 w-11">
                       <item.icon className="h-5 w-5" />
@@ -712,7 +712,7 @@ export default function Dashboard() {
           </div>
 
           <div className="grid gap-4">
-            <Card variant="glass" className="rounded-[24px] p-5 text-white">
+            <Card variant="glass" className="rounded-[var(--radius-2xl)] p-5 text-white">
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
                 <Sparkles className="h-4 w-4" />
                 {DASHBOARD_COPY.nowTitle}
@@ -723,15 +723,15 @@ export default function Dashboard() {
               <p className="hero-body mt-3 text-sm leading-7">{ritualLead.detail}</p>
 
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <div className="hero-glass-card rounded-[18px] px-4 py-3">
+                <div className="hero-glass-card rounded-[var(--radius-xl)] px-4 py-3">
                   <p className="ui-stat-label hero-body-muted">{DASHBOARD_COPY.estimatedTime}</p>
                   <p className="mt-1 text-lg font-semibold text-white">{ritualLead.duration}</p>
                 </div>
-                <div className="hero-glass-card rounded-[18px] px-4 py-3">
+                <div className="hero-glass-card rounded-[var(--radius-xl)] px-4 py-3">
                   <p className="ui-stat-label hero-body-muted">{DASHBOARD_COPY.why}</p>
                   <p className="mt-1 text-sm font-semibold text-white">{data.hasEvaluationData ? weakestSkill.label : 'Premier repère noté'}</p>
                 </div>
-                <div className="hero-glass-card rounded-[18px] px-4 py-3">
+                <div className="hero-glass-card rounded-[var(--radius-xl)] px-4 py-3">
                   <p className="ui-stat-label hero-body-muted">{DASHBOARD_COPY.deadline}</p>
                   <p className="mt-1 text-sm font-semibold text-white">{formatCountdown(data.countdownEcrit, 'Écrit')}</p>
                 </div>
@@ -758,20 +758,20 @@ export default function Dashboard() {
             </Card>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <Card variant="glass" className="rounded-[24px] p-5 text-white">
+              <Card variant="glass" className="rounded-[var(--radius-2xl)] p-5 text-white">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">{DASHBOARD_COPY.deadlines}</p>
                 <div className="mt-4 space-y-3">
                   {[
                     { label: 'Écrit', value: data.countdownEcrit, icon: CalendarDays },
                     { label: 'Oral', value: data.countdownOral, icon: Clock3 },
                   ].map((item) => (
-                    <div key={item.label} className="hero-glass-card rounded-[16px] px-4 py-3">
+                    <div key={item.label} className="hero-glass-card rounded-[var(--radius-lg)] px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
                           <item.icon className="h-4 w-4" />
                         </div>
                         <div>
-                          <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">{item.label}</p>
+                          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">{item.label}</p>
                           <p className="mt-1 text-lg font-semibold text-white">
                             {item.value === null ? 'Date à confirmer' : item.value < 0 ? 'Épreuve passée' : `J-${item.value}`}
                           </p>
@@ -781,12 +781,12 @@ export default function Dashboard() {
                   ))}
                 </div>
                 {examInfo?.oralDateStatus !== 'planned' && examInfo?.oralDateNote ? (
-                  <p className="mt-4 text-xs leading-6 text-slate-300">{examInfo.oralDateNote}</p>
+                  <p className="mt-4 text-xs leading-6 text-[var(--text-muted)]">{examInfo.oralDateNote}</p>
                 ) : null}
               </Card>
 
               {descriptifTotal < 16 && (
-              <Card variant="default" className="rounded-[24px] border-2 border-orange-200 bg-orange-50 p-5">
+              <Card variant="default" className="rounded-[var(--radius-2xl)] border-2 border-orange-200 bg-orange-50 p-5">
                 <div className="flex items-start gap-3">
                   <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5" />
                   <div className="flex-1">
@@ -808,14 +808,14 @@ export default function Dashboard() {
               </Card>
             )}
 
-            <Card variant="glass" className="rounded-[24px] p-5 text-white">
+            <Card variant="glass" className="rounded-[var(--radius-2xl)] p-5 text-white">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">
                   {latestInsight ? 'Dernière séance utile' : data.onboardingCompleted ? 'Prochain repère' : 'Profil à finaliser'}
                 </p>
                 <p className="mt-4 text-2xl font-semibold leading-tight text-white">
                   {latestInsight ? latestInsight.label : data.onboardingCompleted ? focusCopy.eyebrow : 'Reprendre la configuration'}
                 </p>
-                <p className="mt-3 text-sm leading-7 text-slate-200">
+                <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                   {latestInsight
                     ? `Dernier signal enregistré le ${latestInsight.date}. Reviens ici après la prochaine séance pour vérifier ce qui a réellement bougé.`
                     : data.onboardingCompleted
@@ -836,7 +836,7 @@ export default function Dashboard() {
       </section>
 
       {data.error ? (
-        <div className="rounded-[24px] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-5 text-sm text-[var(--c-accent-text)] shadow-[var(--shadow-md)]">
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-5 text-sm text-[var(--c-accent-text)] shadow-[var(--shadow-md)]">
           <div className="flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-accent)]/10 text-[var(--c-accent)]">
               <AlertTriangle className="h-4 w-4" />
@@ -851,7 +851,7 @@ export default function Dashboard() {
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[0.94fr_1.06fr]">
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.radarEyebrow}</p>
@@ -875,7 +875,7 @@ export default function Dashboard() {
                 </RadarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex h-full flex-col items-center justify-center gap-2 rounded-[24px] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-muted)]">
+              <div className="flex h-full flex-col items-center justify-center gap-2 rounded-[var(--radius-2xl)] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-muted)]">
                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--c-primary)]/20 border-t-[var(--c-primary)]" />
                 {DASHBOARD_COPY.radarLoading}
               </div>
@@ -891,7 +891,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.progressionEyebrow}</p>
@@ -899,7 +899,7 @@ export default function Dashboard() {
                 {DASHBOARD_COPY.progressionTitle}
               </h2>
             </div>
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+            <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
               <p className="font-semibold text-[var(--c-primary)]">{momentum.label}</p>
               <p className="mt-1 max-w-sm text-xs leading-5 text-[var(--text-muted)]">{momentum.detail}</p>
             </div>
@@ -909,7 +909,7 @@ export default function Dashboard() {
             {chartsReady ? (
               <ProgressionChart data={progressionData} target={12} />
             ) : (
-              <div className="flex h-64 flex-col items-center justify-center gap-2 rounded-[24px] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-muted)]">
+              <div className="flex h-64 flex-col items-center justify-center gap-2 rounded-[var(--radius-2xl)] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-muted)]">
                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--c-primary)]/20 border-t-[var(--c-primary)]" />
                 {DASHBOARD_COPY.progressionLoading}
               </div>
@@ -921,7 +921,7 @@ export default function Dashboard() {
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[0.98fr_1.02fr]">
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.mapEyebrow}</p>
@@ -964,7 +964,7 @@ export default function Dashboard() {
             })}
           </div>
 
-          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+          <div className="mt-8 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">{DASHBOARD_COPY.vigilanceEyebrow}</p>
             {weakSignals.length > 0 ? (
               <div className="mt-3 flex flex-wrap gap-2">
@@ -988,14 +988,14 @@ export default function Dashboard() {
 
         <div className="space-y-6">
           {(data.oeuvreChoisieEntretien || data.lecturesCursives.length > 0 || data.selectedOeuvres.length > 0) && (
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+            <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Mon corpus</p>
               <h2 className="font-display mt-3 text-2xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-3xl">
                 Les œuvres qui structurent ton parcours.
               </h2>
 
               {data.oeuvreChoisieEntretien && (
-                <div className="mt-5 rounded-[18px] border border-[var(--c-success)]/20 bg-[var(--c-success)]/5 px-4 py-3">
+                <div className="mt-5 rounded-[var(--radius-xl)] border border-[var(--c-success)]/20 bg-[var(--c-success)]/5 px-4 py-3">
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">{"Œuvre principale pour l\u2019entretien"}</p>
                   <p className="mt-2 text-sm font-semibold text-[var(--c-primary)]">{data.oeuvreChoisieEntretien}</p>
                 </div>
@@ -1029,7 +1029,7 @@ export default function Dashboard() {
             </div>
           )}
 
-          <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
+          <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/90 p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">{DASHBOARD_COPY.historyEyebrow}</p>
@@ -1037,7 +1037,7 @@ export default function Dashboard() {
                   {DASHBOARD_COPY.historyTitle}
                 </h2>
               </div>
-              <div className="rounded-[18px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+              <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
                 <p className="font-semibold text-[var(--c-primary)]">{latestInsight ? latestInsight.date : 'Aucune séance utile'}</p>
                 <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">
                   {latestInsight ? 'Repars de ce dernier repère pour garder une progression lisible.' : 'Une première séance évaluée fera apparaître le bon historique.'}
@@ -1047,7 +1047,7 @@ export default function Dashboard() {
             <div className="mt-6 space-y-3">
               {recentActivity.length > 0 ? (
                 recentActivity.map((item) => (
-                  <div key={item.id} className="flex items-start gap-3 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <div key={item.id} className="flex items-start gap-3 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-[var(--bg-page)]">
                       <Clock3 className="h-4 w-4" />
                     </div>
@@ -1058,7 +1058,7 @@ export default function Dashboard() {
                   </div>
                 ))
               ) : (
-                <div className="flex flex-col items-center gap-3 rounded-[24px] border border-dashed border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-6 text-center">
+                <div className="flex flex-col items-center gap-3 rounded-[var(--radius-2xl)] border border-dashed border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-6 text-center">
                   <Clock3 className="h-10 w-10 text-[var(--text-muted)]" />
                   <p className="text-sm font-semibold text-[var(--c-primary)]">{DASHBOARD_COPY.emptyActivityTitle}</p>
                   <p className="max-w-sm text-sm leading-7 text-[var(--text-secondary)]">{DASHBOARD_COPY.emptyActivityBody}</p>
@@ -1081,7 +1081,7 @@ export default function Dashboard() {
                   <Link
                     key={item.title}
                     href={item.href === '/tuteur' ? tutorHref : item.href}
-                    className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)] shadow-[var(--shadow-sm)] transition-all hover:-translate-y-0.5 hover:border-[var(--border-primary)] hover:shadow-[var(--shadow-md)]"
+                    className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)] shadow-[var(--shadow-sm)] transition-all hover:-translate-y-0.5 hover:border-[var(--border-primary)] hover:shadow-[var(--shadow-md)]"
                   >
                     <div className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl ${item.accent}`}>
                       <Icon className="h-5 w-5" />

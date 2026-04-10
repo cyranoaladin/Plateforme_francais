@@ -69,7 +69,7 @@ export function StateNotice({
 
   return (
     <div
-      className={`rounded-[24px] border p-5 shadow-[var(--shadow-sm)] ${visual.shell} ${className}`}
+      className={`rounded-[var(--radius-2xl)] border p-5 shadow-[var(--shadow-sm)] ${visual.shell} ${className}`}
       role={variant === 'error' || variant === 'warning' ? 'alert' : 'status'}
       aria-live={ariaLive}
     >

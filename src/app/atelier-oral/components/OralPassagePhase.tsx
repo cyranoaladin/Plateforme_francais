@@ -74,7 +74,7 @@ export function OralPassagePhase({
 }: Props) {
   return (
     <div className="grid gap-6 xl:grid-cols-[1.04fr_0.96fr]">
-      <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+      <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface-secondary)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Passage oral</p>
@@ -108,7 +108,7 @@ export function OralPassagePhase({
           />
 
           {currentStep === 'ENTRETIEN' ? (
-            <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
+            <div className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
               <p className="text-sm font-semibold text-[var(--c-primary)]">Simulation examinateur dialoguant</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {(['BIENVEILLANT', 'NEUTRE', 'HOSTILE', 'RANDOM'] as ExaminerProfile[]).map((profile) => (
@@ -136,7 +136,7 @@ export function OralPassagePhase({
               {juryTurns.length > 0 ? (
                 <div
                   ref={juryContainerRef}
-                  className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] p-4"
+                  className="mt-4 max-h-52 space-y-2 overflow-auto rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-surface)] p-4"
                 >
                   {juryTurns.slice(-6).map((turn, idx) => (
                     <p key={`${turn.role}-${idx}`} className="text-sm leading-7 text-[var(--text-body)]">

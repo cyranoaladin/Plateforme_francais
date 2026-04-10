@@ -162,13 +162,13 @@ export default function ContactPage() {
         <div className="mt-8 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Autres moyens de contact</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
+            <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">WhatsApp</p>
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="mt-2 block text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
                 {WHATSAPP_NUMBER}
               </a>
             </div>
-            <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
+            <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Email direct</p>
               <a href="mailto:contact@nexusreussite.academy" className="mt-2 block text-sm font-semibold text-[var(--c-success)] transition-colors hover:underline">
                 contact@nexusreussite.academy

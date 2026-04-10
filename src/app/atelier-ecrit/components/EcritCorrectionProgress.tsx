@@ -20,7 +20,7 @@ export function EcritCorrectionProgress({
         return (
           <article
             key={step.index}
-            className={`rounded-[24px] border px-5 py-5 shadow-[var(--shadow-sm)] transition ${isActive || isPast ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)]' : 'border-[var(--border-default)] bg-[var(--bg-surface)]'}`}
+            className={`rounded-[var(--radius-2xl)] border px-5 py-5 shadow-[var(--shadow-sm)] transition ${isActive || isPast ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)]' : 'border-[var(--border-default)] bg-[var(--bg-surface)]'}`}
           >
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">
               Étape {step.index}

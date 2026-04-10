@@ -164,7 +164,7 @@ function PdfThumbnail({
       type="button"
       data-testid={`pdf-preview-thumbnail-${pageNumber}`}
       onClick={onSelect}
-      className={`group flex shrink-0 flex-col items-center gap-2 rounded-[18px] border px-2 py-2 transition ${
+      className={`group flex shrink-0 flex-col items-center gap-2 rounded-[var(--radius-xl)] border px-2 py-2 transition ${
         isActive
           ? 'border-[var(--c-success)] bg-[var(--bg-success)] shadow-[0_12px_24px_rgba(15,118,110,0.12)]'
           : 'border-[var(--border-strong)] bg-[var(--bg-surface)] hover:border-[var(--c-primary)]/18'
@@ -173,7 +173,7 @@ function PdfThumbnail({
     >
       <canvas
         ref={canvasRef}
-        className="rounded-[10px] bg-[var(--bg-surface)] shadow-[0_8px_20px_rgba(23,50,77,0.10)]"
+        className="rounded-[var(--radius-md)] bg-[var(--bg-surface)] shadow-[0_8px_20px_rgba(23,50,77,0.10)]"
       />
       <span className={`text-xs font-semibold ${isActive ? 'text-[var(--c-success)]' : 'text-[var(--text-secondary)]'}`}>
         {pageNumber}
@@ -594,10 +594,10 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
       tabIndex={0}
       onKeyDown={handleKeyDown}
       data-testid="pdf-preview-viewer"
-      className="space-y-3 rounded-[24px] outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)]/35"
+      className="space-y-3 rounded-[var(--radius-2xl)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)]/35"
       aria-label={`Visionneuse PDF de ${title}`}
     >
-      <div className="space-y-3 rounded-[20px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-4 py-3">
+      <div className="space-y-3 rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-surface)] px-4 py-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-[var(--c-success)]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--c-success)]">
@@ -723,14 +723,14 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
                 onChange={(event) => setSearchQuery(event.target.value)}
                 type="search"
                 placeholder="Rechercher un auteur, une notion, une citation..."
-                className="w-full rounded-[18px] border border-[var(--border-success)] bg-[var(--bg-success)] py-3 pl-11 pr-4 text-sm text-[var(--c-primary)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--c-success)] focus:bg-[var(--bg-surface)]"
+                className="w-full rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-success)] py-3 pl-11 pr-4 text-sm text-[var(--c-primary)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--c-success)] focus:bg-[var(--bg-surface)]"
               />
             </label>
             <button
               type="submit"
               data-testid="pdf-preview-search-submit"
               disabled={isSearching || isLoadingDocument}
-              className="rounded-[18px] bg-[var(--c-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--c-primary-muted)] disabled:cursor-not-allowed disabled:opacity-45"
+              className="rounded-[var(--radius-xl)] bg-[var(--c-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--c-primary-muted)] disabled:cursor-not-allowed disabled:opacity-45"
             >
               {isSearching ? 'Recherche...' : 'Rechercher'}
             </button>
@@ -739,7 +739,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               data-testid="pdf-preview-search-prev"
               disabled={searchResults.length < 2}
               onClick={() => goToSearchResult((activeSearchResultIndex - 1 + searchResults.length) % searchResults.length)}
-              className="rounded-[18px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:cursor-not-allowed disabled:opacity-45"
+              className="rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:cursor-not-allowed disabled:opacity-45"
             >
               Résultat -
             </button>
@@ -748,7 +748,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               data-testid="pdf-preview-search-next"
               disabled={searchResults.length < 2}
               onClick={() => goToSearchResult((activeSearchResultIndex + 1) % searchResults.length)}
-              className="rounded-[18px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:cursor-not-allowed disabled:opacity-45"
+              className="rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 disabled:cursor-not-allowed disabled:opacity-45"
             >
               Résultat +
             </button>
@@ -759,7 +759,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
               type="button"
               data-testid="pdf-preview-sidebar-toggle"
               onClick={toggleSidebar}
-              className="inline-flex items-center gap-2 rounded-[18px] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18"
+              className="inline-flex items-center gap-2 rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-success)] px-4 py-3 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18"
             >
               {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               {isSidebarCollapsed ? 'Afficher miniatures' : 'Masquer miniatures'}
@@ -776,7 +776,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
                   setSearchMessage('Saisissez un mot-clé pour interroger le PDF.');
                   setIsSearching(false);
                 }}
-                className="rounded-[18px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm font-semibold text-[var(--text-secondary)] transition hover:border-[var(--c-primary)]/18 hover:text-[var(--c-primary)]"
+                className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm font-semibold text-[var(--text-secondary)] transition hover:border-[var(--c-primary)]/18 hover:text-[var(--c-primary)]"
               >
                 Effacer
               </button>
@@ -785,7 +785,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
         </div>
 
         {(isSearching || searchMessage || searchResults.length > 0) && (
-          <div className="rounded-[18px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
+          <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--c-reward)]">Recherche dans le PDF</p>
@@ -815,7 +815,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
                       type="button"
                       data-testid={`pdf-preview-search-result-${index + 1}`}
                       onClick={() => goToSearchResult(index)}
-                      className={`rounded-[18px] border px-4 py-3 text-left transition ${
+                      className={`rounded-[var(--radius-xl)] border px-4 py-3 text-left transition ${
                         isActive
                           ? 'border-[var(--c-success)] bg-[var(--bg-success)] shadow-[0_12px_24px_rgba(15,118,110,0.10)]'
                           : 'border-[var(--border-strong)] bg-[var(--bg-surface)] hover:border-[var(--c-primary)]/18'
@@ -843,7 +843,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
         {!isSidebarCollapsed && (
           <aside
             data-testid="pdf-preview-sidebar"
-            className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 shadow-[0_10px_30px_rgba(23,50,77,0.06)]"
+            className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-3 shadow-[0_10px_30px_rgba(23,50,77,0.06)]"
           >
             <div className="flex items-center justify-between gap-2">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--c-reward)]">Miniatures</p>
@@ -866,14 +866,14 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
         <div
           ref={containerRef}
           data-testid="pdf-preview-container"
-          className="relative overflow-auto rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-page)] shadow-[0_16px_36px_rgba(23,50,77,0.10)]"
+          className="relative overflow-auto rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-page)] shadow-[0_16px_36px_rgba(23,50,77,0.10)]"
         >
           <div className="flex min-h-[420px] items-start justify-center p-4 md:min-h-[520px]">
             {!error && (
               <canvas
                 ref={canvasRef}
                 data-testid="pdf-preview-canvas"
-                className={`max-w-full rounded-[18px] bg-[var(--bg-surface)] shadow-[0_18px_40px_rgba(23,50,77,0.16)] ${isBusy ? 'opacity-60' : 'opacity-100'}`}
+                className={`max-w-full rounded-[var(--radius-xl)] bg-[var(--bg-surface)] shadow-[0_18px_40px_rgba(23,50,77,0.16)] ${isBusy ? 'opacity-60' : 'opacity-100'}`}
                 aria-label={`Aperçu PDF de ${title}`}
               />
             )}
@@ -924,7 +924,7 @@ export function PdfPreviewViewer({ src, title }: PdfPreviewViewerProps) {
         </div>
       </div>
 
-      <div className="rounded-[18px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/70 px-4 py-3 text-xs leading-6 text-[var(--text-secondary)]">
+      <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/70 px-4 py-3 text-xs leading-6 text-[var(--text-secondary)]">
         Raccourcis: <strong className="text-[var(--c-primary)]">← →</strong> pages, <strong className="text-[var(--c-primary)]">+ -</strong> zoom,
         <strong className="text-[var(--c-primary)]"> W</strong> ajuster largeur, <strong className="text-[var(--c-primary)]">P</strong> ajuster page,
         <strong className="text-[var(--c-primary)]"> A</strong> mode auto, <strong className="text-[var(--c-primary)]"> /</strong> focus recherche,

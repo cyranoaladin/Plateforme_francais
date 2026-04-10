@@ -36,7 +36,7 @@ export function EcritEpreuveSelector({
     : null;
 
   return (
-    <section className="rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
+    <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-6 shadow-[var(--shadow-md)] md:p-7">
       <div className="flex items-start gap-4">
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
           <Sparkles className="h-5 w-5" />
@@ -93,14 +93,14 @@ export function EcritEpreuveSelector({
             loading={isGenerating}
             icon={<Sparkles className="h-4 w-4" />}
             size="lg"
-            className="rounded-[16px] font-semibold"
+            className="rounded-[var(--radius-lg)] font-semibold"
           >
             {isGenerating ? 'Génération…' : 'Générer mon sujet'}
           </Button>
         </div>
       ) : (
         <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_280px]">
-          <div className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
+          <div className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
             <p className="text-sm font-semibold text-[var(--c-primary)]">{sanitizeLlmText(epreuve.sujet)}</p>
             {sanitizeLlmText(epreuve.texte).length > 0 ? (
               <p className="mt-4 whitespace-pre-line text-sm italic leading-7 text-[var(--text-body)]">
@@ -111,14 +111,14 @@ export function EcritEpreuveSelector({
               {sanitizeLlmText(epreuve.consignes)}
             </p>
           </div>
-          <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
+          <div className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-success)]">Barème</p>
             <div className="mt-4 space-y-2.5">
               {baremeOfficiel
                 ? baremeOfficiel.criteres.map((critere) => (
                     <div
                       key={critere.id}
-                      className="rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-3 py-3 text-sm text-[var(--c-primary)]"
+                      className="rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-surface)] px-3 py-3 text-sm text-[var(--c-primary)]"
                     >
                       <div className="flex items-center justify-between gap-3">
                         <span>{critere.label}</span>
@@ -132,7 +132,7 @@ export function EcritEpreuveSelector({
                 : baremeEntries.map(([label, points]) => (
                     <div
                       key={label}
-                      className="flex items-center justify-between rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-surface)] px-3 py-3 text-sm text-[var(--c-primary)]"
+                      className="flex items-center justify-between rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-surface)] px-3 py-3 text-sm text-[var(--c-primary)]"
                     >
                       <span className="capitalize">{label.replace(/_/g, ' ')}</span>
                       <span className="font-semibold">{points} pts</span>

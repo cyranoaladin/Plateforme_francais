@@ -8,19 +8,19 @@ export function FinalCTA() {
   return (
     <section className="pb-20 pt-8 md:pb-24 md:pt-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[24px] border border-[var(--c-primary)] bg-[var(--c-primary)] px-6 py-10 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-10 md:py-12">
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--c-primary)] bg-[var(--c-primary)] px-6 py-10 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:px-10 md:py-12">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">Passage à l’action</p>
               <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl">
                 Vérifie le produit, constate le cadre, puis décide si Premium vaut vraiment la peine.
               </h2>
-              <p className="mt-5 max-w-2xl text-base leading-8 text-slate-200">
+              <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--text-secondary)]">
                 Inscription gratuite, mise en route rapide, workflow lisible dès la première séance. Le bon ordre est simple : voir d’abord, choisir ensuite, payer seulement si l’usage le justifie.
               </p>
             </div>
 
-            <div className="rounded-[24px] bg-[var(--c-primary-active)] p-6">
+            <div className="rounded-[var(--radius-2xl)] bg-[var(--c-primary-active)] p-6">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Dès l’entrée</p>
               <div className="mt-4 space-y-3">
                 {[
@@ -28,9 +28,9 @@ export function FinalCTA() {
                   "Aucun paiement avant d’avoir vu le produit en situation",
                   "Aucune rédaction intégrale générée à la place de l’élève",
                 ].map((item) => (
-                  <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-white/6 px-4 py-3">
+                  <div key={item} className="flex items-start gap-3 rounded-[var(--radius-xl)] border border-white/8 bg-white/6 px-4 py-3">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
-                    <p className="text-sm leading-6 text-slate-200">{item}</p>
+                    <p className="text-sm leading-6 text-[var(--text-secondary)]">{item}</p>
                   </div>
                 ))}
               </div>

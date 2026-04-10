@@ -141,7 +141,7 @@ export default function ParentDashboard() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] p-6 md:p-8 lg:p-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] p-6 md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -159,7 +159,7 @@ export default function ParentDashboard() {
               d’épreuve, dans un langage cohérent avec l’EAF.
             </p>
             {!hasLinkedStudent ? (
-              <div className="hero-glass-card hero-body mt-4 rounded-[18px] px-4 py-3 text-sm leading-6">
+              <div className="hero-glass-card hero-body mt-4 rounded-[var(--radius-xl)] px-4 py-3 text-sm leading-6">
                 Aucun élève n’est encore rattaché à cet email. Demande à l’élève d’ajouter cette adresse dans son profil pour activer le suivi parent réel.
               </div>
             ) : null}
@@ -200,7 +200,7 @@ export default function ParentDashboard() {
               { label: 'Série', value: `${data.streak} jours`, icon: Flame },
               { label: 'Écrit', value: formatCountdown(data.countdownEcrit, 'date non renseignée'), icon: CalendarDays },
             ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
+              <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                 <div className="flex items-center gap-3">
                   <div className="hero-icon-badge h-11 w-11">
                     <item.icon className="h-5 w-5" />
@@ -213,7 +213,7 @@ export default function ParentDashboard() {
               </div>
             ))}
 
-            <div className="hero-glass-card sm:col-span-2 rounded-[24px] p-5">
+            <div className="hero-glass-card sm:col-span-2 rounded-[var(--radius-2xl)] p-5">
               <p className="ui-stat-label text-[var(--hero-kicker-text)]">Conseil parental de la semaine</p>
               <p className="mt-3 text-2xl font-semibold text-white">{parentAdvice.title}</p>
               <p className="hero-body mt-2 text-sm leading-7">{parentAdvice.detail}</p>
@@ -223,14 +223,14 @@ export default function ParentDashboard() {
       </section>
 
       {data.error ? (
-        <div className="rounded-[24px] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)] shadow-[var(--shadow-sm)]">
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)] shadow-[var(--shadow-sm)]">
           <AlertTriangle className="mr-2 inline h-4 w-4" />
           {data.error}
         </div>
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[0.96fr_1.04fr]">
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Lecture parentale rapide</p>
           <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
             Les axes de progrès doivent être compréhensibles en moins d’une minute.
@@ -262,19 +262,19 @@ export default function ParentDashboard() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4">
+            <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe fort</p>
               <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{strongestSkill.label}</p>
               <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">C’est le registre où la confiance peut servir de levier positif.</p>
             </div>
-            <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4">
+            <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe fragile</p>
               <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{weakestSkill.label}</p>
               <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">Le bon soutien familial consiste surtout à protéger un créneau calme sur cet axe.</p>
             </div>
           </div>
 
-          <div className="mt-8 rounded-[24px] border border-[var(--c-primary)]/14 bg-[var(--bg-primary)] p-4">
+          <div className="mt-8 rounded-[var(--radius-2xl)] border border-[var(--c-primary)]/14 bg-[var(--bg-primary)] p-4">
             <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-primary)]">
               <Target className="h-4 w-4" />
               Action concrète cette semaine
@@ -284,7 +284,7 @@ export default function ParentDashboard() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Trajectoire récente</p>
@@ -302,12 +302,12 @@ export default function ParentDashboard() {
             </div>
           </div>
 
-          <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
+          <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Évaluations récentes</p>
             <div className="mt-6 space-y-3">
               {recentEvaluations.length > 0 ? (
                 recentEvaluations.map((item) => (
-                  <article key={item.id} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4">
+                  <article key={item.id} className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4">
                     <div className="flex items-center justify-between gap-3">
                       <div>
                         <p className="text-sm font-semibold text-[var(--c-primary)]">{item.feature}</p>
@@ -320,7 +320,7 @@ export default function ParentDashboard() {
                   </article>
                 ))
               ) : (
-                <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
+                <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                   Aucune évaluation suffisamment récente pour produire une lecture détaillée.
                 </div>
               )}
@@ -330,7 +330,7 @@ export default function ParentDashboard() {
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[0.94fr_1.06fr]">
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Points à surveiller</p>
           {weakSignals.length > 0 ? (
             <div className="mt-6 flex flex-wrap gap-2.5">
@@ -341,13 +341,13 @@ export default function ParentDashboard() {
               ))}
             </div>
           ) : (
-            <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
+            <div className="mt-6 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-primary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
               Aucun signal faible fort n’est remonté sur la fenêtre récente.
             </div>
           )}
         </div>
 
-        <div className="hero-premium-panel rounded-[24px] p-6 md:p-7">
+        <div className="hero-premium-panel rounded-[var(--radius-2xl)] p-6 md:p-7">
           <p className="ui-kicker text-[var(--hero-kicker-text)]">Position parentale utile</p>
           <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
             Le bon soutien n’est ni le contrôle permanent, ni le retrait total.
@@ -370,7 +370,7 @@ export default function ParentDashboard() {
                 icon: MessageSquare,
               },
             ].map((item) => (
-              <article key={item.title} className="hero-glass-card rounded-[24px] p-4">
+              <article key={item.title} className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                 <div className="hero-icon-badge h-11 w-11">
                   <item.icon className="h-5 w-5" />
                 </div>

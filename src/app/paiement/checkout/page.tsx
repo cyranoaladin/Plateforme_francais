@@ -263,7 +263,7 @@ export default function CheckoutPage() {
             type="button"
             disabled={submitting}
             onClick={() => handleOrder('virement')}
-            className="group flex flex-col items-start gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 text-left shadow-[var(--shadow-md)] transition-all hover:-translate-y-0.5 hover:border-[var(--c-primary)] hover:shadow-lg disabled:opacity-60"
+            className="group flex flex-col items-start gap-4 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 text-left shadow-[var(--shadow-md)] transition-all hover:-translate-y-0.5 hover:border-[var(--c-primary)] hover:shadow-lg disabled:opacity-60"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--c-primary)]/10 text-[var(--c-primary)]">
               <Landmark className="h-6 w-6" />
@@ -293,7 +293,7 @@ export default function CheckoutPage() {
             type="button"
             disabled={submitting}
             onClick={() => handleOrder('espèces')}
-            className="group flex flex-col items-start gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 text-left shadow-[var(--shadow-md)] transition-all hover:-translate-y-0.5 hover:border-[var(--c-primary)] hover:shadow-lg disabled:opacity-60"
+            className="group flex flex-col items-start gap-4 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/85 p-6 text-left shadow-[var(--shadow-md)] transition-all hover:-translate-y-0.5 hover:border-[var(--c-primary)] hover:shadow-lg disabled:opacity-60"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--c-success)]/10 text-[var(--c-success)]">
               <Smartphone className="h-6 w-6" />

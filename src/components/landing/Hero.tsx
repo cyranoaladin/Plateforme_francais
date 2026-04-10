@@ -73,7 +73,7 @@ export function Hero() {
             </span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-base leading-8 text-slate-300 sm:text-lg">{HERO_COPY.body}</p>
+          <p className="mt-6 max-w-xl text-base leading-8 text-[var(--text-muted)] sm:text-lg">{HERO_COPY.body}</p>
 
           <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <Link
@@ -93,7 +93,7 @@ export function Hero() {
             </a>
           </div>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3 text-sm text-slate-300">
+          <div className="mt-7 flex flex-wrap items-center gap-3 text-sm text-[var(--text-muted)]">
             {TRUST_ITEMS.map((item) => (
               <span key={item} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3.5 py-2 backdrop-blur-sm">
                 <svg className="h-4 w-4 text-success" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -105,28 +105,28 @@ export function Hero() {
           </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-[22px] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
+            <div className="rounded-[var(--radius-xl)] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.cards.quick}</p>
               <p className="mt-2 text-2xl font-semibold text-white">{HERO_COPY.cards.quickValue}</p>
-              <p className="mt-1 text-sm text-slate-300">{HERO_COPY.cards.quickBody}</p>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">{HERO_COPY.cards.quickBody}</p>
             </div>
-            <div className="rounded-[22px] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
+            <div className="rounded-[var(--radius-xl)] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.cards.correction}</p>
               <p className="mt-2 text-2xl font-semibold text-white">{HERO_COPY.cards.correctionValue}</p>
-              <p className="mt-1 text-sm text-slate-300">{HERO_COPY.cards.correctionBody}</p>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">{HERO_COPY.cards.correctionBody}</p>
             </div>
-            <div className="rounded-[22px] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
+            <div className="rounded-[var(--radius-xl)] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.cards.posture}</p>
               <p className="mt-2 text-2xl font-semibold text-white">{HERO_COPY.cards.postureValue}</p>
-              <p className="mt-1 text-sm text-slate-300">{HERO_COPY.cards.postureBody}</p>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">{HERO_COPY.cards.postureBody}</p>
             </div>
           </div>
         </div>
 
         <div id="demo" className="relative lg:pl-4">
           <div className="absolute inset-x-6 top-5 h-32 rounded-full bg-brand/14 blur-3xl" />
-          <div className="relative overflow-hidden rounded-[30px] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.06))] p-3 shadow-[0_30px_80px_rgba(2,6,23,0.30)] backdrop-blur-xl">
-            <div className="mb-3 flex items-center justify-between rounded-[22px] border border-white/10 bg-black/16 px-4 py-3 text-left backdrop-blur-md">
+          <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.06))] p-3 shadow-[0_30px_80px_rgba(2,6,23,0.30)] backdrop-blur-xl">
+            <div className="mb-3 flex items-center justify-between rounded-[var(--radius-xl)] border border-white/10 bg-black/16 px-4 py-3 text-left backdrop-blur-md">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.previewEyebrow}</p>
                 <p className="mt-1 text-base font-semibold text-white">{HERO_COPY.previewTitle}</p>
@@ -136,7 +136,7 @@ export function Hero() {
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[#0b1227]">
+            <div className="overflow-hidden rounded-[var(--radius-2xl)] border border-white/10 bg-[#0b1227]">
               <img
                 src="/assets/oral-simulator-preview.svg"
                 width={720}
@@ -150,15 +150,15 @@ export function Hero() {
             </div>
 
             <div className="mt-3 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-[20px] border border-white/10 bg-black/14 px-4 py-3">
+              <div className="rounded-[var(--radius-xl)] border border-white/10 bg-black/14 px-4 py-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">{HERO_COPY.previewMeta.diagnostic}</p>
                 <p className="mt-2 text-lg font-semibold text-white">{HERO_COPY.previewMeta.diagnosticValue}</p>
               </div>
-              <div className="rounded-[20px] border border-white/10 bg-black/14 px-4 py-3">
+              <div className="rounded-[var(--radius-xl)] border border-white/10 bg-black/14 px-4 py-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">{HERO_COPY.previewMeta.feedback}</p>
                 <p className="mt-2 text-lg font-semibold text-white">{HERO_COPY.previewMeta.feedbackValue}</p>
               </div>
-              <div className="rounded-[20px] border border-white/10 bg-black/14 px-4 py-3">
+              <div className="rounded-[var(--radius-xl)] border border-white/10 bg-black/14 px-4 py-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">{HERO_COPY.previewMeta.tracking}</p>
                 <p className="mt-2 text-lg font-semibold text-white">{HERO_COPY.previewMeta.trackingValue}</p>
               </div>

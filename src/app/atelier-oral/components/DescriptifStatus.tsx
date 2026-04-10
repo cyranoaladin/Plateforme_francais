@@ -40,7 +40,7 @@ export function DescriptifStatus() {
 
   if (isLoading) {
     return (
-      <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+      <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
         <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Descriptif de lecture</p>
         <p className="mt-4 text-sm text-[var(--text-muted)]">Chargement...</p>
       </section>
@@ -50,7 +50,7 @@ export function DescriptifStatus() {
   const hasTextes = items.length > 0;
 
   return (
-    <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+    <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
       <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-primary)]">Descriptif de lecture</p>
 
       {hasTextes ? (

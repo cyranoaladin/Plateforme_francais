@@ -423,7 +423,7 @@ export default function ProfilPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] p-6 md:p-8 lg:p-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] p-6 md:p-8 lg:p-10">
         <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--color-indigo-400)] opacity-25" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 right-6 h-20 w-20 rounded-full bg-[var(--color-indigo-700)] opacity-40" />
 
@@ -480,7 +480,7 @@ export default function ProfilPage() {
               { label: 'Copies', value: `${resolvedProfile.totalCopies}`, icon: CheckCircle2 },
               { label: 'Badges', value: `${resolvedProfile.badges.length}`, icon: Award },
             ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
+              <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                 <div className="flex items-center gap-3">
                   <div className="hero-icon-badge h-11 w-11">
                     <item.icon className="h-5 w-5" />
@@ -493,7 +493,7 @@ export default function ProfilPage() {
               </div>
             ))}
 
-            <div className="hero-glass-card sm:col-span-2 rounded-[24px] p-5">
+            <div className="hero-glass-card sm:col-span-2 rounded-[var(--radius-2xl)] p-5">
               <p className="ui-stat-label text-[var(--hero-kicker-text)]">Signal global</p>
               <p className="mt-3 text-2xl font-semibold text-white">{profileSignal.label}</p>
               <p className="hero-body mt-2 text-sm leading-7">{profileSignal.detail}</p>
@@ -510,7 +510,7 @@ export default function ProfilPage() {
         />
       ) : null}
 
-      <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
+      <Card variant="default" className="rounded-[var(--radius-2xl)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Réglages du profil</p>
@@ -577,7 +577,7 @@ export default function ProfilPage() {
             hint="Optionnel. L’adresse peut être utilisée pour rattacher ton suivi."
           />
 
-          <div className="md:col-span-2 flex flex-col gap-3 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="md:col-span-2 flex flex-col gap-3 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-1">
               <p className="text-sm font-semibold text-[var(--c-primary)]">Enregistrement sécurisé</p>
               <p className="text-sm leading-6 text-[var(--text-secondary)]">
@@ -605,7 +605,7 @@ export default function ProfilPage() {
       </Card>
 
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
+        <Card variant="default" className="rounded-[var(--radius-2xl)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cartographie actuelle</p>
           <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
             Quatre axes lisibles, pour éviter une lecture floue de tes progrès.
@@ -637,7 +637,7 @@ export default function ProfilPage() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
+            <Card variant="default" className="rounded-[var(--radius-2xl)] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe fort</p>
               <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{hasEvaluationData ? strongestSkill.label : 'En construction'}</p>
               <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
@@ -646,7 +646,7 @@ export default function ProfilPage() {
                   : 'Ce repère apparaîtra après une première séance évaluée.'}
               </p>
             </Card>
-            <Card variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
+            <Card variant="default" className="rounded-[var(--radius-2xl)] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe prioritaire</p>
               <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{hasEvaluationData ? weakestSkill.label : 'À préciser'}</p>
               <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
@@ -659,7 +659,7 @@ export default function ProfilPage() {
         </Card>
 
         <div className="space-y-6">
-          <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
+          <Card variant="default" className="rounded-[var(--radius-2xl)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Points de vigilance</p>
             <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
               Les erreurs récurrentes doivent rester visibles, pas seulement ressenties.
@@ -678,7 +678,7 @@ export default function ProfilPage() {
             ) : (
               <div className="mt-8 space-y-3">
                 {topErrors.map((entry) => (
-                  <article key={`${entry.type}-${entry.firstSeen}`} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <article key={`${entry.type}-${entry.firstSeen}`} className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <div className="flex items-start gap-4">
                       <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--bg-reward)] text-[var(--color-amber-300)]">
                         <AlertTriangle className="h-5 w-5" />
@@ -699,7 +699,7 @@ export default function ProfilPage() {
             )}
           </Card>
 
-          <Card variant="dark" className="rounded-[24px]" padding="md">
+          <Card variant="dark" className="rounded-[var(--radius-2xl)]" padding="md">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">72 prochaines heures</p>
             <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
               Les prochaines tâches doivent être courtes, claires et immédiatement lançables.
@@ -708,7 +708,7 @@ export default function ProfilPage() {
             <div className="mt-8 space-y-3">
               {upcomingTasks.length > 0 ? (
                 upcomingTasks.map((task) => (
-                  <article key={task.id} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
+                  <article key={task.id} className="rounded-[var(--radius-2xl)] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${PRIORITY_STYLE[task.priority]}`}>
                         {task.priority === 'high' ? 'Haute' : task.priority === 'medium' ? 'Moyenne' : 'Faible'}
@@ -721,7 +721,7 @@ export default function ProfilPage() {
                   </article>
                 ))
               ) : (
-                <div className="flex flex-col items-center gap-3 rounded-[24px] border border-white/10 bg-white/8 p-6 text-center backdrop-blur-sm">
+                <div className="flex flex-col items-center gap-3 rounded-[var(--radius-2xl)] border border-white/10 bg-white/8 p-6 text-center backdrop-blur-sm">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
                     <Target className="hero-body-muted h-5 w-5" />
                   </div>
@@ -752,7 +752,7 @@ export default function ProfilPage() {
         </div>
       </section>
 
-      <Card variant="default" className="rounded-[24px] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
+      <Card variant="default" className="rounded-[var(--radius-2xl)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Badges et traces positives</p>
@@ -789,7 +789,7 @@ export default function ProfilPage() {
             {resolvedProfile.badges.map((badge, index) => (
               <article
                 key={badge}
-                className={`rounded-[24px] border border-white/10 bg-gradient-to-br ${BADGE_STYLES[index % BADGE_STYLES.length]} p-5 text-white shadow-[var(--shadow-md)]`}
+                className={`rounded-[var(--radius-2xl)] border border-white/10 bg-gradient-to-br ${BADGE_STYLES[index % BADGE_STYLES.length]} p-5 text-white shadow-[var(--shadow-md)]`}
               >
                 <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12">
                   <Sparkles className="h-5 w-5" />

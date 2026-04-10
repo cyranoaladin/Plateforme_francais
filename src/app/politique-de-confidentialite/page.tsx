@@ -61,7 +61,7 @@ export default function PolitiqueDeConfidentialitePage() {
         </section>
 
         <div className="mt-10 space-y-6">
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-success)]/10 text-[var(--c-success)]">
                 <Lock className="h-5 w-5" />
@@ -78,7 +78,7 @@ export default function PolitiqueDeConfidentialitePage() {
 
             <div className="mt-6 space-y-4">
               {DATA_PROTECTION_ITEMS.map((item) => (
-                <div key={item.label} className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
+                <div key={item.label} className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
                   <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--bg-surface)] text-[var(--c-primary)] shadow-sm">
                       <item.icon className="h-4 w-4" />
@@ -93,7 +93,7 @@ export default function PolitiqueDeConfidentialitePage() {
             </div>
           </article>
 
-          <article className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
+          <article className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8">
             <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
               Contact
             </h2>
@@ -109,7 +109,7 @@ export default function PolitiqueDeConfidentialitePage() {
           </article>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-6 py-5 shadow-[var(--shadow-md)]">
+        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-6 py-5 shadow-[var(--shadow-md)]">
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:text-[var(--c-success)]">
             <ArrowLeft className="h-4 w-4" />
             Retour à l{'\u2019'}accueil

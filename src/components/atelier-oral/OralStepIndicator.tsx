@@ -20,7 +20,7 @@ export function OralStepIndicator<TStep extends string>({
         return (
           <div
             key={stepName}
-            className={`rounded-[22px] border px-4 py-4 text-center ${
+            className={`rounded-[var(--radius-xl)] border px-4 py-4 text-center ${
               active
                 ? 'border-[var(--c-primary)]/18 bg-[var(--bg-surface)] shadow-[var(--shadow-sm)]'
                 : complete

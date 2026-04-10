@@ -65,7 +65,7 @@ export function PricingTeaser() {
 
           <div className="grid gap-4 md:grid-cols-3">
             {PLANS.map((plan) => (
-              <article key={plan.name} className={`${plan.accent} rounded-[24px] border p-6`}>
+              <article key={plan.name} className={`${plan.accent} rounded-[var(--radius-2xl)] border p-6`}>
                 <p className="text-[11px] font-bold uppercase tracking-[0.26em] opacity-70">{plan.kicker}</p>
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <h3 className="font-display text-3xl tracking-[-0.03em]">{plan.name}</h3>

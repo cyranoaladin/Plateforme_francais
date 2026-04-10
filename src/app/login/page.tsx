@@ -184,7 +184,7 @@ function ProofPanel() {
           Ton espace de préparation au Bac de Français commence ici.
         </h1>
 
-        <p className="mt-5 max-w-xl text-base leading-8 text-slate-200">{LOGIN_COPY.proofBody}</p>
+        <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">{LOGIN_COPY.proofBody}</p>
 
         <div className="mt-6 flex flex-wrap gap-2.5">
           {TRUST_POINTS.map((point) => (
@@ -203,7 +203,7 @@ function ProofPanel() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">{card.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-200">{card.body}</p>
+                  <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{card.body}</p>
                 </div>
               </div>
             </article>
@@ -213,7 +213,7 @@ function ProofPanel() {
         <div className="mt-8 rounded-[var(--radius-xl)] bg-[var(--c-primary-active)] p-4">
           <div className="flex items-start gap-3">
             <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
-            <p className="text-sm leading-6 text-slate-200">{LOGIN_COPY.onboardingNotice}</p>
+            <p className="text-sm leading-6 text-[var(--text-secondary)]">{LOGIN_COPY.onboardingNotice}</p>
           </div>
         </div>
       </div>

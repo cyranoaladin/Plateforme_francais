@@ -40,7 +40,7 @@ const Surface = React.forwardRef<HTMLDivElement, SurfaceProps>(
     <div
       ref={ref}
       className={cn(
-        'rounded-[24px] transition-colors duration-[var(--transition-normal)]',
+        'rounded-[var(--radius-2xl)] transition-colors duration-[var(--transition-normal)]',
         toneStyles[tone],
         paddingStyles[padding],
         className,

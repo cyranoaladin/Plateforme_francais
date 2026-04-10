@@ -6,7 +6,7 @@ type Props = {
 
 export function PassagePrincipe({ oralTutorHref }: Props) {
   return (
-    <section className="rounded-[24px] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
+    <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-5 shadow-[var(--shadow-md)]">
       <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">
         Principe de séance
       </p>

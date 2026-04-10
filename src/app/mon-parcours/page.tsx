@@ -288,7 +288,7 @@ export default function MonParcoursPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] p-6 md:p-8 lg:p-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] p-6 md:p-8 lg:p-10">
         <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--color-indigo-400)] opacity-25" />
         <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 right-6 h-20 w-20 rounded-full bg-[var(--color-indigo-700)] opacity-40" />
 
@@ -330,7 +330,7 @@ export default function MonParcoursPage() {
               { label: 'Blocs cochés', value: `${completedActivities}`, icon: CheckCircle2 },
               { label: 'Avancement', value: `${completionPercent}%`, icon: Sparkles },
             ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
+              <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                 <div className="flex items-center gap-3">
                   <div className="hero-icon-badge h-11 w-11">
                     <item.icon className="h-5 w-5" />
@@ -411,7 +411,7 @@ export default function MonParcoursPage() {
                       {week.objectif}
                     </h2>
                   </div>
-                  <Card variant="default" padding="sm" className="min-w-[180px] rounded-[22px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-secondary)]">
+                  <Card variant="default" padding="sm" className="min-w-[180px] rounded-[var(--radius-xl)] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] text-sm text-[var(--text-secondary)]">
                     <div className="flex items-center justify-between gap-3">
                       <span className="font-semibold text-[var(--c-primary)]">Avancement</span>
                       <span>{weekProgress}%</span>
@@ -514,7 +514,7 @@ export default function MonParcoursPage() {
               Une vue compacte pour reprendre le plan sans inertie.
             </h2>
 
-            <div className="mt-6 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+            <div className="mt-6 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-sm font-semibold text-[var(--c-primary)]">Progression globale</span>
                 <span className="text-sm font-bold text-[var(--text-secondary)]">{completionPercent}%</span>
@@ -527,7 +527,7 @@ export default function MonParcoursPage() {
               </p>
             </div>
 
-            <div className="mt-5 rounded-[24px] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-4">
+            <div className="mt-5 rounded-[var(--radius-2xl)] border border-[var(--border-primary)] bg-[var(--bg-primary)] p-4">
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-primary)]">
                 <Target className="h-4 w-4" />
                 Prochain bloc conseillé
@@ -567,7 +567,7 @@ export default function MonParcoursPage() {
                 <Link
                   key={item.title}
                   href={item.href}
-                  className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4 transition-all hover:-translate-y-0.5 hover:border-[var(--c-success)]"
+                  className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4 transition-all hover:-translate-y-0.5 hover:border-[var(--c-success)]"
                 >
                   <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-[var(--bg-page)]">
                     <item.icon className="h-4 w-4" />

@@ -40,7 +40,7 @@ export function OralPrepPhase({
           Réinitialiser
         </button>
       </div>
-      <div className="h-2 w-full rounded-full bg-slate-200">
+      <div className="h-2 w-full rounded-full bg-[var(--bg-surface-secondary)]">
         <div style={{ width: `${progress}%` }} className="h-full rounded-full bg-sky-500" />
       </div>
       <div className="space-y-2">

@@ -183,7 +183,7 @@ export default function EnseignantPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] p-6 md:p-8 lg:p-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] p-6 md:p-8 lg:p-10">
         <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_70%)] blur-2xl lg:block" />
         <div className="absolute left-[-6%] top-[-18%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
 
@@ -226,7 +226,7 @@ export default function EnseignantPage() {
               { label: 'Moyenne classe', value: `${classAverage} / 20`, icon: GraduationCap },
               { label: 'Copies corrigées', value: `${correctedCopies} / ${totalCopies}`, icon: CheckCircle2 },
             ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[24px] p-4">
+              <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                 <div className="flex items-center gap-3">
                   <div className="hero-icon-badge h-11 w-11">
                     <item.icon className="h-5 w-5" />
@@ -239,7 +239,7 @@ export default function EnseignantPage() {
               </div>
             ))}
 
-            <div className="hero-glass-card sm:col-span-2 rounded-[24px] p-5">
+            <div className="hero-glass-card sm:col-span-2 rounded-[var(--radius-2xl)] p-5">
               <p className="ui-kicker text-[var(--hero-kicker-text)]">Lecture rapide</p>
               <p className="mt-3 text-2xl font-semibold text-white">
                 {atRiskCount > 0 ? `${atRiskCount} élève${atRiskCount > 1 ? 's' : ''} à resserrer` : 'Aucun signal critique immédiat'}
@@ -284,7 +284,7 @@ export default function EnseignantPage() {
                 </button>
               </div>
 
-              <div className="mt-8 overflow-hidden rounded-[24px] border border-[var(--border-strong)]">
+              <div className="mt-8 overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-strong)]">
                 <div className="grid grid-cols-[1.4fr_1.6fr_0.9fr_1fr_1fr] gap-3 bg-[var(--bg-surface-secondary)] px-4 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">
                   <span>Élève</span>
                   <span>Email</span>
@@ -345,7 +345,7 @@ export default function EnseignantPage() {
                 </div>
               </Surface>
 
-              <div className="hero-premium-panel rounded-[24px] p-6 md:p-7">
+              <div className="hero-premium-panel rounded-[var(--radius-2xl)] p-6 md:p-7">
                 <p className="hero-kicker">Pilotage rapide</p>
                 <div className="mt-6 grid gap-4 md:grid-cols-2">
                   {[
@@ -374,13 +374,13 @@ export default function EnseignantPage() {
                       icon: MessageSquare,
                     },
                   ].map((item) => (
-                    <article key={item.title} className="hero-glass-card rounded-[24px] p-4">
+                    <article key={item.title} className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
                       <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-amber-300)]">
                         <item.icon className="h-5 w-5" />
                       </div>
                       <p className="mt-4 text-sm font-semibold text-white">{item.title}</p>
                       <p className="mt-1 text-2xl font-bold text-white">{item.value}</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-200">{item.detail}</p>
+                      <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.detail}</p>
                     </article>
                   ))}
                 </div>
@@ -404,7 +404,7 @@ export default function EnseignantPage() {
             <div className="mt-8 space-y-4">
               {payload.copies.length > 0 ? (
                 payload.copies.map((copy) => (
-                  <article key={copy.copieId} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
+                  <article key={copy.copieId} className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                       <div>
                         <div className="flex flex-wrap items-center gap-2">
@@ -417,7 +417,7 @@ export default function EnseignantPage() {
                           {copy.epreuveType} · {formatDateTime(copy.createdAt)}
                         </p>
                       </div>
-                      <div className="rounded-[16px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+                      <div className="rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--text-secondary)]">
                         <p className="font-semibold text-[var(--c-primary)]">Note</p>
                         <p className="mt-1 text-lg font-bold text-[var(--c-primary)]">{copy.note ?? '—'} / 20</p>
                       </div>

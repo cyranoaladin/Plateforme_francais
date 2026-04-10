@@ -47,7 +47,7 @@ export function HowItWorks() {
             la production, la correction et la relance. Tout est pensé pour réduire la dispersion.
           </p>
 
-          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)]">
+          <div className="mt-8 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)]">
             <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Ce que la page promet</p>
             <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
               {[
@@ -79,7 +79,7 @@ export function HowItWorks() {
           {STEPS.map((step, index) => (
             <article
               key={step.number}
-              className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
+              className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
               style={{ animationDelay: `${0.1 + index * 0.08}s` }}
             >
               <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
@@ -100,13 +100,13 @@ export function HowItWorks() {
                 </div>
 
                 <div className="grid gap-3 md:w-[21rem]">
-                  <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Côté élève</p>
                     <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{step.student}</p>
                   </div>
-                  <div className="rounded-[24px] bg-[var(--c-primary)] p-4 text-[var(--bg-page)]">
+                  <div className="rounded-[var(--radius-2xl)] bg-[var(--c-primary)] p-4 text-[var(--bg-page)]">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Côté Nexus</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-200">{step.platform}</p>
+                    <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{step.platform}</p>
                   </div>
                 </div>
               </div>

@@ -55,7 +55,7 @@ export function WhyNexus() {
   return (
     <section id="pourquoi-nexus" className="scroll-mt-24 py-8 md:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8 lg:p-10">
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Pourquoi cette page convertit</p>
@@ -71,7 +71,7 @@ export function WhyNexus() {
 
               <div className="mt-8 grid gap-3">
                 {AUDIENCE_CARDS.map((card) => (
-                  <article key={card.title} className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+                  <article key={card.title} className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
                     <div className="flex items-start gap-3">
                       <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-[var(--bg-page)]">
                         <card.icon className="h-5 w-5" />
@@ -115,7 +115,7 @@ export function WhyNexus() {
               </div>
             </div>
 
-            <div className="rounded-[24px] bg-[var(--c-primary)] p-5 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-6">
+            <div className="rounded-[var(--radius-2xl)] bg-[var(--c-primary)] p-5 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-6">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Différenciation utile</p>
@@ -130,14 +130,14 @@ export function WhyNexus() {
 
               <div className="mt-6 space-y-4">
                 {COMPARISON_ROWS.map((row) => (
-                  <div key={row.label} className="rounded-[24px] border border-white/10 bg-white/6 p-4">
+                  <div key={row.label} className="rounded-[var(--radius-2xl)] border border-white/10 bg-white/6 p-4">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">{row.label}</p>
                     <div className="mt-3 grid gap-3 md:grid-cols-2">
-                      <div className="rounded-[22px] border border-white/10 bg-black/10 p-4">
-                        <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">Outil généraliste</p>
-                        <p className="mt-2 text-sm leading-6 text-slate-200">{row.generic}</p>
+                      <div className="rounded-[var(--radius-xl)] border border-white/10 bg-black/10 p-4">
+                        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Outil généraliste</p>
+                        <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{row.generic}</p>
                       </div>
-                      <div className="rounded-[22px] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)]">
+                      <div className="rounded-[var(--radius-xl)] bg-[var(--bg-surface-secondary)] p-4 text-[var(--c-primary)]">
                         <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">Nexus Réussite</p>
                         <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{row.nexus}</p>
                       </div>
@@ -146,10 +146,10 @@ export function WhyNexus() {
                 ))}
               </div>
 
-              <div className="mt-6 rounded-[24px] border border-white/10 bg-[var(--c-primary-active)] p-4">
+              <div className="mt-6 rounded-[var(--radius-2xl)] border border-white/10 bg-[var(--c-primary-active)] p-4">
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
-                  <p className="text-sm leading-6 text-slate-200">
+                  <p className="text-sm leading-6 text-[var(--text-secondary)]">
                     L’objectif n’est pas de paraître « intelligent ». L’objectif est de rendre le travail plus cadré,
                     plus crédible et plus simple à reprendre d’une séance à l’autre.
                   </p>

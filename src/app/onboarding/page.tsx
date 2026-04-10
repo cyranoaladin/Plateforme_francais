@@ -89,7 +89,7 @@ function StepRail({ current }: { current: 1 | 2 | 3 }) {
         return (
           <div
             key={label}
-            className={`rounded-[22px] border px-4 py-4 transition-colors ${
+            className={`rounded-[var(--radius-xl)] border px-4 py-4 transition-colors ${
               isActive
                 ? 'border-white/14 bg-white/12'
                 : isDone
@@ -122,7 +122,7 @@ function StepRail({ current }: { current: 1 | 2 | 3 }) {
 
 function OnboardingErrorBanner({ message }: { message: string }) {
   return (
-    <div className="mb-6 rounded-[22px] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)]" role="alert">
+    <div className="mb-6 rounded-[var(--radius-xl)] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)]" role="alert">
       {message}
     </div>
   );
@@ -332,7 +332,7 @@ export default function OnboardingPage() {
       <div className="pointer-events-none absolute left-0 top-[34rem] h-72 w-72 rounded-full bg-[var(--color-amber-300)]/10 blur-3xl" />
 
       <main className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        <header className="flex flex-col gap-5 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/80 px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-5 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/80 px-5 py-4 shadow-[var(--shadow-md)] sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--c-primary)]">
@@ -353,7 +353,7 @@ export default function OnboardingPage() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <aside className="lg:sticky lg:top-6 lg:self-start">
-            <div className="hero-premium-panel rounded-[24px] p-6 md:p-8">
+            <div className="hero-premium-panel rounded-[var(--radius-2xl)] p-6 md:p-8">
               <div className="hero-kicker">
                 <Sparkles className="h-4 w-4" />
                 Mise en route
@@ -380,17 +380,17 @@ export default function OnboardingPage() {
                 <StepRail current={step} />
               </div>
 
-              <div className="hero-glass-card-strong mt-8 rounded-[24px] p-5">
+              <div className="hero-glass-card-strong mt-8 rounded-[var(--radius-2xl)] p-5">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--hero-kicker-text)]">Ce que Nexus a déjà compris</p>
                 <div className="hero-body mt-4 space-y-3 text-sm">
-                  <div className="hero-glass-card rounded-[22px] px-4 py-3">
+                  <div className="hero-glass-card rounded-[var(--radius-xl)] px-4 py-3">
                     <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                     <div>
                       <p className="font-semibold text-white">Profil</p>
                       <p className="mt-1 leading-6">{displayName.trim() || 'Nom affiché à renseigner'} · {classLevel || 'Classe à confirmer'}</p>
                     </div>
                   </div>
-                  <div className="hero-glass-card rounded-[22px] px-4 py-3">
+                  <div className="hero-glass-card rounded-[var(--radius-xl)] px-4 py-3">
                     <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                     <div>
                       <p className="font-semibold text-white">Corpus</p>
@@ -401,7 +401,7 @@ export default function OnboardingPage() {
                       </p>
                     </div>
                   </div>
-                  <div className="hero-glass-card rounded-[22px] px-4 py-3">
+                  <div className="hero-glass-card rounded-[var(--radius-xl)] px-4 py-3">
                     <BrainCircuit className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                     <div>
                       <p className="font-semibold text-white">Priorités</p>
@@ -413,7 +413,7 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
-              <div className="hero-glass-card mt-6 rounded-[24px] p-4">
+              <div className="hero-glass-card mt-6 rounded-[var(--radius-2xl)] p-4">
                 <div className="flex items-start gap-3">
                   <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
                   <p className="hero-body text-sm leading-6">
@@ -425,7 +425,7 @@ export default function OnboardingPage() {
             </div>
           </aside>
 
-          <section className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)]/88 p-6 shadow-[var(--shadow-md)] sm:p-8 lg:p-9">
+          <section className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/88 p-6 shadow-[var(--shadow-md)] sm:p-8 lg:p-9">
             {error ? <OnboardingErrorBanner message={error} /> : null}
             {welcomeMessage ? (
               <div className="mb-6 flex items-center gap-2 rounded-[var(--radius-xl)] border border-[var(--c-success)]/25 bg-[var(--bg-success)] p-4 text-sm text-[var(--c-success)]" role="status">
@@ -440,7 +440,7 @@ export default function OnboardingPage() {
                 {currentMeta.title}
               </h2>
               <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{currentMeta.description}</p>
-              <div className="mt-4 rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+              <div className="mt-4 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
                 {currentMeta.benefit}
               </div>
             </div>
@@ -512,15 +512,15 @@ export default function OnboardingPage() {
                   <Surface tone="subtle" padding="md">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Prévisualisation</p>
                     <div className="mt-4 grid gap-3 md:grid-cols-3">
-                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
+                      <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
                         <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Nom</p>
                         <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{displayName.trim() || 'À renseigner'}</p>
                       </div>
-                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
+                      <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
                         <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Voie</p>
                         <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{classLevel}</p>
                       </div>
-                      <div className="rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
+                      <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3">
                         <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Échéance</p>
                         <p className="mt-1 text-sm font-semibold text-[var(--c-primary)]">{formatDateLabel(eafDate)}</p>
                       </div>
@@ -573,7 +573,7 @@ export default function OnboardingPage() {
                                 {oeuvre.type}
                               </p>
                               <p className="mt-2 text-sm font-bold leading-6">{oeuvre.title}</p>
-                              <p className={`mt-1 text-sm ${isSelected ? 'text-slate-200' : 'text-[var(--text-secondary)]'}`}>{oeuvre.author}</p>
+                              <p className={`mt-1 text-sm ${isSelected ? 'text-[var(--text-secondary)]' : 'text-[var(--text-secondary)]'}`}>{oeuvre.author}</p>
                             </div>
                             <div className={`inline-flex h-6 w-6 items-center justify-center rounded-full border ${isSelected ? 'border-white bg-white text-[var(--c-primary)]' : 'border-[var(--border-strong)] text-transparent'}`}>
                               <CheckCircle2 className="h-4 w-4" />
@@ -593,7 +593,7 @@ export default function OnboardingPage() {
                   />
 
                   {allSelectedOeuvres.length > 0 && (
-                    <div className="rounded-[24px] border border-[var(--c-success)]/20 bg-[var(--c-success)]/5 p-5">
+                    <div className="rounded-[var(--radius-2xl)] border border-[var(--c-success)]/20 bg-[var(--c-success)]/5 p-5">
                       <p className="text-sm font-semibold text-[var(--c-primary)]">{"Tes œuvres pour l\u2019entretien oral"}</p>
                       <p className="mt-1 text-xs text-[var(--text-muted)]">{"Coche les œuvres que tu souhaites travailler pour la 2e partie de l\u2019oral (8 pts/20). La première cochée sera ton œuvre principale."}</p>
                       <div className="mt-3 space-y-2">
@@ -635,7 +635,7 @@ export default function OnboardingPage() {
                   )}
 
                   {allSelectedOeuvres.length > 0 && (
-                    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
+                    <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5">
                       <p className="text-sm font-semibold text-[var(--c-primary)]">Lectures cursives pour l&apos;entretien</p>
                       <p className="mt-1 text-xs text-[var(--text-muted)]">Ajoute tes lectures cursives personnelles (jusqu&apos;à 10). Elles seront mobilisables pour la 2e partie de l&apos;oral.</p>
                       <div className="mt-3 flex gap-2">
@@ -695,7 +695,7 @@ export default function OnboardingPage() {
                     const value = ratings[skill.key];
 
                     return (
-                      <Card key={skill.key} variant="default" className="rounded-[24px] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="md">
+                      <Card key={skill.key} variant="default" className="rounded-[var(--radius-2xl)] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="md">
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
                             <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg-surface)] text-[var(--c-primary)] shadow-sm">
@@ -733,7 +733,7 @@ export default function OnboardingPage() {
                     );
                   })}
 
-                  <Card variant="default" className="rounded-[24px] border-[var(--border-strong)]" padding="md">
+                  <Card variant="default" className="rounded-[var(--radius-2xl)] border-[var(--border-strong)]" padding="md">
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Priorisation détectée</p>
                     <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                       {weakSignals.length > 0

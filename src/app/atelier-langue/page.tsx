@@ -214,7 +214,7 @@ export default function AtelierLangue() {
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[24px] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
+      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
         <div className="absolute inset-y-0 right-[-8%] hidden w-[38%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.24),_transparent_72%)] blur-2xl lg:block" />
         <div className="absolute left-[-4%] top-[-22%] h-40 w-40 rounded-full bg-[rgba(216,163,99,0.15)] blur-3xl" />
 
@@ -238,7 +238,7 @@ export default function AtelierLangue() {
               { label: 'Axe actif', value: activeTheme.eyebrow },
               { label: 'Dernière note', value: scoreLabel },
             ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[24px] px-4 py-4">
+              <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] px-4 py-4">
                 <p className="ui-stat-label text-[var(--hero-kicker-text)]">{item.label}</p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
@@ -306,7 +306,7 @@ export default function AtelierLangue() {
             </div>
             <div className="mt-4 space-y-3">
               {METHOD_MARKERS.map((marker, index) => (
-                <Surface key={marker} tone="default" padding="sm" className="rounded-[20px]">
+                <Surface key={marker} tone="default" padding="sm" className="rounded-[var(--radius-xl)]">
                   <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--c-primary)]/10 text-xs font-bold text-[var(--c-primary)]">
                     {index + 1}
                   </span>
@@ -330,7 +330,7 @@ export default function AtelierLangue() {
           </Surface>
         </aside>
 
-        <section className="overflow-hidden rounded-[24px] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] shadow-[var(--shadow-md)]">
+        <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] shadow-[var(--shadow-md)]">
           <div className="border-b border-[var(--border-default)] bg-[var(--bg-surface)] px-5 py-4 md:px-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
@@ -374,7 +374,7 @@ export default function AtelierLangue() {
                 <p className="font-display mt-4 text-2xl leading-10 tracking-[-0.02em] text-[var(--c-primary)] md:text-3xl">
                   « {sanitizeLlmText(currentExercise.sentence)} »
                 </p>
-                <Surface tone="primary" padding="sm" className="mt-5 rounded-[22px]">
+                <Surface tone="primary" padding="sm" className="mt-5 rounded-[var(--radius-xl)]">
                   <p className="ui-kicker text-[var(--text-muted)]">Question d’oral</p>
                   <p className="mt-2 text-sm leading-7 text-[var(--text-body)]">{sanitizeLlmText(currentExercise.question)}</p>
                 </Surface>
@@ -426,7 +426,7 @@ export default function AtelierLangue() {
                       id="atelier-langue-feedback"
                       role="status"
                       aria-live="polite"
-                      className={`rounded-[24px] border p-6 ${
+                      className={`rounded-[var(--radius-2xl)] border p-6 ${
                         feedback.status === 'success'
                           ? 'border-[var(--border-success)] bg-[var(--bg-success)]'
                           : feedback.status === 'warning'
@@ -452,7 +452,7 @@ export default function AtelierLangue() {
                     </div>
 
                     {feedback.missing.length > 0 && (
-                      <div className="rounded-[24px] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-5">
+                      <div className="rounded-[var(--radius-2xl)] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-5">
                         <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-reward)]">
                           <AlertCircle className="h-4 w-4" />
                           Axes à reprendre
@@ -468,7 +468,7 @@ export default function AtelierLangue() {
                       </div>
                     )}
 
-                    <div className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
+                    <div className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-5">
                       <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--c-success)]">
                         <Star className="h-4 w-4" />
                         Correction attendue

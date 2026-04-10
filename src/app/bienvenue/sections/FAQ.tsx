@@ -41,7 +41,7 @@ function FaqItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] shadow-[var(--shadow-sm)]">
+    <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] shadow-[var(--shadow-sm)]">
       <button
         type="button"
         onClick={onToggle}
@@ -76,14 +76,14 @@ export function FAQ() {
             Une page d{'\u2019'}accueil sérieuse répond clairement aux questions sensibles : cadre pédagogique, sources, sécurité, accessibilité, support.
           </p>
 
-          <div className="mt-8 rounded-[24px] border border-[var(--border-strong)] bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)]">
+          <div className="mt-8 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)]">
             <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[var(--color-slate-300)]">
               <MessageSquareText className="h-5 w-5" />
             </div>
             <h3 className="font-display mt-5 text-3xl leading-tight tracking-[-0.03em] text-white">
               Besoin d{'\u2019'}aller plus loin avant de t{'\u2019'}inscrire ?
             </h3>
-            <p className="mt-3 text-sm leading-7 text-slate-200">
+            <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
               La page tarifs détaille les plans et la page connexion permet de démarrer gratuitement pour tester le workflow réel.
             </p>
             <div className="mt-6 flex flex-col gap-2 text-sm font-semibold">

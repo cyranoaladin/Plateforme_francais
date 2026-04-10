@@ -102,7 +102,7 @@ export default function CgvPage() {
           {CGV_SECTIONS.map((section) => (
             <article
               key={section.title}
-              className="rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8"
+              className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-8"
             >
               <div className="flex items-start gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
@@ -130,7 +130,7 @@ export default function CgvPage() {
                       {section.table.map((row) => (
                         <div
                           key={row.plan}
-                          className="flex items-center justify-between rounded-[22px] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3"
+                          className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-3"
                         >
                           <span className="text-sm font-semibold text-[var(--text-body)]">{row.plan}</span>
                           <span className="text-sm font-bold text-[var(--c-primary)]">{row.price}</span>
@@ -161,7 +161,7 @@ export default function CgvPage() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[24px] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-6 py-5 shadow-[var(--shadow-md)]">
+        <div className="mt-10 flex flex-wrap items-center gap-4 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-6 py-5 shadow-[var(--shadow-md)]">
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:text-[var(--c-success)]">
             <ArrowLeft className="h-4 w-4" />
             Retour à l{'\u2019'}accueil

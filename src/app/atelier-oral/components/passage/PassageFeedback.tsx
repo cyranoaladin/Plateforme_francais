@@ -17,7 +17,7 @@ export function PassageFeedback({
   feedbacks,
 }: Props) {
   return (
-    <section className="rounded-[24px] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
+    <section className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)]">
       <div className="flex items-center justify-between">
         <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">
           Feedbacks intermédiaires
@@ -35,7 +35,7 @@ export function PassageFeedback({
           return (
             <div
               key={step}
-              className="rounded-[22px] border border-[var(--border-success)] bg-[var(--bg-surface)] p-4 shadow-[var(--shadow-sm)]"
+              className="rounded-[var(--radius-xl)] border border-[var(--border-success)] bg-[var(--bg-surface)] p-4 shadow-[var(--shadow-sm)]"
             >
               <div className="flex items-center justify-between gap-3">
                 <p className="text-sm font-semibold text-[var(--c-primary)]">{stepLabels[step]}</p>
@@ -48,13 +48,13 @@ export function PassageFeedback({
               </p>
 
               {item.evaluationFailed ? (
-                <div className="mt-4 rounded-[16px] border border-[var(--border-reward)] bg-[var(--bg-reward)] px-4 py-3 text-sm font-medium text-[var(--text-reward-on-subtle)]">
+                <div className="mt-4 rounded-[var(--radius-lg)] border border-[var(--border-reward)] bg-[var(--bg-reward)] px-4 py-3 text-sm font-medium text-[var(--text-reward-on-subtle)]">
                   ⚠️ Évaluation indisponible - score non comptabilisé
                 </div>
               ) : null}
 
               {item.points_forts.length > 0 ? (
-                <div className="mt-4 rounded-[16px] border border-[var(--border-success)] bg-[var(--bg-success)] p-3">
+                <div className="mt-4 rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-success)] p-3">
                   <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--c-success)]">
                     Points forts
                   </p>
@@ -70,7 +70,7 @@ export function PassageFeedback({
               ) : null}
 
               {item.axes.length > 0 ? (
-                <div className="mt-4 rounded-[16px] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-3">
+                <div className="mt-4 rounded-[var(--radius-lg)] border border-[var(--border-reward)] bg-[var(--bg-reward)] p-3">
                   <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--c-reward)]">
                     Axes d’amélioration
                   </p>
