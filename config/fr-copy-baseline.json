@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-10T23:22:18.489Z",
+  "generatedAt": "2026-04-10T23:39:15.851Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -5911,325 +5911,388 @@
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 104,
-      "column": 17,
-      "kind": "jsx-prop",
+      "line": 124,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Ajouter un texte"
+    },
+    {
+      "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
+      "line": 130,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Un texte bien renseigné rend l&apos;oral fidèle à tes vraies conditions d&apos;examen."
+    },
+    {
+      "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
+      "line": 147,
+      "column": 37,
+      "kind": "jsx-text",
+      "text": "Objet d&apos;étude"
+    },
+    {
+      "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
+      "line": 168,
+      "column": 37,
+      "kind": "jsx-text",
       "text": "Type de texte"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 113,
-      "column": 17,
-      "kind": "jsx-prop",
+      "line": 191,
+      "column": 37,
+      "kind": "jsx-text",
       "text": "Œuvre — Auteur"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 116,
-      "column": 23,
+      "line": 196,
+      "column": 25,
       "kind": "jsx-prop",
       "text": "La Peau de chagrin — Honoré de Balzac"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 120,
-      "column": 17,
-      "kind": "jsx-prop",
-      "text": "Titre de l'extrait"
+      "line": 210,
+      "column": 37,
+      "kind": "jsx-text",
+      "text": "Titre de l&apos;extrait"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 123,
-      "column": 23,
+      "line": 215,
+      "column": 25,
       "kind": "jsx-prop",
       "text": "Le talisman"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 130,
-      "column": 17,
-      "kind": "jsx-prop",
+      "line": 232,
+      "column": 37,
+      "kind": "jsx-text",
       "text": "Incipit"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 133,
-      "column": 23,
+      "line": 237,
+      "column": 25,
       "kind": "jsx-prop",
       "text": "Premiers mots du texte"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 136,
-      "column": 17,
-      "kind": "jsx-prop",
+      "line": 250,
+      "column": 37,
+      "kind": "jsx-text",
       "text": "Pages / référence"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 139,
-      "column": 23,
+      "line": 255,
+      "column": 25,
       "kind": "jsx-prop",
       "text": "p. 12-15"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 144,
-      "column": 71,
+      "line": 280,
+      "column": 11,
       "kind": "jsx-text",
       "text": "Repères programme 2025"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 146,
+      "line": 286,
       "column": 11,
       "kind": "jsx-text",
       "text": "Parcours possibles :"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 164,
-      "column": 17,
-      "kind": "jsx-prop",
+      "line": 316,
+      "column": 35,
+      "kind": "jsx-text",
       "text": "Parcours associé"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 167,
+      "line": 321,
       "column": 23,
       "kind": "jsx-prop",
       "text": "Émancipations créatrices"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 173,
-      "column": 17,
-      "kind": "jsx-prop",
+      "line": 336,
+      "column": 37,
+      "kind": "jsx-text",
       "text": "Texte intégral ou extrait"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 177,
-      "column": 23,
+      "line": 341,
+      "column": 25,
       "kind": "jsx-prop",
       "text": "Colle le texte si tu veux éviter l'étape d'upload."
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 180,
-      "column": 17,
-      "kind": "jsx-prop",
+      "line": 358,
+      "column": 37,
+      "kind": "jsx-text",
       "text": "Notes personnelles"
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 184,
-      "column": 23,
+      "line": 363,
+      "column": 25,
       "kind": "jsx-prop",
       "text": "Ce que tu veux retenir, dire à l'entretien, ou revoir."
     },
     {
       "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 194,
+      "line": 409,
       "column": 11,
       "kind": "jsx-text",
       "text": "Annuler"
     },
     {
-      "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 197,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "Ajouter au descriptif"
-    },
-    {
-      "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 86,
-      "column": 76,
-      "kind": "jsx-text",
-      "text": "Ajouter un texte"
-    },
-    {
-      "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 88,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Un texte bien renseigné rend l’oral fidèle à tes vraies conditions d’examen."
-    },
-    {
-      "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 92,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "Fermer"
-    },
-    {
-      "file": "src/app/descriptif-lecture/AddTexteForm.tsx",
-      "line": 98,
-      "column": 17,
-      "kind": "jsx-prop",
-      "text": "Objet d'étude"
-    },
-    {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 121,
+      "line": 152,
       "column": 15,
       "kind": "jsx-text",
       "text": "Oral EAF conforme au descriptif réel"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 123,
-      "column": 79,
+      "line": 163,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Mon descriptif de lecture"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 125,
+      "line": 171,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Tu saisis ici les textes réellement étudiés en classe. L’atelier oral doit tirer dans cette liste, comme l’examinateur le jour de l’épreuve."
+      "text": "Tu saisis ici les textes réellement étudiés en classe. L&apos;atelier oral doit tirer dans cette liste, comme l&apos;examinateur le jour de l&apos;épreuve."
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 131,
-      "column": 75,
+      "line": 188,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Conformité réglementaire"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 135,
-      "column": 64,
+      "line": 205,
+      "column": 17,
       "kind": "jsx-text",
       "text": "textes enregistrés"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 137,
-      "column": 19,
+      "line": 213,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Minimum réglementaire :"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 143,
-      "column": 42,
-      "kind": "jsx-text",
-      "text": "Seuil réglementaire atteint"
-    },
-    {
-      "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 145,
-      "column": 57,
+      "line": 226,
+      "column": 34,
       "kind": "jsx-text",
       "text": "texte(s) encore attendus"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 189,
-      "column": 19,
+      "line": 252,
+      "column": 17,
       "kind": "jsx-text",
-      "text": "🎉 Bienvenue ! Complète ton descriptif de lecture"
+      "text": "Seuil réglementaire atteint"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 192,
-      "column": 19,
+      "line": 344,
+      "column": 17,
       "kind": "jsx-text",
-      "text": "Pour que l'atelier oral simule les vraies conditions de l'épreuve, saisis ici les textes étudiés en classe avec ton enseignant."
+      "text": "Il manque :"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 240,
+      "line": 363,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Ajouter un texte"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 382,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Bienvenue ! Complète ton descriptif de lecture"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 388,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Pour que l&apos;atelier oral simule les vraies conditions de l&apos;épreuve, saisis ici les textes étudiés en classe avec ton enseignant."
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 428,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Ajouter un texte"
+    },
+    {
+      "file": "src/app/descriptif-lecture/page.tsx",
+      "line": 474,
       "column": 36,
       "kind": "jsx-text",
       "text": "texte(s)"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 246,
-      "column": 21,
+      "line": 497,
+      "column": 23,
       "kind": "jsx-text",
       "text": "Aucun texte pour cette catégorie."
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 248,
+      "line": 505,
       "column": 23,
       "kind": "jsx-text",
       "text": "Ajouter un"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 270,
-      "column": 77,
+      "line": 539,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Œuvres du programme 2025"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 288,
-      "column": 69,
+      "line": 582,
+      "column": 17,
       "kind": "jsx-text",
       "text": "Rappel réglementaire"
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 290,
-      "column": 19,
+      "line": 589,
+      "column": 15,
       "kind": "jsx-text",
-      "text": "L’examinateur interroge à partir du descriptif transmis à l’avance. Si ton descriptif est vide ou incomplet, la simulation sera moins fidèle à l’épreuve réelle."
+      "text": "L&apos;examinateur interroge à partir du descriptif transmis à l&apos;avance. Si ton descriptif est vide ou incomplet, la simulation sera moins fidèle à l&apos;épreuve réelle."
     },
     {
       "file": "src/app/descriptif-lecture/page.tsx",
-      "line": 300,
-      "column": 64,
+      "line": 601,
+      "column": 11,
       "kind": "jsx-text",
       "text": "Chargement du descriptif…"
     },
     {
       "file": "src/app/descriptif-lecture/TexteCard.tsx",
-      "line": 112,
+      "line": 154,
       "column": 15,
       "kind": "jsx-text",
       "text": "Fichier lié"
     },
     {
       "file": "src/app/descriptif-lecture/TexteCard.tsx",
-      "line": 118,
-      "column": 89,
+      "line": 169,
+      "column": 91,
+      "kind": "jsx-text",
+      "text": "Réduire"
+    },
+    {
+      "file": "src/app/descriptif-lecture/TexteCard.tsx",
+      "line": 171,
+      "column": 93,
+      "kind": "jsx-text",
+      "text": "Ouvrir"
+    },
+    {
+      "file": "src/app/descriptif-lecture/TexteCard.tsx",
+      "line": 177,
+      "column": 24,
       "kind": "jsx-prop",
       "text": "Supprimer ce texte"
     },
     {
       "file": "src/app/descriptif-lecture/TexteCard.tsx",
-      "line": 130,
+      "line": 210,
       "column": 19,
       "kind": "jsx-text",
       "text": "Téléverser le texte étudié"
     },
     {
       "file": "src/app/descriptif-lecture/TexteCard.tsx",
-      "line": 133,
+      "line": 216,
       "column": 19,
       "kind": "jsx-text",
       "text": "PDF, JPEG, PNG ou WEBP. OCR automatique si disponible."
     },
     {
       "file": "src/app/descriptif-lecture/TexteCard.tsx",
-      "line": 164,
-      "column": 19,
-      "kind": "jsx-prop",
-      "text": "Texte de l'extrait"
+      "line": 268,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Texte de l&apos;extrait"
     },
     {
       "file": "src/app/descriptif-lecture/TexteCard.tsx",
-      "line": 172,
-      "column": 19,
+      "line": 274,
+      "column": 27,
       "kind": "jsx-prop",
+      "text": "Colle le texte intégral si tu ne téléverses pas de document."
+    },
+    {
+      "file": "src/app/descriptif-lecture/TexteCard.tsx",
+      "line": 287,
+      "column": 89,
+      "kind": "jsx-text",
+      "text": "Sauvegarde..."
+    },
+    {
+      "file": "src/app/descriptif-lecture/TexteCard.tsx",
+      "line": 290,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Colle le texte intégral si tu ne téléverses pas de document."
+    },
+    {
+      "file": "src/app/descriptif-lecture/TexteCard.tsx",
+      "line": 303,
+      "column": 17,
+      "kind": "jsx-text",
       "text": "Mes notes personnelles"
+    },
+    {
+      "file": "src/app/descriptif-lecture/TexteCard.tsx",
+      "line": 309,
+      "column": 27,
+      "kind": "jsx-prop",
+      "text": "Utilise cet espace pour l'entretien : ce que tu veux dire, ce que tu aimes, ce que tu veux retenir."
+    },
+    {
+      "file": "src/app/descriptif-lecture/TexteCard.tsx",
+      "line": 322,
+      "column": 89,
+      "kind": "jsx-text",
+      "text": "Sauvegarde..."
+    },
+    {
+      "file": "src/app/descriptif-lecture/TexteCard.tsx",
+      "line": 325,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Utilise cet espace pour l&apos;entretien : ce que tu veux dire, ce que tu aimes, ce que tu veux retenir."
     },
     {
       "file": "src/app/enseignant/page.tsx",
@@ -8508,395 +8571,381 @@
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 414,
-      "column": 17,
-      "kind": "jsx-prop",
-      "text": "Chargement de ton profil de progression"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 415,
-      "column": 23,
-      "kind": "jsx-prop",
-      "text": "Tes compétences, erreurs récurrentes et badges sont en cours de chargement. Cela ne prend que quelques secondes."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 434,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Profil de progression EAF"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 437,
-      "column": 28,
-      "kind": "jsx-text",
-      "text": ", ton profil doit te dire où appuyer, pas seulement où tu en es."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 440,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges déjà acquis."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 446,
+      "line": 1015,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Niveau moyen"
+      "text": "Soumettre à nouveau la copie."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 449,
+      "line": 1025,
       "column": 17,
       "kind": "jsx-text",
-      "text": "Point fort"
+      "text": "2 OCCURRENCES"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 452,
-      "column": 17,
+      "line": 1071,
+      "column": 37,
       "kind": "jsx-text",
-      "text": "Axe à retendre"
+      "text": "OCCURRENCES"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 455,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Mise à jour"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 464,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Ouvrir mon parcours"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 471,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Débloquer un point précis"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 497,
-      "column": 75,
-      "kind": "jsx-text",
-      "text": "Signal global"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 507,
-      "column": 17,
-      "kind": "jsx-prop",
-      "text": "Impossible de charger certaines données du profil"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 516,
-      "column": 98,
-      "kind": "jsx-text",
-      "text": "Réglages du profil"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 518,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Mets à jour les informations qui structurent vraiment ton accompagnement."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 521,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Nom affiché, classe, objectif, établissement et contacts de suivi peuvent être modifiés ici sans repasser par l’onboarding."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 525,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Mise à jour en direct"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 531,
-      "column": 19,
-      "kind": "jsx-prop",
-      "text": "Nom affiché"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 540,
-      "column": 19,
-      "kind": "jsx-prop",
-      "text": "Classe"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 547,
-      "column": 19,
-      "kind": "jsx-prop",
-      "text": "Objectif visé"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 551,
+      "line": 1081,
       "column": 25,
-      "kind": "jsx-prop",
-      "text": "Ex. 14/20"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 555,
-      "column": 19,
-      "kind": "jsx-prop",
-      "text": "Établissement"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 562,
-      "column": 19,
-      "kind": "jsx-prop",
-      "text": "E-mail parent"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 571,
-      "column": 19,
-      "kind": "jsx-prop",
-      "text": "E-mail enseignant"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 582,
-      "column": 76,
       "kind": "jsx-text",
-      "text": "Enregistrement sécurisé"
+      "text": "Point à renforcer :"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 584,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Cette action utilise le même contrôle CSRF que les autres mutations sensibles de la plateforme."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 601,
+      "line": 1113,
       "column": 15,
-      "kind": "jsx-text",
-      "text": "Enregistrer le profil"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 609,
-      "column": 96,
-      "kind": "jsx-text",
-      "text": "Cartographie actuelle"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 611,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Quatre axes lisibles, pour éviter une lecture floue de tes progrès."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 641,
-      "column": 105,
-      "kind": "jsx-text",
-      "text": "Axe fort"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 650,
-      "column": 105,
-      "kind": "jsx-text",
-      "text": "Axe prioritaire"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 663,
-      "column": 98,
-      "kind": "jsx-text",
-      "text": "Points de vigilance"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 665,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Les erreurs récurrentes doivent rester visibles, pas seulement ressenties."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 671,
-      "column": 25,
-      "kind": "jsx-prop",
-      "text": "Aucune erreur récurrente identifiée"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 672,
-      "column": 31,
-      "kind": "jsx-prop",
-      "text": "Au fil de tes ateliers et évaluations, les points de vigilance récurrents apparaîtront ici pour t’aider à cibler tes prochaines révisions."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 690,
-      "column": 43,
-      "kind": "jsx-text",
-      "text": "occurrences"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 703,
-      "column": 104,
       "kind": "jsx-text",
       "text": "72 prochaines heures"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 705,
-      "column": 15,
+      "line": 1124,
+      "column": 13,
       "kind": "jsx-text",
       "text": "Les prochaines tâches doivent être courtes, claires et immédiatement lançables."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 717,
-      "column": 49,
+      "line": 1152,
+      "column": 45,
       "kind": "jsx-text",
-      "text": "min ·"
+      "text": "MIN ·"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 728,
-      "column": 67,
-      "kind": "jsx-text",
-      "text": "Pas encore de tâches planifiées"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 730,
-      "column": 21,
-      "kind": "jsx-text",
-      "text": "Ouvre ton parcours ou lance un atelier pour que les prochaines actions concrètes apparaissent ici."
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 741,
-      "column": 17,
+      "line": 1182,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Voir tout le plan"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 748,
-      "column": 17,
+      "line": 1202,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Demander une relance"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 758,
-      "column": 98,
+      "line": 1222,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Badges et traces positives"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 760,
+      "line": 1231,
       "column": 15,
       "kind": "jsx-text",
       "text": "Les marqueurs de progression comptent aussi pour soutenir la constance."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 764,
+      "line": 1242,
       "column": 45,
       "kind": "jsx-text",
       "text": "badges actifs"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 771,
-      "column": 21,
-      "kind": "jsx-prop",
-      "text": "Tes premiers badges arrivent bientôt"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 772,
-      "column": 27,
-      "kind": "jsx-prop",
-      "text": "Chaque atelier terminé, chaque série de jours actifs et chaque seuil franchi te rapprochent d’un nouveau badge. Continue sur ta lancée !"
-    },
-    {
-      "file": "src/app/profil/page.tsx",
-      "line": 781,
-      "column": 19,
+      "line": 1252,
+      "column": 16,
       "kind": "jsx-text",
-      "text": "Lancer un atelier"
+      "text": "Tes premiers badges arrivent bientôt !"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 799,
-      "column": 19,
+      "line": 1300,
+      "column": 21,
       "kind": "jsx-text",
       "text": "Trace de progression utile : ce badge matérialise une régularité ou un passage de seuil déjà atteint."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 811,
-      "column": 11,
+      "line": 1323,
+      "column": 13,
       "kind": "jsx-text",
       "text": "Zone dangereuse"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 814,
+      "line": 1331,
       "column": 11,
       "kind": "jsx-text",
       "text": "Conformément au RGPD (article 17), tu peux demander la suppression définitive de ton compte et de toutes tes données. Cette action est irréversible."
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 825,
+      "line": 1355,
       "column": 13,
       "kind": "jsx-text",
       "text": "Supprimer mon compte"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 830,
+      "line": 1369,
       "column": 15,
       "kind": "jsx-text",
       "text": "Confirme la suppression en saisissant ton adresse e-mail :"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 836,
+      "line": 1375,
       "column": 27,
       "kind": "jsx-prop",
       "text": "ton-email@exemple.com"
     },
     {
       "file": "src/app/profil/page.tsx",
-      "line": 849,
+      "line": 1396,
       "column": 17,
       "kind": "jsx-text",
       "text": "Annuler"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 362,
+      "column": 61,
+      "kind": "jsx-text",
+      "text": "Chargement de ton profil..."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 393,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Profil de progression EAF"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 404,
+      "column": 43,
+      "kind": "jsx-text",
+      "text": "), ton profil doit te dire où appuyer, pas seulement où tu en es."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 411,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges déjà acquis."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 447,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Ouvrir mon parcours"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 467,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Débloquer un point précis"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 521,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Signal global"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 530,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Relance prioritaire"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 536,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Le profil montre un besoin de réamorçage sur les bases. Il faut réduire la dispersion et remettre le bon axe au centre."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 585,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Mise à jour en direct"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 592,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Réglages du profil"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 602,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Mets à jour les informations qui structurent vraiment ton accompagnement."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 609,
+      "column": 11,
+      "kind": "jsx-text",
+      "text": "Nom affiché, classe, objectif, établissement et contacts de suivi peuvent être modifiés ici sans repasser par l&apos;onboarding."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 616,
+      "column": 41,
+      "kind": "jsx-text",
+      "text": "Nom affiché"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 636,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "C&apos;est le nom utilisé dans le dashboard et les emails."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 641,
+      "column": 41,
+      "kind": "jsx-text",
+      "text": "Classe"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 663,
+      "column": 41,
+      "kind": "jsx-text",
+      "text": "Objectif visé"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 668,
+      "column": 29,
+      "kind": "jsx-prop",
+      "text": "Ex. 14/20"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 683,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Laisse vide si tu préfères ne pas afficher d&apos;objectif."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 688,
+      "column": 41,
+      "kind": "jsx-text",
+      "text": "Établissement"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 707,
+      "column": 41,
+      "kind": "jsx-text",
+      "text": "E-mail parent"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 726,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Optionnel. Un email d&apos;information est envoyé si tu ajoutes ou modifies cette adresse."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 731,
+      "column": 41,
+      "kind": "jsx-text",
+      "text": "E-mail enseignant"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 750,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Optionnel. L&apos;adresse peut être utilisée pour rattacher ton suivi."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 775,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Enregistrement sécurisé"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 781,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Cette action utilise le même contrôle CSRF que les autres mutations sensibles de la plateforme."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 832,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Cartographie actuelle"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 842,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Quatre axes lisibles, pour éviter une lecture floue de tes progrès."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 924,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Axe fort"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 939,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "C&apos;est là que le niveau est le plus naturellement stable aujourd&apos;hui."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 955,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Axe prioritaire"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 970,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "C&apos;est l&apos;endroit où une séance bien choisie rapportera le plus vite."
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 990,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Points de vigilance"
+    },
+    {
+      "file": "src/app/profil/page.tsx",
+      "line": 999,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Les erreurs récurrentes doivent rester visibles, pas seulement ressenties."
     },
     {
       "file": "src/app/quiz/page.tsx",
