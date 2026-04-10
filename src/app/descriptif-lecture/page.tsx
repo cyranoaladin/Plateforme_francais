@@ -2,10 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { BookOpen, FileWarning, Plus } from 'lucide-react';
+import { Plus, CheckCircle } from 'lucide-react';
 import { AddTexteForm } from './AddTexteForm';
 import { TexteCard } from './TexteCard';
-import { Badge, Button } from '@/components/ui';
 import { DESCRIPTIF_REGLEMENTAIRE, OBJETS_ETUDE, type ObjetEtudeId } from '@/data/programme-eaf-2025';
 
 type TexteDescriptif = {
@@ -39,12 +38,20 @@ const TYPE_SECTIONS: Array<{
   type: TexteDescriptif['typeTexte'];
   label: string;
   requis: string;
+  icon: string;
 }> = [
-  { type: 'EXTRAIT_OEUVRE', label: "Extraits de l'œuvre", requis: '2 minimum' },
-  { type: 'EXTRAIT_PARCOURS', label: 'Textes du parcours associé', requis: '1 minimum' },
-  { type: 'LECTURE_CURSIVE', label: 'Lectures cursives', requis: '1 minimum' },
-  { type: 'OEUVRE_CHOISIE_ENTRETIEN', label: "Œuvre choisie pour l'entretien", requis: 'Optionnel' },
+  { type: 'EXTRAIT_OEUVRE', label: "Extraits de l'œuvre", requis: '2 minimum', icon: '📄' },
+  { type: 'EXTRAIT_PARCOURS', label: 'Textes du parcours associé', requis: '1 minimum', icon: '🔗' },
+  { type: 'LECTURE_CURSIVE', label: 'Lectures cursives', requis: '1 minimum', icon: '📚' },
+  { type: 'OEUVRE_CHOISIE_ENTRETIEN', label: "Œuvre choisie pour l'entretien", requis: 'Optionnel', icon: '⭐' },
 ];
+
+const TAB_ICONS: Record<ObjetEtudeId, string> = {
+  POESIE: '📝',
+  THEATRE: '🎭',
+  LITTERATURE_IDEES: '💡',
+  ROMAN_RECIT: '📖',
+};
 
 export default function DescriptifLecturePage() {
   const searchParams = useSearchParams();
@@ -83,6 +90,8 @@ export default function DescriptifLecturePage() {
   }, []);
 
   const totalMissing = Math.max(0, DESCRIPTIF_REGLEMENTAIRE.totalTextesMinimum - total);
+  const progressPercent = Math.min(100, (total / DESCRIPTIF_REGLEMENTAIRE.totalTextesMinimum) * 100);
+
   const selectedConformite = useMemo(
     () => conformite.find((item) => item.objetEtude === selectedObjet) ?? null,
     [conformite, selectedObjet],
@@ -112,144 +121,392 @@ export default function DescriptifLecturePage() {
   const textesObjet = textes.filter((texte) => texte.objetEtude === selectedObjet);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <div className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)]">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[var(--bg-surface-secondary)] px-3 py-1 text-xs font-medium text-[var(--text-muted)]">
-              <BookOpen className="h-4 w-4" />
+    <div className="p-6 md:p-8 space-y-6">
+      {/* ─── A.2 — HERO CARD ─── */}
+      <section 
+        className="relative overflow-hidden rounded-[24px] p-8 md:p-10"
+        style={{ 
+          background: 'linear-gradient(135deg, #0d1a35 0%, #111c30 60%, #0f1629 100%)',
+          border: '1px solid var(--eaf-indigo-border)'
+        }}
+      >
+        {/* Decorative orb */}
+        <div 
+          className="pointer-events-none absolute -right-20 -top-20 h-[350px] w-[350px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(123,142,255,0.08), transparent 70%)' }}
+        />
+
+        <div className="relative flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10">
+          {/* Colonne gauche */}
+          <div className="flex-1 max-w-[520px]">
+            {/* Badge conformité */}
+            <div 
+              className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-semibold mb-5"
+              style={{ 
+                background: 'var(--eaf-teal-dim)', 
+                border: '1px solid var(--eaf-teal-border)',
+                color: 'var(--eaf-teal)'
+              }}
+            >
+              <CheckCircle className="h-3.5 w-3.5" />
               Oral EAF conforme au descriptif réel
             </div>
-            <h1 className="text-3xl font-semibold text-[var(--text-heading)]">Mon descriptif de lecture</h1>
-            <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">
-              Tu saisis ici les textes réellement étudiés en classe. L’atelier oral doit tirer
-              dans cette liste, comme l’examinateur le jour de l’épreuve.
+
+            {/* Titre */}
+            <h1 
+              className="text-[40px] font-bold leading-[1.1] tracking-[-1.5px] mb-4"
+              style={{ 
+                fontFamily: 'var(--eaf-font-display)',
+                color: 'var(--eaf-text-primary)'
+              }}
+            >
+              Mon descriptif de lecture
+            </h1>
+
+            {/* Description */}
+            <p 
+              className="text-[14px] leading-[1.6]"
+              style={{ color: 'var(--eaf-text-secondary)' }}
+            >
+              Tu saisis ici les textes réellement étudiés en classe. L&apos;atelier oral doit tirer
+              dans cette liste, comme l&apos;examinateur le jour de l&apos;épreuve.
             </p>
           </div>
 
-          <div className="min-w-[280px] rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
-            <p className="text-sm font-medium text-[var(--text-heading)]">Conformité réglementaire</p>
-            <div className="mt-3 flex items-end gap-3">
-              <span className="text-4xl font-semibold text-[var(--c-primary)]">{total}</span>
-              <div className="pb-1">
-                <p className="text-sm text-[var(--text-body)]">textes enregistrés</p>
-                <p className="text-xs text-[var(--text-muted)]">
-                  Minimum réglementaire : {DESCRIPTIF_REGLEMENTAIRE.totalTextesMinimum}
-                </p>
+          {/* Colonne droite — Card conformité */}
+          <div 
+            className="rounded-2xl p-6 min-w-[220px]"
+            style={{ 
+              background: 'var(--eaf-bg2)', 
+              border: '1px solid var(--eaf-border)'
+            }}
+          >
+            <p 
+              className="text-[10px] font-semibold uppercase tracking-[0.08em] mb-4"
+              style={{ color: 'var(--eaf-text-tertiary)' }}
+            >
+              Conformité réglementaire
+            </p>
+
+            <div className="flex items-baseline gap-2 mb-1">
+              <span 
+                className="text-[48px] font-black"
+                style={{ 
+                  fontFamily: 'var(--eaf-font-display)',
+                  color: 'var(--eaf-orange)'
+                }}
+              >
+                {total}
+              </span>
+              <span 
+                className="text-[13px]"
+                style={{ color: 'var(--eaf-text-secondary)' }}
+              >
+                textes enregistrés
+              </span>
+            </div>
+
+            <p 
+              className="text-[12px] font-medium mb-4"
+              style={{ color: 'var(--eaf-text-tertiary)' }}
+            >
+              Minimum réglementaire : {DESCRIPTIF_REGLEMENTAIRE.totalTextesMinimum}
+            </p>
+
+            {totalMissing > 0 ? (
+              <>
+                <div 
+                  className="rounded-lg px-3.5 py-2 text-[12px] font-semibold text-center"
+                  style={{ 
+                    background: 'rgba(255,107,53,0.15)', 
+                    border: '1px solid var(--eaf-orange-border)',
+                    color: 'var(--eaf-orange)'
+                  }}
+                >
+                  {totalMissing} texte(s) encore attendus
+                </div>
+                {/* Barre de progression */}
+                <div 
+                  className="h-[3px] rounded-full mt-3"
+                  style={{ background: 'var(--eaf-bg3)' }}
+                >
+                  <div 
+                    className="h-[3px] rounded-full transition-all duration-500"
+                    style={{ 
+                      width: `${progressPercent}%`,
+                      background: 'var(--eaf-orange)'
+                    }}
+                  />
+                </div>
+              </>
+            ) : (
+              <div 
+                className="rounded-lg px-3.5 py-2 text-[12px] font-semibold text-center"
+                style={{ 
+                  background: 'var(--eaf-teal-dim)', 
+                  border: '1px solid var(--eaf-teal-border)',
+                  color: 'var(--eaf-teal)'
+                }}
+              >
+                <CheckCircle className="h-3.5 w-3.5 inline mr-1" />
+                Seuil réglementaire atteint
               </div>
-            </div>
-            <div className="mt-4">
-              {totalMissing === 0 ? (
-                <Badge variant="success">Seuil réglementaire atteint</Badge>
-              ) : (
-                <Badge variant="warning">{totalMissing} texte(s) encore attendus</Badge>
-              )}
-            </div>
+            )}
           </div>
         </div>
 
         {message ? (
-          <p className="mt-4 text-sm text-emerald-700">{message}</p>
+          <p 
+            className="mt-4 text-sm"
+            style={{ color: 'var(--eaf-teal)' }}
+          >
+            {message}
+          </p>
         ) : null}
         {error ? (
-          <p className="mt-4 text-sm text-[var(--c-accent)]">{error}</p>
+          <p 
+            className="mt-4 text-sm"
+            style={{ color: 'var(--eaf-orange)' }}
+          >
+            {error}
+          </p>
         ) : null}
-      </div>
+      </section>
 
-      <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
+      {/* ─── A.3 — TABS DES 4 OBJETS D'ÉTUDE ─── */}
+      <div className="flex flex-wrap gap-2 pb-2">
         {OBJETS_ETUDE.map((objet) => {
           const state = conformite.find((item) => item.objetEtude === objet.id);
           const active = selectedObjet === objet.id;
+          const isComplete = state?.conforme ?? false;
+
           return (
             <button
               key={objet.id}
               type="button"
               onClick={() => setSelectedObjet(objet.id)}
-              className={[
-                'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors',
-                active
-                  ? 'border-[var(--c-primary)] bg-[var(--c-primary)] text-[var(--text-on-primary)]'
-                  : 'border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--text-body)]',
-              ].join(' ')}
+              className="relative flex items-center gap-2 rounded-[10px] px-4 py-2.5 text-[13px] font-medium transition-all duration-200"
+              style={{
+                background: active ? 'var(--eaf-bg3)' : 'var(--eaf-bg1)',
+                border: active ? '1px solid var(--eaf-indigo-border)' : '1px solid var(--eaf-border)',
+                color: active ? 'var(--eaf-text-primary)' : 'var(--eaf-text-secondary)',
+                boxShadow: active ? '0 0 0 3px rgba(123,142,255,0.08)' : 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (!active) {
+                  e.currentTarget.style.borderColor = 'var(--eaf-indigo-border)';
+                  e.currentTarget.style.color = 'var(--eaf-text-primary)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!active) {
+                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                  e.currentTarget.style.color = 'var(--eaf-text-secondary)';
+                }
+              }}
             >
-              <span>{objet.icone}</span>
+              <span>{TAB_ICONS[objet.id]}</span>
               <span>{objet.label}</span>
-              <span>{state?.conforme ? '✓' : '⚠'}</span>
+              {/* Badge état */}
+              {isComplete ? (
+                <span 
+                  className="ml-1 h-2 w-2 rounded-full"
+                  style={{ background: 'var(--eaf-teal)' }}
+                />
+              ) : (
+                <span 
+                  className="ml-1 h-2 w-2 rounded-full animate-pulse"
+                  style={{ background: '#ef4444' }}
+                />
+              )}
             </button>
           );
         })}
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <div className="space-y-6">
-          <div className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
-            {isFromOnboarding && (
-              <div className="mb-4 rounded-2xl border border-[var(--c-primary)]/20 bg-[var(--c-primary)]/5 p-4">
-                <h3 className="font-semibold text-[var(--c-primary)] mb-2">
-                  🎉 Bienvenue ! Complète ton descriptif de lecture
-                </h3>
-                <p className="text-sm text-[var(--text-body)]">
-                  Pour que l'atelier oral simule les vraies conditions de l'épreuve, saisis ici les textes étudiés en classe avec ton enseignant.
-                </p>
-              </div>
-            )}
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <h2 className="text-xl font-semibold text-[var(--text-heading)]">
-                  {OBJETS_ETUDE.find((objet) => objet.id === selectedObjet)?.label}
-                </h2>
-                <p className={`mt-2 text-sm ${selectedConformite?.conforme ? 'text-emerald-700' : 'text-amber-700'}`}>
-                  {selectedConformite?.conforme
-                    ? 'Objet d\u2019étude conforme au programme.'
-                    : `Il manque : ${selectedConformite?.manquant?.join(', ') ?? 'compléter cet objet d\u2019étude'}.`}
-                </p>
-              </div>
-              <Button onClick={() => setShowAddForm((value) => !value)} icon={<Plus className="h-4 w-4" />}>
-                {showAddForm ? 'Masquer le formulaire' : 'Ajouter un texte'}
-              </Button>
+      {/* ─── A.4 — LAYOUT DU CONTENU ─── */}
+      <div className="grid gap-5 lg:grid-cols-[1fr_280px]">
+        {/* Colonne gauche */}
+        <div className="space-y-5">
+          {/* Bandeau d'alerte */}
+          {selectedConformite && !selectedConformite.conforme && (
+            <div 
+              className="flex items-center justify-between rounded-r-lg px-4 py-3"
+              style={{ 
+                background: 'rgba(255,107,53,0.06)', 
+                borderLeft: '3px solid var(--eaf-orange)',
+              }}
+            >
+              <p 
+                className="text-[13px] font-medium"
+                style={{ color: 'var(--eaf-orange)' }}
+              >
+                Il manque : {selectedConformite.manquant?.join(', ') ?? 'compléter cet objet d\'étude'}.
+              </p>
+              <button
+                type="button"
+                onClick={() => setShowAddForm(true)}
+                className="flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-[13px] font-semibold transition-all"
+                style={{ 
+                  background: 'var(--eaf-teal-dim)', 
+                  border: '1px solid var(--eaf-teal-border)',
+                  color: 'var(--eaf-teal)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(26,213,160,0.18)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--eaf-teal-dim)';
+                }}
+              >
+                <Plus className="h-4 w-4" />
+                Ajouter un texte
+              </button>
             </div>
+          )}
 
-            {showAddForm ? (
-              <div className="mt-5">
-                <AddTexteForm
-                  selectedObjet={selectedObjet}
-                  onSaved={async () => {
-                    setMessage('Texte ajouté au descriptif.');
-                    setShowAddForm(false);
-                    await fetchDescriptif();
-                  }}
-                  onCancel={() => setShowAddForm(false)}
-                />
-              </div>
-            ) : null}
-          </div>
+          {/* Message onboarding */}
+          {isFromOnboarding && (
+            <div 
+              className="rounded-xl p-4"
+              style={{ 
+                background: 'var(--eaf-indigo-dim)', 
+                border: '1px solid var(--eaf-indigo-border)',
+              }}
+            >
+              <h3 
+                className="font-semibold mb-2 flex items-center gap-2"
+                style={{ color: 'var(--eaf-indigo)' }}
+              >
+                <span className="text-lg">🎉</span>
+                Bienvenue ! Complète ton descriptif de lecture
+              </h3>
+              <p 
+                className="text-sm"
+                style={{ color: 'var(--eaf-text-secondary)' }}
+              >
+                Pour que l&apos;atelier oral simule les vraies conditions de l&apos;épreuve, saisis ici les textes étudiés en classe avec ton enseignant.
+              </p>
+            </div>
+          )}
 
+          {/* Formulaire d'ajout */}
+          {showAddForm && (
+            <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--eaf-border)' }}>
+              <AddTexteForm
+                selectedObjet={selectedObjet}
+                onSaved={async () => {
+                  setMessage('Texte ajouté au descriptif.');
+                  setShowAddForm(false);
+                  await fetchDescriptif();
+                }}
+                onCancel={() => setShowAddForm(false)}
+              />
+            </div>
+          )}
+
+          {/* Bouton ajouter si pas de manques */}
+          {!showAddForm && (selectedConformite?.conforme ?? true) && (
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => setShowAddForm(true)}
+                className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-[13px] font-semibold transition-all"
+                style={{ 
+                  background: 'var(--eaf-teal-dim)', 
+                  border: '1px solid var(--eaf-teal-border)',
+                  color: 'var(--eaf-teal)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(26,213,160,0.18)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--eaf-teal-dim)';
+                }}
+              >
+                <Plus className="h-4 w-4" />
+                Ajouter un texte
+              </button>
+            </div>
+          )}
+
+          {/* Les 4 sections */}
           {TYPE_SECTIONS.map((section) => {
             const items = textesObjet.filter((texte) => texte.typeTexte === section.type);
+            const isOptional = section.type === 'OEUVRE_CHOISIE_ENTRETIEN';
+
             return (
               <section
                 key={section.type}
-                className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]"
+                className="rounded-[14px] overflow-hidden"
+                style={{ 
+                  background: 'var(--eaf-bg1)', 
+                  border: isOptional ? '1px dashed var(--eaf-border)' : '1px solid var(--eaf-border)'
+                }}
               >
-                <div className="mb-4 flex items-center justify-between gap-3">
+                {/* Header */}
+                <div 
+                  className="flex items-center justify-between gap-3 px-5 py-4"
+                  style={{ borderBottom: items.length > 0 ? '1px solid var(--eaf-border)' : 'none' }}
+                >
                   <div>
-                    <h3 className="text-lg font-semibold text-[var(--text-heading)]">{section.label}</h3>
-                    <p className="text-sm text-[var(--text-muted)]">{section.requis}</p>
+                    <h3 
+                      className="text-[14px] font-semibold"
+                      style={{ color: 'var(--eaf-text-primary)' }}
+                    >
+                      {section.label}
+                    </h3>
+                    <p 
+                      className="text-[12px] mt-0.5"
+                      style={{ color: 'var(--eaf-text-tertiary)' }}
+                    >
+                      {section.requis}
+                    </p>
                   </div>
-                  <Badge variant={items.length > 0 ? 'info' : 'default'}>
+                  <span 
+                    className="rounded-full px-2.5 py-1 text-[12px] font-semibold"
+                    style={{ 
+                      background: items.length > 0 ? 'var(--eaf-teal-dim)' : 'var(--eaf-bg3)',
+                      border: `1px solid ${items.length > 0 ? 'var(--eaf-teal-border)' : 'var(--eaf-border)'}`,
+                      color: items.length > 0 ? 'var(--eaf-teal)' : 'var(--eaf-text-tertiary)'
+                    }}
+                  >
                     {items.length} texte(s)
-                  </Badge>
+                  </span>
                 </div>
 
+                {/* Corps */}
                 {items.length === 0 ? (
-                  <div className="rounded-2xl border border-dashed border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-5 text-sm text-[var(--text-muted)]">
-                    Aucun texte pour cette catégorie.{' '}
-                    <button type="button" onClick={() => setShowAddForm(true)} className="font-medium text-[var(--c-primary)] underline underline-offset-2">
-                      Ajouter un {section.label.toLowerCase().replace(/s$/, '')}
+                  <div 
+                    className="flex items-center gap-3 px-5 py-5"
+                    style={{ background: 'rgba(255,255,255,0.01)' }}
+                  >
+                    <div 
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-base"
+                      style={{ 
+                        border: '1px dashed var(--eaf-border)',
+                        color: 'var(--eaf-text-tertiary)'
+                      }}
+                    >
+                      {section.icon}
+                    </div>
+                    <p 
+                      className="text-[13px] flex-1"
+                      style={{ color: 'var(--eaf-text-tertiary)' }}
+                    >
+                      Aucun texte pour cette catégorie.
+                    </p>
+                    <button 
+                      type="button" 
+                      onClick={() => setShowAddForm(true)} 
+                      className="text-[13px] font-semibold no-underline transition-colors hover:underline"
+                      style={{ color: 'var(--eaf-indigo)' }}
+                    >
+                      Ajouter un {section.label.toLowerCase().replace(/s$/, '')} →
                     </button>
                   </div>
                 ) : (
-                  <div className="space-y-3">
+                  <div className="p-4 space-y-2">
                     {items.map((texte) => (
                       <TexteCard
                         key={texte.id}
@@ -265,39 +522,84 @@ export default function DescriptifLecturePage() {
           })}
         </div>
 
-        <aside className="space-y-6">
-          <div className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-sm)]">
-            <p className="text-sm font-semibold text-[var(--text-heading)]">Œuvres du programme 2025</p>
-            <div className="mt-4 space-y-2">
+        {/* Colonne droite */}
+        <aside className="space-y-4">
+          {/* Œuvres du programme */}
+          <div 
+            className="rounded-2xl p-5"
+            style={{ 
+              background: 'var(--eaf-bg1)', 
+              border: '1px solid var(--eaf-border)'
+            }}
+          >
+            <p 
+              className="text-[10px] font-semibold uppercase tracking-[0.08em] mb-3.5"
+              style={{ color: 'var(--eaf-text-tertiary)' }}
+            >
+              Œuvres du programme 2025
+            </p>
+            <div className="space-y-2">
               {(OBJETS_ETUDE.find((objet) => objet.id === selectedObjet)?.oeuvres ?? []).map((oeuvre) => (
                 <div
                   key={`${oeuvre.titre}-${oeuvre.auteur}`}
-                  className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface-secondary)] p-3"
+                  className="rounded-r-lg py-2.5 px-3.5"
+                  style={{ 
+                    background: 'var(--eaf-bg2)',
+                    borderLeft: '3px solid var(--eaf-indigo)'
+                  }}
                 >
-                  <p className="text-sm font-medium text-[var(--text-heading)]">{oeuvre.titre}</p>
-                  <p className="text-xs text-[var(--text-muted)]">{oeuvre.auteur}</p>
+                  <p 
+                    className="text-[13px] font-semibold"
+                    style={{ color: 'var(--eaf-text-primary)' }}
+                  >
+                    {oeuvre.titre}
+                  </p>
+                  <p 
+                    className="text-[11px] mt-0.5"
+                    style={{ color: 'var(--eaf-text-tertiary)' }}
+                  >
+                    {oeuvre.auteur}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 shadow-[var(--shadow-sm)]">
-            <div className="flex items-start gap-3">
-              <FileWarning className="mt-0.5 h-5 w-5 text-amber-700" />
-              <div>
-                <p className="text-sm font-semibold text-amber-900">Rappel réglementaire</p>
-                <p className="mt-2 text-sm leading-6 text-amber-800">
-                  L’examinateur interroge à partir du descriptif transmis à l’avance. Si ton descriptif
-                  est vide ou incomplet, la simulation sera moins fidèle à l’épreuve réelle.
-                </p>
-              </div>
+          {/* Rappel réglementaire */}
+          <div 
+            className="rounded-[14px] p-4"
+            style={{ 
+              background: 'rgba(255,181,71,0.06)', 
+              border: '1px solid var(--eaf-gold-border)'
+            }}
+          >
+            <div className="flex items-center gap-2 mb-2.5">
+              <span className="text-sm">⚠️</span>
+              <span 
+                className="text-[11px] font-semibold uppercase tracking-[0.08em]"
+                style={{ color: 'var(--eaf-gold)' }}
+              >
+                Rappel réglementaire
+              </span>
             </div>
+            <p 
+              className="text-[13px] leading-[1.6]"
+              style={{ color: 'var(--eaf-text-secondary)' }}
+            >
+              L&apos;examinateur interroge à partir du descriptif transmis à l&apos;avance. Si ton descriptif
+              est vide ou incomplet, la simulation sera moins fidèle à l&apos;épreuve réelle.
+            </p>
           </div>
         </aside>
       </div>
 
       {loading ? (
-        <div className="mt-8 text-sm text-[var(--text-muted)]">Chargement du descriptif…</div>
+        <div 
+          className="text-sm text-center py-8"
+          style={{ color: 'var(--eaf-text-tertiary)' }}
+        >
+          Chargement du descriptif…
+        </div>
       ) : null}
     </div>
   );

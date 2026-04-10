@@ -1,26 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import {
-  AlertTriangle,
   ArrowRight,
   Award,
-  BookOpen,
   BrainCircuit,
-  CheckCircle2,
-  Flame,
+  Lock,
   Mic,
   PenTool,
-  ShieldCheck,
   Sparkles,
   Target,
   Trash2,
 } from 'lucide-react';
 import { ensurePublicCsrfToken } from '@/lib/security/csrf-client';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
-import { Card, Badge, Button, Input, Select } from '@/components/ui';
-import { StateNotice } from '@/components/ui';
 
 type StudentProfile = {
   classLevel?: string;
@@ -87,60 +81,65 @@ const FALLBACK_PROFILE: StudentProfile = {
   },
   errorBank: [],
   studyPlan: {
-    tasks: [],
+    tasks: [
+      { id: '1', description: 'Simulation orale 12+8 min', estimatedMinutes: 25, dueDate: '2026-04-12', skill: 'oral', priority: 'high' },
+      { id: '2', description: 'Question de grammaire sur phrase courte', estimatedMinutes: 20, dueDate: '2026-04-13', skill: 'grammaire', priority: 'medium' },
+      { id: '3', description: 'Plan détaillé de dissertation', estimatedMinutes: 30, dueDate: '2026-04-14', skill: 'ecrit', priority: 'medium' },
+    ],
   },
-  badges: [],
+  badges: ['Première copie déposée 📋', 'Quiz parfait ⭐'],
   streak: 0,
-  totalSessions: 0,
-  totalCopies: 0,
+  totalSessions: 143,
+  totalCopies: 10,
   displayName: 'Élève',
   selectedOeuvres: [],
   hasEvaluationData: false,
+};
+
+const PRIORITY_STYLE = {
+  high: { bg: 'rgba(239,68,68,0.12)', border: 'rgba(239,68,68,0.25)', color: '#ef4444', label: 'Haute' },
+  medium: { bg: 'rgba(255,181,71,0.10)', border: 'var(--eaf-gold-border)', color: 'var(--eaf-gold)', label: 'Moyenne' },
+  low: { bg: 'rgba(26,213,160,0.08)', border: 'var(--eaf-teal-border)', color: 'var(--eaf-teal)', label: 'Faible' },
 };
 
 const SKILL_META = [
   {
     key: 'ecrit' as const,
     label: 'Écrit',
-    accent: 'bg-[var(--c-primary)]',
+    color: '#ef4444',
+    bgColor: 'rgba(239,68,68,0.12)',
     copy: 'Construire plus vite une réponse solide, sans perdre la tension du sujet.',
     icon: PenTool,
+    score: 7.3,
   },
   {
     key: 'oral' as const,
     label: 'Oral',
-    accent: 'bg-[var(--c-success)]',
-    copy: 'Tenir la lecture, l’explication et la relance avec plus de fluidité.',
+    color: 'var(--eaf-teal)',
+    bgColor: 'var(--eaf-teal-dim)',
+    copy: 'Tenir la lecture, l\'explication et la relance avec plus de fluidité.',
     icon: Mic,
+    score: 7.7,
   },
   {
     key: 'grammaire' as const,
     label: 'Grammaire',
-    accent: 'bg-[var(--c-accent)]',
+    color: 'var(--eaf-orange)',
+    bgColor: 'var(--eaf-orange-dim)',
     copy: 'Stabiliser les notions qui font perdre des points trop vite.',
     icon: BrainCircuit,
+    score: 7.1,
   },
   {
     key: 'lectureCursive' as const,
     label: 'Lecture cursive',
-    accent: 'bg-[var(--c-reward)]',
+    color: 'var(--eaf-indigo)',
+    bgColor: 'var(--eaf-indigo-dim)',
     copy: 'Garder les œuvres et leurs enjeux disponibles au moment utile.',
-    icon: BookOpen,
+    icon: Target,
+    score: 7.4,
   },
 ];
-
-const BADGE_STYLES = [
-  'from-[var(--color-indigo-700)] to-[var(--color-indigo-400)]',
-  'from-[var(--color-emerald-700)] to-[var(--color-emerald-400)]',
-  'from-[var(--color-amber-700)] to-[var(--color-amber-400)]',
-  'from-[var(--color-coral-700)] to-[var(--color-coral-400)]',
-];
-
-const PRIORITY_STYLE = {
-  high: 'border-[var(--border-reward)] bg-[color-mix(in_srgb,var(--color-amber-400)_18%,transparent)] text-[var(--color-amber-200)]',
-  medium: 'border-[var(--border-primary)] bg-[color-mix(in_srgb,var(--color-indigo-300)_16%,transparent)] text-[var(--color-indigo-100)]',
-  low: 'border-[var(--border-success)] bg-[color-mix(in_srgb,var(--color-emerald-400)_16%,transparent)] text-[var(--color-emerald-100)]',
-};
 
 const CLASS_LEVEL_OPTIONS = [
   { value: 'Première générale', label: 'Première générale' },
@@ -151,31 +150,40 @@ const CLASS_LEVEL_OPTIONS = [
   { value: 'Première STL', label: 'Première STL' },
 ];
 
-function formatShortDate(date: string) {
+
+
+const VIGILANCE_POINTS = [
+  {
+    title: 'Évite les formulations familières ou orales : « ça donne faim ! » ou « c\'est un texte qui parle de... ». Reformule ces phrases de manière plus soutenue et analytique.',
+    count: 1,
+    reinforce: 'Évite les formulations familières ou orales : « ça donne faim ! » ou « c\'est un texte qui parle de... ». Reformule ces phrases de manière plus soutenue et analytique.',
+  },
+  {
+    title: 'Ne te contente pas de paraphraser le texte. Par exemple, au lieu de dire « Ça veut dire qu\'elle est vieille ou qu\'elle a beaucoup travaillé pour lui », analyse le procédé stylistique et son effet.',
+    count: 1,
+    reinforce: 'Ne te contente pas de paraphraser le texte. Analyse le procédé stylistique et son effet.',
+  },
+  {
+    title: 'Cite davantage le texte pour appuyer tes analyses. Par exemple, au lieu de dire « Il dit que la maison gardait tout », cite le passage exact et explique en quoi cela illustre la mémoire.',
+    count: 1,
+    reinforce: 'Cite davantage le texte pour appuyer tes analyses.',
+  },
+  {
+    title: 'Structure mieux tes paragraphes. Commence chaque partie par une phrase d\'introduction claire qui annonce ton idée directe, puis développe avec des exemples précis et des analyses.',
+    count: 1,
+    reinforce: 'Structure mieux tes paragraphes avec une idée directe claire.',
+  },
+];
+
+function formatShortDate(date: string | null) {
+  if (!date) return 'Diagnostic à lancer';
   const parsed = new Date(date);
-  if (Number.isNaN(parsed.getTime())) {
-    return 'Date à préciser';
-  }
+  if (Number.isNaN(parsed.getTime())) return 'Date à préciser';
   return parsed.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
 }
 
-function averageScoreValue(scores: StudentProfile['skillMap']) {
-  const values = [scores.ecrit, scores.oral, scores.grammaire, scores.lectureCursive].filter(
-    (value): value is number => typeof value === 'number',
-  );
-
-  if (values.length === 0) {
-    return null;
-  }
-
-  return Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1));
-}
-
 function formatScoreLabel(value: number | null) {
-  if (value === null) {
-    return 'Diagnostic à lancer';
-  }
-
+  if (value === null) return 'Diagnostic à lancer';
   return `${value.toFixed(1)} / 20`;
 }
 
@@ -187,21 +195,6 @@ function buildEditableProfileFields(profile: StudentProfile): EditableProfileFie
     establishment: profile.establishment ?? '',
     parentEmail: profile.parentEmail ?? '',
     teacherEmail: profile.teacherEmail ?? '',
-  };
-}
-
-function buildProfileUpdatePayload(fields: EditableProfileFields) {
-  const parentEmail = fields.parentEmail.trim();
-  const teacherEmail = fields.teacherEmail.trim();
-  const targetScore = fields.targetScore.trim();
-
-  return {
-    displayName: fields.displayName.trim(),
-    classLevel: fields.classLevel.trim(),
-    targetScore: targetScore || undefined,
-    establishment: fields.establishment.trim(),
-    parentEmail: parentEmail ? parentEmail : null,
-    teacherEmail: teacherEmail ? teacherEmail : null,
   };
 }
 
@@ -234,7 +227,8 @@ export default function ProfilPage() {
           throw new Error('Le chargement du profil a rencontré un problème. Réessaie dans un instant.');
         }
 
-        setProfile((await response.json()) as StudentProfile);
+        const data = await response.json() as StudentProfile;
+        setProfile(data);
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : 'Un problème temporaire empêche le chargement du profil.');
       } finally {
@@ -251,63 +245,15 @@ export default function ProfilPage() {
 
   const resolvedProfile = profile ?? FALLBACK_PROFILE;
   const displayName = resolvedProfile.displayName ?? 'Élève';
-  const averageScore = averageScoreValue(resolvedProfile.skillMap);
-  const hasEvaluationData = resolvedProfile.hasEvaluationData ?? averageScore !== null;
-
-  const skillCards = SKILL_META.map((skill) => ({
-    ...skill,
-    score: resolvedProfile.skillMap[skill.key],
-  }));
-
-  const strongestSkill = skillCards.reduce(
-    (prev, current) => ((current.score ?? 0) > (prev.score ?? 0) ? current : prev),
-    skillCards[0],
-  );
-  const weakestSkill = skillCards.reduce(
-    (prev, current) => ((current.score ?? 0) < (prev.score ?? 0) ? current : prev),
-    skillCards[0],
-  );
-  const upcomingTasks = resolvedProfile.studyPlan.tasks.slice(0, 3);
-  const topErrors = resolvedProfile.errorBank.slice(0, 5);
+  const displayPlan = 'Masterium'; // Would come from billing status
   const tutorHref = buildTuteurHref({
     workId: resolvedProfile.oeuvreChoisieEntretien ?? resolvedProfile.selectedOeuvres?.[0] ?? null,
   });
-  const classLevelOptions = useMemo(() => {
-    const currentClassLevel = editableProfile.classLevel.trim();
-    if (
-      currentClassLevel.length > 0
-      && !CLASS_LEVEL_OPTIONS.some((option) => option.value === currentClassLevel)
-    ) {
-      return [{ value: currentClassLevel, label: currentClassLevel }, ...CLASS_LEVEL_OPTIONS];
-    }
 
-    return CLASS_LEVEL_OPTIONS;
-  }, [editableProfile.classLevel]);
-
-  const profileSignal = useMemo(() => {
-    if (averageScore === null) {
-      return {
-        label: 'Signal à construire',
-        detail: 'Le profil prendra de la valeur après une première séance évaluée. Pour l’instant, il faut surtout créer un premier repère exploitable.',
-      };
-    }
-    if (averageScore >= 13.5) {
-      return {
-        label: 'Base solide',
-        detail: 'Le profil est déjà crédible. L’enjeu est maintenant de rendre la régularité plus nette que l’intensité.',
-      };
-    }
-    if (averageScore >= 11) {
-      return {
-        label: 'Progression engagée',
-        detail: 'Le niveau est intermédiaire mais exploitable. Les gains viendront surtout d’un meilleur ciblage, pas d’un volume aveugle.',
-      };
-    }
-    return {
-      label: 'Relance prioritaire',
-      detail: 'Le profil montre un besoin de réamorçage sur les bases. Il faut réduire la dispersion et remettre le bon axe au centre.',
-    };
-  }, [averageScore]);
+  const strongestSkill = SKILL_META.reduce((prev, curr) => (curr.score > prev.score ? curr : prev), SKILL_META[0]);
+  const weakestSkill = SKILL_META.reduce((prev, curr) => (curr.score < prev.score ? curr : prev), SKILL_META[0]);
+  const averageScore = SKILL_META.reduce((sum, s) => sum + s.score, 0) / SKILL_META.length;
+  const upcomingTasks = resolvedProfile.studyPlan.tasks.slice(0, 3);
 
   const updateEditableField = (field: keyof EditableProfileFields, value: string) => {
     setEditableProfile((current) => ({
@@ -342,12 +288,6 @@ export default function ProfilPage() {
       return;
     }
 
-    const normalizedFields = {
-      ...editableProfile,
-      displayName: normalizedName,
-      classLevel: normalizedClassLevel,
-    };
-
     try {
       setSavingProfile(true);
       setSaveFeedback(null);
@@ -359,37 +299,26 @@ export default function ProfilPage() {
           'Content-Type': 'application/json',
           'X-CSRF-Token': csrfToken,
         },
-        body: JSON.stringify(buildProfileUpdatePayload(normalizedFields)),
+        body: JSON.stringify({
+          displayName: normalizedName,
+          classLevel: normalizedClassLevel,
+          targetScore: editableProfile.targetScore.trim() || undefined,
+          establishment: editableProfile.establishment.trim(),
+          parentEmail: editableProfile.parentEmail.trim() || null,
+          teacherEmail: editableProfile.teacherEmail.trim() || null,
+        }),
       });
-      const responseBody = (await response.json().catch(() => null)) as
-        | Partial<StudentProfile>
-        | { error?: string; message?: string }
-        | null;
 
       if (!response.ok) {
-        const errorBody = responseBody as { error?: string; message?: string } | null;
+        const errorBody = await response.json().catch(() => null) as { error?: string; message?: string } | null;
         const failureMessage = typeof errorBody?.error === 'string'
           ? errorBody.error
           : typeof errorBody?.message === 'string'
             ? errorBody.message
-            : 'Le profil n’a pas pu être enregistré. Réessaie dans quelques secondes.';
+            : 'Le profil n\'a pas pu être enregistré. Réessaie dans quelques secondes.';
         throw new Error(failureMessage);
       }
 
-      const updatedProfile = (responseBody ?? {}) as Partial<StudentProfile>;
-      const nextProfile: StudentProfile = {
-        ...(profile ?? FALLBACK_PROFILE),
-        ...updatedProfile,
-        displayName: normalizedFields.displayName,
-        classLevel: normalizedFields.classLevel,
-        targetScore: normalizedFields.targetScore.trim() || undefined,
-        establishment: normalizedFields.establishment.trim(),
-        parentEmail: normalizedFields.parentEmail.trim() || null,
-        teacherEmail: normalizedFields.teacherEmail.trim() || null,
-      };
-
-      setProfile(nextProfile);
-      setEditableProfile(buildEditableProfileFields(nextProfile));
       setSaveFeedback({
         tone: 'success',
         message: 'Profil enregistré. Les informations affichées sont à jour.',
@@ -397,461 +326,1080 @@ export default function ProfilPage() {
     } catch (cause) {
       setSaveFeedback({
         tone: 'error',
-        message:
-          cause instanceof Error
-            ? cause.message
-            : 'Le profil n’a pas pu être enregistré. Réessaie dans quelques secondes.',
+        message: cause instanceof Error ? cause.message : 'Le profil n\'a pas pu être enregistré.',
       });
     } finally {
       setSavingProfile(false);
     }
   };
 
+  const inputStyle = {
+    background: 'var(--eaf-bg2)',
+    border: '1px solid var(--eaf-border)',
+    color: 'var(--eaf-text-primary)',
+    fontFamily: 'var(--eaf-font-body)',
+    padding: '12px 16px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    width: '100%',
+    outline: 'none',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
+  };
+
+  const labelStyle = {
+    color: 'var(--eaf-text-secondary)',
+    fontSize: '13px',
+    fontWeight: 500,
+    marginBottom: '6px',
+    display: 'block',
+  };
+
   if (loading) {
     return (
-      <div className="mx-auto max-w-6xl p-4 md:p-8">
-        <StateNotice
-          title="Chargement de ton profil de progression"
-          description="Tes compétences, erreurs récurrentes et badges sont en cours de chargement. Cela ne prend que quelques secondes."
-          variant="loading"
-          center
-          className="mx-auto max-w-xl"
-        />
+      <div className="p-6 md:p-8 flex items-center justify-center min-h-[400px]">
+        <div className="flex items-center gap-3">
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--eaf-border)] border-t-[var(--eaf-indigo)]" />
+          <p style={{ color: 'var(--eaf-text-secondary)' }}>Chargement de ton profil...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] p-6 md:p-8 lg:p-10">
-        <div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[var(--color-indigo-400)] opacity-25" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-10 right-6 h-20 w-20 rounded-full bg-[var(--color-indigo-700)] opacity-40" />
+    <div className="p-6 md:p-8 space-y-6">
+      {/* ─── B.2 — HERO CARD ─── */}
+      <section 
+        className="relative overflow-hidden rounded-[24px] p-8 md:p-10"
+        style={{ 
+          background: 'linear-gradient(135deg, #0d1a35 0%, #111c30 60%, #0f1629 100%)',
+          border: '1px solid var(--eaf-indigo-border)'
+        }}
+      >
+        {/* Decorative orb */}
+        <div 
+          className="pointer-events-none absolute -right-20 -top-20 h-[400px] w-[400px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(123,142,255,0.06), transparent 70%)' }}
+        />
 
-        <div className="relative grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-start">
+        <div className="relative grid gap-8 lg:grid-cols-[1fr_300px] lg:items-start">
+          {/* Colonne gauche */}
           <div>
-            <div className="hero-kicker">
-              <ShieldCheck className="h-4 w-4" />
-              Profil de progression EAF
+            <div className="flex items-center gap-2 mb-5">
+              <Target className="h-3.5 w-3.5" style={{ color: 'var(--eaf-indigo)' }} />
+              <span 
+                className="text-[11px] font-semibold uppercase tracking-[0.06em]"
+                style={{ color: 'var(--eaf-indigo)' }}
+              >
+                Profil de progression EAF
+              </span>
             </div>
-            <h1 className="font-display mt-6 text-4xl leading-tight tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
-              {displayName}, ton profil doit te dire où appuyer, pas seulement où tu en es.
+
+            <h1 
+              className="text-[36px] md:text-[48px] font-bold leading-[1.08] tracking-[-2px] mb-5"
+              style={{ 
+                fontFamily: 'var(--eaf-font-display)',
+                color: 'var(--eaf-text-primary)'
+              }}
+            >
+              {displayName} ({displayPlan}), ton profil doit te dire où appuyer, pas seulement où tu en es.
             </h1>
-            <p className="hero-body mt-5 max-w-3xl text-base leading-8 sm:text-lg">
-              Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges
-              déjà acquis.
+
+            <p 
+              className="text-[14px] leading-[1.7] max-w-[460px] mb-6"
+              style={{ color: 'var(--eaf-text-secondary)' }}
+            >
+              Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges déjà acquis.
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-2.5 text-sm">
-              <span className="hero-chip">
-                Niveau moyen{'\u00a0'}: <strong>{formatScoreLabel(averageScore)}</strong>
-              </span>
-              <span className="hero-chip">
-                Point fort{'\u00a0'}: <strong>{hasEvaluationData ? strongestSkill.label : 'En construction'}</strong>
-              </span>
-              <span className="hero-chip">
-                Axe à retendre{'\u00a0'}: <strong>{hasEvaluationData ? weakestSkill.label : 'À préciser'}</strong>
-              </span>
-              <span className="hero-chip">
-                Mise à jour{'\u00a0'}: <strong>{resolvedProfile.skillMap.lastUpdated ? formatShortDate(resolvedProfile.skillMap.lastUpdated) : 'Diagnostic à lancer'}</strong>
-              </span>
+            {/* Métadonnées */}
+            <div className="flex flex-wrap gap-x-4 gap-y-2 mb-6">
+              {[
+                { label: 'Niveau moyen', value: formatScoreLabel(averageScore) },
+                { label: 'Point fort', value: strongestSkill.label },
+                { label: 'Axe à retendre', value: weakestSkill.label },
+                { label: 'Mise à jour', value: formatShortDate(resolvedProfile.skillMap.lastUpdated) },
+              ].map((meta, idx, arr) => (
+                <span key={meta.label} className="flex items-center gap-2">
+                  <span style={{ color: 'var(--eaf-text-tertiary)' }}>{meta.label} :</span>
+                  <span style={{ color: 'var(--eaf-text-primary)', fontWeight: 600 }}>{meta.value}</span>
+                  {idx < arr.length - 1 && (
+                    <span className="ml-2" style={{ color: 'var(--eaf-text-tertiary)' }}>|</span>
+                  )}
+                </span>
+              ))}
             </div>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-3">
               <Link
                 href="/mon-parcours"
-                className="hero-primary-action px-6 py-3.5 text-sm"
+                className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[14px] font-semibold text-white transition-all"
+                style={{ background: 'var(--eaf-orange)' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--eaf-orange-hover)';
+                  e.currentTarget.style.boxShadow = '0 6px 25px var(--eaf-orange-glow)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--eaf-orange)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
               >
                 Ouvrir mon parcours
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={tutorHref}
-                className="hero-secondary-action px-6 py-3.5 text-sm"
+                className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[14px] font-medium transition-all"
+                style={{ 
+                  background: 'transparent',
+                  border: '1px solid var(--eaf-border)',
+                  color: 'var(--eaf-text-secondary)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-indigo-border)';
+                  e.currentTarget.style.color = 'var(--eaf-indigo)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                  e.currentTarget.style.color = 'var(--eaf-text-secondary)';
+                }}
               >
                 Débloquer un point précis
               </Link>
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
-            {[
-              { label: 'Série active', value: `${resolvedProfile.streak} jours`, icon: Flame },
-              { label: 'Sessions', value: `${resolvedProfile.totalSessions}`, icon: Target },
-              { label: 'Copies', value: `${resolvedProfile.totalCopies}`, icon: CheckCircle2 },
-              { label: 'Badges', value: `${resolvedProfile.badges.length}`, icon: Award },
-            ].map((item) => (
-              <div key={item.label} className="hero-glass-card rounded-[var(--radius-2xl)] p-4">
-                <div className="flex items-center gap-3">
-                  <div className="hero-icon-badge h-11 w-11">
-                    <item.icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="ui-stat-label">{item.label}</p>
-                    <p className="mt-1 text-xl font-bold text-white">{item.value}</p>
-                  </div>
+          {/* Colonne droite */}
+          <div>
+            {/* Grid 2×2 stats */}
+            <div className="grid grid-cols-2 gap-2.5 mb-4">
+              {[
+                { label: 'SÉRIE ACTIVE', value: `${resolvedProfile.streak} jours` },
+                { label: 'SESSIONS', value: `${resolvedProfile.totalSessions}` },
+                { label: 'COPIES', value: `${resolvedProfile.totalCopies}` },
+                { label: 'BADGES', value: `${resolvedProfile.badges.length}` },
+              ].map((stat) => (
+                <div 
+                  key={stat.label}
+                  className="rounded-xl p-3.5"
+                  style={{ 
+                    background: 'rgba(255,255,255,0.04)', 
+                    border: '1px solid var(--eaf-border)'
+                  }}
+                >
+                  <p 
+                    className="text-[10px] font-semibold uppercase tracking-[0.06em] mb-1.5"
+                    style={{ color: 'var(--eaf-text-tertiary)' }}
+                  >
+                    {stat.label}
+                  </p>
+                  <p 
+                    className="text-[24px] font-bold"
+                    style={{ 
+                      fontFamily: 'var(--eaf-font-display)',
+                      color: 'var(--eaf-text-primary)'
+                    }}
+                  >
+                    {stat.value}
+                  </p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
-            <div className="hero-glass-card sm:col-span-2 rounded-[var(--radius-2xl)] p-5">
-              <p className="ui-stat-label text-[var(--hero-kicker-text)]">Signal global</p>
-              <p className="mt-3 text-2xl font-semibold text-white">{profileSignal.label}</p>
-              <p className="hero-body mt-2 text-sm leading-7">{profileSignal.detail}</p>
+            {/* Card Signal global */}
+            <div 
+              className="rounded-xl p-4"
+              style={{ 
+                background: 'var(--eaf-bg2)', 
+                border: '1px solid var(--eaf-border)'
+              }}
+            >
+              <p 
+                className="text-[10px] font-semibold uppercase tracking-[0.06em] mb-2"
+                style={{ color: 'var(--eaf-text-tertiary)' }}
+              >
+                Signal global
+              </p>
+              <p 
+                className="text-[18px] font-bold mb-1.5"
+                style={{ 
+                  fontFamily: 'var(--eaf-font-display)',
+                  color: 'var(--eaf-text-primary)'
+                }}
+              >
+                Relance prioritaire
+              </p>
+              <p 
+                className="text-[12px] leading-[1.5]"
+                style={{ color: 'var(--eaf-text-secondary)' }}
+              >
+                Le profil montre un besoin de réamorçage sur les bases. Il faut réduire la dispersion et remettre le bon axe au centre.
+              </p>
+              {/* Barre de progression */}
+              <div 
+                className="h-[3px] rounded-full mt-3"
+                style={{ background: 'var(--eaf-bg3)' }}
+              >
+                <div 
+                  className="h-[3px] rounded-full"
+                  style={{ 
+                    width: '60%',
+                    background: 'var(--eaf-gradient-progress)'
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {error ? (
-        <StateNotice
-          title="Impossible de charger certaines données du profil"
-          description={`${error} Rafraîchis la page ou réessaie dans quelques instants.`}
-          variant="error"
-        />
+        <div 
+          className="rounded-xl p-4"
+          style={{ 
+            background: 'rgba(255,107,53,0.06)', 
+            border: '1px solid var(--eaf-orange-border)'
+          }}
+        >
+          <p style={{ color: 'var(--eaf-orange)' }}>{error}</p>
+        </div>
       ) : null}
 
-      <Card variant="default" className="rounded-[var(--radius-2xl)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Réglages du profil</p>
-            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
-              Mets à jour les informations qui structurent vraiment ton accompagnement.
-            </h2>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">
-              Nom affiché, classe, objectif, établissement et contacts de suivi peuvent être modifiés ici sans repasser par l’onboarding.
-            </p>
-          </div>
-          <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] font-semibold text-[var(--text-secondary)]">
-            Mise à jour en direct
-          </Badge>
+      {/* ─── B.3 — SECTION RÉGLAGES DU PROFIL ─── */}
+      <div 
+        className="rounded-[20px] p-7 relative"
+        style={{ 
+          background: 'var(--eaf-bg1)', 
+          border: '1px solid var(--eaf-border)'
+        }}
+      >
+        {/* Badge top right */}
+        <div 
+          className="absolute top-6 right-6 rounded-lg px-3 py-1.5 text-[12px] font-semibold"
+          style={{ 
+            background: 'var(--eaf-teal-dim)', 
+            border: '1px solid var(--eaf-teal-border)',
+            color: 'var(--eaf-teal)'
+          }}
+        >
+          Mise à jour en direct
         </div>
 
-        <form className="mt-8 grid gap-4 md:grid-cols-2" onSubmit={handleProfileSave}>
-          <Input
-            label="Nom affiché"
-            name="displayName"
-            value={editableProfile.displayName}
-            onChange={(event) => updateEditableField('displayName', event.target.value)}
-            required
-            autoComplete="name"
-            hint="C’est le nom utilisé dans le dashboard et les emails."
-          />
-          <Select
-            label="Classe"
-            name="classLevel"
-            value={editableProfile.classLevel}
-            onChange={(event) => updateEditableField('classLevel', event.target.value)}
-            options={classLevelOptions}
-          />
-          <Input
-            label="Objectif visé"
-            name="targetScore"
-            value={editableProfile.targetScore}
-            onChange={(event) => updateEditableField('targetScore', event.target.value)}
-            placeholder="Ex. 14/20"
-            hint="Laisse vide si tu préfères ne pas afficher d’objectif."
-          />
-          <Input
-            label="Établissement"
-            name="establishment"
-            value={editableProfile.establishment}
-            onChange={(event) => updateEditableField('establishment', event.target.value)}
-            autoComplete="organization"
-          />
-          <Input
-            label="E-mail parent"
-            name="parentEmail"
-            type="email"
-            value={editableProfile.parentEmail}
-            onChange={(event) => updateEditableField('parentEmail', event.target.value)}
-            autoComplete="email"
-            hint="Optionnel. Un email d’information est envoyé si tu ajoutes ou modifies cette adresse."
-          />
-          <Input
-            label="E-mail enseignant"
-            name="teacherEmail"
-            type="email"
-            value={editableProfile.teacherEmail}
-            onChange={(event) => updateEditableField('teacherEmail', event.target.value)}
-            autoComplete="email"
-            hint="Optionnel. L’adresse peut être utilisée pour rattacher ton suivi."
-          />
+        <span 
+          className="text-[11px] font-semibold uppercase tracking-[0.06em]"
+          style={{ color: 'var(--eaf-indigo)' }}
+        >
+          Réglages du profil
+        </span>
 
-          <div className="md:col-span-2 flex flex-col gap-3 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="space-y-1">
-              <p className="text-sm font-semibold text-[var(--c-primary)]">Enregistrement sécurisé</p>
-              <p className="text-sm leading-6 text-[var(--text-secondary)]">
-                Cette action utilise le même contrôle CSRF que les autres mutations sensibles de la plateforme.
+        <h2 
+          className="text-[32px] font-bold leading-[1.15] tracking-[-1.2px] mt-2 mb-2"
+          style={{ 
+            fontFamily: 'var(--eaf-font-display)',
+            color: 'var(--eaf-text-primary)'
+          }}
+        >
+          Mets à jour les informations qui structurent vraiment ton accompagnement.
+        </h2>
+
+        <p 
+          className="text-[14px] mb-7 max-w-2xl"
+          style={{ color: 'var(--eaf-text-secondary)' }}
+        >
+          Nom affiché, classe, objectif, établissement et contacts de suivi peuvent être modifiés ici sans repasser par l&apos;onboarding.
+        </p>
+
+        <form onSubmit={handleProfileSave}>
+          <div className="grid gap-5 md:grid-cols-2">
+            {/* Rangée 1 */}
+            <div>
+              <label style={labelStyle}>Nom affiché</label>
+              <input
+                type="text"
+                value={editableProfile.displayName}
+                onChange={(e) => updateEditableField('displayName', e.target.value)}
+                required
+                style={inputStyle}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              />
+              <p 
+                className="text-[11px] mt-1"
+                style={{ color: 'var(--eaf-text-tertiary)' }}
+              >
+                C&apos;est le nom utilisé dans le dashboard et les emails.
               </p>
-              {saveFeedback ? (
-                <p
-                  className={`text-sm font-medium ${
-                    saveFeedback.tone === 'success'
-                      ? 'text-[var(--c-success)]'
-                      : 'text-[var(--c-accent)]'
-                  }`}
-                  role={saveFeedback.tone === 'success' ? 'status' : 'alert'}
-                  aria-live={saveFeedback.tone === 'success' ? 'polite' : 'assertive'}
-                >
-                  {saveFeedback.message}
-                </p>
-              ) : null}
             </div>
-            <Button type="submit" size="lg" loading={savingProfile} className="min-h-[44px] sm:min-w-[220px]">
-              Enregistrer le profil
-            </Button>
+
+            <div>
+              <label style={labelStyle}>Classe</label>
+              <select
+                value={editableProfile.classLevel}
+                onChange={(e) => updateEditableField('classLevel', e.target.value)}
+                style={inputStyle}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                {CLASS_LEVEL_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Rangée 2 */}
+            <div>
+              <label style={labelStyle}>Objectif visé</label>
+              <input
+                type="text"
+                value={editableProfile.targetScore}
+                onChange={(e) => updateEditableField('targetScore', e.target.value)}
+                placeholder="Ex. 14/20"
+                style={inputStyle}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              />
+              <p 
+                className="text-[11px] mt-1"
+                style={{ color: 'var(--eaf-text-tertiary)' }}
+              >
+                Laisse vide si tu préfères ne pas afficher d&apos;objectif.
+              </p>
+            </div>
+
+            <div>
+              <label style={labelStyle}>Établissement</label>
+              <input
+                type="text"
+                value={editableProfile.establishment}
+                onChange={(e) => updateEditableField('establishment', e.target.value)}
+                style={inputStyle}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              />
+            </div>
+
+            {/* Rangée 3 */}
+            <div>
+              <label style={labelStyle}>E-mail parent</label>
+              <input
+                type="email"
+                value={editableProfile.parentEmail}
+                onChange={(e) => updateEditableField('parentEmail', e.target.value)}
+                style={inputStyle}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              />
+              <p 
+                className="text-[11px] mt-1"
+                style={{ color: 'var(--eaf-text-tertiary)' }}
+              >
+                Optionnel. Un email d&apos;information est envoyé si tu ajoutes ou modifies cette adresse.
+              </p>
+            </div>
+
+            <div>
+              <label style={labelStyle}>E-mail enseignant</label>
+              <input
+                type="email"
+                value={editableProfile.teacherEmail}
+                onChange={(e) => updateEditableField('teacherEmail', e.target.value)}
+                style={inputStyle}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              />
+              <p 
+                className="text-[11px] mt-1"
+                style={{ color: 'var(--eaf-text-tertiary)' }}
+              >
+                Optionnel. L&apos;adresse peut être utilisée pour rattacher ton suivi.
+              </p>
+            </div>
+          </div>
+
+          {/* Footer formulaire */}
+          <div 
+            className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-5 rounded-b-xl"
+            style={{ borderTop: '1px solid var(--eaf-border)' }}
+          >
+            <div className="flex items-start gap-3">
+              <div 
+                className="flex h-7 w-7 items-center justify-center rounded-lg shrink-0"
+                style={{ 
+                  background: 'var(--eaf-teal-dim)',
+                  color: 'var(--eaf-teal)'
+                }}
+              >
+                <Lock className="h-3.5 w-3.5" />
+              </div>
+              <div>
+                <p 
+                  className="text-sm font-semibold"
+                  style={{ color: 'var(--eaf-teal)' }}
+                >
+                  Enregistrement sécurisé
+                </p>
+                <p 
+                  className="text-xs mt-0.5"
+                  style={{ color: 'var(--eaf-text-tertiary)' }}
+                >
+                  Cette action utilise le même contrôle CSRF que les autres mutations sensibles de la plateforme.
+                </p>
+                {saveFeedback ? (
+                  <p
+                    className="text-sm font-medium mt-2"
+                    style={{ 
+                      color: saveFeedback.tone === 'success' ? 'var(--eaf-teal)' : 'var(--eaf-orange)'
+                    }}
+                  >
+                    {saveFeedback.message}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={savingProfile}
+              className="px-6 py-2.5 rounded-lg text-[14px] font-semibold text-white transition-all disabled:opacity-60"
+              style={{ background: 'var(--eaf-orange)' }}
+              onMouseEnter={(e) => {
+                if (!savingProfile) {
+                  e.currentTarget.style.background = 'var(--eaf-orange-hover)';
+                  e.currentTarget.style.boxShadow = '0 6px 25px var(--eaf-orange-glow)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--eaf-orange)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              {savingProfile ? 'Enregistrement...' : 'Enregistrer le profil'}
+            </button>
           </div>
         </form>
-      </Card>
+      </div>
 
-      <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <Card variant="default" className="rounded-[var(--radius-2xl)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Cartographie actuelle</p>
-          <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+      {/* ─── B.4 — GRID 2 COLONNES : Cartographie + Points de vigilance ─── */}
+      <div className="grid gap-4 md:grid-cols-2">
+        {/* Cartographie actuelle */}
+        <div 
+          className="rounded-[20px] p-7"
+          style={{ 
+            background: 'var(--eaf-bg1)', 
+            border: '1px solid var(--eaf-border)'
+          }}
+        >
+          <span 
+            className="text-[11px] font-semibold uppercase tracking-[0.06em]"
+            style={{ color: 'var(--eaf-indigo)' }}
+          >
+            Cartographie actuelle
+          </span>
+
+          <h2 
+            className="text-[26px] font-bold leading-[1.15] tracking-[-1px] mt-2 mb-6"
+            style={{ 
+              fontFamily: 'var(--eaf-font-display)',
+              color: 'var(--eaf-text-primary)'
+            }}
+          >
             Quatre axes lisibles, pour éviter une lecture floue de tes progrès.
           </h2>
 
-          <div className="mt-8 space-y-5">
-            {skillCards.map((skill) => {
+          <div className="space-y-3">
+            {SKILL_META.map((skill) => {
               const Icon = skill.icon;
+              const percent = (skill.score / 20) * 100;
+              
               return (
-                <div key={skill.key}>
-                  <div className="mb-2 flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-3">
-                      <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--bg-surface-secondary)] text-[var(--c-primary)]">
-                        <Icon className="h-4 w-4" />
+                <div 
+                  key={skill.key}
+                  className="rounded-xl p-4"
+                  style={{ 
+                    background: 'var(--eaf-bg2)', 
+                    border: '1px solid var(--eaf-border)'
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div 
+                        className="flex h-8 w-8 items-center justify-center rounded-lg"
+                        style={{ background: skill.bgColor }}
+                      >
+                        <Icon className="h-4 w-4" style={{ color: skill.color }} />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-[var(--c-primary)]">{skill.label}</p>
-                        <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{skill.copy}</p>
+                        <p 
+                          className="text-sm font-semibold"
+                          style={{ color: 'var(--eaf-text-primary)' }}
+                        >
+                          {skill.label}
+                        </p>
+                        <p 
+                          className="text-[11px] italic"
+                          style={{ color: 'var(--eaf-text-tertiary)' }}
+                        >
+                          {skill.copy}
+                        </p>
                       </div>
                     </div>
-                    <span className="shrink-0 text-sm font-semibold text-[var(--text-muted)]">{formatScoreLabel(skill.score)}</span>
+                    <span 
+                      className="text-sm font-bold shrink-0"
+                      style={{ 
+                        fontFamily: 'var(--eaf-font-display)',
+                        color: 'var(--eaf-text-primary)'
+                      }}
+                    >
+                      {formatScoreLabel(skill.score)}
+                    </span>
                   </div>
-                  <div className="h-2.5 rounded-full bg-[var(--border-default)]">
-                    <div className={`h-2.5 rounded-full ${skill.accent}`} style={{ width: `${((skill.score ?? 0) / 20) * 100}%` }} />
+
+                  <div 
+                    className="h-1.5 rounded-full"
+                    style={{ background: 'var(--eaf-bg3)' }}
+                  >
+                    <div 
+                      className="h-1.5 rounded-full"
+                      style={{ 
+                        width: `${percent}%`,
+                        background: skill.color
+                      }}
+                    />
                   </div>
                 </div>
               );
             })}
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <Card variant="default" className="rounded-[var(--radius-2xl)] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe fort</p>
-              <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{hasEvaluationData ? strongestSkill.label : 'En construction'}</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
-                {hasEvaluationData
-                  ? 'C’est là que le niveau est le plus naturellement stable aujourd’hui.'
-                  : 'Ce repère apparaîtra après une première séance évaluée.'}
+          {/* Grid 2 cartes Axe fort / Axe prioritaire */}
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            {/* Axe fort */}
+            <div 
+              className="rounded-xl p-4"
+              style={{ 
+                background: 'var(--eaf-teal-dim)', 
+                border: '1px solid var(--eaf-teal-border)'
+              }}
+            >
+              <p 
+                className="text-[10px] font-semibold uppercase tracking-[0.06em] mb-2"
+                style={{ color: 'var(--eaf-teal)' }}
+              >
+                Axe fort
               </p>
-            </Card>
-            <Card variant="default" className="rounded-[var(--radius-2xl)] border-[var(--border-strong)] bg-[var(--bg-surface-secondary)]" padding="sm">
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Axe prioritaire</p>
-              <p className="mt-3 text-lg font-semibold text-[var(--c-primary)]">{hasEvaluationData ? weakestSkill.label : 'À préciser'}</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
-                {hasEvaluationData
-                  ? 'C’est l’endroit où une séance bien choisie rapportera le plus vite.'
-                  : 'Le prochain axe prioritaire émergera dès qu’une première évaluation aura créé un vrai signal.'}
+              <p 
+                className="text-lg font-bold mb-1"
+                style={{ 
+                  fontFamily: 'var(--eaf-font-display)',
+                  color: 'var(--eaf-teal)'
+                }}
+              >
+                {strongestSkill.label}
               </p>
-            </Card>
+              <p 
+                className="text-xs leading-[1.5]"
+                style={{ color: 'var(--eaf-text-secondary)' }}
+              >
+                C&apos;est là que le niveau est le plus naturellement stable aujourd&apos;hui.
+              </p>
+            </div>
+
+            {/* Axe prioritaire */}
+            <div 
+              className="rounded-xl p-4"
+              style={{ 
+                background: 'rgba(255,107,53,0.08)', 
+                border: '1px solid var(--eaf-orange-border)'
+              }}
+            >
+              <p 
+                className="text-[10px] font-semibold uppercase tracking-[0.06em] mb-2"
+                style={{ color: 'var(--eaf-orange)' }}
+              >
+                Axe prioritaire
+              </p>
+              <p 
+                className="text-lg font-bold mb-1"
+                style={{ 
+                  fontFamily: 'var(--eaf-font-display)',
+                  color: 'var(--eaf-orange)'
+                }}
+              >
+                {weakestSkill.label}
+              </p>
+              <p 
+                className="text-xs leading-[1.5]"
+                style={{ color: 'var(--eaf-text-secondary)' }}
+              >
+                C&apos;est l&apos;endroit où une séance bien choisie rapportera le plus vite.
+              </p>
+            </div>
           </div>
-        </Card>
-
-        <div className="space-y-6">
-          <Card variant="default" className="rounded-[var(--radius-2xl)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Points de vigilance</p>
-            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
-              Les erreurs récurrentes doivent rester visibles, pas seulement ressenties.
-            </h2>
-
-            {topErrors.length === 0 ? (
-              <div className="mt-8">
-                <StateNotice
-                  title="Aucune erreur récurrente identifiée"
-                  description="Au fil de tes ateliers et évaluations, les points de vigilance récurrents apparaîtront ici pour t’aider à cibler tes prochaines révisions."
-                  variant="empty"
-                  icon={CheckCircle2}
-                  center
-                />
-              </div>
-            ) : (
-              <div className="mt-8 space-y-3">
-                {topErrors.map((entry) => (
-                  <article key={`${entry.type}-${entry.firstSeen}`} className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
-                    <div className="flex items-start gap-4">
-                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--bg-reward)] text-[var(--color-amber-300)]">
-                        <AlertTriangle className="h-5 w-5" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <p className="text-sm font-semibold text-[var(--c-primary)]">{entry.type}</p>
-                          <Badge variant="outline" size="sm" className="border-[var(--border-reward)] font-bold uppercase tracking-[0.16em] text-[var(--text-reward-on-subtle)]">
-                            {entry.count} occurrences
-                          </Badge>
-                        </div>
-                        <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{entry.description}</p>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            )}
-          </Card>
-
-          <Card variant="dark" className="rounded-[var(--radius-2xl)]" padding="md">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">72 prochaines heures</p>
-            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-white">
-              Les prochaines tâches doivent être courtes, claires et immédiatement lançables.
-            </h2>
-
-            <div className="mt-8 space-y-3">
-              {upcomingTasks.length > 0 ? (
-                upcomingTasks.map((task) => (
-                  <article key={task.id} className="rounded-[var(--radius-2xl)] border border-white/10 bg-white/8 p-4 backdrop-blur-sm">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <Badge variant="default" size="sm" className={`font-bold uppercase tracking-[0.16em] ${PRIORITY_STYLE[task.priority]}`}>
-                        {task.priority === 'high' ? 'Haute' : task.priority === 'medium' ? 'Moyenne' : 'Faible'}
-                      </Badge>
-                      <span className="hero-body-muted text-xs font-semibold uppercase tracking-[0.16em]">
-                        {task.estimatedMinutes} min · {formatShortDate(task.dueDate)}
-                      </span>
-                    </div>
-                    <p className="mt-3 text-sm font-semibold leading-6 text-white">{task.description}</p>
-                  </article>
-                ))
-              ) : (
-                <div className="flex flex-col items-center gap-3 rounded-[var(--radius-2xl)] border border-white/10 bg-white/8 p-6 text-center backdrop-blur-sm">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                    <Target className="hero-body-muted h-5 w-5" />
-                  </div>
-                  <p className="text-sm font-semibold text-white">Pas encore de tâches planifiées</p>
-                  <p className="hero-body max-w-sm text-sm leading-7">
-                    Ouvre ton parcours ou lance un atelier pour que les prochaines actions concrètes apparaissent ici.
-                  </p>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link
-                href="/mon-parcours"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-5 py-3 text-sm font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white"
-              >
-                Voir tout le plan
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href={tutorHref}
-                className="inline-flex items-center justify-center rounded-full border border-white/14 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/6"
-              >
-                Demander une relance
-              </Link>
-            </div>
-          </Card>
         </div>
-      </section>
 
-      <Card variant="default" className="rounded-[var(--radius-2xl)] bg-[var(--bg-surface)]/90 shadow-[var(--shadow-md)]" padding="md">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        {/* Points de vigilance */}
+        <div 
+          className="rounded-[20px] p-7"
+          style={{ 
+            background: 'var(--eaf-bg1)', 
+            border: '1px solid var(--eaf-border)'
+          }}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <span 
+                className="text-[11px] font-semibold uppercase tracking-[0.06em]"
+                style={{ color: 'var(--eaf-indigo)' }}
+              >
+                Points de vigilance
+              </span>
+              <h2 
+                className="text-[26px] font-bold leading-[1.15] tracking-[-1px] mt-2"
+                style={{ 
+                  fontFamily: 'var(--eaf-font-display)',
+                  color: 'var(--eaf-text-primary)'
+                }}
+              >
+                Les erreurs récurrentes doivent rester visibles, pas seulement ressenties.
+              </h2>
+            </div>
+            
+            {/* Badge d'action */}
+            <div 
+              className="rounded-full px-3 py-1.5 flex items-center gap-2 shrink-0"
+              style={{ 
+                background: 'var(--eaf-bg3)', 
+                border: '1px solid var(--eaf-border)'
+              }}
+            >
+              <span 
+                className="text-xs"
+                style={{ color: 'var(--eaf-text-secondary)' }}
+              >
+                Soumettre à nouveau la copie.
+              </span>
+              <span 
+                className="rounded-full px-2 py-0.5 text-[10px] font-bold"
+                style={{ 
+                  background: 'rgba(255,107,53,0.12)', 
+                  border: '1px solid var(--eaf-orange-border)',
+                  color: 'var(--eaf-orange)'
+                }}
+              >
+                2 OCCURRENCES
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-3 mt-5">
+            {VIGILANCE_POINTS.map((point, idx) => (
+              <div 
+                key={idx}
+                className="rounded-xl p-4 transition-all"
+                style={{ 
+                  background: 'var(--eaf-bg2)', 
+                  border: '1px solid var(--eaf-border)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255,107,53,0.25)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                }}
+              >
+                <div className="flex items-start gap-3">
+                  <div 
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-sm"
+                    style={{ 
+                      background: 'rgba(255,181,71,0.10)',
+                      border: '1px solid var(--eaf-gold-border)',
+                    }}
+                  >
+                    ⚠️
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p 
+                      className="text-[13px] font-semibold leading-[1.5]"
+                      style={{ color: 'var(--eaf-text-primary)' }}
+                    >
+                      {point.title}
+                    </p>
+                    <span 
+                      className="inline-block mt-2 rounded-full px-2 py-0.5 text-[10px] font-bold"
+                      style={{ 
+                        background: 'rgba(255,181,71,0.08)', 
+                        border: '1px solid var(--eaf-gold-border)',
+                        color: 'var(--eaf-gold)'
+                      }}
+                    >
+                      {point.count} OCCURRENCES
+                    </span>
+                    <div 
+                      className="mt-3 pt-3"
+                      style={{ borderTop: '1px solid var(--eaf-border)' }}
+                    >
+                      <p 
+                        className="text-xs leading-[1.5]"
+                        style={{ color: 'var(--eaf-text-tertiary)' }}
+                      >
+                        Point à renforcer : {point.reinforce}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ─── B.5 — CARD 72 PROCHAINES HEURES ─── */}
+      <div 
+        className="relative overflow-hidden rounded-[20px] p-7"
+        style={{ 
+          background: 'linear-gradient(135deg, #0f1e3a, #111c30)',
+          border: '1px solid var(--eaf-indigo-border)'
+        }}
+      >
+        {/* Decorative orb */}
+        <div 
+          className="pointer-events-none absolute -right-12 -top-12 h-[250px] w-[250px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(123,142,255,0.08), transparent 70%)' }}
+        />
+
+        <div className="relative">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-sm">⚡</span>
+            <span 
+              className="text-[11px] font-semibold uppercase tracking-[0.06em]"
+              style={{ color: 'var(--eaf-gold)' }}
+            >
+              72 prochaines heures
+            </span>
+          </div>
+
+          <h2 
+            className="text-[24px] font-bold leading-[1.2] tracking-[-1px] mb-5"
+            style={{ 
+              fontFamily: 'var(--eaf-font-display)',
+              color: 'var(--eaf-text-primary)'
+            }}
+          >
+            Les prochaines tâches doivent être courtes, claires et immédiatement lançables.
+          </h2>
+
+          <div className="space-y-2">
+            {upcomingTasks.map((task) => (
+              <div 
+                key={task.id}
+                className="rounded-xl p-3.5"
+                style={{ 
+                  background: 'rgba(255,255,255,0.04)', 
+                  border: '1px solid var(--eaf-border)'
+                }}
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+                  <span 
+                    className="rounded-full px-2 py-0.5 text-[9px] font-bold uppercase"
+                    style={{ 
+                      background: PRIORITY_STYLE[task.priority].bg,
+                      border: `1px solid ${PRIORITY_STYLE[task.priority].border}`,
+                      color: PRIORITY_STYLE[task.priority].color
+                    }}
+                  >
+                    {PRIORITY_STYLE[task.priority].label}
+                  </span>
+                  <span 
+                    className="text-[11px] font-medium uppercase tracking-wide"
+                    style={{ color: 'var(--eaf-text-tertiary)' }}
+                  >
+                    {task.estimatedMinutes} MIN · {new Date(task.dueDate).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' }).toUpperCase()}
+                  </span>
+                </div>
+                <p 
+                  className="text-[13px] font-semibold"
+                  style={{ color: 'var(--eaf-text-primary)' }}
+                >
+                  {task.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-3 mt-5">
+            <Link
+              href="/mon-parcours"
+              className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[13px] font-semibold transition-all"
+              style={{ 
+                background: 'var(--eaf-orange)',
+                color: 'white'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--eaf-orange-hover)';
+                e.currentTarget.style.boxShadow = '0 6px 25px var(--eaf-orange-glow)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--eaf-orange)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              Voir tout le plan
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href={tutorHref}
+              className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[13px] font-medium transition-all"
+              style={{ 
+                background: 'transparent',
+                border: '1px solid var(--eaf-border)',
+                color: 'var(--eaf-text-secondary)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--eaf-indigo-border)';
+                e.currentTarget.style.color = 'var(--eaf-indigo)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                e.currentTarget.style.color = 'var(--eaf-text-secondary)';
+              }}
+            >
+              Demander une relance
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── B.6 — BADGES ET TRACES POSITIVES ─── */}
+      <div 
+        className="rounded-[20px] p-7"
+        style={{ 
+          background: 'var(--eaf-bg1)', 
+          border: '1px solid var(--eaf-border)'
+        }}
+      >
+        <div className="flex items-center justify-between mb-5">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Badges et traces positives</p>
-            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+            <span 
+              className="text-[11px] font-semibold uppercase tracking-[0.06em]"
+              style={{ color: 'var(--eaf-indigo)' }}
+            >
+              Badges et traces positives
+            </span>
+            <h2 
+              className="text-[28px] font-bold mt-2"
+              style={{ 
+                fontFamily: 'var(--eaf-font-display)',
+                color: 'var(--eaf-text-primary)'
+              }}
+            >
               Les marqueurs de progression comptent aussi pour soutenir la constance.
             </h2>
           </div>
-          <Badge variant="outline" size="md" className="border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] font-semibold text-[var(--text-secondary)]">
+          <div 
+            className="rounded-full px-3 py-1.5 text-[12px] font-semibold"
+            style={{ 
+              background: 'var(--eaf-bg3)', 
+              border: '1px solid var(--eaf-border)',
+              color: 'var(--eaf-text-secondary)'
+            }}
+          >
             {resolvedProfile.badges.length} badges actifs
-          </Badge>
+          </div>
         </div>
 
-        {!resolvedProfile.badges.length ? (
-          <div className="mt-8">
-            <StateNotice
-              title="Tes premiers badges arrivent bientôt"
-              description="Chaque atelier terminé, chaque série de jours actifs et chaque seuil franchi te rapprochent d’un nouveau badge. Continue sur ta lancée !"
-              variant="empty"
-              icon={Award}
-              center
-              action={
-                <Link
-                  href="/atelier-ecrit"
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-2.5 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:border-[var(--c-success)] hover:text-[var(--c-success)]"
-                >
-                  Lancer un atelier
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              }
-            />
+        {resolvedProfile.badges.length === 0 ? (
+          <div 
+            className="text-center py-8"
+            style={{ color: 'var(--eaf-text-tertiary)' }}
+          >
+            <Award className="h-12 w-12 mx-auto mb-3 opacity-50" />
+            <p>Tes premiers badges arrivent bientôt !</p>
           </div>
         ) : (
-          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {resolvedProfile.badges.map((badge, index) => (
-              <article
-                key={badge}
-                className={`rounded-[var(--radius-2xl)] border border-white/10 bg-gradient-to-br ${BADGE_STYLES[index % BADGE_STYLES.length]} p-5 text-white shadow-[var(--shadow-md)]`}
-              >
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12">
-                  <Sparkles className="h-5 w-5" />
+          <div className="grid gap-4 md:grid-cols-2">
+            {resolvedProfile.badges.map((badge, index) => {
+              const isFirst = index === 0;
+              return (
+                <div
+                  key={badge}
+                  className="relative overflow-hidden rounded-xl p-5"
+                  style={{
+                    background: isFirst 
+                      ? 'linear-gradient(135deg, rgba(123,142,255,0.12), rgba(123,142,255,0.06))' 
+                      : 'linear-gradient(135deg, rgba(26,213,160,0.12), rgba(26,213,160,0.06))',
+                    border: `1px solid ${isFirst ? 'var(--eaf-indigo-border)' : 'var(--eaf-teal-border)'}`,
+                  }}
+                >
+                  {/* Decorative circle */}
+                  <div 
+                    className="absolute -bottom-5 -right-5 h-20 w-20 rounded-full"
+                    style={{ background: 'rgba(255,255,255,0.04)' }}
+                  />
+
+                  <div 
+                    className="relative flex h-9 w-9 items-center justify-center rounded-lg mb-3"
+                    style={{ 
+                      background: isFirst ? 'var(--eaf-indigo-dim)' : 'var(--eaf-teal-dim)',
+                      border: `1px solid ${isFirst ? 'var(--eaf-indigo-border)' : 'var(--eaf-teal-border)'}`,
+                    }}
+                  >
+                    <Sparkles 
+                      className="h-5 w-5" 
+                      style={{ color: isFirst ? 'var(--eaf-indigo)' : 'var(--eaf-teal)' }} 
+                    />
+                  </div>
+
+                  <p 
+                    className="text-[14px] font-bold mb-2"
+                    style={{ 
+                      color: isFirst ? 'var(--eaf-indigo)' : 'var(--eaf-teal)'
+                    }}
+                  >
+                    {badge}
+                  </p>
+                  <p 
+                    className="text-[12px] leading-[1.5]"
+                    style={{ color: 'var(--eaf-text-secondary)' }}
+                  >
+                    Trace de progression utile : ce badge matérialise une régularité ou un passage de seuil déjà atteint.
+                  </p>
                 </div>
-                <p className="mt-4 text-base font-semibold leading-7">{badge}</p>
-                <p className="mt-2 text-sm leading-6 text-white/80">
-                  Trace de progression utile : ce badge matérialise une régularité ou un passage de seuil déjà atteint.
-                </p>
-              </article>
-            ))}
+              );
+            })}
           </div>
         )}
-      </Card>
+      </div>
 
-      {/* ── Zone dangereuse — Suppression de compte (RGPD Art. 17) ── */}
-      <Card className="mt-8 border-red-500/30">
-        <h2 className="flex items-center gap-2 text-lg font-bold text-red-500">
-          <Trash2 className="h-5 w-5" />
-          Zone dangereuse
-        </h2>
-        <p className="mt-2 text-sm text-[var(--text-muted)]">
+      {/* ─── B.7 — ZONE DANGEREUSE (RGPD) ─── */}
+      <div 
+        className="rounded-[16px] p-6"
+        style={{ 
+          background: 'rgba(239,68,68,0.04)', 
+          border: '1px solid rgba(239,68,68,0.20)'
+        }}
+      >
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-sm">🚫</span>
+          <span 
+            className="text-[12px] font-semibold uppercase tracking-[0.08em]"
+            style={{ color: '#ef4444' }}
+          >
+            Zone dangereuse
+          </span>
+        </div>
+
+        <p 
+          className="text-[13px] leading-[1.6] mb-4"
+          style={{ color: 'var(--eaf-text-secondary)' }}
+        >
           Conformément au RGPD (article 17), tu peux demander la suppression définitive de ton compte et de toutes tes données.
           Cette action est irréversible.
         </p>
 
         {!showDeleteConfirm ? (
-          <Button
+          <button
             type="button"
-            variant="secondary"
-            className="mt-4 border-red-500/40 text-red-500 hover:bg-red-500/10"
             onClick={() => setShowDeleteConfirm(true)}
+            className="px-5 py-2 rounded-lg text-[13px] font-semibold transition-all"
+            style={{ 
+              background: 'transparent',
+              border: '1px solid rgba(239,68,68,0.40)',
+              color: '#f87171'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(239,68,68,0.08)';
+              e.currentTarget.style.borderColor = 'rgba(239,68,68,0.60)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.borderColor = 'rgba(239,68,68,0.40)';
+            }}
           >
+            <Trash2 className="h-4 w-4 inline mr-2" />
             Supprimer mon compte
-          </Button>
+          </button>
         ) : (
-          <div className="mt-4 space-y-3 rounded-xl border border-red-500/30 bg-red-500/5 p-4">
-            <p className="text-sm font-semibold text-red-500">
+          <div 
+            className="space-y-3 rounded-xl p-4"
+            style={{ 
+              background: 'rgba(239,68,68,0.08)', 
+              border: '1px solid rgba(239,68,68,0.30)'
+            }}
+          >
+            <p 
+              className="text-sm font-semibold"
+              style={{ color: '#ef4444' }}
+            >
               Confirme la suppression en saisissant ton adresse e-mail :
             </p>
-            <Input
+            <input
               type="email"
               value={deleteEmail}
               onChange={(e) => { setDeleteEmail(e.target.value); setDeleteError(null); }}
               placeholder="ton-email@exemple.com"
-              className="border-red-500/30"
+              style={{
+                ...inputStyle,
+                border: '1px solid rgba(239,68,68,0.30)',
+              }}
             />
             {deleteError && (
-              <p className="text-xs font-medium text-red-500">{deleteError}</p>
+              <p className="text-xs font-medium" style={{ color: '#ef4444' }}>{deleteError}</p>
             )}
-            <div className="flex gap-3">
-              <Button
+            <div className="flex gap-3 pt-2">
+              <button
                 type="button"
-                variant="secondary"
                 onClick={() => { setShowDeleteConfirm(false); setDeleteEmail(''); setDeleteError(null); }}
                 disabled={deletingAccount}
+                className="px-4 py-2 rounded-lg text-[13px] font-medium transition-all disabled:opacity-60"
+                style={{ 
+                  background: 'transparent',
+                  border: '1px solid var(--eaf-border)',
+                  color: 'var(--eaf-text-secondary)'
+                }}
               >
                 Annuler
-              </Button>
-              <Button
+              </button>
+              <button
                 type="button"
-                className="bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
                 disabled={deletingAccount || !deleteEmail.trim()}
+                className="px-4 py-2 rounded-lg text-[13px] font-semibold text-white transition-all disabled:opacity-50"
+                style={{ background: '#dc2626' }}
                 onClick={async () => {
                   setDeletingAccount(true);
                   setDeleteError(null);
@@ -879,11 +1427,11 @@ export default function ProfilPage() {
                 }}
               >
                 {deletingAccount ? 'Suppression...' : 'Confirmer la suppression'}
-              </Button>
+              </button>
             </div>
           </div>
         )}
-      </Card>
+      </div>
     </div>
   );
 }

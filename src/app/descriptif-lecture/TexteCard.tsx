@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Upload, Trash2, FileText, NotebookPen } from 'lucide-react';
-import { Button, Textarea } from '@/components/ui';
+import { Upload, Trash2, FileText, NotebookPen, ChevronDown, ChevronUp } from 'lucide-react';
 
 type TexteDescriptif = {
   id: string;
@@ -87,19 +86,55 @@ export function TexteCard({ texte, onDelete, onRefresh }: TexteCardProps) {
     }
   }
 
+  const inputStyle = {
+    background: 'var(--eaf-bg2)',
+    border: '1px solid var(--eaf-border)',
+    color: 'var(--eaf-text-primary)',
+    fontFamily: 'var(--eaf-font-body)',
+    padding: '12px 16px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    width: '100%',
+    outline: 'none',
+    resize: 'vertical' as const,
+    minHeight: '120px',
+  };
+
   return (
-    <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-4 shadow-[var(--shadow-sm)]">
+    <div 
+      className="rounded-xl p-4 transition-all"
+      style={{ 
+        background: 'var(--eaf-bg2)', 
+        border: '1px solid var(--eaf-border)'
+      }}
+    >
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0 flex-1">
-          <p className="truncate text-base font-semibold text-[var(--text-heading)]">
+          <p 
+            className="truncate text-base font-semibold"
+            style={{ color: 'var(--eaf-text-primary)' }}
+          >
             {texte.titreExtrait}
           </p>
-          <p className="text-sm text-[var(--text-muted)]">{texte.oeuvreAuteur}</p>
+          <p 
+            className="text-sm mt-0.5"
+            style={{ color: 'var(--eaf-text-secondary)' }}
+          >
+            {texte.oeuvreAuteur}
+          </p>
           {texte.numeroPagesRef ? (
-            <p className="mt-1 text-xs text-[var(--text-muted)]">{texte.numeroPagesRef}</p>
+            <p 
+              className="mt-1 text-xs"
+              style={{ color: 'var(--eaf-text-tertiary)' }}
+            >
+              {texte.numeroPagesRef}
+            </p>
           ) : null}
           {texte.incipit ? (
-            <p className="mt-2 text-sm italic text-[var(--text-muted)]">
+            <p 
+              className="mt-2 text-sm italic"
+              style={{ color: 'var(--eaf-text-tertiary)' }}
+            >
               « {texte.incipit} »
             </p>
           ) : null}
@@ -107,33 +142,90 @@ export function TexteCard({ texte, onDelete, onRefresh }: TexteCardProps) {
 
         <div className="flex items-center gap-2">
           {texte.fichierPath ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
+            <span 
+              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium"
+              style={{ 
+                background: 'var(--eaf-teal-dim)', 
+                border: '1px solid var(--eaf-teal-border)',
+                color: 'var(--eaf-teal)'
+              }}
+            >
               <FileText className="h-3.5 w-3.5" />
               Fichier lié
             </span>
           ) : null}
-          <Button variant="ghost" size="sm" onClick={() => setExpanded((value) => !value)}>
-            {expanded ? 'Réduire' : 'Ouvrir'}
-          </Button>
-          <Button variant="danger" size="sm" onClick={() => void onDelete()} aria-label="Supprimer ce texte">
-            <Trash2 className="h-4 w-4" aria-hidden="true" />
-          </Button>
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            className="p-2 rounded-lg text-xs font-medium transition-colors"
+            style={{ 
+              background: 'var(--eaf-bg3)',
+              color: 'var(--eaf-text-secondary)'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--eaf-text-primary)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--eaf-text-secondary)'}
+          >
+            {expanded ? (
+              <span className="flex items-center gap-1"><ChevronUp className="h-4 w-4" /> Réduire</span>
+            ) : (
+              <span className="flex items-center gap-1"><ChevronDown className="h-4 w-4" /> Ouvrir</span>
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={() => void onDelete()}
+            aria-label="Supprimer ce texte"
+            className="p-2 rounded-lg transition-colors"
+            style={{ 
+              background: 'var(--eaf-bg3)',
+              color: 'var(--eaf-text-tertiary)'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#ef4444'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--eaf-text-tertiary)'}
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
         </div>
       </div>
 
       {expanded ? (
-        <div className="mt-4 space-y-4 border-t border-[var(--border-subtle)] pt-4">
-          <div className="rounded-2xl border border-dashed border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+        <div 
+          className="mt-4 space-y-4 pt-4"
+          style={{ borderTop: '1px solid var(--eaf-border)' }}
+        >
+          {/* Upload section */}
+          <div 
+            className="rounded-xl p-4"
+            style={{ 
+              background: 'var(--eaf-bg1)', 
+              border: '1px dashed var(--eaf-border)'
+            }}
+          >
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
-                <p className="text-sm font-medium text-[var(--text-heading)]">
+                <p 
+                  className="text-sm font-semibold"
+                  style={{ color: 'var(--eaf-text-primary)' }}
+                >
                   Téléverser le texte étudié
                 </p>
-                <p className="text-xs text-[var(--text-muted)]">
+                <p 
+                  className="text-xs mt-0.5"
+                  style={{ color: 'var(--eaf-text-tertiary)' }}
+                >
                   PDF, JPEG, PNG ou WEBP. OCR automatique si disponible.
                 </p>
               </div>
-              <label className="inline-flex cursor-pointer items-center gap-2 rounded-[var(--radius-md)] bg-[var(--c-primary)] px-4 py-2 text-sm font-medium text-[var(--text-on-primary)]">
+              <label 
+                className="inline-flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-all"
+                style={{ background: 'var(--eaf-indigo)' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--eaf-indigo-hover)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--eaf-indigo)';
+                }}
+              >
                 <Upload className="h-4 w-4" />
                 {uploading ? 'Envoi...' : 'Choisir un fichier'}
                 <input
@@ -152,33 +244,91 @@ export function TexteCard({ texte, onDelete, onRefresh }: TexteCardProps) {
               </label>
             </div>
             {uploadFeedback ? (
-              <p className={`mt-3 text-sm ${uploadFeedback.ocrExtracted ? 'text-emerald-700' : 'text-amber-700'}`}>
+              <p 
+                className="mt-3 text-sm"
+                style={{ 
+                  color: uploadFeedback.ocrExtracted ? 'var(--eaf-teal)' : 'var(--eaf-orange)'
+                }}
+              >
                 {uploadFeedback.ocrExtracted
                   ? `Texte extrait par OCR (${uploadFeedback.charCount ?? 0} caractères). Vérifie et corrige si besoin.`
-                  : 'Fichier uploadé mais le texte n\u2019a pas pu être extrait. Colle-le manuellement ci-dessous.'}
+                  : 'Fichier uploadé mais le texte n\'a pas pu être extrait. Colle-le manuellement ci-dessous.'}
               </p>
             ) : null}
           </div>
 
-          <Textarea
-            label="Texte de l'extrait"
-            defaultValue={texte.contenuTexte ?? ''}
-            rows={7}
-            hint={savingText ? 'Sauvegarde...' : 'Colle le texte intégral si tu ne téléverses pas de document.'}
-            onBlur={(event) => void patchTexte({ contenuTexte: event.target.value }, 'texte')}
-          />
+          {/* Texte textarea */}
+          <div>
+            <label 
+              className="text-[13px] font-medium mb-2 block"
+              style={{ color: 'var(--eaf-text-secondary)' }}
+            >
+              <span className="flex items-center gap-2">
+                <FileText className="h-4 w-4" />
+                Texte de l&apos;extrait
+              </span>
+            </label>
+            <textarea
+              defaultValue={texte.contenuTexte ?? ''}
+              rows={7}
+              placeholder="Colle le texte intégral si tu ne téléverses pas de document."
+              style={inputStyle}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+              }}
+              onBlur={(e) => {
+                void patchTexte({ contenuTexte: e.target.value }, 'texte');
+                e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            />
+            {savingText ? (
+              <p className="mt-1 text-xs" style={{ color: 'var(--eaf-text-tertiary)' }}>Sauvegarde...</p>
+            ) : (
+              <p className="mt-1 text-xs" style={{ color: 'var(--eaf-text-tertiary)' }}>
+                Colle le texte intégral si tu ne téléverses pas de document.
+              </p>
+            )}
+          </div>
 
-          <Textarea
-            label="Mes notes personnelles"
-            defaultValue={texte.notesPersonnelles ?? ''}
-            rows={4}
-            icon={<NotebookPen className="h-4 w-4" />}
-            hint={savingNotes ? 'Sauvegarde...' : "Utilise cet espace pour l'entretien : ce que tu veux dire, ce que tu aimes, ce que tu veux retenir."}
-            onBlur={(event) => void patchTexte({ notesPersonnelles: event.target.value }, 'notes')}
-          />
+          {/* Notes textarea */}
+          <div>
+            <label 
+              className="text-[13px] font-medium mb-2 block"
+              style={{ color: 'var(--eaf-text-secondary)' }}
+            >
+              <span className="flex items-center gap-2">
+                <NotebookPen className="h-4 w-4" />
+                Mes notes personnelles
+              </span>
+            </label>
+            <textarea
+              defaultValue={texte.notesPersonnelles ?? ''}
+              rows={4}
+              placeholder="Utilise cet espace pour l'entretien : ce que tu veux dire, ce que tu aimes, ce que tu veux retenir."
+              style={{ ...inputStyle, minHeight: '80px' }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+              }}
+              onBlur={(e) => {
+                void patchTexte({ notesPersonnelles: e.target.value }, 'notes');
+                e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            />
+            {savingNotes ? (
+              <p className="mt-1 text-xs" style={{ color: 'var(--eaf-text-tertiary)' }}>Sauvegarde...</p>
+            ) : (
+              <p className="mt-1 text-xs" style={{ color: 'var(--eaf-text-tertiary)' }}>
+                Utilise cet espace pour l&apos;entretien : ce que tu veux dire, ce que tu aimes, ce que tu veux retenir.
+              </p>
+            )}
+          </div>
 
           {error ? (
-            <p className="text-sm text-[var(--c-accent)]">{error}</p>
+            <p className="text-sm" style={{ color: 'var(--eaf-orange)' }}>{error}</p>
           ) : null}
         </div>
       ) : null}

@@ -1,8 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Button, Input, Select, Textarea } from '@/components/ui';
-import { OBJETS_ETUDE, TYPE_TEXTE_OPTIONS, type ObjetEtudeId, type TypeTexteId } from '@/data/programme-eaf-2025';
+import { X } from 'lucide-react';
+import { OBJETS_ETUDE, type ObjetEtudeId, type TypeTexteId } from '@/data/programme-eaf-2025';
 
 type AddTexteFormProps = {
   selectedObjet: ObjetEtudeId;
@@ -23,6 +23,13 @@ type FormState = {
 };
 
 const DEFAULT_TYPE: TypeTexteId = 'EXTRAIT_OEUVRE';
+
+const TYPE_OPTIONS = [
+  { value: 'EXTRAIT_OEUVRE', label: 'Extrait d\'œuvre' },
+  { value: 'EXTRAIT_PARCOURS', label: 'Texte du parcours' },
+  { value: 'LECTURE_CURSIVE', label: 'Lecture cursive' },
+  { value: 'OEUVRE_CHOISIE_ENTRETIEN', label: 'Œuvre entretien' },
+];
 
 export function AddTexteForm({ selectedObjet, onSaved, onCancel }: AddTexteFormProps) {
   const [form, setForm] = useState<FormState>({
@@ -76,82 +83,228 @@ export function AddTexteForm({ selectedObjet, onSaved, onCancel }: AddTexteFormP
     }
   }
 
+  const inputStyle = {
+    background: 'var(--eaf-bg2)',
+    border: '1px solid var(--eaf-border)',
+    color: 'var(--eaf-text-primary)',
+    fontFamily: 'var(--eaf-font-body)',
+    padding: '12px 16px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    width: '100%',
+    outline: 'none',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
+  };
+
+  const labelStyle = {
+    color: 'var(--eaf-text-secondary)',
+    fontSize: '13px',
+    fontWeight: 500,
+    marginBottom: '6px',
+    display: 'block',
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] p-5 shadow-[var(--shadow-md)]"
+      className="rounded-2xl p-5"
+      style={{ 
+        background: 'var(--eaf-bg1)',
+      }}
     >
-      <div className="mb-5 flex items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-4 mb-5">
         <div>
-          <h3 className="text-lg font-semibold text-[var(--text-heading)]">Ajouter un texte</h3>
-          <p className="text-sm text-[var(--text-muted)]">
-            Un texte bien renseigné rend l’oral fidèle à tes vraies conditions d’examen.
+          <h3 
+            className="text-lg font-bold mb-1"
+            style={{ 
+              fontFamily: 'var(--eaf-font-display)',
+              color: 'var(--eaf-text-primary)'
+            }}
+          >
+            Ajouter un texte
+          </h3>
+          <p 
+            className="text-sm"
+            style={{ color: 'var(--eaf-text-secondary)' }}
+          >
+            Un texte bien renseigné rend l&apos;oral fidèle à tes vraies conditions d&apos;examen.
           </p>
         </div>
-        <Button type="button" variant="ghost" size="sm" onClick={onCancel}>
-          Fermer
-        </Button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="p-1.5 rounded-lg transition-colors"
+          style={{ color: 'var(--eaf-text-tertiary)' }}
+          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--eaf-text-primary)'}
+          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--eaf-text-tertiary)'}
+        >
+          <X className="h-5 w-5" />
+        </button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Select
-          label="Objet d'étude"
-          value={form.objetEtude}
-          onChange={(event) => setForm((current) => ({ ...current, objetEtude: event.target.value as ObjetEtudeId }))}
-          options={OBJETS_ETUDE.map((objet) => ({ value: objet.id, label: objet.label }))}
-        />
-        <Select
-          label="Type de texte"
-          value={form.typeTexte}
-          onChange={(event) => setForm((current) => ({ ...current, typeTexte: event.target.value as TypeTexteId }))}
-          options={TYPE_TEXTE_OPTIONS.map((option) => ({ value: option.value, label: option.label }))}
-        />
+        <div>
+          <label style={labelStyle}>Objet d&apos;étude</label>
+          <select
+            value={form.objetEtude}
+            onChange={(e) => setForm((c) => ({ ...c, objetEtude: e.target.value as ObjetEtudeId }))}
+            style={inputStyle}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          >
+            {OBJETS_ETUDE.map((objet) => (
+              <option key={objet.id} value={objet.id}>{objet.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label style={labelStyle}>Type de texte</label>
+          <select
+            value={form.typeTexte}
+            onChange={(e) => setForm((c) => ({ ...c, typeTexte: e.target.value as TypeTexteId }))}
+            style={inputStyle}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          >
+            {TYPE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
-        <Input
-          label="Œuvre — Auteur"
-          value={form.oeuvreAuteur}
-          onChange={(event) => setForm((current) => ({ ...current, oeuvreAuteur: event.target.value }))}
-          placeholder="La Peau de chagrin — Honoré de Balzac"
-          required
-        />
-        <Input
-          label="Titre de l'extrait"
-          value={form.titreExtrait}
-          onChange={(event) => setForm((current) => ({ ...current, titreExtrait: event.target.value }))}
-          placeholder="Le talisman"
-          required
-        />
+        <div>
+          <label style={labelStyle}>Œuvre — Auteur</label>
+          <input
+            type="text"
+            value={form.oeuvreAuteur}
+            onChange={(e) => setForm((c) => ({ ...c, oeuvreAuteur: e.target.value }))}
+            placeholder="La Peau de chagrin — Honoré de Balzac"
+            required
+            style={inputStyle}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          />
+        </div>
+        <div>
+          <label style={labelStyle}>Titre de l&apos;extrait</label>
+          <input
+            type="text"
+            value={form.titreExtrait}
+            onChange={(e) => setForm((c) => ({ ...c, titreExtrait: e.target.value }))}
+            placeholder="Le talisman"
+            required
+            style={inputStyle}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          />
+        </div>
       </div>
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
-        <Input
-          label="Incipit"
-          value={form.incipit}
-          onChange={(event) => setForm((current) => ({ ...current, incipit: event.target.value }))}
-          placeholder="Premiers mots du texte"
-        />
-        <Input
-          label="Pages / référence"
-          value={form.numeroPagesRef}
-          onChange={(event) => setForm((current) => ({ ...current, numeroPagesRef: event.target.value }))}
-          placeholder="p. 12-15"
-        />
+        <div>
+          <label style={labelStyle}>Incipit</label>
+          <input
+            type="text"
+            value={form.incipit}
+            onChange={(e) => setForm((c) => ({ ...c, incipit: e.target.value }))}
+            placeholder="Premiers mots du texte"
+            style={inputStyle}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          />
+        </div>
+        <div>
+          <label style={labelStyle}>Pages / référence</label>
+          <input
+            type="text"
+            value={form.numeroPagesRef}
+            onChange={(e) => setForm((c) => ({ ...c, numeroPagesRef: e.target.value }))}
+            placeholder="p. 12-15"
+            style={inputStyle}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          />
+        </div>
       </div>
 
-      <div className="mt-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface-secondary)] p-4">
-        <p className="text-sm font-medium text-[var(--text-heading)]">Repères programme 2025</p>
-        <p className="mt-2 text-xs text-[var(--text-muted)]">
+      <div 
+        className="mt-4 rounded-xl p-4"
+        style={{ 
+          background: 'var(--eaf-bg2)', 
+          border: '1px solid var(--eaf-border)'
+        }}
+      >
+        <p 
+          className="text-sm font-semibold mb-2"
+          style={{ color: 'var(--eaf-text-primary)' }}
+        >
+          Repères programme 2025
+        </p>
+        <p 
+          className="text-xs mb-3"
+          style={{ color: 'var(--eaf-text-tertiary)' }}
+        >
           Parcours possibles : {selectedObjetData.parcours.join(' · ')}
         </p>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2">
           {selectedObjetData.oeuvres.map((oeuvre) => (
             <button
               key={`${oeuvre.titre}-${oeuvre.auteur}`}
               type="button"
-              className="rounded-full border border-[var(--border-strong)] px-3 py-1 text-xs text-[var(--text-body)]"
-              onClick={() => setForm((current) => ({ ...current, oeuvreAuteur: `${oeuvre.titre} — ${oeuvre.auteur}` }))}
+              className="rounded-full px-3 py-1 text-xs transition-all"
+              style={{ 
+                background: 'var(--eaf-bg1)', 
+                border: '1px solid var(--eaf-border)',
+                color: 'var(--eaf-text-secondary)'
+              }}
+              onClick={() => setForm((c) => ({ ...c, oeuvreAuteur: `${oeuvre.titre} — ${oeuvre.auteur}` }))}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--eaf-indigo-border)';
+                e.currentTarget.style.color = 'var(--eaf-indigo)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                e.currentTarget.style.color = 'var(--eaf-text-secondary)';
+              }}
             >
               {oeuvre.titre} — {oeuvre.auteur}
             </button>
@@ -159,43 +312,120 @@ export function AddTexteForm({ selectedObjet, onSaved, onCancel }: AddTexteFormP
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
-        <Input
-          label="Parcours associé"
+      <div className="mt-4">
+        <label style={labelStyle}>Parcours associé</label>
+        <input
+          type="text"
           value={form.parcourAssocie}
-          onChange={(event) => setForm((current) => ({ ...current, parcourAssocie: event.target.value }))}
+          onChange={(e) => setForm((c) => ({ ...c, parcourAssocie: e.target.value }))}
           placeholder="Émancipations créatrices"
+          style={inputStyle}
+          onFocus={(e) => {
+            e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+            e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.borderColor = 'var(--eaf-border)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
         />
       </div>
 
-      <div className="mt-4 grid gap-4">
-        <Textarea
-          label="Texte intégral ou extrait"
-          value={form.contenuTexte}
-          rows={6}
-          onChange={(event) => setForm((current) => ({ ...current, contenuTexte: event.target.value }))}
-          placeholder="Colle le texte si tu veux éviter l'étape d'upload."
-        />
-        <Textarea
-          label="Notes personnelles"
-          value={form.notesPersonnelles}
-          rows={4}
-          onChange={(event) => setForm((current) => ({ ...current, notesPersonnelles: event.target.value }))}
-          placeholder="Ce que tu veux retenir, dire à l'entretien, ou revoir."
-        />
+      <div className="mt-4 space-y-4">
+        <div>
+          <label style={labelStyle}>Texte intégral ou extrait</label>
+          <textarea
+            value={form.contenuTexte}
+            rows={6}
+            onChange={(e) => setForm((c) => ({ ...c, contenuTexte: e.target.value }))}
+            placeholder="Colle le texte si tu veux éviter l'étape d'upload."
+            style={{
+              ...inputStyle,
+              resize: 'vertical',
+              minHeight: '120px',
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          />
+        </div>
+        <div>
+          <label style={labelStyle}>Notes personnelles</label>
+          <textarea
+            value={form.notesPersonnelles}
+            rows={4}
+            onChange={(e) => setForm((c) => ({ ...c, notesPersonnelles: e.target.value }))}
+            placeholder="Ce que tu veux retenir, dire à l'entretien, ou revoir."
+            style={{
+              ...inputStyle,
+              resize: 'vertical',
+              minHeight: '80px',
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          />
+        </div>
       </div>
 
       {error ? (
-        <p className="mt-4 text-sm text-[var(--c-accent)]">{error}</p>
+        <p 
+          className="mt-4 text-sm"
+          style={{ color: 'var(--eaf-orange)' }}
+        >
+          {error}
+        </p>
       ) : null}
 
-      <div className="mt-5 flex flex-wrap items-center justify-end gap-3">
-        <Button type="button" variant="secondary" onClick={onCancel}>
+      <div className="mt-5 flex flex-wrap items-center justify-end gap-3 pt-4" style={{ borderTop: '1px solid var(--eaf-border)' }}>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-5 py-2.5 rounded-lg text-[14px] font-medium transition-all"
+          style={{ 
+            background: 'transparent',
+            border: '1px solid var(--eaf-border)',
+            color: 'var(--eaf-text-secondary)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'var(--eaf-indigo-border)';
+            e.currentTarget.style.color = 'var(--eaf-text-primary)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'var(--eaf-border)';
+            e.currentTarget.style.color = 'var(--eaf-text-secondary)';
+          }}
+        >
           Annuler
-        </Button>
-        <Button type="submit" loading={saving}>
-          Ajouter au descriptif
-        </Button>
+        </button>
+        <button
+          type="submit"
+          disabled={saving}
+          className="px-5 py-2.5 rounded-lg text-[14px] font-semibold text-white transition-all disabled:opacity-60"
+          style={{ background: 'var(--eaf-orange)' }}
+          onMouseEnter={(e) => {
+            if (!saving) {
+              e.currentTarget.style.background = 'var(--eaf-orange-hover)';
+              e.currentTarget.style.boxShadow = '0 6px 25px var(--eaf-orange-glow)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'var(--eaf-orange)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+        >
+          {saving ? 'Enregistrement...' : 'Ajouter au descriptif'}
+        </button>
       </div>
     </form>
   );
