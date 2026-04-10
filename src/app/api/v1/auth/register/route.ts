@@ -20,6 +20,7 @@ import { ensureCsrfCookie } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseJsonBody } from '@/lib/validation/request';
 import { registerBodySchema } from '@/lib/validation/schemas';
+import { sendMetaCapiEvent } from '@/lib/tracking/meta-capi';
 
 const DEFAULT_PROFILE: StudentProfile = {
   displayName: 'Élève',
@@ -209,6 +210,18 @@ export async function POST(request: Request) {
       });
     }
   }
+
+  // Meta CAPI — Lead event (non-blocking)
+  void sendMetaCapiEvent({
+    eventName: 'Lead',
+    email,
+    clientIp: clientIp !== 'unknown' ? clientIp : undefined,
+    userAgent: request.headers.get('user-agent') ?? undefined,
+    sourceUrl: `${process.env.APP_URL ?? 'https://eaf.nexusreussite.academy'}/register`,
+    fbc: request.headers.get('cookie')?.match(/_fbc=([^;]+)/)?.[1],
+    fbp: request.headers.get('cookie')?.match(/_fbp=([^;]+)/)?.[1],
+    eventId: `lead-register-${userId}`,
+  });
 
   const response = NextResponse.json({ ok: true }, { status: 201 });
   await ensureCsrfCookie(response);

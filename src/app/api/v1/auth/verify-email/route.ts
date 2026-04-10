@@ -2,6 +2,7 @@ import { createHash } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
+import { sendMetaCapiEvent } from '@/lib/tracking/meta-capi';
 
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get('token');
@@ -17,7 +18,7 @@ export async function GET(request: NextRequest) {
       emailVerifyToken: tokenHash,
       emailVerifyExpiry: { gt: new Date() },
     },
-    select: { id: true },
+    select: { id: true, email: true },
   });
 
   if (!user) {
@@ -34,6 +35,16 @@ export async function GET(request: NextRequest) {
   });
 
   logger.info({ userId: user.id }, 'auth.verify_email.success');
+
+  // Meta CAPI — CompleteRegistration event (non-blocking)
+  void sendMetaCapiEvent({
+    eventName: 'CompleteRegistration',
+    email: user.email,
+    clientIp: request.headers.get('x-forwarded-for')?.split(',')[0]?.trim(),
+    userAgent: request.headers.get('user-agent') ?? undefined,
+    sourceUrl: `${process.env.APP_URL ?? 'https://eaf.nexusreussite.academy'}/register`,
+    eventId: `complete-registration-${user.id}`,
+  });
 
   return NextResponse.redirect(new URL('/login?verified=true', request.url));
 }

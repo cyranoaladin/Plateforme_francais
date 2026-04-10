@@ -10,6 +10,7 @@ import { formatPlanLabel, parseCommercialPlanId } from '@/lib/billing/plan-catal
 import { sendSubscriptionConfirmationEmail } from '@/lib/email/service';
 import { logAdminAction, getClientIp } from '@/lib/admin/audit';
 import { logger } from '@/lib/logger';
+import { sendMetaCapiEvent } from '@/lib/tracking/meta-capi';
 
 const manualPaymentSchema = z.object({
   userId: z.string().uuid(),
@@ -129,6 +130,17 @@ export async function POST(request: Request) {
       .catch((err) => logger.error({ err, userId }, 'admin:manual_payment:subscription_email_error'));
 
     logAdminAction({ adminId: auth.user.id, action: 'payment.manual', targetType: 'user', targetId: userId, details: { plan, amountMillimes, reference, paymentMethod }, ip: getClientIp(request) });
+
+    // Meta CAPI — Purchase event (non-blocking)
+    void sendMetaCapiEvent({
+      eventName: 'Purchase',
+      email: user.email,
+      sourceUrl: `${process.env.APP_URL ?? 'https://eaf.nexusreussite.academy'}/tarifs`,
+      value: amountMillimes / 1000,
+      currency: 'TND',
+      contentName: plan,
+      eventId: `purchase-${payment.id}`,
+    });
 
     return NextResponse.json(
       {

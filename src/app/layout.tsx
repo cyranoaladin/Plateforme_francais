@@ -6,6 +6,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { WebVitalsReporter } from "@/components/monitoring/web-vitals-reporter";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
+import { MetaPixel } from "@/components/tracking/MetaPixel";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -76,6 +77,7 @@ export default async function RootLayout({
       <body className="font-sans antialiased min-h-screen max-w-[100vw] overflow-x-hidden bg-background text-foreground flex">
         <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
         <WebVitalsReporter />
+        <MetaPixel />
         <AppShell><main id="main-content">{children}</main></AppShell>
         <WhatsAppButton />
         <ConsentBanner />
