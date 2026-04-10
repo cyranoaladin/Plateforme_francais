@@ -2,175 +2,448 @@
 
 import { useState } from 'react';
 
-type View = 'student' | 'parent';
-
 export function DashboardToggle() {
-  const [view, setView] = useState<View>('student');
+  const [view, setView] = useState<'eleve' | 'parent'>('eleve');
 
   return (
-    <section className="bg-page py-14 sm:py-20">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <h2 className="text-center text-2xl font-bold text-heading sm:text-3xl lg:text-4xl">
+    <div
+      className="relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, var(--eaf-bg1), #0d1829)',
+        border: '1px solid var(--eaf-border)',
+        borderRadius: '24px',
+        padding: '48px',
+      }}
+    >
+      {/* Orbe de fond */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(123,142,255,0.06), transparent 70%)',
+          top: '-50px',
+          right: '-50px',
+        }}
+      />
+
+      {/* Header */}
+      <div className="relative">
+        <div
+          style={{
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: 'var(--eaf-indigo)',
+            fontWeight: 600,
+            marginBottom: '8px',
+          }}
+        >
           Un tableau de bord pour chacun
-        </h2>
-        <p className="mt-3 text-center text-body">
-          L&apos;élève suit sa progression, le parent garde le contrôle.
-        </p>
-
-        {/* Toggle pill */}
-        <div className="mt-10 flex justify-center">
-          <div className="inline-flex rounded-full bg-surface-secondary p-1">
-            <button
-              type="button"
-              aria-pressed={view === 'student'}
-              aria-label="Vue élève"
-              onClick={() => setView('student')}
-              className={
-                'rounded-full px-6 py-2 text-sm font-medium transition-colors ' +
-                (view === 'student'
-                  ? 'bg-brand text-white shadow'
-                  : 'text-body hover:text-heading')
-              }
-            >
-              Élève
-            </button>
-            <button
-              type="button"
-              aria-pressed={view === 'parent'}
-              aria-label="Vue parent"
-              onClick={() => setView('parent')}
-              className={
-                'rounded-full px-6 py-2 text-sm font-medium transition-colors ' +
-                (view === 'parent'
-                  ? 'bg-brand text-white shadow'
-                  : 'text-body hover:text-heading')
-              }
-            >
-              Parent
-            </button>
-          </div>
         </div>
+        <h2
+          style={{
+            fontFamily: 'var(--eaf-font-display)',
+            fontSize: '34px',
+            fontWeight: 700,
+            color: 'var(--eaf-text-primary)',
+          }}
+        >
+          L'élève suit sa progression,
+          <br />
+          le parent garde le contrôle.
+        </h2>
 
-        {/* Panels */}
-        <div className="relative mt-10">
-          {/* Student panel */}
-          <div
-            className={
-              'rounded-2xl bg-surface p-6 shadow-lg transition-opacity duration-300 sm:p-8 ' +
-              (view === 'student' ? 'opacity-100' : 'pointer-events-none absolute inset-0 opacity-0')
-            }
+        {/* Toggle */}
+        <div
+          className="flex gap-2 mt-6"
+          style={{
+            background: 'var(--eaf-bg0)',
+            border: '1px solid var(--eaf-border)',
+            borderRadius: '12px',
+            padding: '6px',
+            width: 'fit-content',
+          }}
+        >
+          <button
+            onClick={() => setView('eleve')}
+            style={{
+              padding: '9px 20px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              background: view === 'eleve' ? 'var(--eaf-bg3)' : 'transparent',
+              color:
+                view === 'eleve'
+                  ? 'var(--eaf-text-primary)'
+                  : 'var(--eaf-text-secondary)',
+              border: view === 'eleve' ? '1px solid var(--eaf-border)' : 'none',
+              transition: 'all 0.2s',
+            }}
           >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-subtle text-sm font-bold text-brand">
-                SL
-              </div>
-              <div>
-                <p className="font-semibold text-heading">Sarah L.</p>
-                <p className="text-sm text-muted-foreground">Première — Français EAF</p>
-              </div>
-            </div>
+            Élève
+          </button>
+          <button
+            onClick={() => setView('parent')}
+            style={{
+              padding: '9px 20px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              background: view === 'parent' ? 'var(--eaf-bg3)' : 'transparent',
+              color:
+                view === 'parent'
+                  ? 'var(--eaf-text-primary)'
+                  : 'var(--eaf-text-secondary)',
+              border: view === 'parent' ? '1px solid var(--eaf-border)' : 'none',
+              transition: 'all 0.2s',
+            }}
+          >
+            Parent
+          </button>
+        </div>
+      </div>
 
-            {/* Goal */}
-            <div className="mt-6">
-              <div className="flex items-center justify-between text-sm">
-                <span className="font-medium text-body">Objectif : 14/20</span>
-                <span className="font-semibold text-brand">67 %</span>
-              </div>
-              <div className="mt-2 h-3 w-full overflow-hidden rounded-full bg-surface-secondary">
-                <div
-                  className="h-full rounded-full bg-brand transition-all"
-                  style={{ width: '67%' }}
-                />
-              </div>
-            </div>
+      {/* Dashboard preview */}
+      {view === 'eleve' ? <StudentDashboard /> : <ParentDashboard />}
+    </div>
+  );
+}
 
-            {/* Counters grid */}
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div className="rounded-xl bg-brand-subtle p-4 text-center">
-                <p className="text-2xl font-bold text-brand">12</p>
-                <p className="text-sm text-body">Corrections</p>
-              </div>
-              <div className="rounded-xl bg-brand-subtle p-4 text-center">
-                <p className="text-2xl font-bold text-brand">5</p>
-                <p className="text-sm text-body">Oraux</p>
-              </div>
-              <div className="rounded-xl bg-success-subtle p-4 text-center">
-                <p className="text-2xl font-bold text-success">+2.3 pts</p>
-                <p className="text-sm text-body">Progression</p>
-              </div>
-            </div>
-
-            {/* Next session card */}
-            <div className="mt-6 rounded-xl border border-[var(--border-primary)] bg-brand-subtle/50 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-brand">
-                Prochaine séance
-              </p>
-              <p className="mt-1 font-medium text-heading">La Boétie</p>
-              <p className="text-sm italic text-body">
-                Défendre et entretenir la liberté
-              </p>
-            </div>
+function StudentDashboard() {
+  return (
+    <div
+      className="mt-8"
+      style={{
+        background: 'var(--eaf-bg0)',
+        border: '1px solid var(--eaf-border)',
+        borderRadius: '16px',
+        padding: '28px',
+        maxWidth: '500px',
+      }}
+    >
+      {/* Header utilisateur */}
+      <div className="flex items-center gap-3 mb-5">
+        <div
+          className="flex items-center justify-center text-white font-bold"
+          style={{
+            width: '40px',
+            height: '40px',
+            background: 'var(--eaf-gradient-indigo-deep)',
+            borderRadius: '10px',
+            fontSize: '15px',
+          }}
+        >
+          SL
+        </div>
+        <div>
+          <div
+            style={{ fontSize: '15px', fontWeight: 600, color: 'var(--eaf-text-primary)' }}
+          >
+            Sarah L.
           </div>
-
-          {/* Parent panel */}
-          <div
-            className={
-              'rounded-2xl bg-surface p-6 shadow-lg transition-opacity duration-300 sm:p-8 ' +
-              (view === 'parent' ? 'opacity-100' : 'pointer-events-none absolute inset-0 opacity-0')
-            }
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-subtle text-sm font-bold text-brand">
-                SL
-              </div>
-              <div>
-                <p className="font-semibold text-heading">Sarah L.</p>
-                <p className="text-sm text-muted-foreground">Suivi parental</p>
-              </div>
-            </div>
-
-            {/* Mini bar chart SVG */}
-            <div className="mt-6">
-              <p className="mb-2 text-sm font-medium text-body">Évolution des notes</p>
-              <svg
-                viewBox="0 0 200 80"
-                className="h-20 w-full max-w-xs"
-                aria-label="Graphique des notes : 11, 12, 13.5, 14"
-                role="img"
-              >
-                {/* Bars — max value 20, max height 60px, y offset 10 */}
-                <rect x="15" y={10 + 60 * (1 - 11 / 20)} width="30" height={60 * (11 / 20)} rx="4" className="fill-brand-subtle" />
-                <rect x="60" y={10 + 60 * (1 - 12 / 20)} width="30" height={60 * (12 / 20)} rx="4" className="fill-brand-subtle" />
-                <rect x="105" y={10 + 60 * (1 - 13.5 / 20)} width="30" height={60 * (13.5 / 20)} rx="4" className="fill-brand-subtle" />
-                <rect x="150" y={10 + 60 * (1 - 14 / 20)} width="30" height={60 * (14 / 20)} rx="4" className="fill-brand" />
-                {/* Labels */}
-                <text x="30" y="78" textAnchor="middle" className="fill-muted-foreground text-[9px]">11</text>
-                <text x="75" y="78" textAnchor="middle" className="fill-muted-foreground text-[9px]">12</text>
-                <text x="120" y="78" textAnchor="middle" className="fill-muted-foreground text-[9px]">13.5</text>
-                <text x="165" y="78" textAnchor="middle" className="fill-body text-[9px] font-bold">14</text>
-              </svg>
-            </div>
-
-            {/* Last correction badge */}
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-success-subtle px-4 py-2 text-sm">
-              <span className="font-semibold text-success">14/20</span>
-              <span className="text-body">Dissertation</span>
-              <span className="text-xs text-muted-foreground">Hier</span>
-            </div>
-
-            {/* Grammar gain */}
-            <div className="mt-4 flex items-center gap-2">
-              <span className="text-sm text-body">Grammaire&nbsp;:</span>
-              <span className="font-bold text-success">+20 %</span>
-            </div>
-
-            {/* Next step */}
-            <p className="mt-4 text-sm italic text-muted-foreground">
-              Continuer l&apos;entraînement oral pour consolider la fluidité d&apos;expression.
-            </p>
+          <div style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}>
+            Première — Français EAF
           </div>
         </div>
       </div>
-    </section>
+
+      {/* Progress */}
+      <div className="flex items-center justify-between mb-2">
+        <span style={{ fontSize: '13px', color: 'var(--eaf-text-secondary)' }}>
+          Objectif : 14/20
+        </span>
+        <span
+          style={{ fontSize: '13px', fontWeight: 600, color: 'var(--eaf-indigo)' }}
+        >
+          67 %
+        </span>
+      </div>
+      <div
+        style={{
+          height: '6px',
+          background: 'var(--eaf-bg2)',
+          borderRadius: '3px',
+          marginBottom: '20px',
+        }}
+      >
+        <div
+          style={{
+            height: '100%',
+            width: '67%',
+            background: 'var(--eaf-gradient-progress)',
+            borderRadius: '3px',
+          }}
+        />
+      </div>
+
+      {/* KPIs */}
+      <div
+        className="grid gap-2.5 mb-4"
+        style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}
+      >
+        <div
+          style={{
+            background: 'var(--eaf-bg1)',
+            border: '1px solid var(--eaf-border)',
+            borderRadius: '10px',
+            padding: '14px',
+            textAlign: 'center',
+          }}
+        >
+          <div
+            style={{
+              fontFamily: 'var(--eaf-font-display)',
+              fontSize: '24px',
+              fontWeight: 700,
+              color: 'var(--eaf-text-primary)',
+            }}
+          >
+            12
+          </div>
+          <div style={{ fontSize: '11px', color: 'var(--eaf-text-tertiary)' }}>
+            Corrections
+          </div>
+        </div>
+        <div
+          style={{
+            background: 'var(--eaf-bg1)',
+            border: '1px solid var(--eaf-border)',
+            borderRadius: '10px',
+            padding: '14px',
+            textAlign: 'center',
+          }}
+        >
+          <div
+            style={{
+              fontFamily: 'var(--eaf-font-display)',
+              fontSize: '24px',
+              fontWeight: 700,
+              color: 'var(--eaf-text-primary)',
+            }}
+          >
+            5
+          </div>
+          <div style={{ fontSize: '11px', color: 'var(--eaf-text-tertiary)' }}>
+            Oraux
+          </div>
+        </div>
+        <div
+          style={{
+            background: 'linear-gradient(135deg, rgba(26,213,160,0.10), rgba(26,213,160,0.05))',
+            border: '1px solid rgba(26,213,160,0.20)',
+            borderRadius: '10px',
+            padding: '14px',
+            textAlign: 'center',
+          }}
+        >
+          <div
+            style={{
+              fontFamily: 'var(--eaf-font-display)',
+              fontSize: '24px',
+              fontWeight: 700,
+              color: 'var(--eaf-teal)',
+            }}
+          >
+            +2.3
+          </div>
+          <div style={{ fontSize: '11px', color: 'var(--eaf-text-tertiary)' }}>
+            Progression
+          </div>
+        </div>
+      </div>
+
+      {/* Prochaine séance */}
+      <div
+        style={{
+          background: 'var(--eaf-bg2)',
+          border: '1px solid var(--eaf-border)',
+          borderRadius: '10px',
+          padding: '14px',
+        }}
+      >
+        <div
+          style={{
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            color: 'var(--eaf-text-tertiary)',
+            fontWeight: 600,
+            marginBottom: '6px',
+          }}
+        >
+          PROCHAINE SÉANCE
+        </div>
+        <div style={{ fontSize: '15px', fontWeight: 600, color: 'var(--eaf-text-primary)' }}>
+          La Boétie
+        </div>
+        <div style={{ fontSize: '13px', color: 'var(--eaf-text-tertiary)' }}>
+          Défendre et entretenir la liberté
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ParentDashboard() {
+  return (
+    <div
+      className="mt-8"
+      style={{
+        background: 'var(--eaf-bg0)',
+        border: '1px solid var(--eaf-border)',
+        borderRadius: '16px',
+        padding: '28px',
+        maxWidth: '500px',
+      }}
+    >
+      {/* Header parent */}
+      <div className="flex items-center gap-3 mb-5">
+        <div
+          style={{
+            width: '40px',
+            height: '40px',
+            background: 'linear-gradient(135deg, var(--eaf-gold), #854f0b)',
+            borderRadius: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '15px',
+            fontWeight: 700,
+            color: 'white',
+          }}
+        >
+          P
+        </div>
+        <div>
+          <div
+            style={{ fontSize: '15px', fontWeight: 600, color: 'var(--eaf-text-primary)' }}
+          >
+            Parent de Sarah L.
+          </div>
+          <div style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}>
+            Accès en lecture seule
+          </div>
+        </div>
+      </div>
+
+      {/* Alertes */}
+      <div
+        style={{
+          background: 'rgba(255,107,53,0.10)',
+          border: '1px solid rgba(255,107,53,0.25)',
+          borderRadius: '10px',
+          padding: '12px 14px',
+          marginBottom: '16px',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '13px',
+            color: '#ff8f61',
+          }}
+        >
+          <span>⚠️</span>
+          Objectif oral EAF dans 5 jours
+        </div>
+      </div>
+
+      {/* Stats parent */}
+      <div
+        className="grid gap-2.5 mb-4"
+        style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}
+      >
+        <div
+          style={{
+            background: 'var(--eaf-bg1)',
+            border: '1px solid var(--eaf-border)',
+            borderRadius: '10px',
+            padding: '14px',
+          }}
+        >
+          <div
+            style={{
+              fontFamily: 'var(--eaf-font-display)',
+              fontSize: '20px',
+              fontWeight: 700,
+              color: 'var(--eaf-text-primary)',
+            }}
+          >
+            4h 30
+          </div>
+          <div style={{ fontSize: '11px', color: 'var(--eaf-text-tertiary)' }}>
+            Cette semaine
+          </div>
+        </div>
+        <div
+          style={{
+            background: 'var(--eaf-bg1)',
+            border: '1px solid var(--eaf-border)',
+            borderRadius: '10px',
+            padding: '14px',
+          }}
+        >
+          <div
+            style={{
+              fontFamily: 'var(--eaf-font-display)',
+              fontSize: '20px',
+              fontWeight: 700,
+              color: 'var(--eaf-teal)',
+            }}
+          >
+            12/20
+          </div>
+          <div style={{ fontSize: '11px', color: 'var(--eaf-text-tertiary)' }}>
+            Moyenne oral
+          </div>
+        </div>
+      </div>
+
+      {/* Activité récente */}
+      <div
+        style={{
+          background: 'var(--eaf-bg1)',
+          border: '1px solid var(--eaf-border)',
+          borderRadius: '10px',
+          padding: '14px',
+        }}
+      >
+        <div
+          style={{
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            color: 'var(--eaf-text-tertiary)',
+            fontWeight: 600,
+            marginBottom: '10px',
+          }}
+        >
+          ACTIVITÉ RÉCENTE
+        </div>
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <span style={{ fontSize: '13px', color: 'var(--eaf-text-secondary)' }}>
+              Correction La Boétie
+            </span>
+            <span style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}>
+              Aujourd'hui
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span style={{ fontSize: '13px', color: 'var(--eaf-text-secondary)' }}>
+              Oral simulé
+            </span>
+            <span style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}>
+              Hier
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

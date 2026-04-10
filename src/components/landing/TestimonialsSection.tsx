@@ -1,123 +1,178 @@
-import React from 'react';
-
-interface Testimonial {
-  initials: string;
-  name: string;
-  school: string;
-  color: 'brand' | 'info' | 'success';
-  before: string;
-  after: string;
-  mention: string;
-  quote: string;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    initials: 'MK',
-    name: 'Mehdi K.',
-    school: 'Lycée Pierre Mendès France Tunis',
-    color: 'brand',
-    before: '8/20',
-    after: '16/20',
-    mention: 'Mention Bien',
-    quote:
-      'Les simulations d&apos;oral m&apos;ont permis de prendre confiance. Le jour J, j&apos;avais l&apos;impression d&apos;avoir déjà passé l&apos;épreuve dix fois.',
-  },
-  {
-    initials: 'SL',
-    name: 'Sarah L.',
-    school: 'Lycée International Lyon',
-    color: 'info',
-    before: '9/20',
-    after: '14/20',
-    mention: 'Mention AB',
-    quote:
-      'ChatGPT me donnait des réponses génériques. Nexus corrige avec le barème réel et mes parents suivent tout depuis leur tableau de bord.',
-  },
-  {
-    initials: 'YB',
-    name: 'Youssef B.',
-    school: 'Lycée Carthage Présidence Tunis',
-    color: 'success',
-    before: 'grammaire catastrophique',
-    after: '0 faute',
-    mention: '',
-    quote:
-      'L&apos;atelier Langue a transformé ma copie. Mon prof n&apos;en revenait pas : zéro faute au dernier devoir.',
-  },
-];
-
-const colorMap: Record<Testimonial['color'], { bg: string; text: string; badge: string }> = {
-  brand: { bg: 'bg-brand-subtle', text: 'text-brand', badge: 'bg-brand-subtle text-brand' },
-  info: { bg: 'bg-[var(--info-bg)]', text: 'text-info', badge: 'bg-[var(--info-bg)] text-info' },
-  success: { bg: 'bg-success-subtle', text: 'text-success', badge: 'bg-success-subtle text-success' },
-};
+'use client';
 
 export function TestimonialsSection() {
+  const testimonials = [
+    {
+      initials: 'MK',
+      gradient: 'linear-gradient(135deg, var(--eaf-indigo), #4458D4)',
+      quote: 'J\'avais peur de l\'oral. Avec Nexus, j\'ai fait <strong>8 simulations réelles</strong>. Le jour J, j\'étais habitué au stress — le tuteur me guidait pour que JE trouve. Résultat : 16/20 et mention Bien.',
+      name: 'Marie K.',
+      school: 'Lycée Pierre Mendès France, Tunis',
+      score: '8/20 → 16/20',
+      scoreColor: 'var(--eaf-gold)',
+    },
+    {
+      initials: 'SL',
+      gradient: 'linear-gradient(135deg, var(--eaf-teal), #0f6e56)',
+      quote: 'ChatGPT me donnait des réponses génériques. Nexus corrige avec <strong>le barème réel</strong> et mes parents suivent tout depuis leur tableau de bord.',
+      name: 'Sarah L.',
+      school: 'Lycée International, Lyon',
+      score: '9/20 → 14/20',
+      scoreColor: 'var(--eaf-gold)',
+    },
+    {
+      initials: 'YB',
+      gradient: 'linear-gradient(135deg, var(--eaf-gold), #854f0b)',
+      quote: 'L\'atelier Langue a transformé ma copie. <strong>Mon prof n\'en revenait pas</strong> : zéro faute au dernier devoir.',
+      name: 'Yassine B.',
+      school: 'Lycée Carthage Présidence, Tunis',
+      score: 'Gram. cata. → 0 faute',
+      scoreColor: 'var(--eaf-teal)',
+      scoreStyle: {
+        background: 'rgba(26,213,160,0.10)',
+        border: '1px solid rgba(26,213,160,0.30)',
+        color: 'var(--eaf-teal)',
+      },
+    },
+  ];
+
   return (
-    <section className="bg-page py-14 sm:py-20">
-      <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-2xl font-bold text-heading sm:text-3xl lg:text-4xl">
+    <div>
+      {/* Header */}
+      <div>
+        <div
+          style={{
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: 'var(--eaf-indigo)',
+            fontWeight: 600,
+            marginBottom: '8px',
+          }}
+        >
           Ils ont transformé leurs notes
+        </div>
+        <h2
+          style={{
+            fontFamily: 'var(--eaf-font-display)',
+            fontSize: '36px',
+            fontWeight: 700,
+            color: 'var(--eaf-text-primary)',
+          }}
+        >
+          Des résultats concrets,
+          <br />
+          vérifiables, reproductibles.
         </h2>
-        <p className="mt-3 text-center text-body">
-          Des résultats concrets, vérifiables, reproductibles.
-        </p>
+      </div>
 
-        <div className="mt-12 flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
-          {testimonials.map((t) => {
-            const colors = colorMap[t.color];
-            return (
-              <div
-                key={t.initials}
-                className="flex min-w-[300px] shrink-0 flex-col rounded-2xl bg-surface p-6 shadow-md snap-center sm:min-w-0 sm:shrink"
-              >
-                {/* Avatar + name */}
-                <div className="flex items-center gap-3">
-                  <div
-                    className={
-                      'flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold ' +
-                      colors.bg +
-                      ' ' +
-                      colors.text
-                    }
-                  >
-                    {t.initials}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-heading">{t.name}</p>
-                    <p className="text-sm text-muted-foreground">{t.school}</p>
-                  </div>
+      {/* Grille */}
+      <div
+        className="grid gap-5"
+        style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: '48px' }}
+      >
+        {testimonials.map((t, index) => (
+          <div
+            key={index}
+            className="relative overflow-hidden transition-all duration-200 group"
+            style={{
+              background: 'var(--eaf-bg1)',
+              border: '1px solid var(--eaf-border)',
+              borderRadius: '18px',
+              padding: '28px',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.borderColor = 'rgba(123,142,255,0.30)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+            }}
+          >
+            {/* Ligne de dégradé en haut */}
+            <div
+              className="absolute top-0 left-0 right-0 h-0.5 transition-opacity duration-200 opacity-0 group-hover:opacity-100"
+              style={{ background: 'var(--eaf-gradient-indigo-teal)' }}
+            />
+
+            {/* Avatar */}
+            <div
+              className="flex items-center justify-center text-white font-bold mb-4"
+              style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '12px',
+                background: t.gradient,
+                fontSize: '16px',
+              }}
+            >
+              {t.initials}
+            </div>
+
+            {/* Citation */}
+            <p
+              style={{
+                fontSize: '14px',
+                color: 'var(--eaf-text-secondary)',
+                lineHeight: 1.7,
+                fontStyle: 'italic',
+                marginBottom: '18px',
+              }}
+              dangerouslySetInnerHTML={{
+                __html: t.quote.replace(
+                  /<strong>(.*?)<\/strong>/g,
+                  '<span style="color: var(--eaf-text-primary); font-style: normal; font-weight: 600;">$1</span>'
+                ),
+              }}
+            />
+
+            {/* Méta */}
+            <div className="flex items-center justify-between">
+              <div>
+                <div
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: 'var(--eaf-text-primary)',
+                  }}
+                >
+                  {t.name}
                 </div>
-
-                {/* Transformation badge */}
-                <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
-                  <span className="text-muted-foreground line-through">{t.before}</span>
-                  <span className="text-muted-foreground">&rarr;</span>
-                  <span className={'rounded-full px-3 py-0.5 font-semibold ' + colors.badge}>
-                    {t.after}
-                  </span>
-                  {t.mention && (
-                    <span className="text-xs font-medium text-muted-foreground">{t.mention}</span>
-                  )}
-                </div>
-
-                {/* Quote */}
-                <blockquote className="mt-4 flex-1 text-sm italic text-body">
-                  &laquo;&nbsp;{t.quote}&nbsp;&raquo;
-                </blockquote>
-
-                {/* Stats footer */}
-                <div className="mt-4 border-t border-[var(--border-default)] pt-3">
-                  <p className="text-xs text-muted-foreground">
-                    {t.before} &rarr; {t.after}
-                  </p>
+                <div
+                  style={{
+                    fontSize: '12px',
+                    color: 'var(--eaf-text-tertiary)',
+                  }}
+                >
+                  {t.school}
                 </div>
               </div>
-            );
-          })}
-        </div>
+
+              {/* Score badge */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background:
+                    t.scoreStyle?.background ||
+                    'linear-gradient(135deg, rgba(255,181,71,0.15), rgba(255,107,53,0.15))',
+                  border: t.scoreStyle?.border || '1px solid rgba(255,181,71,0.30)',
+                  color: t.scoreStyle?.color || 'var(--eaf-gold)',
+                  padding: '5px 12px',
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  fontFamily: 'var(--eaf-font-display)',
+                }}
+              >
+                {t.score}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-    </section>
+    </div>
   );
 }

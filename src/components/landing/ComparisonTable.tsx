@@ -1,126 +1,183 @@
-import React from 'react';
+'use client';
 
-interface Row {
-  label: string;
-  chatgpt: string;
-  nexus: string;
-}
-
-const rows: Row[] = [
-  {
-    label: 'Sources',
-    chatgpt: 'Hallucinations fréquentes, pas de sources vérifiables',
-    nexus: 'Corpus certifié EAF, chaque réponse sourcée',
-  },
-  {
-    label: 'Correction',
-    chatgpt: 'Feedback générique, pas de barème',
-    nexus: 'Correction critériée sur le barème officiel EAF',
-  },
-  {
-    label: 'Barème EAF',
-    chatgpt: 'Ne connaît pas le barème',
-    nexus: 'Intégré nativement, mis à jour chaque session',
-  },
-  {
-    label: 'Anti-copie',
-    chatgpt: 'Génère du contenu copiable',
-    nexus: 'Anti-copie par design : tu produis, Nexus corrige',
-  },
-  {
-    label: 'Rapidité',
-    chatgpt: 'Réponse instantanée mais non fiable',
-    nexus: 'Correction sourcée en 3 minutes',
-  },
-  {
-    label: 'Suivi',
-    chatgpt: 'Aucun historique ni suivi',
-    nexus: 'Tableau de bord élève + parent en temps réel',
-  },
-  {
-    label: 'Expertise',
-    chatgpt: 'IA généraliste, pas spécialisée',
-    nexus: 'Conçu par des enseignants de Français',
-  },
-];
+import Link from 'next/link';
 
 export function ComparisonTable() {
+  const rows = [
+    { label: 'Sources', chatgpt: 'Hallucinations fréquentes, non vérifiables', nexus: 'Corpus certifié EAF, chaque réponse sourcée' },
+    { label: 'Correction', chatgpt: 'Feedback générique, pas de barème', nexus: 'Correction critériée sur le barème officiel EAF' },
+    { label: 'Barème EAF', chatgpt: 'Ne connaît pas le barème', nexus: 'Intégré nativement, mis à jour chaque session' },
+    { label: 'Anti-copie', chatgpt: 'Génère du contenu copiable', nexus: 'Anti-copie par design : tu produis, Nexus corrige' },
+    { label: 'Rapidité', chatgpt: 'Réponse instantanée mais non fiable', nexus: 'Correction sourcée en 3 minutes' },
+    { label: 'Suivi', chatgpt: 'Aucun historique ni suivi', nexus: 'Tableau de bord élève + parent en temps réel' },
+    { label: 'Expertise', chatgpt: 'IA généraliste, pas spécialisée', nexus: 'Conçu par des enseignants agréés de Français' },
+  ];
+
   return (
-    <section className="bg-surface py-14 sm:py-20">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <h2 className="text-center text-2xl font-bold text-heading sm:text-3xl lg:text-4xl">
-          ChatGPT vs Nexus
+    <div>
+      {/* Header */}
+      <div className="text-center mb-10">
+        <div
+          style={{
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: 'var(--eaf-indigo)',
+            fontWeight: 600,
+            marginBottom: '8px',
+          }}
+        >
+          Pourquoi pas ChatGPT ?
+        </div>
+        <h2
+          style={{
+            fontFamily: 'var(--eaf-font-display)',
+            fontSize: '36px',
+            fontWeight: 700,
+            color: 'var(--eaf-text-primary)',
+          }}
+        >
+          ChatGPT rédige.{' '}
+          <span style={{ color: 'var(--eaf-orange)', fontStyle: 'italic' }}>
+            Nexus t'apprend.
+          </span>
         </h2>
-        <p className="mt-3 text-center text-body">
-          Une IA généraliste ne remplace pas un outil conçu pour l&apos;EAF.
+        <p
+          style={{
+            fontSize: '16px',
+            color: 'var(--eaf-text-secondary)',
+            marginTop: '8px',
+          }}
+        >
+          Une IA généraliste ne remplace pas un outil conçu pour l'EAF.
         </p>
-
-        {/* Desktop table */}
-        <div className="mt-12 hidden md:block">
-          <table className="w-full border-collapse text-left text-sm">
-            <thead>
-              <tr>
-                <th className="border-b border-[var(--border-default)] pb-3 pr-4 font-semibold text-muted-foreground">
-                  Critère
-                </th>
-                <th className="border-b border-[var(--border-default)] pb-3 pr-4 font-semibold text-error">
-                  ChatGPT
-                </th>
-                <th className="border-b border-[var(--border-default)] pb-3 font-semibold text-brand">
-                  Nexus
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.label} className="border-b border-[var(--border-default)]">
-                  <td className="py-4 pr-4 font-medium text-heading">{row.label}</td>
-                  <td className="py-4 pr-4 text-muted-foreground">{row.chatgpt}</td>
-                  <td className="py-4 font-medium text-heading">{row.nexus}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile accordion */}
-        <div className="mt-10 space-y-3 md:hidden">
-          {rows.map((row) => (
-            <details
-              key={row.label}
-              className="group rounded-xl border border-[var(--border-default)] bg-page"
-            >
-              <summary className="cursor-pointer list-none px-4 py-3 font-medium text-heading">
-                <span className="flex items-center justify-between">
-                  {row.label}
-                  <svg
-                    className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </summary>
-              <div className="space-y-2 px-4 pb-4 text-sm">
-                <div>
-                  <span className="font-semibold text-error">ChatGPT :&nbsp;</span>
-                  <span className="text-body">{row.chatgpt}</span>
-                </div>
-                <div>
-                  <span className="font-semibold text-brand">Nexus :&nbsp;</span>
-                  <span className="text-heading">{row.nexus}</span>
-                </div>
-              </div>
-            </details>
-          ))}
-        </div>
       </div>
-    </section>
+
+      {/* Table */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '200px 1fr 1fr',
+          background: 'var(--eaf-bg1)',
+          border: '1px solid var(--eaf-border)',
+          borderRadius: '20px',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Header row */}
+        <div
+          style={{
+            padding: '20px 24px',
+            fontSize: '13px',
+            fontWeight: 600,
+            color: 'var(--eaf-text-tertiary)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            borderBottom: '1px solid var(--eaf-border)',
+          }}
+        >
+          Critère
+        </div>
+        <div
+          style={{
+            padding: '20px 24px',
+            fontSize: '14px',
+            fontWeight: 600,
+            color: '#ef4444',
+            background: 'rgba(239,68,68,0.05)',
+            borderBottom: '1px solid rgba(239,68,68,0.10)',
+          }}
+        >
+          ✗ ChatGPT / IA générique
+        </div>
+        <div
+          style={{
+            padding: '20px 24px',
+            fontSize: '14px',
+            fontWeight: 600,
+            color: 'var(--eaf-teal)',
+            background: 'rgba(26,213,160,0.05)',
+            borderBottom: '1px solid rgba(26,213,160,0.10)',
+          }}
+        >
+          ✓ Nexus Réussite
+        </div>
+
+        {/* Data rows */}
+        {rows.map((row, index) => (
+          <div
+            key={index}
+            style={{
+              display: 'contents',
+            }}
+          >
+            <div
+              className="transition-colors duration-200 hover:bg-white/5"
+              style={{
+                padding: '16px 24px',
+                fontSize: '14px',
+                color: 'var(--eaf-text-secondary)',
+                borderBottom:
+                  index < rows.length - 1 ? '1px solid var(--eaf-border)' : 'none',
+                borderRight: '1px solid var(--eaf-border)',
+              }}
+            >
+              {row.label}
+            </div>
+            <div
+              className="transition-colors duration-200 hover:bg-white/5"
+              style={{
+                padding: '16px 24px',
+                fontSize: '14px',
+                color: '#f87171',
+                borderBottom:
+                  index < rows.length - 1 ? '1px solid var(--eaf-border)' : 'none',
+                borderRight: '1px solid var(--eaf-border)',
+              }}
+            >
+              {row.chatgpt}
+            </div>
+            <div
+              className="transition-colors duration-200 hover:bg-white/5"
+              style={{
+                padding: '16px 24px',
+                fontSize: '14px',
+                color: 'var(--eaf-text-primary)',
+                borderBottom:
+                  index < rows.length - 1 ? '1px solid var(--eaf-border)' : 'none',
+              }}
+            >
+              {row.nexus}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* CTA */}
+      <div className="text-center mt-8">
+        <Link
+          href="/login"
+          className="font-semibold text-white transition-all duration-200"
+          style={{
+            background: 'var(--eaf-orange)',
+            padding: '14px 32px',
+            borderRadius: '12px',
+            fontSize: '15px',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'var(--eaf-orange-hover)';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = 'var(--eaf-shadow-orange)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'var(--eaf-orange)';
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+        >
+          Essayer gratuitement — sans carte bancaire →
+        </Link>
+      </div>
+    </div>
   );
 }

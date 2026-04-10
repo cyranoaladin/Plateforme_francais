@@ -1,100 +1,59 @@
-import type { Metadata } from 'next';
 import { StickyNav } from '@/components/landing/StickyNav';
 import { Hero } from '@/components/landing/Hero';
 import { SocialProofStrip } from '@/components/landing/SocialProofStrip';
 import { StatsSection } from '@/components/landing/StatsSection';
-import { AntiChatGPTBanner } from '@/components/landing/AntiChatGPTBanner';
 import { MethodSteps } from '@/components/landing/MethodSteps';
 import { WorkshopTabs } from '@/components/landing/WorkshopTabs';
-import { DashboardToggle } from '@/components/landing/DashboardToggle';
-import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { ComparisonTable } from '@/components/landing/ComparisonTable';
+import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
+import { DashboardToggle } from '@/components/landing/DashboardToggle';
 import { PricingSection } from '@/components/landing/PricingSection';
-import { InlineCTA } from '@/components/landing/InlineCTA';
+import { FAQSection } from '@/components/landing/FAQSection';
 import { FooterCTA } from '@/components/landing/FooterCTA';
 import { Footer } from '@/components/landing/Footer';
-import { Canonical } from '@/components/seo/Canonical';
-import { ROUTES } from '@/lib/routes';
+import { WhatsAppButton } from '@/components/landing/WhatsAppButton';
 
-const BASE_URL = 'https://eaf.nexusreussite.academy';
-
-export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
-  title: "Nexus Réussite — Prépare l'EAF avec l'IA officielle",
-  description:
-    "IA entraînée sur le BO 2026. Simulation d'oral /2 /8 /2 /8, correction en 3 min, anti-copie. Freemium gratuit.",
-  openGraph: {
-    title: "Nexus Réussite — Prépare l'oral et l'écrit EAF avec l'IA",
-    description: "L'IA pédagogique entraînée sur le BO 2026 et les rapports de jury. Oral simulé, correction en 3 min, anti-copie.",
-    url: BASE_URL,
-    siteName: 'Nexus Réussite',
-    images: [{ url: '/assets/og-cover.png', width: 1200, height: 630, alt: 'Nexus Réussite — Préparation EAF 2026' }],
-    locale: 'fr_FR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "Nexus Réussite — Prépare l'EAF avec l'IA officielle",
-    description: "Simulation d'oral /2 /8 /2 /8, correction en 3 min. Freemium gratuit, sans carte bancaire.",
-    images: ['/assets/og-cover.png'],
-  },
-  robots: { index: true, follow: true },
+export const metadata = {
+  title: 'Nexus Réussite — Préparation EAF Bac Français 2026',
+  description: 'Prépare ton Bac de Français avec Nexus : correction de copies, simulation d\'oral officiel, tuteur IA avec sources citées. Inscris-toi gratuitement.',
 };
 
-export const revalidate = 3600; // ISR Optimization: revalidate every hour
-
-export default function HomePage() {
+export default function LandingPage() {
   return (
-    <>
-      <Canonical baseUrl={BASE_URL} />
+    <main
+      style={{
+        background: 'var(--eaf-bg0)',
+        color: 'var(--eaf-text-primary)',
+        fontFamily: 'var(--eaf-font-body)',
+        minHeight: '100vh',
+      }}
+    >
       <StickyNav />
-
-      <main>
-        <Hero />
-        <SocialProofStrip />
-        <StatsSection />
-
-        <InlineCTA
-          headline="Tu veux voir ce que ça donne sur une vraie copie ?"
-          cta="Essayer une correction gratuite →"
-          href={ROUTES.register}
-          className="bg-surface"
-        />
-
-        <AntiChatGPTBanner />
+      <Hero />
+      <SocialProofStrip />
+      <StatsSection />
+      <section style={{ padding: '80px 2rem', maxWidth: '1100px', margin: '0 auto' }}>
         <MethodSteps />
-
-        <div id="ateliers">
-          <WorkshopTabs />
-        </div>
-
-        <InlineCTA
-          headline="Ceux qui s’y sont mis ont progressé. C’est ton tour."
-          cta="Commencer gratuitement →"
-          href={ROUTES.register}
-          className="bg-page"
-        />
-
-        <DashboardToggle />
-        <TestimonialsSection />
-
-        <InlineCTA
-          headline="Toujours en train de comparer ? L’essai est gratuit."
-          cta="Tester Nexus maintenant →"
-          href={ROUTES.register}
-          className="bg-surface"
-        />
-
+      </section>
+      <section style={{ padding: '0 2rem 80px', maxWidth: '1100px', margin: '0 auto' }}>
+        <WorkshopTabs />
+      </section>
+      <section style={{ padding: '80px 2rem', maxWidth: '1100px', margin: '0 auto' }}>
         <ComparisonTable />
-
-        <div id="tarifs">
-          <PricingSection />
-        </div>
-
-        <FooterCTA />
-      </main>
-
+      </section>
+      <section style={{ padding: '80px 2rem', maxWidth: '1100px', margin: '0 auto' }}>
+        <TestimonialsSection />
+      </section>
+      <section style={{ padding: '0 2rem 80px', maxWidth: '1100px', margin: '0 auto' }}>
+        <DashboardToggle />
+      </section>
+      <section style={{ padding: '80px 2rem', maxWidth: '1100px', margin: '0 auto' }} id="pricing">
+        <PricingSection />
+      </section>
+      <FAQSection />
+      <FooterCTA />
       <Footer />
-    </>
+      <WhatsAppButton />
+    </main>
   );
 }

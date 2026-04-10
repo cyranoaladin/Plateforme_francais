@@ -1,166 +1,324 @@
-import React from 'react';
+'use client';
+
 import Link from 'next/link';
-import { PUBLIC_PLAN_OFFERS } from '@/lib/billing/public-offers';
-import { ROUTES } from '@/lib/routes';
-
-interface FaqItem {
-  question: string;
-  answer: string;
-}
-
-const faqs: FaqItem[] = [
-  {
-    question: 'Puis-je changer de formule en cours de mois ?',
-    answer:
-      'Oui. Après validation du règlement, ton nouvel accès est activé avec un code correspondant au plan choisi.',
-  },
-  {
-    question: 'Y a-t-il un engagement minimum ?',
-    answer:
-      'Les plans payants sont mensuels. Le renouvellement n’est pas présenté comme un checkout automatique sur le site tant que ce parcours n’est pas actif.',
-  },
-  {
-    question: 'Le Freemium est-il vraiment gratuit ?',
-    answer:
-      'Oui. Tu peux créer ton compte et utiliser le plan Freemium sans paiement, puis passer à un plan payant plus tard via un code d’activation.',
-  },
-  {
-    question: 'Comment activer un plan payant ?',
-    answer:
-      'Le go-live actuel fonctionne par virement bancaire ou règlement en espèces. L’équipe Nexus t’envoie ensuite un code d’activation à saisir sur la plateforme.',
-  },
-];
-
-const PRICING_COPY = {
-  heading: 'Tarifs simples, résultats concrets',
-  intro: 'Trois plans clairs, des quotas réels et un parcours d’activation fidèle au go-live.',
-  recommended: 'Recommandé',
-  faqHeading: 'Questions fréquentes',
-  bottomLead: 'Besoin d’un plan payant ?',
-  bottomCta: 'Commence en Freemium puis active Premium ou Masterium par code →',
-} as const;
 
 export function PricingSection() {
   return (
-    <section id="tarifs" className="bg-page py-14 sm:py-20">
-      <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-2xl font-bold text-heading sm:text-3xl lg:text-4xl">
-          {PRICING_COPY.heading}
+    <div>
+      {/* Header */}
+      <div className="text-center mb-12">
+        <div
+          style={{
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: 'var(--eaf-indigo)',
+            fontWeight: 600,
+            marginBottom: '8px',
+          }}
+        >
+          Tarifs simples
+        </div>
+        <h2
+          style={{
+            fontFamily: 'var(--eaf-font-display)',
+            fontSize: '36px',
+            fontWeight: 700,
+            color: 'var(--eaf-text-primary)',
+          }}
+        >
+          Trois plans clairs,
+          <br />
+          des quotas réels.
         </h2>
-        <p className="mt-3 text-center text-body">
-          {PRICING_COPY.intro}
-        </p>
-
-        {/* Plan cards */}
-        <div className="mt-12 flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
-          {PUBLIC_PLAN_OFFERS.map((plan) => (
-            <div
-              key={plan.publicId}
-              className={
-                'relative flex min-w-[280px] flex-col rounded-2xl bg-surface p-6 shadow-md snap-center sm:min-w-0 ' +
-                (plan.highlighted ? 'ring-2 ring-brand sm:border-2 sm:border-brand sm:ring-0 shadow-lg' : 'border border-[var(--border-default)]')
-              }
-            >
-              {plan.highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-4 py-1 text-xs font-semibold text-white">
-                  {`⭐ ${PRICING_COPY.recommended}`}
-                </span>
-              )}
-
-              <h3 className="text-lg font-bold text-heading">{plan.title}</h3>
-              <p className="mt-2 text-sm text-body">{plan.tagline}</p>
-              <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-extrabold text-heading">{plan.priceTnd}</span>
-                {plan.period && (
-                  <span className="text-sm text-muted-foreground">{plan.period}</span>
-                )}
-              </div>
-
-              <ul className="mt-6 flex-1 space-y-3">
-                {plan.landingBullets.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-sm text-body">
-                    <svg
-                      className="mt-0.5 h-4 w-4 shrink-0 text-brand"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span dangerouslySetInnerHTML={{ __html: feature }} />
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href={plan.publicId === 'FREEMIUM' ? ROUTES.register : '/pricing#activation-et-paiement'}
-                className={
-                  'mt-6 block rounded-xl py-3 text-center text-sm font-semibold transition-colors ' +
-                  (plan.highlighted
-                    ? 'bg-brand text-white hover:bg-brand-hover'
-                    : 'bg-surface-secondary text-heading hover:bg-muted')
-                }
-              >
-                {plan.publicId === 'FREEMIUM' ? 'Commencer gratuitement' : 'Choisir ' + plan.title}
-              </Link>
-
-              <p className="mt-3 text-center text-xs text-muted-foreground">
-                {plan.footer}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* FAQ */}
-        <div className="mx-auto mt-16 max-w-2xl">
-          <h3 className="text-center text-xl font-bold text-heading">{PRICING_COPY.faqHeading}</h3>
-          <div className="mt-6 space-y-3">
-            {faqs.map((faq) => (
-              <details
-                key={faq.question}
-                className="group rounded-xl border border-[var(--border-default)] bg-surface"
-              >
-                <summary className="cursor-pointer list-none px-5 py-4 font-medium text-heading">
-                  <span className="flex items-center justify-between">
-                    {faq.question}
-                    <svg
-                      className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                </summary>
-                <p
-                  className="px-5 pb-4 text-sm text-body"
-                  dangerouslySetInnerHTML={{ __html: faq.answer }}
-                />
-              </details>
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom CTA */}
-        <p className="mt-10 text-center text-sm text-muted-foreground">
-          {`${PRICING_COPY.bottomLead} `}
-          <Link
-            href={ROUTES.register}
-            className="font-medium text-brand underline hover:text-brand-hover"
-          >
-            {PRICING_COPY.bottomCta}
-          </Link>
+        <p
+          style={{
+            fontSize: '14px',
+            color: 'var(--eaf-text-secondary)',
+            marginTop: '8px',
+          }}
+        >
+          Activation par code après règlement. Pas de carte bancaire pour le Freemium.
         </p>
       </div>
-    </section>
+
+      {/* Grille pricing */}
+      <div
+        className="grid gap-4"
+        style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: '48px' }}
+      >
+        {/* Freemium */}
+        <PlanCard
+          name="Freemium"
+          description="Découvre la méthode sans paiement."
+          price="0"
+          unit="TND"
+          subPrice="Pour toujours gratuit"
+          features={[
+            '1 / mois de simulation orale',
+            '2 / mois de correction écrite',
+            '3 / jour d\'échanges guidés',
+            'Échantillon de bibliothèque',
+          ]}
+          buttonText="Commencer gratuitement"
+          buttonVariant="ghost"
+          note="Création de compte immédiate, sans carte bancaire."
+        />
+
+        {/* Premium - FEATURED */}
+        <PlanCard
+          featured
+          badge="⭐ Recommandé"
+          name="Premium"
+          nameColor="var(--eaf-indigo)"
+          description="Le plan complet pour travailler chaque semaine."
+          price="99"
+          unit="TND / mois"
+          subPrice="/ mois"
+          features={[
+            '10 / semaine de simulation orale',
+            '20 / mois de correction écrite',
+            '100 / jour d\'échanges guidés',
+            'Rapport PDF oral',
+            'Historique oral complet',
+            'Bibliothèque complète',
+            'Activation par code après règlement',
+          ]}
+          buttonText="Choisir Premium →"
+          buttonVariant="primary"
+          note="Règlement par virement bancaire ou espèces, puis code d'activation."
+        />
+
+        {/* Masterium */}
+        <PlanCard
+          name="Masterium"
+          description="Pour travailler sans plafond et viser la mention."
+          price="129"
+          unit="TND / mois"
+          subPrice="/ mois"
+          features={[
+            'Illimité d\'oral',
+            'Illimité de corrections écrites',
+            'Illimité d\'accompagnement guidé',
+            'Recherche avancée dans le corpus',
+            'Support prioritaire',
+          ]}
+          buttonText="Choisir Masterium →"
+          buttonVariant="secondary"
+        />
+      </div>
+    </div>
+  );
+}
+
+interface PlanCardProps {
+  featured?: boolean;
+  badge?: string;
+  name: string;
+  nameColor?: string;
+  description: string;
+  price: string;
+  unit: string;
+  subPrice: string;
+  features: string[];
+  buttonText: string;
+  buttonVariant: 'ghost' | 'primary' | 'secondary';
+  note?: string;
+}
+
+function PlanCard({
+  featured,
+  badge,
+  name,
+  nameColor,
+  description,
+  price,
+  unit,
+  subPrice,
+  features,
+  buttonText,
+  buttonVariant,
+  note,
+}: PlanCardProps) {
+  return (
+    <div
+      className="relative"
+      style={{
+        background: featured
+          ? 'var(--eaf-gradient-card-featured)'
+          : 'var(--eaf-bg1)',
+        border: featured
+          ? '1px solid rgba(123,142,255,0.40)'
+          : '1px solid var(--eaf-border)',
+        borderRadius: '20px',
+        padding: '32px',
+      }}
+    >
+      {/* Badge featured */}
+      {badge && (
+        <div
+          className="absolute whitespace-nowrap"
+          style={{
+            top: '-14px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'linear-gradient(90deg, var(--eaf-indigo), var(--eaf-indigo-hover))',
+            color: 'white',
+            padding: '5px 16px',
+            borderRadius: '100px',
+            fontSize: '12px',
+            fontWeight: 600,
+            letterSpacing: '-0.1px',
+          }}
+        >
+          {badge}
+        </div>
+      )}
+
+      {/* Name */}
+      <div
+        style={{
+          fontSize: '14px',
+          fontWeight: 600,
+          textTransform: 'uppercase',
+          letterSpacing: '0.06em',
+          color: nameColor || 'var(--eaf-text-secondary)',
+          marginBottom: '8px',
+        }}
+      >
+        {name}
+      </div>
+
+      {/* Description */}
+      <p
+        style={{
+          fontSize: '13px',
+          color: 'var(--eaf-text-tertiary)',
+          marginBottom: '24px',
+        }}
+      >
+        {description}
+      </p>
+
+      {/* Price */}
+      <div className="flex items-baseline gap-1 mb-1">
+        <span
+          style={{
+            fontFamily: 'var(--eaf-font-display)',
+            fontSize: '44px',
+            fontWeight: 900,
+            letterSpacing: '-2px',
+            lineHeight: 1,
+            color: 'var(--eaf-text-primary)',
+          }}
+        >
+          {price}
+        </span>
+        <span
+          style={{
+            fontSize: '16px',
+            fontWeight: 400,
+            color: 'var(--eaf-text-tertiary)',
+          }}
+        >
+          {unit}
+        </span>
+      </div>
+      <p
+        style={{
+          fontSize: '12px',
+          color: 'var(--eaf-text-tertiary)',
+          marginBottom: '28px',
+        }}
+      >
+        {subPrice}
+      </p>
+
+      {/* Features */}
+      <ul className="flex flex-col gap-2.5 mb-7" style={{ listStyle: 'none', padding: 0 }}>
+        {features.map((feature, index) => (
+          <li
+            key={index}
+            className="flex items-start gap-2"
+            style={{ fontSize: '14px', color: 'var(--eaf-text-secondary)' }}
+          >
+            <span
+              style={{
+                color: 'var(--eaf-teal)',
+                flexShrink: 0,
+                marginTop: '1px',
+              }}
+            >
+              ✓
+            </span>
+            {feature}
+          </li>
+        ))}
+      </ul>
+
+      {/* Button */}
+      <Link
+        href="/login"
+        className="block text-center font-semibold transition-all duration-200"
+        style={{
+          width: '100%',
+          padding: '14px',
+          borderRadius: '11px',
+          fontSize: '15px',
+          background:
+            buttonVariant === 'primary'
+              ? 'var(--eaf-orange)'
+              : buttonVariant === 'secondary'
+              ? 'var(--eaf-bg2)'
+              : 'transparent',
+          border:
+            buttonVariant === 'primary'
+              ? 'none'
+              : buttonVariant === 'secondary'
+              ? '1px solid rgba(123,142,255,0.30)'
+              : '1px solid var(--eaf-border)',
+          color:
+            buttonVariant === 'primary'
+              ? 'white'
+              : buttonVariant === 'secondary'
+              ? 'var(--eaf-indigo)'
+              : 'var(--eaf-text-secondary)',
+        }}
+        onMouseEnter={(e) => {
+          if (buttonVariant === 'primary') {
+            e.currentTarget.style.background = 'var(--eaf-orange-hover)';
+            e.currentTarget.style.boxShadow = 'var(--eaf-shadow-orange)';
+          } else if (buttonVariant === 'secondary') {
+            e.currentTarget.style.background = 'var(--eaf-indigo-dim)';
+          } else {
+            e.currentTarget.style.borderColor = 'rgba(123,142,255,0.40)';
+            e.currentTarget.style.color = 'var(--eaf-text-primary)';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (buttonVariant === 'primary') {
+            e.currentTarget.style.background = 'var(--eaf-orange)';
+            e.currentTarget.style.boxShadow = 'none';
+          } else if (buttonVariant === 'secondary') {
+            e.currentTarget.style.background = 'var(--eaf-bg2)';
+          } else {
+            e.currentTarget.style.borderColor = 'var(--eaf-border)';
+            e.currentTarget.style.color = 'var(--eaf-text-secondary)';
+          }
+        }}
+      >
+        {buttonText}
+      </Link>
+
+      {/* Note */}
+      {note && (
+        <p
+          className="text-center mt-2.5"
+          style={{ fontSize: '11px', color: 'var(--eaf-text-tertiary)' }}
+        >
+          {note}
+        </p>
+      )}
+    </div>
   );
 }

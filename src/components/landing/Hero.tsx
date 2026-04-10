@@ -1,171 +1,421 @@
-/**
- * Hero — Main hero section with urgency, promise, and hierarchical CTAs.
- * Dependencies: ./CountdownBadge
- */
 'use client';
 
 import Link from 'next/link';
-import { CountdownBadge } from './CountdownBadge';
-import { ROUTES } from '@/lib/routes';
-
-const HERO_COPY = {
-  eyebrow: 'Oral, écrit, tuteur et suivi réel',
-  titleLead: 'La préparation EAF qui fait enfin',
-  titleAccent: 'travailler juste.',
-  body: 'Nexus transforme l\u2019entraînement en pilotage concret\u00A0: simulation orale officielle, correction écrite rapide, tuteur pédagogique et progression suivie sans rédiger à ta place.',
-  primaryCta: 'Commencer gratuitement - 3 min',
-  secondaryCta: 'Voir la démo en 45 s',
-  previewEyebrow: 'Simulation orale',
-  previewTitle: 'Lecture, explication, grammaire, entretien',
-  previewBadge: 'BO 2026',
-  cards: {
-    quick: 'Repère rapide',
-    correction: 'Correction',
-    posture: 'Posture',
-    quickValue: '/2 /8 /2 /8',
-    correctionValue: '3 min',
-    postureValue: 'Anti-copie',
-    quickBody: 'Grille orale officielle directement exploitable.',
-    correctionBody: 'Premier feedback IA sur l\u2019écrit et les axes de progression.',
-    postureBody: 'Le système guide, questionne et entraîne sans faire à ta place.',
-  },
-  previewMeta: {
-    diagnostic: 'Diagnostic',
-    diagnosticValue: 'Axes prioritaires',
-    feedback: 'Feedback',
-    feedbackValue: 'Commentaires utiles',
-    tracking: 'Suivi',
-    trackingValue: 'Progression lisible',
-  },
-} as const;
-
-const TRUST_ITEMS = [
-  'Pas de carte bancaire',
-  'Freemium sans limite de durée',
-  'Sources BO 2026 officielles',
-];
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-ink-950 via-ink-900 to-ink-900 px-4 pb-16 pt-28 text-white sm:px-6 sm:pb-24 sm:pt-36 lg:pb-28 lg:pt-40">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent)]" />
-        <div className="absolute left-[8%] top-[18%] h-80 w-80 rounded-full bg-brand/24 blur-3xl" />
-        <div className="absolute right-[10%] top-[20%] h-72 w-72 rounded-full bg-brand/14 blur-3xl" />
-        <div className="absolute bottom-[-8%] left-1/2 h-72 w-[34rem] -translate-x-1/2 rounded-full bg-white/6 blur-3xl" />
-      </div>
+    <section
+      className="relative"
+      style={{
+        maxWidth: '1100px',
+        margin: '0 auto',
+        padding: '80px 2rem 100px',
+      }}
+    >
+      {/* Orbe de lumière */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          width: '600px',
+          height: '600px',
+          background: 'radial-gradient(circle, rgba(123,142,255,0.07) 0%, transparent 70%)',
+          top: '-100px',
+          right: '-100px',
+        }}
+      />
 
-      <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
-        <div className="max-w-2xl">
-          <div className="mb-6 flex justify-start">
-            <CountdownBadge />
+      <div
+        className="grid items-center"
+        style={{ gridTemplateColumns: '1fr 1fr', gap: '60px' }}
+      >
+        {/* Colonne gauche */}
+        <div className="relative">
+          {/* Countdown badge */}
+          <div
+            className="inline-flex items-center gap-2 font-medium"
+            style={{
+              background: 'var(--eaf-gradient-orange)',
+              border: '1px solid var(--eaf-orange-border)',
+              borderRadius: 'var(--eaf-radius-pill)',
+              padding: '6px 16px',
+              fontSize: '13px',
+              marginBottom: '20px',
+            }}
+          >
+            <span
+              className="animate-eaf-pulse"
+              style={{
+                width: '7px',
+                height: '7px',
+                background: 'var(--eaf-orange)',
+                borderRadius: '50%',
+              }}
+            />
+            J-59 avant l'épreuve EAF 2026
           </div>
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/7 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/72 backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-success" />
-            {HERO_COPY.eyebrow}
+          {/* Eyebrow */}
+          <div
+            className="flex items-center gap-2 font-medium uppercase"
+            style={{
+              fontSize: '12px',
+              letterSpacing: '0.08em',
+              color: 'var(--eaf-teal)',
+              marginBottom: '20px',
+            }}
+          >
+            <span style={{ width: '24px', height: '1px', background: 'var(--eaf-teal)' }} />
+            ORAL · ÉCRIT · TUTEUR · SUIVI RÉEL
           </div>
 
-          <h1 className="editorial-heading mt-6 max-w-3xl text-4xl text-white sm:text-5xl lg:text-[4.35rem]">
-            Nexus Réussite : {HERO_COPY.titleLead}
-            <span className="block bg-gradient-to-r from-white via-sapphire-300 to-sapphire-500 bg-clip-text text-transparent">
-              {HERO_COPY.titleAccent}
+          {/* H1 */}
+          <h1
+            style={{
+              fontFamily: 'var(--eaf-font-display)',
+              fontSize: '56px',
+              fontWeight: 700,
+              lineHeight: 1.08,
+              letterSpacing: '-2px',
+              marginBottom: '24px',
+              color: 'var(--eaf-text-primary)',
+            }}
+          >
+            Nexus Réussite : La préparation EAF
+            <br />
+            qui fait enfin travailler{' '}
+            <span
+              style={{
+                color: 'var(--eaf-orange)',
+                fontStyle: 'italic',
+                fontWeight: 300,
+              }}
+            >
+              juste.
             </span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-base leading-8 text-[var(--text-muted)] sm:text-lg">{HERO_COPY.body}</p>
+          {/* Paragraphe */}
+          <p
+            style={{
+              fontSize: '16px',
+              color: 'var(--eaf-text-secondary)',
+              lineHeight: 1.7,
+              maxWidth: '420px',
+              marginBottom: '36px',
+            }}
+          >
+            Nexus transforme l'entraînement en pilotage concret : simulation orale officielle,
+            correction écrite rapide, tuteur pédagogique et progression suivie sans rédiger à ta place.
+          </p>
 
-          <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+          {/* CTAs */}
+          <div className="flex flex-col gap-3.5">
             <Link
-              href={ROUTES.register}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--color-indigo-800)] bg-[linear-gradient(135deg,rgba(99,102,241,0.98),rgba(67,56,202,0.98))] px-6 py-4 text-base font-semibold text-[var(--text-on-primary)] shadow-[0_16px_36px_rgba(67,56,202,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(67,56,202,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
+              href="/login"
+              className="font-semibold text-white text-center transition-all duration-200"
+              style={{
+                fontSize: '16px',
+                background: 'var(--eaf-orange)',
+                padding: '15px 32px',
+                borderRadius: '12px',
+                width: 'fit-content',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--eaf-orange-hover)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = 'var(--eaf-shadow-orange)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--eaf-orange)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             >
-              {HERO_COPY.primaryCta}
+              Commencer gratuitement - 3 min
             </Link>
-            <a
-              href="#demo"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/16 bg-white/6 px-5 py-4 text-sm font-medium text-white/86 backdrop-blur-md transition-colors hover:border-white/28 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
+
+            <button
+              className="flex items-center gap-2 transition-all duration-200"
+              style={{
+                background: 'transparent',
+                border: '1px solid var(--eaf-border)',
+                color: 'var(--eaf-text-secondary)',
+                padding: '14px 28px',
+                borderRadius: '12px',
+                fontSize: '14px',
+                fontWeight: 500,
+                width: 'fit-content',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+                e.currentTarget.style.color = 'var(--eaf-text-primary)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--eaf-border)';
+                e.currentTarget.style.color = 'var(--eaf-text-secondary)';
+              }}
             >
-              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fillRule="evenodd" d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm6.39-2.908a.75.75 0 01.766.027l3.5 2.25a.75.75 0 010 1.262l-3.5 2.25A.75.75 0 018 12.25v-4.5a.75.75 0 01.39-.658z" clipRule="evenodd" />
-              </svg>
-              {HERO_COPY.secondaryCta}
-            </a>
-          </div>
-
-          <div className="mt-7 flex flex-wrap items-center gap-3 text-sm text-[var(--text-muted)]">
-            {TRUST_ITEMS.map((item) => (
-              <span key={item} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3.5 py-2 backdrop-blur-sm">
-                <svg className="h-4 w-4 text-success" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
-                </svg>
-                {item}
+              <span
+                className="flex items-center justify-center text-white"
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  background: 'rgba(123,142,255,0.2)',
+                  borderRadius: '50%',
+                  fontSize: '8px',
+                }}
+              >
+                ▶
               </span>
-            ))}
+              Voir la démo en 45 s
+            </button>
           </div>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-[var(--radius-xl)] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.cards.quick}</p>
-              <p className="mt-2 text-2xl font-semibold text-white">{HERO_COPY.cards.quickValue}</p>
-              <p className="mt-1 text-sm text-[var(--text-muted)]">{HERO_COPY.cards.quickBody}</p>
-            </div>
-            <div className="rounded-[var(--radius-xl)] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.cards.correction}</p>
-              <p className="mt-2 text-2xl font-semibold text-white">{HERO_COPY.cards.correctionValue}</p>
-              <p className="mt-1 text-sm text-[var(--text-muted)]">{HERO_COPY.cards.correctionBody}</p>
-            </div>
-            <div className="rounded-[var(--radius-xl)] border border-white/10 bg-white/7 px-4 py-4 backdrop-blur-md">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.cards.posture}</p>
-              <p className="mt-2 text-2xl font-semibold text-white">{HERO_COPY.cards.postureValue}</p>
-              <p className="mt-1 text-sm text-[var(--text-muted)]">{HERO_COPY.cards.postureBody}</p>
-            </div>
-          </div>
-        </div>
-
-        <div id="demo" className="relative lg:pl-4">
-          <div className="absolute inset-x-6 top-5 h-32 rounded-full bg-brand/14 blur-3xl" />
-          <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(255,255,255,0.06))] p-3 shadow-[0_30px_80px_rgba(2,6,23,0.30)] backdrop-blur-xl">
-            <div className="mb-3 flex items-center justify-between rounded-[var(--radius-xl)] border border-white/10 bg-black/16 px-4 py-3 text-left backdrop-blur-md">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">{HERO_COPY.previewEyebrow}</p>
-                <p className="mt-1 text-base font-semibold text-white">{HERO_COPY.previewTitle}</p>
-              </div>
-              <div className="rounded-full border border-white/14 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/80">
-                {HERO_COPY.previewBadge}
-              </div>
-            </div>
-
-            <div className="overflow-hidden rounded-[var(--radius-2xl)] border border-white/10 bg-[#0b1227]">
-              <img
-                src="/assets/oral-simulator-preview.svg"
-                width={720}
-                height={460}
-                alt="Simulation d'oral EAF Nexus Réussite — notation officielle /2 /8 /2 /8"
-                fetchPriority="high"
-                decoding="async"
-                className="w-full"
-                style={{ aspectRatio: '720/460' }}
-              />
-            </div>
-
-            <div className="mt-3 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-[var(--radius-xl)] border border-white/10 bg-black/14 px-4 py-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">{HERO_COPY.previewMeta.diagnostic}</p>
-                <p className="mt-2 text-lg font-semibold text-white">{HERO_COPY.previewMeta.diagnosticValue}</p>
-              </div>
-              <div className="rounded-[var(--radius-xl)] border border-white/10 bg-black/14 px-4 py-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">{HERO_COPY.previewMeta.feedback}</p>
-                <p className="mt-2 text-lg font-semibold text-white">{HERO_COPY.previewMeta.feedbackValue}</p>
-              </div>
-              <div className="rounded-[var(--radius-xl)] border border-white/10 bg-black/14 px-4 py-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">{HERO_COPY.previewMeta.tracking}</p>
-                <p className="mt-2 text-lg font-semibold text-white">{HERO_COPY.previewMeta.trackingValue}</p>
-              </div>
-            </div>
+          {/* Trust badges */}
+          <div className="flex flex-wrap gap-5 mt-5">
+            {['Pas de carte bancaire', 'Freemium sans limite de durée', 'Sources BO 2026 officielles'].map(
+              (badge) => (
+                <div
+                  key={badge}
+                  className="flex items-center gap-1.5"
+                  style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}
+                >
+                  <span style={{ color: 'var(--eaf-teal)' }}>✓</span>
+                  {badge}
+                </div>
+              )
+            )}
           </div>
         </div>
+
+        {/* Colonne droite - Carte démo */}
+        <DemoCard />
       </div>
     </section>
+  );
+}
+
+function DemoCard() {
+  return (
+    <div
+      className="relative overflow-hidden"
+      style={{
+        background: 'var(--eaf-bg1)',
+        border: '1px solid var(--eaf-border)',
+        borderRadius: '20px',
+      }}
+    >
+      {/* Header */}
+      <div
+        className="flex items-center justify-between"
+        style={{
+          background: 'linear-gradient(135deg, var(--eaf-bg2), var(--eaf-bg3))',
+          padding: '18px 20px',
+          borderBottom: '1px solid var(--eaf-border)',
+        }}
+      >
+        {/* Dots macOS */}
+        <div className="flex gap-1.5">
+          <span style={{ width: '9px', height: '9px', background: '#ff5f57', borderRadius: '50%' }} />
+          <span style={{ width: '9px', height: '9px', background: '#febc2e', borderRadius: '50%' }} />
+          <span style={{ width: '9px', height: '9px', background: '#28c840', borderRadius: '50%' }} />
+        </div>
+        <span style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}>
+          Atelier Oral — Nexus Réussite
+        </span>
+        <span
+          style={{
+            background: 'rgba(123,142,255,0.15)',
+            border: '1px solid rgba(123,142,255,0.30)',
+            color: 'var(--eaf-indigo)',
+            padding: '4px 10px',
+            borderRadius: '6px',
+            fontSize: '11px',
+            fontWeight: 600,
+            letterSpacing: '0.04em',
+          }}
+        >
+          BO 2026
+        </span>
+      </div>
+
+      {/* Corps */}
+      <div style={{ padding: '20px' }}>
+        {/* Label */}
+        <div
+          style={{
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            color: 'var(--eaf-teal)',
+            fontWeight: 600,
+            marginBottom: '8px',
+          }}
+        >
+          SIMULATION OFFICIELLE EAF
+        </div>
+
+        {/* Titre */}
+        <h3
+          style={{
+            fontFamily: 'var(--eaf-font-display)',
+            fontSize: '16px',
+            fontWeight: 700,
+            lineHeight: 1.3,
+            marginBottom: '14px',
+          }}
+        >
+          Oral sur Lettres d'une Péruvienne — Graffigny
+        </h3>
+
+        {/* Bulle IA */}
+        <div
+          style={{
+            background: 'var(--eaf-bg2)',
+            border: '1px solid var(--eaf-border)',
+            borderRadius: '12px',
+            padding: '12px 14px',
+            marginBottom: '10px',
+          }}
+        >
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <span
+              className="flex items-center justify-center text-white font-bold"
+              style={{
+                width: '20px',
+                height: '20px',
+                background: 'var(--eaf-gradient-indigo-deep)',
+                borderRadius: '5px',
+                fontSize: '9px',
+              }}
+            >
+              IA
+            </span>
+            <span
+              style={{ fontSize: '11px', color: 'var(--eaf-indigo)', fontWeight: 600 }}
+            >
+              Tuteur IA
+            </span>
+            <span
+              style={{
+                marginLeft: 'auto',
+                fontSize: '10px',
+                color: 'var(--eaf-text-tertiary)',
+              }}
+            >
+              Source : BO 2026, Rapport jury 2025
+            </span>
+          </div>
+          <p
+            style={{
+              fontSize: '12px',
+              color: 'var(--eaf-text-secondary)',
+              lineHeight: 1.5,
+              fontStyle: 'italic',
+            }}
+          >
+            « Comment Zilia déconstruit-elle la vision que les Européens ont de leur propre
+            civilisation ? Analysez les lettres 18 et 29 pour montrer le renversement du regard. »
+          </p>
+        </div>
+
+        {/* Timer ligne */}
+        <div className="flex items-center justify-between my-3">
+          <div className="flex items-center gap-1.5" style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}>
+            <span
+              className="animate-eaf-pulse"
+              style={{ width: '6px', height: '6px', background: '#ef4444', borderRadius: '50%' }}
+            />
+            En cours
+          </div>
+          <span
+            style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: 'var(--eaf-text-primary)',
+              fontVariantNumeric: 'tabular-nums',
+            }}
+          >
+            18:42
+          </span>
+          <button
+            className="font-semibold text-white border-none cursor-pointer transition-all duration-200"
+            style={{
+              background: 'var(--eaf-orange)',
+              padding: '9px 18px',
+              borderRadius: '8px',
+              fontSize: '13px',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--eaf-orange-hover)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--eaf-orange)')}
+          >
+            Commencer le passage →
+          </button>
+        </div>
+
+        {/* Grille scores */}
+        <div
+          className="grid gap-1.5 mt-2.5"
+          style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}
+        >
+          {[
+            { score: '/2', label: 'Lecture' },
+            { score: '/8', label: 'Explication' },
+            { score: '/2', label: 'Grammaire' },
+            { score: '/8', label: 'Entretien' },
+          ].map((item) => (
+            <div
+              key={item.label}
+              style={{
+                background: 'var(--eaf-bg2)',
+                border: '1px solid var(--eaf-border)',
+                borderRadius: '8px',
+                padding: '8px 12px',
+                textAlign: 'center',
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: 'var(--eaf-font-display)',
+                  fontSize: '18px',
+                  fontWeight: 700,
+                  color: 'var(--eaf-gold)',
+                }}
+              >
+                {item.score}
+              </div>
+              <div style={{ fontSize: '10px', color: 'var(--eaf-text-tertiary)', marginTop: '2px' }}>
+                {item.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div
+        className="flex items-center gap-1.5"
+        style={{
+          padding: '12px 20px',
+          background: 'var(--eaf-teal-dim)',
+          borderTop: '1px solid var(--eaf-teal-border)',
+          fontSize: '11px',
+          color: 'var(--eaf-teal)',
+        }}
+      >
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="#1AD5A0" strokeWidth="1.5" />
+          <path
+            d="M4 6l1.5 1.5L8 4"
+            stroke="#1AD5A0"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        Session d'oral simulée — avec transcription et notation en temps réel
+      </div>
+    </div>
   );
 }

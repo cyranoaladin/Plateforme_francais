@@ -123,11 +123,11 @@
   --border-reward:   var(--color-amber-200);
 
   /* Rayons */
-  --radius-sm:   6px;
-  --radius-md:   10px;
-  --radius-lg:   14px;
-  --radius-xl:   18px;
-  --radius-2xl:  24px;
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  18px;
+  --radius-2xl: 24px;
   --radius-pill: 100px;
 
   /* Ombres */
@@ -138,6 +138,83 @@
   /* Transitions */
   --transition-fast:   150ms ease;
   --transition-normal: 200ms ease;
+
+  /* === NEXUS EAF DESIGN SYSTEM v2 === */
+
+  /* Backgrounds */
+  --eaf-bg0: #050913;
+  --eaf-bg1: #0b1120;
+  --eaf-bg2: #111c30;
+  --eaf-bg3: #1a2840;
+
+  /* Borders */
+  --eaf-border: rgba(99, 148, 255, 0.13);
+  --eaf-border-hover: rgba(99, 148, 255, 0.30);
+  --eaf-border-strong: rgba(99, 148, 255, 0.45);
+
+  /* Brand colors */
+  --eaf-orange: #FF6B35;
+  --eaf-orange-hover: #E55A27;
+  --eaf-orange-glow: rgba(255, 107, 53, 0.35);
+  --eaf-orange-dim: rgba(255, 107, 53, 0.10);
+  --eaf-orange-border: rgba(255, 107, 53, 0.25);
+
+  --eaf-indigo: #7B8EFF;
+  --eaf-indigo-hover: #4458D4;
+  --eaf-indigo-dim: rgba(123, 142, 255, 0.12);
+  --eaf-indigo-border: rgba(123, 142, 255, 0.30);
+
+  --eaf-teal: #1AD5A0;
+  --eaf-teal-dim: rgba(26, 213, 160, 0.08);
+  --eaf-teal-border: rgba(26, 213, 160, 0.20);
+
+  --eaf-gold: #FFB547;
+  --eaf-gold-dim: rgba(255, 181, 71, 0.10);
+  --eaf-gold-border: rgba(255, 181, 71, 0.25);
+
+  /* Text */
+  --eaf-text-primary: #F4F6FF;
+  --eaf-text-secondary: #8596C0;
+  --eaf-text-tertiary: #4A5D85;
+
+  /* Gradients */
+  --eaf-gradient-hero: radial-gradient(ellipse at 70% -10%, rgba(123,142,255,0.08) 0%, transparent 60%);
+  --eaf-gradient-orange: linear-gradient(135deg, rgba(255,107,53,0.08), rgba(255,107,53,0.15), rgba(255,107,53,0.08));
+  --eaf-gradient-card-featured: linear-gradient(135deg, #0f1e3a, #111c30);
+  --eaf-gradient-stats-bg: linear-gradient(180deg, var(--eaf-bg0) 0%, var(--eaf-bg1) 50%, var(--eaf-bg0) 100%);
+  --eaf-gradient-indigo-teal: linear-gradient(90deg, var(--eaf-indigo), var(--eaf-teal));
+  --eaf-gradient-indigo-deep: linear-gradient(135deg, var(--eaf-indigo), #4458D4);
+  --eaf-gradient-progress: linear-gradient(90deg, var(--eaf-indigo), var(--eaf-teal));
+
+  /* Shadows */
+  --eaf-shadow-orange: 0 8px 30px rgba(255, 107, 53, 0.40);
+  --eaf-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.40);
+
+  /* Radii */
+  --eaf-radius-sm: 6px;
+  --eaf-radius-md: 10px;
+  --eaf-radius-lg: 16px;
+  --eaf-radius-xl: 20px;
+  --eaf-radius-2xl: 24px;
+  --eaf-radius-pill: 100px;
+
+  /* Spacing scale */
+  --eaf-space-1: 4px;
+  --eaf-space-2: 8px;
+  --eaf-space-3: 12px;
+  --eaf-space-4: 16px;
+  --eaf-space-5: 20px;
+  --eaf-space-6: 24px;
+  --eaf-space-8: 32px;
+  --eaf-space-10: 40px;
+  --eaf-space-12: 48px;
+  --eaf-space-16: 64px;
+  --eaf-space-20: 80px;
+  --eaf-space-24: 96px;
+
+  /* Typography */
+  --eaf-font-display: 'Fraunces', serif;
+  --eaf-font-body: 'DM Sans', sans-serif;
 }
 
 /* --- DARK MODE ------------------------------------------------- */
@@ -341,4 +418,33 @@
   background: var(--bg-surface-secondary);
   border-radius: var(--radius-pill);
   overflow: hidden;
+}
+
+/* === ANIMATIONS EAF =========================================== */
+
+@keyframes eaf-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+
+@keyframes eaf-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes eaf-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(123,142,255,0); }
+  50%       { box-shadow: 0 0 20px 4px rgba(123,142,255,0.15); }
+}
+
+.animate-eaf-pulse {
+  animation: eaf-pulse 1.8s ease infinite;
+}
+
+.animate-eaf-fade-up {
+  animation: eaf-fade-up 0.5s ease forwards;
+}
+
+.animate-eaf-glow-pulse {
+  animation: eaf-glow-pulse 3s ease infinite;
 }

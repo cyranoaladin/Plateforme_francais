@@ -97,6 +97,8 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1004.0",
     "@aws-sdk/s3-request-presigner": "^3.1004.0",
+    "@fontsource/dm-sans": "^5.2.8",
+    "@fontsource/fraunces": "^5.2.9",
     "@google/generative-ai": "^0.24.1",
     "@mistralai/mistralai": "^1.8.1",
     "@nexus-eaf/shared-billing": "^1.0.0",

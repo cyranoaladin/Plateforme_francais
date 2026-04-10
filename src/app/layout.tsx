@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Inter, Playfair_Display, Merriweather } from "next/font/google";
+import '@fontsource/fraunces/400.css';
+import '@fontsource/fraunces/700.css';
+import '@fontsource/fraunces/900.css';
+import '@fontsource/fraunces/300-italic.css';
+import '@fontsource/dm-sans/300.css';
+import '@fontsource/dm-sans/400.css';
+import '@fontsource/dm-sans/500.css';
+import '@fontsource/dm-sans/600.css';
 import "./globals.css";
 import { AppShell } from "@/components/layout/app-shell";
 import { WebVitalsReporter } from "@/components/monitoring/web-vitals-reporter";
