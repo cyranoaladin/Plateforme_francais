@@ -13,22 +13,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   if (isStandalonePage) {
     return (
-      <>
-        <ThemeProvider>
-          {shouldTrackLearningActivity && <TrackingProvider />}
-          <main className="flex-1 relative min-h-screen w-full min-w-0">{children}</main>
-        </ThemeProvider>
-      </>
+      <ThemeProvider>
+        {shouldTrackLearningActivity && <TrackingProvider />}
+        <main className="flex-1 relative min-h-screen w-full min-w-0" style={{ background: 'var(--eaf-bg0)' }}>
+          {children}
+        </main>
+      </ThemeProvider>
     );
   }
 
   return (
-    <>
-      <ThemeProvider>
-        <TrackingProvider />
-        <Sidebar />
-        <main className="relative min-h-screen flex-1 pb-20 md:ml-72 md:mr-60 md:min-w-0 md:pb-0 lg:mr-64">{children}</main>
-      </ThemeProvider>
-    </>
+    <ThemeProvider>
+      <TrackingProvider />
+      <Sidebar />
+      <main 
+        className="relative min-h-screen flex-1 pb-20 md:min-w-0 md:pb-0"
+        style={{ 
+          background: 'var(--eaf-bg0)',
+          marginLeft: '160px',
+          marginRight: '220px'
+        }}
+      >
+        {children}
+      </main>
+    </ThemeProvider>
   );
 }

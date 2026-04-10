@@ -6,13 +6,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import {
   AlertTriangle,
   ArrowRight,
-  BadgeCheck,
   BookOpen,
   CheckCircle2,
-  Clock3,
   Eye,
   EyeOff,
+  GraduationCap,
   Loader2,
+  Shield,
   ShieldCheck,
   Users,
 } from 'lucide-react';
@@ -20,54 +20,53 @@ import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 
 type AuthMode = 'login' | 'register' | 'forgot' | 'reset';
+type LoginRole = 'eleve' | 'parent' | 'enseignant';
 
 type ProfilePayload = {
   onboardingCompleted?: boolean;
   displayName?: string;
 };
 
-const WHATSAPP_RESET_LINK =
-  `${process.env.NEXT_PUBLIC_WHATSAPP_LINK ?? 'https://wa.me/21699192829'}?text=${encodeURIComponent(
-    'Bonjour, je souhaite réinitialiser mon mot de passe Nexus EAF.',
-  )}`;
+const WHATSAPP_RESET_LINK = `${process.env.NEXT_PUBLIC_WHATSAPP_LINK ?? 'https://wa.me/21699192829'}?text=${encodeURIComponent('Bonjour, je souhaite réinitialiser mon mot de passe Nexus EAF.')}`;
 
-const TRUST_POINTS = [
-  'Inscription gratuite',
-  'Premiers ateliers sans payer',
-  'Prêt en 3 minutes',
-];
-
-const LOGIN_COPY = {
-  proofBody:
-    'Écrit, oral, grammaire, corpus officiel : tout est réuni pour t’aider à progresser méthodiquement. Essaie gratuitement, explore les ateliers, et passe à un plan supérieur seulement quand tu es prêt.',
-  onboardingNotice:
-    'L’inscription prend environ trois minutes. Si tu as déjà un compte, connecte-toi pour retrouver ton parcours là où tu l’as laissé.',
-  minorNotice: 'J’ai moins de 15 ans. Un consentement parental est nécessaire.',
-  helpBody:
-    `Vérifie ton email et ton mot de passe. En cas d’erreur persistante, rafraîchis la page ou utilise « Mot de passe oublié ». Tu peux aussi nous contacter sur WhatsApp au ${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+216 99 19 28 29'}.`,
-  resetHelpLead: 'Besoin d’aide ?',
-  parentLoginHint:
-    'Connecte-toi avec l’email que ton enfant a renseigné. Lors de la première connexion, utilise le lien reçu par email ou « mot de passe oublié » pour définir ton mot de passe.',
-  teacherLoginHint:
-    'Connecte-toi avec ton email professionnel. Lors de la première connexion, utilise le lien reçu par email ou « mot de passe oublié » pour définir ton mot de passe.',
-} as const;
+const TRUST_POINTS = ['Inscription gratuite', 'Premiers ateliers sans payer', 'Prêt en 3 minutes'];
 
 const PROOF_CARDS = [
   {
     icon: BookOpen,
-    title: 'Ton parcours, tes œuvres',
-    body: 'Chaque séance part de tes textes au programme. Tu travailles l’écrit, l’oral et la langue dans un ordre qui a du sens pour toi.',
+    title: 'TON PARCOURS, TES ŒUVRES',
+    body: 'Chaque séance part de tes textes au programme. Tu travailles l\'écrit, l\'oral et la langue dans un ordre qui a du sens pour toi.',
+    bgColor: 'rgba(123,142,255,0.15)',
   },
   {
     icon: ShieldCheck,
-    title: 'Méthode et sources officielles',
+    title: 'MÉTHODE ET SOURCES OFFICIELLES',
     body: 'Corpus du BO, rapports de jury, barèmes EAF : tout est traçable. Un cadre que tes parents et tes profs peuvent vérifier.',
+    bgColor: 'rgba(26,213,160,0.12)',
   },
   {
     icon: Users,
-    title: 'Commence tout de suite',
-    body: 'Crée ton compte en 2 minutes, configure tes œuvres, et lance ta première séance. Tu choisis un plan payant seulement si tu en as besoin.',
+    title: 'COMMENCE TOUT DE SUITE',
+    body: 'Crée ton compte en 2 minutes, configure tes œuvres, et lance la première séance. Tu choisis un plan payant seulement si tu en as besoin.',
+    bgColor: 'rgba(255,107,53,0.12)',
   },
+];
+
+const LOGIN_COPY = {
+  proofBody: 'Écrit, oral, grammaire, corpus officiel : tout est réuni pour t\'aider à progresser méthodiquement. Essaie gratuitement, explore les ateliers, et passe à un plan supérieur seulement quand tu en as besoin.',
+  onboardingNotice: 'L\'inscription prend environ trois minutes. Si tu as déjà un compte, connecte-toi pour retrouver ton parcours là où tu l\'as laissé.',
+  minorNotice: 'J\'ai moins de 15 ans. Un consentement parental est nécessaire.',
+  helpBody: `Vérifie ton email et ton mot de passe. En cas d'erreur persistante, rafraîchis la page ou utilise « Mot de passe oublié ». Tu peux aussi nous contacter sur WhatsApp au ${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '+216 99 19 28 29'}.`,
+  resetHelpLead: 'Besoin d\'aide ?',
+  parentLoginHint: 'Connecte-toi avec l\'email que ton enfant a renseigné. Lors de la première connexion, utilise le lien reçu par email ou « mot de passe oublié » pour définir ton mot de passe.',
+  teacherLoginHint: 'Connecte-toi avec ton email professionnel. Lors de la première connexion, utilise le lien reçu par email ou « mot de passe oublié » pour définir ton mot de passe.',
+} as const;
+
+const PASSWORD_RULES = [
+  { test: (v: string) => v.length >= 8, label: '8 caractères minimum' },
+  { test: (v: string) => /[a-z]/.test(v), label: 'Une minuscule' },
+  { test: (v: string) => /[A-Z]/.test(v), label: 'Une majuscule' },
+  { test: (v: string) => /[0-9]/.test(v), label: 'Un chiffre' },
 ];
 
 function RateLimitNotice({ retryAfterSec }: { retryAfterSec: number }) {
@@ -82,7 +81,11 @@ function RateLimitNotice({ retryAfterSec }: { retryAfterSec: number }) {
   if (remaining <= 0) return null;
 
   return (
-    <div className="flex items-start gap-3 rounded-[var(--radius-xl)] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)]" role="status">
+    <div 
+      className="flex items-start gap-3 rounded-[var(--eaf-radius-lg)] border border-[var(--eaf-orange-border)] bg-[var(--eaf-orange-dim)] p-4 text-sm" 
+      style={{ color: 'var(--eaf-orange)' }}
+      role="status"
+    >
       <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
       <span>
         Trop de tentatives. Réessaie dans <strong>{remaining}s</strong>.
@@ -90,13 +93,6 @@ function RateLimitNotice({ retryAfterSec }: { retryAfterSec: number }) {
     </div>
   );
 }
-
-const PASSWORD_RULES = [
-  { test: (v: string) => v.length >= 8, label: '8 caractères minimum' },
-  { test: (v: string) => /[a-z]/.test(v), label: 'Une minuscule' },
-  { test: (v: string) => /[A-Z]/.test(v), label: 'Une majuscule' },
-  { test: (v: string) => /[0-9]/.test(v), label: 'Un chiffre' },
-];
 
 function PasswordField({
   id,
@@ -119,7 +115,11 @@ function PasswordField({
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-semibold text-[var(--c-primary)]" htmlFor={id}>
+      <label 
+        className="mb-[6px] block text-[13px] font-medium" 
+        style={{ color: 'var(--eaf-text-secondary)' }}
+        htmlFor={id}
+      >
         {label}
       </label>
       <div className="relative">
@@ -130,14 +130,22 @@ function PasswordField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           autoComplete={autoComplete ?? 'current-password'}
-          className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 pr-11 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+          className="w-full rounded-[10px] border px-4 py-3 pr-11 text-[14px] outline-none transition-all duration-200"
+          style={{ 
+            background: 'var(--eaf-bg2)', 
+            borderColor: 'var(--eaf-border)',
+            color: 'var(--eaf-text-primary)',
+            fontFamily: 'var(--eaf-font-body)'
+          }}
+          placeholder="••••••••"
           required
           minLength={8}
         />
         <button
           type="button"
           onClick={() => setShow((prev) => !prev)}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-1 text-[var(--text-muted)] transition-colors hover:text-[var(--c-primary)]"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 transition-colors"
+          style={{ color: 'var(--eaf-text-tertiary)' }}
           aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
         >
           {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -150,11 +158,11 @@ function PasswordField({
             return (
               <li key={rule.label} className="flex items-center gap-2 text-xs">
                 {pass ? (
-                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-[var(--c-success)]" />
+                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0" style={{ color: 'var(--eaf-teal)' }} />
                 ) : (
-                  <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-[var(--text-muted)]" />
+                  <div className="h-3.5 w-3.5 shrink-0 rounded-full" style={{ background: 'var(--eaf-border)' }} />
                 )}
-                <span className={pass ? 'text-[var(--c-success)]' : 'text-[var(--text-muted)]'}>
+                <span style={{ color: pass ? 'var(--eaf-teal)' : 'var(--eaf-text-tertiary)' }}>
                   {rule.label}
                 </span>
               </li>
@@ -168,53 +176,130 @@ function PasswordField({
 
 function ProofPanel() {
   return (
-    <div className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-xl)] p-6 lg:h-full lg:p-8">
-      <div className="absolute -right-10 top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
-      <div className="absolute -left-8 bottom-12 h-28 w-28 rounded-full bg-[var(--color-amber-300)]/18 blur-2xl" />
+    <div 
+      className="relative flex h-full flex-col justify-between overflow-hidden rounded-[var(--eaf-radius-xl)] p-[52px_40px]"
+      style={{ 
+        background: 'linear-gradient(160deg, #0d1829 0%, #0b1120 60%, #111c30 100%)',
+      }}
+    >
+      {/* Decorative orbs */}
+      <div 
+        className="pointer-events-none absolute -left-20 -top-20 h-[400px] w-[400px] rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(123,142,255,0.08) 0%, transparent 70%)' }}
+      />
+      <div 
+        className="pointer-events-none absolute -right-16 bottom-16 h-[300px] w-[300px] rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(255,107,53,0.05) 0%, transparent 70%)' }}
+      />
 
-      <div className="relative z-10">
-        <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-12 w-auto object-contain brightness-0 invert" />
-
-        <div className="hero-kicker mt-6">
-          <BadgeCheck className="h-4 w-4" />
-          Espace élève Nexus Réussite
+      <div className="relative z-10 flex flex-col h-full">
+        {/* Navbar mini */}
+        <div className="flex items-center gap-2 mb-16">
+          <div 
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-white text-xs font-bold"
+            style={{ background: 'var(--eaf-gradient-indigo-deep)' }}
+          >
+            N
+          </div>
+          <span className="text-[15px] font-semibold" style={{ color: 'var(--eaf-text-primary)' }}>
+            Nexus Réussite
+          </span>
+          <span style={{ color: 'var(--eaf-text-tertiary)' }}>/</span>
+          <Link href="/" className="text-[13px] no-underline transition-colors hover:text-[var(--eaf-text-primary)]" style={{ color: 'var(--eaf-text-secondary)' }}>
+            Retour accueil
+          </Link>
+          <span className="mx-2" style={{ color: 'var(--eaf-text-tertiary)' }}>·</span>
+          <Link href="/#plans" className="text-[13px] no-underline transition-colors hover:text-[var(--eaf-text-primary)]" style={{ color: 'var(--eaf-text-secondary)' }}>
+            Voir les tarifs
+          </Link>
+          <div className="ml-auto">
+            <Link 
+              href="/login?mode=register"
+              className="inline-flex items-center gap-1 rounded-lg px-4 py-2 text-[13px] font-semibold text-white transition-all"
+              style={{ background: 'var(--eaf-orange)' }}
+            >
+              Démarrer gratuitement
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
         </div>
 
-        <h1 className="editorial-heading mt-6 max-w-xl text-4xl text-white sm:text-5xl">
+        {/* Headline */}
+        <h1 
+          className="max-w-[380px] text-[44px] font-bold leading-[1.10] tracking-[-1.8px] mb-5"
+          style={{ 
+            fontFamily: 'var(--eaf-font-display)',
+            color: 'var(--eaf-text-primary)'
+          }}
+        >
           Ton espace de préparation au Bac de Français commence ici.
         </h1>
 
-        <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">{LOGIN_COPY.proofBody}</p>
+        <p 
+          className="max-w-[380px] text-[15px] leading-[1.7] mb-9"
+          style={{ color: 'var(--eaf-text-secondary)' }}
+        >
+          {LOGIN_COPY.proofBody}
+        </p>
 
-        <div className="mt-6 flex flex-wrap gap-2.5">
+        {/* Badges */}
+        <div className="flex flex-wrap gap-2 mb-10">
           {TRUST_POINTS.map((point) => (
-            <span key={point} className="hero-chip px-3.5 py-1.5 text-xs font-semibold text-[var(--hero-glass-text)]">
+            <span 
+              key={point}
+              className="rounded-full px-3.5 py-1.5 text-xs font-medium"
+              style={{ 
+                background: 'var(--eaf-bg2)', 
+                border: '1px solid var(--eaf-border)',
+                color: 'var(--eaf-text-secondary)'
+              }}
+            >
               {point}
             </span>
           ))}
         </div>
 
-        <div className="mt-8 grid gap-3">
+        {/* Feature cards */}
+        <div className="mt-auto flex flex-col gap-3">
           {PROOF_CARDS.map((card) => (
-            <article key={card.title} className="hero-glass-card rounded-[var(--radius-xl)] p-4">
-              <div className="flex items-start gap-3">
-                <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--bg-surface-secondary)] text-[var(--c-primary)]">
-                  <card.icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white">{card.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{card.body}</p>
-                </div>
+            <div 
+              key={card.title}
+              className="flex items-start gap-3.5 rounded-[14px] p-4"
+              style={{ 
+                background: 'rgba(255,255,255,0.03)', 
+                border: '1px solid var(--eaf-border)'
+              }}
+            >
+              <div 
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
+                style={{ background: card.bgColor }}
+              >
+                <card.icon className="h-4 w-4" style={{ color: 'var(--eaf-text-primary)' }} />
               </div>
-            </article>
+              <div>
+                <h3 
+                  className="text-[13px] font-semibold uppercase tracking-wide mb-1"
+                  style={{ color: 'var(--eaf-text-primary)' }}
+                >
+                  {card.title}
+                </h3>
+                <p 
+                  className="text-xs leading-[1.5]"
+                  style={{ color: 'var(--eaf-text-tertiary)' }}
+                >
+                  {card.body}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
 
-        <div className="mt-8 rounded-[var(--radius-xl)] bg-[var(--c-primary-active)] p-4">
-          <div className="flex items-start gap-3">
-            <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-amber-300)]" />
-            <p className="text-sm leading-6 text-[var(--text-secondary)]">{LOGIN_COPY.onboardingNotice}</p>
-          </div>
+        {/* Note bottom */}
+        <div 
+          className="mt-5 pt-5 text-xs border-t"
+          style={{ borderColor: 'var(--eaf-border)', color: 'var(--eaf-text-tertiary)' }}
+        >
+          • L&apos;inscription prend environ trois minutes. Si tu as déjà un compte, connecte-toi à droite.
         </div>
       </div>
     </div>
@@ -232,7 +317,7 @@ function AuthCard() {
   const [isMinor, setIsMinor] = useState(false);
   const [parentEmail, setParentEmail] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [loginRole, setLoginRole] = useState<'eleve' | 'parent' | 'enseignant'>('eleve');
+  const [loginRole, setLoginRole] = useState<LoginRole>('eleve');
   const [showHelp, setShowHelp] = useState(false);
   const [resetToken, setResetToken] = useState('');
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -254,21 +339,17 @@ function AuthCard() {
       setMode('reset');
       setResetToken(tokenParam);
     }
-    // 18C: Show message when session was evicted (anti-sharing).
     if (reason === 'session_expired') {
       setError('Ta session a expiré ou a été fermée car ton compte a été utilisé sur un autre appareil. Reconnecte-toi pour continuer.');
     }
-    // Show feedback after email verification redirect
     const verified = searchParams.get('verified');
     if (verified === 'true') {
       setSuccessMessage('Ton adresse email a été vérifiée avec succès. Tu peux te connecter.');
     }
-    // Show feedback after account deletion
     const deleted = searchParams.get('deleted');
     if (deleted === '1') {
       setSuccessMessage('Ton compte et toutes tes données ont été supprimés. Tu peux créer un nouveau compte si tu le souhaites.');
     }
-    // Show feedback when verification token is expired or invalid
     const errorParam = searchParams.get('error');
     if (errorParam === 'token-expired') {
       setError('Le lien de vérification a expiré ou est invalide. Connecte-toi et demande un nouveau lien depuis ton profil.');
@@ -297,7 +378,7 @@ function AuthCard() {
         return;
       }
       if (!acceptTerms) {
-        setError('Tu dois accepter les conditions d’utilisation.');
+        setError('Tu dois accepter les conditions d\'utilisation.');
         return;
       }
     }
@@ -357,7 +438,6 @@ function AuthCard() {
         return;
       }
 
-      // Role-based routing after login
       const role = loginResponse.role ?? 'eleve';
       const ROLE_HOME: Record<string, string> = {
         admin: '/admin',
@@ -371,7 +451,6 @@ function AuthCard() {
         return;
       }
 
-      // Élève: check onboarding, then redirect
       const rawRedirect = searchParams.get('redirect') || '/dashboard';
       const redirectTo = (rawRedirect.startsWith('/') && !rawRedirect.startsWith('//')) ? rawRedirect : '/dashboard';
       try {
@@ -415,99 +494,163 @@ function AuthCard() {
     : mode === 'forgot'
     ? 'Mot de passe oublié'
     : 'Nouveau mot de passe';
-  const subtitle =
-    mode === 'login'
-      ? 'Retrouve ton parcours, tes ateliers et ta progression exactement là où tu les as laissés.'
-      : mode === 'register'
-      ? 'Gratuit pour commencer. Choisis tes œuvres, lance ton premier atelier et progresse à ton rythme.'
-      : mode === 'forgot'
-      ? 'Entre ton email pour recevoir un lien de réinitialisation.'
-      : 'Choisis un nouveau mot de passe sécurisé.';
+
+  const subtitle = mode === 'login'
+    ? 'Retrouve ton parcours, tes ateliers et ta progression exactement là où tu les as laissés.'
+    : mode === 'register'
+    ? 'Gratuit pour commencer. Choisis tes œuvres, lance ton premier atelier et progresse à ton rythme.'
+    : mode === 'forgot'
+    ? 'Entre ton email pour recevoir un lien de réinitialisation.'
+    : 'Choisis un nouveau mot de passe sécurisé.';
 
   return (
-    <div className="w-full max-w-xl">
-      <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/88 p-6 shadow-[var(--shadow-md)] sm:p-8 lg:p-9">
-        <div className="flex flex-col gap-4 border-b border-[var(--border-default)] pb-5">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--c-primary)]">
-            {mode === 'login' ? 'Accès sécurisé' : 'Inscription gratuite'}
-          </div>
-          <div>
-            <h2 className="font-display text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
-              {title}
-            </h2>
-            <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{subtitle}</p>
-          </div>
-          <div className="flex flex-wrap gap-2.5">
-            {(mode === 'register'
-              ? ['Gratuit pour commencer', 'Prêt en 3 minutes', 'Accès immédiat aux ateliers']
-              : ['Connexion sécurisée', 'Session protégée', 'Reprise immédiate']
-            ).map((item) => (
-              <span key={item} className="rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)]">
-                {item}
-              </span>
-            ))}
-          </div>
+    <div className="w-full max-w-[420px]">
+      <div 
+        className="rounded-[24px] p-10"
+        style={{ 
+          background: 'var(--eaf-bg1)', 
+          border: '1px solid var(--eaf-border)'
+        }}
+      >
+        {/* Badge */}
+        <div 
+          className="mb-5 inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.06em]"
+          style={{ 
+            background: 'var(--eaf-indigo-dim)', 
+            border: '1px solid var(--eaf-indigo-border)',
+            color: 'var(--eaf-indigo)'
+          }}
+        >
+          <Shield className="h-3 w-3" />
+          {mode === 'login' ? 'Accès sécurisé' : 'Inscription gratuite'}
         </div>
 
-        <div className="mt-5 flex gap-1.5 rounded-[var(--radius-lg)] bg-[var(--bg-surface-secondary)] p-1">
+        {/* Title */}
+        <h2 
+          className="text-[28px] font-bold tracking-[-1px] mb-2"
+          style={{ 
+            fontFamily: 'var(--eaf-font-display)',
+            color: 'var(--eaf-text-primary)'
+          }}
+        >
+          {title}
+        </h2>
+        <p 
+          className="text-[14px] mb-6"
+          style={{ color: 'var(--eaf-text-secondary)' }}
+        >
+          {subtitle}
+        </p>
+
+        {/* Pills reassurance */}
+        <div className="flex flex-wrap gap-2 mb-7">
+          {(mode === 'register'
+            ? ['Gratuit pour commencer', 'Prêt en 3 minutes', 'Accès immédiat']
+            : ['Connexion sécurisée', 'Session protégée', 'Reprise immédiate']
+          ).map((item) => (
+            <span 
+              key={item} 
+              className="rounded-full px-2.5 py-1 text-[11px]"
+              style={{ 
+                background: 'var(--eaf-bg2)', 
+                border: '1px solid var(--eaf-border)',
+                color: 'var(--eaf-text-tertiary)'
+              }}
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+
+        {/* Tabs */}
+        <div 
+          className="flex gap-1 rounded-[10px] p-1 mb-6"
+          style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
+        >
           <button
             type="button"
             onClick={() => switchMode('login')}
-            className={`min-h-[44px] flex-1 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-bold transition-colors ${
-              mode === 'login' ? 'bg-[var(--bg-surface)] text-[var(--c-primary)] shadow-sm' : 'text-[var(--text-secondary)] hover:text-[var(--c-primary)]'
-            }`}
+            className="flex-1 rounded-[7px] px-4 py-2 text-[14px] font-medium transition-all"
+            style={{ 
+              background: mode === 'login' ? 'var(--eaf-bg3)' : 'transparent',
+              border: mode === 'login' ? '1px solid var(--eaf-border)' : '1px solid transparent',
+              color: mode === 'login' ? 'var(--eaf-text-primary)' : 'var(--eaf-text-secondary)'
+            }}
           >
             Se connecter
           </button>
           <button
             type="button"
             onClick={() => switchMode('register')}
-            className={`min-h-[44px] flex-1 rounded-[var(--radius-lg)] px-4 py-3 text-sm font-bold transition-colors ${
-              mode === 'register' ? 'bg-[var(--bg-surface)] text-[var(--c-primary)] shadow-sm' : 'text-[var(--text-secondary)] hover:text-[var(--c-primary)]'
-            }`}
+            className="flex-1 rounded-[7px] px-4 py-2 text-[14px] font-medium transition-all"
+            style={{ 
+              background: mode === 'register' ? 'var(--eaf-bg3)' : 'transparent',
+              border: mode === 'register' ? '1px solid var(--eaf-border)' : '1px solid transparent',
+              color: mode === 'register' ? 'var(--eaf-text-primary)' : 'var(--eaf-text-secondary)'
+            }}
           >
             Créer un compte
           </button>
         </div>
 
+        {/* Role selector - login mode only */}
         {mode === 'login' && (
-          <div className="mt-4">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[var(--c-reward)]">Je me connecte en tant que</p>
+          <div className="mb-6">
+            <p 
+              className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.08em]"
+              style={{ color: 'var(--eaf-text-tertiary)' }}
+            >
+              Je me connecte en tant que
+            </p>
             <div className="flex gap-2">
               {([
-                { value: 'eleve' as const, label: 'Élève', icon: '📚' },
-                { value: 'parent' as const, label: 'Parent', icon: '👨‍👩‍👧' },
-                { value: 'enseignant' as const, label: 'Enseignant', icon: '🎓' },
-              ]).map(({ value, label, icon }) => (
+                { value: 'eleve' as const, label: 'Élève', icon: GraduationCap },
+                { value: 'parent' as const, label: 'Parent', icon: Users },
+                { value: 'enseignant' as const, label: 'Enseignant', icon: ShieldCheck },
+              ]).map(({ value, label, icon: Icon }) => (
                 <button
                   key={value}
                   type="button"
                   onClick={() => setLoginRole(value)}
-                  className={`flex-1 rounded-[var(--radius-lg)] border px-3 py-2.5 text-sm font-semibold transition-all ${
-                    loginRole === value
-                      ? 'border-[var(--c-success)] bg-[var(--c-success)]/8 text-[var(--c-primary)]'
-                      : 'border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:border-[var(--c-success)]/40'
-                  }`}
+                  className="flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-[13px] font-semibold transition-all"
+                  style={{
+                    background: loginRole === value ? 'var(--eaf-teal-dim)' : 'var(--eaf-bg2)',
+                    border: `1px solid ${loginRole === value ? 'var(--eaf-teal-border)' : 'var(--eaf-border)'}`,
+                    color: loginRole === value ? 'var(--eaf-teal)' : 'var(--eaf-text-secondary)'
+                  }}
                 >
-                  <span className="mr-1.5">{icon}</span> {label}
+                  <Icon className="h-3.5 w-3.5" />
+                  {label}
                 </button>
               ))}
             </div>
             {loginRole === 'parent' && (
-              <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">{LOGIN_COPY.parentLoginHint}</p>
+              <p className="mt-2 text-[11px] leading-5" style={{ color: 'var(--eaf-text-tertiary)' }}>
+                {LOGIN_COPY.parentLoginHint}
+              </p>
             )}
             {loginRole === 'enseignant' && (
-              <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]">{LOGIN_COPY.teacherLoginHint}</p>
+              <p className="mt-2 text-[11px] leading-5" style={{ color: 'var(--eaf-text-tertiary)' }}>
+                {LOGIN_COPY.teacherLoginHint}
+              </p>
             )}
           </div>
         )}
 
-        {rateLimitSec !== null && rateLimitSec > 0 ? <div className="mt-5"><RateLimitNotice retryAfterSec={rateLimitSec} /></div> : null}
+        {rateLimitSec !== null && rateLimitSec > 0 ? (
+          <div className="mb-5">
+            <RateLimitNotice retryAfterSec={rateLimitSec} />
+          </div>
+        ) : null}
 
-        <form ref={formRef} onSubmit={handleSubmit} className="mt-5 space-y-4">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
           {mode !== 'reset' && (
             <div>
-              <label className="mb-2 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="email">
+              <label 
+                className="mb-[6px] block text-[13px] font-medium" 
+                style={{ color: 'var(--eaf-text-secondary)' }}
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
@@ -516,32 +659,65 @@ function AuthCard() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                className="w-full rounded-[10px] border px-4 py-3 text-[14px] outline-none transition-all duration-200"
+                style={{ 
+                  background: 'var(--eaf-bg2)', 
+                  borderColor: 'var(--eaf-border)',
+                  color: 'var(--eaf-text-primary)',
+                  fontFamily: 'var(--eaf-font-body)'
+                }}
+                placeholder="prenom@exemple.fr"
                 required
                 autoComplete="email"
-                placeholder="prenom@exemple.fr"
               />
             </div>
           )}
 
-          {mode !== 'forgot' && <PasswordField id="password" value={password} onChange={setPassword} label={mode === 'reset' ? 'Nouveau mot de passe' : 'Mot de passe'} testId="auth-password" autoComplete={mode === 'register' || mode === 'reset' ? 'new-password' : 'current-password'} showRules={mode === 'register' || mode === 'reset'} />}
+          {mode !== 'forgot' && (
+            <PasswordField 
+              id="password" 
+              value={password} 
+              onChange={setPassword} 
+              label={mode === 'reset' ? 'Nouveau mot de passe' : 'Mot de passe'} 
+              testId="auth-password" 
+              autoComplete={mode === 'register' || mode === 'reset' ? 'new-password' : 'current-password'} 
+              showRules={mode === 'register' || mode === 'reset'} 
+            />
+          )}
 
-          {mode === 'reset' && <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le nouveau mot de passe" autoComplete="new-password" />}
+          {mode === 'reset' && (
+            <PasswordField 
+              id="confirmPassword" 
+              value={confirmPassword} 
+              onChange={setConfirmPassword} 
+              label="Confirmer le nouveau mot de passe" 
+              autoComplete="new-password" 
+            />
+          )}
 
           {mode === 'register' ? (
             <>
-              <PasswordField id="confirmPassword" value={confirmPassword} onChange={setConfirmPassword} label="Confirmer le mot de passe" autoComplete="new-password" />
+              <PasswordField 
+                id="confirmPassword" 
+                value={confirmPassword} 
+                onChange={setConfirmPassword} 
+                label="Confirmer le mot de passe" 
+                autoComplete="new-password" 
+              />
 
-              <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
+              <div 
+                className="rounded-[var(--eaf-radius-lg)] p-4"
+                style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
+              >
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={acceptTerms}
                     onChange={(e) => setAcceptTerms(e.target.checked)}
-                    className="mt-1 accent-[var(--c-primary)]"
+                    className="mt-1 accent-[var(--eaf-indigo)]"
                   />
-                  <span className="text-xs leading-6 text-[var(--text-secondary)]">
-                    J’accepte les <Link href="/cgu" target="_blank" className="font-semibold text-[var(--c-success)] underline-offset-2 hover:underline">Conditions d’utilisation</Link> et la <Link href="/politique-de-confidentialite" target="_blank" className="font-semibold text-[var(--c-success)] underline-offset-2 hover:underline">Politique de confidentialité</Link>.
+                  <span className="text-xs leading-6" style={{ color: 'var(--eaf-text-secondary)' }}>
+                    J&apos;accepte les <Link href="/cgu" target="_blank" className="font-semibold underline-offset-2 hover:underline" style={{ color: 'var(--eaf-indigo)' }}>Conditions d&apos;utilisation</Link> et la <Link href="/politique-de-confidentialite" target="_blank" className="font-semibold underline-offset-2 hover:underline" style={{ color: 'var(--eaf-indigo)' }}>Politique de confidentialité</Link>.
                   </span>
                 </label>
 
@@ -550,20 +726,34 @@ function AuthCard() {
                     type="checkbox"
                     checked={isMinor}
                     onChange={(e) => setIsMinor(e.target.checked)}
-                    className="mt-1 accent-[var(--c-primary)]"
+                    className="mt-1 accent-[var(--eaf-indigo)]"
                   />
-                  <span className="text-xs leading-6 text-[var(--text-secondary)]">{LOGIN_COPY.minorNotice}</span>
+                  <span className="text-xs leading-6" style={{ color: 'var(--eaf-text-secondary)' }}>
+                    {LOGIN_COPY.minorNotice}
+                  </span>
                 </label>
               </div>
 
               {isMinor && (
-                <div className="rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--bg-surface-secondary)] p-4 space-y-4">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--c-reward)]">Consentement parental</p>
-                  <p className="text-xs leading-5 text-[var(--text-muted)]">
+                <div 
+                  className="rounded-[var(--eaf-radius-lg)] p-4 space-y-4"
+                  style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
+                >
+                  <p 
+                    className="text-[11px] font-semibold uppercase tracking-wider"
+                    style={{ color: 'var(--eaf-indigo)' }}
+                  >
+                    Consentement parental
+                  </p>
+                  <p className="text-xs leading-5" style={{ color: 'var(--eaf-text-tertiary)' }}>
                     Un email sera envoyé à ton parent pour confirmer ton inscription. Obligatoire pour les moins de 15 ans.
                   </p>
                   <div>
-                    <label className="mb-1 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="parentEmail">
+                    <label 
+                      className="mb-1 block text-[13px] font-medium" 
+                      style={{ color: 'var(--eaf-text-secondary)' }}
+                      htmlFor="parentEmail"
+                    >
                       Email du parent
                     </label>
                     <input
@@ -571,7 +761,12 @@ function AuthCard() {
                       type="email"
                       value={parentEmail}
                       onChange={(e) => setParentEmail(e.target.value)}
-                      className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                      className="w-full rounded-[10px] border px-4 py-3 text-[14px] outline-none transition-all"
+                      style={{ 
+                        background: 'var(--eaf-bg3)', 
+                        borderColor: 'var(--eaf-border)',
+                        color: 'var(--eaf-text-primary)'
+                      }}
                       placeholder="parent@email.com"
                       required
                       autoComplete="email"
@@ -582,15 +777,24 @@ function AuthCard() {
 
               {!isMinor && (
                 <div>
-                  <label className="mb-1 block text-sm font-semibold text-[var(--c-primary)]" htmlFor="parentEmail">
-                    Email du parent <span className="text-xs font-normal text-[var(--text-muted)]">(facultatif)</span>
+                  <label 
+                    className="mb-1 block text-[13px] font-medium" 
+                    style={{ color: 'var(--eaf-text-secondary)' }}
+                    htmlFor="parentEmail"
+                  >
+                    Email du parent <span className="text-xs font-normal" style={{ color: 'var(--eaf-text-tertiary)' }}>(facultatif)</span>
                   </label>
                   <input
                     id="parentEmail"
                     type="email"
                     value={parentEmail}
                     onChange={(e) => setParentEmail(e.target.value)}
-                    className="w-full rounded-[var(--radius-lg)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--c-primary)] outline-none transition focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+                    className="w-full rounded-[10px] border px-4 py-3 text-[14px] outline-none transition-all"
+                    style={{ 
+                      background: 'var(--eaf-bg2)', 
+                      borderColor: 'var(--eaf-border)',
+                      color: 'var(--eaf-text-primary)'
+                    }}
                     placeholder="parent@email.com"
                     autoComplete="email"
                   />
@@ -600,13 +804,30 @@ function AuthCard() {
           ) : null}
 
           {successMessage ? (
-            <p className="rounded-[var(--radius-xl)] border border-[var(--c-success)]/25 bg-[var(--bg-success)] p-4 text-sm text-[var(--c-success)]" role="status">
+            <p 
+              className="rounded-[var(--eaf-radius-lg)] border p-4 text-sm"
+              role="status"
+              style={{ 
+                background: 'var(--eaf-teal-dim)', 
+                borderColor: 'var(--eaf-teal-border)',
+                color: 'var(--eaf-teal)'
+              }}
+            >
               {successMessage}
             </p>
           ) : null}
 
           {error ? (
-            <p className="rounded-[var(--radius-xl)] border border-[var(--c-accent-text)]/25 bg-[var(--c-accent-subtle)] p-4 text-sm text-[var(--c-accent-text)]" role="alert" aria-live="assertive">
+            <p 
+              className="rounded-[var(--eaf-radius-lg)] border p-4 text-sm"
+              role="alert" 
+              aria-live="assertive"
+              style={{ 
+                background: 'var(--eaf-orange-dim)', 
+                borderColor: 'var(--eaf-orange-border)',
+                color: 'var(--eaf-orange)'
+              }}
+            >
               {error}
             </p>
           ) : null}
@@ -615,7 +836,19 @@ function AuthCard() {
             data-testid="auth-submit"
             type="submit"
             disabled={isSubmitting || (rateLimitSec !== null && rateLimitSec > 0)}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-3.5 text-sm font-bold text-[var(--text-on-primary)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-[11px] px-5 py-3.5 text-[15px] font-semibold text-white transition-all disabled:cursor-not-allowed disabled:opacity-60"
+            style={{ 
+              background: 'var(--eaf-orange)',
+              boxShadow: 'none'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--eaf-orange-hover)';
+              e.currentTarget.style.boxShadow = '0 6px 25px var(--eaf-orange-glow)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'var(--eaf-orange)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
           >
             {isSubmitting ? (
               <>
@@ -635,24 +868,30 @@ function AuthCard() {
         </form>
 
         {mode === 'login' ? (
-          <div className="mt-5 space-y-3">
+          <div className="mt-4 space-y-3">
             <button
               type="button"
               onClick={() => router.push('/login?mode=forgot')}
-              className="w-full min-h-[44px] text-center text-sm text-[var(--c-success)] hover:underline"
+              className="block w-full text-center text-[13px] transition-colors hover:underline"
+              style={{ color: 'var(--eaf-indigo)' }}
             >
-              Mot de passe oublié ?
+              Mot de passe oublié ?
             </button>
-            <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
-              <button
-                type="button"
-                onClick={() => setShowHelp((prev) => !prev)}
-                className="text-sm font-semibold text-[var(--c-primary)] underline-offset-4 transition-colors hover:underline"
+            <div 
+              className="rounded-[10px] p-4 cursor-pointer transition-all"
+              style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
+              onClick={() => setShowHelp((prev) => !prev)}
+            >
+              <p 
+                className="text-[13px] font-medium"
+                style={{ color: 'var(--eaf-text-secondary)' }}
               >
-                Problème de connexion ?
-              </button>
+                Problème de connexion ?
+              </p>
               {showHelp ? (
-                <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{LOGIN_COPY.helpBody}</p>
+                <p className="mt-3 text-sm leading-6" style={{ color: 'var(--eaf-text-tertiary)' }}>
+                  {LOGIN_COPY.helpBody}
+                </p>
               ) : null}
             </div>
           </div>
@@ -661,18 +900,23 @@ function AuthCard() {
             <button
               type="button"
               onClick={() => router.push('/login')}
-              className="text-sm text-[var(--c-success)] hover:underline"
+              className="text-sm transition-colors hover:underline"
+              style={{ color: 'var(--eaf-indigo)' }}
             >
               Retour à la connexion
             </button>
-            <div className="rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
-              <p className="text-sm leading-7 text-[var(--text-secondary)]">
+            <div 
+              className="rounded-[10px] p-4"
+              style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
+            >
+              <p className="text-sm leading-6" style={{ color: 'var(--eaf-text-secondary)' }}>
                 {LOGIN_COPY.resetHelpLead}{' '}
                 <a
                   href={WHATSAPP_RESET_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold text-[var(--c-success)] hover:underline"
+                  className="font-semibold transition-colors hover:underline"
+                  style={{ color: 'var(--eaf-indigo)' }}
                 >
                   Contacte-nous sur WhatsApp
                 </a>
@@ -681,30 +925,30 @@ function AuthCard() {
             </div>
           </div>
         ) : (
-          <div className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-4">
+          <div 
+            className="mt-5 rounded-[10px] p-4"
+            style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
+          >
             <div className="flex items-start gap-3">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--c-success)]" />
-              <p className="text-sm leading-7 text-[var(--text-secondary)]">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: 'var(--eaf-teal)' }} />
+              <p className="text-sm leading-6" style={{ color: 'var(--eaf-text-secondary)' }}>
                 Après inscription, tu configures tes œuvres et ton niveau en quelques minutes, puis tu accèdes directement à tes premiers ateliers.
               </p>
             </div>
           </div>
         )}
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 border-t border-[var(--border-default)] pt-5 text-xs font-semibold text-[var(--text-muted)]">
-          <Link href="/" className="transition-colors hover:text-[var(--c-primary)]">
+        {/* Footer links */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3 pt-5 text-xs" style={{ borderTop: '1px solid var(--eaf-border)' }}>
+          <Link href="/" className="transition-colors hover:text-[var(--eaf-text-primary)]" style={{ color: 'var(--eaf-text-tertiary)' }}>
             Accueil
           </Link>
-          <span>·</span>
-          <Link href="/#plans" className="transition-colors hover:text-[var(--c-primary)]">
+          <span style={{ color: 'var(--eaf-text-tertiary)' }}>–</span>
+          <Link href="/#plans" className="transition-colors hover:text-[var(--eaf-text-primary)]" style={{ color: 'var(--eaf-text-tertiary)' }}>
             Tarifs
           </Link>
-          <span>·</span>
-          <Link href="/#faq" className="transition-colors hover:text-[var(--c-primary)]">
-            FAQ
-          </Link>
-          <span>·</span>
-          <Link href="/mentions-legales" className="transition-colors hover:text-[var(--c-primary)]">
+          <span style={{ color: 'var(--eaf-text-tertiary)' }}>–</span>
+          <Link href="/mentions-legales" className="transition-colors hover:text-[var(--eaf-text-primary)]" style={{ color: 'var(--eaf-text-tertiary)' }}>
             Mentions légales
           </Link>
         </div>
@@ -715,50 +959,36 @@ function AuthCard() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-dvh overflow-x-clip bg-[var(--bg-surface-secondary)] text-[var(--text-heading)] [background-image:radial-gradient(circle_at_top_left,rgba(15,118,110,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(184,115,51,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(244,239,229,1))]">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[30rem] bg-[radial-gradient(circle_at_center_top,rgba(255,255,255,0.9),transparent_65%)]" />
-      <div className="pointer-events-none absolute right-0 top-24 h-72 w-72 rounded-full bg-[var(--c-success)]/10 blur-3xl" />
-      <div className="pointer-events-none absolute left-0 top-[32rem] h-72 w-72 rounded-full bg-[var(--color-amber-300)]/10 blur-3xl" />
-
-      <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        <header className="flex flex-col gap-5 rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/80 px-5 py-4 shadow-[0_16px_45px_rgba(23,50,77,0.06)] sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/" className="flex items-center gap-4">
-            <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
-            <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--c-primary)]">
-              <span className="h-2 w-2 rounded-full bg-[var(--c-success)]" />
-              Espace sécurisé
-            </div>
-          </Link>
-          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">
-            <Link href="/" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--c-primary)]">
-              Retour accueil
-            </Link>
-            <Link href="/#plans" className="rounded-full px-4 py-2 transition-colors hover:text-[var(--c-primary)]">
-              Voir les tarifs
-            </Link>
-            <Link
-              href="/login?mode=register"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-2.5 text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
-            >
-              Démarrer gratuitement
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </header>
-
-        <div className="mt-8 grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch">
+    <div 
+      className="min-h-screen"
+      style={{ background: 'var(--eaf-bg0)' }}
+    >
+      <div 
+        className="grid min-h-screen"
+        style={{ gridTemplateColumns: '1fr 1fr' }}
+      >
+        {/* Left column - Brand panel */}
+        <div className="hidden lg:block">
           <ProofPanel />
-          <div className="flex items-center justify-center">
-            <Suspense
-              fallback={
-                <div className="flex w-full max-w-xl items-center justify-center rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)]/88 p-8 shadow-[var(--shadow-md)] min-h-[420px]">
-                  <Loader2 className="h-6 w-6 animate-spin text-[var(--text-muted)]" />
-                </div>
-              }
-            >
-              <AuthCard />
-            </Suspense>
-          </div>
+        </div>
+
+        {/* Right column - Auth form */}
+        <div 
+          className="flex items-center justify-center px-6 py-12"
+          style={{ background: 'var(--eaf-bg0)' }}
+        >
+          <Suspense
+            fallback={
+              <div 
+                className="flex w-full max-w-[420px] items-center justify-center rounded-[24px] p-8 min-h-[420px]"
+                style={{ background: 'var(--eaf-bg1)', border: '1px solid var(--eaf-border)' }}
+              >
+                <Loader2 className="h-6 w-6 animate-spin" style={{ color: 'var(--eaf-text-tertiary)' }} />
+              </div>
+            }
+          >
+            <AuthCard />
+          </Suspense>
         </div>
       </div>
     </div>
