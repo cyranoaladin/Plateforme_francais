@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, Button, Input } from '@/components/ui';
 import { formatPlanLabel } from '@/lib/billing/plan-catalog';
 import { getCsrfToken } from '@/lib/security/csrf-client';
@@ -15,6 +15,7 @@ export function PaymentsTab({
   onReload: () => void;
   onSwitchTab: (tab: string) => void;
 }) {
+  const [localUsers, setLocalUsers] = useState<AdminUser[]>(users);
   const [selectedUserId, setSelectedUserId] = useState('');
   const [paymentPlan, setPaymentPlan] = useState<'PREMIUM' | 'MASTERIUM'>('PREMIUM');
   const [paymentAmount, setPaymentAmount] = useState('99000');
@@ -23,6 +24,17 @@ export function PaymentsTab({
   const [paymentNotes, setPaymentNotes] = useState('');
   const [processingPayment, setProcessingPayment] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      setLocalUsers(users);
+      return;
+    }
+    fetch('/api/v1/admin/users?limit=200')
+      .then((r) => r.json())
+      .then((d) => { if (Array.isArray(d.users)) setLocalUsers(d.users); })
+      .catch(() => {});
+  }, [users]);
 
   async function validatePayment() {
     if (!selectedUserId || !paymentReference) {
@@ -87,7 +99,7 @@ export function PaymentsTab({
             className="w-full px-3 py-2 border border-[var(--border-primary)] rounded-lg"
           >
             <option value="">Selectionner un utilisateur</option>
-            {users.map((user) => (
+            {localUsers.map((user) => (
               <option key={user.id} value={user.id}>
                 {user.email} ({formatPlanLabel(user.subscription?.plan || 'FREE')})
               </option>
