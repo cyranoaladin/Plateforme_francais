@@ -15,7 +15,8 @@ test.describe('05 — Espace Enseignant', () => {
 
   test('5.2 - API dashboard répond 200', async ({ page }) => {
     const res = await page.request.get('/api/v1/enseignant/dashboard');
-    expect(res.status()).toBe(200);
+    const body = await res.text();
+    expect(res.status(), `body: ${body}`).toBe(200);
   });
 
   test('5.3 - Élève non enseignant ne peut pas accéder', async ({ page }) => {

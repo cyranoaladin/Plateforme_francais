@@ -17,8 +17,9 @@ test.describe('04 — Descriptif de lecture', () => {
 
   test('4.2 - API GET /student/descriptif-lecture répond 200', async ({ page }) => {
     const res = await page.request.get('/api/v1/student/descriptif-lecture');
-    expect(res.status()).toBe(200);
-    const data = await res.json();
+    const body = await res.text();
+    expect(res.status(), `body: ${body}`).toBe(200);
+    const data = JSON.parse(body);
     expect(data).toHaveProperty('textes');
     expect(data).toHaveProperty('total');
     expect(data).toHaveProperty('conformite');
@@ -35,8 +36,9 @@ test.describe('04 — Descriptif de lecture', () => {
         position: 1,
       },
     });
-    expect([200, 201]).toContain(res.status());
-    const data = await res.json();
+    const body = await res.text();
+    expect([200, 201], `body: ${body}`).toContain(res.status());
+    const data = JSON.parse(body);
     expect(data.texte).toHaveProperty('id');
     // Nettoyage
     if (data.texte?.id) {
