@@ -38,6 +38,7 @@ const PUBLIC_API_PATHS = new Set([
   '/api/v1/auth/reset-password',
   '/api/v1/auth/verify-email',
   '/api/v1/health',
+  '/api/v1/live',
   '/api/v1/rag/health',
   '/api/v1/csrf',
   '/api/v1/contact',
@@ -62,6 +63,7 @@ const FRENCH_ALIASES: Record<string, string> = {
 
 const ALLOWED_METHODS_BY_PATH: Readonly<Record<string, ReadonlySet<string>>> = {
   '/api/v1/health': new Set(['GET', 'HEAD']),
+  '/api/v1/live': new Set(['GET', 'HEAD']),
   '/api/v1/auth/login': new Set(['POST']),
   '/api/v1/auth/register': new Set(['POST']),
   '/api/v1/auth/logout': new Set(['POST']),
