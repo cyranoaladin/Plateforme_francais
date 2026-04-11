@@ -4,11 +4,16 @@ import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { sendMetaCapiEvent } from '@/lib/tracking/meta-capi';
 
+const BASE_URL =
+  process.env.APP_URL ??
+  process.env.NEXT_PUBLIC_APP_URL ??
+  'https://eaf.nexusreussite.academy';
+
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get('token');
 
   if (!token) {
-    return NextResponse.redirect(new URL('/login?error=token-expired', request.url));
+    return NextResponse.redirect(new URL('/login?error=token-expired', BASE_URL));
   }
 
   const tokenHash = createHash('sha256').update(token).digest('hex');
@@ -22,7 +27,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (!user) {
-    return NextResponse.redirect(new URL('/login?error=token-expired', request.url));
+    return NextResponse.redirect(new URL('/login?error=token-expired', BASE_URL));
   }
 
   await prisma.user.update({
@@ -46,5 +51,5 @@ export async function GET(request: NextRequest) {
     eventId: `complete-registration-${user.id}`,
   });
 
-  return NextResponse.redirect(new URL('/login?verified=true', request.url));
+  return NextResponse.redirect(new URL('/login?verified=true', BASE_URL));
 }
