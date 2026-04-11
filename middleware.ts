@@ -50,6 +50,7 @@ const PUBLIC_API_PATHS = new Set([
   '/api/v1/cron/session-cleanup',
   '/api/v1/cron/revision-reminders',
   '/api/v1/cron/weekly-reports',
+  '/api/v1/cron/subscription-expiry',
 ]);
 
 const CANONICAL_ALIAS_PATHS = new Set(['/bienvenue', '/landing']);

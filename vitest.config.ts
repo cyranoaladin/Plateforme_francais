@@ -23,13 +23,13 @@ export default defineConfig({
         '**/*.config.*',
       ],
       thresholds: {
-        // Progressive gate — lowered 2026-03-15 to match actual coverage (~35%).
-        // Using conservative values to account for CI environment differences.
-        // TODO: raise by +2% per sprint as test coverage improves.
-        lines: 30,
-        functions: 27,
-        branches: 24,
-        statements: 30,
+        // Alignés sur les gates CI (.github/workflows/ci-cd.yml env.COVERAGE_GATE_*)
+        // Baseline mesurée 2026-04-11 : lines 39.39% / functions 36.69% / branches 34.42% / statements 38.94%
+        // Augmenter de +2% par sprint jusqu'à : lines/statements 55%, branches 45%.
+        lines: 38,
+        functions: 35,
+        branches: 33,
+        statements: 37,
       },
     },
     env: {
