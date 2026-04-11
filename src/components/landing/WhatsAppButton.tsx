@@ -6,19 +6,7 @@ export function WhatsAppButton() {
       href="https://wa.me/21699192829"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed flex items-center justify-center transition-transform duration-200"
-      style={{
-        bottom: '24px',
-        right: '24px',
-        width: '50px',
-        height: '50px',
-        background: '#25d366',
-        borderRadius: '50%',
-        boxShadow: '0 4px 16px rgba(37,211,102,0.40)',
-        zIndex: 200,
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.10)')}
-      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+      className="fixed bottom-6 right-6 z-[200] flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#25d366] shadow-[0_4px_16px_rgba(37,211,102,0.40)] transition-transform duration-200 hover:scale-110"
       aria-label="Contactez-nous sur WhatsApp"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="white">

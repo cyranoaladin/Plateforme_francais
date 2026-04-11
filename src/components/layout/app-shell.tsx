@@ -15,7 +15,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <ThemeProvider>
         {shouldTrackLearningActivity && <TrackingProvider />}
-        <main className="flex-1 relative min-h-screen w-full min-w-0" style={{ background: 'var(--eaf-bg0)' }}>
+        <main className="flex-1 relative min-h-screen w-full min-w-0 bg-[var(--eaf-bg0)]">
           {children}
         </main>
       </ThemeProvider>
@@ -27,12 +27,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <TrackingProvider />
       <Sidebar />
       <main 
-        className="relative min-h-screen flex-1 pb-20 md:min-w-0 md:pb-0"
-        style={{ 
-          background: 'var(--eaf-bg0)',
-          marginLeft: '160px',
-          marginRight: '220px'
-        }}
+        className="relative min-h-screen flex-1 pb-20 md:min-w-0 md:pb-0 bg-[var(--eaf-bg0)] ml-[160px] mr-[220px]"
       >
         {children}
       </main>
