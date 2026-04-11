@@ -153,24 +153,24 @@
   --eaf-border-strong: rgba(71, 85, 105, 0.45);
 
   /* Brand colors */
-  --eaf-orange: #FF6B35;
-  --eaf-orange-hover: #E55A27;
-  --eaf-orange-glow: rgba(255, 107, 53, 0.35);
-  --eaf-orange-dim: rgba(255, 107, 53, 0.10);
-  --eaf-orange-border: rgba(255, 107, 53, 0.25);
+  --eaf-orange: #E87A52;
+  --eaf-orange-hover: #D46A43;
+  --eaf-orange-glow: rgba(232, 122, 82, 0.25);
+  --eaf-orange-dim: rgba(232, 122, 82, 0.08);
+  --eaf-orange-border: rgba(232, 122, 82, 0.20);
 
-  --eaf-indigo: #7B8EFF;
-  --eaf-indigo-hover: #4458D4;
-  --eaf-indigo-dim: rgba(123, 142, 255, 0.12);
-  --eaf-indigo-border: rgba(123, 142, 255, 0.30);
+  --eaf-indigo: #94A3FF;
+  --eaf-indigo-hover: #7B8EFF;
+  --eaf-indigo-dim: rgba(148, 163, 255, 0.10);
+  --eaf-indigo-border: rgba(148, 163, 255, 0.25);
 
-  --eaf-teal: #1AD5A0;
-  --eaf-teal-dim: rgba(26, 213, 160, 0.08);
-  --eaf-teal-border: rgba(26, 213, 160, 0.20);
+  --eaf-teal: #2DD4A8;
+  --eaf-teal-dim: rgba(45, 212, 168, 0.08);
+  --eaf-teal-border: rgba(45, 212, 168, 0.18);
 
-  --eaf-gold: #FFB547;
-  --eaf-gold-dim: rgba(255, 181, 71, 0.10);
-  --eaf-gold-border: rgba(255, 181, 71, 0.25);
+  --eaf-gold: #F5C165;
+  --eaf-gold-dim: rgba(245, 193, 101, 0.08);
+  --eaf-gold-border: rgba(245, 193, 101, 0.20);
 
   /* Text — light defaults */
   --eaf-text-primary: #0F172A;
@@ -231,16 +231,16 @@
 .dark,
 :root.dark {
     /* === EAF v2 tokens — dark overrides === */
-    --eaf-bg0: #050913;
-    --eaf-bg1: #0b1120;
-    --eaf-bg2: #111c30;
-    --eaf-bg3: #1a2840;
-    --eaf-border: rgba(99, 148, 255, 0.13);
-    --eaf-border-hover: rgba(99, 148, 255, 0.30);
-    --eaf-border-strong: rgba(99, 148, 255, 0.45);
-    --eaf-text-primary: #F4F6FF;
-    --eaf-text-secondary: #8596C0;
-    --eaf-text-tertiary: #4A5D85;
+    --eaf-bg0: #0d1320;
+    --eaf-bg1: #131b2c;
+    --eaf-bg2: #1a2438;
+    --eaf-bg3: #222e45;
+    --eaf-border: rgba(123, 142, 255, 0.10);
+    --eaf-border-hover: rgba(123, 142, 255, 0.22);
+    --eaf-border-strong: rgba(123, 142, 255, 0.35);
+    --eaf-text-primary: #E8EBF5;
+    --eaf-text-secondary: #A3ACC5;
+    --eaf-text-tertiary: #6B7791;
     --eaf-fg3: rgba(244, 246, 255, 0.35);
     --eaf-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.40);
     --eaf-gradient-card-featured: linear-gradient(135deg, #0f1e3a, #111c30);
@@ -303,16 +303,16 @@
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
     /* === EAF v2 tokens — dark overrides (no-JS / SSR fallback) === */
-    --eaf-bg0: #050913;
-    --eaf-bg1: #0b1120;
-    --eaf-bg2: #111c30;
-    --eaf-bg3: #1a2840;
-    --eaf-border: rgba(99, 148, 255, 0.13);
-    --eaf-border-hover: rgba(99, 148, 255, 0.30);
-    --eaf-border-strong: rgba(99, 148, 255, 0.45);
-    --eaf-text-primary: #F4F6FF;
-    --eaf-text-secondary: #8596C0;
-    --eaf-text-tertiary: #4A5D85;
+    --eaf-bg0: #0d1320;
+    --eaf-bg1: #131b2c;
+    --eaf-bg2: #1a2438;
+    --eaf-bg3: #222e45;
+    --eaf-border: rgba(123, 142, 255, 0.10);
+    --eaf-border-hover: rgba(123, 142, 255, 0.22);
+    --eaf-border-strong: rgba(123, 142, 255, 0.35);
+    --eaf-text-primary: #E8EBF5;
+    --eaf-text-secondary: #A3ACC5;
+    --eaf-text-tertiary: #6B7791;
     --eaf-fg3: rgba(244, 246, 255, 0.35);
     --eaf-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.40);
     --eaf-gradient-card-featured: linear-gradient(135deg, #0f1e3a, #111c30);
