@@ -68,31 +68,29 @@ export function PricingTeaser() {
             {PLANS.map((plan) => (
               <article 
                 key={plan.name} 
-                className={`rounded-[var(--eaf-radius-2xl)] border p-6 ${plan.featured ? 'shadow-lg' : ''}`}
+                className={`relative rounded-[var(--eaf-radius-2xl)] border p-6 ${plan.featured ? 'shadow-lg' : ''}`}
                 style={{ 
                   background: plan.featured ? 'var(--eaf-orange)' : 'var(--eaf-bg2)',
                   borderColor: plan.featured ? 'var(--eaf-orange-active)' : 'var(--eaf-border)'
                 }}
               >
+                {plan.featured ? (
+                  <span 
+                    className="absolute -top-3 right-4 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--eaf-orange)] shadow-md"
+                    style={{ background: 'white' }}
+                  >
+                    Recommandé
+                  </span>
+                ) : null}
                 <p className={`text-[11px] font-bold uppercase tracking-[0.26em] ${plan.featured ? 'text-[#FDE68A]' : 'text-[var(--eaf-text-tertiary)]'}`}>
                   {plan.kicker}
                 </p>
-                <div className="mt-3 flex items-center justify-between gap-3">
-                  <h3 
-                    className={`text-3xl tracking-[-0.03em] ${plan.featured ? 'text-white' : 'text-[var(--eaf-orange)]'}`}
-                    style={{ fontFamily: 'var(--eaf-font-display)' }}
-                  >
-                    {plan.name}
-                  </h3>
-                  {plan.featured ? (
-                    <span 
-                      className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--eaf-orange)]"
-                      style={{ background: 'white' }}
-                    >
-                      Recommandé
-                    </span>
-                  ) : null}
-                </div>
+                <h3 
+                  className={`mt-3 text-3xl tracking-[-0.03em] ${plan.featured ? 'text-white' : 'text-[var(--eaf-orange)]'}`}
+                  style={{ fontFamily: 'var(--eaf-font-display)' }}
+                >
+                  {plan.name}
+                </h3>
                 <ul className={`mt-6 space-y-3 text-sm leading-6 ${plan.featured ? 'text-white/90' : 'text-[var(--eaf-text-secondary)]'}`}>
                   {plan.bullets.map((bullet) => (
                     <li key={bullet} className="flex items-start gap-3">
