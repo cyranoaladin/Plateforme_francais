@@ -574,6 +574,7 @@ jobs:
         uses: gitleaks/gitleaks-action@v2.3.9
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
       - name: Fail on real leaks (ignore stderr-only errors)
         if: steps.gitleaks.outcome == 'failure'
         run: |
