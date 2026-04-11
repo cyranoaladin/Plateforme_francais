@@ -361,18 +361,18 @@ jobs:
         env:
           DATABASE_URL: ${{ env.DATABASE_URL }}
       - run: npm run build:ci
-      - run: |
+      - name: Start Next.js server (contract tests)
+        run: |
           echo "Starting Next.js server..."
-          E2E_DISABLE_RATE_LIMIT=1 npm run start > server.log 2>&1 &
-          SERVER_PID=$!
-          echo "Server PID: $SERVER_PID"
+          NODE_ENV=production PORT=3000 E2E_DISABLE_RATE_LIMIT=1 npx next start -p 3000 > server.log 2>&1 &
+          echo $! > .server_pid
       - name: Attendre le démarrage du serveur (contract)
         run: |
           npx wait-on \
             --timeout 120000 \
             --interval 2000 \
             --httpTimeout 5000 \
-            http://127.0.0.1:3000/api/v1/health || {
+            http://127.0.0.1:3000/api/v1/live || {
             echo "❌ Serveur contract non prêt après 120s"
             echo "--- Logs serveur ---"
             cat server.log || true
@@ -381,10 +381,16 @@ jobs:
             echo "--- Port 3000 ---"
             ss -tlnp | grep 3000 || echo "Port 3000 non écouté"
             echo "--- Health check direct ---"
-            curl -s http://127.0.0.1:3000/api/v1/health || echo "Curl failed"
+            curl -s http://127.0.0.1:3000/api/v1/live || echo "Curl failed"
             exit 1
           }
           echo "✅ Serveur contract prêt"
+      - name: Upload server logs (contract failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-server-logs
+          path: server.log
       - name: Schemathesis public contracts
         run: npm run test:contracts | tee schemathesis-public.log
       - name: Schemathesis authenticated contracts
@@ -465,17 +471,17 @@ jobs:
           DATABASE_URL: ${{ env.DATABASE_URL }}
       - run: npx playwright install --with-deps chromium
       - run: npm run build:ci
-      - run: |
+      - name: Start Next.js server (E2E tests)
+        run: |
           echo "Starting Next.js server for E2E..."
-          E2E_DISABLE_RATE_LIMIT=1 npm run start > e2e-server.log 2>&1 &
-          SERVER_PID=$!
-          echo "E2E Server PID: $SERVER_PID"
+          NODE_ENV=production PORT=3000 E2E_DISABLE_RATE_LIMIT=1 npx next start -p 3000 > e2e-server.log 2>&1 &
+          echo $! > .e2e_server_pid
           echo "Waiting for server..."
           npx wait-on \
             --timeout 120000 \
             --interval 2000 \
             --httpTimeout 5000 \
-            http://127.0.0.1:3000/api/v1/health || {
+            http://127.0.0.1:3000/api/v1/live || {
             echo "❌ Serveur E2E non prêt après 120s"
             echo "--- Logs serveur ---"
             cat e2e-server.log || true
@@ -484,10 +490,21 @@ jobs:
             echo "--- Port 3000 ---"
             ss -tlnp | grep 3000 || echo "Port 3000 non écouté"
             echo "--- Health check direct ---"
-            curl -s http://127.0.0.1:3000/api/v1/health || echo "Curl failed"
+            curl -s http://127.0.0.1:3000/api/v1/live || echo "Curl failed"
             exit 1
           }
           echo "✅ Serveur E2E prêt"
+      - name: Stop server (cleanup)
+        if: always()
+        run: |
+          if [ -f .e2e_server_pid ]; then kill "$(cat .e2e_server_pid)" 2>/dev/null || true; fi
+      - name: Upload server logs (E2E failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-server-logs
+          path: |
+            e2e-server.log
       - name: Playwright E2E tests
         run: npx playwright test --project=chromium
         env:
