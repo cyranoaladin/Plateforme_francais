@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-11T11:21:24.275Z",
+  "generatedAt": "2026-04-11T11:26:04.431Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -6625,7 +6625,7 @@
     },
     {
       "file": "src/app/layout.tsx",
-      "line": 86,
+      "line": 65,
       "column": 61,
       "kind": "jsx-text",
       "text": "Aller au contenu principal"
