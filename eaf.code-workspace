@@ -1,0 +1,37 @@
+{
+  "folders": [
+    { "path": "src", "name": "Source" },
+    { "path": "config", "name": "Config" },
+    { "path": "prisma", "name": "Prisma" },
+    { "path": "scripts", "name": "Scripts" },
+    { "path": "tests", "name": "Tests" },
+    { "path": "docs", "name": "Docs" },
+    { "path": "public", "name": "Public" },
+    { "path": "packages", "name": "Packages" }
+  ],
+  "settings": {
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/.next/**": true,
+      "**/.git/**": true,
+      "**/.venv/**": true,
+      "**/coverage/**": true,
+      "**/ressources/**": true
+    },
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/.venv": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/ressources": true
+    },
+    "search.followSymlinks": false,
+    "files.maxMemoryForLargeFilesMB": 256,
+    "typescript.tsserver.maxTsServerMemory": 2048,
+    "git.enabled": false,
+    "telemetry.telemetryLevel": "off"
+  }
+}

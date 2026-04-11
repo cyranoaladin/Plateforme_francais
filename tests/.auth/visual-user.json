@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "eaf_csrf",
+      "value": "94cb3bbf0897adabb9cc82ead44bab95c6755fae250829ee",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1775168392.869,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "eaf_session",
+      "value": "97e57013-2e42-4855-b188-605cd12838a3",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1775168392.869,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "eaf_role",
+      "value": "eleve",
+      "domain": "127.0.0.1",
+      "path": "/",
+      "expires": 1775168392.87,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

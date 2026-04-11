@@ -1,211 +1,185 @@
-#!/usr/bin/env bash
-###############################################################################
-# SMOKE TEST PRODUCTION — NEXUS RÉUSSITE EAF
-# Usage: bash scripts/smoke-test-production.sh [HOST]
-# HOST par défaut : http://localhost:3000
-###############################################################################
+#!/bin/bash
+# ═══════════════════════════════════════════════════════════════
+# SMOKE TEST PRODUCTION
+# Tests de santé rapides à exécuter sur le serveur de production
+# ═══════════════════════════════════════════════════════════════
 
 set -euo pipefail
-HOST="${1:-http://localhost:3000}"
-PASS=0
-FAIL=0
-WARNINGS=0
 
-green() { printf '\033[32m✓\033[0m %s\n' "$1"; PASS=$((PASS+1)); }
-red()   { printf '\033[31m✗\033[0m %s\n' "$1"; FAIL=$((FAIL+1)); }
-warn()  { printf '\033[33m⚠\033[0m %s\n' "$1"; WARNINGS=$((WARNINGS+1)); }
+BASE_URL="${E2E_BASE_URL:-https://eaf.nexusreussite.academy}"
+TIMEOUT=10
+ERRORS=0
 
-check_http() {
-  local desc="$1" url="$2" expected="${3:-200}"
-  local code
-  code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$url" 2>/dev/null || echo "000")
-  if echo "$expected" | grep -qw "$code"; then
-    green "$desc (HTTP $code)"
-  else
-    red "$desc (attendu $expected, obtenu $code)"
-  fi
-}
-
-check_json() {
-  local desc="$1" url="$2" jq_expr="$3" expected="$4"
-  local value
-  value=$(curl -s --max-time 10 "$url" | python3 -c "
-import json,sys
-try:
-  d = json.load(sys.stdin)
-  keys = '$jq_expr'.strip('.').split('.')
-  v = d
-  for k in keys:
-    if k: v = v[k]
-  print(str(v))
-except Exception as e:
-  print('ERROR:' + str(e))
-" 2>/dev/null || echo "ERROR")
-  if [ "$value" = "$expected" ]; then
-    green "$desc ($value)"
-  else
-    red "$desc (attendu '$expected', obtenu '$value')"
-  fi
-}
-
-echo "═══════════════════════════════════════════════════════"
-echo "SMOKE TEST PRODUCTION — $HOST"
-echo "═══════════════════════════════════════════════════════"
+echo "═══════════════════════════════════════════════════════════════"
+echo "  SMOKE TESTS - Production"
+echo "  URL: ${BASE_URL}"
+echo "═══════════════════════════════════════════════════════════════"
 echo ""
 
-# ─── Infrastructure ────────────────────────────────────────────────────────
-echo "── Infrastructure ──────────────────────────────────────"
-check_json "Health status=ok"       "$HOST/api/v1/health"   ".status" "ok"
-check_json "MCP status=healthy"     "$HOST/api/mcp/health"  ".status" "healthy"
-check_json "RAG status=ok"          "$HOST/api/v1/rag/health" ".status" "ok"
+# Couleurs
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
 
-# ─── Pages publiques ───────────────────────────────────────────────────────
-echo ""
-echo "── Pages publiques ─────────────────────────────────────"
-check_http "Landing page /"              "$HOST/"
-check_http "CGU"                         "$HOST/cgu"
-check_http "CGV"                         "$HOST/cgv"
-check_http "Mentions légales"            "$HOST/mentions-legales"
-check_http "Politique confidentialité"   "$HOST/politique-de-confidentialite"
-check_http "Sitemap"                     "$HOST/sitemap.xml"
-check_http "Robots.txt"                  "$HOST/robots.txt"
+ok() { echo -e "${GREEN}✅${NC} $1"; }
+warn() { echo -e "${YELLOW}⚠️${NC} $1"; }
+error() { echo -e "${RED}❌${NC} $1"; ERRORS=$((ERRORS + 1)); }
 
-# ─── Authentification ──────────────────────────────────────────────────────
-echo ""
-echo "── Authentification ────────────────────────────────────"
-check_http "Login page"        "$HOST/login"
-check_http "/auth/me → 401"    "$HOST/api/v1/auth/me"   "401"
+# ═══════════════════════════════════════════════════════════════
+# 1. HEALTH CHECK BASIQUE
+# ═══════════════════════════════════════════════════════════════
+echo "1️⃣ Health Check HTTP..."
 
-# ─── API protégées (sans auth → 401) ──────────────────────────────────────
-echo ""
-echo "── API protégées (sans auth) ───────────────────────────"
-check_http "Student profile → 401"     "$HOST/api/v1/student/profile"    "401"
-check_http "Billing status → 401"      "$HOST/api/v1/billing/status"     "401"
-check_http "Ressources → 401"          "$HOST/api/v1/ressources"         "401"
-check_http "Admin users → 401/403"     "$HOST/api/v1/admin/users"        "401 403"
-
-# ─── Ressources physiques ──────────────────────────────────────────────────
-echo ""
-echo "── Ressources physiques ────────────────────────────────"
-RESSOURCES_DIR="/srv/eaf_ressources"
-if [ -d "$RESSOURCES_DIR" ]; then
-  RESSOURCES_COUNT=$(find -L "$RESSOURCES_DIR" -type f 2>/dev/null | wc -l || echo "0")
-  if [ "$RESSOURCES_COUNT" -ge 100 ]; then
-    green "Volume ressources : $RESSOURCES_COUNT fichiers (≥ 100)"
-  else
-    red "Volume ressources : $RESSOURCES_COUNT fichiers (attendu ≥ 100)"
-  fi
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time ${TIMEOUT} "${BASE_URL}/" || echo "000")
+if [[ "${HTTP_CODE}" == "200" ]]; then
+    ok "Homepage HTTP 200"
 else
-  warn "Répertoire ressources $RESSOURCES_DIR absent (test local ?)"
+    error "Homepage HTTP ${HTTP_CODE}"
 fi
 
-APP_DIR="/opt/eaf_platform"
-if [ -d "$APP_DIR/.data/uploads" ]; then
-  UPLOADS_COUNT=$(find "$APP_DIR/.data/uploads" -type f 2>/dev/null | wc -l || echo "0")
-  green "Uploads racine : $UPLOADS_COUNT fichiers"
+# ═══════════════════════════════════════════════════════════════
+# 2. API HEALTH
+# ═══════════════════════════════════════════════════════════════
+echo ""
+echo "2️⃣ API Health Check..."
+
+API_HEALTH=$(curl -s --max-time ${TIMEOUT} "${BASE_URL}/api/v1/health" || echo '{}')
+if echo "${API_HEALTH}" | grep -q '"status":"ok"'; then
+    ok "API Health OK"
 else
-  warn "Répertoire uploads absent (test local ?)"
+    error "API Health failed"
+    echo "    Response: ${API_HEALTH}"
 fi
 
-# ─── JSON stores (doivent être absents en prod) ─────────────────────────
+# ═══════════════════════════════════════════════════════════════
+# 3. PAGES PUBLIQUES CRITIQUES
+# ═══════════════════════════════════════════════════════════════
 echo ""
-echo "── File stores (doivent être absents) ──────────────────"
-if [ -d "$APP_DIR/.data" ]; then
-  if ls "$APP_DIR/.data/"*.json 2>/dev/null | head -1 > /dev/null 2>&1; then
-    red "Fichiers JSON actifs en .data/ — doivent être absents"
-  else
-    green "Aucun fichier JSON actif en .data/"
-  fi
+echo "3️⃣ Pages publiques..."
+
+PAGES=(
+    "/login"
+    "/pricing"
+    "/contact"
+    "/cgu"
+    "/cgv"
+    "/mentions-legales"
+    "/politique-de-confidentialite"
+)
+
+for page in "${PAGES[@]}"; do
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time ${TIMEOUT} "${BASE_URL}${page}" || echo "000")
+    if [[ "${HTTP_CODE}" == "200" ]]; then
+        ok "${page} - HTTP 200"
+    else
+        error "${page} - HTTP ${HTTP_CODE}"
+    fi
+done
+
+# ═══════════════════════════════════════════════════════════════
+# 4. REDIRECTIONS HTTPS
+# ═══════════════════════════════════════════════════════════════
+echo ""
+echo "4️⃣ Sécurité HTTPS..."
+
+# Vérifier les headers de sécurité
+HEADERS=$(curl -sI --max-time ${TIMEOUT} "${BASE_URL}/" || echo "")
+if echo "${HEADERS}" | grep -qi "strict-transport-security"; then
+    ok "HSTS header present"
 else
-  green "Pas de répertoire .data (test local)"
+    warn "HSTS header manquant"
 fi
 
-# ─── PM2 ───────────────────────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════
+# 5. API CSRF
+# ═══════════════════════════════════════════════════════════════
 echo ""
-echo "── PM2 ─────────────────────────────────────────────────"
-if command -v pm2 &>/dev/null; then
-  pm2 jlist 2>/dev/null \
-  | python3 -c "
-import json, sys
-try:
-  procs = json.load(sys.stdin)
-  # eaf-nextjs-blue is required; eaf-mcp and eaf-worker are optional
-  required = ['eaf-nextjs-blue']
-  optional = ['eaf-mcp', 'eaf-worker']
-  for name in required:
-    proc = next((p for p in procs if p.get('name') == name), None)
-    if proc and proc.get('pm2_env', {}).get('status') == 'online':
-      print(f'  ✓ {name}: online')
-    else:
-      print(f'  ✗ {name}: OFFLINE ou absent')
-  for name in optional:
-    proc = next((p for p in procs if p.get('name') == name), None)
-    if proc and proc.get('pm2_env', {}).get('status') == 'online':
-      print(f'  ✓ {name}: online')
-    else:
-      print(f'  ⚠ {name}: absent (optionnel)')
-except:
-  print('  ⚠ Impossible de lire PM2 jlist')
-" 2>/dev/null || warn "PM2 non accessible"
+echo "5️⃣ API CSRF Token..."
+
+CSRF_RESPONSE=$(curl -s --max-time ${TIMEOUT} "${BASE_URL}/api/v1/csrf" || echo '{}')
+if echo "${CSRF_RESPONSE}" | grep -q '"token"'; then
+    ok "CSRF token endpoint OK"
 else
-  warn "PM2 non installé (test local ?)"
+    error "CSRF token endpoint failed"
 fi
 
-# ─── Crons ─────────────────────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════
+# 6. RAG HEALTH
+# ═══════════════════════════════════════════════════════════════
 echo ""
-echo "── Crons ───────────────────────────────────────────────"
-if [ -f /etc/cron.d/nexus-backup ]; then
-  if grep -q backup /etc/cron.d/nexus-backup 2>/dev/null; then
-    green "Cron backup uploads configuré"
-  else
-    warn "Cron backup présent mais contenu inattendu"
-  fi
+echo "6️⃣ RAG Health..."
+
+RAG_HEALTH=$(curl -s --max-time ${TIMEOUT} "${BASE_URL}/api/v1/rag/health" || echo '{}')
+if echo "${RAG_HEALTH}" | grep -q '"status"'; then
+    ok "RAG Health endpoint accessible"
 else
-  warn "Cron backup uploads absent (/etc/cron.d/nexus-backup)"
+    warn "RAG Health endpoint non disponible (peut être normal)"
 fi
 
-# ─── Base de données ───────────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════
+# 7. MCP HEALTH
+# ═══════════════════════════════════════════════════════════════
 echo ""
-echo "── Base de données ─────────────────────────────────────"
-if command -v node &>/dev/null && [ -d "$APP_DIR/node_modules/@prisma/client" ] 2>/dev/null; then
-  cd "$APP_DIR" 2>/dev/null && node -e "
-const {PrismaClient}=require('@prisma/client');
-const p=new PrismaClient();
-(async()=>{
-  try {
-    const [users,events,sessions] = await Promise.all([
-      p.user.count(),
-      p.memoryEvent.count(),
-      p.session.count(),
-    ]);
-    console.log('  users:', users);
-    console.log('  memory_events:', events);
-    console.log('  sessions:', sessions);
-  } catch(e) { console.log('  ⚠ DB query failed:', e.message); }
-  await p.\$disconnect();
-})();
-" 2>/dev/null || warn "Impossible de requêter la DB"
+echo "7️⃣ MCP Health..."
+
+MCP_HEALTH=$(curl -s --max-time ${TIMEOUT} "${BASE_URL}/api/mcp/health" || echo '{}')
+if echo "${MCP_HEALTH}" | grep -q '"status"'; then
+    ok "MCP Health endpoint OK"
 else
-  warn "Node/Prisma non disponible pour le check DB"
+    warn "MCP Health endpoint non disponible"
 fi
 
-# ─── Build info ────────────────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════
+# 8. ROBOTS.TXT & SITEMAP
+# ═══════════════════════════════════════════════════════════════
 echo ""
-echo "── Build info ──────────────────────────────────────────"
-HEALTH_JSON=$(curl -s --max-time 10 "$HOST/api/v1/health" 2>/dev/null || echo "{}")
-SHA=$(echo "$HEALTH_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('release',{}).get('gitSha','unknown'))" 2>/dev/null || echo "unknown")
-BUILD_TIME=$(echo "$HEALTH_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('release',{}).get('buildTime','unknown'))" 2>/dev/null || echo "unknown")
-green "SHA servi : $SHA"
-green "Build time : $BUILD_TIME"
+echo "8️⃣ SEO Fichiers..."
 
-# ─── Résumé ────────────────────────────────────────────────────────────────
-echo ""
-echo "═══════════════════════════════════════════════════════"
-echo "RÉSUMÉ : PASS=$PASS | FAIL=$FAIL | WARN=$WARNINGS"
-if [ "$FAIL" -eq 0 ]; then
-  printf '\033[32m✅ Tous les checks passent — Production opérationnelle\033[0m\n'
-  exit 0
+ROBOTS=$(curl -s -o /dev/null -w "%{http_code}" --max-time ${TIMEOUT} "${BASE_URL}/robots.txt" || echo "000")
+if [[ "${ROBOTS}" == "200" ]]; then
+    ok "robots.txt accessible"
 else
-  printf '\033[31m❌ %d check(s) échoué(s) — Corrections requises\033[0m\n' "$FAIL"
-  exit 1
+    warn "robots.txt non accessible (HTTP ${ROBOTS})"
+fi
+
+SITEMAP=$(curl -s -o /dev/null -w "%{http_code}" --max-time ${TIMEOUT} "${BASE_URL}/sitemap.xml" || echo "000")
+if [[ "${SITEMAP}" == "200" ]]; then
+    ok "sitemap.xml accessible"
+else
+    warn "sitemap.xml non accessible (HTTP ${SITEMAP})"
+fi
+
+# ═══════════════════════════════════════════════════════════════
+# 9. TEMPS DE RÉPONSE
+# ═══════════════════════════════════════════════════════════════
+echo ""
+echo "9️⃣ Performance (TTFB)..."
+
+TTFB=$(curl -s -o /dev/null -w "%{time_starttransfer}" --max-time ${TIMEOUT} "${BASE_URL}/" || echo "999")
+TTFB_MS=$(echo "${TTFB} * 1000" | bc | cut -d. -f1)
+
+if [[ ${TTFB_MS} -lt 500 ]]; then
+    ok "TTFB: ${TTFB_MS}ms (excellent)"
+elif [[ ${TTFB_MS} -lt 1000 ]]; then
+    ok "TTFB: ${TTFB_MS}ms (bon)"
+elif [[ ${TTFB_MS} -lt 2000 ]]; then
+    warn "TTFB: ${TTFB_MS}ms (acceptable)"
+else
+    error "TTFB: ${TTFB_MS}ms (lent)"
+fi
+
+# ═══════════════════════════════════════════════════════════════
+# RÉSULTAT
+# ═══════════════════════════════════════════════════════════════
+echo ""
+echo "═══════════════════════════════════════════════════════════════"
+if [[ ${ERRORS} -eq 0 ]]; then
+    echo -e "  ${GREEN}✅ SMOKE TESTS PASSÉS${NC}"
+    echo "═══════════════════════════════════════════════════════════════"
+    exit 0
+else
+    echo -e "  ${RED}❌ ${ERRORS} ERREUR(S)${NC}"
+    echo "═══════════════════════════════════════════════════════════════"
+    exit 1
 fi

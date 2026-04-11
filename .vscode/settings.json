@@ -1,0 +1,24 @@
+{
+  "files.watcherExclude": {
+    "**/ressources/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/.git/objects/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/coverage/**": true
+  },
+  "files.exclude": {
+    "**/ressources/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/coverage/**": true
+  },
+  "search.exclude": {
+    "**/ressources/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true
+  },
+  "search.followSymlinks": false,
+  "files.maxMemoryForLargeFilesMB": 256
+}
