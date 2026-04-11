@@ -28,8 +28,9 @@ export function Icon({
   size = 'md',
   className = '',
   label,
+  strokeWidth = 2,
   ...rest
-}: Props) {
+}: Props & { strokeWidth?: number }) {
   return (
     <IconComponent
       className={`${SIZE_CLASS[size]} shrink-0 ${className}`}
@@ -37,6 +38,7 @@ export function Icon({
       aria-label={label}
       role={label ? 'img' : undefined}
       focusable="false"
+      strokeWidth={strokeWidth}
       {...rest}
     />
   );

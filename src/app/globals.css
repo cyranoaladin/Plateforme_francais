@@ -500,3 +500,9 @@ body {
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
+
+/* Mobile touch optimization — eliminate 300ms delay on buttons */
+button, a, [role="button"], .touch-manipulation {
+  touch-action: manipulation;
+}
+
