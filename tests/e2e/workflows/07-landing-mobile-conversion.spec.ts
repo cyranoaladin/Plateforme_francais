@@ -235,8 +235,6 @@ test.describe('Workflow Mobile — Conversion Landing', () => {
 });
 
 test.describe('Workflow Mobile — Performance', () => {
-  test.use(iphone14);
-
   test('LCP < 2.5s sur mobile', async ({ page }) => {
     await page.goto('/');
 

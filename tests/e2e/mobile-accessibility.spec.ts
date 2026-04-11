@@ -16,10 +16,8 @@ const mobileDevices = [
   { name: 'iPhone SE', device: devices['iPhone SE'] },
 ];
 
-for (const { name, device } of mobileDevices) {
+for (const { name, device: _device } of mobileDevices) {
   test.describe(`Accessibilité Mobile — ${name}`, () => {
-    test.use(device);
-
     test('Touch targets suffisants (≥ 44px)', async ({ page }) => {
       await page.goto('/');
 
@@ -182,8 +180,6 @@ for (const { name, device } of mobileDevices) {
 }
 
 test.describe('Accessibilité — Navigation Gestuelle', () => {
-  test.use(devices['iPhone 14']);
-
   test('Swipe sur carousel témoignages', async ({ page }) => {
     await page.goto('/');
 
@@ -226,8 +222,6 @@ test.describe('Accessibilité — Navigation Gestuelle', () => {
 });
 
 test.describe('Accessibilité — Compatibilité OS', () => {
-  test.use(devices['iPhone 14']);
-
   test('Font size system respecté', async ({ page }) => {
     await page.goto('/');
 

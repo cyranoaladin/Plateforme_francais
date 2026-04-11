@@ -63,16 +63,8 @@ async function openMobileMenu(page: Page) {
 /**
  * Tests par device
  */
-for (const [deviceName, device] of Object.entries(MOBILE_DEVICES)) {
+for (const [deviceName, _device] of Object.entries(MOBILE_DEVICES)) {
   test.describe(`Landing Mobile — ${deviceName}`, () => {
-    test.use({
-      viewport: device.viewport,
-      userAgent: device.userAgent,
-      deviceScaleFactor: device.deviceScaleFactor,
-      isMobile: device.isMobile,
-      hasTouch: device.hasTouch,
-    });
-
     test('Page charge sans erreur et pas de scroll horizontal', async ({ page }) => {
       await page.goto('/');
       await expect(page.locator('h1')).toBeVisible({ timeout: 10000 });
@@ -373,8 +365,6 @@ test.describe('Responsive Breakpoints', () => {
  * Tests d'accessibilité mobile
  */
 test.describe('Accessibilité Mobile', () => {
-  test.use(devices['iPhone 14']);
-
   test('Touch targets ≥ 44px', async ({ page }) => {
     await page.goto('/');
     await dismissConsentIfPresent(page);
@@ -420,8 +410,6 @@ test.describe('Accessibilité Mobile', () => {
  * Tests de conversion mobile
  */
 test.describe('Conversion Mobile', () => {
-  test.use(devices['iPhone 14']);
-
   test('CTA principal mène au login', async ({ page }) => {
     await page.goto('/');
     await dismissConsentIfPresent(page);

@@ -48,8 +48,6 @@ test.describe('Visual Regression — Mobile', () => {
 });
 
 test.describe('Visual Regression — Sections', () => {
-  test.use({ viewport: { width: 390, height: 844 } });
-
   test('Section Stats', async ({ page }) => {
     await page.goto('/');
 
@@ -86,8 +84,6 @@ test.describe('Visual Regression — Sections', () => {
 });
 
 test.describe('Visual Regression — États spéciaux', () => {
-  test.use({ viewport: { width: 390, height: 844 } });
-
   test('Banner sticky visible', async ({ page }) => {
     await page.goto('/');
 
