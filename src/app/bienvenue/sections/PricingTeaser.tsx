@@ -44,7 +44,7 @@ export function PricingTeaser() {
               <Link
                 href="/pricing"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_teaser', path: '/' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--eaf-orange)] px-6 py-3.5 text-sm font-bold text-[var(--eaf-bg0)] transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--eaf-orange)] px-6 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
               >
                 Voir les tarifs, quotas et paiements
                 <ArrowRight className="h-4 w-4" />
@@ -74,12 +74,12 @@ export function PricingTeaser() {
                   borderColor: plan.featured ? 'var(--eaf-orange-active)' : 'var(--eaf-border)'
                 }}
               >
-                <p className={`text-[11px] font-bold uppercase tracking-[0.26em] ${plan.featured ? 'text-[var(--eaf-gold)]' : 'text-[var(--eaf-text-tertiary)]'}`}>
+                <p className={`text-[11px] font-bold uppercase tracking-[0.26em] ${plan.featured ? 'text-[#FDE68A]' : 'text-[var(--eaf-text-tertiary)]'}`}>
                   {plan.kicker}
                 </p>
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <h3 
-                    className={`text-3xl tracking-[-0.03em] ${plan.featured ? 'text-[var(--eaf-bg0)]' : 'text-[var(--eaf-orange)]'}`}
+                    className={`text-3xl tracking-[-0.03em] ${plan.featured ? 'text-white' : 'text-[var(--eaf-orange)]'}`}
                     style={{ fontFamily: 'var(--eaf-font-display)' }}
                   >
                     {plan.name}
@@ -87,13 +87,13 @@ export function PricingTeaser() {
                   {plan.featured ? (
                     <span 
                       className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--eaf-orange)]"
-                      style={{ background: 'var(--eaf-bg0)' }}
+                      style={{ background: 'white' }}
                     >
                       Recommandé
                     </span>
                   ) : null}
                 </div>
-                <ul className={`mt-6 space-y-3 text-sm leading-6 ${plan.featured ? 'text-[var(--eaf-bg0)]' : 'text-[var(--eaf-text-secondary)]'}`}>
+                <ul className={`mt-6 space-y-3 text-sm leading-6 ${plan.featured ? 'text-white/90' : 'text-[var(--eaf-text-secondary)]'}`}>
                   {plan.bullets.map((bullet) => (
                     <li key={bullet} className="flex items-start gap-3">
                       <Check className={`mt-1 h-4 w-4 shrink-0 ${plan.featured ? 'text-[var(--eaf-gold)]' : 'text-[var(--eaf-teal)]'}`} />

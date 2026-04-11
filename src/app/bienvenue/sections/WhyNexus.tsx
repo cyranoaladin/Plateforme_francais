@@ -100,7 +100,7 @@ export function WhyNexus() {
                 <Link
                   href="/login?mode=register"
                   onClick={() => track({ name: 'cta_click', props: { cta: 'why_nexus_register', path: '/' } })}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--eaf-orange)] px-6 py-3.5 text-sm font-bold text-[var(--eaf-bg0)] transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--eaf-orange)] px-6 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
                 >
                   Essayer gratuitement
                   <ArrowRight className="h-4 w-4" />

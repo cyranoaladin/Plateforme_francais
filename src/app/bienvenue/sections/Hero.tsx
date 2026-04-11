@@ -88,7 +88,7 @@ export function Hero() {
               <Link
                 href="/login?mode=register"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'hero_register', path: '/' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--eaf-orange)] px-6 py-3.5 text-base font-bold text-[var(--eaf-bg0)] shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--eaf-orange)] px-6 py-3.5 text-base font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
               >
                 Créer mon espace gratuit
                 <ArrowRight className="h-4 w-4" />
@@ -143,7 +143,7 @@ export function Hero() {
             />
 
             <div 
-              className="rounded-[var(--eaf-radius-2xl)] border p-6 text-[var(--eaf-bg0)] shadow-lg md:p-8"
+              className="rounded-[var(--eaf-radius-2xl)] border p-6 text-white shadow-lg md:p-8"
               style={{ 
                 background: 'linear-gradient(135deg, #0d1a35 0%, #111c30 60%, #0f1629 100%)',
                 borderColor: 'var(--eaf-indigo-border)'

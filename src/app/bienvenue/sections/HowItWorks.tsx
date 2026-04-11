@@ -74,7 +74,7 @@ export function HowItWorks() {
             <Link
               href="/login?mode=register"
               onClick={() => track({ name: 'cta_click', props: { cta: 'how_it_works_register', path: '/' } })}
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--eaf-orange)] px-5 py-3 text-sm font-bold text-[var(--eaf-bg0)] transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--eaf-orange)] px-5 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
             >
               Configurer mon parcours
               <ArrowRight className="h-4 w-4" />
@@ -93,7 +93,7 @@ export function HowItWorks() {
                 <div className="max-w-2xl">
                   <div className="flex items-center gap-3">
                     <span 
-                      className="inline-flex h-12 w-12 items-center justify-center rounded-2xl text-sm font-bold text-[var(--eaf-bg0)]"
+                      className="inline-flex h-12 w-12 items-center justify-center rounded-2xl text-sm font-bold text-white"
                       style={{ background: 'var(--eaf-orange)' }}
                     >
                       {step.number}
@@ -128,7 +128,7 @@ export function HowItWorks() {
                     style={{ background: 'var(--eaf-orange)', borderColor: 'var(--eaf-orange-active)' }}
                   >
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-gold)]">Côté Nexus</p>
-                    <p className="mt-2 text-sm leading-6 text-[var(--eaf-bg0)]">{step.platform}</p>
+                    <p className="mt-2 text-sm leading-6 text-white/90">{step.platform}</p>
                   </div>
                 </div>
               </div>
