@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-11T00:40:18.417Z",
+  "generatedAt": "2026-04-11T00:48:52.271Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -5617,301 +5617,301 @@
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1012,
+      "line": 1007,
       "column": 15,
       "kind": "jsx-text",
       "text": "Relancer la grammaire ciblée"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1018,
+      "line": 1013,
       "column": 15,
       "kind": "jsx-text",
       "text": "Reprendre un exercice bref et précis pour consolider la notion qui décroche le plus vite."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1024,
+      "line": 1019,
       "column": 15,
       "kind": "jsx-text",
       "text": "L&apos;idée n&apos;est pas d&apos;en faire plus, mais de relancer le bon atelier au bon moment."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1033,
+      "line": 1028,
       "column": 13,
       "kind": "jsx-text",
       "text": "Ouvrir l&apos;atelier"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1044,
+      "line": 1039,
       "column": 11,
       "kind": "jsx-text",
       "text": "Accès rapide"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1053,
+      "line": 1048,
       "column": 11,
       "kind": "jsx-text",
       "text": "Les ateliers utiles doivent rester à un clic, sans bruit visuel."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1059,
+      "line": 1054,
       "column": 11,
       "kind": "jsx-text",
       "text": "Choisis un bloc, lance-le, puis reviens vérifier l&apos;effet réel sur tes scores et tes repères de travail."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1118,
+      "line": 1113,
       "column": 13,
       "kind": "jsx-text",
       "text": "Ton descriptif de lecture est incomplet"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1124,
+      "line": 1119,
       "column": 13,
       "kind": "jsx-text",
       "text": "L&apos;atelier oral simule sur des textes génériques. Ajoute tes textes étudiés pour simuler l&apos;épreuve réelle."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1131,
+      "line": 1126,
       "column": 13,
       "kind": "jsx-text",
       "text": "Compléter mon descriptif"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 231,
+      "line": 236,
       "column": 17,
       "kind": "jsx-text",
       "text": "Pilotage du jour"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 239,
+      "line": 244,
       "column": 17,
       "kind": "jsx-text",
       "text": "Lundi 8 juin 2026"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 245,
+      "line": 250,
       "column": 17,
       "kind": "jsx-text",
       "text": "Écrit : J-"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 251,
+      "line": 256,
       "column": 17,
       "kind": "jsx-text",
       "text": "Oral :"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 264,
+      "line": 269,
       "column": 31,
       "kind": "jsx-text",
       "text": ", voilà la priorité qui doit faire bouger ta semaine."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 272,
+      "line": 277,
       "column": 127,
       "kind": "jsx-text",
       "text": ". La lecture utile n&apos;est pas exhaustive : elle remet en circulation les repères décisifs. Priorité : mini-séances quotidiennes (10-20 min), construire la carte des compétences, alimenter la banque d&apos;erreurs."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 272,
+      "line": 277,
       "column": 13,
       "kind": "jsx-text",
       "text": "Axe prioritaire :"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 296,
+      "line": 301,
       "column": 15,
       "kind": "jsx-text",
       "text": "Réouvrir une œuvre"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 316,
+      "line": 321,
       "column": 15,
       "kind": "jsx-text",
       "text": "Voir le parcours"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 411,
+      "line": 361,
       "column": 15,
       "kind": "jsx-text",
       "text": "Ce que tu dois faire maintenant"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 422,
+      "line": 372,
       "column": 13,
       "kind": "jsx-text",
       "text": "Réouvrir une œuvre"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 429,
+      "line": 379,
       "column": 13,
       "kind": "jsx-text",
       "text": "Réactiver les repères, citations et enjeux qui serviront vraiment."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 456,
+      "line": 405,
       "column": 15,
       "kind": "jsx-text",
       "text": "Commencer maintenant"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 468,
+      "line": 417,
       "column": 15,
       "kind": "jsx-text",
       "text": "Alternative rapide"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 491,
+      "line": 486,
       "column": 17,
       "kind": "jsx-text",
       "text": "Boussole"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 500,
+      "line": 495,
       "column": 17,
       "kind": "jsx-text",
       "text": "Une lecture visuelle rapide de tes quatre grands axes."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 512,
+      "line": 507,
       "column": 15,
       "kind": "jsx-text",
       "text": "Moyenne"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 584,
+      "line": 579,
       "column": 17,
       "kind": "jsx-text",
       "text": "Trajectoire"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 593,
+      "line": 588,
       "column": 17,
       "kind": "jsx-text",
       "text": "La progression doit être lisible, pas seulement ressentie."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 606,
+      "line": 601,
       "column": 13,
       "kind": "jsx-text",
       "text": "Tendance en construction"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 700,
+      "line": 695,
       "column": 17,
       "kind": "jsx-text",
       "text": "Cartographie fine"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 709,
+      "line": 704,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ce que tu tiens bien, et ce qu&apos;il faut remettre sous tension."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 717,
+      "line": 712,
       "column": 15,
       "kind": "jsx-text",
       "text": "Voir le parcours ⊞"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 773,
+      "line": 768,
       "column": 23,
       "kind": "jsx-text",
       "text": "Diagnostic à lancer →"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 794,
+      "line": 789,
       "column": 13,
       "kind": "jsx-text",
       "text": "Mon corpus"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 803,
+      "line": 798,
       "column": 13,
       "kind": "jsx-text",
       "text": "Les œuvres qui structurent ton parcours."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 812,
+      "line": 807,
       "column": 15,
       "kind": "jsx-text",
       "text": "Œuvre principale pour l&apos;entretien"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 836,
+      "line": 831,
       "column": 15,
       "kind": "jsx-text",
       "text": "Œuvres au programme"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 881,
+      "line": 876,
       "column": 17,
       "kind": "jsx-text",
       "text": "Historique utile"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 890,
+      "line": 885,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ce qui a vraiment bougé dans tes dernières séances."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 949,
+      "line": 944,
       "column": 15,
       "kind": "jsx-text",
       "text": "Points de vigilance remontés"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 959,
+      "line": 954,
       "column": 15,
       "kind": "jsx-text",
       "text": "Soumettre à nouveau la copie. (2)"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 996,
+      "line": 991,
       "column": 11,
       "kind": "jsx-text",
       "text": "Prochain meilleur levier"
