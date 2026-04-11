@@ -43,6 +43,7 @@ env:
   RAG_API_URL: "http://localhost:9999"
   SESSION_SECRET: "ci_session_secret_32chars_minimum_ok_here"
   CSRF_SECRET: "ci_csrf_secret_32chars_minimum_ok_here_now"
+  CRON_SECRET: "ci_cron_secret_32chars_minimum_ok_here"
   COOKIE_SECURE: "false"
   NEXT_PUBLIC_APP_URL: "http://localhost:3000"
   NEXT_PUBLIC_API_URL: "http://localhost:3000/api/v1"
@@ -52,6 +53,7 @@ jobs:
   static-analysis:
     name: "Gate 1 - Analyse Statique"
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     concurrency:
       group: ci-static-analysis-${{ github.ref }}
       cancel-in-progress: true
@@ -137,6 +139,7 @@ jobs:
     name: "Gate 1b - Worker Build sans devDeps"
     needs: static-analysis
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     concurrency:
       group: ci-worker-build-${{ github.ref }}
       cancel-in-progress: true
@@ -174,6 +177,7 @@ jobs:
     name: "Gate 2 - Tests Unitaires (sans postgres requis)"
     needs: [static-analysis, worker-build-prod-deps]
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     concurrency:
       group: ci-unit-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -249,6 +253,7 @@ jobs:
     name: "Gate 3 - Tests Integration"
     needs: unit-tests
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     concurrency:
       group: ci-integration-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -314,6 +319,7 @@ jobs:
     name: "Gate 3b - API Contract Tests"
     needs: integration-tests
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
     concurrency:
       group: ci-contract-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -427,6 +433,7 @@ jobs:
     name: "Gate 4 - Tests E2E Playwright"
     needs: [integration-tests, contract-tests]
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
     concurrency:
       group: ci-e2e-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -539,6 +546,7 @@ jobs:
     name: "Gate 5 - Securite"
     needs: unit-tests
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     concurrency:
       group: ci-security-scan-${{ github.ref }}
       cancel-in-progress: true
@@ -563,7 +571,7 @@ jobs:
       - name: Secrets scan (GitLeaks)
         id: gitleaks
         continue-on-error: true
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v2.3.9
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Fail on real leaks (ignore stderr-only errors)
@@ -608,6 +616,7 @@ jobs:
     needs: integration-tests
     runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    timeout-minutes: 30
     concurrency:
       group: ci-performance-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -637,6 +646,7 @@ jobs:
     needs: integration-tests
     runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 2 * * 1')
+    timeout-minutes: 30
     concurrency:
       group: ci-zap-security-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -650,6 +660,7 @@ jobs:
     needs: unit-tests
     runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 3 1 * *')
+    timeout-minutes: 30
     concurrency:
       group: ci-mutation-tests-${{ github.ref }}
       cancel-in-progress: true
@@ -693,7 +704,7 @@ jobs:
     concurrency:
       group: deploy-${{ github.ref }}
       cancel-in-progress: false
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -738,26 +749,60 @@ jobs:
           STORAGE_PROVIDER: "s3"
           NEXT_PUBLIC_APP_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}
           NEXT_PUBLIC_API_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}/api/v1
+      - name: Build production artifact
+        if: steps.check-secrets.outputs.configured == 'true'
+        run: npm run build:ci && npm run copy-public-to-standalone
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}/api/v1
+          SESSION_SECRET: ${{ secrets.PROD_SESSION_SECRET }}
+          CSRF_SECRET: ${{ secrets.PROD_CSRF_SECRET }}
+          REDIS_URL: ${{ secrets.PROD_REDIS_URL }}
+          BILLING_CODE_PEPPER: ${{ secrets.PROD_BILLING_CODE_PEPPER }}
+          MCP_API_KEY: ${{ secrets.PROD_MCP_API_KEY }}
+          CRON_SECRET: ${{ secrets.PROD_CRON_SECRET }}
+          MISTRAL_API_KEY: ${{ secrets.PROD_MISTRAL_API_KEY }}
+      - name: Transfer build artifact to server
+        if: steps.check-secrets.outputs.configured == 'true'
+        env:
+          PROD_SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
+          PROD_HOST: ${{ secrets.PROD_HOST }}
+          PROD_USER: ${{ secrets.PROD_USER }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s' "$PROD_SSH_KEY" > ~/.ssh/deploy_rsa
+          chmod 600 ~/.ssh/deploy_rsa
+          ssh-keyscan -H "$PROD_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          ACTIVE=$(ssh -i ~/.ssh/deploy_rsa -o StrictHostKeyChecking=no \
+            "$PROD_USER@$PROD_HOST" \
+            "cat /etc/nginx/conf.d/active-slot.txt 2>/dev/null || echo blue")
+          NEXT=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
+          DEPLOY_PATH="/var/www/eaf-$NEXT"
+          ssh -i ~/.ssh/deploy_rsa -o StrictHostKeyChecking=no \
+            "$PROD_USER@$PROD_HOST" "mkdir -p $DEPLOY_PATH"
+          rsync -az --delete \
+            --exclude='node_modules' --exclude='.next/cache' --exclude='.git' \
+            --exclude='coverage' --exclude='tests' \
+            -e "ssh -i ~/.ssh/deploy_rsa -o StrictHostKeyChecking=no" \
+            . "$PROD_USER@$PROD_HOST:$DEPLOY_PATH/"
       - name: Blue-Green Deploy
         if: steps.check-secrets.outputs.configured == 'true'
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
             ACTIVE=$(cat /etc/nginx/conf.d/active-slot.txt 2>/dev/null || echo "blue")
-            OLD=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
             NEXT=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
+            OLD=$ACTIVE
             NEXT_PORT=$([ "$NEXT" = "blue" ] && echo "3000" || echo "3001")
-            OLD_PORT=$([ "$OLD" = "blue" ] && echo "3000" || echo "3001")
-            cd /var/www/eaf-$NEXT
-            git fetch origin main --tags --prune
-            git checkout ${{ github.sha }}
+            DEPLOY_PATH="/var/www/eaf-$NEXT"
+            cd "$DEPLOY_PATH"
             npm ci --omit=dev
-            npx prisma generate
             npx prisma migrate deploy
-            APP_ROOT=/var/www/eaf-$NEXT SLOT=$NEXT PORT=$NEXT_PORT pm2 startOrRestart ecosystem.config.cjs --only eaf-nextjs-$NEXT --env production --update-env
+            APP_ROOT="$DEPLOY_PATH" SLOT=$NEXT PORT=$NEXT_PORT pm2 startOrRestart ecosystem.config.cjs --only eaf-nextjs-$NEXT --env production --update-env
             SMOKE_OK=0
             for i in {1..30}; do
               STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${NEXT_PORT}/api/v1/health")
