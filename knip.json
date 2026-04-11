@@ -46,7 +46,10 @@
         "src/lib/storage/s3-provider.ts",
         "src/lib/design-tokens.ts",
         "src/lib/oral/remote-audio.ts",
-        "src/components/ui/icons.ts"
+        "src/components/ui/icons.ts",
+        "src/components/landing/PricingSection.tsx",
+        "src/components/landing/StatsSection.tsx",
+        "src/components/landing/TestimonialsSection.tsx"
       ]
     },
     "packages/mcp-server": {
