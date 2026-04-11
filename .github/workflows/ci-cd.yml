@@ -590,7 +590,7 @@ jobs:
           fi
       - name: Upload GitLeaks SARIF report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: gitleaks-results
           path: results.sarif
@@ -607,7 +607,7 @@ jobs:
       - name: CodeQL init
         id: codeql-init
         continue-on-error: true
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@c10b8064de6f491fea524254123dbe5e09572f13 # v4.35.1
         with:
           languages: typescript
       - name: Build for CodeQL
@@ -617,7 +617,7 @@ jobs:
       - name: CodeQL analyze
         if: steps.codeql-init.outcome == 'success'
         continue-on-error: true
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@c10b8064de6f491fea524254123dbe5e09572f13 # v4.35.1
 
   performance-tests:
     name: "Gate 5b - Performance Artillery"
@@ -782,17 +782,17 @@ jobs:
           printf '%s' "$PROD_SSH_KEY" > ~/.ssh/deploy_rsa
           chmod 600 ~/.ssh/deploy_rsa
           ssh-keyscan -H "$PROD_HOST" >> ~/.ssh/known_hosts 2>/dev/null
-          ACTIVE=$(ssh -i ~/.ssh/deploy_rsa -o StrictHostKeyChecking=no \
+          ACTIVE=$(ssh -i ~/.ssh/deploy_rsa \
             "$PROD_USER@$PROD_HOST" \
             "cat /etc/nginx/conf.d/active-slot.txt 2>/dev/null || echo blue")
           NEXT=$([ "$ACTIVE" = "blue" ] && echo "green" || echo "blue")
           DEPLOY_PATH="/var/www/eaf-$NEXT"
-          ssh -i ~/.ssh/deploy_rsa -o StrictHostKeyChecking=no \
+          ssh -i ~/.ssh/deploy_rsa \
             "$PROD_USER@$PROD_HOST" "mkdir -p $DEPLOY_PATH"
           rsync -az --delete \
             --exclude='node_modules' --exclude='.next/cache' --exclude='.git' \
             --exclude='coverage' --exclude='tests' \
-            -e "ssh -i ~/.ssh/deploy_rsa -o StrictHostKeyChecking=no" \
+            -e "ssh -i ~/.ssh/deploy_rsa" \
             . "$PROD_USER@$PROD_HOST:$DEPLOY_PATH/"
       - name: Blue-Green Deploy
         if: steps.check-secrets.outputs.configured == 'true'
