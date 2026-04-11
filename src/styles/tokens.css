@@ -141,16 +141,16 @@
 
   /* === NEXUS EAF DESIGN SYSTEM v2 === */
 
-  /* Backgrounds */
-  --eaf-bg0: #050913;
-  --eaf-bg1: #0b1120;
-  --eaf-bg2: #111c30;
-  --eaf-bg3: #1a2840;
+  /* Backgrounds — light defaults (dark overridden in .dark block below) */
+  --eaf-bg0: #F8FAFC;
+  --eaf-bg1: #F1F5F9;
+  --eaf-bg2: #E8EFF7;
+  --eaf-bg3: #DDE6F0;
 
-  /* Borders */
-  --eaf-border: rgba(99, 148, 255, 0.13);
-  --eaf-border-hover: rgba(99, 148, 255, 0.30);
-  --eaf-border-strong: rgba(99, 148, 255, 0.45);
+  /* Borders — light defaults */
+  --eaf-border: rgba(71, 85, 105, 0.15);
+  --eaf-border-hover: rgba(71, 85, 105, 0.30);
+  --eaf-border-strong: rgba(71, 85, 105, 0.45);
 
   /* Brand colors */
   --eaf-orange: #FF6B35;
@@ -172,23 +172,23 @@
   --eaf-gold-dim: rgba(255, 181, 71, 0.10);
   --eaf-gold-border: rgba(255, 181, 71, 0.25);
 
-  /* Text */
-  --eaf-text-primary: #F4F6FF;
-  --eaf-text-secondary: #8596C0;
-  --eaf-text-tertiary: #4A5D85;
+  /* Text — light defaults */
+  --eaf-text-primary: #0F172A;
+  --eaf-text-secondary: #475569;
+  --eaf-text-tertiary: #64748B;
 
   /* Gradients */
   --eaf-gradient-hero: radial-gradient(ellipse at 70% -10%, rgba(123,142,255,0.08) 0%, transparent 60%);
   --eaf-gradient-orange: linear-gradient(135deg, rgba(255,107,53,0.08), rgba(255,107,53,0.15), rgba(255,107,53,0.08));
-  --eaf-gradient-card-featured: linear-gradient(135deg, #0f1e3a, #111c30);
+  --eaf-gradient-card-featured: linear-gradient(135deg, #E8EFF7, #DDE6F0);
   --eaf-gradient-stats-bg: linear-gradient(180deg, var(--eaf-bg0) 0%, var(--eaf-bg1) 50%, var(--eaf-bg0) 100%);
   --eaf-gradient-indigo-teal: linear-gradient(90deg, var(--eaf-indigo), var(--eaf-teal));
   --eaf-gradient-indigo-deep: linear-gradient(135deg, var(--eaf-indigo), #4458D4);
   --eaf-gradient-progress: linear-gradient(90deg, var(--eaf-indigo), var(--eaf-teal));
 
-  /* Shadows */
+  /* Shadows — light defaults */
   --eaf-shadow-orange: 0 8px 30px rgba(255, 107, 53, 0.40);
-  --eaf-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.40);
+  --eaf-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
 
   /* Radii */
   --eaf-radius-sm: 6px;
@@ -220,7 +220,7 @@
   --eaf-fg0: var(--eaf-text-primary);
   --eaf-fg1: var(--eaf-text-secondary);
   --eaf-fg2: var(--eaf-text-tertiary);
-  --eaf-fg3: rgba(244, 246, 255, 0.35);
+  --eaf-fg3: rgba(15, 23, 42, 0.35);
 }
 
 /* --- DARK MODE ------------------------------------------------- */
@@ -230,6 +230,21 @@
 
 .dark,
 :root.dark {
+    /* === EAF v2 tokens — dark overrides === */
+    --eaf-bg0: #050913;
+    --eaf-bg1: #0b1120;
+    --eaf-bg2: #111c30;
+    --eaf-bg3: #1a2840;
+    --eaf-border: rgba(99, 148, 255, 0.13);
+    --eaf-border-hover: rgba(99, 148, 255, 0.30);
+    --eaf-border-strong: rgba(99, 148, 255, 0.45);
+    --eaf-text-primary: #F4F6FF;
+    --eaf-text-secondary: #8596C0;
+    --eaf-text-tertiary: #4A5D85;
+    --eaf-fg3: rgba(244, 246, 255, 0.35);
+    --eaf-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.40);
+    --eaf-gradient-card-featured: linear-gradient(135deg, #0f1e3a, #111c30);
+    /* === Semantic tokens — dark === */
     --bg-page:              var(--color-slate-900);
     --bg-surface:           var(--color-slate-800);
     --bg-surface-secondary: var(--color-slate-700);
@@ -287,6 +302,21 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
+    /* === EAF v2 tokens — dark overrides (no-JS / SSR fallback) === */
+    --eaf-bg0: #050913;
+    --eaf-bg1: #0b1120;
+    --eaf-bg2: #111c30;
+    --eaf-bg3: #1a2840;
+    --eaf-border: rgba(99, 148, 255, 0.13);
+    --eaf-border-hover: rgba(99, 148, 255, 0.30);
+    --eaf-border-strong: rgba(99, 148, 255, 0.45);
+    --eaf-text-primary: #F4F6FF;
+    --eaf-text-secondary: #8596C0;
+    --eaf-text-tertiary: #4A5D85;
+    --eaf-fg3: rgba(244, 246, 255, 0.35);
+    --eaf-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.40);
+    --eaf-gradient-card-featured: linear-gradient(135deg, #0f1e3a, #111c30);
+    /* === Semantic tokens === */
     --bg-page:              var(--color-slate-900);
     --bg-surface:           var(--color-slate-800);
     --bg-surface-secondary: var(--color-slate-700);
