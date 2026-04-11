@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-11T10:33:34.919Z",
+  "generatedAt": "2026-04-11T10:36:52.089Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -9333,88 +9333,11 @@
       "text": "Mode libre"
     },
     {
-      "file": "src/components/dashboard/parcours-recommandation.tsx",
-      "line": 111,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "Prochain meilleur levier"
-    },
-    {
-      "file": "src/components/dashboard/parcours-recommandation.tsx",
-      "line": 126,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "L’idée n’est pas d’en faire plus, mais de relancer le bon atelier au bon moment."
-    },
-    {
-      "file": "src/components/dashboard/parcours-recommandation.tsx",
-      "line": 132,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "Ouvrir l’atelier"
-    },
-    {
       "file": "src/components/dashboard/progression-chart.tsx",
       "line": 45,
       "column": 9,
       "kind": "jsx-text",
       "text": "Préparation du graphique..."
-    },
-    {
-      "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 101,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Essayer gratuitement — sans carte bancaire →"
-    },
-    {
-      "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 72,
-      "column": 68,
-      "kind": "jsx-prop",
-      "text": "Pourquoi pas ChatGPT ?"
-    },
-    {
-      "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 75,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "Pourquoi pas ChatGPT ?"
-    },
-    {
-      "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 79,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "ChatGPT rédige."
-    },
-    {
-      "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 80,
-      "column": 40,
-      "kind": "jsx-text",
-      "text": "Nexus t&apos;apprend."
-    },
-    {
-      "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 84,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "Un élève qui copie-colle ChatGPT est immédiatement repéré par le correcteur — et sanctionné. Nexus ne rédige jamais : il pose des questions, cite les sources officielles, et te force à construire TON raisonnement. Le résultat est inimitable, parce qu&apos;il vient de toi."
-    },
-    {
-      "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 92,
-      "column": 35,
-      "kind": "jsx-prop",
-      "text": "ChatGPT / IA générique"
-    },
-    {
-      "file": "src/components/landing/AntiChatGPTBanner.tsx",
-      "line": 93,
-      "column": 35,
-      "kind": "jsx-prop",
-      "text": "Nexus Réussite"
     },
     {
       "file": "src/components/landing/ComparisonTable.tsx",
@@ -9485,20 +9408,6 @@
       "column": 11,
       "kind": "jsx-text",
       "text": "Une IA généraliste ne remplace pas un outil conçu pour l&apos;EAF."
-    },
-    {
-      "file": "src/components/landing/CountdownBadge.tsx",
-      "line": 47,
-      "column": 45,
-      "kind": "jsx-text",
-      "text": "J-"
-    },
-    {
-      "file": "src/components/landing/CountdownBadge.tsx",
-      "line": 47,
-      "column": 54,
-      "kind": "jsx-text",
-      "text": "avant l&apos;épreuve EAF 2026"
     },
     {
       "file": "src/components/landing/DashboardToggle.tsx",
