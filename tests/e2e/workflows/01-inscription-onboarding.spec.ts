@@ -20,145 +20,107 @@ async function registerAndGoToOnboarding(page: Page, password = 'NexusE2E2026!')
   return email;
 }
 
-// ── Test suite ────────────────────────────────────────────────────────────────
+// ── Suite A : guards de validation (1 seule inscription) ────────────────────
 
-test.describe('01 — Inscription et onboarding complet', () => {
+test.describe.serial('01A — Guards de validation par étape', () => {
+  test.setTimeout(120_000);
 
-  test('1.1 - Inscription depuis /login?mode=register redirige vers /onboarding', async ({ page }) => {
-    await registerAndGoToOnboarding(page);
-    await expect(page.locator('#ob-name')).toBeVisible({ timeout: 10_000 });
+  let sharedPage: Page;
+
+  test.beforeAll(async ({ browser }) => {
+    const ctx = await browser.newContext();
+    sharedPage = await ctx.newPage();
+    await registerAndGoToOnboarding(sharedPage);
   });
 
-  test('1.2 - Étape 1 : bouton Continuer désactivé sans prénom ni date', async ({ page }) => {
-    test.setTimeout(60_000);
-    await registerAndGoToOnboarding(page);
-    const continuer = page.getByRole('button', { name: /continuer/i });
+  test('1.1 - Inscription redirige vers /onboarding et affiche #ob-name', async () => {
+    await expect(sharedPage.locator('#ob-name')).toBeVisible({ timeout: 10_000 });
+  });
+
+  test('1.2 - StepRail indique étape courante (aria-current)', async () => {
+    await expect(sharedPage.locator('[aria-current="step"]')).toBeVisible({ timeout: 5_000 });
+    const label = await sharedPage.locator('[aria-current="step"]').textContent();
+    expect(label).toBeTruthy();
+  });
+
+  test('1.3 - Étape 1 : bouton Continuer désactivé sans prénom ni date', async () => {
+    const continuer = sharedPage.getByRole('button', { name: /continuer/i });
     await expect(continuer).toBeDisabled({ timeout: 5_000 });
   });
 
-  test('1.3 - Étape 1 : bouton Continuer activé après prénom + date EAF', async ({ page }) => {
-    test.setTimeout(60_000);
-    await registerAndGoToOnboarding(page);
-    await page.locator('#ob-name').fill('Sophie Martin');
-    await page.locator('#ob-date').fill('2026-06-11');
-    await expect(page.getByRole('button', { name: /continuer/i })).toBeEnabled({ timeout: 5_000 });
+  test('1.4 - Étape 1 : bouton Continuer activé après prénom + date EAF', async () => {
+    await sharedPage.locator('#ob-name').fill('Sophie Martin');
+    await sharedPage.locator('#ob-date').fill('2026-06-11');
+    await expect(sharedPage.getByRole('button', { name: /continuer/i })).toBeEnabled({ timeout: 5_000 });
+    await sharedPage.getByRole('button', { name: /continuer/i }).click();
   });
 
-  test('1.4 - Étape 2 : bouton Continuer désactivé sans œuvre sélectionnée', async ({ page }) => {
-    test.setTimeout(90_000);
-    await registerAndGoToOnboarding(page);
-
-    // Passer étape 1
-    await page.locator('#ob-name').fill('Sophie Martin');
-    await page.locator('#ob-date').fill('2026-06-11');
-    await page.getByRole('button', { name: /continuer/i }).click();
-
-    // Étape 2 sans sélection
-    await expect(page.getByText(/cahier de douai/i).first()).toBeVisible({ timeout: 10_000 });
-    const continuer2 = page.getByRole('button', { name: /continuer/i });
-    await expect(continuer2).toBeDisabled({ timeout: 5_000 });
+  test('1.5 - Étape 2 : bouton Continuer désactivé sans œuvre sélectionnée', async () => {
+    await expect(sharedPage.getByText(/cahier de douai/i).first()).toBeVisible({ timeout: 10_000 });
+    await expect(sharedPage.getByRole('button', { name: /continuer/i })).toBeDisabled({ timeout: 5_000 });
   });
 
-  test('1.5 - Étape 2 : bouton Continuer activé après sélection d\'une œuvre', async ({ page }) => {
-    test.setTimeout(90_000);
-    await registerAndGoToOnboarding(page);
-
-    await page.locator('#ob-name').fill('Sophie Martin');
-    await page.locator('#ob-date').fill('2026-06-11');
-    await page.getByRole('button', { name: /continuer/i }).click();
-
-    await page.getByText(/cahier de douai/i).first().click();
-    await expect(page.getByRole('button', { name: /continuer/i })).toBeEnabled({ timeout: 5_000 });
+  test('1.6 - Étape 2 : bouton Continuer activé après sélection d\'une œuvre', async () => {
+    await sharedPage.getByText(/cahier de douai/i).first().click();
+    await expect(sharedPage.getByRole('button', { name: /continuer/i })).toBeEnabled({ timeout: 5_000 });
   });
 
-  test('1.6 - Flux complet 3 étapes → redirection /dashboard', async ({ page }) => {
-    test.setTimeout(120_000);
-    await registerAndGoToOnboarding(page);
-
-    // Étape 1 : profil
-    await expect(page.locator('#ob-name')).toBeVisible({ timeout: 10_000 });
-    await page.locator('#ob-name').fill('Sophie Martin');
-    await page.locator('#ob-date').fill('2026-06-11');
-    const nextBtn1 = page.getByRole('button', { name: /continuer/i });
-    await expect(nextBtn1).toBeEnabled({ timeout: 5_000 });
-    await nextBtn1.click();
-
-    // Étape 2 : œuvres
-    await expect(page.getByText(/cahier de douai/i).first()).toBeVisible({ timeout: 10_000 });
-    await page.getByText(/cahier de douai/i).first().click();
-    const nextBtn2 = page.getByRole('button', { name: /continuer/i });
-    await expect(nextBtn2).toBeEnabled({ timeout: 5_000 });
-    await nextBtn2.click();
-
-    // Étape 3 : auto-évaluation (sliders déjà à 3 par défaut)
-    const finishBtn = page.getByRole('button', { name: /terminer/i });
-    await expect(finishBtn).toBeVisible({ timeout: 10_000 });
-    await expect(finishBtn).toBeEnabled({ timeout: 5_000 });
-    await finishBtn.click();
-
-    // Après onboarding → /dashboard
-    await expect(page).toHaveURL(/\/dashboard/, { timeout: 30_000 });
-    await expect(page.locator('main').first()).toBeVisible();
-    // Pas d'erreur serveur
-    const bodyText = await page.locator('body').textContent();
-    expect(bodyText).not.toContain('Internal Server Error');
-    expect(bodyText).not.toContain('Application error');
+  test('1.7 - Étape 3 : bouton Retour ramène à étape 2', async () => {
+    await sharedPage.getByRole('button', { name: /continuer/i }).click();
+    // Étape 3 visible
+    await expect(sharedPage.getByRole('button', { name: /terminer/i })).toBeVisible({ timeout: 10_000 });
+    // Retour → étape 2
+    await sharedPage.getByRole('button', { name: /retour/i }).click();
+    await expect(sharedPage.getByText(/cahier de douai/i).first()).toBeVisible({ timeout: 5_000 });
+    // Revenir étape 3 pour les prochains tests
+    await sharedPage.getByRole('button', { name: /continuer/i }).click();
   });
 
-  test('1.7 - Étape 3 : les sliders d\'auto-évaluation sont présents et modifiables', async ({ page }) => {
-    test.setTimeout(90_000);
+  test('1.8 - Étape 3 : sliders présents et modifiables (signal faible)', async () => {
+    const sliders = sharedPage.locator('input[type="range"]');
+    await expect(sliders.first()).toBeVisible({ timeout: 10_000 });
+    expect(await sliders.count()).toBeGreaterThanOrEqual(1);
+    await sliders.first().fill('1');
+    await expect(sharedPage.getByRole('button', { name: /terminer/i })).toBeEnabled({ timeout: 5_000 });
+  });
+});
+
+// ── Suite B : flux complet 3 étapes → /dashboard (1 seule inscription) ─────
+
+test.describe('01B — Flux complet → /dashboard', () => {
+  test.setTimeout(120_000);
+
+  test('1.9 - Flux complet 3 étapes redirige vers /dashboard', async ({ page }) => {
     await registerAndGoToOnboarding(page);
 
     // Étape 1
+    await expect(page.locator('#ob-name')).toBeVisible({ timeout: 10_000 });
     await page.locator('#ob-name').fill('Sophie Martin');
     await page.locator('#ob-date').fill('2026-06-11');
     await page.getByRole('button', { name: /continuer/i }).click();
 
     // Étape 2
+    await expect(page.getByText(/cahier de douai/i).first()).toBeVisible({ timeout: 10_000 });
     await page.getByText(/cahier de douai/i).first().click();
     await page.getByRole('button', { name: /continuer/i }).click();
 
-    // Étape 3 : vérifier les sliders
-    const sliders = page.locator('input[type="range"]');
-    await expect(sliders.first()).toBeVisible({ timeout: 10_000 });
-    const count = await sliders.count();
-    expect(count).toBeGreaterThanOrEqual(1);
+    // Étape 3
+    await expect(page.getByRole('button', { name: /terminer/i })).toBeVisible({ timeout: 10_000 });
+    await page.getByRole('button', { name: /terminer/i }).click();
 
-    // Mettre un slider à 1 (signal faible détecté)
-    await sliders.first().fill('1');
-    // L'état de priorisation doit s'afficher
-    await expect(page.getByRole('button', { name: /terminer/i })).toBeEnabled({ timeout: 5_000 });
+    // Redirection /dashboard
+    await expect(page).toHaveURL(/\/dashboard/, { timeout: 30_000 });
+    await expect(page.locator('main').first()).toBeVisible();
+    const bodyText = await page.locator('body').textContent();
+    expect(bodyText).not.toContain('Internal Server Error');
+    expect(bodyText).not.toContain('Application error');
   });
+});
 
-  test('1.8 - Étape 3 : bouton Retour ramène à étape 2', async ({ page }) => {
-    test.setTimeout(90_000);
-    await registerAndGoToOnboarding(page);
+// ── Suite C : API non authentifiée ──────────────────────────────────────────
 
-    await page.locator('#ob-name').fill('Sophie Martin');
-    await page.locator('#ob-date').fill('2026-06-11');
-    await page.getByRole('button', { name: /continuer/i }).click();
-    await page.getByText(/cahier de douai/i).first().click();
-    await page.getByRole('button', { name: /continuer/i }).click();
-
-    // Depuis l'étape 3, cliquer Retour
-    await expect(page.getByRole('button', { name: /retour/i })).toBeVisible({ timeout: 5_000 });
-    await page.getByRole('button', { name: /retour/i }).click();
-
-    // Doit afficher les œuvres (étape 2)
-    await expect(page.getByText(/cahier de douai/i).first()).toBeVisible({ timeout: 5_000 });
-  });
-
-  test('1.9 - Navigation StepRail indique l\'étape courante (aria-current)', async ({ page }) => {
-    test.setTimeout(60_000);
-    await registerAndGoToOnboarding(page);
-
-    // En étape 1, le nav doit avoir aria-current="step"
-    await expect(page.locator('[aria-current="step"]')).toBeVisible({ timeout: 5_000 });
-    const stepLabel = await page.locator('[aria-current="step"]').textContent();
-    expect(stepLabel).toBeTruthy();
-  });
-
-  test('1.10 - API /api/v1/student/profile nécessite une session valide', async ({ page }) => {
+test.describe('01C — API guard', () => {
+  test('1.10 - GET /api/v1/student/profile sans session → 401', async ({ page }) => {
     const res = await page.request.get('/api/v1/student/profile');
     expect(res.status()).toBe(401);
   });
