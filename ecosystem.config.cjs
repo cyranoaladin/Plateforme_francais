@@ -4,7 +4,10 @@ const fs = require('fs');
 const path = require('path');
 
 const repoRoot = __dirname;
-const appRoot = '/opt/eaf_platform';
+// Blue-green deployment: appRoot est dynamique basé sur SLOT ou APP_ROOT
+// Le CI injecte APP_ROOT=/var/www/eaf-{blue,green} lors du déploiement
+const slot = process.env.SLOT || 'blue';
+const appRoot = process.env.APP_ROOT || `/var/www/eaf-${slot}`;
 
 function parseEnvFile(filePath) {
   if (!fs.existsSync(filePath)) {
@@ -78,7 +81,7 @@ const webEnv = withProductionDefaults(
   {
     APP_ROOT: appRoot,
     RESSOURCES_ROOT: '/srv/eaf_ressources',
-    COPIES_DIR: '/opt/eaf_platform/.data/uploads',
+    COPIES_DIR: `${appRoot}/.data/uploads`,
     HEALTH_CHECK_READY: 'true',
     HOSTNAME: '127.0.0.1',
     PORT: 3000,
@@ -95,7 +98,7 @@ const workerEnv = withProductionDefaults(
   {
     APP_ROOT: appRoot,
     RESSOURCES_ROOT: '/srv/eaf_ressources',
-    COPIES_DIR: '/opt/eaf_platform/.data/uploads',
+    COPIES_DIR: `${appRoot}/.data/uploads`,
     ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}),
   },
   { ...appEnv, ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}) },

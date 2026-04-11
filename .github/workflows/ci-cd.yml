@@ -733,6 +733,8 @@ jobs:
           CSRF_SECRET: ${{ secrets.PROD_CSRF_SECRET }}
           MISTRAL_API_KEY: ${{ secrets.PROD_MISTRAL_API_KEY }}
           BILLING_CODE_PEPPER: ${{ secrets.PROD_BILLING_CODE_PEPPER }}
+          MCP_API_KEY: ${{ secrets.PROD_MCP_API_KEY }}
+          CRON_SECRET: ${{ secrets.PROD_CRON_SECRET }}
           STORAGE_PROVIDER: "s3"
           NEXT_PUBLIC_APP_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}
           NEXT_PUBLIC_API_URL: ${{ secrets.PROD_NEXT_PUBLIC_APP_URL }}/api/v1
@@ -755,7 +757,7 @@ jobs:
             npm ci --omit=dev
             npx prisma generate
             npx prisma migrate deploy
-            SLOT=$NEXT PORT=$NEXT_PORT pm2 startOrRestart ecosystem.config.cjs --only eaf-nextjs-$NEXT --env production --update-env
+            APP_ROOT=/var/www/eaf-$NEXT SLOT=$NEXT PORT=$NEXT_PORT pm2 startOrRestart ecosystem.config.cjs --only eaf-nextjs-$NEXT --env production --update-env
             SMOKE_OK=0
             for i in {1..30}; do
               STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${NEXT_PORT}/api/v1/health")
@@ -770,8 +772,10 @@ jobs:
               pm2 delete eaf-nextjs-$NEXT || true
               exit 1
             fi
-            echo $NEXT > /etc/nginx/conf.d/active-slot.txt
-            nginx -s reload
+            echo "upstream eaf_backend { server 127.0.0.1:${NEXT_PORT}; keepalive 32; }" \
+              | tee /etc/nginx/conf.d/upstream-active.conf > /dev/null
+            echo "$NEXT" > /etc/nginx/conf.d/active-slot.txt
+            nginx -t && nginx -s reload
             pm2 delete eaf-nextjs-$OLD || true
       - name: Smoke test post-déploiement
         if: steps.check-secrets.outputs.configured == 'true'

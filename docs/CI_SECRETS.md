@@ -16,6 +16,8 @@ Ce document liste tous les secrets qui doivent être configurés dans
 | `PROD_CSRF_SECRET` | Secret CSRF (≥ 32 chars) | Chaîne aléatoire ≥ 32 caractères |
 | `PROD_MISTRAL_API_KEY` | Clé API Mistral pour les features LLM | `sk-...` |
 | `PROD_BILLING_CODE_PEPPER` | Pepper de hachage des codes d'activation (obligatoire) | Chaîne aléatoire ≥ 32 caractères |
+| `PROD_MCP_API_KEY` | Clé API pour le serveur MCP | Chaîne aléatoire ≥ 32 caractères |
+| `PROD_CRON_SECRET` | Secret CRON pour les routes cron protégées (≥ 32 chars) | Chaîne aléatoire ≥ 32 caractères |
 | `PROD_NEXT_PUBLIC_APP_URL` | URL publique de l'application | `https://eaf.nexusreussite.academy` |
 | `PROD_HOST` | Hostname SSH du serveur de production | `88.99.254.59` |
 | `PROD_USER` | Utilisateur SSH | `root` |
