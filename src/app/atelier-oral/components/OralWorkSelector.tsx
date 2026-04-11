@@ -1,6 +1,5 @@
 import { type ExamPersona, PERSONA_LABELS } from '@/lib/agents/prompts/examiner-persona';
-import { Badge } from '@/components/ui';
-import { GraduationCap, Smile, Meh, Frown, Dices } from 'lucide-react';
+import { Smile, Meh, Frown, Dices } from 'lucide-react';
 
 export type WorkMode = 'SIMULATION' | 'FREE_PRACTICE';
 

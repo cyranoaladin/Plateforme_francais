@@ -85,7 +85,7 @@ export default async function RootLayout({
       <body className="font-sans antialiased min-h-screen max-w-[100vw] overflow-x-hidden bg-background text-foreground flex">
         <a href="#main-content" className="skip-to-content">Aller au contenu principal</a>
         <WebVitalsReporter />
-        <MetaPixel />
+        <MetaPixel nonce={nonce} />
         <AppShell><main id="main-content">{children}</main></AppShell>
         <WhatsAppButton />
         <ConsentBanner />

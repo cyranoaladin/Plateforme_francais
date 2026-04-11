@@ -45,7 +45,7 @@ export function trackMetaEvent(
   }
 }
 
-export function MetaPixel() {
+export function MetaPixel({ nonce }: { nonce?: string }) {
   const pathname = usePathname();
 
   // Fire PageView on each client-side navigation
@@ -86,6 +86,7 @@ export function MetaPixel() {
     <Script
       id="meta-pixel"
       strategy="afterInteractive"
+      nonce={nonce}
       dangerouslySetInnerHTML={{ __html: initScript }}
     />
   );

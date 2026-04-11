@@ -31,8 +31,47 @@ import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 import { PdfPreviewViewer } from '@/components/ui/pdf-preview-viewer';
 import { FREE_LIBRARY_LIMITS, FREE_TOTAL_LIMIT, LIBRARY_TOTAL_RESOURCES } from '@/lib/billing/library-gating';
-import { Badge, Button, StateNotice, Surface } from '@/components/ui';
+import { Badge, Button, StateNotice } from '@/components/ui';
 import { useDialogAccessibility } from '@/components/ui/use-dialog-accessibility';
+
+// Couleurs sémantiques par catégorie
+const CATEGORY_COLORS: Record<ResourceCategory, { color: string; iconBg: string; badgeBg: string; badgeBorder: string; accent: string }> = {
+  Annales_EAF: {
+    color: 'var(--eaf-orange)',
+    iconBg: 'rgba(255, 107, 53, 0.12)',
+    badgeBg: 'rgba(255, 107, 53, 0.12)',
+    badgeBorder: 'rgba(255, 107, 53, 0.3)',
+    accent: 'var(--eaf-orange)',
+  },
+  Oeuvres: {
+    color: 'var(--eaf-teal)',
+    iconBg: 'rgba(26, 213, 160, 0.12)',
+    badgeBg: 'rgba(26, 213, 160, 0.12)',
+    badgeBorder: 'rgba(26, 213, 160, 0.3)',
+    accent: 'var(--eaf-teal)',
+  },
+  Videos: {
+    color: 'var(--eaf-indigo)',
+    iconBg: 'rgba(123, 142, 255, 0.12)',
+    badgeBg: 'rgba(123, 142, 255, 0.12)',
+    badgeBorder: 'rgba(123, 142, 255, 0.3)',
+    accent: 'var(--eaf-indigo)',
+  },
+  Documents_Extraits: {
+    color: 'var(--eaf-gold)',
+    iconBg: 'rgba(255, 181, 71, 0.12)',
+    badgeBg: 'rgba(255, 181, 71, 0.12)',
+    badgeBorder: 'rgba(255, 181, 71, 0.3)',
+    accent: 'var(--eaf-gold)',
+  },
+  eaf_rapport_jury: {
+    color: 'var(--eaf-indigo)',
+    iconBg: 'rgba(123, 142, 255, 0.12)',
+    badgeBg: 'rgba(123, 142, 255, 0.12)',
+    badgeBorder: 'rgba(123, 142, 255, 0.3)',
+    accent: 'var(--eaf-indigo)',
+  },
+};
 
 const CATEGORY_ICONS: Record<ResourceCategory, typeof FolderOpen> = {
   Annales_EAF: GraduationCap,
@@ -113,7 +152,7 @@ export default function BibliothequePage() {
   const [selectedResource, setSelectedResource] = useState<EafResource | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [ragError, setRagError] = useState<string | null>(null);
-  const [hasFullAccess, setHasFullAccess] = useState(false); // false par défaut → freemium affiché, corrigé après fetch
+  const [hasFullAccess, setHasFullAccess] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
 
@@ -138,7 +177,6 @@ export default function BibliothequePage() {
         }
       })
       .catch(() => {
-        // Non authentifié ou erreur → on considère FREE (verrouillé)
         setHasFullAccess(false);
       });
   }, []);
@@ -206,6 +244,7 @@ export default function BibliothequePage() {
     label: getCategoryLabel(category),
     count: stats.byCategory[category] || 0,
     icon: CATEGORY_ICONS[category],
+    colors: CATEGORY_COLORS[category],
   }));
 
   const selectedResourceOpenHref = selectedResource ? getProtectedResourceUrl(selectedResource) : null;
@@ -261,33 +300,70 @@ export default function BibliothequePage() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 p-4 md:p-8">
-      <section className="hero-premium-panel relative overflow-hidden rounded-[var(--radius-2xl)] px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
-        <div className="absolute inset-y-0 right-[-10%] hidden w-[42%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(126,212,194,0.22),_transparent_70%)] blur-2xl lg:block" />
-        <div className="absolute left-[-5%] top-[-20%] h-44 w-44 rounded-full bg-[rgba(216,163,99,0.16)] blur-3xl" />
+      {/* Hero - Gradient bleu-nuit */}
+      <section
+        className="relative overflow-hidden rounded-2xl px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10"
+        style={{
+          background: 'linear-gradient(135deg, #0d1a35 0%, #111c30 60%, #0f1629 100%)',
+          border: '1px solid rgba(123, 142, 255, 0.15)',
+        }}
+      >
+        {/* Glow effects */}
+        <div
+          className="absolute -right-[5%] top-1/2 hidden h-[60%] w-[30%] -translate-y-1/2 rounded-full blur-3xl lg:block"
+          style={{ background: 'radial-gradient(circle at center, rgba(123, 142, 255, 0.12), transparent 70%)' }}
+        />
+        <div
+          className="absolute -left-[3%] -top-[15%] h-36 w-36 rounded-full blur-3xl"
+          style={{ background: 'radial-gradient(circle at center, rgba(255, 181, 71, 0.12), transparent 60%)' }}
+        />
 
         <div className="relative grid gap-8 xl:grid-cols-[1.1fr_0.9fr] xl:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--color-amber-300)]">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em]"
+              style={{
+                background: 'rgba(123, 142, 255, 0.12)',
+                color: 'var(--eaf-indigo)',
+              }}
+            >
               <BookOpen className="h-4 w-4" />
               Bibliothèque pédagogique
             </div>
-            <h1 className="font-display mt-5 max-w-4xl text-4xl leading-tight tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+            <h1
+              className="mt-5 max-w-4xl text-4xl leading-tight text-white md:text-[44px]"
+              style={{ fontFamily: 'var(--font-heading, Fraunces, serif)', letterSpacing: '-1.5px' }}
+            >
               Un fonds de travail EAF qui aide à avancer, pas un simple stock de fichiers.
             </h1>
-            <p className="hero-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/70 md:text-base">
               Annales, œuvres, rapports de jury, documents et vidéos sont réunis dans un espace conçu pour réactiver
               vite une méthode, une œuvre ou un repère utile juste avant un atelier, un oral ou une révision ciblée.
             </p>
           </div>
 
+          {/* Stats */}
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
             {[
-              { label: 'Ressources actives', value: String(stats.total).padStart(2, '0') },
-              { label: 'Catégories pilotées', value: String(CATEGORY_ORDER.length).padStart(2, '0') },
-              { label: 'Usage conseillé', value: 'Court + ciblé' },
+              { label: 'Ressources actives', value: String(stats.total).padStart(2, '0'), color: 'indigo' as const },
+              { label: 'Catégories pilotées', value: String(CATEGORY_ORDER.length).padStart(2, '0'), color: 'gold' as const },
+              { label: 'Usage conseillé', value: 'Court + ciblé', color: 'teal' as const },
             ].map((item) => (
-              <div key={item.label} className="rounded-[var(--radius-2xl)] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-amber-300)]">{item.label}</p>
+              <div
+                key={item.label}
+                className="rounded-xl px-4 py-4"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  backdropFilter: 'blur(8px)',
+                }}
+              >
+                <p
+                  className="text-[11px] font-semibold uppercase tracking-[0.2em]"
+                  style={{ color: `var(--eaf-${item.color})` }}
+                >
+                  {item.label}
+                </p>
                 <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
               </div>
             ))}
@@ -295,23 +371,31 @@ export default function BibliothequePage() {
         </div>
       </section>
 
+      {/* Freemium notice */}
       {!hasFullAccess && (
-        <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[var(--bg-reward)] px-6 py-5">
+        <section
+          className="rounded-xl border px-6 py-5"
+          style={{
+            background: 'var(--eaf-bg2)',
+            borderColor: 'rgba(255, 181, 71, 0.2)',
+          }}
+        >
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-3">
-              <Lock className="mt-0.5 h-5 w-5 shrink-0 text-[var(--c-reward)]" />
+              <Lock className="mt-0.5 h-5 w-5 shrink-0" style={{ color: 'var(--eaf-gold)' }} />
               <div>
-                <p className="text-sm font-semibold text-[var(--c-primary)]">
+                <p className="text-sm font-semibold text-[var(--eaf-fg0)]">
                   Tu accèdes à {FREE_TOTAL_LIMIT} ressources sur {LIBRARY_TOTAL_RESOURCES} avec le plan Freemium.
                 </p>
-                <p className="mt-1 text-sm leading-6 text-[var(--text-secondary)]">
+                <p className="mt-1 text-sm leading-6 text-[var(--eaf-fg2)]">
                   Les ressources verrouillées restent visibles. Passe à Premium pour toutes les débloquer.
                 </p>
               </div>
             </div>
             <Link
               href="/pricing"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-2.5 text-sm font-bold text-[var(--text-on-primary)] transition hover:bg-[var(--c-primary-active)]"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition hover:scale-[1.02]"
+              style={{ background: 'var(--eaf-orange)', color: '#050913' }}
             >
               Passer au plan supérieur
             </Link>
@@ -319,42 +403,67 @@ export default function BibliothequePage() {
         </section>
       )}
 
-      <section className="rounded-[var(--radius-2xl)] border border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] p-5 shadow-[var(--shadow-md)] md:p-6">
+      {/* Section recherche */}
+      <section
+        className="rounded-xl p-5 md:p-6"
+        style={{
+          background: 'var(--eaf-bg1)',
+          border: '1px solid rgba(123, 142, 255, 0.12)',
+        }}
+      >
         <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr] xl:items-end">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Recherche assistée</p>
-            <h2 className="font-display mt-3 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-indigo)]">
+              Recherche assistée
+            </p>
+            <h2
+              className="mt-3 text-3xl leading-tight text-[var(--eaf-fg0)]"
+              style={{ fontFamily: 'var(--font-heading, Fraunces, serif)', letterSpacing: '-1px' }}
+            >
               Cherche par besoin réel : œuvre, auteur, méthode, rapport ou question précise.
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--eaf-fg2)]">
               La recherche standard filtre le catalogue. La recherche intelligente tente en plus de remonter les passages les
               plus pertinents pour ta requête.
             </p>
           </div>
 
+          {/* Accès direct catégories */}
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
             {highlightedCategories.slice(0, 3).map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.category} className="rounded-[var(--radius-xl)] border border-[var(--border-default)] bg-[var(--bg-surface)]/80 px-4 py-4">
+                <button
+                  key={item.category}
+                  onClick={() => setActiveCategory(item.category)}
+                  className="flex items-center justify-between rounded-lg border px-4 py-3 text-left transition-all hover:-translate-y-0.5"
+                  style={{
+                    background: 'var(--eaf-bg2)',
+                    borderColor: 'rgba(123, 142, 255, 0.15)',
+                  }}
+                >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
+                    <div
+                      className="flex h-10 w-10 items-center justify-center rounded-xl"
+                      style={{ background: item.colors.iconBg, color: item.colors.color }}
+                    >
                       <Icon className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-[var(--c-primary)]">{item.label}</p>
-                      <p className="text-xs text-[var(--text-muted)]">{item.count} ressources</p>
+                      <p className="text-sm font-semibold text-[var(--eaf-fg0)]">{item.label}</p>
+                      <p className="text-xs text-[var(--eaf-fg3)]">{item.count} ressources</p>
                     </div>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
         </div>
 
+        {/* Barre de recherche */}
         <div className="mt-6 flex flex-col gap-3 lg:flex-row">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-icon)]" />
+            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--eaf-fg3)]" />
             <label htmlFor="rag-query" className="sr-only">Recherche</label>
             <input
               id="rag-query"
@@ -363,7 +472,12 @@ export default function BibliothequePage() {
               onChange={(event) => setSearchQuery(event.target.value)}
               onKeyDown={handleSearchKeyDown}
               placeholder="Exemple : explication linéaire, problématique dissertation, Rimbaud, rapport jury..."
-              className="w-full rounded-[var(--radius-xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-11 py-4 text-sm text-[var(--c-primary)] outline-none transition-all duration-[var(--transition-normal)] placeholder:text-[var(--text-muted)] focus:border-[var(--c-success)] focus:ring-2 focus:ring-[var(--c-success)]/20"
+              className="w-full rounded-xl border px-11 py-4 text-sm outline-none transition-all duration-200 placeholder:text-[var(--eaf-fg3)] focus:border-[var(--eaf-indigo)] focus:ring-2 focus:ring-[var(--eaf-indigo)]/20"
+              style={{
+                borderColor: 'rgba(123, 142, 255, 0.2)',
+                background: 'var(--eaf-bg2)',
+                color: 'var(--eaf-fg0)',
+              }}
             />
           </div>
           <Button
@@ -372,31 +486,52 @@ export default function BibliothequePage() {
             loading={isSearching}
             icon={!isSearching ? <Search className="h-4 w-4" /> : undefined}
             size="lg"
-            className="rounded-[var(--radius-xl)]"
+            className="rounded-xl font-semibold"
+            style={{
+              background: 'var(--eaf-indigo)',
+              color: '#050913',
+            }}
           >
             {isSearching ? 'Recherche…' : 'Recherche intelligente'}
           </Button>
         </div>
 
+        {/* Filter pills */}
         <div className="mt-5 flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-body)]">
+          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--eaf-fg3)]">
             <Filter className="h-4 w-4" />
             Filtrer
           </span>
           <button
             onClick={() => setActiveCategory('all')}
-            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-normal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)] ${activeCategory === 'all' ? 'bg-[var(--c-primary)] text-[var(--text-on-primary)]' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)] hover:border-[var(--c-primary)]/18'}`}
+            className={`min-h-[44px] rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+              activeCategory === 'all'
+                ? 'bg-[rgba(123,142,255,0.15)] text-[var(--eaf-indigo)] border border-[var(--eaf-indigo)]/30'
+                : 'border border-[rgba(123,142,255,0.15)] bg-[var(--eaf-bg2)] text-[var(--eaf-fg1)] hover:border-[rgba(123,142,255,0.3)]'
+            }`}
           >
             Toutes les ressources
           </button>
           {CATEGORY_ORDER.map((category) => {
             const Icon = CATEGORY_ICONS[category];
             const count = RESSOURCES.filter((resource) => resource.category === category).length;
+            const colors = CATEGORY_COLORS[category];
+            const isActive = activeCategory === category;
+            
             return (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-[var(--transition-normal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--c-success)] ${activeCategory === category ? 'bg-[var(--c-success)] text-[var(--text-on-primary)]' : 'border border-[var(--border-default)] bg-[var(--bg-surface)] text-[var(--c-primary)] hover:border-[var(--c-primary)]/18'}`}
+                className={`inline-flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                  isActive
+                    ? ''
+                    : 'border border-[rgba(123,142,255,0.15)] bg-[var(--eaf-bg2)] text-[var(--eaf-fg1)] hover:border-[rgba(123,142,255,0.3)]'
+                }`}
+                style={{
+                  background: isActive ? colors.badgeBg : undefined,
+                  borderColor: isActive ? colors.badgeBorder : undefined,
+                  color: isActive ? colors.color : undefined,
+                }}
               >
                 <Icon className="h-4 w-4" />
                 {getCategoryLabel(category)}
@@ -417,33 +552,59 @@ export default function BibliothequePage() {
       )}
 
       {ragResults.length > 0 && (
-        <section data-testid="rag-results" className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-success)] p-5 shadow-[var(--shadow-md)] md:p-6">
+        <section
+          data-testid="rag-results"
+          className="rounded-xl border p-5 md:p-6"
+          style={{
+            background: 'var(--eaf-teal)/5',
+            borderColor: 'var(--eaf-teal)/20',
+          }}
+        >
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Résultats de recherche</p>
-              <h2 className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
-                Passages remontés pour “{searchQuery}”.
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-teal)]">
+                Résultats de recherche
+              </p>
+              <h2
+                className="mt-2 text-3xl leading-tight text-[var(--eaf-fg0)]"
+                style={{ fontFamily: 'var(--font-heading, Fraunces, serif)', letterSpacing: '-1px' }}
+              >
+                Passages remontés pour "{searchQuery}".
               </h2>
             </div>
-            <p className="text-sm text-[var(--text-success-on-subtle)]">{ragResults.length} résultats priorisés</p>
+            <p className="text-sm text-[var(--eaf-teal)]">{ragResults.length} résultats priorisés</p>
           </div>
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             {ragResults.map((item) => (
-              <article key={`${item.id}-${item.sourceRef}`} className="rounded-[var(--radius-2xl)] border border-[var(--border-success)] bg-[var(--bg-surface)]/90 p-4 shadow-[var(--shadow-md)]">
+              <article
+                key={`${item.id}-${item.sourceRef}`}
+                className="rounded-xl border p-4"
+                style={{
+                  background: 'var(--eaf-bg1)',
+                  borderColor: 'rgba(123, 142, 255, 0.1)',
+                }}
+              >
                 <div className="flex items-start gap-3">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--c-success)]/10 text-[var(--c-success)]">
+                  <div
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                    style={{ background: 'var(--eaf-teal)/10', color: 'var(--eaf-teal)' }}
+                  >
                     <FileText className="h-5 w-5" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="text-sm font-semibold leading-6 text-[var(--c-primary)]">{item.title}</p>
-                      <Badge variant="success" size="sm" className="uppercase tracking-[0.14em]">
+                      <p className="text-sm font-semibold leading-6 text-[var(--eaf-fg0)]">{item.title}</p>
+                      <Badge
+                        size="sm"
+                        className="uppercase tracking-[0.14em] border-0"
+                        style={{ background: 'var(--eaf-teal)/10', color: 'var(--eaf-teal)' }}
+                      >
                         score {item.score.toFixed(2)}
                       </Badge>
                     </div>
-                    <p className="mt-1 text-xs text-[var(--text-muted)]">{item.sourceRef} · {item.type} · {item.level}</p>
-                    <p className="mt-3 text-sm leading-7 text-[var(--text-body)]">{item.excerpt}</p>
+                    <p className="mt-1 text-xs text-[var(--eaf-fg3)]">{item.sourceRef} · {item.type} · {item.level}</p>
+                    <p className="mt-3 text-sm leading-7 text-[var(--eaf-fg2)]">{item.excerpt}</p>
                   </div>
                 </div>
               </article>
@@ -452,82 +613,153 @@ export default function BibliothequePage() {
         </section>
       )}
 
+      {/* Catalogue par catégorie */}
       <div className="space-y-8">
         {CATEGORY_ORDER.map((category) => {
           const resources = groupedByCategory[category] || [];
           if (resources.length === 0) return null;
 
           const Icon = CATEGORY_ICONS[category];
+          const colors = CATEGORY_COLORS[category];
 
           return (
             <section key={category} className="space-y-4">
               <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Catalogue vivant</p>
-                  <h2 className="mt-2 flex items-center gap-3 text-2xl font-semibold text-[var(--c-primary)]">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--c-primary)]/8 text-[var(--c-primary)]">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-fg3)]">
+                    Catalogue vivant
+                  </p>
+                  <h2
+                    className="mt-2 flex items-center gap-3 text-2xl font-semibold text-[var(--eaf-fg0)]"
+                    style={{ fontFamily: 'var(--font-heading, Fraunces, serif)' }}
+                  >
+                    <span
+                      className="flex h-11 w-11 items-center justify-center rounded-xl"
+                      style={{ background: colors.iconBg, color: colors.color }}
+                    >
                       <Icon className="h-5 w-5" />
                     </span>
                     {getCategoryLabel(category)}
                   </h2>
                 </div>
-                <p className="text-sm text-[var(--text-muted)]">{resources.length} ressources visibles</p>
+                <p className="text-sm text-[var(--eaf-fg3)]">{resources.length} ressources visibles</p>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {resources.map((resource) => {
                   const locked = isResourceLocked(resource);
+                  const resourceColors = CATEGORY_COLORS[resource.category];
+                  
                   return (
                     <article
                       key={resource.id}
-                      className={`group cursor-pointer rounded-[var(--radius-2xl)] border p-5 transition ${locked ? 'border-[var(--border-default)] bg-[var(--bg-surface-secondary)] opacity-75' : 'border-[var(--border-default)] bg-[linear-gradient(180deg,var(--bg-surface)_0%,var(--bg-surface)_100%)] shadow-[var(--shadow-md)] hover:-translate-y-1 hover:border-[var(--c-primary)]/16 hover:shadow-[var(--shadow-md)]'}`}
+                      className="group cursor-pointer overflow-hidden rounded-xl border transition-all duration-200"
+                      style={{
+                        background: 'var(--eaf-bg1)',
+                        borderColor: 'rgba(123, 142, 255, 0.12)',
+                      }}
                       onClick={() => setSelectedResource(resource)}
                     >
-                      <div className="flex items-start gap-4">
-                        <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-3xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.06)] transition ${locked ? 'bg-[var(--border-disabled)] grayscale' : 'bg-[var(--bg-surface)] group-hover:bg-[var(--c-primary)]/6'}`}>
-                          {locked ? <Lock className="h-6 w-6 text-[var(--text-disabled)]" /> : getResourceIcon(resource.type)}
-                        </div>
-
-                        <div className="min-w-0 flex-1">
-                          <div className="flex flex-wrap gap-2">
-                            <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[var(--text-disabled)]/12 text-[var(--text-disabled)]' : 'bg-[var(--c-primary)]/8 text-[var(--c-primary)]'}`}>
-                              {resource.type.replace('_', ' ')}
-                            </span>
-                            {resource.year && (
-                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[var(--text-disabled)]/8 text-[var(--text-disabled)]' : 'bg-[var(--color-amber-300)]/10 text-[var(--c-reward)]'}`}>
-                                {resource.year}
-                              </span>
-                            )}
-                            {resource.ext && (
-                              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${locked ? 'bg-[var(--text-disabled)]/8 text-[var(--text-disabled)]' : 'bg-[var(--c-success)]/8 text-[var(--c-success)]'}`}>
-                                {resource.ext.replace('.', '')}
-                              </span>
-                            )}
-                            {locked && (
-                              <Badge variant="navy" size="sm" className="uppercase tracking-[0.12em]">
-                                Disponible avec Premium
-                              </Badge>
+                      {/* Accent bar on hover */}
+                      <div
+                        className="h-[3px] w-full opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                        style={{ background: resourceColors.accent }}
+                      />
+                      
+                      <div className="p-5">
+                        <div className="flex items-start gap-4">
+                          <div
+                            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-lg text-3xl transition ${
+                              locked ? 'grayscale opacity-60' : ''
+                            }`}
+                            style={{ background: resourceColors.iconBg }}
+                          >
+                            {locked ? (
+                              <Lock className="h-6 w-6" style={{ color: 'var(--eaf-fg3)' }} />
+                            ) : (
+                              getResourceIcon(resource.type)
                             )}
                           </div>
-                          <p className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${locked ? 'text-[var(--text-muted)]' : 'text-[var(--c-primary)] group-hover:text-[var(--c-primary-muted)]'}`}>
-                            {formatResourceTitle(resource.title, resource.ext)}
-                          </p>
-                          <p className={`mt-2 line-clamp-3 text-sm leading-6 ${locked ? 'text-[var(--text-disabled)]' : 'text-[var(--text-secondary)]'}`}>
-                            {buildResourceDescription(resource)}
-                          </p>
-                          <div className={`mt-4 flex items-center justify-between text-xs ${locked ? 'text-[var(--text-disabled)]' : 'text-[var(--text-body)]'}`}>
-                            <span>{formatFileSize(resource.size) || 'Taille non précisée'}</span>
-                            {locked ? (
-                              <span className="inline-flex items-center gap-1 font-semibold text-[var(--text-disabled)]">
-                                <Lock className="h-3 w-3" />
-                                Verrouillée
+
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap gap-2">
+                              <span
+                                className="rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                                style={{
+                                  background: locked ? 'var(--eaf-bg3)' : resourceColors.badgeBg,
+                                  border: `1px solid ${locked ? 'rgba(123,142,255,0.1)' : resourceColors.badgeBorder}`,
+                                  color: locked ? 'var(--eaf-fg3)' : resourceColors.color,
+                                }}
+                              >
+                                {resource.type.replace('_', ' ')}
                               </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 font-semibold text-[var(--c-primary)]">
-                                Ouvrir la fiche
-                                <ExternalLink className="h-3.5 w-3.5" />
-                              </span>
-                            )}
+                              {resource.year && (
+                                <span
+                                  className="rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                                  style={{
+                                    background: 'var(--eaf-bg3)',
+                                    border: '1px solid rgba(123,142,255,0.1)',
+                                    color: 'var(--eaf-fg2)',
+                                  }}
+                                >
+                                  {resource.year}
+                                </span>
+                              )}
+                              {resource.ext && (
+                                <span
+                                  className="rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                                  style={{
+                                    background: 'var(--eaf-bg3)',
+                                    border: '1px solid rgba(123,142,255,0.1)',
+                                    color: 'var(--eaf-fg2)',
+                                  }}
+                                >
+                                  {resource.ext.replace('.', '')}
+                                </span>
+                              )}
+                              {locked && (
+                                <Badge
+                                  size="sm"
+                                  className="uppercase tracking-[0.12em] border-0"
+                                  style={{ background: 'var(--eaf-bg3)', color: 'var(--eaf-fg3)' }}
+                                >
+                                  Premium
+                                </Badge>
+                              )}
+                            </div>
+                            <p
+                              className={`mt-3 line-clamp-2 text-base font-semibold leading-7 transition ${
+                                locked ? 'text-[var(--eaf-fg3)]' : 'text-[var(--eaf-fg0)] group-hover:text-[var(--eaf-indigo)]'
+                              }`}
+                            >
+                              {formatResourceTitle(resource.title, resource.ext)}
+                            </p>
+                            <p
+                              className={`mt-2 line-clamp-3 text-sm leading-6 ${
+                                locked ? 'text-[var(--eaf-fg3)]' : 'text-[var(--eaf-fg2)]'
+                              }`}
+                            >
+                              {buildResourceDescription(resource)}
+                            </p>
+                            <div
+                              className={`mt-4 flex items-center justify-between border-t pt-3 text-xs ${
+                                locked ? 'text-[var(--eaf-fg3)]' : 'text-[var(--eaf-fg2)]'
+                              }`}
+                              style={{ borderColor: 'rgba(123, 142, 255, 0.08)' }}
+                            >
+                              <span>{formatFileSize(resource.size) || 'Taille non précisée'}</span>
+                              {locked ? (
+                                <span className="inline-flex items-center gap-1 font-semibold text-[var(--eaf-fg3)]">
+                                  <Lock className="h-3 w-3" />
+                                  Verrouillée
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 font-semibold text-[var(--eaf-indigo)]">
+                                  Ouvrir la fiche
+                                  <ExternalLink className="h-3.5 w-3.5" />
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -543,7 +775,7 @@ export default function BibliothequePage() {
       {filteredResources.length === 0 && (
         <StateNotice
           title="Aucune ressource ne correspond à ces critères"
-          description="Essaie d’élargir ta recherche ou de revenir sur « Toutes les ressources » pour retrouver l’ensemble du catalogue."
+          description="Essaie d'élargir ta recherche ou de revenir sur « Toutes les ressources » pour retrouver l'ensemble du catalogue."
           variant="empty"
           icon={FolderOpen}
           center
@@ -551,8 +783,13 @@ export default function BibliothequePage() {
           action={
             <Button
               onClick={() => { setActiveCategory('all'); setSearchQuery(''); }}
-              variant="secondary"
               size="md"
+              className="rounded-xl border font-semibold"
+              style={{
+                borderColor: 'rgba(123, 142, 255, 0.2)',
+                background: 'var(--eaf-bg2)',
+                color: 'var(--eaf-fg1)',
+              }}
             >
               Voir toutes les ressources
             </Button>
@@ -560,9 +797,14 @@ export default function BibliothequePage() {
         />
       )}
 
+      {/* Modale fiche ressource - DARK THEME */}
       {selectedResource && (
         <div
-          className="fixed inset-0 z-40 flex items-center justify-center bg-black/45 p-0 backdrop-blur-sm md:p-8"
+          className="fixed inset-0 z-40 flex items-center justify-center p-0 md:p-8"
+          style={{
+            background: 'rgba(5, 9, 19, 0.88)',
+            backdropFilter: 'blur(10px)',
+          }}
           onClick={closeSelectedResource}
         >
           <div
@@ -572,76 +814,158 @@ export default function BibliothequePage() {
             aria-labelledby="library-resource-title"
             aria-describedby="library-resource-description"
             tabIndex={-1}
-            className="h-screen w-full overflow-auto rounded-none border-0 bg-[var(--bg-surface)] p-6 shadow-2xl md:h-auto md:max-h-[88vh] md:max-w-3xl md:rounded-[var(--radius-2xl)] md:border md:border-[var(--border-default)] md:p-8"
+            className="h-screen w-full overflow-auto rounded-none border-0 p-6 shadow-2xl md:h-auto md:max-h-[88vh] md:max-w-2xl md:rounded-xl md:border md:p-8"
+            style={{
+              background: 'var(--eaf-bg1)',
+              borderColor: 'rgba(123, 142, 255, 0.15)',
+              boxShadow: '0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(123,142,255,0.08)',
+            }}
             onClick={(event) => event.stopPropagation()}
           >
+            {/* Header */}
             <div className="flex items-start justify-between gap-4">
               <div className="flex min-w-0 gap-4">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[var(--radius-2xl)] bg-[var(--bg-surface)] text-4xl shadow-[inset_0_0_0_1px_rgba(23,50,77,0.08)]">
+                <div
+                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl text-4xl"
+                  style={{
+                    background: CATEGORY_COLORS[selectedResource.category].iconBg,
+                  }}
+                >
                   {getResourceIcon(selectedResource.type)}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Fiche ressource</p>
-                  <h3 id="library-resource-title" className="font-display mt-2 text-3xl leading-tight tracking-[-0.02em] text-[var(--c-primary)]">
+                  <p
+                    className="text-[11px] font-bold uppercase tracking-[0.24em]"
+                    style={{ color: CATEGORY_COLORS[selectedResource.category].color }}
+                  >
+                    Fiche ressource
+                  </p>
+                  <h3
+                    id="library-resource-title"
+                    className="mt-2 text-3xl leading-tight text-[var(--eaf-fg0)]"
+                    style={{ fontFamily: 'var(--font-heading, Fraunces, serif)', letterSpacing: '-1px' }}
+                  >
                     {formatResourceTitle(selectedResource.title, selectedResource.ext)}
                   </h3>
-                  <p className="mt-2 text-sm text-[var(--text-secondary)]">
+                  <p className="mt-2 text-sm text-[var(--eaf-fg3)]">
                     {getCategoryLabel(selectedResource.category)} · {formatFileSize(selectedResource.size) || 'Taille non précisée'}
                   </p>
                 </div>
               </div>
-              <Button
+              <button
                 ref={dialogCloseRef}
                 onClick={closeSelectedResource}
-                variant="secondary"
-                size="sm"
-                className="h-11 w-11 rounded-2xl border-[var(--border-default)] p-0"
+                className="flex h-11 w-11 items-center justify-center rounded-xl transition"
+                style={{
+                  background: 'var(--eaf-bg2)',
+                  border: '1px solid rgba(123, 142, 255, 0.15)',
+                  color: 'var(--eaf-fg2)',
+                }}
                 aria-label="Fermer"
               >
                 <X className="h-4 w-4" />
-              </Button>
+              </button>
             </div>
 
+            {/* Corps - Grid 2 colonnes */}
             <div className="mt-6 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-              <Surface tone="default" padding="md">
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Pourquoi l’ouvrir</p>
-                <p id="library-resource-description" className="mt-3 text-sm leading-7 text-[var(--text-body)]">{buildResourceDescription(selectedResource)}</p>
+              {/* Colonne gauche - Pourquoi l'ouvrir */}
+              <div
+                className="rounded-xl p-5"
+                style={{
+                  background: 'var(--eaf-bg2)',
+                  border: '1px solid rgba(123, 142, 255, 0.1)',
+                }}
+              >
+                <p
+                  className="text-[11px] font-bold uppercase tracking-[0.24em]"
+                  style={{ color: CATEGORY_COLORS[selectedResource.category].color }}
+                >
+                  Pourquoi l'ouvrir
+                </p>
+                <p id="library-resource-description" className="mt-3 text-sm leading-7 text-[var(--eaf-fg2)]">
+                  {buildResourceDescription(selectedResource)}
+                </p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
-                  <Badge variant="default" size="sm">
+                  <span
+                    className="rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                    style={{
+                      background: 'var(--eaf-bg3)',
+                      border: '1px solid rgba(123,142,255,0.1)',
+                      color: 'var(--eaf-fg2)',
+                    }}
+                  >
                     Type: {selectedResource.type.replace('_', ' ')}
-                  </Badge>
-                  <Badge variant="success" size="sm">
+                  </span>
+                  <span
+                    className="rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                    style={{
+                      background: CATEGORY_COLORS[selectedResource.category].badgeBg,
+                      border: `1px solid ${CATEGORY_COLORS[selectedResource.category].badgeBorder}`,
+                      color: CATEGORY_COLORS[selectedResource.category].color,
+                    }}
+                  >
                     Format : {selectedResource.ext?.toUpperCase() || 'Inconnu'}
-                  </Badge>
+                  </span>
                   {selectedResource.year && (
-                    <Badge variant="premium" size="sm">
+                    <span
+                      className="rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                      style={{
+                        background: 'var(--eaf-bg3)',
+                        border: '1px solid rgba(123,142,255,0.1)',
+                        color: 'var(--eaf-fg2)',
+                      }}
+                    >
                       Année: {selectedResource.year}
-                    </Badge>
+                    </span>
                   )}
                   {selectedResource.subject && (
-                    <Badge variant="default" size="sm" className="bg-[var(--c-primary)]/10 text-[var(--c-primary)] border-[var(--c-primary)]/20">
+                    <span
+                      className="rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                      style={{
+                        background: 'var(--eaf-indigo)/10',
+                        border: '1px solid var(--eaf-indigo)/20',
+                        color: 'var(--eaf-indigo)',
+                      }}
+                    >
                       {selectedResource.subject}
-                    </Badge>
+                    </span>
                   )}
                 </div>
-              </Surface>
+              </div>
 
-              <Surface tone="success" padding="md">
+              {/* Colonne droite - Actions */}
+              <div
+                className="rounded-xl p-5"
+                style={{
+                  background: 'var(--eaf-bg2)',
+                  border: '1px solid rgba(123, 142, 255, 0.1)',
+                }}
+              >
                 {selectedResource && isResourceLocked(selectedResource) ? (
                   <>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-reward)]">Ressource verrouillée</p>
-                    <div className="mt-4 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--bg-surface)] p-5 text-center">
-                      <Lock className="mx-auto h-8 w-8 text-[var(--text-disabled)]" />
-                      <p className="mt-3 text-sm font-semibold text-[var(--c-primary)]">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-gold)]">
+                      Ressource verrouillée
+                    </p>
+                    <div
+                      className="mt-4 rounded-lg border p-5 text-center"
+                      style={{
+                        background: 'var(--eaf-bg1)',
+                        borderColor: 'rgba(123, 142, 255, 0.1)',
+                      }}
+                    >
+                      <Lock className="mx-auto h-8 w-8 text-[var(--eaf-fg3)]" />
+                      <p className="mt-3 text-sm font-semibold text-[var(--eaf-fg0)]">
                         Cette ressource fait partie des {LIBRARY_TOTAL_RESOURCES - FREE_TOTAL_LIMIT} contenus réservés aux abonnés.
                       </p>
-                      <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
+                      <p className="mt-2 text-sm leading-6 text-[var(--eaf-fg2)]">
                         Passe à Premium pour débloquer les {LIBRARY_TOTAL_RESOURCES} ressources de la bibliothèque complète.
                       </p>
                       <Link
                         href="/pricing"
-                        className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3 text-sm font-bold text-[var(--text-on-primary)] transition hover:bg-[var(--c-primary-active)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
+                        className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition hover:scale-[1.02]"
+                        style={{ background: 'var(--eaf-orange)', color: '#050913' }}
                       >
                         Passer au plan supérieur
                       </Link>
@@ -649,12 +973,15 @@ export default function BibliothequePage() {
                   </>
                 ) : (
                   <>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--c-success)]">Actions</p>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-teal)]">
+                      Actions
+                    </p>
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       <a
                         href={selectedResourceDownloadHref ?? selectedResource.url}
                         download={selectedResource.originalTitle ?? selectedResource.title}
-                        className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-lg)] bg-[var(--c-primary)] px-4 py-4 text-sm font-semibold text-[var(--text-on-primary)] transition hover:bg-[var(--c-primary-active)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-4 text-sm font-semibold transition hover:scale-[1.02]"
+                        style={{ background: 'var(--eaf-orange)', color: '#050913' }}
                       >
                         <Download className="h-4 w-4" />
                         Télécharger
@@ -663,7 +990,12 @@ export default function BibliothequePage() {
                         href={selectedResourceOpenHref ?? selectedResource.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-surface)] px-4 py-4 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-primary)]/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-4 text-sm font-semibold transition"
+                        style={{
+                          borderColor: 'rgba(123, 142, 255, 0.2)',
+                          background: 'var(--eaf-bg1)',
+                          color: 'var(--eaf-fg0)',
+                        }}
                       >
                         <ExternalLink className="h-4 w-4" />
                         Ouvrir
@@ -671,26 +1003,48 @@ export default function BibliothequePage() {
                     </div>
                     <Link
                       href={selectedResourceTutorHref}
-                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-lg)] border border-[var(--border-success)] bg-[var(--bg-surface)] px-4 py-4 text-sm font-semibold text-[var(--c-primary)] transition hover:border-[var(--c-success)] hover:text-[var(--c-success)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-success)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]"
+                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border px-4 py-4 text-sm font-semibold transition hover:border-[var(--eaf-teal)] hover:text-[var(--eaf-teal)]"
+                      style={{
+                        borderColor: 'rgba(123, 142, 255, 0.2)',
+                        background: 'var(--eaf-bg1)',
+                        color: 'var(--eaf-fg0)',
+                      }}
                     >
                       Reprendre cette ressource avec le guidage
                     </Link>
                   </>
                 )}
 
+                {/* Lecteur vidéo */}
                 {(selectedResource.ext === '.webm' || selectedResource.ext === '.mkv' || selectedResource.ext === '.mp4') && (
                   <div className="mt-5 space-y-3">
                     <div className="flex items-center justify-between">
-                      <p className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--c-primary)]">
-                        <Play className="h-4 w-4 text-[var(--c-success)]" />
+                      <p className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--eaf-fg0)]">
+                        <Play className="h-4 w-4" style={{ color: 'var(--eaf-indigo)' }} />
                         Lecteur vidéo
                       </p>
-                      <span className="rounded-full bg-[var(--c-success)]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--c-success)]">
+                      <span
+                        className="rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                        style={{
+                          background: 'var(--eaf-indigo)/10',
+                          color: 'var(--eaf-indigo)',
+                        }}
+                      >
                         {selectedResource.ext?.replace('.', '')}
                       </span>
                     </div>
-                    <div className="aspect-video overflow-hidden rounded-[var(--radius-2xl)] bg-black shadow-[var(--shadow-md)]">
-                      <video controls className="h-full w-full" src={selectedResourceOpenHref ?? selectedResource.url} poster="/images/logo_nexus_reussite.png" preload="metadata" playsInline>
+                    <div
+                      className="aspect-video overflow-hidden rounded-xl"
+                      style={{ background: '#000' }}
+                    >
+                      <video
+                        controls
+                        className="h-full w-full"
+                        src={selectedResourceOpenHref ?? selectedResource.url}
+                        poster="/images/logo_nexus_reussite.png"
+                        preload="metadata"
+                        playsInline
+                      >
                         <source src={selectedResourceOpenHref ?? selectedResource.url} type={getVideoMimeType(selectedResource)} />
                         Ton navigateur ne supporte pas la lecture vidéo.
                       </video>
@@ -698,14 +1052,21 @@ export default function BibliothequePage() {
                   </div>
                 )}
 
+                {/* Viewer PDF */}
                 {selectedResource.ext === '.pdf' && (
                   <div className="mt-5 space-y-3">
                     <div className="flex items-center justify-between">
-                      <p className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--c-primary)]">
-                        <FileText className="h-4 w-4 text-[var(--c-success)]" />
+                      <p className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--eaf-fg0)]">
+                        <FileText className="h-4 w-4" style={{ color: 'var(--eaf-gold)' }} />
                         Aperçu PDF
                       </p>
-                      <span className="rounded-full bg-[var(--c-success)]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--c-success)]">
+                      <span
+                        className="rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]"
+                        style={{
+                          background: 'var(--eaf-gold)/10',
+                          color: 'var(--eaf-gold)',
+                        }}
+                      >
                         PDF
                       </span>
                     </div>
@@ -713,12 +1074,12 @@ export default function BibliothequePage() {
                       src={selectedResourceOpenHref ?? selectedResource.url}
                       title={formatResourceTitle(selectedResource.title, selectedResource.ext)}
                     />
-                    <p className="text-xs leading-6 text-[var(--text-muted)]">
+                    <p className="text-xs leading-6 text-[var(--eaf-fg3)]">
                       Aperçu rendu dans la plateforme via PDF.js. Si un document résiste au rendu, les boutons ci-dessus restent la sortie fiable.
                     </p>
                   </div>
                 )}
-              </Surface>
+              </div>
             </div>
           </div>
         </div>

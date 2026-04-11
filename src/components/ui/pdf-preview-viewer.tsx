@@ -32,10 +32,9 @@ let pdfJsPromise: Promise<PdfJsModule> | null = null;
 async function loadPdfJs(): Promise<PdfJsModule> {
   if (!pdfJsPromise) {
     pdfJsPromise = import('pdfjs-dist/legacy/build/pdf.mjs').then((module) => {
-      module.GlobalWorkerOptions.workerSrc = new URL(
-        'pdfjs-dist/legacy/build/pdf.worker.min.mjs',
-        import.meta.url,
-      ).toString();
+      // Worker is copied to public/ as .js during build (copy-pdf-worker npm script).
+      // Using a static path avoids the .mjs MIME type issue in Next.js standalone server.
+      module.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
       return module;
     });
   }

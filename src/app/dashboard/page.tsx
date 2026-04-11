@@ -1,20 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { useSyncExternalStore, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AlertTriangle,
   ArrowRight,
-  BrainCircuit,
   Clock3,
   Map as MapIcon,
-  MessageSquare,
-  Mic,
-  PenTool,
   Sparkles,
   Target,
   Zap,
-  Library,
 } from 'lucide-react';
 import {
   PolarAngleAxis,
@@ -52,7 +47,7 @@ const SKILL_META = [
   {
     key: 'grammaire' as const,
     label: 'Grammaire',
-    color: 'var(--eaf-gold)',
+    color: 'var(--eaf-orange)',
     copy: 'Verrouiller les notions qui coûtent des points trop rapidement.',
     href: '/atelier-langue',
   },
@@ -70,43 +65,49 @@ const QUICK_ACCESS = [
     title: 'Atelier oral',
     detail: 'Lecture, explication, entretien : repartir sur une séquence complète.',
     href: '/atelier-oral',
-    icon: Mic,
+    emoji: '🎤',
+    iconColor: '#1AD5A0',
     bgColor: 'rgba(26,213,160,0.12)',
   },
   {
     title: 'Atelier écrit',
     detail: 'Commentaire, dissertation ou sujet blanc selon le besoin réel.',
     href: '/atelier-ecrit',
-    icon: PenTool,
+    emoji: '✍️',
+    iconColor: '#7B8EFF',
     bgColor: 'rgba(123,142,255,0.12)',
   },
   {
     title: 'Atelier langue',
     detail: 'Exercices courts pour verrouiller les notions qui coûtent le plus de points.',
     href: '/atelier-langue',
-    icon: BrainCircuit,
-    bgColor: 'rgba(255,181,71,0.10)',
+    emoji: '📝',
+    iconColor: '#FFB547',
+    bgColor: 'rgba(255,181,71,0.12)',
   },
   {
     title: 'Quiz',
     detail: 'Ancrer les repères sur les œuvres, les méthodes et les attentes du bac.',
     href: '/quiz',
-    icon: Target,
+    emoji: '❓',
+    iconColor: '#FF6B35',
     bgColor: 'rgba(255,107,53,0.12)',
   },
   {
     title: 'Bibliothèque',
     detail: 'Ressources courtes pour relancer méthode, œuvres et repères utiles.',
     href: '/bibliotheque',
-    icon: Library,
-    bgColor: 'rgba(123,142,255,0.08)',
+    emoji: '📚',
+    iconColor: '#7B8EFF',
+    bgColor: 'rgba(123,142,255,0.10)',
   },
   {
     title: 'Tuteur Nexus',
     detail: 'Débloquer une difficulté précise au lieu de tourner en rond.',
     href: '/tuteur',
-    icon: MessageSquare,
-    bgColor: 'rgba(26,213,160,0.08)',
+    emoji: '💬',
+    iconColor: '#1AD5A0',
+    bgColor: 'rgba(26,213,160,0.10)',
   },
 ];
 
@@ -145,9 +146,16 @@ function formatActivity(event: { id: string; type: string; feature: string; crea
 
 export default function Dashboard() {
   const data = useDashboard();
-  const chartsReady = useSyncExternalStore(() => () => {}, () => true, () => false);
+  const [chartsReady, setChartsReady] = useState(false);
   const [planId, setPlanId] = useState<string | null>(null);
   const [descriptifTotal, setDescriptifTotal] = useState<number>(0);
+
+  useEffect(() => {
+    // Defer chart rendering until after browser layout so ResizeObserver
+    // has real dimensions (avoids Recharts width(-1)/height(-1) warning).
+    const raf = requestAnimationFrame(() => setChartsReady(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   useEffect(() => {
     fetch('/api/v1/billing/status')
@@ -253,7 +261,7 @@ export default function Dashboard() {
               color: 'var(--eaf-text-primary)'
             }}
           >
-            {data.displayName} ({planId?.toUpperCase() || 'FREEMIUM'}), voilà la priorité qui doit faire bouger ta semaine.
+            {data.displayName}, voilà la priorité qui doit faire bouger ta semaine.
           </h1>
 
           {/* Paragraph */}
@@ -345,8 +353,8 @@ export default function Dashboard() {
           {[
             { label: 'SÉRIE ACTIVE', value: String(data.streak), sub: 'jours', color: 'var(--eaf-teal)' },
             { label: 'SESSIONS TRACÉES', value: String(data.totalSessions), color: 'var(--eaf-indigo)' },
-            { label: 'PERSONNALISATION', value: data.onboardingCompleted ? 'Activée' : 'À terminer', isBadge: true, badgeColor: 'var(--eaf-teal)' },
-            { label: 'REPÈRE FORT', value: data.hasEvaluationData ? strongestSkill.label : 'À construire', isBadge: true, badgeColor: 'var(--eaf-gold)' },
+            { label: 'PERSONNALISATION', value: data.onboardingCompleted ? 'Activée' : 'À terminer', isBadge: true, badgeBg: 'var(--eaf-teal-dim)', badgeBorder: 'var(--eaf-teal-border)', badgeColor: 'var(--eaf-teal)' },
+            { label: 'REPÈRE FORT', value: data.hasEvaluationData ? strongestSkill.label : 'À construire', isBadge: true, badgeBg: 'var(--eaf-gold-dim)', badgeBorder: 'var(--eaf-gold-border)', badgeColor: 'var(--eaf-gold)' },
           ].map((stat) => (
             <div 
               key={stat.label}
@@ -362,10 +370,10 @@ export default function Dashboard() {
               {stat.isBadge ? (
                 <span 
                   className="inline-block rounded-full px-2.5 py-0.5 text-[13px] font-medium"
-                  style={{ 
-                    background: `${stat.badgeColor}20`,
+                  style={{
+                    background: (stat as { badgeBg?: string }).badgeBg ?? 'var(--eaf-bg3)',
                     color: stat.badgeColor,
-                    border: `1px solid ${stat.badgeColor}40`
+                    border: `1px solid ${(stat as { badgeBorder?: string }).badgeBorder ?? 'var(--eaf-border)'}`
                   }}
                 >
                   {stat.value}
@@ -505,9 +513,9 @@ export default function Dashboard() {
             </span>
           </div>
 
-          <div className="h-[180px] w-full">
+          <div className="h-[180px] w-full min-w-0">
             {chartsReady ? (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height={180} minWidth={0}>
                 <RadarChart data={radarData}>
                   <PolarGrid 
                     stroke="var(--eaf-border)"
@@ -598,9 +606,9 @@ export default function Dashboard() {
             Tendance en construction
           </span>
 
-          <div className="h-[180px] w-full mt-8">
+          <div className="h-[180px] w-full mt-8 min-w-0">
             {chartsReady ? (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height={180} minWidth={0}>
                 <LineChart data={progressionData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--eaf-border)" opacity={0.5} />
                   <XAxis 
@@ -1070,11 +1078,11 @@ export default function Dashboard() {
                 e.currentTarget.style.transform = 'none';
               }}
             >
-              <div 
-                className="flex h-7 w-7 items-center justify-center rounded-lg mb-3"
-                style={{ background: atelier.bgColor }}
+              <div
+                className="flex items-center justify-center rounded-lg mb-3"
+                style={{ background: atelier.bgColor, width: '40px', height: '40px', fontSize: '20px' }}
               >
-                <atelier.icon className="h-4 w-4" style={{ color: 'var(--eaf-text-primary)' }} />
+                {atelier.emoji}
               </div>
               <h3 
                 className="text-[14px] font-semibold mb-1.5"

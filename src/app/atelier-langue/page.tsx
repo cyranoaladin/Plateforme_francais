@@ -14,7 +14,7 @@ import {
   Type,
 } from 'lucide-react';
 import { useTrackInteraction } from '@/components/tracking/tracking-provider';
-import { Button, StateNotice, Textarea } from '@/components/ui';
+import { Button, StateNotice } from '@/components/ui';
 import { buildLangueExerciseSeries } from '@/lib/langue/exercise-bank';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';

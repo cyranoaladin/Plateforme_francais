@@ -124,7 +124,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
   ].join(' ');
   const csp = [
     `default-src 'self'`,
-    `script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com`,
+    `script-src 'self' 'nonce-${nonce}' 'sha256-fs97/YpqsP1FB/sVC7EonuE57ak0m3evRa7LF0W9cdM=' https://cdnjs.cloudflare.com https://connect.facebook.net`,
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob:`,
     `media-src 'self' blob:`,
