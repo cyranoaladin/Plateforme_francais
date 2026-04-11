@@ -12,3 +12,7 @@ paths = [
   '''docs/audit_proofs/.*''',
   '''AUDIT_REPORT_2026-03-05\.md''',
 ]
+# CI dummy values — not real credentials, used only as test placeholders in workflow env blocks
+regexes = [
+  '''ci_dummy_mcp_key_32chars_ok''',
+]
