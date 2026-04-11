@@ -123,19 +123,27 @@ fi
 # ─── PM2 ───────────────────────────────────────────────────────────────────
 echo ""
 echo "── PM2 ─────────────────────────────────────────────────"
-if command -v pm2 &>/dev/null || [ -f /opt/nexus/.pm2/pm2.pid ]; then
-  sudo -u nexus env HOME=/opt/nexus PM2_HOME=/opt/nexus/.pm2 pm2 jlist 2>/dev/null \
+if command -v pm2 &>/dev/null; then
+  pm2 jlist 2>/dev/null \
   | python3 -c "
 import json, sys
 try:
   procs = json.load(sys.stdin)
-  required = ['eaf-nextjs-blue', 'eaf-mcp', 'eaf-worker']
+  # eaf-nextjs-blue is required; eaf-mcp and eaf-worker are optional
+  required = ['eaf-nextjs-blue']
+  optional = ['eaf-mcp', 'eaf-worker']
   for name in required:
     proc = next((p for p in procs if p.get('name') == name), None)
     if proc and proc.get('pm2_env', {}).get('status') == 'online':
       print(f'  ✓ {name}: online')
     else:
       print(f'  ✗ {name}: OFFLINE ou absent')
+  for name in optional:
+    proc = next((p for p in procs if p.get('name') == name), None)
+    if proc and proc.get('pm2_env', {}).get('status') == 'online':
+      print(f'  ✓ {name}: online')
+    else:
+      print(f'  ⚠ {name}: absent (optionnel)')
 except:
   print('  ⚠ Impossible de lire PM2 jlist')
 " 2>/dev/null || warn "PM2 non accessible"

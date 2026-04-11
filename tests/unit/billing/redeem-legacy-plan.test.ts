@@ -17,14 +17,17 @@ vi.mock('@/lib/db/client', () => ({
   },
 }));
 
-describe('redeemActivationCode rejects disabled legacy plans', () => {
+describe('redeemActivationCode handles legacy plans', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     process.env.BILLING_CODE_PEPPER = 'test-pepper';
+    tx.subscription.findUnique.mockResolvedValue(null);
+    tx.subscription.upsert.mockResolvedValue({});
+    tx.activationCode.update.mockResolvedValue({});
   });
 
-  it('rejects a MAX activation code even if it exists in storage', async () => {
-    const { hashCode, redeemActivationCode, RedeemError } = await import('@/lib/billing/redeem');
+  it('normalises a MAX activation code to PRO after enum migration', async () => {
+    const { hashCode, redeemActivationCode } = await import('@/lib/billing/redeem');
     tx.activationCode.findUnique.mockResolvedValue({
       id: 'code-1',
       codeHash: hashCode('EAFMAXCODE123'),
@@ -34,11 +37,9 @@ describe('redeemActivationCode rejects disabled legacy plans', () => {
       expiresAt: null,
     });
 
-    await expect(redeemActivationCode('user-1', 'EAFMAXCODE123')).rejects.toMatchObject({
-      name: RedeemError.name,
-      code: 'PLAN_UNKNOWN',
-    });
-    expect(tx.subscription.upsert).not.toHaveBeenCalled();
-    expect(tx.activationCode.update).not.toHaveBeenCalled();
+    const result = await redeemActivationCode('user-1', 'EAFMAXCODE123');
+    expect(result.plan).toBe('PRO');
+    expect(tx.subscription.upsert).toHaveBeenCalled();
+    expect(tx.activationCode.update).toHaveBeenCalled();
   });
 });

@@ -47,6 +47,11 @@ const nextConfig: NextConfig = {
     ],
   },
   outputFileTracingRoot: appRoot,
+  // Turbopack omits some server-action chunks from standalone output.
+  // Explicitly include all action chunks so the standalone server can load them.
+  outputFileTracingIncludes: {
+    '**': ['.next/server/chunks/_next-internal_*.js'],
+  },
   reactStrictMode: true,
   // Image optimization: SVG support + modern formats
   // dangerouslyAllowSVG is enabled for internal pedagogical illustrations
