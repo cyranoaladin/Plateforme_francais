@@ -61,10 +61,10 @@ const nextConfig: NextConfig = {
   },
   // Remove X-Powered-By header (information disclosure)
   poweredByHeader: false,
-  // Next.js 16 defaults to Turbopack; empty config silences the
-  // "webpack config without turbopack config" build error.
+  // Next.js 16 defaults to Turbopack for `next build`.
+  // root must include /srv/eaf_ressources (symlink target outside /opt/eaf_platform).
   turbopack: {
-    root: appRoot,
+    root: '/',
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
