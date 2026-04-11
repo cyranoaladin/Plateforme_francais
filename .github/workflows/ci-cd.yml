@@ -336,6 +336,9 @@ jobs:
         ports: ["6379:6379"]
     env:
       HEALTH_CHECK_READY: "true"
+      MISTRAL_API_KEY: "ci_dummy_key"
+      GEMINI_API_KEY: "ci_dummy_key"
+      OPENAI_API_KEY: "ci_dummy_key"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -385,8 +388,8 @@ jobs:
             exit 1
           }
           echo "✅ Serveur contract prêt"
-      - name: Upload server logs (contract failure)
-        if: failure()
+      - name: Upload server logs (contract)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: contract-server-logs
@@ -439,6 +442,9 @@ jobs:
         ports: ["6379:6379"]
     env:
       HEALTH_CHECK_READY: "true"
+      MISTRAL_API_KEY: "ci_dummy_key"
+      GEMINI_API_KEY: "ci_dummy_key"
+      OPENAI_API_KEY: "ci_dummy_key"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -498,8 +504,8 @@ jobs:
         if: always()
         run: |
           if [ -f .e2e_server_pid ]; then kill "$(cat .e2e_server_pid)" 2>/dev/null || true; fi
-      - name: Upload server logs (E2E failure)
-        if: failure()
+      - name: Upload server logs (E2E)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: e2e-server-logs
