@@ -16,6 +16,8 @@ import { composeMemoryContext, truncateToTokenBudget, type AgentType } from '@/l
 import { loadMemoryProfileForUser } from '@/lib/memory/profile-loader';
 import { checkLLMQuota, QuotaExceededError } from '@/lib/security/llm-rate-limiter';
 import { trackLlmCall } from '@/lib/llm/cost-tracker';
+import { consumeQuota } from '@/lib/billing/usage';
+import { getBillingContext } from '@/lib/billing/context';
 
 /** Skills that should NOT receive media context injection */
 const SKILLS_WITHOUT_MEDIA: ReadonlySet<Skill> = new Set([
@@ -263,6 +265,21 @@ export async function orchestrate({ skill, userQuery, context, userId, oeuvreId,
       responseMimeType: 'application/json',
     });
     recordProviderSuccess(selectedProvider.tier);
+
+    // C2 FIX: Consommer le quota LLM_TOKENS avec les tokens réels utilisés
+    const totalTokens = (completion.usage?.promptTokens ?? 0) + (completion.usage?.completionTokens ?? 0);
+    if (totalTokens > 0) {
+      try {
+        const billing = await getBillingContext(userId);
+        const tokenQuota = billing.config.quotas.LLM_TOKENS;
+        if (tokenQuota && tokenQuota.limit !== 'unlimited' && tokenQuota.limit > 0) {
+          await consumeQuota(userId, 'LLM_TOKENS', tokenQuota, totalTokens);
+        }
+      } catch (quotaErr) {
+        // Log mais ne pas bloquer la réponse utilisateur si quota échoue
+        logger.warn({ err: quotaErr, userId, skill, totalTokens }, 'llm.token_quota.consume_failed');
+      }
+    }
 
     const rawText = completion.text;
     const complianceOutput = classifyAntiTriche(rawText);

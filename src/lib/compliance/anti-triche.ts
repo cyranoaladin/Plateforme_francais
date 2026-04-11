@@ -1,12 +1,24 @@
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
 
+// H1 FIX: Patterns enrichis avec variations sémantiques pour détecter les contournements
 export const FORBIDDEN_PATTERNS = [
+  // Rédaction complète - formulations directes
   { pattern: /r[ée]dige[sz]?\s+(moi\s+)?(un[e]?\s+)?(dissertation|commentaire|contraction|essai|explication)/i, category: 'redaction_complete' },
   { pattern: /[ée]cri[st]?\s+(moi\s+)?(un[e]?\s+)?(dissertation|commentaire|contraction|essai|introduction|conclusion)/i, category: 'redaction_complete' },
   { pattern: /fai[st]?\s+(moi\s+)?(un[e]?\s+)?(dissertation|commentaire|contraction|essai)/i, category: 'redaction_complete' },
+  // H1: Variations sémantiques (contournements)
+  { pattern: /aide[sz]?[- ]?(moi\s+)?[àa]\s+(d[ée]velopper|[ée]crire|r[ée]diger)\s+(tout\s+)?(le\s+)?(texte|devoir|dissertation)/i, category: 'redaction_complete' },
+  { pattern: /(d[ée]veloppe|explique)[sz]?[- ]?(moi\s+)?(tout\s+)?(le\s+)?(sujet|th[èe]me|texte)\s+(enti[èe]rement|compl[èe]tement|en\s+entier)/i, category: 'redaction_complete' },
+  { pattern: /(pr[ée]pare|con[çc]ois)[sz]?[- ]?(moi\s+)?(la\s+)?(r[ée]ponse|copie)\s+finale/i, category: 'redaction_complete' },
+  { pattern: /montre[sz]?[- ]?(moi\s+)?comment\s+(on\s+)?fait\s+(un[e]?\s+)?(dissertation|devoir)\s+exemple/i, category: 'redaction_complete' },
+  { pattern: /donne[sz]?[- ]?(moi\s+)?un\s+mod[èe]le\s+de\s+(dissertation|r[ée]ponse|copie)/i, category: 'copie_complete' },
+  { pattern: /(r[ée]dige|construis)[sz]?\s+pour\s+moi/i, category: 'redaction_complete' },
+  { pattern: /(aide|assiste)[sz]?[- ]?moi\s+[àa]\s+faire\s+(mon|le|ce)\s+devoir/i, category: 'substitution' },
+  // Copie complète
   { pattern: /donne[sz]?[\s-]+(moi\s+)?(un[e]?\s+)?(copie|r[ée]daction|corrig[ée])\s+(compl[èe]te|enti[èe]re|int[ée]grale)/i, category: 'copie_complete' },
   { pattern: /corrig[ée]\s+type\s+(complet|int[ée]gral)/i, category: 'copie_complete' },
+  // Substitution / triche
   { pattern: /r[ée]pon[ds]+\s+[àa]\s+ma\s+place/i, category: 'substitution' },
   { pattern: /fai[st]?\s+(le|mon)\s+(devoir|travail)\s+[àa]\s+ma\s+place/i, category: 'substitution' },
   { pattern: /g[ée]n[èe]re\s+(un[e]?\s+)?(copie|r[ée]daction)\s+(compl[èe]te|pr[êe]te)/i, category: 'copie_complete' },
