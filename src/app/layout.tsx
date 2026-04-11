@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { Inter, Playfair_Display, Merriweather } from "next/font/google";
 import '@fontsource/fraunces/400.css';
 import '@fontsource/fraunces/700.css';
 import '@fontsource/fraunces/900.css';
@@ -15,26 +14,6 @@ import { WebVitalsReporter } from "@/components/monitoring/web-vitals-reporter";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
 import { MetaPixel } from "@/components/tracking/MetaPixel";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-  weight: ["400", "700"],
-});
-
-const merriweather = Merriweather({
-  subsets: ["latin"],
-  variable: "--font-merriweather",
-  display: "swap",
-  weight: ["400", "700"],
-});
 
 export const metadata: Metadata = {
   title: "Nexus Réussite — Préparation EAF Bac Français 2026",
@@ -71,7 +50,7 @@ export default async function RootLayout({
   const nonce = requestHeaders.get('x-csp-nonce') ?? requestHeaders.get('x-nonce') ?? undefined;
 
   return (
-    <html lang="fr" className={`${inter.variable} ${playfair.variable} ${merriweather.variable}`} suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <head>
         {/* Inline script to prevent flash of wrong theme (FOUC).
             Runs synchronously before first paint. */}

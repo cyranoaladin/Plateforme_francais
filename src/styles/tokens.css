@@ -215,6 +215,12 @@
   /* Typography */
   --eaf-font-display: 'Fraunces', serif;
   --eaf-font-body: 'DM Sans', sans-serif;
+
+  /* Foreground aliases (fg*) — used in atelier pages */
+  --eaf-fg0: var(--eaf-text-primary);
+  --eaf-fg1: var(--eaf-text-secondary);
+  --eaf-fg2: var(--eaf-text-tertiary);
+  --eaf-fg3: rgba(244, 246, 255, 0.35);
 }
 
 /* --- DARK MODE ------------------------------------------------- */

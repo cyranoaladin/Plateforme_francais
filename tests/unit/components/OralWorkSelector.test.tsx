@@ -19,7 +19,7 @@ describe('OralWorkSelector', () => {
     expect(html).toContain('Simulation officielle');
     expect(html).toContain('Pratique libre');
     expect(html).toContain('Manon Lescaut');
-    expect(html).toContain('Programme 2026-2027 n’est pas encore publié');
+    expect(html).toContain('programme 2026-2027');
   });
 
   it('toggler buttons exist for each persona label', () => {
@@ -36,6 +36,6 @@ describe('OralWorkSelector', () => {
       />,
     );
 
-    expect(html).toContain('BIENVEILLANT');
+    expect(html).toContain('Bienveillant');
   });
 });

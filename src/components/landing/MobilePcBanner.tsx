@@ -23,7 +23,7 @@ export function MobilePcBanner() {
 
   return (
     <div
-      className="mobile-pc-banner"
+      className="mobile-pc-banner lg:hidden"
       style={{
         position: 'fixed',
         bottom: '70px', // au-dessus du bouton WhatsApp

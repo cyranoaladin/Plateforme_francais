@@ -3,9 +3,11 @@ import path from 'path';
 
 export default defineConfig({
   test: {
-    include: ['tests/unit/**/*.test.ts', 'tests/integration/**/*.test.ts'],
+    include: ['tests/unit/**/*.test.ts', 'tests/unit/**/*.test.tsx', 'tests/integration/**/*.test.ts'],
     exclude: ['tests/e2e/**'],
+    globals: true,
     environment: 'node',
+    setupFiles: ['tests/setup-jsdom.ts'],
     pool: 'forks',
     testTimeout: 15_000,
     hookTimeout: 10_000,

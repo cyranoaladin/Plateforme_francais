@@ -35,6 +35,9 @@ const eslintConfig = defineConfig([
     "packages/mcp-server/dist/**",
     ".windsurf/**",
     ".superpowers/**",
+    // Vendored / minified public assets:
+    "public/**/*.min.js",
+    "public/**/*.worker.js",
   ]),
 ]);
 
