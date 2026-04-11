@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-10T23:39:15.851Z",
+  "generatedAt": "2026-04-11T00:37:57.766Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -2943,262 +2943,262 @@
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 108,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Photo"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 112,
-      "column": 26,
-      "kind": "jsx-prop",
-      "text": "Sélectionner un fichier de copie"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 121,
-      "column": 26,
-      "kind": "jsx-prop",
-      "text": "Prendre une photo de copie"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 137,
-      "column": 70,
-      "kind": "jsx-text",
-      "text": "MB"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 154,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "PDF prêt à l&apos;envoi"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 162,
-      "column": 75,
-      "kind": "jsx-text",
-      "text": "Envoi en cours…"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 178,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Lancer la correction détaillée"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 188,
-      "column": 73,
-      "kind": "jsx-text",
-      "text": "Ton rapport de correction est prêt"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 190,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire."
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 198,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Voir mon rapport"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 205,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Préparer le retravail avec le guidage"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 52,
-      "column": 100,
-      "kind": "jsx-text",
-      "text": "Étape 2"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 54,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Déposer ma copie"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 57,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Une photo nette ou un PDF propre suffit. Le studio suit l&apos;upload, puis bascule vers l&apos;analyse sans changer de contexte."
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 67,
-      "column": 73,
-      "kind": "jsx-text",
-      "text": "Ta copie est entre de bonnes mains"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 69,
-      "column": 64,
-      "kind": "jsx-text",
-      "text": "Cela prend généralement entre 30 secondes et 2 minutes."
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 84,
-      "column": 80,
+      "line": 114,
+      "column": 78,
       "kind": "jsx-text",
       "text": "Dépose ta copie ici"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 86,
+      "line": 116,
       "column": 15,
       "kind": "jsx-text",
       "text": "PDF, JPG, PNG ou WEBP (Max"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 86,
+      "line": 116,
       "column": 86,
       "kind": "jsx-text",
       "text": "MB)"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
-      "line": 97,
+      "line": 132,
       "column": 17,
       "kind": "jsx-text",
       "text": "Choisir un fichier"
     },
     {
-      "file": "src/app/atelier-ecrit/components/EcritCorrectionProgress.tsx",
-      "line": 26,
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 148,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Photo"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 152,
+      "column": 26,
+      "kind": "jsx-prop",
+      "text": "Sélectionner un fichier de copie"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 161,
+      "column": 26,
+      "kind": "jsx-prop",
+      "text": "Prendre une photo de copie"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 183,
+      "column": 70,
+      "kind": "jsx-text",
+      "text": "MB"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 214,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "PDF prêt à l'envoi"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 228,
+      "column": 75,
+      "kind": "jsx-text",
+      "text": "Envoi en cours…"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 254,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Lancer la correction détaillée"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 273,
+      "column": 71,
+      "kind": "jsx-text",
+      "text": "Ton rapport de correction est prêt"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 275,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Ouvre-le maintenant, pendant que les points de travail sont encore frais dans ta mémoire."
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 287,
       "column": 15,
+      "kind": "jsx-text",
+      "text": "Voir mon rapport"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 299,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Préparer le retravail avec le guidage"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 61,
+      "column": 99,
+      "kind": "jsx-text",
+      "text": "Étape 2"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 66,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Déposer ma copie"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 69,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Une photo nette ou un PDF propre suffit. Le studio suit l'upload, puis bascule vers l'analyse sans changer de contexte."
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 88,
+      "column": 71,
+      "kind": "jsx-text",
+      "text": "Ta copie est entre de bonnes mains"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCopyUploader.tsx",
+      "line": 90,
+      "column": 61,
+      "kind": "jsx-text",
+      "text": "Cela prend généralement entre 30 secondes et 2 minutes."
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritCorrectionProgress.tsx",
+      "line": 69,
+      "column": 17,
       "kind": "jsx-text",
       "text": "Étape"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 115,
-      "column": 102,
+      "line": 110,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Thème (optionnel)"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 117,
+      "column": 29,
+      "kind": "jsx-prop",
+      "text": "Ex: la mémoire"
+    },
+    {
+      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
+      "line": 170,
+      "column": 103,
       "kind": "jsx-text",
       "text": "Barème"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 125,
-      "column": 74,
+      "line": 186,
+      "column": 97,
       "kind": "jsx-text",
       "text": "pts"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 128,
+      "line": 189,
       "column": 25,
       "kind": "jsx-text",
       "text": "Niveaux :"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 138,
-      "column": 64,
+      "line": 204,
+      "column": 87,
       "kind": "jsx-text",
       "text": "pts"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 146,
+      "line": 213,
       "column": 15,
       "kind": "jsx-text",
       "text": "Changer de sujet"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 45,
-      "column": 99,
+      "line": 54,
+      "column": 101,
       "kind": "jsx-text",
       "text": "Étape 1"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 47,
+      "line": 59,
       "column": 13,
       "kind": "jsx-text",
       "text": "Génère un sujet d'épreuve blanche."
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 50,
+      "line": 62,
       "column": 13,
       "kind": "jsx-text",
       "text": "Le sujet doit être suffisamment cadré pour lancer un vrai travail, mais assez souple pour coller à l'œuvre ou au thème que tu veux réactiver."
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 60,
+      "line": 72,
       "column": 17,
       "kind": "jsx-text",
       "text": "Type"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 68,
+      "line": 85,
       "column": 45,
       "kind": "jsx-text",
       "text": "Commentaire"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 69,
+      "line": 86,
       "column": 46,
       "kind": "jsx-text",
       "text": "Dissertation"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 70,
+      "line": 87,
       "column": 51,
       "kind": "jsx-text",
       "text": "Contraction / Essai"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 74,
-      "column": 22,
-      "kind": "jsx-prop",
+      "line": 92,
+      "column": 17,
+      "kind": "jsx-text",
       "text": "Œuvre (optionnel)"
     },
     {
       "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 78,
-      "column": 27,
+      "line": 99,
+      "column": 29,
       "kind": "jsx-prop",
       "text": "Ex: Sido"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 82,
-      "column": 21,
-      "kind": "jsx-prop",
-      "text": "Thème (optionnel)"
-    },
-    {
-      "file": "src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx",
-      "line": 86,
-      "column": 27,
-      "kind": "jsx-prop",
-      "text": "Ex: la mémoire"
     },
     {
       "file": "src/app/atelier-ecrit/correction/[copieId]/page.tsx",
@@ -3419,266 +3419,266 @@
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 121,
-      "column": 102,
+      "line": 120,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Découvrir les plans"
+    },
+    {
+      "file": "src/app/atelier-ecrit/page.tsx",
+      "line": 178,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Cadre de travail"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 141,
-      "column": 78,
+      "line": 216,
+      "column": 76,
       "kind": "jsx-text",
       "text": "Pourquoi cette page existe"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 142,
-      "column": 64,
+      "line": 217,
+      "column": 62,
       "kind": "jsx-text",
       "text": "Écrire, déposer, corriger, puis retravailler"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 146,
+      "line": 221,
       "column": 15,
       "kind": "jsx-text",
       "text": "Le bon usage de l'atelier écrit n'est pas de collectionner des sujets. Il sert à produire une copie, lire un retour structuré puis réinjecter ce retour dans la séance suivante."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 152,
+      "line": 233,
       "column": 103,
       "kind": "jsx-text",
       "text": "Sujet actif"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 161,
+      "line": 247,
       "column": 17,
       "kind": "jsx-text",
       "text": "Questionner le sujet avec le guidage"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 176,
+      "line": 268,
       "column": 13,
       "kind": "jsx-text",
       "text": "Badge débloqué :"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 25,
+      "line": 55,
       "column": 15,
       "kind": "jsx-text",
       "text": "Atelier écrit"
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 28,
+      "line": 61,
       "column": 15,
       "kind": "jsx-text",
       "text": "Un studio d'entraînement pour produire, déposer et relire comme dans un vrai cycle de travail EAF."
     },
     {
       "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 31,
+      "line": 64,
       "column": 15,
       "kind": "jsx-text",
       "text": "Génère un sujet blanc, dépose une copie propre et récupère une correction détaillée sans te disperser entre dix écrans. L'interface suit un seul objectif : te faire passer d'une intention floue à un rapport exploitable."
     },
     {
-      "file": "src/app/atelier-ecrit/page.tsx",
-      "line": 72,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Découvrir les plans"
-    },
-    {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 225,
+      "line": 241,
       "column": 15,
       "kind": "jsx-text",
       "text": "Atelier langue"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 228,
+      "line": 247,
       "column": 15,
       "kind": "jsx-text",
       "text": "Un entraînement court pour verrouiller les 2 points de grammaire qui font basculer une prestation orale."
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 251,
-      "column": 28,
-      "kind": "jsx-prop",
-      "text": "Série locale chargée"
-    },
-    {
-      "file": "src/app/atelier-langue/page.tsx",
-      "line": 262,
-      "column": 65,
+      "line": 316,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Série de travail"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 264,
+      "line": 322,
       "column": 19,
       "kind": "jsx-text",
       "text": "Régler la séance"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 271,
-      "column": 21,
-      "kind": "jsx-prop",
+      "line": 333,
+      "column": 17,
+      "kind": "jsx-text",
       "text": "Axe du programme"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 303,
-      "column": 106,
+      "line": 405,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Méthode attendue"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 304,
-      "column": 84,
+      "line": 408,
+      "column": 19,
       "kind": "jsx-text",
-      "text": "Ce que l’examinateur veut entendre"
+      "text": "Ce que l'examinateur veut entendre"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 320,
-      "column": 61,
+      "line": 446,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Progression"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 327,
+      "line": 458,
       "column": 42,
       "kind": "jsx-text",
       "text": "exercice(s) validés"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 341,
-      "column": 107,
+      "line": 487,
+      "column": 21,
       "kind": "jsx-text",
       "text": "Phrase cible"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 349,
+      "line": 503,
       "column": 17,
       "kind": "jsx-text",
       "text": "Terminologie EAF première"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 357,
+      "line": 511,
       "column": 23,
       "kind": "jsx-prop",
       "text": "Génération de la série en cours"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 358,
+      "line": 512,
       "column": 29,
       "kind": "jsx-prop",
-      "text": "Nexus compose une petite suite d’exercices sur le thème choisi pour garder un rythme court et exploitable."
+      "text": "Nexus compose une petite suite d'exercices sur le thème choisi pour garder un rythme court et exploitable."
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 365,
+      "line": 519,
       "column": 23,
       "kind": "jsx-prop",
       "text": "Aucun exercice disponible"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 366,
+      "line": 520,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Utilise le composeur de série pour relancer une session sur un axe du programme."
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 373,
-      "column": 65,
+      "line": 535,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Phrase à analyser"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 378,
-      "column": 69,
+      "line": 555,
+      "column": 21,
       "kind": "jsx-text",
-      "text": "Question d’oral"
+      "text": "Question d'oral"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 386,
-      "column": 109,
+      "line": 574,
+      "column": 23,
       "kind": "jsx-text",
       "text": "Ton analyse"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 389,
-      "column": 71,
+      "line": 581,
+      "column": 21,
       "kind": "jsx-text",
       "text": "Formule : identification, dénomination, fonction syntaxique."
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 396,
-      "column": 31,
+      "line": 590,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Réponse grammaticale"
+    },
+    {
+      "file": "src/app/atelier-langue/page.tsx",
+      "line": 599,
+      "column": 33,
       "kind": "jsx-prop",
       "text": "Rédige ton analyse grammaticale complète ici..."
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 402,
-      "column": 25,
-      "kind": "jsx-prop",
-      "text": "Réponse grammaticale"
+      "line": 611,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Une réponse courte et précise suffit : fait de langue, nom exact, effet."
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 439,
-      "column": 115,
+      "line": 660,
+      "column": 29,
       "kind": "jsx-text",
       "text": "Retour de séance"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 444,
+      "line": 672,
       "column": 29,
       "kind": "jsx-text",
       "text": "Retour sur la réponse"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 458,
+      "line": 705,
       "column": 27,
       "kind": "jsx-text",
       "text": "Axes à reprendre"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 474,
+      "line": 734,
       "column": 25,
       "kind": "jsx-text",
       "text": "Correction attendue"
     },
     {
       "file": "src/app/atelier-langue/page.tsx",
-      "line": 487,
+      "line": 753,
       "column": 25,
       "kind": "jsx-text",
       "text": "Exercice suivant"
@@ -3846,24 +3846,10 @@
     },
     {
       "file": "src/app/atelier-oral/components/OralWorkSelector.tsx",
-      "line": 38,
+      "line": 123,
       "column": 11,
       "kind": "jsx-text",
-      "text": "Simulation officielle"
-    },
-    {
-      "file": "src/app/atelier-oral/components/OralWorkSelector.tsx",
-      "line": 46,
-      "column": 11,
-      "kind": "jsx-text",
-      "text": "Pratique libre"
-    },
-    {
-      "file": "src/app/atelier-oral/components/OralWorkSelector.tsx",
-      "line": 50,
-      "column": 9,
-      "kind": "jsx-text",
-      "text": "Œuvre choisie :"
+      "text": "Profil de l'examinateur"
     },
     {
       "file": "src/app/atelier-oral/components/passage/PassageContext.tsx",
@@ -4000,521 +3986,521 @@
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 100,
+      "line": 135,
       "column": 19,
       "kind": "jsx-text",
-      "text": "Choisis ton œuvre et le niveau de contrainte. La plateforme tire l’extrait, la question de grammaire puis t’installe directement dans le rythme de l’épreuve."
+      "text": "Démarrage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 115,
-      "column": 17,
+      "line": 141,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Tirage au sort de l'extrait"
+    },
+    {
+      "file": "src/app/atelier-oral/page.tsx",
+      "line": 144,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Choisis ton œuvre et le niveau de contrainte. La plateforme tire l'extrait, la question de grammaire puis t'installe directement dans le rythme de l'épreuve."
+    },
+    {
+      "file": "src/app/atelier-oral/page.tsx",
+      "line": 159,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Tirer un extrait"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 121,
-      "column": 104,
+      "line": 178,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Ce qui va suivre"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 142,
+      "line": 216,
       "column": 103,
       "kind": "jsx-text",
       "text": "Bon usage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 144,
+      "line": 218,
       "column": 17,
       "kind": "jsx-text",
       "text": "Une bonne simulation orale ne cherche pas à parler beaucoup. Elle cherche à rendre la parole plus nette, plus articulée et plus défendable étape après étape."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 150,
+      "line": 225,
       "column": 17,
       "kind": "jsx-text",
       "text": "Préparer cette œuvre avec le guidage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 162,
+      "line": 244,
       "column": 105,
       "kind": "jsx-text",
       "text": "Préparation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 164,
+      "line": 249,
       "column": 19,
       "kind": "jsx-text",
       "text": "Préparation"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 167,
+      "line": 252,
       "column": 19,
       "kind": "jsx-text",
       "text": "Lis, structure, choisis tes procédés et prépare la grammaire. Les notes restent un brouillon de travail, pas un objet évalué."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 172,
-      "column": 105,
+      "line": 263,
+      "column": 107,
       "kind": "jsx-text",
       "text": "Extrait tiré"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 178,
-      "column": 77,
+      "line": 273,
+      "column": 75,
       "kind": "jsx-text",
       "text": "Question de grammaire :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 183,
-      "column": 79,
+      "line": 278,
+      "column": 77,
       "kind": "jsx-text",
       "text": "Phrase cible :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 189,
-      "column": 79,
+      "line": 284,
+      "column": 77,
       "kind": "jsx-text",
       "text": "Œuvre choisie (entretien) :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 198,
+      "line": 293,
       "column": 19,
       "kind": "jsx-text",
       "text": "Notes de préparation (brouillon — non évaluées)"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 205,
+      "line": 305,
       "column": 31,
       "kind": "jsx-prop",
       "text": "Structure ton explication linéaire, prépare tes axes, note les procédés..."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 216,
+      "line": 320,
       "column": 17,
       "kind": "jsx-text",
       "text": "Commencer le passage (20 min)"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 231,
+      "line": 341,
       "column": 69,
       "kind": "jsx-text",
       "text": "étapes complétées"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 241,
+      "line": 357,
       "column": 103,
       "kind": "jsx-text",
       "text": "Rappel"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 243,
+      "line": 359,
       "column": 17,
       "kind": "jsx-text",
       "text": "La préparation utile ne cherche pas à tout écrire. Elle cherche à sécuriser les mouvements du texte, deux ou trois procédés décisifs et une réponse propre à la grammaire."
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 249,
+      "line": 366,
       "column": 17,
       "kind": "jsx-text",
       "text": "Débloquer un point avant le passage"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 298,
+      "line": 423,
       "column": 13,
       "kind": "jsx-text",
       "text": "Badge débloqué :"
     },
     {
       "file": "src/app/atelier-oral/page.tsx",
-      "line": 47,
+      "line": 54,
       "column": 15,
       "kind": "jsx-text",
       "text": "Découvrir les plans"
     },
     {
-      "file": "src/app/atelier-oral/page.tsx",
-      "line": 95,
-      "column": 105,
-      "kind": "jsx-text",
-      "text": "Démarrage"
-    },
-    {
-      "file": "src/app/atelier-oral/page.tsx",
-      "line": 97,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Tirage au sort de l’extrait"
-    },
-    {
       "file": "src/app/bibliotheque/page.tsx",
-      "line": 272,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Bibliothèque pédagogique"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 275,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Un fonds de travail EAF qui aide à avancer, pas un simple stock de fichiers."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 278,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Annales, œuvres, rapports de jury, documents et vidéos sont réunis dans un espace conçu pour réactiver vite une méthode, une œuvre ou un repère utile juste avant un atelier, un oral ou une révision ciblée."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 305,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Tu accèdes à"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 305,
-      "column": 51,
-      "kind": "jsx-text",
-      "text": "ressources sur"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 305,
-      "column": 92,
-      "kind": "jsx-text",
-      "text": "avec le plan Freemium."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 308,
-      "column": 19,
-      "kind": "jsx-text",
-      "text": "Les ressources verrouillées restent visibles. Passe à Premium pour toutes les débloquer."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 316,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Passer au plan supérieur"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 325,
-      "column": 101,
-      "kind": "jsx-text",
-      "text": "Recherche assistée"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 327,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Cherche par besoin réel : œuvre, auteur, méthode, rapport ou question précise."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 330,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "La recherche standard filtre le catalogue. La recherche intelligente tente en plus de remonter les passages les plus pertinents pour ta requête."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 346,
-      "column": 84,
-      "kind": "jsx-text",
-      "text": "ressources"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 358,
-      "column": 60,
-      "kind": "jsx-text",
-      "text": "Recherche"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 365,
-      "column": 27,
-      "kind": "jsx-prop",
-      "text": "Exemple : explication linéaire, problématique dissertation, Rimbaud, rapport jury..."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 384,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Filtrer"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 390,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Toutes les ressources"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 412,
-      "column": 17,
-      "kind": "jsx-prop",
-      "text": "La recherche intelligente est momentanément indisponible"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 423,
-      "column": 104,
-      "kind": "jsx-text",
-      "text": "Résultats de recherche"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 425,
-      "column": 17,
-      "kind": "jsx-text",
-      "text": "Passages remontés pour “"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 428,
-      "column": 93,
-      "kind": "jsx-text",
-      "text": "résultats priorisés"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 442,
-      "column": 25,
-      "kind": "jsx-text",
-      "text": "score"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 466,
-      "column": 107,
-      "kind": "jsx-text",
-      "text": "Catalogue vivant"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 474,
-      "column": 84,
-      "kind": "jsx-text",
-      "text": "ressources visibles"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 508,
-      "column": 33,
-      "kind": "jsx-text",
-      "text": "Disponible avec Premium"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 523,
-      "column": 33,
-      "kind": "jsx-text",
-      "text": "Verrouillée"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 527,
-      "column": 33,
-      "kind": "jsx-text",
-      "text": "Ouvrir la fiche"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 545,
-      "column": 17,
-      "kind": "jsx-prop",
-      "text": "Aucune ressource ne correspond à ces critères"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 546,
-      "column": 23,
-      "kind": "jsx-prop",
-      "text": "Essaie d’élargir ta recherche ou de revenir sur « Toutes les ressources » pour retrouver l’ensemble du catalogue."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 557,
-      "column": 15,
-      "kind": "jsx-text",
-      "text": "Voir toutes les ressources"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 584,
-      "column": 107,
-      "kind": "jsx-text",
-      "text": "Fiche ressource"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 599,
-      "column": 28,
-      "kind": "jsx-prop",
-      "text": "Fermer"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 607,
-      "column": 105,
-      "kind": "jsx-text",
-      "text": "Pourquoi l’ouvrir"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 612,
-      "column": 21,
-      "kind": "jsx-text",
-      "text": "Type:"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 615,
-      "column": 21,
-      "kind": "jsx-text",
-      "text": "Format :"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 619,
-      "column": 23,
-      "kind": "jsx-text",
-      "text": "Année:"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 633,
-      "column": 109,
-      "kind": "jsx-text",
-      "text": "Ressource verrouillée"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 637,
-      "column": 102,
-      "kind": "jsx-text",
-      "text": "contenus réservés aux abonnés."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 637,
-      "column": 25,
-      "kind": "jsx-text",
-      "text": "Cette ressource fait partie des"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 640,
-      "column": 25,
-      "kind": "jsx-text",
-      "text": "Passe à Premium pour débloquer les"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 640,
-      "column": 86,
-      "kind": "jsx-text",
-      "text": "ressources de la bibliothèque complète."
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 646,
-      "column": 25,
-      "kind": "jsx-text",
-      "text": "Passer au plan supérieur"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 652,
-      "column": 110,
-      "kind": "jsx-text",
-      "text": "Actions"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 660,
-      "column": 25,
-      "kind": "jsx-text",
-      "text": "Télécharger"
-    },
-    {
-      "file": "src/app/bibliotheque/page.tsx",
-      "line": 669,
+      "line": 1001,
       "column": 25,
       "kind": "jsx-text",
       "text": "Ouvrir"
     },
     {
       "file": "src/app/bibliotheque/page.tsx",
-      "line": 676,
+      "line": 1013,
       "column": 23,
       "kind": "jsx-text",
       "text": "Reprendre cette ressource avec le guidage"
     },
     {
       "file": "src/app/bibliotheque/page.tsx",
-      "line": 686,
+      "line": 1024,
       "column": 25,
       "kind": "jsx-text",
       "text": "Lecteur vidéo"
     },
     {
       "file": "src/app/bibliotheque/page.tsx",
-      "line": 695,
+      "line": 1049,
       "column": 25,
       "kind": "jsx-text",
       "text": "Ton navigateur ne supporte pas la lecture vidéo."
     },
     {
       "file": "src/app/bibliotheque/page.tsx",
-      "line": 706,
+      "line": 1061,
       "column": 25,
       "kind": "jsx-text",
       "text": "Aperçu PDF"
     },
     {
       "file": "src/app/bibliotheque/page.tsx",
-      "line": 709,
+      "line": 1070,
       "column": 25,
       "kind": "jsx-text",
       "text": "PDF"
     },
     {
       "file": "src/app/bibliotheque/page.tsx",
-      "line": 717,
+      "line": 1078,
       "column": 23,
       "kind": "jsx-text",
       "text": "Aperçu rendu dans la plateforme via PDF.js. Si un document résiste au rendu, les boutons ci-dessus restent la sortie fiable."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 331,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Bibliothèque pédagogique"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 337,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Un fonds de travail EAF qui aide à avancer, pas un simple stock de fichiers."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 340,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Annales, œuvres, rapports de jury, documents et vidéos sont réunis dans un espace conçu pour réactiver vite une méthode, une œuvre ou un repère utile juste avant un atelier, un oral ou une révision ciblée."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 388,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Tu accèdes à"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 388,
+      "column": 51,
+      "kind": "jsx-text",
+      "text": "ressources sur"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 388,
+      "column": 92,
+      "kind": "jsx-text",
+      "text": "avec le plan Freemium."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 391,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Les ressources verrouillées restent visibles. Passe à Premium pour toutes les débloquer."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 400,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Passer au plan supérieur"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 417,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Recherche assistée"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 423,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Cherche par besoin réel : œuvre, auteur, méthode, rapport ou question précise."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 426,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "La recherche standard filtre le catalogue. La recherche intelligente tente en plus de remonter les passages les plus pertinents pour ta requête."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 454,
+      "column": 81,
+      "kind": "jsx-text",
+      "text": "ressources"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 467,
+      "column": 60,
+      "kind": "jsx-text",
+      "text": "Recherche"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 474,
+      "column": 27,
+      "kind": "jsx-prop",
+      "text": "Exemple : explication linéaire, problématique dissertation, Rimbaud, rapport jury..."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 503,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Filtrer"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 513,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Toutes les ressources"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 547,
+      "column": 17,
+      "kind": "jsx-prop",
+      "text": "La recherche intelligente est momentanément indisponible"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 566,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Résultats de recherche"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 572,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Passages remontés pour \""
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 575,
+      "column": 79,
+      "kind": "jsx-text",
+      "text": "résultats priorisés"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 603,
+      "column": 25,
+      "kind": "jsx-text",
+      "text": "score"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 630,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Catalogue vivant"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 645,
+      "column": 81,
+      "kind": "jsx-text",
+      "text": "ressources visibles"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 726,
+      "column": 35,
+      "kind": "jsx-text",
+      "text": "Premium"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 754,
+      "column": 35,
+      "kind": "jsx-text",
+      "text": "Verrouillée"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 758,
+      "column": 35,
+      "kind": "jsx-text",
+      "text": "Ouvrir la fiche"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 777,
+      "column": 17,
+      "kind": "jsx-prop",
+      "text": "Aucune ressource ne correspond à ces critères"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 778,
+      "column": 23,
+      "kind": "jsx-prop",
+      "text": "Essaie d'élargir ta recherche ou de revenir sur « Toutes les ressources » pour retrouver l'ensemble du catalogue."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 794,
+      "column": 15,
+      "kind": "jsx-text",
+      "text": "Voir toutes les ressources"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 841,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Fiche ressource"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 864,
+      "column": 28,
+      "kind": "jsx-prop",
+      "text": "Fermer"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 884,
+      "column": 19,
+      "kind": "jsx-text",
+      "text": "Pourquoi l'ouvrir"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 899,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Type:"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 909,
+      "column": 21,
+      "kind": "jsx-text",
+      "text": "Format :"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 920,
+      "column": 23,
+      "kind": "jsx-text",
+      "text": "Année:"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 949,
+      "column": 23,
+      "kind": "jsx-text",
+      "text": "Ressource verrouillée"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 960,
+      "column": 102,
+      "kind": "jsx-text",
+      "text": "contenus réservés aux abonnés."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 960,
+      "column": 25,
+      "kind": "jsx-text",
+      "text": "Cette ressource fait partie des"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 963,
+      "column": 25,
+      "kind": "jsx-text",
+      "text": "Passe à Premium pour débloquer les"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 963,
+      "column": 86,
+      "kind": "jsx-text",
+      "text": "ressources de la bibliothèque complète."
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 970,
+      "column": 25,
+      "kind": "jsx-text",
+      "text": "Passer au plan supérieur"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 977,
+      "column": 23,
+      "kind": "jsx-text",
+      "text": "Actions"
+    },
+    {
+      "file": "src/app/bibliotheque/page.tsx",
+      "line": 987,
+      "column": 25,
+      "kind": "jsx-text",
+      "text": "Télécharger"
     },
     {
       "file": "src/app/bienvenue/sections/FAQ.tsx",
@@ -5085,190 +5071,211 @@
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 129,
+      "line": 177,
       "column": 15,
       "kind": "jsx-text",
       "text": "Carnet de lecture"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 132,
+      "line": 183,
       "column": 15,
       "kind": "jsx-text",
       "text": "Un lieu pour garder les œuvres vivantes, pas seulement les résumer."
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 135,
+      "line": 186,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l’entretien et à retrouver vite une matière personnelle quand il faut reparler d’une œuvre."
+      "text": "Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l'entretien et à retrouver vite une matière personnelle quand il faut reparler d'une œuvre."
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 141,
-      "column": 75,
+      "line": 201,
+      "column": 17,
       "kind": "jsx-text",
       "text": "Entrées"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 145,
-      "column": 75,
+      "line": 214,
+      "column": 17,
       "kind": "jsx-text",
       "text": "Œuvres"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 153,
-      "column": 75,
+      "line": 228,
+      "column": 17,
       "kind": "jsx-text",
       "text": "Export"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 154,
-      "column": 123,
+      "line": 241,
+      "column": 17,
       "kind": "jsx-text",
       "text": "Exporter en PDF"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 161,
-      "column": 28,
+      "line": 250,
+      "column": 17,
       "kind": "jsx-prop",
-      "text": "Le carnet n’a pas pu être chargé"
+      "text": "Le carnet n'a pas pu être chargé"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 172,
-      "column": 65,
+      "line": 276,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Nouvelle entrée"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 174,
+      "line": 282,
       "column": 19,
       "kind": "jsx-text",
-      "text": "Noter pendant que c’est encore vivant"
+      "text": "Noter pendant que c'est encore vivant"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 181,
-      "column": 24,
-      "kind": "jsx-prop",
+      "line": 294,
+      "column": 19,
+      "kind": "jsx-text",
       "text": "Œuvre"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 185,
-      "column": 29,
+      "line": 301,
+      "column": 31,
       "kind": "jsx-prop",
       "text": "Ex : Sido, Manon Lescaut, Les Fleurs du mal..."
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 190,
-      "column": 23,
-      "kind": "jsx-prop",
+      "line": 317,
+      "column": 19,
+      "kind": "jsx-text",
       "text": "Type de note"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 196,
-      "column": 23,
-      "kind": "jsx-prop",
+      "line": 344,
+      "column": 25,
+      "kind": "jsx-text",
       "text": "Page"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 201,
-      "column": 29,
+      "line": 345,
+      "column": 74,
+      "kind": "jsx-text",
+      "text": "Optionnel"
+    },
+    {
+      "file": "src/app/carnet/page.tsx",
+      "line": 352,
+      "column": 31,
       "kind": "jsx-prop",
       "text": "Ex : 42"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 205,
-      "column": 23,
-      "kind": "jsx-prop",
+      "line": 368,
+      "column": 19,
+      "kind": "jsx-text",
       "text": "Mots-clés"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 210,
-      "column": 29,
+      "line": 375,
+      "column": 31,
       "kind": "jsx-prop",
       "text": "Ex : mémoire, enfance, nature"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 214,
-      "column": 23,
-      "kind": "jsx-prop",
+      "line": 383,
+      "column": 67,
+      "kind": "jsx-text",
+      "text": "Séparés par virgules"
+    },
+    {
+      "file": "src/app/carnet/page.tsx",
+      "line": 392,
+      "column": 19,
+      "kind": "jsx-text",
       "text": "Contenu"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 218,
-      "column": 29,
+      "line": 398,
+      "column": 31,
       "kind": "jsx-prop",
       "text": "Note ta citation, réaction ou observation ici..."
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 227,
+      "line": 421,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ajouter"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 233,
-      "column": 102,
+      "line": 435,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Répartition des notes"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 248,
+      "line": 463,
       "column": 21,
       "kind": "jsx-prop",
       "text": "Préparation de ton carnet de lecture"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 249,
+      "line": 464,
       "column": 27,
       "kind": "jsx-prop",
       "text": "Tes notes, citations et réactions sont en cours de chargement. Cela ne prend que quelques secondes."
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 255,
-      "column": 21,
-      "kind": "jsx-prop",
+      "line": 486,
+      "column": 17,
+      "kind": "jsx-text",
       "text": "Ton carnet de lecture est prêt"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 256,
-      "column": 27,
-      "kind": "jsx-prop",
-      "text": "Note une citation marquante, une réaction personnelle ou un lien culturel. Plus tes notes sont précises et sincères, plus elles te seront utiles le jour de l’entretien."
+      "line": 489,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Note une citation marquante, une réaction personnelle ou un lien culturel. Plus tes notes sont précises et sincères, plus elles te seront utiles le jour de l'entretien."
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 268,
+      "line": 500,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Ajouter ma première note →"
+    },
+    {
+      "file": "src/app/carnet/page.tsx",
+      "line": 527,
       "column": 44,
       "kind": "jsx-text",
       "text": "entrée"
     },
     {
       "file": "src/app/carnet/page.tsx",
-      "line": 277,
-      "column": 45,
+      "line": 558,
+      "column": 69,
       "kind": "jsx-text",
       "text": "p."
     },
@@ -5610,301 +5617,301 @@
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1004,
+      "line": 1012,
       "column": 15,
       "kind": "jsx-text",
       "text": "Relancer la grammaire ciblée"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1010,
+      "line": 1018,
       "column": 15,
       "kind": "jsx-text",
       "text": "Reprendre un exercice bref et précis pour consolider la notion qui décroche le plus vite."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1016,
+      "line": 1024,
       "column": 15,
       "kind": "jsx-text",
       "text": "L&apos;idée n&apos;est pas d&apos;en faire plus, mais de relancer le bon atelier au bon moment."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1025,
+      "line": 1033,
       "column": 13,
       "kind": "jsx-text",
       "text": "Ouvrir l&apos;atelier"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1036,
+      "line": 1044,
       "column": 11,
       "kind": "jsx-text",
       "text": "Accès rapide"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1045,
+      "line": 1053,
       "column": 11,
       "kind": "jsx-text",
       "text": "Les ateliers utiles doivent rester à un clic, sans bruit visuel."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1051,
+      "line": 1059,
       "column": 11,
       "kind": "jsx-text",
       "text": "Choisis un bloc, lance-le, puis reviens vérifier l&apos;effet réel sur tes scores et tes repères de travail."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1110,
+      "line": 1118,
       "column": 13,
       "kind": "jsx-text",
       "text": "Ton descriptif de lecture est incomplet"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1116,
+      "line": 1124,
       "column": 13,
       "kind": "jsx-text",
       "text": "L&apos;atelier oral simule sur des textes génériques. Ajoute tes textes étudiés pour simuler l&apos;épreuve réelle."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 1123,
+      "line": 1131,
       "column": 13,
       "kind": "jsx-text",
       "text": "Compléter mon descriptif"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 223,
+      "line": 231,
       "column": 17,
       "kind": "jsx-text",
       "text": "Pilotage du jour"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 231,
+      "line": 239,
       "column": 17,
       "kind": "jsx-text",
       "text": "Lundi 8 juin 2026"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 237,
+      "line": 245,
       "column": 17,
       "kind": "jsx-text",
       "text": "Écrit : J-"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 243,
+      "line": 251,
       "column": 17,
       "kind": "jsx-text",
       "text": "Oral :"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 256,
-      "column": 70,
+      "line": 264,
+      "column": 31,
       "kind": "jsx-text",
-      "text": "), voilà la priorité qui doit faire bouger ta semaine."
+      "text": ", voilà la priorité qui doit faire bouger ta semaine."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 264,
+      "line": 272,
       "column": 127,
       "kind": "jsx-text",
       "text": ". La lecture utile n&apos;est pas exhaustive : elle remet en circulation les repères décisifs. Priorité : mini-séances quotidiennes (10-20 min), construire la carte des compétences, alimenter la banque d&apos;erreurs."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 264,
+      "line": 272,
       "column": 13,
       "kind": "jsx-text",
       "text": "Axe prioritaire :"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 288,
+      "line": 296,
       "column": 15,
       "kind": "jsx-text",
       "text": "Réouvrir une œuvre"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 308,
+      "line": 316,
       "column": 15,
       "kind": "jsx-text",
       "text": "Voir le parcours"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 403,
+      "line": 411,
       "column": 15,
       "kind": "jsx-text",
       "text": "Ce que tu dois faire maintenant"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 414,
+      "line": 422,
       "column": 13,
       "kind": "jsx-text",
       "text": "Réouvrir une œuvre"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 421,
+      "line": 429,
       "column": 13,
       "kind": "jsx-text",
       "text": "Réactiver les repères, citations et enjeux qui serviront vraiment."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 448,
+      "line": 456,
       "column": 15,
       "kind": "jsx-text",
       "text": "Commencer maintenant"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 460,
+      "line": 468,
       "column": 15,
       "kind": "jsx-text",
       "text": "Alternative rapide"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 483,
+      "line": 491,
       "column": 17,
       "kind": "jsx-text",
       "text": "Boussole"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 492,
+      "line": 500,
       "column": 17,
       "kind": "jsx-text",
       "text": "Une lecture visuelle rapide de tes quatre grands axes."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 504,
+      "line": 512,
       "column": 15,
       "kind": "jsx-text",
       "text": "Moyenne"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 576,
+      "line": 584,
       "column": 17,
       "kind": "jsx-text",
       "text": "Trajectoire"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 585,
+      "line": 593,
       "column": 17,
       "kind": "jsx-text",
       "text": "La progression doit être lisible, pas seulement ressentie."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 598,
+      "line": 606,
       "column": 13,
       "kind": "jsx-text",
       "text": "Tendance en construction"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 692,
+      "line": 700,
       "column": 17,
       "kind": "jsx-text",
       "text": "Cartographie fine"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 701,
+      "line": 709,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ce que tu tiens bien, et ce qu&apos;il faut remettre sous tension."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 709,
+      "line": 717,
       "column": 15,
       "kind": "jsx-text",
       "text": "Voir le parcours ⊞"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 765,
+      "line": 773,
       "column": 23,
       "kind": "jsx-text",
       "text": "Diagnostic à lancer →"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 786,
+      "line": 794,
       "column": 13,
       "kind": "jsx-text",
       "text": "Mon corpus"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 795,
+      "line": 803,
       "column": 13,
       "kind": "jsx-text",
       "text": "Les œuvres qui structurent ton parcours."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 804,
+      "line": 812,
       "column": 15,
       "kind": "jsx-text",
       "text": "Œuvre principale pour l&apos;entretien"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 828,
+      "line": 836,
       "column": 15,
       "kind": "jsx-text",
       "text": "Œuvres au programme"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 873,
+      "line": 881,
       "column": 17,
       "kind": "jsx-text",
       "text": "Historique utile"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 882,
+      "line": 890,
       "column": 17,
       "kind": "jsx-text",
       "text": "Ce qui a vraiment bougé dans tes dernières séances."
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 941,
+      "line": 949,
       "column": 15,
       "kind": "jsx-text",
       "text": "Points de vigilance remontés"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 951,
+      "line": 959,
       "column": 15,
       "kind": "jsx-text",
       "text": "Soumettre à nouveau la copie. (2)"
     },
     {
       "file": "src/app/dashboard/page.tsx",
-      "line": 988,
+      "line": 996,
       "column": 11,
       "kind": "jsx-text",
       "text": "Prochain meilleur levier"
@@ -8949,392 +8956,371 @@
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 208,
+      "line": 227,
       "column": 15,
       "kind": "jsx-text",
       "text": "Quiz adaptatif"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 211,
+      "line": 233,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Des QCM courts pour fixer les repères utiles avant qu’ils ne glissent hors du radar."
+      "text": "Des QCM courts pour fixer les repères utiles avant qu'ils ne glissent hors du radar."
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 214,
+      "line": 236,
       "column": 15,
       "kind": "jsx-text",
       "text": "Choisis un thème, ajuste la difficulté, génère un bloc de questions et transforme le résultat en signal utile pour la suite de ton parcours."
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 243,
+      "line": 283,
       "column": 15,
       "kind": "jsx-text",
       "text": "Découvrir les plans"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 257,
-      "column": 105,
+      "line": 309,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Configuration du quiz"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 259,
+      "line": 315,
       "column": 19,
       "kind": "jsx-text",
       "text": "Paramètres de séance"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 267,
-      "column": 66,
+      "line": 327,
+      "column": 74,
       "kind": "jsx-text",
       "text": "Thème"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 289,
-      "column": 73,
+      "line": 360,
+      "column": 81,
       "kind": "jsx-text",
       "text": "Difficulté"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 298,
+      "line": 374,
       "column": 39,
       "kind": "jsx-text",
       "text": "Facile — Révision des bases"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 299,
+      "line": 375,
       "column": 39,
       "kind": "jsx-text",
       "text": "Intermédiaire — Niveau EAF"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 300,
+      "line": 376,
       "column": 39,
       "kind": "jsx-text",
       "text": "Difficile — Entraînement exigeant"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 305,
-      "column": 21,
+      "line": 386,
+      "column": 72,
       "kind": "jsx-text",
       "text": "Nombre de questions"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 314,
+      "line": 400,
       "column": 39,
       "kind": "jsx-text",
       "text": "5 questions — Rapide"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 315,
+      "line": 401,
       "column": 40,
       "kind": "jsx-text",
       "text": "10 questions — Standard"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 316,
+      "line": 402,
       "column": 40,
       "kind": "jsx-text",
       "text": "20 questions — Complet"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 333,
-      "column": 102,
+      "line": 433,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Usage conseillé"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 335,
-      "column": 116,
-      "kind": "jsx-text",
-      "text": "Lance un quiz court avant un atelier pour réactiver les repères utiles."
-    },
-    {
-      "file": "src/app/quiz/page.tsx",
-      "line": 336,
-      "column": 116,
-      "kind": "jsx-text",
-      "text": "Lis l'explication après validation : c'est elle qui transforme le score en progrès réel."
-    },
-    {
-      "file": "src/app/quiz/page.tsx",
-      "line": 337,
-      "column": 116,
-      "kind": "jsx-text",
-      "text": "Un score faible n'est pas un échec : c'est un signal pour cibler la prochaine révision."
-    },
-    {
-      "file": "src/app/quiz/page.tsx",
-      "line": 345,
-      "column": 125,
-      "kind": "jsx-text",
-      "text": "question"
-    },
-    {
-      "file": "src/app/quiz/page.tsx",
-      "line": 345,
+      "line": 468,
       "column": 15,
       "kind": "jsx-text",
       "text": "Quiz :"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 351,
-      "column": 21,
-      "kind": "jsx-prop",
+      "line": 469,
+      "column": 34,
+      "kind": "jsx-text",
+      "text": "question"
+    },
+    {
+      "file": "src/app/quiz/page.tsx",
+      "line": 491,
+      "column": 17,
+      "kind": "jsx-text",
       "text": "Le bloc de questions apparaîtra ici"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 352,
-      "column": 27,
-      "kind": "jsx-prop",
-      "text": "Configure la séance puis génère un quiz pour passer d’une intuition vague à un test rapide et exploitable."
+      "line": 494,
+      "column": 17,
+      "kind": "jsx-text",
+      "text": "Configure la séance puis génère un quiz pour passer d'une intuition vague à un test rapide et exploitable."
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 409,
+      "line": 599,
       "column": 100,
       "kind": "jsx-text",
       "text": "répondue"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 409,
+      "line": 599,
       "column": 58,
       "kind": "jsx-text",
       "text": "question"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 412,
+      "line": 610,
       "column": 21,
       "kind": "jsx-text",
       "text": "Valider mes réponses"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 426,
-      "column": 179,
-      "kind": "jsx-text",
-      "text": "réponse"
-    },
-    {
-      "file": "src/app/quiz/page.tsx",
-      "line": 426,
-      "column": 268,
-      "kind": "jsx-text",
-      "text": "sur"
-    },
-    {
-      "file": "src/app/quiz/page.tsx",
-      "line": 426,
+      "line": 637,
       "column": 92,
       "kind": "jsx-text",
       "text": "bonne"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 437,
+      "line": 638,
+      "column": 107,
+      "kind": "jsx-text",
+      "text": "réponse"
+    },
+    {
+      "file": "src/app/quiz/page.tsx",
+      "line": 639,
+      "column": 107,
+      "kind": "jsx-text",
+      "text": "sur"
+    },
+    {
+      "file": "src/app/quiz/page.tsx",
+      "line": 655,
       "column": 23,
       "kind": "jsx-text",
       "text": "Nouveau quiz"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 443,
+      "line": 666,
       "column": 23,
       "kind": "jsx-text",
       "text": "Reprendre ce thème avec le guidage"
     },
     {
       "file": "src/app/quiz/page.tsx",
-      "line": 456,
+      "line": 690,
       "column": 13,
       "kind": "jsx-text",
       "text": "Badge débloqué :"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 139,
+      "line": 179,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tuteur Nexus"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 142,
+      "line": 185,
       "column": 15,
       "kind": "jsx-text",
       "text": "Un espace pour débloquer une vraie difficulté EAF, pas pour récupérer une réponse générique."
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 145,
+      "line": 188,
       "column": 15,
       "kind": "jsx-text",
-      "text": "Pose une question de méthode, d’œuvre, de grammaire ou d’oral. Nexus reformule, recentre, s’appuie sur ton historique utile et propose la prochaine action sans sortir du cadre pédagogique de la plateforme."
+      "text": "Pose une question de méthode, d'œuvre, de grammaire ou d'oral. Nexus reformule, recentre, s'appuie sur ton historique utile et propose la prochaine action sans sortir du cadre pédagogique de la plateforme."
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 168,
-      "column": 101,
+      "line": 234,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Questions qui marchent"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 185,
-      "column": 102,
+      "line": 265,
+      "column": 15,
       "kind": "jsx-text",
       "text": "Mode opératoire"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 213,
-      "column": 81,
+      "line": 313,
+      "column": 79,
       "kind": "jsx-text",
       "text": "Conversation guidée"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 214,
-      "column": 71,
+      "line": 314,
+      "column": 64,
       "kind": "jsx-text",
       "text": "Méthode claire, références internes, aucune URL externe."
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 241,
+      "line": 350,
       "column": 21,
       "kind": "jsx-text",
       "text": "Commence par le blocage réel du moment."
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 244,
+      "line": 353,
       "column": 21,
       "kind": "jsx-text",
       "text": "Plus la question est située, plus la réponse devient utile. Exemple : une introduction trop vague, une métaphore mal exploitée, une problématique qui ne tient pas, une question de grammaire mal cadrée."
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 271,
+      "line": 389,
       "column": 67,
       "kind": "jsx-text",
       "text": "Toi"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 286,
-      "column": 117,
+      "line": 412,
+      "column": 31,
       "kind": "jsx-text",
-      "text": "Citations et points d’appui"
+      "text": "Citations et points d'appui"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 307,
-      "column": 90,
+      "line": 447,
+      "column": 87,
       "kind": "jsx-text",
       "text": "Le tuteur rédige sa réponse..."
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 323,
-      "column": 109,
+      "line": 473,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Méthode"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 324,
-      "column": 88,
+      "line": 480,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Œuvres"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 325,
-      "column": 118,
+      "line": 487,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Grammaire"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 326,
-      "column": 112,
+      "line": 494,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Oral"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 336,
-      "column": 67,
+      "line": 506,
+      "column": 19,
       "kind": "jsx-text",
       "text": "Message au tuteur de parcours"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 343,
+      "line": 519,
       "column": 31,
       "kind": "jsx-prop",
       "text": "Exemple : ma problématique est trop vague, comment la resserrer ?"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 352,
+      "line": 531,
       "column": 30,
       "kind": "jsx-prop",
       "text": "Envoyer"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 368,
-      "column": 17,
+      "line": 548,
+      "column": 19,
       "kind": "jsx-prop",
       "text": "Préparation du tuteur de parcours"
     },
     {
       "file": "src/app/tuteur/page.tsx",
-      "line": 369,
-      "column": 23,
+      "line": 549,
+      "column": 25,
       "kind": "jsx-prop",
-      "text": "L’espace de guidage se met en place. Cela ne prend que quelques secondes."
+      "text": "L'espace de guidage se met en place. Cela ne prend que quelques secondes."
     },
     {
       "file": "src/components/atelier-oral/OralHero.tsx",
-      "line": 17,
+      "line": 40,
       "column": 13,
       "kind": "jsx-text",
-      "text": "Oral EAF"
+      "text": "Atelier oral"
     },
     {
       "file": "src/components/atelier-oral/OralHero.tsx",
-      "line": 20,
+      "line": 46,
       "column": 13,
       "kind": "jsx-text",
-      "text": "Une simulation officielle pensée comme un espace d’entraînement, pas comme un outil brut."
+      "text": "Une simulation officielle pensée comme un espace d'entraînement, pas comme un outil brut."
     },
     {
       "file": "src/components/atelier-oral/OralHero.tsx",
-      "line": 23,
+      "line": 49,
       "column": 13,
       "kind": "jsx-text",
       "text": "Tirage, préparation, passage puis bilan. Tout est réuni dans un seul espace pour te garder concentré sur la qualité de ta prise de parole, la précision des attendus officiels et les points à retravailler la séance suivante."
@@ -10391,210 +10377,210 @@
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 604,
+      "line": 603,
       "column": 15,
       "kind": "jsx-text",
       "text": "Rendu PDF.js"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 620,
+      "line": 619,
       "column": 17,
       "kind": "jsx-text",
       "text": "Résultat"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 637,
+      "line": 636,
       "column": 15,
       "kind": "jsx-text",
       "text": "Fit auto"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 650,
+      "line": 649,
       "column": 15,
       "kind": "jsx-text",
       "text": "Fit width"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 663,
+      "line": 662,
       "column": 15,
       "kind": "jsx-text",
       "text": "Fit page"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 671,
+      "line": 670,
       "column": 26,
       "kind": "jsx-prop",
       "text": "Réduire le zoom"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 682,
+      "line": 681,
       "column": 26,
       "kind": "jsx-prop",
       "text": "Augmenter le zoom"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 692,
+      "line": 691,
       "column": 26,
       "kind": "jsx-prop",
       "text": "Page précédente"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 702,
+      "line": 701,
       "column": 26,
       "kind": "jsx-prop",
       "text": "Page suivante"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 725,
+      "line": 724,
       "column": 29,
       "kind": "jsx-prop",
       "text": "Rechercher un auteur, une notion, une citation..."
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 744,
+      "line": 743,
       "column": 15,
       "kind": "jsx-text",
       "text": "Résultat -"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 753,
+      "line": 752,
       "column": 15,
       "kind": "jsx-text",
       "text": "Résultat +"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 781,
+      "line": 780,
       "column": 17,
       "kind": "jsx-text",
       "text": "Effacer"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 791,
+      "line": 790,
       "column": 105,
       "kind": "jsx-text",
       "text": "Recherche dans le PDF"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 803,
+      "line": 802,
       "column": 72,
       "kind": "jsx-text",
       "text": "affichés"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 826,
+      "line": 825,
       "column": 27,
       "kind": "jsx-text",
       "text": "Page"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 849,
+      "line": 848,
       "column": 103,
       "kind": "jsx-text",
       "text": "Miniatures"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 888,
+      "line": 887,
       "column": 19,
       "kind": "jsx-text",
       "text": "Chargement du PDF"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 895,
+      "line": 894,
       "column": 17,
       "kind": "jsx-text",
       "text": "Rendu en cours"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 908,
+      "line": 907,
       "column": 82,
       "kind": "jsx-text",
       "text": "Aperçu PDF indisponible pour ce fichier."
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 910,
+      "line": 909,
       "column": 21,
       "kind": "jsx-text",
       "text": "Le lecteur intégré n a pas pu rendre ce document. Les actions Ouvrir et Télécharger restent disponibles juste au-dessus."
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 919,
+      "line": 918,
       "column": 19,
       "kind": "jsx-text",
       "text": "Recharger l aperçu"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 928,
+      "line": 927,
       "column": 142,
       "kind": "jsx-text",
       "text": "zoom,"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 928,
+      "line": 927,
       "column": 78,
       "kind": "jsx-text",
       "text": "pages,"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 928,
+      "line": 927,
       "column": 9,
       "kind": "jsx-text",
       "text": "Raccourcis:"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 929,
+      "line": 928,
       "column": 137,
       "kind": "jsx-text",
       "text": "ajuster page,"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 929,
+      "line": 928,
       "column": 65,
       "kind": "jsx-text",
       "text": "ajuster largeur,"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 930,
+      "line": 929,
       "column": 132,
       "kind": "jsx-text",
       "text": "focus recherche,"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 930,
+      "line": 929,
       "column": 65,
       "kind": "jsx-text",
       "text": "mode auto,"
     },
     {
       "file": "src/components/ui/pdf-preview-viewer.tsx",
-      "line": 931,
+      "line": 930,
       "column": 65,
       "kind": "jsx-text",
       "text": "réinitialiser le zoom."
