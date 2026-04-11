@@ -25,10 +25,10 @@ const FRICTION_REMOVERS = [
 ];
 
 const HERO_STATS = [
-  { value: '3 min', label: 'pour configurer ton parcours' },
-  { value: '4 ateliers', label: 'écrit, oral, langue, quiz' },
-  { value: '12 œuvres', label: 'du programme voie générale' },
-  { value: '1 tableau de bord', label: 'pour suivre ta progression' },
+  { value: '3 min', label: 'pour configurer ton parcours', animationClass: '[animation-delay:0.18s]' },
+  { value: '4 ateliers', label: 'écrit, oral, langue, quiz', animationClass: '[animation-delay:0.26s]' },
+  { value: '12 œuvres', label: 'du programme voie générale', animationClass: '[animation-delay:0.34s]' },
+  { value: '1 tableau de bord', label: 'pour suivre ta progression', animationClass: '[animation-delay:0.42s]' },
 ];
 
 const ORAL_PHASES = [
@@ -39,9 +39,9 @@ const ORAL_PHASES = [
 ];
 
 const SIGNALS = [
-  { label: 'Question de grammaire', width: '72%' },
-  { label: 'Structure de plan', width: '86%' },
-  { label: 'Citations précises', width: '64%' },
+  { label: 'Question de grammaire', widthClass: 'w-[72%]' },
+  { label: 'Structure de plan', widthClass: 'w-[86%]' },
+  { label: 'Citations précises', widthClass: 'w-[64%]' },
 ];
 
 export function Hero() {
@@ -70,7 +70,7 @@ export function Hero() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 href="/login?mode=register"
-                onClick={() => track({ name: 'cta_click', props: { cta: 'hero_register', path: '/bienvenue' } })}
+                onClick={() => track({ name: 'cta_click', props: { cta: 'hero_register', path: '/' } })}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3.5 text-base font-bold text-[var(--bg-page)] shadow-[var(--shadow-md)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
               >
                 Créer mon espace gratuit
@@ -78,14 +78,14 @@ export function Hero() {
               </Link>
               <a
                 href="#comment-ca-marche"
-                onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/bienvenue' } })}
+                onClick={() => track({ name: 'cta_click', props: { cta: 'hero_method', path: '/' } })}
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-6 py-3.5 text-base font-semibold text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
               >
                 Voir la méthode
               </a>
               <Link
                 href="/pricing"
-                onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/bienvenue' } })}
+                onClick={() => track({ name: 'cta_click', props: { cta: 'hero_pricing', path: '/' } })}
                 className="inline-flex items-center justify-center gap-2 rounded-full px-2 py-3 text-sm font-semibold text-[var(--text-secondary)] transition-colors hover:text-[var(--c-primary)]"
               >
                 Comparer les plans
@@ -176,7 +176,7 @@ export function Hero() {
                           <span>à retravailler</span>
                         </div>
                         <div className="h-2 rounded-full bg-white/10">
-                          <div className="h-2 rounded-full bg-gradient-to-r from-[var(--color-amber-300)] to-[var(--c-success)]" style={{ width: signal.width }} />
+                          <div className={`h-2 rounded-full bg-gradient-to-r from-[var(--color-amber-300)] to-[var(--c-success)] ${signal.widthClass}`} />
                         </div>
                       </div>
                     ))}
@@ -201,11 +201,10 @@ export function Hero() {
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {HERO_STATS.map((stat, index) => (
+          {HERO_STATS.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
-              style={{ animationDelay: `${0.18 + index * 0.08}s` }}
+              className={`rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both] ${stat.animationClass}`}
             >
               <p className="font-display text-3xl tracking-[-0.03em] text-[var(--c-primary)]">
                 {stat.value}

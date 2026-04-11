@@ -40,7 +40,7 @@ export function FinalCTA() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Link
               href="/login?mode=register"
-              onClick={() => track({ name: 'cta_click', props: { cta: 'final_register', path: '/bienvenue' } })}
+              onClick={() => track({ name: 'cta_click', props: { cta: 'final_register', path: '/' } })}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--bg-page)] px-6 py-3.5 text-base font-bold text-[var(--c-primary)] transition-all hover:-translate-y-0.5 hover:bg-white"
             >
               Créer mon espace gratuit
@@ -48,7 +48,7 @@ export function FinalCTA() {
             </Link>
             <Link
               href="/pricing"
-              onClick={() => track({ name: 'cta_click', props: { cta: 'final_pricing', path: '/bienvenue' } })}
+              onClick={() => track({ name: 'cta_click', props: { cta: 'final_pricing', path: '/' } })}
               className="inline-flex items-center justify-center rounded-full border border-white/16 px-6 py-3.5 text-base font-semibold text-[var(--bg-page)] transition-colors hover:bg-white/6"
             >
               Voir les tarifs

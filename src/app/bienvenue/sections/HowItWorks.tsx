@@ -9,6 +9,7 @@ const STEPS = [
     number: '01',
     title: 'Cadrer le point de départ',
     icon: Compass,
+    animationClass: '[animation-delay:0.10s]',
     description: 'Œuvres choisies, objectifs, niveau perçu, contraintes de rythme : la plateforme comprend d’abord le terrain de jeu.',
     student: 'L’élève renseigne son profil, ses œuvres et son niveau de départ.',
     platform: 'Nexus construit une base de progression cohérente et prépare les premiers ateliers.',
@@ -17,6 +18,7 @@ const STEPS = [
     number: '02',
     title: 'Produire dans un format exigeant',
     icon: PenSquare,
+    animationClass: '[animation-delay:0.18s]',
     description: 'Chaque atelier force une production concrète : réponse orale, analyse, correction de langue, copie déposée.',
     student: 'L’élève écrit, parle, justifie, reprend et corrige.',
     platform: 'La plateforme balise la méthode, cite les références utiles et refuse les demandes de copie intégrale.',
@@ -25,6 +27,7 @@ const STEPS = [
     number: '03',
     title: 'Réinjecter les retours au bon endroit',
     icon: RefreshCcw,
+    animationClass: '[animation-delay:0.26s]',
     description: 'Le retour n’est pas décoratif : il alimente les points à surveiller, le parcours et les prochaines relances.',
     student: 'L’élève sait précisément quoi retravailler et dans quel ordre.',
     platform: 'Nexus priorise les lacunes, propose la séance suivante et garde une mémoire utile.',
@@ -40,10 +43,10 @@ export function HowItWorks() {
           <h2
             className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
           >
-            Une mécanique de progression, pas une accumulation d{'\u2019'}outils.
+            Une mécanique de progression, pas une accumulation d'outils.
           </h2>
           <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
-            La différence n{'\u2019'}est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic,
+            La différence n'est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic,
             la production, la correction et la relance. Tout est pensé pour réduire la dispersion.
           </p>
 
@@ -66,7 +69,7 @@ export function HowItWorks() {
           <div className="mt-8">
             <Link
               href="/login?mode=register"
-              onClick={() => track({ name: 'cta_click', props: { cta: 'how_it_works_register', path: '/bienvenue' } })}
+              onClick={() => track({ name: 'cta_click', props: { cta: 'how_it_works_register', path: '/' } })}
               className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-3 text-sm font-bold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
             >
               Configurer mon parcours
@@ -76,11 +79,10 @@ export function HowItWorks() {
         </div>
 
         <div className="space-y-5">
-          {STEPS.map((step, index) => (
+          {STEPS.map((step) => (
             <article
               key={step.number}
-              className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.8s_ease-out_both]"
-              style={{ animationDelay: `${0.1 + index * 0.08}s` }}
+              className={`rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.8s_ease-out_both] ${step.animationClass}`}
             >
               <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
                 <div className="max-w-2xl">

@@ -121,6 +121,9 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
 
   const pathname = request.nextUrl.pathname;
   const extraConnectSrc = process.env.NEXT_PUBLIC_CSP_CONNECT_EXTRA?.trim();
+  // The marketing landing is kept free of inline style attributes so it can ship
+  // a stricter CSP immediately without breaking authenticated product surfaces.
+  const enforceStrictStyleCsp = pathname === '/';
   const connectSrc = [
     "'self'",
     ...(extraConnectSrc ? extraConnectSrc.split(/\s+/).filter(Boolean) : []),
@@ -128,7 +131,7 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
   const csp = [
     `default-src 'self'`,
     `script-src 'self' 'nonce-${nonce}' 'sha256-fs97/YpqsP1FB/sVC7EonuE57ak0m3evRa7LF0W9cdM=' https://cdnjs.cloudflare.com https://connect.facebook.net`,
-    `style-src 'self' 'unsafe-inline'`,
+    enforceStrictStyleCsp ? `style-src 'self'` : `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob:`,
     `media-src 'self' blob:`,
     `connect-src ${connectSrc}`,

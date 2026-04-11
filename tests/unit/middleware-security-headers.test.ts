@@ -35,4 +35,14 @@ describe('middleware security headers', () => {
     expect(response.headers.get('x-csp-nonce')).toBe(response.headers.get('x-nonce'));
     expect(response.headers.get('Content-Security-Policy')).toContain(`'nonce-${response.headers.get('x-nonce')}'`);
   });
+
+  it('omits unsafe-inline and unsafe-eval on the landing page CSP', () => {
+    const response = middleware(new NextRequest('http://localhost/'));
+    const csp = response.headers.get('Content-Security-Policy');
+
+    expect(csp).toBeTruthy();
+    expect(csp).toContain(`'nonce-${response.headers.get('x-nonce')}'`);
+    expect(csp).not.toContain('unsafe-inline');
+    expect(csp).not.toContain('unsafe-eval');
+  });
 });

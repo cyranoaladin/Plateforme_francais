@@ -43,7 +43,7 @@ export function PricingTeaser() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/pricing"
-                onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_teaser', path: '/bienvenue' } })}
+                onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_teaser', path: '/' } })}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3.5 text-sm font-bold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
               >
                 Voir les tarifs, quotas et paiements
@@ -51,7 +51,7 @@ export function PricingTeaser() {
               </Link>
               <Link
                 href="/login?mode=register"
-                onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_register', path: '/bienvenue' } })}
+                onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_register', path: '/' } })}
                 className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-6 py-3.5 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
               >
                 Essayer gratuitement
