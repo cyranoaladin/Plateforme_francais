@@ -339,6 +339,8 @@ jobs:
       MISTRAL_API_KEY: "ci_dummy_key"
       GEMINI_API_KEY: "ci_dummy_key"
       OPENAI_API_KEY: "ci_dummy_key"
+      BILLING_CODE_PEPPER: "ci_dummy_pepper_32chars_minimum_ok"
+      MCP_API_KEY: "ci_dummy_mcp_key_32chars_ok"
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -377,8 +379,13 @@ jobs:
             --httpTimeout 5000 \
             http://127.0.0.1:3000/api/v1/live || {
             echo "❌ Serveur contract non prêt après 120s"
-            echo "--- Logs serveur ---"
-            cat server.log || true
+            echo "--- Last 200 lines server.log ---"
+            tail -n 200 server.log || true
+            echo "--- Server PID status ---"
+            if [ -f .server_pid ]; then
+              PID=$(cat .server_pid)
+              ps -p "$PID" -o pid,stat,cmd || echo "Process $PID not found"
+            fi
             echo "--- Processus Node ---"
             ps aux | grep -E "(next|node)" | grep -v grep || echo "Aucun processus Node"
             echo "--- Port 3000 ---"
@@ -445,6 +452,8 @@ jobs:
       MISTRAL_API_KEY: "ci_dummy_key"
       GEMINI_API_KEY: "ci_dummy_key"
       OPENAI_API_KEY: "ci_dummy_key"
+      BILLING_CODE_PEPPER: "ci_dummy_pepper_32chars_minimum_ok"
+      MCP_API_KEY: "ci_dummy_mcp_key_32chars_ok"
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -489,8 +498,13 @@ jobs:
             --httpTimeout 5000 \
             http://127.0.0.1:3000/api/v1/live || {
             echo "❌ Serveur E2E non prêt après 120s"
-            echo "--- Logs serveur ---"
-            cat e2e-server.log || true
+            echo "--- Last 200 lines e2e-server.log ---"
+            tail -n 200 e2e-server.log || true
+            echo "--- Server PID status ---"
+            if [ -f .e2e_server_pid ]; then
+              PID=$(cat .e2e_server_pid)
+              ps -p "$PID" -o pid,stat,cmd || echo "Process $PID not found"
+            fi
             echo "--- Processus Node ---"
             ps aux | grep -E "(next|node)" | grep -v grep || echo "Aucun processus Node"
             echo "--- Port 3000 ---"
