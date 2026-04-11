@@ -1,1406 +1,1026 @@
-/opt/eaf_platform
-/opt/eaf_platform/.antigravity
-/opt/eaf_platform/.antigravity/manifest.json
-/opt/eaf_platform/.antigravity/README.md
-/opt/eaf_platform/.antigravity/rules.md
-/opt/eaf_platform/.antigravity/skills.md
-/opt/eaf_platform/.antigravity/workflow.md
-/opt/eaf_platform/.audit-ci.json
-/opt/eaf_platform/.build_time
-/opt/eaf_platform/CHANGELOG.md
-/opt/eaf_platform/.codex
-/opt/eaf_platform/config
-/opt/eaf_platform/config/fr-copy-banned-phrases.json
-/opt/eaf_platform/config/fr-copy-baseline.json
-/opt/eaf_platform/cookies.txt
-/opt/eaf_platform/.data
-/opt/eaf_platform/.data/metrics
-/opt/eaf_platform/.data/metrics/vitals.log
-/opt/eaf_platform/.data/migration-backups
-/opt/eaf_platform/.data/uploads
-/opt/eaf_platform/.data/uploads/copies
-/opt/eaf_platform/.data/uploads/copies/821d68c4-53bd-4da6-ac71-017857b67fe5
-/opt/eaf_platform/.data/uploads/copies/821d68c4-53bd-4da6-ac71-017857b67fe5/eca8e7e3-30d0-4b5a-869c-085ee18692e0.png
-/opt/eaf_platform/.data/uploads/copies/c48fa8f0-9d6a-4a8f-9a62-2308c050a7c8
-/opt/eaf_platform/.data/uploads/copies/c48fa8f0-9d6a-4a8f-9a62-2308c050a7c8/a5db8143-c7c6-4b3a-b743-0a1798590905.png
-/opt/eaf_platform/.data/uploads/copies/c9494561-2358-441a-a83a-576188f67fb8
-/opt/eaf_platform/.data/uploads/copies/c9494561-2358-441a-a83a-576188f67fb8/048f8731-48c8-48d6-aebf-bd3083e40e55.png
-/opt/eaf_platform/.data/uploads/copies/c9494561-2358-441a-a83a-576188f67fb8/4ee6f421-bcc4-4d44-9104-38396d4282dc.png
-/opt/eaf_platform/.data/uploads/copies/c9494561-2358-441a-a83a-576188f67fb8/7d9db6e5-9b2a-4646-9f1d-fbea77370642.png
-/opt/eaf_platform/.data/uploads/copies/c9494561-2358-441a-a83a-576188f67fb8/810f6d95-ec47-4d5f-be45-14f594164b0e.png
-/opt/eaf_platform/.data/uploads/copies/c9494561-2358-441a-a83a-576188f67fb8/ac95bb70-9635-4156-97db-344cae3cbfe4.png
-/opt/eaf_platform/.data/uploads/copies/c9494561-2358-441a-a83a-576188f67fb8/cf968a85-fd0a-47c6-a04a-c80d98df9899.png
-/opt/eaf_platform/.data/uploads/copies/fd28c4b2-46c9-4f65-970f-7b6f1c0752f0
-/opt/eaf_platform/.data/uploads/copies/fd28c4b2-46c9-4f65-970f-7b6f1c0752f0/1b967f83-7ea5-4488-a20d-2e1390e0cdac.png
-/opt/eaf_platform/.data/uploads/copies/fd28c4b2-46c9-4f65-970f-7b6f1c0752f0/52d27dcd-9116-4d07-a0ad-44b384c96a62.png
-/opt/eaf_platform/.data/uploads/documents
-/opt/eaf_platform/.data/uploads/documents/user-1
-/opt/eaf_platform/.data/uploads/documents/user-1/1772664613167-rapport-ecrit-1772664613167.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772665047812-rapport-ecrit-1772665047807.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772665310156-rapport-ecrit-1772665310151.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772665375280-rapport-ecrit-1772665375280.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772666013653-rapport-ecrit-1772666013652.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772666400287-rapport-ecrit-1772666400285.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772666625255-rapport-ecrit-1772666625244.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772667791345-rapport-ecrit-1772667791344.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772667973921-rapport-ecrit-1772667973920.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772668043887-rapport-ecrit-1772668043886.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772668074291-rapport-ecrit-1772668074290.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772668200297-rapport-ecrit-1772668200296.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772668952138-rapport-ecrit-1772668952137.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772668960118-rapport-ecrit-1772668960113.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772668976855-rapport-ecrit-1772668976851.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772668985938-rapport-ecrit-1772668985935.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772690965748-rapport-ecrit-1772690965747.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772690966624-rapport-ecrit-1772690966623.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772690977928-rapport-ecrit-1772690977927.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772690986238-rapport-ecrit-1772690986237.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772705622902-rapport-ecrit-1772705622892.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772705655385-rapport-ecrit-1772705655384.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772720115996-rapport-ecrit-1772720115995.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772720259073-rapport-ecrit-1772720259060.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772720316476-rapport-ecrit-1772720316475.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772720336658-rapport-ecrit-1772720336651.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772720348843-rapport-ecrit-1772720348839.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772721156924-rapport-ecrit-1772721156923.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772722386329-rapport-ecrit-1772722386327.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772722426656-rapport-ecrit-1772722426654.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772723362000-rapport-ecrit-1772723362000.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772723383480-rapport-ecrit-1772723383480.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772723398101-rapport-ecrit-1772723398100.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772723879472-rapport-ecrit-1772723879471.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772724830125-rapport-ecrit-1772724830122.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772725545190-rapport-ecrit-1772725545189.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772726505268-rapport-ecrit-1772726505262.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772728149162-rapport-ecrit-1772728149161.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772830758914-rapport-ecrit-1772830758912.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772837453878-rapport-ecrit-1772837453876.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772877457510-rapport-ecrit-1772877457509.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772877495305-rapport-ecrit-1772877495299.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772878703382-rapport-ecrit-1772878703379.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772878727390-rapport-ecrit-1772878727382.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772879632974-rapport-ecrit-1772879632973.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772883574887-rapport-ecrit-1772883574879.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772988674128-rapport-ecrit-1772988674127.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772988746329-rapport-ecrit-1772988746327.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772988757562-rapport-ecrit-1772988757559.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772988787865-rapport-ecrit-1772988787860.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772988807717-rapport-ecrit-1772988807714.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772988826668-rapport-ecrit-1772988826667.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772989327085-rapport-ecrit-1772989327077.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772989340817-rapport-ecrit-1772989340811.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772989345798-rapport-ecrit-1772989345796.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772989359361-rapport-ecrit-1772989359359.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772989640648-rapport-ecrit-1772989640646.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772989653326-rapport-ecrit-1772989653325.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990132180-rapport-ecrit-1772990132179.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990169477-rapport-ecrit-1772990169472.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990183189-rapport-ecrit-1772990183187.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990224861-rapport-ecrit-1772990224855.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990246775-rapport-ecrit-1772990246774.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990284270-rapport-ecrit-1772990284268.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990308176-rapport-ecrit-1772990308175.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990393153-rapport-ecrit-1772990393147.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990502161-rapport-ecrit-1772990502160.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990544838-rapport-ecrit-1772990544837.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990561680-rapport-ecrit-1772990561680.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990568724-rapport-ecrit-1772990568723.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772990996075-rapport-ecrit-1772990996074.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772991024687-rapport-ecrit-1772991024686.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772991066462-rapport-ecrit-1772991066461.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772991245311-rapport-ecrit-1772991245310.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772991255175-rapport-ecrit-1772991255173.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772993823995-rapport-ecrit-1772993823994.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772994806482-rapport-ecrit-1772994806481.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772994816723-rapport-ecrit-1772994816722.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772995144537-rapport-ecrit-1772995144535.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1772998738940-rapport-ecrit-1772998738937.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773000625794-rapport-ecrit-1773000625792.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773006014417-rapport-ecrit-1773006014413.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773007626059-rapport-ecrit-1773007626052.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773008622358-rapport-ecrit-1773008622357.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773034905243-rapport-ecrit-1773034905242.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773144118272-rapport-ecrit-1773144118272.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773153471627-rapport-ecrit-1773153471623.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773484581235-rapport-ecrit-1773484581234.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773484635410-rapport-ecrit-1773484635408.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773484813208-rapport-ecrit-1773484813207.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773484866696-rapport-ecrit-1773484866695.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773486913730-rapport-ecrit-1773486913729.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773542274520-rapport-ecrit-1773542274518.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773542298175-rapport-ecrit-1773542298174.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773542346906-rapport-ecrit-1773542346905.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773542368466-rapport-ecrit-1773542368465.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773542393954-rapport-ecrit-1773542393951.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773542442529-rapport-ecrit-1773542442527.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773542481390-rapport-ecrit-1773542481386.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773542522074-rapport-ecrit-1773542522073.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773542533459-rapport-ecrit-1773542533458.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773543298294-rapport-ecrit-1773543298282.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773569804965-rapport-ecrit-1773569804945.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773570339432-rapport-ecrit-1773570339431.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773571194213-rapport-ecrit-1773571194210.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773591999388-rapport-ecrit-1773591999387.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773592753627-rapport-ecrit-1773592753624.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773592971344-rapport-ecrit-1773592971335.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773595694414-rapport-ecrit-1773595694411.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773602980481-rapport-ecrit-1773602980480.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773611825347-rapport-ecrit-1773611825346.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773618240750-rapport-ecrit-1773618240732.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773618530719-rapport-ecrit-1773618530717.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773640484359-rapport-ecrit-1773640484356.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773642677038-rapport-ecrit-1773642677036.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773642686428-rapport-ecrit-1773642686417.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773642788390-rapport-ecrit-1773642788389.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773658158685-rapport-ecrit-1773658158684.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773666211512-rapport-ecrit-1773666211508.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773667876755-rapport-ecrit-1773667876752.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773834679387-rapport-ecrit-1773834679386.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773837012534-rapport-ecrit-1773837012522.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773837048439-rapport-ecrit-1773837048438.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773837058072-rapport-ecrit-1773837058071.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773837090297-rapport-ecrit-1773837090295.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773837348905-rapport-ecrit-1773837348904.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773838192085-rapport-ecrit-1773838192084.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773838203195-rapport-ecrit-1773838203194.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773838591941-rapport-ecrit-1773838591940.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773838620006-rapport-ecrit-1773838620005.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773839933806-rapport-ecrit-1773839933799.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773840299947-rapport-ecrit-1773840299929.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773840498160-rapport-ecrit-1773840498159.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773842750579-rapport-ecrit-1773842750577.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773845136138-rapport-ecrit-1773845136136.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773845573044-rapport-ecrit-1773845573033.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773848091529-rapport-ecrit-1773848091520.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773849280618-rapport-ecrit-1773849280617.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773850430587-rapport-ecrit-1773850430585.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773859950082-rapport-ecrit-1773859950070.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773859978042-rapport-ecrit-1773859978039.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773864948825-rapport-ecrit-1773864948820.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773865407770-rapport-ecrit-1773865407767.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773867149415-rapport-ecrit-1773867149413.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773867180726-rapport-ecrit-1773867180725.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773867325642-rapport-ecrit-1773867325631.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773870530213-rapport-ecrit-1773870530212.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773870695681-rapport-ecrit-1773870695680.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773870905802-rapport-ecrit-1773870905801.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773871228052-rapport-ecrit-1773871228051.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773872290524-rapport-ecrit-1773872290523.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773872620268-rapport-ecrit-1773872620267.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773872866577-rapport-ecrit-1773872866576.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773899339887-rapport-ecrit-1773899339886.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773901640640-rapport-ecrit-1773901640639.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773909288495-rapport-ecrit-1773909288493.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773909339080-rapport-ecrit-1773909339078.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773911226439-rapport-ecrit-1773911226437.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773911240300-rapport-ecrit-1773911240298.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773913740144-rapport-ecrit-1773913740143.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773913919114-rapport-ecrit-1773913919112.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773913946618-rapport-ecrit-1773913946617.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773913980583-rapport-ecrit-1773913980582.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773921175526-rapport-ecrit-1773921175525.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773921201699-rapport-ecrit-1773921201698.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773921503445-rapport-ecrit-1773921503433.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773921865229-rapport-ecrit-1773921865216.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773921883911-rapport-ecrit-1773921883910.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773921928614-rapport-ecrit-1773921928613.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773922678979-rapport-ecrit-1773922678978.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773929200637-rapport-ecrit-1773929200626.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773930785285-rapport-ecrit-1773930785284.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773931084432-rapport-ecrit-1773931084431.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773933428491-rapport-ecrit-1773933428490.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773935044742-rapport-ecrit-1773935044740.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773935096424-rapport-ecrit-1773935096421.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773935140939-rapport-ecrit-1773935140937.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773935538325-rapport-ecrit-1773935538324.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773935718632-rapport-ecrit-1773935718630.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773935847048-rapport-ecrit-1773935847035.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773937319635-rapport-ecrit-1773937319634.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773944703461-rapport-ecrit-1773944703449.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773945642774-rapport-ecrit-1773945642773.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773945734608-rapport-ecrit-1773945734600.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773948230057-rapport-ecrit-1773948230055.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773953530031-rapport-ecrit-1773953530031.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773953664140-rapport-ecrit-1773953664138.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773954092365-rapport-ecrit-1773954092363.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773961705997-rapport-ecrit-1773961705996.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773962735470-rapport-ecrit-1773962735469.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773962991943-rapport-ecrit-1773962991940.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773963306995-rapport-ecrit-1773963306992.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773963384577-rapport-ecrit-1773963384576.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773963744359-rapport-ecrit-1773963744358.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773965625498-rapport-ecrit-1773965625494.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773965667051-rapport-ecrit-1773965667050.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1773995146272-rapport-ecrit-1773995146271.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774035324169-rapport-ecrit-1774035324167.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774039069618-rapport-ecrit-1774039069616.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774045540392-rapport-ecrit-1774045540391.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774048588266-rapport-ecrit-1774048588264.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774050377111-rapport-ecrit-1774050377110.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774050589310-rapport-ecrit-1774050589309.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774052645600-rapport-ecrit-1774052645599.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774096627517-rapport-ecrit-1774096627516.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774096672809-rapport-ecrit-1774096672805.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774122343915-rapport-ecrit-1774122343909.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774136988319-rapport-ecrit-1774136988317.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774173266052-rapport-ecrit-1774173266050.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774173786879-rapport-ecrit-1774173786878.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774174571328-rapport-ecrit-1774174571326.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774175186663-rapport-ecrit-1774175186659.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774175665131-rapport-ecrit-1774175665130.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774176500590-rapport-ecrit-1774176500589.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774177232896-rapport-ecrit-1774177232896.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774177964870-rapport-ecrit-1774177964869.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774179977439-rapport-ecrit-1774179977427.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774195807947-rapport-ecrit-1774195807944.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774196390959-rapport-ecrit-1774196390956.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774196955230-rapport-ecrit-1774196955212.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774197417371-rapport-ecrit-1774197417370.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774197888040-rapport-ecrit-1774197888038.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774198338661-rapport-ecrit-1774198338649.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774198711590-rapport-ecrit-1774198711586.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774199750351-rapport-ecrit-1774199750350.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774200841472-rapport-ecrit-1774200841471.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774204143005-rapport-ecrit-1774204143001.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774205968989-rapport-ecrit-1774205968987.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774206382654-rapport-ecrit-1774206382644.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774206855809-rapport-ecrit-1774206855805.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774207028932-rapport-ecrit-1774207028931.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774207933339-rapport-ecrit-1774207933331.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774208673423-rapport-ecrit-1774208673422.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774209072100-rapport-ecrit-1774209072099.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774209378613-rapport-ecrit-1774209378611.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774211149107-rapport-ecrit-1774211149106.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774211158955-rapport-ecrit-1774211158953.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774211238773-rapport-ecrit-1774211238772.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774211795433-rapport-ecrit-1774211795431.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774212754479-rapport-ecrit-1774212754478.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774212764667-rapport-ecrit-1774212764666.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774212828600-rapport-ecrit-1774212828597.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774212852239-rapport-ecrit-1774212852237.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774212928224-rapport-ecrit-1774212928212.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774213695051-rapport-ecrit-1774213695050.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774214579992-rapport-ecrit-1774214579991.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774216230679-rapport-ecrit-1774216230677.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774216878063-rapport-ecrit-1774216878061.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774217456565-rapport-ecrit-1774217456563.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774218303309-rapport-ecrit-1774218303306.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774218757584-rapport-ecrit-1774218757583.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774220572656-rapport-ecrit-1774220572654.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774221289185-rapport-ecrit-1774221289181.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774221973815-rapport-ecrit-1774221973814.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774222532334-rapport-ecrit-1774222532333.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774222565211-rapport-ecrit-1774222565209.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774222590531-rapport-ecrit-1774222590529.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774222989854-rapport-ecrit-1774222989853.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774224247650-rapport-ecrit-1774224247649.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774224701725-rapport-ecrit-1774224701723.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774225261219-rapport-ecrit-1774225261218.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774225477182-rapport-ecrit-1774225477178.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774226050411-rapport-ecrit-1774226050403.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774226392128-rapport-ecrit-1774226392116.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774226678266-rapport-ecrit-1774226678265.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774226815670-rapport-ecrit-1774226815668.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774227184892-rapport-ecrit-1774227184891.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774244739905-rapport-ecrit-1774244739901.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774245251902-rapport-ecrit-1774245251896.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774245930274-rapport-ecrit-1774245930273.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774246420946-rapport-ecrit-1774246420945.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774246884561-rapport-ecrit-1774246884560.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774248087490-rapport-ecrit-1774248087487.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774248541637-rapport-ecrit-1774248541635.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774265873669-rapport-ecrit-1774265873665.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774266306704-rapport-ecrit-1774266306701.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774267171086-rapport-ecrit-1774267171085.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774267802677-rapport-ecrit-1774267802677.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774267853289-rapport-ecrit-1774267853284.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774269001080-rapport-ecrit-1774269001077.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774277414243-rapport-ecrit-1774277414241.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774301542774-rapport-ecrit-1774301542773.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774301627362-rapport-ecrit-1774301627361.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774302990808-rapport-ecrit-1774302990807.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774304096107-rapport-ecrit-1774304096104.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774304571303-rapport-ecrit-1774304571302.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774305190413-rapport-ecrit-1774305190412.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774306431865-rapport-ecrit-1774306431863.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774388804465-rapport-ecrit-1774388804464.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774394748536-rapport-ecrit-1774394748534.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774428021019-rapport-ecrit-1774428021014.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774428033882-rapport-ecrit-1774428033879.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774428211500-rapport-ecrit-1774428211499.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774429046371-rapport-ecrit-1774429046370.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774429070151-rapport-ecrit-1774429070149.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774430037553-rapport-ecrit-1774430037553.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774430554047-rapport-ecrit-1774430554042.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774503895776-rapport-ecrit-1774503895775.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774518769540-rapport-ecrit-1774518769539.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774522730914-rapport-ecrit-1774522730913.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774529728019-rapport-ecrit-1774529728018.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774900461842-rapport-ecrit-1774900461841.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774900591009-rapport-ecrit-1774900591001.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774900872141-rapport-ecrit-1774900872140.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774901196591-rapport-ecrit-1774901196580.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774901506844-rapport-ecrit-1774901506842.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774901980702-rapport-ecrit-1774901980696.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774902692658-rapport-ecrit-1774902692655.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774902700607-rapport-ecrit-1774902700606.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774907256754-rapport-ecrit-1774907256753.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774973764398-rapport-ecrit-1774973764396.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774973798350-rapport-ecrit-1774973798348.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774976992017-rapport-ecrit-1774976992016.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774985904938-rapport-ecrit-1774985904937.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774989813342-rapport-ecrit-1774989813341.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774989904084-rapport-ecrit-1774989904083.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774991253318-rapport-ecrit-1774991253317.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774991361265-rapport-ecrit-1774991361264.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774993107623-rapport-ecrit-1774993107622.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774994879537-rapport-ecrit-1774994879537.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774996063378-rapport-ecrit-1774996063377.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774996594602-rapport-ecrit-1774996594601.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774996652699-rapport-ecrit-1774996652698.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774997806186-rapport-ecrit-1774997806186.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774998002187-rapport-ecrit-1774998002186.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774999147412-rapport-ecrit-1774999147411.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1774999358602-rapport-ecrit-1774999358601.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775000723942-rapport-ecrit-1775000723941.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775000731067-rapport-ecrit-1775000731067.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775001915181-rapport-ecrit-1775001915181.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775001942680-rapport-ecrit-1775001942680.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775002636776-rapport-ecrit-1775002636776.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775002736745-rapport-ecrit-1775002736745.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775003463776-rapport-ecrit-1775003463776.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775057972771-6315de56-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775058085233-69dc7ede-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775058421592-6d18b164-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775058474626-18b63142-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775059934213-203de94b-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775060444000-12b317a2-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775061274463-d9893312-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775061543488-1414e57e-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775061608513-66c4f540-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775070145180-e6d8e212-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775070177671-b4f3f0d0-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775070238256-96a9fa72-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775070253930-e379e251-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775070345653-6940967d-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775070437598-5960b235-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775072229866-4d65dc3d-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775146270212-2a3fec70-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775296973330-b73a90c1-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775297263529-d8ef6eb6-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775299040470-e1aafc0f-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775304864182-e350fa61-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775304898043-20287cbe-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775306836635-85fc101c-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775308079895-96a299ca-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775308179054-3effcf66-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775308287007-3021140c-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775308325896-f1db30b1-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775308342235-281173de-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775308379930-ece5602c-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775308433225-8f8b2707-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775308471526-58b2e667-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775308587268-a30b9c79-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775309252666-7a8512f5-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775309292042-e428ba75-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775309309268-5560659c-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775309345089-b18bde91-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775322726744-a0ab6cfb-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775322921466-bc16a64c-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775323210568-54ae190e-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775334810041-86fa4e86-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775334832905-39adc453-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775334851806-674cc7c1-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775336963497-024a567a-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775345321174-609c3794-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775345653126-24b483a0-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775377265907-59bcb5f6-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775377751950-245ffd76-rapport-ecrit.html
-/opt/eaf_platform/.data/uploads/documents/user-1/1775379341783-cd0e9d32-rapport-ecrit.html
-/opt/eaf_platform/dist
-/opt/eaf_platform/dist/worker
-/opt/eaf_platform/dist/worker/src
-/opt/eaf_platform/dist/worker/src/lib
-/opt/eaf_platform/dist/worker/src/lib/queue
-/opt/eaf_platform/dist/worker/src/lib/queue/start-worker.js
-/opt/eaf_platform/docs
-/opt/eaf_platform/docs/ADMIN_DASHBOARD_ENHANCEMENT.md
-/opt/eaf_platform/docs/API_REFERENCE.md
-/opt/eaf_platform/docs/arborescence_prod.txt
-/opt/eaf_platform/docs/ARCHITECTURE.md
-/opt/eaf_platform/docs/AUDIT_GO_LIVE.md
-/opt/eaf_platform/docs/CHECKLIST_GO_LIVE.md
-/opt/eaf_platform/docs/CI_SECRETS.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/00_SOURCE_OF_TRUTH.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/01_SURFACE_MAP.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/02_PUBLIC_ANONYMOUS_FLOWS.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/03_AUTH_REGISTRATION_EMAILS.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/04_DASHBOARD_ELEVE.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/05_ATELIERS_ELEVE.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/06_BIBLIOTHEQUE_RESSOURCES.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/07_BILLING_ACTIVATION.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/08_ROLES_PARENT_ENSEIGNANT_ADMIN.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/09_RAG_LLM_MCP_MEMOIRE.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/10_COHERENCE_FRONT_BACK_DB.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/11_SECURITE_ROBUSTESSE.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/12_TESTS_TECHNIQUES_CI.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/13_UX_WORDING_COMMERCIAL.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/14_DECISION_FINALE.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/99_FINAL_RELEASE_DECISION.md
-/opt/eaf_platform/docs/CLAUDE_FINAL_PROD_AUDIT/ARCHITECTURE_AUDIT.md
-/opt/eaf_platform/docs/COMPLETE_GUIDE.md
-/opt/eaf_platform/docs/CONTRIBUTING.md
-/opt/eaf_platform/docs/DATABASE_SCHEMA.md
-/opt/eaf_platform/docs/DEPLOYMENT.md
-/opt/eaf_platform/docs/EMAIL_SETUP.md
-/opt/eaf_platform/docs/GUIDE_ELEVE.md
-/opt/eaf_platform/docs/GUIDE_ENSEIGNANT.md
-/opt/eaf_platform/docs/LANDING_PAGE_EAF_2026.md
-/opt/eaf_platform/docs/PLANS_AND_BILLING.md
-/opt/eaf_platform/docs/README.md
-/opt/eaf_platform/docs/RUNBOOK_ORAL_VOICE_V1.md
-/opt/eaf_platform/docs/RUNBOOK_PRODUCTION.md
-/opt/eaf_platform/docs/S3_HETZNER_SETUP.md
-/opt/eaf_platform/docs/superpowers
-/opt/eaf_platform/docs/superpowers/plans
-/opt/eaf_platform/docs/superpowers/plans/2026-03-23-final-prod-audit.md
-/opt/eaf_platform/docs/superpowers/plans/2026-03-24-french-language-hardening.md
-/opt/eaf_platform/docs/superpowers/plans/2026-03-24-landing-header-refactor.md
-/opt/eaf_platform/docs/superpowers/plans/2026-04-01-atelier-ecrit-progress-stream.md
-/opt/eaf_platform/docs/superpowers/plans/2026-04-01-audit-v9-lot1-billing-oral.md
-/opt/eaf_platform/docs/superpowers/plans/2026-04-01-audit-v9-lot3-oral-front.md
-/opt/eaf_platform/docs/superpowers/plans/2026-04-01-audit-v9-lot4-ci-cd.md
-/opt/eaf_platform/docs/superpowers/plans/2026-04-01-audit-v9-lot4-remaining.md
-/opt/eaf_platform/docs/superpowers/plans/2026-04-01-bloc-d-billing.md
-/opt/eaf_platform/docs/superpowers/plans/2026-04-04-descriptif-baremes-refonte.md
-/opt/eaf_platform/docs/superpowers/plans/2026-04-04-go-live-commercial-finition.md
-/opt/eaf_platform/docs/superpowers/specs
-/opt/eaf_platform/docs/superpowers/specs/2026-03-23-final-prod-audit-design.md
-/opt/eaf_platform/docs/superpowers/specs/2026-03-24-french-language-hardening-design.md
-/opt/eaf_platform/docs/superpowers/specs/2026-03-24-landing-header-design.md
-/opt/eaf_platform/docs/superpowers/specs/2026-04-01-atelier-ecrit-progress-stream-design.md
-/opt/eaf_platform/docs/superpowers/specs/2026-04-01-bloc-d-billing-design.md
-/opt/eaf_platform/eaf_arborescence_prod_2026-04-04.txt
-/opt/eaf_platform/eaf_arborescence_prod_2026-04-05.txt
-/opt/eaf_platform/ecosystem.config.cjs
-/opt/eaf_platform/emails
-/opt/eaf_platform/emails/EmailVerificationEmail.tsx
-/opt/eaf_platform/emails/ParentNotificationEmail.tsx
-/opt/eaf_platform/emails/PasswordChangedEmail.tsx
-/opt/eaf_platform/emails/PasswordResetEmail.tsx
-/opt/eaf_platform/emails/SubscriptionEmail.tsx
-/opt/eaf_platform/emails/TeacherNotificationEmail.tsx
-/opt/eaf_platform/emails/WelcomeEmail.tsx
-/opt/eaf_platform/.env
-/opt/eaf_platform/.env.example
-/opt/eaf_platform/eslint.config.mjs
-/opt/eaf_platform/.github
-/opt/eaf_platform/.github/workflows
-/opt/eaf_platform/.github/workflows/ci-cd.yml
-/opt/eaf_platform/.github/workflows/pr-checks.yml
-/opt/eaf_platform/.gitignore
-/opt/eaf_platform/.gitleaksignore
-/opt/eaf_platform/.gitleaks.toml
-/opt/eaf_platform/.git_sha
-/opt/eaf_platform/knip.json
-/opt/eaf_platform/middleware.ts
-/opt/eaf_platform/.next
-/opt/eaf_platform/next.config.ts
-/opt/eaf_platform/next-env.d.ts
-/opt/eaf_platform/node_modules
-/opt/eaf_platform/ops
-/opt/eaf_platform/ops/nginx.conf
-/opt/eaf_platform/ops/oral_voice_canary_check.sh
-/opt/eaf_platform/ops/oral_voice_preflight.sh
-/opt/eaf_platform/package.json
-/opt/eaf_platform/package-lock.json
-/opt/eaf_platform/packages
-/opt/eaf_platform/packages/mcp-server
-/opt/eaf_platform/packages/mcp-server/dist
-/opt/eaf_platform/packages/mcp-server/dist/client.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/client.js
-/opt/eaf_platform/packages/mcp-server/dist/index.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/index.js
-/opt/eaf_platform/packages/mcp-server/dist/lib
-/opt/eaf_platform/packages/mcp-server/dist/lib/auth.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/lib/auth.js
-/opt/eaf_platform/packages/mcp-server/dist/lib/db.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/lib/db.js
-/opt/eaf_platform/packages/mcp-server/dist/lib/logger.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/lib/logger.js
-/opt/eaf_platform/packages/mcp-server/dist/lib/policy-gate.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/lib/policy-gate.js
-/opt/eaf_platform/packages/mcp-server/dist/lib/redis.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/lib/redis.js
-/opt/eaf_platform/packages/mcp-server/dist/prompts
-/opt/eaf_platform/packages/mcp-server/dist/prompts/index.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/prompts/index.js
-/opt/eaf_platform/packages/mcp-server/dist/resources
-/opt/eaf_platform/packages/mcp-server/dist/resources/index.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/resources/index.js
-/opt/eaf_platform/packages/mcp-server/dist/server.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/server.js
-/opt/eaf_platform/packages/mcp-server/dist/tools
-/opt/eaf_platform/packages/mcp-server/dist/tools/all-tools.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/tools/all-tools.js
-/opt/eaf_platform/packages/mcp-server/dist/tools/rag
-/opt/eaf_platform/packages/mcp-server/dist/tools/rag/search-corpus.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/tools/rag/search-corpus.js
-/opt/eaf_platform/packages/mcp-server/dist/tools/student
-/opt/eaf_platform/packages/mcp-server/dist/tools/student/error-bank.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/tools/student/error-bank.js
-/opt/eaf_platform/packages/mcp-server/dist/tools/student/get-profile.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/tools/student/get-profile.js
-/opt/eaf_platform/packages/mcp-server/dist/transport-http.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/transport-http.js
-/opt/eaf_platform/packages/mcp-server/dist/types
-/opt/eaf_platform/packages/mcp-server/dist/types/index.d.ts
-/opt/eaf_platform/packages/mcp-server/dist/types/index.js
-/opt/eaf_platform/packages/mcp-server/.env
-/opt/eaf_platform/packages/mcp-server/.env.example
-/opt/eaf_platform/packages/mcp-server/.gitignore
-/opt/eaf_platform/packages/mcp-server/mcp_3105.log
-/opt/eaf_platform/packages/mcp-server/mcp.config.json
-/opt/eaf_platform/packages/mcp-server/node_modules
-/opt/eaf_platform/packages/mcp-server/package.json
-/opt/eaf_platform/packages/mcp-server/prisma
-/opt/eaf_platform/packages/mcp-server/README.md
-/opt/eaf_platform/packages/mcp-server/tsconfig.json
-/opt/eaf_platform/packages/mcp-server/vitest.config.ts
-/opt/eaf_platform/packages/shared-billing
-/opt/eaf_platform/packages/shared-billing/dist
-/opt/eaf_platform/packages/shared-billing/dist/index.d.ts
-/opt/eaf_platform/packages/shared-billing/dist/index.d.ts.map
-/opt/eaf_platform/packages/shared-billing/dist/index.js
-/opt/eaf_platform/packages/shared-billing/dist/plan-catalog.d.ts
-/opt/eaf_platform/packages/shared-billing/dist/plan-catalog.d.ts.map
-/opt/eaf_platform/packages/shared-billing/dist/plan-catalog.js
-/opt/eaf_platform/packages/shared-billing/dist/programme-oeuvres.d.ts
-/opt/eaf_platform/packages/shared-billing/dist/programme-oeuvres.d.ts.map
-/opt/eaf_platform/packages/shared-billing/dist/programme-oeuvres.js
-/opt/eaf_platform/packages/shared-billing/package.json
-/opt/eaf_platform/packages/shared-billing/src
-/opt/eaf_platform/packages/shared-billing/src/index.ts
-/opt/eaf_platform/packages/shared-billing/src/plan-catalog.ts
-/opt/eaf_platform/packages/shared-billing/src/programme-oeuvres.ts
-/opt/eaf_platform/packages/shared-billing/tsconfig.json
-/opt/eaf_platform/playwright.config.ts
-/opt/eaf_platform/postcss.config.mjs
-/opt/eaf_platform/prisma
-/opt/eaf_platform/prisma/migrations
-/opt/eaf_platform/prisma/migrations/0001_init
-/opt/eaf_platform/prisma/migrations/0001_init/migration.sql
-/opt/eaf_platform/prisma/migrations/0002_student_profile_onboarding
-/opt/eaf_platform/prisma/migrations/0002_student_profile_onboarding/migration.sql
-/opt/eaf_platform/prisma/migrations/0003_profile_badges
-/opt/eaf_platform/prisma/migrations/0003_profile_badges/migration.sql
-/opt/eaf_platform/prisma/migrations/0004_rag_columns_and_missing_models
-/opt/eaf_platform/prisma/migrations/0004_rag_columns_and_missing_models/migration.sql
-/opt/eaf_platform/prisma/migrations/0005_oral_eaf_conformity
-/opt/eaf_platform/prisma/migrations/0005_oral_eaf_conformity/migration.sql
-/opt/eaf_platform/prisma/migrations/0006_oral_v2_schema
-/opt/eaf_platform/prisma/migrations/0006_oral_v2_schema/migration.sql
-/opt/eaf_platform/prisma/migrations/0007_billing_plans_v2
-/opt/eaf_platform/prisma/migrations/0007_billing_plans_v2/migration.sql
-/opt/eaf_platform/prisma/migrations/0008_addendum_memory_store_v1
-/opt/eaf_platform/prisma/migrations/0008_addendum_memory_store_v1/migration.sql
-/opt/eaf_platform/prisma/migrations/0009b_oral_oeuvre_choisie
-/opt/eaf_platform/prisma/migrations/0009b_oral_oeuvre_choisie/migration.sql
-/opt/eaf_platform/prisma/migrations/0009_gamification_xp_columns
-/opt/eaf_platform/prisma/migrations/0009_gamification_xp_columns/migration.sql
-/opt/eaf_platform/prisma/migrations/0010_descriptif_lecture
-/opt/eaf_platform/prisma/migrations/0010_descriptif_lecture/migration.sql
-/opt/eaf_platform/prisma/migrations/0011_carnet_lecture
-/opt/eaf_platform/prisma/migrations/0011_carnet_lecture/migration.sql
-/opt/eaf_platform/prisma/migrations/0012_pgvector_hnsw_index
-/opt/eaf_platform/prisma/migrations/0012_pgvector_hnsw_index/migration.sql
-/opt/eaf_platform/prisma/migrations/0013_premium_history_and_learning_memory
-/opt/eaf_platform/prisma/migrations/0013_premium_history_and_learning_memory/migration.sql
-/opt/eaf_platform/prisma/migrations/0014_add_billing_tables
-/opt/eaf_platform/prisma/migrations/0014_add_billing_tables/migration.sql
-/opt/eaf_platform/prisma/migrations/0015_add_web_vital_table
-/opt/eaf_platform/prisma/migrations/0015_add_web_vital_table/migration.sql
-/opt/eaf_platform/prisma/migrations/0016_add_premium_max_plan
-/opt/eaf_platform/prisma/migrations/0016_add_premium_max_plan/migration.sql
-/opt/eaf_platform/prisma/migrations/0017_fix_activation_code_schema
-/opt/eaf_platform/prisma/migrations/0017_fix_activation_code_schema/migration.sql
-/opt/eaf_platform/prisma/migrations/0018_add_manual_provider
-/opt/eaf_platform/prisma/migrations/0018_add_manual_provider/migration.sql
-/opt/eaf_platform/prisma/migrations/0019_add_parent_consent_fields
-/opt/eaf_platform/prisma/migrations/0019_add_parent_consent_fields/migration.sql
-/opt/eaf_platform/prisma/migrations/0020_fix_oral_totalscore_float
-/opt/eaf_platform/prisma/migrations/0020_fix_oral_totalscore_float/migration.sql
-/opt/eaf_platform/prisma/migrations/0021_default_provider_manual
-/opt/eaf_platform/prisma/migrations/0021_default_provider_manual/migration.sql
-/opt/eaf_platform/prisma/migrations/0022_add_password_reset_token
-/opt/eaf_platform/prisma/migrations/0022_add_password_reset_token/migration.sql
-/opt/eaf_platform/prisma/migrations/0023_add_teacher_email_to_student_profile
-/opt/eaf_platform/prisma/migrations/0023_add_teacher_email_to_student_profile/migration.sql
-/opt/eaf_platform/prisma/migrations/0024_add_usage_counter_lookup_index
-/opt/eaf_platform/prisma/migrations/0024_add_usage_counter_lookup_index/migration.sql
-/opt/eaf_platform/prisma/migrations/0025_parent_consent_enum_and_school_year
-/opt/eaf_platform/prisma/migrations/0025_parent_consent_enum_and_school_year/migration.sql
-/opt/eaf_platform/prisma/migrations/0026_copie_progress_events
-/opt/eaf_platform/prisma/migrations/0026_copie_progress_events/migration.sql
-/opt/eaf_platform/prisma/migrations/0027_add_missing_indexes_default_annee
-/opt/eaf_platform/prisma/migrations/0027_add_missing_indexes_default_annee/migration.sql
-/opt/eaf_platform/prisma/migrations/20260404123533_add_texte_prepare_descriptif
-/opt/eaf_platform/prisma/migrations/20260404123533_add_texte_prepare_descriptif/migration.sql
-/opt/eaf_platform/prisma/migrations/20260404165617_unify_texte_descriptif
-/opt/eaf_platform/prisma/migrations/20260404165617_unify_texte_descriptif/migration.sql
-/opt/eaf_platform/prisma/migrations/20260409_add_admin_audit_log
-/opt/eaf_platform/prisma/migrations/20260409_add_admin_audit_log/migration.sql
-/opt/eaf_platform/prisma/migrations/migration_lock.toml
-/opt/eaf_platform/prisma/schema.prisma
-/opt/eaf_platform/prisma/seed-official-works.ts
-/opt/eaf_platform/public
-/opt/eaf_platform/public/assets
-/opt/eaf_platform/public/assets/dashboard-parent.svg
-/opt/eaf_platform/public/assets/dashboard-student.svg
-/opt/eaf_platform/public/assets/og-cover.png
-/opt/eaf_platform/public/assets/og-cover.svg
-/opt/eaf_platform/public/assets/oral-simulator-preview.svg
-/opt/eaf_platform/public/assets/oral-simulator-preview.webp
-/opt/eaf_platform/public/favicon.svg
-/opt/eaf_platform/public/hero-bg.jpg
-/opt/eaf_platform/public/hero-student.jpg
-/opt/eaf_platform/public/images
-/opt/eaf_platform/public/images/logo_nexus_reussite_nav.webp
-/opt/eaf_platform/public/images/logo_nexus_reussite.png
-/opt/eaf_platform/public/images/logo.png
-/opt/eaf_platform/public/images/logo_slogan_nexus_email.png
-/opt/eaf_platform/public/images/logo_slogan_nexus.png
-/opt/eaf_platform/public/manifest.json
-/opt/eaf_platform/public/section-bg-1.jpg
-/opt/eaf_platform/README.md
-/opt/eaf_platform/.release.env
-/opt/eaf_platform/ressources
-/opt/eaf_platform/scripts
-/opt/eaf_platform/scripts/audit-csrf-routes.mjs
-/opt/eaf_platform/scripts/backup-uploads.sh
-/opt/eaf_platform/scripts/build-worker.mjs
-/opt/eaf_platform/scripts/check-banned-phrases.mjs
-/opt/eaf_platform/scripts/check-curly-quotes.ts
-/opt/eaf_platform/scripts/check-env.js
-/opt/eaf_platform/scripts/check-fr-copy.ts
-/opt/eaf_platform/scripts/commit-and-push.sh
-/opt/eaf_platform/scripts/create-admin-production.ts
-/opt/eaf_platform/scripts/deploy-ressources.sh
-/opt/eaf_platform/scripts/deploy.sh
-/opt/eaf_platform/scripts/fix-error-messages.py
-/opt/eaf_platform/scripts/generate-env.py
-/opt/eaf_platform/scripts/generate-release-meta.sh
-/opt/eaf_platform/scripts/index-rag.ts
-/opt/eaf_platform/scripts/ingest-media-catalog.ts
-/opt/eaf_platform/scripts/integration-test-production.sh
-/opt/eaf_platform/scripts/migrate-legacy-descriptif.ts
-/opt/eaf_platform/scripts/migrate-memory-store-to-db.ts
-/opt/eaf_platform/scripts/migrate-oral-sessions-to-db.ts
-/opt/eaf_platform/scripts/migrate-uploads-to-s3.ts
-/opt/eaf_platform/scripts/nginx-eaf.conf
-/opt/eaf_platform/scripts/pedagogical-test.sh
-/opt/eaf_platform/scripts/pw_webserver_local.ts
-/opt/eaf_platform/scripts/rag-diagnostic.sh
-/opt/eaf_platform/scripts/rebase-stack.sh
-/opt/eaf_platform/scripts/remigrate-orphan-users.ts
-/opt/eaf_platform/scripts/scan-ressources.ts
-/opt/eaf_platform/scripts/seed-test-users.ts
-/opt/eaf_platform/scripts/seed.ts
-/opt/eaf_platform/scripts/setup-postgres.py
-/opt/eaf_platform/scripts/setup-server.sh
-/opt/eaf_platform/scripts/setup.sh
-/opt/eaf_platform/scripts/smoke-test-production.sh
-/opt/eaf_platform/scripts/test-admin-dashboard.sh
-/opt/eaf_platform/scripts/verify-catalog-paths.ts
-/opt/eaf_platform/scripts/visual-qa-precheck.sh
-/opt/eaf_platform/src
-/opt/eaf_platform/src/app
-/opt/eaf_platform/src/app/admin
-/opt/eaf_platform/src/app/admin/components
-/opt/eaf_platform/src/app/admin/components/activity-tab.tsx
-/opt/eaf_platform/src/app/admin/components/admin-shell.tsx
-/opt/eaf_platform/src/app/admin/components/audit-tab.tsx
-/opt/eaf_platform/src/app/admin/components/codes-tab.tsx
-/opt/eaf_platform/src/app/admin/components/overview-tab.tsx
-/opt/eaf_platform/src/app/admin/components/payments-tab.tsx
-/opt/eaf_platform/src/app/admin/components/sessions-tab.tsx
-/opt/eaf_platform/src/app/admin/components/shared.ts
-/opt/eaf_platform/src/app/admin/components/stat-card.tsx
-/opt/eaf_platform/src/app/admin/components/users-tab.tsx
-/opt/eaf_platform/src/app/admin/enhanced-page.tsx
-/opt/eaf_platform/src/app/admin/layout.tsx
-/opt/eaf_platform/src/app/admin/login
-/opt/eaf_platform/src/app/admin/login/page.tsx
-/opt/eaf_platform/src/app/admin/page.tsx
-/opt/eaf_platform/src/app/api
-/opt/eaf_platform/src/app/api/mcp
-/opt/eaf_platform/src/app/api/mcp/health
-/opt/eaf_platform/src/app/api/mcp/health/route.ts
-/opt/eaf_platform/src/app/api/v1
-/opt/eaf_platform/src/app/api/v1/account
-/opt/eaf_platform/src/app/api/v1/account/delete
-/opt/eaf_platform/src/app/api/v1/account/delete/route.ts
-/opt/eaf_platform/src/app/api/v1/admin
-/opt/eaf_platform/src/app/api/v1/admin/activation-codes
-/opt/eaf_platform/src/app/api/v1/admin/activation-codes/revoke
-/opt/eaf_platform/src/app/api/v1/admin/activation-codes/revoke/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/activation-codes/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/activity
-/opt/eaf_platform/src/app/api/v1/admin/activity/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/audit-log
-/opt/eaf_platform/src/app/api/v1/admin/audit-log/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/enhanced-stats
-/opt/eaf_platform/src/app/api/v1/admin/enhanced-stats/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/manual-payment
-/opt/eaf_platform/src/app/api/v1/admin/manual-payment/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/metrics
-/opt/eaf_platform/src/app/api/v1/admin/metrics/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/orders
-/opt/eaf_platform/src/app/api/v1/admin/orders/confirm
-/opt/eaf_platform/src/app/api/v1/admin/orders/confirm/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/sessions
-/opt/eaf_platform/src/app/api/v1/admin/sessions/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/stats
-/opt/eaf_platform/src/app/api/v1/admin/stats/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/users
-/opt/eaf_platform/src/app/api/v1/admin/users/create
-/opt/eaf_platform/src/app/api/v1/admin/users/create/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/users/plan
-/opt/eaf_platform/src/app/api/v1/admin/users/plan/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/users/reset-onboarding
-/opt/eaf_platform/src/app/api/v1/admin/users/reset-onboarding/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/users/reset-password
-/opt/eaf_platform/src/app/api/v1/admin/users/reset-password/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/users/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/users/suspend
-/opt/eaf_platform/src/app/api/v1/admin/users/suspend/route.ts
-/opt/eaf_platform/src/app/api/v1/admin/users/usage
-/opt/eaf_platform/src/app/api/v1/admin/users/usage/route.ts
-/opt/eaf_platform/src/app/api/v1/auth
-/opt/eaf_platform/src/app/api/v1/auth/forgot-password
-/opt/eaf_platform/src/app/api/v1/auth/forgot-password/route.ts
-/opt/eaf_platform/src/app/api/v1/auth/login
-/opt/eaf_platform/src/app/api/v1/auth/login/route.ts
-/opt/eaf_platform/src/app/api/v1/auth/logout
-/opt/eaf_platform/src/app/api/v1/auth/logout/route.ts
-/opt/eaf_platform/src/app/api/v1/auth/me
-/opt/eaf_platform/src/app/api/v1/auth/me/route.ts
-/opt/eaf_platform/src/app/api/v1/auth/register
-/opt/eaf_platform/src/app/api/v1/auth/register/route.ts
-/opt/eaf_platform/src/app/api/v1/auth/resend-verification
-/opt/eaf_platform/src/app/api/v1/auth/resend-verification/route.ts
-/opt/eaf_platform/src/app/api/v1/auth/reset-password
-/opt/eaf_platform/src/app/api/v1/auth/reset-password/route.ts
-/opt/eaf_platform/src/app/api/v1/auth/verify-email
-/opt/eaf_platform/src/app/api/v1/auth/verify-email/route.ts
-/opt/eaf_platform/src/app/api/v1/badges
-/opt/eaf_platform/src/app/api/v1/badges/evaluate
-/opt/eaf_platform/src/app/api/v1/badges/evaluate/route.ts
-/opt/eaf_platform/src/app/api/v1/badges/list
-/opt/eaf_platform/src/app/api/v1/badges/list/route.ts
-/opt/eaf_platform/src/app/api/v1/billing
-/opt/eaf_platform/src/app/api/v1/billing/cancel
-/opt/eaf_platform/src/app/api/v1/billing/cancel/route.ts
-/opt/eaf_platform/src/app/api/v1/billing/check-quota
-/opt/eaf_platform/src/app/api/v1/billing/check-quota/route.ts
-/opt/eaf_platform/src/app/api/v1/billing/order
-/opt/eaf_platform/src/app/api/v1/billing/order/route.ts
-/opt/eaf_platform/src/app/api/v1/billing/redeem-code
-/opt/eaf_platform/src/app/api/v1/billing/redeem-code/route.ts
-/opt/eaf_platform/src/app/api/v1/billing/status
-/opt/eaf_platform/src/app/api/v1/billing/status/route.ts
-/opt/eaf_platform/src/app/api/v1/carnet
-/opt/eaf_platform/src/app/api/v1/carnet/entry
-/opt/eaf_platform/src/app/api/v1/carnet/[entryId]
-/opt/eaf_platform/src/app/api/v1/carnet/[entryId]/route.ts
-/opt/eaf_platform/src/app/api/v1/carnet/entry/route.ts
-/opt/eaf_platform/src/app/api/v1/carnet/export
-/opt/eaf_platform/src/app/api/v1/carnet/export/route.ts
-/opt/eaf_platform/src/app/api/v1/carnet/route.ts
-/opt/eaf_platform/src/app/api/v1/chat
-/opt/eaf_platform/src/app/api/v1/chat/route.ts
-/opt/eaf_platform/src/app/api/v1/contact
-/opt/eaf_platform/src/app/api/v1/contact/route.ts
-/opt/eaf_platform/src/app/api/v1/cron
-/opt/eaf_platform/src/app/api/v1/cron/revision-reminders
-/opt/eaf_platform/src/app/api/v1/cron/revision-reminders/route.ts
-/opt/eaf_platform/src/app/api/v1/cron/session-cleanup
-/opt/eaf_platform/src/app/api/v1/cron/session-cleanup/route.ts
-/opt/eaf_platform/src/app/api/v1/cron/weekly-reports
-/opt/eaf_platform/src/app/api/v1/cron/weekly-reports/route.ts
-/opt/eaf_platform/src/app/api/v1/csrf
-/opt/eaf_platform/src/app/api/v1/csrf/route.ts
-/opt/eaf_platform/src/app/api/v1/documents
-/opt/eaf_platform/src/app/api/v1/documents/[...key]
-/opt/eaf_platform/src/app/api/v1/documents/[...key]/route.ts
-/opt/eaf_platform/src/app/api/v1/enseignant
-/opt/eaf_platform/src/app/api/v1/enseignant/class-code
-/opt/eaf_platform/src/app/api/v1/enseignant/class-code/route.ts
-/opt/eaf_platform/src/app/api/v1/enseignant/corrections
-/opt/eaf_platform/src/app/api/v1/enseignant/corrections/[copieId]
-/opt/eaf_platform/src/app/api/v1/enseignant/corrections/[copieId]/comment
-/opt/eaf_platform/src/app/api/v1/enseignant/corrections/[copieId]/comment/route.ts
-/opt/eaf_platform/src/app/api/v1/enseignant/dashboard
-/opt/eaf_platform/src/app/api/v1/enseignant/dashboard/route.ts
-/opt/eaf_platform/src/app/api/v1/enseignant/export
-/opt/eaf_platform/src/app/api/v1/enseignant/export/route.ts
-/opt/eaf_platform/src/app/api/v1/epreuves
-/opt/eaf_platform/src/app/api/v1/epreuves/copies
-/opt/eaf_platform/src/app/api/v1/epreuves/copies/[copieId]
-/opt/eaf_platform/src/app/api/v1/epreuves/copies/[copieId]/events
-/opt/eaf_platform/src/app/api/v1/epreuves/copies/[copieId]/events/route.ts
-/opt/eaf_platform/src/app/api/v1/epreuves/copies/[copieId]/file
-/opt/eaf_platform/src/app/api/v1/epreuves/copies/[copieId]/file/route.ts
-/opt/eaf_platform/src/app/api/v1/epreuves/copies/[copieId]/report
-/opt/eaf_platform/src/app/api/v1/epreuves/copies/[copieId]/report/route.ts
-/opt/eaf_platform/src/app/api/v1/epreuves/copies/[copieId]/status
-/opt/eaf_platform/src/app/api/v1/epreuves/copies/[copieId]/status/route.ts
-/opt/eaf_platform/src/app/api/v1/epreuves/[epreuveId]
-/opt/eaf_platform/src/app/api/v1/epreuves/[epreuveId]/copie
-/opt/eaf_platform/src/app/api/v1/epreuves/[epreuveId]/copie/[copieId]
-/opt/eaf_platform/src/app/api/v1/epreuves/[epreuveId]/copie/[copieId]/route.ts
-/opt/eaf_platform/src/app/api/v1/epreuves/[epreuveId]/copie/route.ts
-/opt/eaf_platform/src/app/api/v1/epreuves/generate
-/opt/eaf_platform/src/app/api/v1/epreuves/generate/route.ts
-/opt/eaf_platform/src/app/api/v1/evaluations
-/opt/eaf_platform/src/app/api/v1/evaluations/langue
-/opt/eaf_platform/src/app/api/v1/evaluations/langue/route.ts
-/opt/eaf_platform/src/app/api/v1/exam-info
-/opt/eaf_platform/src/app/api/v1/exam-info/route.ts
-/opt/eaf_platform/src/app/api/v1/health
-/opt/eaf_platform/src/app/api/v1/health/route.ts
-/opt/eaf_platform/src/app/api/v1/langue
-/opt/eaf_platform/src/app/api/v1/langue/generate
-/opt/eaf_platform/src/app/api/v1/langue/generate/route.ts
-/opt/eaf_platform/src/app/api/v1/media
-/opt/eaf_platform/src/app/api/v1/media/[id]
-/opt/eaf_platform/src/app/api/v1/media/[id]/route.ts
-/opt/eaf_platform/src/app/api/v1/memory
-/opt/eaf_platform/src/app/api/v1/memory/events
-/opt/eaf_platform/src/app/api/v1/memory/events/route.ts
-/opt/eaf_platform/src/app/api/v1/memory/timeline
-/opt/eaf_platform/src/app/api/v1/memory/timeline/route.ts
-/opt/eaf_platform/src/app/api/v1/metrics
-/opt/eaf_platform/src/app/api/v1/metrics/vitals
-/opt/eaf_platform/src/app/api/v1/metrics/vitals/route.ts
-/opt/eaf_platform/src/app/api/v1/onboarding
-/opt/eaf_platform/src/app/api/v1/onboarding/complete
-/opt/eaf_platform/src/app/api/v1/onboarding/complete/route.ts
-/opt/eaf_platform/src/app/api/v1/oral
-/opt/eaf_platform/src/app/api/v1/oral/capabilities
-/opt/eaf_platform/src/app/api/v1/oral/capabilities/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/jury-respond
-/opt/eaf_platform/src/app/api/v1/oral/jury-respond/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/session
-/opt/eaf_platform/src/app/api/v1/oral/sessions
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/audio-turn
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/audio-turn/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/end
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/end-prep
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/end-prep/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/end/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/interact
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/interact/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/start-passage
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/start-passage/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/start-prep
-/opt/eaf_platform/src/app/api/v1/oral/session/[sessionId]/start-prep/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/sessions/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/session/start
-/opt/eaf_platform/src/app/api/v1/oral/session/start/route.ts
-/opt/eaf_platform/src/app/api/v1/oral/voice-submit
-/opt/eaf_platform/src/app/api/v1/oral/voice-submit/route.ts
-/opt/eaf_platform/src/app/api/v1/parcours
-/opt/eaf_platform/src/app/api/v1/parcours/generate
-/opt/eaf_platform/src/app/api/v1/parcours/generate/route.ts
-/opt/eaf_platform/src/app/api/v1/parent
-/opt/eaf_platform/src/app/api/v1/parent/dashboard
-/opt/eaf_platform/src/app/api/v1/parent/dashboard/route.ts
-/opt/eaf_platform/src/app/api/v1/quiz
-/opt/eaf_platform/src/app/api/v1/quiz/evaluate
-/opt/eaf_platform/src/app/api/v1/quiz/evaluate/route.ts
-/opt/eaf_platform/src/app/api/v1/quiz/generate
-/opt/eaf_platform/src/app/api/v1/quiz/generate/route.ts
-/opt/eaf_platform/src/app/api/v1/rag
-/opt/eaf_platform/src/app/api/v1/rag/health
-/opt/eaf_platform/src/app/api/v1/rag/health/route.ts
-/opt/eaf_platform/src/app/api/v1/rag/search
-/opt/eaf_platform/src/app/api/v1/rag/search/route.ts
-/opt/eaf_platform/src/app/api/v1/ressources
-/opt/eaf_platform/src/app/api/v1/ressources/file
-/opt/eaf_platform/src/app/api/v1/ressources/file/route.ts
-/opt/eaf_platform/src/app/api/v1/ressources/route.ts
-/opt/eaf_platform/src/app/api/v1/rgpd
-/opt/eaf_platform/src/app/api/v1/rgpd/consent
-/opt/eaf_platform/src/app/api/v1/rgpd/consent/route.ts
-/opt/eaf_platform/src/app/api/v1/storage
-/opt/eaf_platform/src/app/api/v1/storage/local
-/opt/eaf_platform/src/app/api/v1/storage/local/route.ts
-/opt/eaf_platform/src/app/api/v1/student
-/opt/eaf_platform/src/app/api/v1/student/descriptif
-/opt/eaf_platform/src/app/api/v1/student/descriptif-lecture
-/opt/eaf_platform/src/app/api/v1/student/descriptif-lecture/route.ts
-/opt/eaf_platform/src/app/api/v1/student/descriptif-lecture/[texteId]
-/opt/eaf_platform/src/app/api/v1/student/descriptif-lecture/[texteId]/route.ts
-/opt/eaf_platform/src/app/api/v1/student/descriptif-lecture/[texteId]/upload
-/opt/eaf_platform/src/app/api/v1/student/descriptif-lecture/[texteId]/upload/route.ts
-/opt/eaf_platform/src/app/api/v1/student/descriptif/route.ts
-/opt/eaf_platform/src/app/api/v1/student/oeuvre-choisie
-/opt/eaf_platform/src/app/api/v1/student/oeuvre-choisie/route.ts
-/opt/eaf_platform/src/app/api/v1/student/profile
-/opt/eaf_platform/src/app/api/v1/student/profile/route.ts
-/opt/eaf_platform/src/app/api/v1/student/recapitulatif
-/opt/eaf_platform/src/app/api/v1/student/recapitulatif/route.ts
-/opt/eaf_platform/src/app/api/v1/tuteur
-/opt/eaf_platform/src/app/api/v1/tuteur/message
-/opt/eaf_platform/src/app/api/v1/tuteur/message/route.ts
-/opt/eaf_platform/src/app/atelier-ecrit
-/opt/eaf_platform/src/app/atelier-ecrit/components
-/opt/eaf_platform/src/app/atelier-ecrit/components/EcritCopyUploader.tsx
-/opt/eaf_platform/src/app/atelier-ecrit/components/EcritCorrectionProgress.tsx
-/opt/eaf_platform/src/app/atelier-ecrit/components/EcritEpreuveSelector.tsx
-/opt/eaf_platform/src/app/atelier-ecrit/correction
-/opt/eaf_platform/src/app/atelier-ecrit/correction/[copieId]
-/opt/eaf_platform/src/app/atelier-ecrit/correction/[copieId]/page.tsx
-/opt/eaf_platform/src/app/atelier-ecrit/hooks
-/opt/eaf_platform/src/app/atelier-ecrit/hooks/useEcritCorrection.ts
-/opt/eaf_platform/src/app/atelier-ecrit/hooks/useEcritSession.ts
-/opt/eaf_platform/src/app/atelier-ecrit/hooks/useEcritUpload.ts
-/opt/eaf_platform/src/app/atelier-ecrit/loading.tsx
-/opt/eaf_platform/src/app/atelier-ecrit/page.tsx
-/opt/eaf_platform/src/app/atelier-ecrit/types.ts
-/opt/eaf_platform/src/app/atelier-langue
-/opt/eaf_platform/src/app/atelier-langue/page.tsx
-/opt/eaf_platform/src/app/atelier-oral
-/opt/eaf_platform/src/app/atelier-oral/components
-/opt/eaf_platform/src/app/atelier-oral/components/DescriptifStatus.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/OralChecklistWarning.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/OralPassagePhase.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/OralPrepPhase.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/OralResultsPanel.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/OralWorkSelector.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/passage
-/opt/eaf_platform/src/app/atelier-oral/components/passage/PassageContext.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/passage/PassageFeedback.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/passage/PassageInput.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/passage/PassagePrincipe.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/passage/PassageSubmitBar.tsx
-/opt/eaf_platform/src/app/atelier-oral/components/passage/PassageTimer.tsx
-/opt/eaf_platform/src/app/atelier-oral/hooks
-/opt/eaf_platform/src/app/atelier-oral/hooks/useCountdown.ts
-/opt/eaf_platform/src/app/atelier-oral/hooks/useOralApi.ts
-/opt/eaf_platform/src/app/atelier-oral/hooks/useOralQuota.ts
-/opt/eaf_platform/src/app/atelier-oral/hooks/useOralSessionState.ts
-/opt/eaf_platform/src/app/atelier-oral/hooks/useOralSession.ts
-/opt/eaf_platform/src/app/atelier-oral/hooks/usePrepChecklist.ts
-/opt/eaf_platform/src/app/atelier-oral/hooks/useVoiceMode.ts
-/opt/eaf_platform/src/app/atelier-oral/loading.tsx
-/opt/eaf_platform/src/app/atelier-oral/page.tsx
-/opt/eaf_platform/src/app/atelier-oral/types.ts
-/opt/eaf_platform/src/app/bibliotheque
-/opt/eaf_platform/src/app/bibliotheque/loading.tsx
-/opt/eaf_platform/src/app/bibliotheque/page.tsx
-/opt/eaf_platform/src/app/bienvenue
-/opt/eaf_platform/src/app/bienvenue/page.tsx
-/opt/eaf_platform/src/app/bienvenue/sections
-/opt/eaf_platform/src/app/bienvenue/sections/FAQ.tsx
-/opt/eaf_platform/src/app/bienvenue/sections/Features.tsx
-/opt/eaf_platform/src/app/bienvenue/sections/FinalCTA.tsx
-/opt/eaf_platform/src/app/bienvenue/sections/Hero.tsx
-/opt/eaf_platform/src/app/bienvenue/sections/HowItWorks.tsx
-/opt/eaf_platform/src/app/bienvenue/sections/PricingTeaser.tsx
-/opt/eaf_platform/src/app/bienvenue/sections/Trust.tsx
-/opt/eaf_platform/src/app/bienvenue/sections/WhyNexus.tsx
-/opt/eaf_platform/src/app/carnet
-/opt/eaf_platform/src/app/carnet/page.tsx
-/opt/eaf_platform/src/app/cgu
-/opt/eaf_platform/src/app/cgu/page.tsx
-/opt/eaf_platform/src/app/cgv
-/opt/eaf_platform/src/app/cgv/page.tsx
-/opt/eaf_platform/src/app/contact
-/opt/eaf_platform/src/app/contact/page.tsx
-/opt/eaf_platform/src/app/dashboard
-/opt/eaf_platform/src/app/dashboard/layout.tsx
-/opt/eaf_platform/src/app/dashboard/page.tsx
-/opt/eaf_platform/src/app/descriptif
-/opt/eaf_platform/src/app/descriptif-lecture
-/opt/eaf_platform/src/app/descriptif-lecture/AddTexteForm.tsx
-/opt/eaf_platform/src/app/descriptif-lecture/page.tsx
-/opt/eaf_platform/src/app/descriptif-lecture/TexteCard.tsx
-/opt/eaf_platform/src/app/descriptif/page.tsx
-/opt/eaf_platform/src/app/enseignant
-/opt/eaf_platform/src/app/enseignant/layout.tsx
-/opt/eaf_platform/src/app/enseignant/page.tsx
-/opt/eaf_platform/src/app/error.tsx
-/opt/eaf_platform/src/app/favicon.ico
-/opt/eaf_platform/src/app/global-error.tsx
-/opt/eaf_platform/src/app/globals.css
-/opt/eaf_platform/src/app/layout.tsx
-/opt/eaf_platform/src/app/loading.tsx
-/opt/eaf_platform/src/app/login
-/opt/eaf_platform/src/app/login/page.tsx
-/opt/eaf_platform/src/app/mentions-legales
-/opt/eaf_platform/src/app/mentions-legales/page.tsx
-/opt/eaf_platform/src/app/mon-parcours
-/opt/eaf_platform/src/app/mon-parcours/page.tsx
-/opt/eaf_platform/src/app/not-found.tsx
-/opt/eaf_platform/src/app/onboarding
-/opt/eaf_platform/src/app/onboarding/page.tsx
-/opt/eaf_platform/src/app/page.tsx
-/opt/eaf_platform/src/app/paiement
-/opt/eaf_platform/src/app/paiement/checkout
-/opt/eaf_platform/src/app/paiement/checkout/page.tsx
-/opt/eaf_platform/src/app/paiement/confirmation
-/opt/eaf_platform/src/app/paiement/confirmation/page.tsx
-/opt/eaf_platform/src/app/paiement/refus
-/opt/eaf_platform/src/app/paiement/refus/page.tsx
-/opt/eaf_platform/src/app/parent
-/opt/eaf_platform/src/app/parent/layout.tsx
-/opt/eaf_platform/src/app/parent/page.tsx
-/opt/eaf_platform/src/app/politique-de-confidentialite
-/opt/eaf_platform/src/app/politique-de-confidentialite/page.tsx
-/opt/eaf_platform/src/app/pricing
-/opt/eaf_platform/src/app/pricing/layout.tsx
-/opt/eaf_platform/src/app/pricing/page.tsx
-/opt/eaf_platform/src/app/profil
-/opt/eaf_platform/src/app/profil/page.tsx
-/opt/eaf_platform/src/app/(public)
-/opt/eaf_platform/src/app/(public)/landing
-/opt/eaf_platform/src/app/(public)/landing/page.tsx
-/opt/eaf_platform/src/app/quiz
-/opt/eaf_platform/src/app/quiz/page.tsx
-/opt/eaf_platform/src/app/robots.ts
-/opt/eaf_platform/src/app/sitemap.ts
-/opt/eaf_platform/src/app/tuteur
-/opt/eaf_platform/src/app/tuteur/loading.tsx
-/opt/eaf_platform/src/app/tuteur/page.tsx
-/opt/eaf_platform/src/components
-/opt/eaf_platform/src/components/accessibility
-/opt/eaf_platform/src/components/accessibility/dyslexia-toggle.tsx
-/opt/eaf_platform/src/components/analytics
-/opt/eaf_platform/src/components/analytics/events.ts
-/opt/eaf_platform/src/components/atelier-oral
-/opt/eaf_platform/src/components/atelier-oral/OralHero.tsx
-/opt/eaf_platform/src/components/atelier-oral/OralStepIndicator.tsx
-/opt/eaf_platform/src/components/atelier-oral/OralTimer.tsx
-/opt/eaf_platform/src/components/consent
-/opt/eaf_platform/src/components/consent/ConsentBanner.tsx
-/opt/eaf_platform/src/components/dashboard
-/opt/eaf_platform/src/components/dashboard/parcours-recommandation.tsx
-/opt/eaf_platform/src/components/dashboard/progression-chart.tsx
-/opt/eaf_platform/src/components/landing
-/opt/eaf_platform/src/components/landing/AntiChatGPTBanner.tsx
-/opt/eaf_platform/src/components/landing/ComparisonTable.tsx
-/opt/eaf_platform/src/components/landing/CountdownBadge.tsx
-/opt/eaf_platform/src/components/landing/DashboardToggle.tsx
-/opt/eaf_platform/src/components/landing/FooterCTA.tsx
-/opt/eaf_platform/src/components/landing/Footer.tsx
-/opt/eaf_platform/src/components/landing/Hero.tsx
-/opt/eaf_platform/src/components/landing/InlineCTA.tsx
-/opt/eaf_platform/src/components/landing/MethodSteps.tsx
-/opt/eaf_platform/src/components/landing/PricingSection.tsx
-/opt/eaf_platform/src/components/landing/SocialProofStrip.tsx
-/opt/eaf_platform/src/components/landing/StatsSection.tsx
-/opt/eaf_platform/src/components/landing/StickyNav.tsx
-/opt/eaf_platform/src/components/landing/styles
-/opt/eaf_platform/src/components/landing/styles/faq.module.scss
-/opt/eaf_platform/src/components/landing/styles/footer.module.scss
-/opt/eaf_platform/src/components/landing/styles/header.module.scss
-/opt/eaf_platform/src/components/landing/styles/hero.module.scss
-/opt/eaf_platform/src/components/landing/styles/pricing.module.scss
-/opt/eaf_platform/src/components/landing/styles/valueProps.module.scss
-/opt/eaf_platform/src/components/landing/styles/variables.scss
-/opt/eaf_platform/src/components/landing/TestimonialsSection.tsx
-/opt/eaf_platform/src/components/landing/WhatsAppButton.tsx
-/opt/eaf_platform/src/components/landing/WorkshopTabs.tsx
-/opt/eaf_platform/src/components/layout
-/opt/eaf_platform/src/components/layout/app-shell.tsx
-/opt/eaf_platform/src/components/layout/sidebar.tsx
-/opt/eaf_platform/src/components/layout/student-navigation.ts
-/opt/eaf_platform/src/components/monitoring
-/opt/eaf_platform/src/components/monitoring/web-vitals-reporter.tsx
-/opt/eaf_platform/src/components/seo
-/opt/eaf_platform/src/components/seo/Canonical.tsx
-/opt/eaf_platform/src/components/theme
-/opt/eaf_platform/src/components/theme/theme-provider.tsx
-/opt/eaf_platform/src/components/tracking
-/opt/eaf_platform/src/components/tracking/tracking-provider.tsx
-/opt/eaf_platform/src/components/ui
-/opt/eaf_platform/src/components/ui/badge.tsx
-/opt/eaf_platform/src/components/ui/button.tsx
-/opt/eaf_platform/src/components/ui/card.tsx
-/opt/eaf_platform/src/components/ui/dropdown-menu.tsx
-/opt/eaf_platform/src/components/ui/EmailVerificationBanner.tsx
-/opt/eaf_platform/src/components/ui/Icon.tsx
-/opt/eaf_platform/src/components/ui/index.ts
-/opt/eaf_platform/src/components/ui/input.tsx
-/opt/eaf_platform/src/components/ui/pdf-preview-viewer.tsx
-/opt/eaf_platform/src/components/ui/section-header.tsx
-/opt/eaf_platform/src/components/ui/select.tsx
-/opt/eaf_platform/src/components/ui/state-notice.tsx
-/opt/eaf_platform/src/components/ui/surface.tsx
-/opt/eaf_platform/src/components/ui/textarea.tsx
-/opt/eaf_platform/src/components/ui/UpgradePrompt.tsx
-/opt/eaf_platform/src/components/ui/use-dialog-accessibility.ts
-/opt/eaf_platform/src/data
-/opt/eaf_platform/src/data/baremes-officiels.ts
-/opt/eaf_platform/src/data/extraits-oeuvres.ts
-/opt/eaf_platform/src/data/media-catalog.ts
-/opt/eaf_platform/src/data/oeuvres-programme.ts
-/opt/eaf_platform/src/data/programme-eaf-2025.ts
-/opt/eaf_platform/src/data/references.ts
-/opt/eaf_platform/src/data/ressources-scan.json
-/opt/eaf_platform/src/data/ressources.ts
-/opt/eaf_platform/src/hooks
-/opt/eaf_platform/src/hooks/useDashboard.ts
-/opt/eaf_platform/src/lib
-/opt/eaf_platform/src/lib/admin
-/opt/eaf_platform/src/lib/admin/audit.ts
-/opt/eaf_platform/src/lib/admin/dashboard-tab-data.ts
-/opt/eaf_platform/src/lib/admin/plan-visibility.ts
-/opt/eaf_platform/src/lib/agents
-/opt/eaf_platform/src/lib/agents/avocat-diable.ts
-/opt/eaf_platform/src/lib/agents/diagnosticien.ts
-/opt/eaf_platform/src/lib/agents/diction
-/opt/eaf_platform/src/lib/agents/diction/diction-analyzer.ts
-/opt/eaf_platform/src/lib/agents/pastiche
-/opt/eaf_platform/src/lib/agents/pastiche/pastiche.ts
-/opt/eaf_platform/src/lib/agents/planner.ts
-/opt/eaf_platform/src/lib/agents/policy-gate.ts
-/opt/eaf_platform/src/lib/agents/prompts
-/opt/eaf_platform/src/lib/agents/prompts/examiner-persona.ts
-/opt/eaf_platform/src/lib/agents/rappel-agent.ts
-/opt/eaf_platform/src/lib/agents/rapport-auto.ts
-/opt/eaf_platform/src/lib/agents/router.ts
-/opt/eaf_platform/src/lib/agents/shadow-timer
-/opt/eaf_platform/src/lib/agents/shadow-timer/shadow-timer.ts
-/opt/eaf_platform/src/lib/agents/student-modeler.ts
-/opt/eaf_platform/src/lib/api
-/opt/eaf_platform/src/lib/api/client.ts
-/opt/eaf_platform/src/lib/atelier-ecrit
-/opt/eaf_platform/src/lib/atelier-ecrit/upload-validation.ts
-/opt/eaf_platform/src/lib/auth
-/opt/eaf_platform/src/lib/auth/client-auth-state.ts
-/opt/eaf_platform/src/lib/auth/guard.ts
-/opt/eaf_platform/src/lib/auth/linked-role-accounts.ts
-/opt/eaf_platform/src/lib/auth/session.ts
-/opt/eaf_platform/src/lib/auth/types.ts
-/opt/eaf_platform/src/lib/billing
-/opt/eaf_platform/src/lib/billing/context.ts
-/opt/eaf_platform/src/lib/billing/dashboard-upgrade.ts
-/opt/eaf_platform/src/lib/billing/library-gating.ts
-/opt/eaf_platform/src/lib/billing/plan-catalog.ts
-/opt/eaf_platform/src/lib/billing/public-offers.ts
-/opt/eaf_platform/src/lib/billing/quota-messages.ts
-/opt/eaf_platform/src/lib/billing/quotas.ts
-/opt/eaf_platform/src/lib/billing/redeem.ts
-/opt/eaf_platform/src/lib/billing/usage.ts
-/opt/eaf_platform/src/lib/cache
-/opt/eaf_platform/src/lib/cache/lru.ts
-/opt/eaf_platform/src/lib/carnet
-/opt/eaf_platform/src/lib/carnet/pdf.tsx
-/opt/eaf_platform/src/lib/compliance
-/opt/eaf_platform/src/lib/compliance/anti-triche.ts
-/opt/eaf_platform/src/lib/config
-/opt/eaf_platform/src/lib/config/tunisia.ts
-/opt/eaf_platform/src/lib/config/validate-env.ts
-/opt/eaf_platform/src/lib/correction
-/opt/eaf_platform/src/lib/correction/annotation-mapper.ts
-/opt/eaf_platform/src/lib/correction/correcteur.ts
-/opt/eaf_platform/src/lib/correction/normalize-correction.ts
-/opt/eaf_platform/src/lib/correction/ocr.ts
-/opt/eaf_platform/src/lib/cron
-/opt/eaf_platform/src/lib/cron/scheduler.ts
-/opt/eaf_platform/src/lib/date
-/opt/eaf_platform/src/lib/date/current-school-year.ts
-/opt/eaf_platform/src/lib/db
-/opt/eaf_platform/src/lib/db/client.ts
-/opt/eaf_platform/src/lib/db/fallback-store.ts
-/opt/eaf_platform/src/lib/db/repositories
-/opt/eaf_platform/src/lib/db/repositories/evaluationRepo.ts
-/opt/eaf_platform/src/lib/db/repositories/learningMemoryRepo.ts
-/opt/eaf_platform/src/lib/db/repositories/memoryRepo.ts
-/opt/eaf_platform/src/lib/db/repositories/sessionRepo.ts
-/opt/eaf_platform/src/lib/db/repositories/userRepo.ts
-/opt/eaf_platform/src/lib/design-tokens.ts
-/opt/eaf_platform/src/lib/e2e
-/opt/eaf_platform/src/lib/e2e/playwright-db.ts
-/opt/eaf_platform/src/lib/email
-/opt/eaf_platform/src/lib/email/client.ts
-/opt/eaf_platform/src/lib/email/parental-consent.ts
-/opt/eaf_platform/src/lib/email/service.ts
-/opt/eaf_platform/src/lib/epreuves
-/opt/eaf_platform/src/lib/epreuves/exam-blanc-generator.ts
-/opt/eaf_platform/src/lib/epreuves/fallback-store.ts
-/opt/eaf_platform/src/lib/epreuves/generation-normalizer.ts
-/opt/eaf_platform/src/lib/epreuves/report-pdf.tsx
-/opt/eaf_platform/src/lib/epreuves/repository.ts
-/opt/eaf_platform/src/lib/epreuves/types.ts
-/opt/eaf_platform/src/lib/epreuves/worker.ts
-/opt/eaf_platform/src/lib/evaluation
-/opt/eaf_platform/src/lib/evaluation/langue.ts
-/opt/eaf_platform/src/lib/exam
-/opt/eaf_platform/src/lib/exam/exam-info.ts
-/opt/eaf_platform/src/lib/gamification
-/opt/eaf_platform/src/lib/gamification/badges.ts
-/opt/eaf_platform/src/lib/langue
-/opt/eaf_platform/src/lib/langue/exercise-bank.ts
-/opt/eaf_platform/src/lib/llm
-/opt/eaf_platform/src/lib/llm/adapters
-/opt/eaf_platform/src/lib/llm/adapters/gemini.ts
-/opt/eaf_platform/src/lib/llm/adapters/mistral.ts
-/opt/eaf_platform/src/lib/llm/adapters/ollama.ts
-/opt/eaf_platform/src/lib/llm/adapters/openai.ts
-/opt/eaf_platform/src/lib/llm/agent-base.ts
-/opt/eaf_platform/src/lib/llm/context-manager.ts
-/opt/eaf_platform/src/lib/llm/cost-tracker.ts
-/opt/eaf_platform/src/lib/llm/embeddings.ts
-/opt/eaf_platform/src/lib/llm/factory.ts
-/opt/eaf_platform/src/lib/llm/orchestrator.ts
-/opt/eaf_platform/src/lib/llm/prompts
-/opt/eaf_platform/src/lib/llm/prompts/system.ts
-/opt/eaf_platform/src/lib/llm/provider.ts
-/opt/eaf_platform/src/lib/llm/router.ts
-/opt/eaf_platform/src/lib/llm/self-reflection.ts
-/opt/eaf_platform/src/lib/llm/skills
-/opt/eaf_platform/src/lib/llm/skills/bibliothecaire.ts
-/opt/eaf_platform/src/lib/llm/skills/coach-ecrit.ts
-/opt/eaf_platform/src/lib/llm/skills/coach-oral.ts
-/opt/eaf_platform/src/lib/llm/skills/correcteur.ts
-/opt/eaf_platform/src/lib/llm/skills/ecrit-baremage.ts
-/opt/eaf_platform/src/lib/llm/skills/ecrit-contraction.ts
-/opt/eaf_platform/src/lib/llm/skills/ecrit-diagnostic.ts
-/opt/eaf_platform/src/lib/llm/skills/ecrit-essai.ts
-/opt/eaf_platform/src/lib/llm/skills/ecrit-langue.ts
-/opt/eaf_platform/src/lib/llm/skills/ecrit-pastiche.ts
-/opt/eaf_platform/src/lib/llm/skills/ecrit-plans.ts
-/opt/eaf_platform/src/lib/llm/skills/index.ts
-/opt/eaf_platform/src/lib/llm/skills/langue-generator.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-bilan-officiel.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-coach-explication.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-coach-lecture.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-entretien.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-examinateur-virtuel.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-grammaire-ciblee.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-grammaire-evaluateur.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-grammaire-generateur.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-prep30.ts
-/opt/eaf_platform/src/lib/llm/skills/oral-tirage.ts
-/opt/eaf_platform/src/lib/llm/skills/quiz-maitre.ts
-/opt/eaf_platform/src/lib/llm/skills/revision-carnet-lecture.ts
-/opt/eaf_platform/src/lib/llm/skills/revision-citations-procedes.ts
-/opt/eaf_platform/src/lib/llm/skills/revision-fiches.ts
-/opt/eaf_platform/src/lib/llm/skills/revision-quiz-adaptatif.ts
-/opt/eaf_platform/src/lib/llm/skills/revision-spaced-repetition.ts
-/opt/eaf_platform/src/lib/llm/skills/revision-sr-planner.ts
-/opt/eaf_platform/src/lib/llm/skills/support-produit.ts
-/opt/eaf_platform/src/lib/llm/skills/tuteur-libre.ts
-/opt/eaf_platform/src/lib/llm/skills/types.ts
-/opt/eaf_platform/src/lib/llm/streaming.ts
-/opt/eaf_platform/src/lib/llm/timeout.ts
-/opt/eaf_platform/src/lib/llm/token-estimate.ts
-/opt/eaf_platform/src/lib/logger.ts
-/opt/eaf_platform/src/lib/mcp
-/opt/eaf_platform/src/lib/mcp/client.ts
-/opt/eaf_platform/src/lib/mcp/index.ts
-/opt/eaf_platform/src/lib/memory
-/opt/eaf_platform/src/lib/memory/context-builder.ts
-/opt/eaf_platform/src/lib/memory/profile-loader.ts
-/opt/eaf_platform/src/lib/memory/scoring.ts
-/opt/eaf_platform/src/lib/memory/store.ts
-/opt/eaf_platform/src/lib/monitoring
-/opt/eaf_platform/src/lib/monitoring/web-vitals.ts
-/opt/eaf_platform/src/lib/navigation
-/opt/eaf_platform/src/lib/navigation/app-shell-paths.ts
-/opt/eaf_platform/src/lib/navigation/tuteur-link.ts
-/opt/eaf_platform/src/lib/notifications
-/opt/eaf_platform/src/lib/notifications/push.ts
-/opt/eaf_platform/src/lib/notifications/templates.ts
-/opt/eaf_platform/src/lib/onboarding
-/opt/eaf_platform/src/lib/onboarding/copy-analysis.ts
-/opt/eaf_platform/src/lib/oral
-/opt/eaf_platform/src/lib/oral/audio-recorder.ts
-/opt/eaf_platform/src/lib/oral/audio-utils.ts
-/opt/eaf_platform/src/lib/oral/capabilities.ts
-/opt/eaf_platform/src/lib/oral/evaluate-and-persist.ts
-/opt/eaf_platform/src/lib/oral/examiner-context.ts
-/opt/eaf_platform/src/lib/oral/rag-context.ts
-/opt/eaf_platform/src/lib/oral/remote-audio.ts
-/opt/eaf_platform/src/lib/oral/repository.ts
-/opt/eaf_platform/src/lib/oral/scoring.ts
-/opt/eaf_platform/src/lib/oral/service.ts
-/opt/eaf_platform/src/lib/oral/state-machine.ts
-/opt/eaf_platform/src/lib/parent
-/opt/eaf_platform/src/lib/parent/digest.ts
-/opt/eaf_platform/src/lib/pdf
-/opt/eaf_platform/src/lib/pdf/document-html-pdf.tsx
-/opt/eaf_platform/src/lib/pdf/generator.ts
-/opt/eaf_platform/src/lib/portfolio
-/opt/eaf_platform/src/lib/portfolio/export.ts
-/opt/eaf_platform/src/lib/portfolio/profil-card-generator.ts
-/opt/eaf_platform/src/lib/profile
-/opt/eaf_platform/src/lib/profile/profile-score-summary.ts
-/opt/eaf_platform/src/lib/queue
-/opt/eaf_platform/src/lib/queue/correction-queue.ts
-/opt/eaf_platform/src/lib/queue/start-worker.ts
-/opt/eaf_platform/src/lib/queue/worker.ts
-/opt/eaf_platform/src/lib/quiz
-/opt/eaf_platform/src/lib/quiz/theme-mapping.ts
-/opt/eaf_platform/src/lib/rag
-/opt/eaf_platform/src/lib/rag/chunker.ts
-/opt/eaf_platform/src/lib/rag/citations.ts
-/opt/eaf_platform/src/lib/rag/external-client.ts
-/opt/eaf_platform/src/lib/rag/indexer.ts
-/opt/eaf_platform/src/lib/rag/ingestion
-/opt/eaf_platform/src/lib/rag/ingestion/pipeline.ts
-/opt/eaf_platform/src/lib/rag/media-indexer.ts
-/opt/eaf_platform/src/lib/rag/rerank.ts
-/opt/eaf_platform/src/lib/rag/search.ts
-/opt/eaf_platform/src/lib/rag/vector-search.ts
-/opt/eaf_platform/src/lib/ressources
-/opt/eaf_platform/src/lib/ressources/path.ts
-/opt/eaf_platform/src/lib/rgpd
-/opt/eaf_platform/src/lib/rgpd/consent.ts
-/opt/eaf_platform/src/lib/routes.ts
-/opt/eaf_platform/src/lib/security
-/opt/eaf_platform/src/lib/security/csrf-client.ts
-/opt/eaf_platform/src/lib/security/csrf.ts
-/opt/eaf_platform/src/lib/security/file-validator.ts
-/opt/eaf_platform/src/lib/security/llm-rate-limiter.ts
-/opt/eaf_platform/src/lib/security/rate-limit.ts
-/opt/eaf_platform/src/lib/security/sanitize.ts
-/opt/eaf_platform/src/lib/spaced-repetition
-/opt/eaf_platform/src/lib/spaced-repetition/sm2.ts
-/opt/eaf_platform/src/lib/storage
-/opt/eaf_platform/src/lib/storage/copies.ts
-/opt/eaf_platform/src/lib/storage/paths.ts
-/opt/eaf_platform/src/lib/storage/provider.ts
-/opt/eaf_platform/src/lib/storage/s3-provider.ts
-/opt/eaf_platform/src/lib/store
-/opt/eaf_platform/src/lib/store/premium-store.ts
-/opt/eaf_platform/src/lib/stt
-/opt/eaf_platform/src/lib/stt/browser.ts
-/opt/eaf_platform/src/lib/stt/transcriber.ts
-/opt/eaf_platform/src/lib/tts
-/opt/eaf_platform/src/lib/tts/generator.ts
-/opt/eaf_platform/src/lib/tutor
-/opt/eaf_platform/src/lib/tutor/visible-citations.ts
-/opt/eaf_platform/src/lib/types
-/opt/eaf_platform/src/lib/types/premium.ts
-/opt/eaf_platform/src/lib/ui
-/opt/eaf_platform/src/lib/ui/sanitize-llm.ts
-/opt/eaf_platform/src/lib/utils.ts
-/opt/eaf_platform/src/lib/validation
-/opt/eaf_platform/src/lib/validation/request.ts
-/opt/eaf_platform/src/lib/validation/schemas.ts
-/opt/eaf_platform/src/scripts
-/opt/eaf_platform/src/scripts/generate-activation-codes.ts
-/opt/eaf_platform/src/styles
-/opt/eaf_platform/src/styles/tokens.css
-/opt/eaf_platform/tsconfig.json
-/opt/eaf_platform/tsconfig.test.json
-/opt/eaf_platform/tsconfig.worker.json
-/opt/eaf_platform/vitest.config.ts
+.
+├── arborescence-eaf.txt
+├── CHANGELOG.md
+├── config
+│   ├── fr-copy-banned-phrases.json
+│   └── fr-copy-baseline.json
+├── create-pr-branch.sh
+├── docs
+│   ├── ADMIN_DASHBOARD_ENHANCEMENT.md
+│   ├── API_REFERENCE.md
+│   ├── arborescence_prod.txt
+│   ├── ARCHITECTURE.md
+│   ├── AUDIT_FRONTEND.md
+│   ├── AUDIT_GO_LIVE.md
+│   ├── CHECKLIST_GO_LIVE.md
+│   ├── CI_SECRETS.md
+│   ├── CLAUDE_FINAL_PROD_AUDIT
+│   │   ├── 00_SOURCE_OF_TRUTH.md
+│   │   ├── 01_SURFACE_MAP.md
+│   │   ├── 02_PUBLIC_ANONYMOUS_FLOWS.md
+│   │   ├── 03_AUTH_REGISTRATION_EMAILS.md
+│   │   ├── 04_DASHBOARD_ELEVE.md
+│   │   ├── 05_ATELIERS_ELEVE.md
+│   │   ├── 06_BIBLIOTHEQUE_RESSOURCES.md
+│   │   ├── 07_BILLING_ACTIVATION.md
+│   │   ├── 08_ROLES_PARENT_ENSEIGNANT_ADMIN.md
+│   │   ├── 09_RAG_LLM_MCP_MEMOIRE.md
+│   │   ├── 10_COHERENCE_FRONT_BACK_DB.md
+│   │   ├── 11_SECURITE_ROBUSTESSE.md
+│   │   ├── 12_TESTS_TECHNIQUES_CI.md
+│   │   ├── 13_UX_WORDING_COMMERCIAL.md
+│   │   ├── 14_DECISION_FINALE.md
+│   │   ├── 99_FINAL_RELEASE_DECISION.md
+│   │   └── ARCHITECTURE_AUDIT.md
+│   ├── COMPLETE_GUIDE.md
+│   ├── CONTRIBUTING.md
+│   ├── DATABASE_SCHEMA.md
+│   ├── DEPLOYMENT.md
+│   ├── eaf_arborescence_prod_2026-04-04.txt
+│   ├── eaf_arborescence_prod.txt
+│   ├── EMAIL_SETUP.md
+│   ├── FRONTEND_GUIDELINES.md
+│   ├── GUIDE_ELEVE.md
+│   ├── GUIDE_ENSEIGNANT.md
+│   ├── LANDING_PAGE_EAF_2026.md
+│   ├── MOBILE_TESTING.md
+│   ├── PLANS_AND_BILLING.md
+│   ├── RBAC_POLICY.md
+│   ├── README.md
+│   ├── REMEDIATION_REPORT.md
+│   ├── RUNBOOK_ORAL_VOICE_V1.md
+│   ├── RUNBOOK_PRODUCTION.md
+│   ├── S3_HETZNER_SETUP.md
+│   └── superpowers
+│       ├── plans
+│       │   ├── 2026-03-23-final-prod-audit.md
+│       │   ├── 2026-03-24-french-language-hardening.md
+│       │   ├── 2026-03-24-landing-header-refactor.md
+│       │   ├── 2026-04-01-atelier-ecrit-progress-stream.md
+│       │   ├── 2026-04-01-audit-v9-lot1-billing-oral.md
+│       │   ├── 2026-04-01-audit-v9-lot3-oral-front.md
+│       │   ├── 2026-04-01-audit-v9-lot4-ci-cd.md
+│       │   ├── 2026-04-01-audit-v9-lot4-remaining.md
+│       │   ├── 2026-04-01-bloc-d-billing.md
+│       │   ├── 2026-04-04-descriptif-baremes-refonte.md
+│       │   └── 2026-04-04-go-live-commercial-finition.md
+│       └── specs
+│           ├── 2026-03-23-final-prod-audit-design.md
+│           ├── 2026-03-24-french-language-hardening-design.md
+│           ├── 2026-03-24-landing-header-design.md
+│           ├── 2026-04-01-atelier-ecrit-progress-stream-design.md
+│           └── 2026-04-01-bloc-d-billing-design.md
+├── eaf.code-workspace
+├── ecosystem.config.cjs
+├── emails
+│   ├── EmailVerificationEmail.tsx
+│   ├── ParentNotificationEmail.tsx
+│   ├── PasswordChangedEmail.tsx
+│   ├── PasswordResetEmail.tsx
+│   ├── SubscriptionEmail.tsx
+│   ├── TeacherNotificationEmail.tsx
+│   └── WelcomeEmail.tsx
+├── eslint.config.mjs
+├── forensics
+│   └── eaf_prod_snapshot_20260315_1110
+│       ├── ecosystem.config.cjs
+│       ├── middleware.ts
+│       ├── next.config.ts
+│       ├── oral-jury-respond-route.ts
+│       ├── oral-session-start-route.ts
+│       ├── oral-voice-submit-route.ts
+│       ├── payments-availability.ts
+│       └── pricing-page.tsx
+├── knip.json
+├── middleware.ts
+├── next.config.ts
+├── next-env.d.ts
+├── nexus-routes
+│   ├── admin
+│   │   ├── directeur
+│   │   │   └── stats
+│   │   └── users
+│   │       └── search
+│   ├── assistant
+│   │   ├── coaches
+│   │   │   └── [id]
+│   │   └── students
+│   │       └── credits
+│   ├── coach
+│   │   └── sessions
+│   │       └── [sessionId]
+│   ├── deploy-to-nexus.sh
+│   ├── invoices
+│   │   └── [id]
+│   │       ├── pdf
+│   │       └── receipt
+│   ├── payments
+│   │   └── bank-transfer
+│   │       └── confirm
+│   ├── programme
+│   │   ├── maths-1ere
+│   │   │   └── progress
+│   │   └── maths-terminale
+│   │       └── progress
+│   ├── README.md
+│   ├── stages
+│   │   └── fevrier-2026
+│   │       └── bilan
+│   └── students
+│       └── [studentId]
+│           ├── badges
+│           └── route.ts
+├── ops
+│   ├── nginx
+│   │   └── eaf-nexus.conf
+│   ├── nginx.conf
+│   ├── oral_voice_canary_check.sh
+│   └── oral_voice_preflight.sh
+├── package.json
+├── package-lock.json
+├── packages
+│   ├── mcp-server
+│   │   ├── mcp.config.json
+│   │   ├── package.json
+│   │   ├── prisma -> ../../prisma
+│   │   ├── README.md
+│   │   ├── src
+│   │   │   ├── client.ts
+│   │   │   ├── index.ts
+│   │   │   ├── lib
+│   │   │   ├── prompts
+│   │   │   ├── resources
+│   │   │   ├── server.ts
+│   │   │   ├── tools
+│   │   │   ├── transport-http.ts
+│   │   │   └── types
+│   │   ├── tests
+│   │   │   ├── all-tools.test.ts
+│   │   │   ├── mcp-server.test.ts
+│   │   │   ├── plan-catalog.test.ts
+│   │   │   └── skill-delta.test.ts
+│   │   ├── tsconfig.json
+│   │   └── vitest.config.ts
+│   └── shared-billing
+│       ├── package.json
+│       ├── src
+│       │   ├── index.ts
+│       │   ├── plan-catalog.ts
+│       │   └── programme-oeuvres.ts
+│       └── tsconfig.json
+├── PLANS_AND_QUOTAS.md
+├── playwright.config.ts
+├── postcss.config.mjs
+├── prisma
+│   ├── migrations
+│   │   ├── 0001_init
+│   │   │   └── migration.sql
+│   │   ├── 0002_student_profile_onboarding
+│   │   │   └── migration.sql
+│   │   ├── 0003_profile_badges
+│   │   │   └── migration.sql
+│   │   ├── 0004_rag_columns_and_missing_models
+│   │   │   └── migration.sql
+│   │   ├── 0005_oral_eaf_conformity
+│   │   │   └── migration.sql
+│   │   ├── 0006_oral_v2_schema
+│   │   │   └── migration.sql
+│   │   ├── 0007_billing_plans_v2
+│   │   │   └── migration.sql
+│   │   ├── 0008_addendum_memory_store_v1
+│   │   │   └── migration.sql
+│   │   ├── 0009b_oral_oeuvre_choisie
+│   │   │   └── migration.sql
+│   │   ├── 0009_gamification_xp_columns
+│   │   │   └── migration.sql
+│   │   ├── 0010_descriptif_lecture
+│   │   │   └── migration.sql
+│   │   ├── 0011_carnet_lecture
+│   │   │   └── migration.sql
+│   │   ├── 0012_pgvector_hnsw_index
+│   │   │   └── migration.sql
+│   │   ├── 0013_premium_history_and_learning_memory
+│   │   │   └── migration.sql
+│   │   ├── 0014_add_billing_tables
+│   │   │   └── migration.sql
+│   │   ├── 0015_add_web_vital_table
+│   │   │   └── migration.sql
+│   │   ├── 0016_add_premium_max_plan
+│   │   │   └── migration.sql
+│   │   ├── 0017_fix_activation_code_schema
+│   │   │   └── migration.sql
+│   │   ├── 0018_add_manual_provider
+│   │   │   └── migration.sql
+│   │   ├── 0019_add_parent_consent_fields
+│   │   │   └── migration.sql
+│   │   ├── 0020_fix_oral_totalscore_float
+│   │   │   └── migration.sql
+│   │   ├── 0021_default_provider_manual
+│   │   │   └── migration.sql
+│   │   ├── 0022_add_password_reset_token
+│   │   │   └── migration.sql
+│   │   ├── 0023_add_teacher_email_to_student_profile
+│   │   │   └── migration.sql
+│   │   ├── 0024_add_usage_counter_lookup_index
+│   │   │   └── migration.sql
+│   │   ├── 0025_parent_consent_enum_and_school_year
+│   │   │   └── migration.sql
+│   │   ├── 0026_copie_progress_events
+│   │   │   └── migration.sql
+│   │   ├── 0027_add_missing_indexes_default_annee
+│   │   │   └── migration.sql
+│   │   ├── 20260404123533_add_texte_prepare_descriptif
+│   │   │   └── migration.sql
+│   │   ├── 20260404165617_unify_texte_descriptif
+│   │   │   └── migration.sql
+│   │   ├── 20260409_add_admin_audit_log
+│   │   │   └── migration.sql
+│   │   ├── 20260411_add_activation_plan_enum
+│   │   │   └── migration.sql
+│   │   └── migration_lock.toml
+│   ├── schema.prisma
+│   └── seed-official-works.ts
+├── public
+│   ├── assets
+│   │   ├── dashboard-parent.svg
+│   │   ├── dashboard-student.svg
+│   │   ├── og-cover.png
+│   │   ├── og-cover.svg
+│   │   ├── oral-simulator-preview.svg
+│   │   └── oral-simulator-preview.webp
+│   ├── favicon.svg
+│   ├── hero-bg.jpg
+│   ├── hero-student.jpg
+│   ├── images
+│   │   ├── logo_nexus_reussite_nav.webp
+│   │   ├── logo_nexus_reussite.png
+│   │   ├── logo.png
+│   │   ├── logo_slogan_nexus_email.png
+│   │   └── logo_slogan_nexus.png
+│   ├── manifest.json
+│   ├── pdf.worker.min.js
+│   ├── ressources -> ../ressources
+│   └── section-bg-1.jpg
+├── README.md
+├── scripts
+│   ├── audit-csrf-routes.mjs
+│   ├── backup-uploads.sh
+│   ├── build-worker.mjs
+│   ├── check-banned-phrases.mjs
+│   ├── check-curly-quotes.ts
+│   ├── check-env.js
+│   ├── check-fr-copy.ts
+│   ├── commit-and-push.sh
+│   ├── create-admin-production.ts
+│   ├── deploy-ressources.sh
+│   ├── deploy.sh
+│   ├── fix-error-messages.py
+│   ├── generate-env.py
+│   ├── generate-release-meta.sh
+│   ├── index-rag.ts
+│   ├── ingest-media-catalog.ts
+│   ├── integration-test-production.sh
+│   ├── migrate-legacy-descriptif.ts
+│   ├── migrate-memory-store-to-db.ts
+│   ├── migrate-oral-sessions-to-db.ts
+│   ├── migrate-uploads-to-s3.ts
+│   ├── nginx-eaf.conf
+│   ├── ops
+│   │   ├── backup-postgres.sh
+│   │   ├── cleanup-local-documents.sh
+│   │   ├── health-monitor.sh
+│   │   └── install-cron.sh
+│   ├── pedagogical-test.sh
+│   ├── pw_webserver_local.ts
+│   ├── rag-diagnostic.sh
+│   ├── rebase-stack.sh
+│   ├── remigrate-orphan-users.ts
+│   ├── run-all-tests.sh
+│   ├── scan-ressources.ts
+│   ├── seed-test-users.ts
+│   ├── seed.ts
+│   ├── setup-github-secrets.sh
+│   ├── setup-postgres.py
+│   ├── setup-server-production.sh
+│   ├── setup-server.sh
+│   ├── setup.sh
+│   ├── smoke-test-production.sh
+│   ├── standardize-styles.sh
+│   ├── test-admin-dashboard.sh
+│   ├── test-production-locale.sh
+│   ├── verify-catalog-paths.ts
+│   └── visual-qa-precheck.sh
+├── src
+│   ├── app
+│   │   ├── admin
+│   │   │   ├── components
+│   │   │   ├── enhanced-page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── login
+│   │   │   └── page.tsx
+│   │   ├── api
+│   │   │   ├── mcp
+│   │   │   └── v1
+│   │   ├── atelier-ecrit
+│   │   │   ├── components
+│   │   │   ├── correction
+│   │   │   ├── hooks
+│   │   │   ├── loading.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── types.ts
+│   │   ├── atelier-langue
+│   │   │   └── page.tsx
+│   │   ├── atelier-oral
+│   │   │   ├── components
+│   │   │   ├── hooks
+│   │   │   ├── loading.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── types.ts
+│   │   ├── bibliotheque
+│   │   │   ├── loading.tsx
+│   │   │   └── page.tsx
+│   │   ├── bienvenue
+│   │   │   ├── page.tsx
+│   │   │   └── sections
+│   │   ├── carnet
+│   │   │   └── page.tsx
+│   │   ├── cgu
+│   │   │   └── page.tsx
+│   │   ├── cgv
+│   │   │   └── page.tsx
+│   │   ├── contact
+│   │   │   └── page.tsx
+│   │   ├── dashboard
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── descriptif
+│   │   │   └── page.tsx
+│   │   ├── descriptif-lecture
+│   │   │   ├── AddTexteForm.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── TexteCard.tsx
+│   │   ├── enseignant
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── error.tsx
+│   │   ├── favicon.ico
+│   │   ├── global-error.tsx
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── loading.tsx
+│   │   ├── login
+│   │   │   └── page.tsx
+│   │   ├── mentions-legales
+│   │   │   └── page.tsx
+│   │   ├── mon-parcours
+│   │   │   └── page.tsx
+│   │   ├── not-found.tsx
+│   │   ├── onboarding
+│   │   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   ├── paiement
+│   │   │   ├── checkout
+│   │   │   ├── confirmation
+│   │   │   └── refus
+│   │   ├── parent
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── politique-de-confidentialite
+│   │   │   └── page.tsx
+│   │   ├── pricing
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── profil
+│   │   │   └── page.tsx
+│   │   ├── (public)
+│   │   │   └── landing
+│   │   ├── quiz
+│   │   │   └── page.tsx
+│   │   ├── robots.ts
+│   │   ├── sitemap.ts
+│   │   └── tuteur
+│   │       ├── loading.tsx
+│   │       └── page.tsx
+│   ├── components
+│   │   ├── accessibility
+│   │   │   └── dyslexia-toggle.tsx
+│   │   ├── analytics
+│   │   │   └── events.ts
+│   │   ├── atelier-oral
+│   │   │   ├── OralHero.tsx
+│   │   │   ├── OralStepIndicator.tsx
+│   │   │   └── OralTimer.tsx
+│   │   ├── consent
+│   │   │   └── ConsentBanner.tsx
+│   │   ├── dashboard
+│   │   │   └── progression-chart.tsx
+│   │   ├── landing
+│   │   │   ├── ComparisonTable.tsx
+│   │   │   ├── DashboardToggle.tsx
+│   │   │   ├── FAQSection.tsx
+│   │   │   ├── FooterCTA.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   ├── Hero.tsx
+│   │   │   ├── MethodSteps.tsx
+│   │   │   ├── MobilePcBanner.tsx
+│   │   │   ├── PricingSection.tsx
+│   │   │   ├── SocialProofStrip.tsx
+│   │   │   ├── StatsSection.tsx
+│   │   │   ├── StickyNav.tsx
+│   │   │   ├── TestimonialsSection.tsx
+│   │   │   ├── WhatsAppButton.tsx
+│   │   │   └── WorkshopTabs.tsx
+│   │   ├── layout
+│   │   │   ├── app-shell.tsx
+│   │   │   ├── sidebar.tsx
+│   │   │   └── student-navigation.ts
+│   │   ├── monitoring
+│   │   │   └── web-vitals-reporter.tsx
+│   │   ├── theme
+│   │   │   └── theme-provider.tsx
+│   │   ├── tracking
+│   │   │   ├── MetaPixel.tsx
+│   │   │   └── tracking-provider.tsx
+│   │   └── ui
+│   │       ├── badge.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── dropdown-menu.tsx
+│   │       ├── EmailVerificationBanner.tsx
+│   │       ├── icons.ts
+│   │       ├── Icon.tsx
+│   │       ├── index.ts
+│   │       ├── input.tsx
+│   │       ├── pdf-preview-viewer.tsx
+│   │       ├── section-header.tsx
+│   │       ├── select.tsx
+│   │       ├── state-notice.tsx
+│   │       ├── surface.tsx
+│   │       ├── textarea.tsx
+│   │       ├── UpgradePrompt.tsx
+│   │       └── use-dialog-accessibility.ts
+│   ├── data
+│   │   ├── baremes-officiels.ts
+│   │   ├── extraits-oeuvres.ts
+│   │   ├── media-catalog.ts
+│   │   ├── oeuvres-programme.ts
+│   │   ├── programme-eaf-2025.ts
+│   │   ├── references.ts
+│   │   ├── ressources-scan.json
+│   │   └── ressources.ts
+│   ├── hooks
+│   │   └── useDashboard.ts
+│   ├── lib
+│   │   ├── admin
+│   │   │   ├── audit.ts
+│   │   │   ├── dashboard-tab-data.ts
+│   │   │   └── plan-visibility.ts
+│   │   ├── agents
+│   │   │   ├── avocat-diable.ts
+│   │   │   ├── diagnosticien.ts
+│   │   │   ├── diction
+│   │   │   ├── pastiche
+│   │   │   ├── planner.ts
+│   │   │   ├── policy-gate.ts
+│   │   │   ├── prompts
+│   │   │   ├── rappel-agent.ts
+│   │   │   ├── rapport-auto.ts
+│   │   │   ├── router.ts
+│   │   │   ├── shadow-timer
+│   │   │   └── student-modeler.ts
+│   │   ├── api
+│   │   │   └── client.ts
+│   │   ├── atelier-ecrit
+│   │   │   └── upload-validation.ts
+│   │   ├── auth
+│   │   │   ├── client-auth-state.ts
+│   │   │   ├── guard.ts
+│   │   │   ├── linked-role-accounts.ts
+│   │   │   ├── session.ts
+│   │   │   └── types.ts
+│   │   ├── billing
+│   │   │   ├── context.ts
+│   │   │   ├── dashboard-upgrade.ts
+│   │   │   ├── library-gating.ts
+│   │   │   ├── plan-catalog.ts
+│   │   │   ├── public-offers.ts
+│   │   │   ├── quota-messages.ts
+│   │   │   ├── quotas.ts
+│   │   │   ├── redeem.ts
+│   │   │   └── usage.ts
+│   │   ├── cache
+│   │   │   └── lru.ts
+│   │   ├── carnet
+│   │   │   └── pdf.tsx
+│   │   ├── compliance
+│   │   │   └── anti-triche.ts
+│   │   ├── config
+│   │   │   ├── tunisia.ts
+│   │   │   └── validate-env.ts
+│   │   ├── correction
+│   │   │   ├── annotation-mapper.ts
+│   │   │   ├── correcteur.ts
+│   │   │   ├── normalize-correction.ts
+│   │   │   └── ocr.ts
+│   │   ├── cron
+│   │   │   └── scheduler.ts
+│   │   ├── date
+│   │   │   └── current-school-year.ts
+│   │   ├── db
+│   │   │   ├── client.ts
+│   │   │   ├── fallback-store.ts
+│   │   │   └── repositories
+│   │   ├── design-tokens.ts
+│   │   ├── e2e
+│   │   │   └── playwright-db.ts
+│   │   ├── email
+│   │   │   ├── client.ts
+│   │   │   ├── parental-consent.ts
+│   │   │   └── service.ts
+│   │   ├── epreuves
+│   │   │   ├── exam-blanc-generator.ts
+│   │   │   ├── fallback-store.ts
+│   │   │   ├── generation-normalizer.ts
+│   │   │   ├── report-pdf.tsx
+│   │   │   ├── repository.ts
+│   │   │   ├── types.ts
+│   │   │   └── worker.ts
+│   │   ├── evaluation
+│   │   │   └── langue.ts
+│   │   ├── exam
+│   │   │   └── exam-info.ts
+│   │   ├── gamification
+│   │   │   └── badges.ts
+│   │   ├── langue
+│   │   │   └── exercise-bank.ts
+│   │   ├── llm
+│   │   │   ├── adapters
+│   │   │   ├── agent-base.ts
+│   │   │   ├── context-manager.ts
+│   │   │   ├── cost-tracker.ts
+│   │   │   ├── embeddings.ts
+│   │   │   ├── factory.ts
+│   │   │   ├── orchestrator.ts
+│   │   │   ├── prompts
+│   │   │   ├── provider.ts
+│   │   │   ├── router.ts
+│   │   │   ├── self-reflection.ts
+│   │   │   ├── skills
+│   │   │   ├── streaming.ts
+│   │   │   ├── timeout.ts
+│   │   │   └── token-estimate.ts
+│   │   ├── logger.ts
+│   │   ├── mcp
+│   │   │   ├── client.ts
+│   │   │   └── index.ts
+│   │   ├── memory
+│   │   │   ├── context-builder.ts
+│   │   │   ├── profile-loader.ts
+│   │   │   ├── scoring.ts
+│   │   │   └── store.ts
+│   │   ├── monitoring
+│   │   │   └── web-vitals.ts
+│   │   ├── navigation
+│   │   │   ├── app-shell-paths.ts
+│   │   │   └── tuteur-link.ts
+│   │   ├── notifications
+│   │   │   ├── push.ts
+│   │   │   └── templates.ts
+│   │   ├── onboarding
+│   │   │   └── copy-analysis.ts
+│   │   ├── oral
+│   │   │   ├── audio-recorder.ts
+│   │   │   ├── audio-utils.ts
+│   │   │   ├── capabilities.ts
+│   │   │   ├── evaluate-and-persist.ts
+│   │   │   ├── examiner-context.ts
+│   │   │   ├── rag-context.ts
+│   │   │   ├── remote-audio.ts
+│   │   │   ├── repository.ts
+│   │   │   ├── scoring.ts
+│   │   │   ├── service.ts
+│   │   │   └── state-machine.ts
+│   │   ├── parent
+│   │   │   └── digest.ts
+│   │   ├── pdf
+│   │   │   ├── document-html-pdf.tsx
+│   │   │   └── generator.ts
+│   │   ├── portfolio
+│   │   │   ├── export.ts
+│   │   │   └── profil-card-generator.ts
+│   │   ├── profile
+│   │   │   └── profile-score-summary.ts
+│   │   ├── queue
+│   │   │   ├── correction-queue.ts
+│   │   │   ├── start-worker.ts
+│   │   │   └── worker.ts
+│   │   ├── quiz
+│   │   │   └── theme-mapping.ts
+│   │   ├── rag
+│   │   │   ├── chunker.ts
+│   │   │   ├── citations.ts
+│   │   │   ├── external-client.ts
+│   │   │   ├── indexer.ts
+│   │   │   ├── ingestion
+│   │   │   ├── media-indexer.ts
+│   │   │   ├── rerank.ts
+│   │   │   ├── search.ts
+│   │   │   └── vector-search.ts
+│   │   ├── ressources
+│   │   │   └── path.ts
+│   │   ├── rgpd
+│   │   │   └── consent.ts
+│   │   ├── security
+│   │   │   ├── csrf-client.ts
+│   │   │   ├── csrf.ts
+│   │   │   ├── file-validator.ts
+│   │   │   ├── llm-rate-limiter.ts
+│   │   │   ├── rate-limit.ts
+│   │   │   └── sanitize.ts
+│   │   ├── spaced-repetition
+│   │   │   └── sm2.ts
+│   │   ├── storage
+│   │   │   ├── copies.ts
+│   │   │   ├── paths.ts
+│   │   │   ├── provider.ts
+│   │   │   └── s3-provider.ts
+│   │   ├── store
+│   │   │   └── premium-store.ts
+│   │   ├── stt
+│   │   │   ├── browser.ts
+│   │   │   └── transcriber.ts
+│   │   ├── tracking
+│   │   │   └── meta-capi.ts
+│   │   ├── tts
+│   │   │   └── generator.ts
+│   │   ├── tutor
+│   │   │   └── visible-citations.ts
+│   │   ├── types
+│   │   │   └── premium.ts
+│   │   ├── ui
+│   │   │   └── sanitize-llm.ts
+│   │   ├── utils.ts
+│   │   └── validation
+│   │       ├── request.ts
+│   │       └── schemas.ts
+│   ├── scripts
+│   │   └── generate-activation-codes.ts
+│   └── styles
+│       └── tokens.css
+├── test-admin.sh
+├── test-manual-flow.sh
+├── test-results
+├── tests
+│   ├── audit
+│   │   ├── phase14-mobile.spec.ts
+│   │   ├── phase2-public.spec.ts
+│   │   └── playwright.audit.config.ts
+│   ├── contracts
+│   │   ├── bootstrap-roles.mjs
+│   │   ├── bootstrap-teacher-copies.mjs
+│   │   ├── openapi.auth.yaml
+│   │   ├── openapi.public.yaml
+│   │   ├── openapi.teacher.allowed.yaml
+│   │   ├── openapi.teacher.forbidden.yaml
+│   │   ├── run-schemathesis-auth.sh
+│   │   ├── run-schemathesis.sh
+│   │   ├── run-schemathesis-teacher-rbac.sh
+│   │   ├── run-teacher-comment-rbac.sh
+│   │   └── run-teacher-export-rbac.sh
+│   ├── e2e
+│   │   ├── accessibility.spec.ts
+│   │   ├── admin-dashboard.spec.ts
+│   │   ├── admin.spec.ts
+│   │   ├── atelier-ecrit-bilan-prod.spec.ts
+│   │   ├── atelier-ecrit.spec.ts
+│   │   ├── atelier-oral.spec.ts
+│   │   ├── audit-role-dashboards-prod.spec.ts
+│   │   ├── dashboard-student-ui.spec.ts
+│   │   ├── descriptif-carnet.spec.ts
+│   │   ├── espace-enseignant.spec.ts
+│   │   ├── fixtures
+│   │   ├── flows.spec.ts
+│   │   ├── helpers
+│   │   │   └── auth.ts
+│   │   ├── inscription-workflow.spec.ts
+│   │   ├── landing-header-layout.spec.ts
+│   │   ├── landing-mobile-responsive.spec.ts
+│   │   ├── login-role-routing.spec.ts
+│   │   ├── mobile-accessibility.spec.ts
+│   │   ├── mobile-critical.spec.ts
+│   │   ├── mobile.spec.ts
+│   │   ├── mobile-visual-regression.spec.ts
+│   │   ├── navigation.spec.ts
+│   │   ├── onboarding.spec.ts
+│   │   ├── parcours.spec.ts
+│   │   ├── payment-flow.spec.ts
+│   │   ├── platform.spec.ts
+│   │   ├── quiz-adaptatif.spec.ts
+│   │   ├── securite.spec.ts
+│   │   ├── security-roles.spec.ts
+│   │   ├── tuteur-chat.spec.ts
+│   │   └── workflows
+│   │       ├── 01-inscription-onboarding.spec.ts
+│   │       ├── 02-atelier-oral.spec.ts
+│   │       ├── 03-atelier-ecrit.spec.ts
+│   │       ├── 04-descriptif-lecture.spec.ts
+│   │       ├── 05-espace-enseignant.spec.ts
+│   │       ├── 06-securite.spec.ts
+│   │       └── 07-landing-mobile-conversion.spec.ts
+│   ├── fixtures
+│   │   └── copie-test.png
+│   ├── integration
+│   │   ├── api
+│   │   │   ├── auth.test.ts
+│   │   │   ├── enseignant.test.ts
+│   │   │   ├── epreuves.test.ts
+│   │   │   ├── oral-route.test.ts
+│   │   │   ├── oral.test.ts
+│   │   │   ├── parcours.test.ts
+│   │   │   ├── quiz.test.ts
+│   │   │   ├── rag-route.test.ts
+│   │   │   ├── rag.test.ts
+│   │   │   ├── tuteur-route.test.ts
+│   │   │   └── tuteur.test.ts
+│   │   ├── db
+│   │   │   ├── copie-progress.test.ts
+│   │   │   ├── copie.test.ts
+│   │   │   ├── memory-events.test.ts
+│   │   │   ├── oral-session.test.ts
+│   │   │   ├── user-repo.test.ts
+│   │   │   └── vector-search.test.ts
+│   │   ├── external
+│   │   │   └── mistral.test.ts
+│   │   ├── oral-session-flow.test.ts
+│   │   ├── orchestrator-pipeline.test.ts
+│   │   ├── rag
+│   │   │   └── external-rag.prod-guard.test.ts
+│   │   ├── rag-pipeline.test.ts
+│   │   └── router-agent.test.ts
+│   ├── performance
+│   │   └── load-test.yml
+│   ├── security
+│   │   └── run-zap.sh
+│   ├── setup-jsdom.ts
+│   ├── tsconfig.json
+│   ├── tsconfig.tsbuildinfo
+│   └── unit
+│       ├── admin
+│       │   └── dashboard-tab-data.test.ts
+│       ├── agents
+│       │   ├── diagnosticien.test.ts
+│       │   ├── diction-analyzer.test.ts
+│       │   ├── examiner-persona.test.ts
+│       │   ├── pastiche.test.ts
+│       │   ├── planner.test.ts
+│       │   ├── policy-gate.test.ts
+│       │   ├── policy-gate-tunisia.test.ts
+│       │   ├── rapport-auto.test.ts
+│       │   ├── router-agent.test.ts
+│       │   ├── shadow-timer.test.ts
+│       │   └── student-modeler.test.ts
+│       ├── api
+│       │   ├── admin
+│       │   ├── admin-billing-legacy-plan.test.ts
+│       │   ├── admin-plan-visibility.test.ts
+│       │   ├── badges-route.test.ts
+│       │   ├── billing-routes.test.ts
+│       │   ├── carnet-route.test.ts
+│       │   ├── class-code-route.test.ts
+│       │   ├── client.test.ts
+│       │   ├── comment-idor.test.ts
+│       │   ├── contact-route.test.ts
+│       │   ├── copie-direct-status-route.test.ts
+│       │   ├── copie-events-route.test.ts
+│       │   ├── copie-file-route.test.ts
+│       │   ├── copie-report-route.test.ts
+│       │   ├── copie-status-route.test.ts
+│       │   ├── cron-session-cleanup.test.ts
+│       │   ├── csrf-route.test.ts
+│       │   ├── descriptif-route.test.ts
+│       │   ├── epreuves-copie-route.test.ts
+│       │   ├── epreuves-generate-route.test.ts
+│       │   ├── export-csv-route.test.ts
+│       │   ├── health
+│       │   ├── health-route.test.ts
+│       │   ├── interact-constants.test.ts
+│       │   ├── langue-generate-route.test.ts
+│       │   ├── media-access-route.test.ts
+│       │   ├── media-route.test.ts
+│       │   ├── memory-timeline-route.test.ts
+│       │   ├── oeuvre-choisie-route.test.ts
+│       │   ├── oral-audio-turn.test.ts
+│       │   ├── oral-end-route.test.ts
+│       │   ├── oral-interact-entretien.test.ts
+│       │   ├── oral-jury-respond-route.test.ts
+│       │   ├── oral-session-route.test.ts
+│       │   ├── oral-sessions-route.test.ts
+│       │   ├── oral-voice-submit-route.test.ts
+│       │   ├── parent-dashboard-route.test.ts
+│       │   ├── ressources-catalog-route.test.ts
+│       │   ├── teacher-rbac-scope.test.ts
+│       │   ├── teacher-routes-degraded.test.ts
+│       │   ├── tuteur-message-route.test.ts
+│       │   └── vitals-route.test.ts
+│       ├── atelier-ecrit
+│       │   └── upload-validation.test.ts
+│       ├── auth
+│       │   ├── login-api-role.test.ts
+│       │   ├── login-routing.test.ts
+│       │   ├── password.test.ts
+│       │   ├── reset-password-schema.test.ts
+│       │   └── session.test.ts
+│       ├── badges.test.ts
+│       ├── billing
+│       │   ├── activation-code-hash.test.ts
+│       │   ├── context.test.ts
+│       │   ├── dashboard-upgrade.test.ts
+│       │   ├── fallback-prod.test.ts
+│       │   ├── library-gating.test.ts
+│       │   ├── paywall-message.test.ts
+│       │   ├── plan-catalog-logic.test.ts
+│       │   ├── quota-atomicity.test.ts
+│       │   ├── quota-enforcement.test.ts
+│       │   ├── quotas-single-source.test.ts
+│       │   ├── quotas.test.ts
+│       │   ├── redeem-legacy-plan.test.ts
+│       │   └── require-quota-missing.test.ts
+│       ├── cache
+│       │   └── lru.test.ts
+│       ├── compliance
+│       │   └── anti-triche.test.ts
+│       ├── components
+│       │   ├── atelier-ecrit
+│       │   ├── atelier-oral
+│       │   ├── chat-tuteur.test.tsx
+│       │   ├── countdown.test.ts
+│       │   ├── landing
+│       │   ├── landing-pricing-copy.test.ts
+│       │   ├── oral-simulator-source.test.ts
+│       │   ├── OralWorkSelector.test.tsx
+│       │   ├── quiz-player.test.tsx
+│       │   ├── rapport-correction.test.tsx
+│       │   ├── sidebar-upgrade-visibility.test.ts
+│       │   ├── student-navigation.test.ts
+│       │   └── upload-copie.test.tsx
+│       ├── config
+│       │   ├── api-route-logger-usage.test.ts
+│       │   ├── ci-workflows.test.ts
+│       │   ├── deploy-script.test.ts
+│       │   ├── fr-copy-workflow-shell.test.ts
+│       │   ├── next-config.test.ts
+│       │   ├── nginx-eaf.test.ts
+│       │   ├── tunisia.test.ts
+│       │   └── worker-runtime-config.test.ts
+│       ├── correcteur.test.ts
+│       ├── correction
+│       │   ├── annotation-mapper.test.ts
+│       │   ├── correcteur.test.ts
+│       │   ├── normalize-correction.test.ts
+│       │   ├── ocr.test.ts
+│       │   ├── report-generator.test.ts
+│       │   ├── rubrique.test.ts
+│       │   └── worker.test.ts
+│       ├── cost-tracker-v2.test.ts
+│       ├── data
+│       │   ├── media-catalog.test.ts
+│       │   ├── oeuvres-programme.test.ts
+│       │   └── programme-coherence.test.ts
+│       ├── date
+│       │   └── current-school-year.test.ts
+│       ├── db
+│       │   ├── client-availability.test.ts
+│       │   └── user-repo-contact-fields.test.ts
+│       ├── email
+│       │   ├── app-url-no-localhost.test.ts
+│       │   └── parent-teacher-notification.test.ts
+│       ├── fr-copy
+│       │   └── banned-phrases.test.ts
+│       ├── gamification
+│       │   └── badges.test.ts
+│       ├── go-live-guards.test.ts
+│       ├── hooks
+│       │   ├── atelier-ecrit
+│       │   ├── atelier-oral
+│       │   └── use-dashboard.test.ts
+│       ├── langue
+│       │   └── exercise-bank.test.ts
+│       ├── langue-evaluation.test.ts
+│       ├── lib
+│       │   ├── app-shell-paths.test.ts
+│       │   ├── exam-info.test.ts
+│       │   ├── oral
+│       │   └── storage-provider.test.ts
+│       ├── llm
+│       │   ├── agent-base.test.ts
+│       │   ├── cost-tracker.test.ts
+│       │   ├── guardrail-integration.test.ts
+│       │   ├── guardrails.test.ts
+│       │   ├── mistral-router.test.ts
+│       │   ├── mistral-timeout.test.ts
+│       │   ├── no-url-guardrail.test.ts
+│       │   ├── orchestrator.test.ts
+│       │   ├── provider-factory.test.ts
+│       │   ├── rate-limiter.test.ts
+│       │   ├── skills
+│       │   ├── timeout-helper.test.ts
+│       │   └── token-estimate.test.ts
+│       ├── mcp-client.test.ts
+│       ├── memory
+│       │   ├── context-builder.test.ts
+│       │   ├── scoring.test.ts
+│       │   ├── streak.test.ts
+│       │   └── weak-signals.test.ts
+│       ├── middleware-public-routes.test.ts
+│       ├── middleware-security-headers.test.ts
+│       ├── mistral-ocr.test.ts
+│       ├── mistral-router-v2.test.ts
+│       ├── notifications
+│       │   └── templates.test.ts
+│       ├── onboarding
+│       │   └── copy-analysis.test.ts
+│       ├── oral
+│       │   ├── chrono.test.ts
+│       │   ├── entretien-oeuvre.test.ts
+│       │   ├── evaluate-and-persist.test.ts
+│       │   ├── evaluator.test.ts
+│       │   ├── extraits.test.ts
+│       │   ├── scoring.test.ts
+│       │   ├── service-pick-extrait.test.ts
+│       │   ├── service.test.ts
+│       │   ├── session.test.ts
+│       │   └── state-machine.test.ts
+│       ├── oral-capabilities.test.ts
+│       ├── oral-repository.test.ts
+│       ├── oral-session.test.ts
+│       ├── orchestrator.test.ts
+│       ├── pages
+│       │   ├── loading.test.ts
+│       │   └── profile-editing.test.ts
+│       ├── parent
+│       │   └── digest.test.ts
+│       ├── pdf
+│       │   ├── document-html-pdf.test.ts
+│       │   └── generator.test.ts
+│       ├── pedagogy
+│       │   ├── baremes.test.ts
+│       │   ├── descriptif-conformite.test.ts
+│       │   ├── grammaire.test.ts
+│       │   └── storage-paths.test.ts
+│       ├── policy-gate-tunisia.test.ts
+│       ├── portfolio
+│       │   └── export.test.ts
+│       ├── profile
+│       │   └── profile-score-summary.test.ts
+│       ├── queue
+│       │   ├── correction-queue-degraded.test.ts
+│       │   └── correction-queue.test.ts
+│       ├── quiz
+│       │   └── adaptive.test.ts
+│       ├── rag
+│       │   ├── chunker.test.ts
+│       │   ├── external-client.test.ts
+│       │   ├── golden-queries.test.ts
+│       │   ├── hybrid-search.test.ts
+│       │   ├── indexer.test.ts
+│       │   ├── ingestion-pipeline.test.ts
+│       │   ├── rerank.test.ts
+│       │   ├── rrf-fusion.test.ts
+│       │   └── vector-search.test.ts
+│       ├── rag-search.test.ts
+│       ├── rappel-agent-mcp.test.ts
+│       ├── rgpd
+│       │   └── consent.test.ts
+│       ├── role-layouts.test.ts
+│       ├── security
+│       │   ├── csrf-client.test.ts
+│       │   ├── csrf.test.ts
+│       │   ├── file-validator.test.ts
+│       │   ├── llm-quota-enforcement.test.ts
+│       │   ├── prompt-injection.test.ts
+│       │   ├── rate-limit.test.ts
+│       │   ├── rbac.test.ts
+│       │   └── sanitize.test.ts
+│       ├── skills
+│       │   └── agent-schemas.test.ts
+│       ├── spaced-repetition
+│       │   └── sm2.test.ts
+│       ├── spaced-repetition.test.ts
+│       ├── store
+│       │   └── premium-store.test.ts
+│       ├── stt
+│       │   └── transcriber.test.ts
+│       ├── tutor-visible-citations.test.ts
+│       ├── upload-copie.test.ts
+│       ├── validation
+│       │   ├── new-schemas.test.ts
+│       │   └── request.test.ts
+│       └── vector-search.test.ts
+├── tsconfig.json
+├── tsconfig.test.json
+├── tsconfig.test.tsbuildinfo
+├── tsconfig.tsbuildinfo
+├── tsconfig.worker.json
+└── vitest.config.ts
+
+280 directories, 744 files
