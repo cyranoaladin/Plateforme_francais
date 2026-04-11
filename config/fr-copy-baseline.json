@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-11T11:29:13.168Z",
+  "generatedAt": "2026-04-11T12:23:16.530Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -2247,6 +2247,27 @@
       "column": 39,
       "kind": "api-message",
       "text": "Non autorisé."
+    },
+    {
+      "file": "src/app/api/v1/cron/subscription-expiry/route.ts",
+      "line": 21,
+      "column": 39,
+      "kind": "api-message",
+      "text": "Configuration serveur manquante."
+    },
+    {
+      "file": "src/app/api/v1/cron/subscription-expiry/route.ts",
+      "line": 31,
+      "column": 39,
+      "kind": "api-message",
+      "text": "Non autorisé."
+    },
+    {
+      "file": "src/app/api/v1/cron/subscription-expiry/route.ts",
+      "line": 76,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Échec du traitement des expirations."
     },
     {
       "file": "src/app/api/v1/cron/weekly-reports/route.ts",
@@ -6604,7 +6625,7 @@
     },
     {
       "file": "src/app/layout.tsx",
-      "line": 86,
+      "line": 65,
       "column": 61,
       "kind": "jsx-text",
       "text": "Aller au contenu principal"
@@ -10202,87 +10223,87 @@
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 115,
+      "line": 104,
+      "column": 13,
+      "kind": "jsx-text",
+      "text": "Connexion"
+    },
+    {
+      "file": "src/components/landing/StickyNav.tsx",
+      "line": 126,
       "column": 13,
       "kind": "jsx-text",
       "text": "Commencer gratuitement →"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 131,
+      "line": 142,
       "column": 13,
       "kind": "jsx-text",
       "text": "Gratuit →"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 193,
+      "line": 204,
       "column": 15,
       "kind": "jsx-text",
       "text": "Ateliers"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 207,
+      "line": 218,
       "column": 15,
       "kind": "jsx-text",
       "text": "Tarifs"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 221,
+      "line": 232,
       "column": 15,
       "kind": "jsx-text",
       "text": "Connexion"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 248,
+      "line": 259,
       "column": 15,
       "kind": "jsx-text",
       "text": "Commencer gratuitement — sans carte bancaire →"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 264,
+      "line": 275,
       "column": 15,
       "kind": "jsx-text",
       "text": "🖥️ Pour utiliser les ateliers, ouvre cette page sur ton ordinateur."
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 38,
+      "line": 49,
       "column": 15,
       "kind": "jsx-text",
       "text": "Nexus Réussite"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 48,
+      "line": 59,
       "column": 15,
       "kind": "jsx-text",
       "text": "PRÉPARATION EAF"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 62,
+      "line": 73,
       "column": 13,
       "kind": "jsx-text",
       "text": "Ateliers"
     },
     {
       "file": "src/components/landing/StickyNav.tsx",
-      "line": 71,
+      "line": 82,
       "column": 13,
       "kind": "jsx-text",
       "text": "Tarifs"
-    },
-    {
-      "file": "src/components/landing/StickyNav.tsx",
-      "line": 93,
-      "column": 13,
-      "kind": "jsx-text",
-      "text": "Connexion"
     },
     {
       "file": "src/components/landing/TestimonialsSection.tsx",
