@@ -506,3 +506,45 @@ button, a, [role="button"], .touch-manipulation {
   touch-action: manipulation;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   LANDING PAGE ANIMATIONS
+   Keyframes utilisées dans bienvenue/sections/*
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes bienvenueFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bienvenueFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Classes utilitaires pour éviter les styles inline (CSP) */
+.animate-bienvenue-fade-up {
+  animation: bienvenueFadeUp 0.8s ease-out both;
+}
+
+.animate-bienvenue-fade-up-delay-1 {
+  animation: bienvenueFadeUp 0.95s ease-out 0.12s both;
+}
+
+.animate-bienvenue-fade-up-delay-2 {
+  animation: bienvenueFadeUp 0.82s ease-out both;
+}
+
+.animate-bienvenue-float {
+  animation: bienvenueFloat 8s ease-in-out infinite;
+}
+
+/* Animation delays */
+.animation-delay-100 { animation-delay: 0.08s; }
+.animation-delay-140 { animation-delay: 0.14s; }
+.animation-delay-180 { animation-delay: 0.18s; }
+.animation-delay-200 { animation-delay: 0.20s; }
+.animation-delay-260 { animation-delay: 0.26s; }
+.animation-delay-320 { animation-delay: 0.32s; }
+.animation-delay-340 { animation-delay: 0.34s; }
+.animation-delay-420 { animation-delay: 0.42s; }
+

@@ -7,7 +7,7 @@ const FEATURE_GROUPS = [
     tone: 'bg-[var(--c-primary)] text-[var(--bg-page)] border-white/10',
     badge: 'Production longue',
     span: 'lg:col-span-7',
-    animationClass: '[animation-delay:0.08s]',
+    animationClass: 'animation-delay-100',
     body: 'Dépose une copie PDF ou image, récupère une analyse automatique, une correction par rubriques et un rapport clair à reprendre.',
     bullets: ['Dépôt PDF/image', 'Analyse automatique + correction structurée', 'Rapport PDF exploitable'],
   },
@@ -17,7 +17,7 @@ const FEATURE_GROUPS = [
     tone: 'bg-[var(--bg-surface)] text-[var(--c-primary)] border-[var(--border-strong)]',
     badge: 'Format EAF',
     span: 'lg:col-span-5',
-    animationClass: '[animation-delay:0.14s]',
+    animationClass: 'animation-delay-140',
     body: 'Lecture, explication, grammaire et entretien restent visibles comme quatre séquences distinctes, avec leurs max officiels.',
     bullets: ['Barème /2 /8 /2 /8', 'Relances pédagogiques', 'Œuvre choisie intégrée'],
   },
@@ -27,7 +27,7 @@ const FEATURE_GROUPS = [
     tone: 'bg-[var(--bg-surface)] text-[var(--c-primary)] border-[var(--border-strong)]',
     badge: 'Sources visibles',
     span: 'lg:col-span-4',
-    animationClass: '[animation-delay:0.20s]',
+    animationClass: 'animation-delay-200',
     body: 'Le guidage et les ateliers mobilisent BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles et réutilisables.',
     bullets: ['Citations internes', 'Recherche intelligente dans le corpus', 'Corpus 2025-2026'],
   },
@@ -37,7 +37,7 @@ const FEATURE_GROUPS = [
     tone: 'bg-[var(--bg-surface-secondary)] text-[var(--c-primary)] border-[var(--border-strong)]',
     badge: 'Relance ciblée',
     span: 'lg:col-span-4',
-    animationClass: '[animation-delay:0.26s]',
+    animationClass: 'animation-delay-260',
     body: 'Question de grammaire, erreurs de langue, quiz et thèmes faibles sont reliés au même diagnostic.',
     bullets: ['Axes du programme', 'Retour immédiat', 'Priorisation des lacunes'],
   },
@@ -47,7 +47,7 @@ const FEATURE_GROUPS = [
     tone: 'bg-[var(--bg-surface)] text-[var(--c-primary)] border-[var(--border-strong)]',
     badge: 'Accompagnement actif',
     span: 'lg:col-span-4',
-    animationClass: '[animation-delay:0.32s]',
+    animationClass: 'animation-delay-320',
     body: 'Chaque échange utile enrichit le profil, réactive les compétences à reprendre et influence la prochaine séance au lieu de repartir de zéro.',
     bullets: ['Relances contextuelles', 'Détection de tes points à retravailler', 'Séances suivantes cohérentes'],
   },
@@ -76,7 +76,7 @@ export function Features() {
           {FEATURE_GROUPS.map((feature) => (
             <article
               key={feature.title}
-              className={`${feature.span} ${feature.tone} ${feature.animationClass} rounded-[var(--radius-2xl)] border p-6 shadow-[var(--shadow-md)] [animation:bienvenueFadeUp_.82s_ease-out_both] md:p-7`}
+              className={`${feature.span} ${feature.tone} ${feature.animationClass} rounded-[var(--radius-2xl)] border p-6 shadow-[var(--shadow-md)] animate-bienvenue-fade-up-delay-2 md:p-7`}
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black/10">

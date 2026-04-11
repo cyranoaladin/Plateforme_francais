@@ -25,10 +25,10 @@ const FRICTION_REMOVERS = [
 ];
 
 const HERO_STATS = [
-  { value: '3 min', label: 'pour configurer ton parcours', animationClass: '[animation-delay:0.18s]' },
-  { value: '4 ateliers', label: 'écrit, oral, langue, quiz', animationClass: '[animation-delay:0.26s]' },
-  { value: '12 œuvres', label: 'du programme voie générale', animationClass: '[animation-delay:0.34s]' },
-  { value: '1 tableau de bord', label: 'pour suivre ta progression', animationClass: '[animation-delay:0.42s]' },
+  { value: '3 min', label: 'pour configurer ton parcours', animationClass: 'animation-delay-180' },
+  { value: '4 ateliers', label: 'écrit, oral, langue, quiz', animationClass: 'animation-delay-260' },
+  { value: '12 œuvres', label: 'du programme voie générale', animationClass: 'animation-delay-340' },
+  { value: '1 tableau de bord', label: 'pour suivre ta progression', animationClass: 'animation-delay-420' },
 ];
 
 const ORAL_PHASES = [
@@ -49,7 +49,7 @@ export function Hero() {
     <section className="relative overflow-hidden border-b border-[var(--border-strong)]/70">
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 md:pt-20 lg:px-8 lg:pb-20">
         <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
-          <div className="max-w-3xl [animation:bienvenueFadeUp_.8s_ease-out_both]">
+          <div className="max-w-3xl animate-bienvenue-fade-up">
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[var(--c-primary)] shadow-sm">
               <BadgeCheck className="h-4 w-4 text-[var(--c-success)]" />
               Parcours EAF complet
@@ -113,9 +113,9 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative [animation:bienvenueFadeUp_.95s_ease-out_.12s_both]">
+          <div className="relative animate-bienvenue-fade-up-delay-1">
             <div className="absolute -left-6 top-12 hidden h-24 w-24 rounded-full bg-[var(--color-amber-300)]/18 blur-2xl lg:block" />
-            <div className="absolute -right-4 top-20 hidden h-16 w-16 rounded-full bg-[var(--c-success)]/20 blur-2xl lg:block [animation:bienvenueFloat_8s_ease-in-out_infinite]" />
+            <div className="absolute -right-4 top-20 hidden h-16 w-16 rounded-full bg-[var(--c-success)]/20 blur-2xl lg:block animate-bienvenue-float" />
 
             <div className="rounded-[var(--radius-2xl)] border border-white/10 bg-[var(--c-primary)] p-6 text-[var(--bg-page)] shadow-[var(--shadow-md)] md:p-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -204,7 +204,7 @@ export function Hero() {
           {HERO_STATS.map((stat) => (
             <div
               key={stat.label}
-              className={`rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-5 shadow-[var(--shadow-sm)] [animation:bienvenueFadeUp_.8s_ease-out_both] ${stat.animationClass}`}
+              className={`rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] px-5 py-5 shadow-[var(--shadow-sm)] animate-bienvenue-fade-up ${stat.animationClass}`}
             >
               <p className="font-display text-3xl tracking-[-0.03em] text-[var(--c-primary)]">
                 {stat.value}
