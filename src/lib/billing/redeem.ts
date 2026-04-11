@@ -5,7 +5,7 @@
  */
 
 import crypto from 'crypto';
-import { type SubscriptionPlan } from '@prisma/client';
+import { type SubscriptionPlan, type ActivationPlan } from '@prisma/client';
 import { prisma } from '@/lib/db/client';
 import { type PlanId, PLAN_CATALOG, comparePlans, normalizePlanId } from './plan-catalog';
 
@@ -111,14 +111,7 @@ export async function redeemActivationCode(
       throw new RedeemError('CODE_EXPIRED', 'Ce code a expiré.', 410);
     }
 
-    const rawPlan = String(code.plan ?? 'FREE');
-    if (rawPlan.toUpperCase() === 'MAX') {
-      throw new RedeemError(
-        'PLAN_UNKNOWN',
-        'Ce code correspond à une ancienne offre non activable. Contacte le support.',
-        400,
-      );
-    }
+    const rawPlan = (code.plan as ActivationPlan) ?? 'PREMIUM';
     const newPlan = normalizePlanId(rawPlan);
     if (!PLAN_CATALOG[newPlan]) {
       throw new RedeemError('PLAN_UNKNOWN', 'Plan associé au code inconnu.', 400);

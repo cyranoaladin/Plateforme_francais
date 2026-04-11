@@ -45,6 +45,7 @@ rsync -avz --delete \
   --exclude='.env.local' \
   --exclude='.env.backup' \
   --exclude='.env.test' \
+  --exclude='.release.env' \
   --exclude='.data' \
   --exclude='/ressources/' \
   --exclude='coverage' \
@@ -91,8 +92,51 @@ ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv .vscode .windsurf .windsurf_audit
 echo "[1b/8] Préparation de l'utilisateur runtime..."
 ssh "$SSH_TARGET" "id -u $APP_RUNTIME_USER >/dev/null 2>&1 || useradd -r -m -d $APP_RUNTIME_HOME -s /bin/bash $APP_RUNTIME_USER; mkdir -p $APP_RUNTIME_HOME/.pm2 /var/log/pm2 $APP_DIR/.data/uploads $APP_DIR/.data/migration-backups; chown -R $APP_RUNTIME_USER:$APP_RUNTIME_USER $APP_RUNTIME_HOME /var/log/pm2 $APP_DIR/.data/uploads $APP_DIR/.data/migration-backups; chown -R root:$APP_RUNTIME_USER $APP_DIR; chmod -R g+rX $APP_DIR; echo '  ✅ Runtime user prêt'"
 
-echo "[1c/8] Sécurisation des secrets post-sync..."
-ssh "$SSH_TARGET" "chown root:$APP_RUNTIME_USER $APP_DIR/.env $APP_DIR/.env.local $APP_DIR/packages/mcp-server/.env 2>/dev/null || true; chmod 640 $APP_DIR/.env $APP_DIR/.env.local $APP_DIR/packages/mcp-server/.env 2>/dev/null || true; rm -f $APP_DIR/.env.backup 2>/dev/null || true; echo '  ✅ Permissions secrets 640 appliquées'"
+echo "[1c/8] Secrets hors de l'arbre applicatif..."
+ssh "$SSH_TARGET" "bash -s" <<'SECRETS_EOF'
+set -euo pipefail
+APP_DIR="/opt/eaf_platform"
+SECRETS_DIR="/etc/eaf/secrets"
+
+# Créer le répertoire des secrets hors app-tree
+mkdir -p "$SECRETS_DIR"
+chmod 750 "$SECRETS_DIR"
+
+# Migrer .env → /etc/eaf/secrets/ s'il existe dans le répertoire app et n'est pas déjà un symlink
+for env_file in .env .env.local; do
+  src="$APP_DIR/$env_file"
+  dst="$SECRETS_DIR/$env_file"
+  if [ -f "$src" ] && [ ! -L "$src" ]; then
+    mv "$src" "$dst"
+    echo "  → $env_file déplacé vers $dst"
+  fi
+  # Créer/mettre à jour le symlink
+  if [ -f "$dst" ]; then
+    ln -sfn "$dst" "$src"
+    chown -h root:root "$src"
+    echo "  → Symlink $src → $dst"
+  fi
+done
+
+# MCP server .env
+MCP_ENV="$APP_DIR/packages/mcp-server/.env"
+MCP_DST="$SECRETS_DIR/mcp-server.env"
+if [ -f "$MCP_ENV" ] && [ ! -L "$MCP_ENV" ]; then
+  mv "$MCP_ENV" "$MCP_DST"
+fi
+if [ -f "$MCP_DST" ]; then
+  ln -sfn "$MCP_DST" "$MCP_ENV"
+  chown -h root:root "$MCP_ENV"
+fi
+
+# Permissions strictes sur les secrets réels
+find "$SECRETS_DIR" -type f -exec chmod 640 {} \; -exec chown root:root {} \;
+
+# Supprimer les backups d'env dans l'arbre app
+rm -f "$APP_DIR/.env.backup" "$APP_DIR/.env.test" 2>/dev/null || true
+
+echo "  ✅ Secrets dans $SECRETS_DIR (symlinks depuis $APP_DIR)"
+SECRETS_EOF
 
 echo "[1d/8] Vérification du volume ressources durable..."
 ssh "$SSH_TARGET" "mkdir -p $RESSOURCES_DIR"

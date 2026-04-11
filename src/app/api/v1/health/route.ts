@@ -100,7 +100,16 @@ export async function GET() {
     tuteur_rag: checks.rag === 'ok' ? 'ok' : 'degraded',
     // Oral passages (browser STT always available, server STT optional)
     oral: 'ok' as const,
+    // Billing codes table accessibility
+    billing_codes: checks.db === 'ok' ? 'ok' : 'down',
   };
+
+  // commercial_readiness: are the features users PAID for actually available?
+  const commercialReadiness =
+    features.auth_billing === 'ok' &&
+    features.correction_ia === 'ok'
+      ? 'ok'
+      : 'degraded';
 
   if (status !== 'ok') {
     logger.warn({ checks, status, features }, 'health_check_not_ok');
@@ -119,6 +128,7 @@ export async function GET() {
       status,
       checks,
       features,
+      commercialReadiness,
       isCiReady,
       timestamp: new Date().toISOString(),
       release: {

@@ -16,11 +16,11 @@
  */
 
 import crypto from 'crypto';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, type ActivationPlan } from '@prisma/client';
 
 /* ─────────────────── Args parsing ─────────────────── */
 
-function parseArgs(): { plan: string; count: number; duration: number; batch: string } {
+function parseArgs(): { plan: ActivationPlan; count: number; duration: number; batch: string } {
   const args = process.argv.slice(2);
   const map = new Map<string, string>();
   for (let i = 0; i < args.length; i += 2) {
@@ -29,11 +29,12 @@ function parseArgs(): { plan: string; count: number; duration: number; batch: st
     if (key && val) map.set(key, val);
   }
 
-  const plan = (map.get('plan') ?? '').toUpperCase();
-  if (plan !== 'PREMIUM' && plan !== 'PRO') {
+  const planRaw = (map.get('plan') ?? '').toUpperCase();
+  if (planRaw !== 'PREMIUM' && planRaw !== 'PRO') {
     console.error('❌ --plan must be PREMIUM or PRO');
     process.exit(1);
   }
+  const plan = planRaw as ActivationPlan;
 
   const count = Number(map.get('count') ?? 10);
   if (!Number.isInteger(count) || count < 1 || count > 10_000) {

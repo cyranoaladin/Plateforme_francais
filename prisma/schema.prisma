@@ -33,6 +33,13 @@ enum SubscriptionPlan {
   LIFETIME  // @deprecated → maps to PRO
 }
 
+/// Plans disponibles pour les codes d'activation.
+/// PREMIUM = offre publique "Premium" | PRO = offre publique "Masterium"
+enum ActivationPlan {
+  PREMIUM
+  PRO
+}
+
 enum SubscriptionStatus {
   ACTIVE
   PAST_DUE
@@ -609,7 +616,7 @@ model PaymentTransaction {
 model ActivationCode {
   id               String   @id @default(cuid())
   codeHash         String   @unique
-  plan             String   // "PREMIUM" | "PRO" (public: Premium | Masterium)
+  plan             ActivationPlan   // PREMIUM = offre Premium | PRO = offre Masterium
   durationDays     Int      // 30, 90, 365…
   status           String   @default("CREATED") // CREATED | DELIVERED | REDEEMED | REVOKED
   expiresAt        DateTime?

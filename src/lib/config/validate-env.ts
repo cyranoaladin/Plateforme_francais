@@ -23,11 +23,8 @@ const REQUIRED_LLM = [
 ] as const;
 
 // ── Nice-to-have vars (warn only) ──────────────────────────────────
-// DIRECT_URL: required by Prisma schema (directUrl) for PgBouncer/Accelerate.
-// In standard direct-connection setups, it equals DATABASE_URL.
-// Missing in dev is acceptable; missing in prod with a pool is a schema mismatch.
+// DIRECT_URL is handled separately in section 1c (production-only warn).
 const RECOMMENDED_ENV = [
-  'DIRECT_URL',
   'SMTP_HOST',
   'SMTP_USER',
   'SMTP_PASS',
@@ -77,6 +74,18 @@ export function validateEnv(): ValidateEnvResult {
       logger.error(msg);
       throw new Error(msg);
     }
+  }
+
+  // 1c. Production-only: DIRECT_URL required if using PgBouncer/pool ──────
+  // Prisma schema declares directUrl = env("DIRECT_URL").
+  // In production, this MUST be set (even if identical to DATABASE_URL) to
+  // avoid connection-pooler issues with migration commands.
+  if (process.env.NODE_ENV === 'production' && !process.env.DIRECT_URL?.trim()) {
+    logger.warn(
+      { key: 'DIRECT_URL' },
+      'DIRECT_URL not set in production. Prisma directUrl will fall back to DATABASE_URL. ' +
+      'Set DIRECT_URL explicitly to avoid issues with connection poolers.',
+    );
   }
 
   // 2. At least one LLM key ─────────────────────────────────────────

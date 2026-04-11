@@ -294,7 +294,12 @@ export function selectProvider(config: RouterConfig): SelectedProvider {
     tier = nextTier;
   }
 
-  return providerForTier(tier);
+  const selected = providerForTier(tier);
+  logger.info(
+    { skill: config.skill, tier, model: selected.model, providerName: selected.providerName, studentId: config.studentId },
+    'llm_provider_selected',
+  );
+  return selected;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
