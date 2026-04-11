@@ -25,9 +25,35 @@ export default defineConfig({
       timeout: 180000,
     },
   projects: [
+    // Desktop
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    // Mobile devices - tests critiques
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+      testMatch: /mobile-critical|landing-mobile/,
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 14'] },
+      testMatch: /mobile-critical|landing-mobile/,
+    },
+    {
+      name: 'iPhone SE',
+      use: { 
+        ...devices['iPhone SE'],
+        viewport: { width: 375, height: 667 },
+      },
+      testMatch: /landing-mobile/,
+    },
+    // Tablette
+    {
+      name: 'iPad',
+      use: { ...devices['iPad Mini'] },
+      testMatch: /landing-mobile/,
     },
   ],
 });

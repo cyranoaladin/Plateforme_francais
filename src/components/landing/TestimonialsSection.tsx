@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
+
 export function TestimonialsSection() {
   const testimonials = [
     {
@@ -36,10 +38,39 @@ export function TestimonialsSection() {
     },
   ];
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      const scrollLeft = scrollContainer.scrollLeft;
+      const cardWidth = scrollContainer.offsetWidth - 40; // approx card width
+      const index = Math.round(scrollLeft / cardWidth);
+      setActiveSlide(Math.min(index, testimonials.length - 1));
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+    return () => scrollContainer.removeEventListener('scroll', handleScroll);
+  }, [testimonials.length]);
+
+  const scrollTo = (index: number) => {
+    const scrollContainer = scrollRef.current;
+    if (scrollContainer) {
+      const cardWidth = scrollContainer.offsetWidth - 40;
+      scrollContainer.scrollTo({
+        left: index * cardWidth,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
     <div>
       {/* Header */}
-      <div>
+      <div className="text-center lg:text-left" style={{ padding: '0 20px' }}>
         <div
           style={{
             fontSize: '11px',
@@ -53,6 +84,7 @@ export function TestimonialsSection() {
           Ils ont transformé leurs notes
         </div>
         <h2
+          className="hero-title-mobile"
           style={{
             fontFamily: 'var(--eaf-font-display)',
             fontSize: '36px',
@@ -61,14 +93,128 @@ export function TestimonialsSection() {
           }}
         >
           Des résultats concrets,
-          <br />
+          <br className="hidden lg:block" />
           vérifiables, reproductibles.
         </h2>
       </div>
 
-      {/* Grille */}
+      {/* Mobile: Carousel swipe natif */}
+      <div className="lg:hidden" style={{ position: 'relative', padding: '0 20px', marginTop: '32px' }}>
+        <div
+          ref={scrollRef}
+          className="scroll-no-bar"
+          style={{
+            display: 'flex',
+            gap: '12px',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            scrollBehavior: 'smooth',
+            WebkitOverflowScrolling: 'touch',
+            paddingBottom: '16px',
+            margin: '0 -20px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+          }}
+        >
+          {testimonials.map((t, i) => (
+            <div
+              key={i}
+              style={{
+                flexShrink: 0,
+                width: 'calc(100vw - 56px)',
+                scrollSnapAlign: 'start',
+                background: 'var(--eaf-bg1)',
+                border: '1px solid var(--eaf-border)',
+                borderRadius: '18px',
+                padding: '24px',
+              }}
+            >
+              {/* Avatar */}
+              <div
+                style={{
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '12px',
+                  background: t.gradient,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  color: '#fff',
+                  marginBottom: '16px',
+                }}
+              >
+                {t.initials}
+              </div>
+              {/* Quote */}
+              <p
+                style={{
+                  fontSize: '14px',
+                  color: 'var(--eaf-text-secondary)',
+                  lineHeight: 1.7,
+                  fontStyle: 'italic',
+                  marginBottom: '18px',
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: t.quote.replace(
+                    /<strong>(.*?)<\/strong>/g,
+                    '<span style="color: var(--eaf-text-primary); font-style: normal; font-weight: 600;">$1</span>'
+                  ),
+                }}
+              />
+              {/* Meta */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--eaf-text-primary)' }}>
+                    {t.name}
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}>{t.school}</div>
+                </div>
+                <div
+                  style={{
+                    background: t.scoreStyle?.background || 'rgba(255,181,71,0.12)',
+                    border: t.scoreStyle?.border || '1px solid rgba(255,181,71,0.25)',
+                    color: t.scoreStyle?.color || 'var(--eaf-gold)',
+                    padding: '5px 10px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    fontFamily: 'var(--eaf-font-display)',
+                  }}
+                >
+                  {t.score}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Dots indicateurs */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', marginTop: '8px' }}>
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollTo(i)}
+              style={{
+                width: activeSlide === i ? '20px' : '6px',
+                height: '6px',
+                borderRadius: '3px',
+                background: activeSlide === i ? 'var(--eaf-orange)' : 'var(--eaf-text-tertiary)',
+                transition: 'all 0.2s',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+              }}
+              aria-label={`Voir témoignage ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop: Grid 3 colonnes */}
       <div
-        className="grid gap-5"
+        className="hidden lg:grid gap-5"
         style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: '48px' }}
       >
         {testimonials.map((t, index) => (
@@ -155,9 +301,7 @@ export function TestimonialsSection() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  background:
-                    t.scoreStyle?.background ||
-                    'linear-gradient(135deg, rgba(255,181,71,0.15), rgba(255,107,53,0.15))',
+                  background: t.scoreStyle?.background || 'linear-gradient(135deg, rgba(255,181,71,0.15), rgba(255,107,53,0.15))',
                   border: t.scoreStyle?.border || '1px solid rgba(255,181,71,0.30)',
                   color: t.scoreStyle?.color || 'var(--eaf-gold)',
                   padding: '5px 12px',

@@ -3,19 +3,26 @@
 import Link from 'next/link';
 
 export function FooterCTA() {
+  const trustItems = [
+    'Freemium sans limite',
+    'Sources BO 2026',
+    'Anti-copie par design',
+    'Tableau de bord parent',
+  ];
+
   return (
     <section
       className="relative text-center overflow-hidden"
       style={{
-        padding: '100px 2rem',
+        padding: '72px 20px 60px',
         background: 'linear-gradient(180deg, var(--eaf-bg0) 0%, #0a0e1a 50%, var(--eaf-bg0) 100%)',
         borderTop: '1px solid var(--eaf-border)',
         borderBottom: '1px solid var(--eaf-border)',
       }}
     >
-      {/* Orbe centrale */}
+      {/* Orbe centrale - masqué sur mobile */}
       <div
-        className="absolute pointer-events-none"
+        className="absolute pointer-events-none hidden lg:block"
         style={{
           width: '500px',
           height: '500px',
@@ -49,18 +56,19 @@ export function FooterCTA() {
               borderRadius: '50%',
             }}
           />
-          J-59 avant l'épreuve EAF 2026
+          J-59 avant l&apos;épreuve EAF 2026
         </div>
 
         {/* H2 */}
         <h2
+          className="hero-title-mobile"
           style={{
             fontFamily: 'var(--eaf-font-display)',
-            fontSize: '52px',
+            fontSize: '36px',
             fontWeight: 700,
-            letterSpacing: '-2px',
-            lineHeight: 1.1,
-            marginBottom: '20px',
+            letterSpacing: '-1.5px',
+            lineHeight: 1.15,
+            marginBottom: '16px',
             color: 'var(--eaf-text-primary)',
           }}
         >
@@ -68,32 +76,35 @@ export function FooterCTA() {
           <br />
           pour commencer,{' '}
           <span style={{ color: 'var(--eaf-orange)', fontStyle: 'italic' }}>
-            c'est maintenant.
+            c&apos;est maintenant.
           </span>
         </h2>
 
         {/* Sous-titre */}
         <p
           style={{
-            fontSize: '16px',
+            fontSize: '15px',
             color: 'var(--eaf-text-secondary)',
-            marginBottom: '40px',
+            marginBottom: '32px',
+            maxWidth: '320px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
           }}
         >
-          Chaque jour sans entraînement, c'est un point de moins à l'oral.
-          <br />
-          Le Freemium est gratuit, sans carte bancaire, et tu peux commencer en 3 minutes.
+          Le Freemium est gratuit, sans carte bancaire. Commence depuis ton téléphone et travaille sur PC.
         </p>
 
-        {/* Grand CTA */}
+        {/* Grand CTA - pleine largeur mobile */}
         <Link
           href="/login"
           className="inline-block font-bold text-white transition-all duration-200"
           style={{
+            width: '100%',
+            maxWidth: '360px',
             background: 'var(--eaf-orange)',
-            padding: '18px 44px',
+            padding: '16px',
             borderRadius: '14px',
-            fontSize: '17px',
+            fontSize: '16px',
             border: 'none',
           }}
           onMouseEnter={(e) => {
@@ -107,30 +118,63 @@ export function FooterCTA() {
             e.currentTarget.style.boxShadow = 'none';
           }}
         >
-          Commencer gratuitement — sans carte bancaire →
+          Commencer gratuitement →
         </Link>
 
-        {/* Trust badges */}
+        {/* Trust badges - 2 colonnes sur mobile */}
         <div
-          className="flex items-center justify-center gap-6 mt-6 flex-wrap"
-          style={{ fontSize: '13px', color: 'var(--eaf-text-tertiary)' }}
+          className="grid gap-2 mt-5 mx-auto"
+          style={{
+            gridTemplateColumns: '1fr 1fr',
+            maxWidth: '360px',
+          }}
         >
-          {['Freemium sans limite', 'Sources BO 2026 officielles', 'Anti-copie par design', 'Tableau de bord parent inclus'].map(
-            (badge) => (
-              <div key={badge} className="flex items-center gap-1.5">
-                <span
-                  style={{
-                    width: '7px',
-                    height: '7px',
-                    background: 'var(--eaf-teal)',
-                    borderRadius: '50%',
-                    display: 'inline-block',
-                  }}
-                />
-                {badge}
-              </div>
-            )
-          )}
+          {trustItems.map((t) => (
+            <div
+              key={t}
+              style={{
+                fontSize: '12px',
+                color: 'var(--eaf-text-tertiary)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                justifyContent: 'center',
+              }}
+            >
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: 'var(--eaf-teal)',
+                  display: 'inline-block',
+                  flexShrink: 0,
+                }}
+              />
+              {t}
+            </div>
+          ))}
+        </div>
+
+        {/* Note PC finale */}
+        <div
+          style={{
+            marginTop: '24px',
+            padding: '14px',
+            background: 'var(--eaf-bg2)',
+            border: '1px solid var(--eaf-border)',
+            borderRadius: '12px',
+            fontSize: '13px',
+            color: 'var(--eaf-text-secondary)',
+            maxWidth: '360px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            lineHeight: 1.6,
+          }}
+        >
+          🖥️ <strong style={{ color: 'var(--eaf-text-primary)' }}>Les ateliers s&apos;utilisent sur ordinateur.</strong>
+          <br />
+          Inscris-toi maintenant, puis reviens sur PC pour commencer.
         </div>
       </div>
     </section>

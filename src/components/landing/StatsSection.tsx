@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
+
 export function StatsSection() {
   const stats = [
     {
@@ -25,6 +27,24 @@ export function StatsSection() {
     },
   ];
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      const scrollLeft = scrollContainer.scrollLeft;
+      const cardWidth = 260 + 12; // card width + gap
+      const index = Math.round(scrollLeft / cardWidth);
+      setActiveIndex(Math.min(index, stats.length - 1));
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+    return () => scrollContainer.removeEventListener('scroll', handleScroll);
+  }, [stats.length]);
+
   return (
     <section
       style={{
@@ -33,11 +53,9 @@ export function StatsSection() {
         borderBottom: '1px solid var(--eaf-border)',
       }}
     >
-      <div
-        style={{ maxWidth: '1100px', margin: '0 auto', padding: '70px 2rem' }}
-      >
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '48px 20px' }}>
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 lg:mb-12">
           <div
             style={{
               fontSize: '11px',
@@ -51,6 +69,7 @@ export function StatsSection() {
             Les chiffres parlent
           </div>
           <h2
+            className="hero-title-mobile"
             style={{
               fontFamily: 'var(--eaf-font-display)',
               fontSize: '36px',
@@ -60,13 +79,129 @@ export function StatsSection() {
               color: 'var(--eaf-text-primary)',
             }}
           >
-            Des résultats mesurables, pas des promesses.
+            Des résultats mesurables,{' '}
+            <span className="hidden sm:inline">
+              <br />
+            </span>
+            pas des promesses.
           </h2>
         </div>
 
-        {/* Grille stats */}
+        {/* Mobile: Scroll horizontal */}
         <div
-          className="grid"
+          ref={scrollRef}
+          className="lg:hidden scroll-no-bar"
+          style={{
+            display: 'flex',
+            gap: '12px',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            scrollBehavior: 'smooth',
+            WebkitOverflowScrolling: 'touch',
+            paddingBottom: '16px',
+            margin: '0 -20px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+          }}
+        >
+          {stats.map((stat, index) => (
+            <div
+              key={index}
+              style={{
+                flexShrink: 0,
+                width: '260px',
+                scrollSnapAlign: 'start',
+                background: 'var(--eaf-bg1)',
+                border: '1px solid var(--eaf-border)',
+                borderRadius: '16px',
+                padding: '24px',
+              }}
+            >
+              {/* Valeur */}
+              <div
+                style={{
+                  fontFamily: 'var(--eaf-font-display)',
+                  fontSize: '48px',
+                  fontWeight: 900,
+                  letterSpacing: '-3px',
+                  lineHeight: 1,
+                  marginBottom: '8px',
+                  color: stat.color,
+                }}
+              >
+                {stat.value}
+                <span
+                  style={{
+                    fontSize: '24px',
+                    color: stat.color === 'var(--eaf-gold)' ? 'var(--eaf-text-tertiary)' : stat.color,
+                  }}
+                >
+                  {stat.unit}
+                </span>
+              </div>
+
+              {/* Label */}
+              <div
+                style={{
+                  fontSize: '14px',
+                  color: 'var(--eaf-text-secondary)',
+                  lineHeight: 1.5,
+                  maxWidth: '200px',
+                }}
+              >
+                {stat.label}
+              </div>
+
+              {/* Note */}
+              <div
+                style={{
+                  fontSize: '11px',
+                  color: 'var(--eaf-text-tertiary)',
+                  marginTop: '8px',
+                }}
+              >
+                {stat.note}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile: Dots indicateurs */}
+        <div
+          className="lg:hidden flex justify-center gap-2 mb-4"
+          style={{ marginTop: '8px' }}
+        >
+          {stats.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                const scrollContainer = scrollRef.current;
+                if (scrollContainer) {
+                  const cardWidth = 260 + 12;
+                  scrollContainer.scrollTo({
+                    left: index * cardWidth,
+                    behavior: 'smooth',
+                  });
+                }
+              }}
+              style={{
+                width: activeIndex === index ? '20px' : '6px',
+                height: '6px',
+                borderRadius: '3px',
+                background: activeIndex === index ? 'var(--eaf-orange)' : 'var(--eaf-text-tertiary)',
+                transition: 'all 0.2s',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+              }}
+              aria-label={`Voir stat ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Desktop: Grid 3 colonnes */}
+        <div
+          className="hidden lg:grid"
           style={{
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '2px',

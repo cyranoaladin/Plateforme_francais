@@ -54,11 +54,12 @@ export function WorkshopTabs() {
 
   return (
     <div
+      id="ateliers"
       style={{
         background: 'var(--eaf-bg1)',
         border: '1px solid var(--eaf-border)',
         borderRadius: '24px',
-        padding: '48px',
+        padding: '32px 20px',
       }}
     >
       {/* Header */}
@@ -75,6 +76,7 @@ export function WorkshopTabs() {
         Les modules
       </div>
       <h2
+        className="hero-title-mobile"
         style={{
           fontFamily: 'var(--eaf-font-display)',
           fontSize: '32px',
@@ -85,9 +87,60 @@ export function WorkshopTabs() {
         4 ateliers pour maîtriser chaque épreuve
       </h2>
 
-      {/* Tabs */}
+      {/* Mobile: Tabs scrollables */}
       <div
-        className="flex gap-2"
+        className="lg:hidden scroll-no-bar"
+        style={{
+          overflowX: 'auto',
+          display: 'flex',
+          gap: '6px',
+          padding: '16px 0 12px',
+          WebkitOverflowScrolling: 'touch',
+        }}
+      >
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            style={{
+              flexShrink: 0,
+              padding: '8px 16px',
+              borderRadius: '8px',
+              fontSize: '13px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              border: 'none',
+              background: activeTab === tab.key ? 'var(--eaf-bg3)' : 'transparent',
+              color: activeTab === tab.key ? 'var(--eaf-text-primary)' : 'var(--eaf-text-secondary)',
+              borderWidth: activeTab === tab.key ? '1px' : '0',
+              borderStyle: 'solid',
+              borderColor: 'var(--eaf-border)',
+            }}
+          >
+            {tab.label}
+            {tab.badge && activeTab === 'oral' && (
+              <span
+                style={{
+                  marginLeft: '6px',
+                  background: 'rgba(255,107,53,0.15)',
+                  border: '1px solid rgba(255,107,53,0.30)',
+                  color: 'var(--eaf-orange)',
+                  padding: '1px 5px',
+                  borderRadius: '3px',
+                  fontSize: '9px',
+                  fontWeight: 700,
+                }}
+              >
+                {tab.badge}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Desktop: Tabs */}
+      <div
+        className="hidden lg:flex gap-2"
         style={{
           background: 'var(--eaf-bg0)',
           border: '1px solid var(--eaf-border)',
@@ -107,16 +160,9 @@ export function WorkshopTabs() {
               borderRadius: '8px',
               fontSize: '14px',
               fontWeight: 500,
-              background:
-                activeTab === tab.key ? 'var(--eaf-bg3)' : 'transparent',
-              color:
-                activeTab === tab.key
-                  ? 'var(--eaf-text-primary)'
-                  : 'var(--eaf-text-secondary)',
-              border:
-                activeTab === tab.key
-                  ? '1px solid var(--eaf-border)'
-                  : 'none',
+              background: activeTab === tab.key ? 'var(--eaf-bg3)' : 'transparent',
+              color: activeTab === tab.key ? 'var(--eaf-text-primary)' : 'var(--eaf-text-secondary)',
+              border: activeTab === tab.key ? '1px solid var(--eaf-border)' : 'none',
             }}
           >
             {tab.label}
@@ -149,7 +195,7 @@ export function WorkshopTabs() {
               key={index}
               className="flex items-start gap-2.5"
               style={{
-                fontSize: '15px',
+                fontSize: '14px',
                 color: 'var(--eaf-text-secondary)',
               }}
             >
@@ -169,23 +215,23 @@ export function WorkshopTabs() {
 
         <Link
           href={tabContent[activeTab].href}
-          className="inline-block font-semibold transition-all duration-200"
+          className="inline-block font-semibold transition-all duration-200 w-full lg:w-auto text-center"
           style={{
-            background: 'transparent',
-            border: '1px solid rgba(123,142,255,0.35)',
-            color: 'var(--eaf-indigo)',
-            padding: '12px 24px',
-            borderRadius: '10px',
-            fontSize: '14px',
+            background: 'var(--eaf-orange)',
+            border: 'none',
+            color: '#fff',
+            padding: '14px',
+            borderRadius: '11px',
+            fontSize: '15px',
             marginTop: '24px',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'var(--eaf-indigo-dim)';
-            e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+            e.currentTarget.style.background = 'var(--eaf-orange-hover)';
+            e.currentTarget.style.transform = 'translateY(-1px)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.borderColor = 'rgba(123,142,255,0.35)';
+            e.currentTarget.style.background = 'var(--eaf-orange)';
+            e.currentTarget.style.transform = 'translateY(0)';
           }}
         >
           {tabContent[activeTab].cta}

@@ -6,7 +6,7 @@ export function PricingSection() {
   return (
     <div>
       {/* Header */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-10" style={{ padding: '0 20px' }}>
         <div
           style={{
             fontSize: '11px',
@@ -20,6 +20,7 @@ export function PricingSection() {
           Tarifs simples
         </div>
         <h2
+          className="hero-title-mobile"
           style={{
             fontFamily: 'var(--eaf-font-display)',
             fontSize: '36px',
@@ -42,9 +43,93 @@ export function PricingSection() {
         </p>
       </div>
 
-      {/* Grille pricing */}
+      {/* Mobile: 3 cards empilées (Premium en tête) */}
       <div
-        className="grid gap-4"
+        className="lg:hidden"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px',
+          padding: '0 20px',
+        }}
+      >
+        {/* Premium - FEATURED (en premier sur mobile) */}
+        <PlanCard
+          featured
+          badge="⭐ Recommandé"
+          name="Premium"
+          nameColor="var(--eaf-indigo)"
+          description="Le plan complet pour travailler chaque semaine."
+          price="99"
+          unit="TND / mois"
+          subPrice=""
+          features={[
+            '10 / semaine de simulation orale',
+            '20 / mois de correction écrite',
+            '100 / jour d\'échanges guidés',
+            'Rapport PDF oral',
+            'Bibliothèque complète',
+          ]}
+          buttonText="Choisir Premium →"
+          buttonVariant="primary"
+        />
+
+        {/* Masterium */}
+        <PlanCard
+          name="Masterium"
+          description="Pour travailler sans plafond et viser la mention."
+          price="129"
+          unit="TND / mois"
+          subPrice=""
+          features={[
+            'Illimité d\'oral',
+            'Illimité de corrections',
+            'Support prioritaire',
+          ]}
+          buttonText="Choisir Masterium →"
+          buttonVariant="secondary"
+        />
+
+        {/* Freemium - version condensée */}
+        <PlanCard
+          name="Freemium"
+          description="Découvre la méthode sans paiement."
+          price="0"
+          unit="TND"
+          subPrice=""
+          features={[
+            '1 / mois de simulation orale',
+            '2 / mois de correction écrite',
+            'Accès sans carte bancaire',
+          ]}
+          buttonText="Commencer gratuitement"
+          buttonVariant="ghost"
+        />
+      </div>
+
+      {/* Note règlement (mobile) */}
+      <div
+        className="lg:hidden"
+        style={{
+          margin: '16px 20px 0',
+          padding: '14px',
+          background: 'var(--eaf-bg2)',
+          border: '1px solid var(--eaf-border)',
+          borderRadius: '12px',
+          fontSize: '13px',
+          color: 'var(--eaf-text-secondary)',
+          textAlign: 'center',
+          lineHeight: 1.6,
+        }}
+      >
+        Règlement par virement bancaire ou espèces,
+        <br />
+        puis code d&apos;activation par email.
+      </div>
+
+      {/* Desktop: Grid 3 colonnes */}
+      <div
+        className="hidden lg:grid gap-4"
         style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginTop: '48px' }}
       >
         {/* Freemium */}
@@ -74,7 +159,7 @@ export function PricingSection() {
           description="Le plan complet pour travailler chaque semaine."
           price="99"
           unit="TND / mois"
-          subPrice="/ mois"
+          subPrice=""
           features={[
             '10 / semaine de simulation orale',
             '20 / mois de correction écrite',
@@ -95,7 +180,7 @@ export function PricingSection() {
           description="Pour travailler sans plafond et viser la mention."
           price="129"
           unit="TND / mois"
-          subPrice="/ mois"
+          subPrice=""
           features={[
             'Illimité d\'oral',
             'Illimité de corrections écrites',
@@ -144,14 +229,10 @@ function PlanCard({
     <div
       className="relative"
       style={{
-        background: featured
-          ? 'var(--eaf-gradient-card-featured)'
-          : 'var(--eaf-bg1)',
-        border: featured
-          ? '1px solid rgba(123,142,255,0.40)'
-          : '1px solid var(--eaf-border)',
+        background: featured ? 'var(--eaf-gradient-card-featured)' : 'var(--eaf-bg1)',
+        border: featured ? '1px solid rgba(123,142,255,0.40)' : '1px solid var(--eaf-border)',
         borderRadius: '20px',
-        padding: '32px',
+        padding: '24px',
       }}
     >
       {/* Badge featured */}
@@ -194,7 +275,7 @@ function PlanCard({
         style={{
           fontSize: '13px',
           color: 'var(--eaf-text-tertiary)',
-          marginBottom: '24px',
+          marginBottom: '20px',
         }}
       >
         {description}
@@ -205,7 +286,7 @@ function PlanCard({
         <span
           style={{
             fontFamily: 'var(--eaf-font-display)',
-            fontSize: '44px',
+            fontSize: '36px',
             fontWeight: 900,
             letterSpacing: '-2px',
             lineHeight: 1,
@@ -216,7 +297,7 @@ function PlanCard({
         </span>
         <span
           style={{
-            fontSize: '16px',
+            fontSize: '14px',
             fontWeight: 400,
             color: 'var(--eaf-text-tertiary)',
           }}
@@ -224,23 +305,25 @@ function PlanCard({
           {unit}
         </span>
       </div>
-      <p
-        style={{
-          fontSize: '12px',
-          color: 'var(--eaf-text-tertiary)',
-          marginBottom: '28px',
-        }}
-      >
-        {subPrice}
-      </p>
+      {subPrice && (
+        <p
+          style={{
+            fontSize: '12px',
+            color: 'var(--eaf-text-tertiary)',
+            marginBottom: '20px',
+          }}
+        >
+          {subPrice}
+        </p>
+      )}
 
       {/* Features */}
-      <ul className="flex flex-col gap-2.5 mb-7" style={{ listStyle: 'none', padding: 0 }}>
+      <ul className="flex flex-col gap-2 mb-6" style={{ listStyle: 'none', padding: 0 }}>
         {features.map((feature, index) => (
           <li
             key={index}
             className="flex items-start gap-2"
-            style={{ fontSize: '14px', color: 'var(--eaf-text-secondary)' }}
+            style={{ fontSize: '13px', color: 'var(--eaf-text-secondary)' }}
           >
             <span
               style={{
@@ -262,9 +345,9 @@ function PlanCard({
         className="block text-center font-semibold transition-all duration-200"
         style={{
           width: '100%',
-          padding: '14px',
+          padding: '12px',
           borderRadius: '11px',
-          fontSize: '15px',
+          fontSize: '14px',
           background:
             buttonVariant === 'primary'
               ? 'var(--eaf-orange)'

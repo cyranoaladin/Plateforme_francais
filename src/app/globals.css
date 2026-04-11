@@ -311,6 +311,63 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   Mobile Responsive Utilities
+   ═══════════════════════════════════════════════════════════ */
+
+/* Mobile-first breakpoints */
+/* xs : 0–479px     → smartphones portrait */
+/* sm : 480–767px   → grands smartphones paysage */
+/* md : 768–1023px  → tablettes → contenu PC partiel */
+/* lg : 1024px+     → PC → expérience complète */
+
+/* Visible uniquement sur mobile (< 1024px) */
+@media (min-width: 1024px) {
+  .mobile-only,
+  .mobile-pc-banner,
+  .mobile-pc-note {
+    display: none !important;
+  }
+}
+
+/* Suppression scrollbar sur les carousels */
+.scroll-no-bar::-webkit-scrollbar {
+  display: none;
+}
+.scroll-no-bar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Touch targets minimum 44px sur mobile */
+@media (max-width: 1023px) {
+  button,
+  a[role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Hero title mobile */
+@media (max-width: 767px) {
+  .hero-title-mobile {
+    font-size: 28px !important;
+    letter-spacing: -1px !important;
+  }
+  
+  h1.hero-title-mobile {
+    font-size: 36px !important;
+    letter-spacing: -1.5px !important;
+  }
+}
+
+/* Carte démo hero — masquée sur très petit écran */
+@media (max-width: 479px) {
+  .hero-demo-card {
+    display: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
    Nouvelle Charte — Component Utilities
    ═══════════════════════════════════════════════════════════ */
 

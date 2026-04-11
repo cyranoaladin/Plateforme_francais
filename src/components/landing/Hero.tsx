@@ -9,12 +9,12 @@ export function Hero() {
       style={{
         maxWidth: '1100px',
         margin: '0 auto',
-        padding: '80px 2rem 100px',
+        padding: '60px 20px 48px',
       }}
     >
-      {/* Orbe de lumière */}
+      {/* Orbe de lumière - masqué sur mobile */}
       <div
-        className="absolute pointer-events-none"
+        className="absolute pointer-events-none hidden lg:block"
         style={{
           width: '600px',
           height: '600px',
@@ -24,12 +24,9 @@ export function Hero() {
         }}
       />
 
-      <div
-        className="grid items-center"
-        style={{ gridTemplateColumns: '1fr 1fr', gap: '60px' }}
-      >
+      <div className="flex flex-col lg:grid lg:grid-cols-2 lg:items-center gap-8 lg:gap-[60px]">
         {/* Colonne gauche */}
-        <div className="relative">
+        <div className="relative text-center lg:text-left">
           {/* Countdown badge */}
           <div
             className="inline-flex items-center gap-2 font-medium"
@@ -38,7 +35,7 @@ export function Hero() {
               border: '1px solid var(--eaf-orange-border)',
               borderRadius: 'var(--eaf-radius-pill)',
               padding: '6px 16px',
-              fontSize: '13px',
+              fontSize: '12px',
               marginBottom: '20px',
             }}
           >
@@ -51,12 +48,12 @@ export function Hero() {
                 borderRadius: '50%',
               }}
             />
-            J-59 avant l'épreuve EAF 2026
+            J-59 avant l&apos;épreuve EAF 2026
           </div>
 
-          {/* Eyebrow */}
+          {/* Eyebrow - masqué sur mobile */}
           <div
-            className="flex items-center gap-2 font-medium uppercase"
+            className="hidden lg:flex items-center gap-2 font-medium uppercase"
             style={{
               fontSize: '12px',
               letterSpacing: '0.08em',
@@ -70,18 +67,19 @@ export function Hero() {
 
           {/* H1 */}
           <h1
+            className="hero-title-mobile"
             style={{
               fontFamily: 'var(--eaf-font-display)',
-              fontSize: '56px',
+              fontSize: '36px',
               fontWeight: 700,
               lineHeight: 1.08,
-              letterSpacing: '-2px',
+              letterSpacing: '-1.5px',
               marginBottom: '24px',
               color: 'var(--eaf-text-primary)',
             }}
           >
             Nexus Réussite : La préparation EAF
-            <br />
+            <br className="hidden sm:block" />
             qui fait enfin travailler{' '}
             <span
               style={{
@@ -97,28 +95,29 @@ export function Hero() {
           {/* Paragraphe */}
           <p
             style={{
-              fontSize: '16px',
+              fontSize: '15px',
               color: 'var(--eaf-text-secondary)',
               lineHeight: 1.7,
               maxWidth: '420px',
-              marginBottom: '36px',
+              margin: '0 auto 32px',
             }}
           >
-            Nexus transforme l'entraînement en pilotage concret : simulation orale officielle,
+            Nexus transforme l&apos;entraînement en pilotage concret : simulation orale officielle,
             correction écrite rapide, tuteur pédagogique et progression suivie sans rédiger à ta place.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col gap-3.5">
+          <div className="flex flex-col gap-3.5 items-center lg:items-start">
             <Link
               href="/login"
               className="font-semibold text-white text-center transition-all duration-200"
               style={{
                 fontSize: '16px',
                 background: 'var(--eaf-orange)',
-                padding: '15px 32px',
+                padding: '16px 24px',
                 borderRadius: '12px',
-                width: 'fit-content',
+                width: '100%',
+                maxWidth: '340px',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = 'var(--eaf-orange-hover)';
@@ -135,7 +134,7 @@ export function Hero() {
             </Link>
 
             <button
-              className="flex items-center gap-2 transition-all duration-200"
+              className="flex items-center justify-center gap-2 transition-all duration-200 w-full"
               style={{
                 background: 'transparent',
                 border: '1px solid var(--eaf-border)',
@@ -144,7 +143,7 @@ export function Hero() {
                 borderRadius: '12px',
                 fontSize: '14px',
                 fontWeight: 500,
-                width: 'fit-content',
+                maxWidth: '340px',
                 cursor: 'pointer',
               }}
               onMouseEnter={(e) => {
@@ -173,24 +172,63 @@ export function Hero() {
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap gap-5 mt-5">
-            {['Pas de carte bancaire', 'Freemium sans limite de durée', 'Sources BO 2026 officielles'].map(
-              (badge) => (
-                <div
-                  key={badge}
-                  className="flex items-center gap-1.5"
-                  style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}
-                >
-                  <span style={{ color: 'var(--eaf-teal)' }}>✓</span>
-                  {badge}
-                </div>
-              )
-            )}
+          <div className="flex flex-wrap gap-3 mt-5 justify-center lg:justify-start">
+            {['Pas de carte bancaire', 'Freemium sans limite', 'Sources BO 2026'].map((badge) => (
+              <div
+                key={badge}
+                className="flex items-center gap-1.5"
+                style={{ fontSize: '12px', color: 'var(--eaf-text-tertiary)' }}
+              >
+                <span style={{ color: 'var(--eaf-teal)' }}>✓</span>
+                {badge}
+              </div>
+            ))}
+          </div>
+
+          {/* Banner PC explicite - uniquement mobile */}
+          <div
+            className="mobile-pc-note lg:hidden"
+            style={{
+              background: 'var(--eaf-bg2)',
+              border: '1px solid var(--eaf-border)',
+              borderRadius: '14px',
+              padding: '16px',
+              marginTop: '24px',
+              width: '100%',
+              maxWidth: '340px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
+            <div style={{ fontSize: '18px', textAlign: 'center', marginBottom: '8px' }}>🖥️</div>
+            <div
+              style={{
+                fontSize: '14px',
+                fontWeight: 700,
+                color: 'var(--eaf-text-primary)',
+                textAlign: 'center',
+                marginBottom: '4px',
+              }}
+            >
+              Les ateliers fonctionnent sur ordinateur.
+            </div>
+            <div
+              style={{
+                fontSize: '13px',
+                color: 'var(--eaf-text-secondary)',
+                textAlign: 'center',
+                lineHeight: 1.5,
+              }}
+            >
+              L&apos;inscription est gratuite depuis ton téléphone. Reviens sur PC pour commencer à travailler.
+            </div>
           </div>
         </div>
 
-        {/* Colonne droite - Carte démo */}
-        <DemoCard />
+        {/* Colonne droite - Carte démo - masquée sur mobile < 480px */}
+        <div className="hidden sm:block">
+          <DemoCard />
+        </div>
       </div>
     </section>
   );
@@ -199,11 +237,15 @@ export function Hero() {
 function DemoCard() {
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative overflow-hidden hero-demo-card"
       style={{
         background: 'var(--eaf-bg1)',
         border: '1px solid var(--eaf-border)',
         borderRadius: '20px',
+        transform: 'scale(0.95)',
+        transformOrigin: 'top center',
+        maxWidth: '380px',
+        margin: '0 auto',
       }}
     >
       {/* Header */}
@@ -266,7 +308,7 @@ function DemoCard() {
             marginBottom: '14px',
           }}
         >
-          Oral sur Lettres d'une Péruvienne — Graffigny
+          Oral sur Lettres d&apos;une Péruvienne — Graffigny
         </h3>
 
         {/* Bulle IA */}
@@ -292,9 +334,7 @@ function DemoCard() {
             >
               IA
             </span>
-            <span
-              style={{ fontSize: '11px', color: 'var(--eaf-indigo)', fontWeight: 600 }}
-            >
+            <span style={{ fontSize: '11px', color: 'var(--eaf-indigo)', fontWeight: 600 }}>
               Tuteur IA
             </span>
             <span
@@ -350,15 +390,12 @@ function DemoCard() {
             onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--eaf-orange-hover)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--eaf-orange)')}
           >
-            Commencer le passage →
+            Commencer →
           </button>
         </div>
 
         {/* Grille scores */}
-        <div
-          className="grid gap-1.5 mt-2.5"
-          style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}
-        >
+        <div className="grid gap-1.5 mt-2.5" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
           {[
             { score: '/2', label: 'Lecture' },
             { score: '/8', label: 'Explication' },
@@ -414,7 +451,7 @@ function DemoCard() {
             strokeLinejoin="round"
           />
         </svg>
-        Session d'oral simulée — avec transcription et notation en temps réel
+        Session d&apos;oral simulée — avec transcription et notation
       </div>
     </div>
   );

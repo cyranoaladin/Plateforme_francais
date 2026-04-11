@@ -4,10 +4,10 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer style={{ padding: '60px 2rem 40px', maxWidth: '1100px', margin: '0 auto' }}>
-      {/* Grille footer */}
+    <footer style={{ padding: '40px 20px 32px', maxWidth: '1100px', margin: '0 auto' }}>
+      {/* Desktop: Grid 4 colonnes */}
       <div
-        className="grid gap-10 mb-12"
+        className="hidden lg:grid gap-10 mb-12"
         style={{ gridTemplateColumns: '220px repeat(3, 1fr)' }}
       >
         {/* Colonne 1 — Brand */}
@@ -108,17 +108,81 @@ export function Footer() {
         </div>
       </div>
 
+      {/* Mobile: Compact */}
+      <div className="lg:hidden">
+        {/* Brand */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+          <div
+            style={{
+              width: '28px',
+              height: '28px',
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, var(--eaf-indigo), #4458D4)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '12px',
+              fontWeight: 700,
+              color: '#fff',
+            }}
+          >
+            N
+          </div>
+          <span style={{ fontSize: '15px', fontWeight: 600 }}>Nexus Réussite</span>
+        </div>
+
+        <p
+          style={{
+            fontSize: '13px',
+            color: 'var(--eaf-text-tertiary)',
+            lineHeight: 1.6,
+            marginBottom: '24px',
+          }}
+        >
+          Préparation EAF — Oral, écrit, grammaire, corpus officiel.
+        </p>
+
+        {/* Liens en 2 colonnes */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '8px 16px',
+            marginBottom: '24px',
+          }}
+        >
+          {[
+            { label: 'Accueil', href: '/' },
+            { label: 'Tarifs', href: '#pricing' },
+            { label: 'Connexion', href: '/login' },
+            { label: 'Atelier Oral', href: '/atelier-oral' },
+            { label: 'Atelier Écrit', href: '/atelier-ecrit' },
+            { label: 'Mentions légales', href: '/mentions-legales' },
+            { label: 'CGU', href: '/cgu' },
+            { label: 'Confidentialité', href: '/politique-de-confidentialite' },
+          ].map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{ fontSize: '13px', color: 'var(--eaf-text-secondary)', textDecoration: 'none' }}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Footer bottom */}
       <div
-        className="flex justify-between pt-7"
+        className="flex flex-col sm:flex-row justify-between items-center pt-6 gap-2"
         style={{
           borderTop: '1px solid var(--eaf-border)',
           fontSize: '12px',
           color: 'var(--eaf-text-tertiary)',
         }}
       >
-        <span>© 2026 Nexus Réussite. Tous droits réservés.</span>
-        <span>Conçu par des enseignants agréés de Français</span>
+        <span>© 2026 Nexus Réussite. Conçu par des enseignants agréés.</span>
+        <span className="hidden sm:inline">Tous droits réservés.</span>
       </div>
     </footer>
   );
