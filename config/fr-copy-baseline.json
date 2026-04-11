@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-11T10:36:52.089Z",
+  "generatedAt": "2026-04-11T10:52:46.658Z",
   "violations": [
     {
       "file": "src/app/admin/components/activity-tab.tsx",
@@ -2247,6 +2247,27 @@
       "column": 39,
       "kind": "api-message",
       "text": "Non autorisé."
+    },
+    {
+      "file": "src/app/api/v1/cron/subscription-expiry/route.ts",
+      "line": 21,
+      "column": 39,
+      "kind": "api-message",
+      "text": "Configuration serveur manquante."
+    },
+    {
+      "file": "src/app/api/v1/cron/subscription-expiry/route.ts",
+      "line": 31,
+      "column": 39,
+      "kind": "api-message",
+      "text": "Non autorisé."
+    },
+    {
+      "file": "src/app/api/v1/cron/subscription-expiry/route.ts",
+      "line": 76,
+      "column": 16,
+      "kind": "api-message",
+      "text": "Échec du traitement des expirations."
     },
     {
       "file": "src/app/api/v1/cron/weekly-reports/route.ts",
