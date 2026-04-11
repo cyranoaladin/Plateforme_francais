@@ -132,12 +132,13 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
     `default-src 'self'`,
     `script-src 'self' 'nonce-${nonce}' 'sha256-fs97/YpqsP1FB/sVC7EonuE57ak0m3evRa7LF0W9cdM=' https://cdnjs.cloudflare.com https://connect.facebook.net`,
     enforceStrictStyleCsp ? `style-src 'self'` : `style-src 'self' 'unsafe-inline'`,
-    `img-src 'self' data: blob:`,
+    `img-src 'self' data: blob: https://*.facebook.com https://*.fbcdn.net https://*.fbsbx.com`,
     `media-src 'self' blob:`,
-    `connect-src ${connectSrc}`,
+    `connect-src ${connectSrc} https://*.facebook.com https://*.fbcdn.net`,
+    `frame-src https://*.facebook.com`,
     `frame-ancestors 'none'`,
     `base-uri 'self'`,
-    `form-action 'self'`,
+    `form-action 'self' https://*.facebook.com`,
   ].join('; ');
   response.headers.set('Content-Security-Policy', csp);
 

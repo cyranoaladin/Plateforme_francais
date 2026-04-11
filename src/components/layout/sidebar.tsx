@@ -374,7 +374,7 @@ export function Sidebar() {
               }}
             >
               {globalScore === null ? '--' : globalScore}
-              <span className="text-sm font-normal" style={{ color: 'var(--eaf-text-tertiary)' }}>/20</span>
+              <span className="text-sm font-normal" style={{ color: 'var(--eaf-text-tertiary)' }}> /20</span>
             </p>
             <p 
               className="text-[11px]"
