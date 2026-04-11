@@ -7,20 +7,17 @@ import { track } from '@/components/analytics/events';
 const PLANS = [
   {
     name: 'Freemium',
-    accent: 'border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1)] text-[var(--eaf-orange)]',
     kicker: 'Fais tes premiers pas vers le Bac.',
     bullets: ["Voir le vrai produit", "Configuration et premiers ateliers", "Vérifier si le cadre te convient"],
   },
   {
     name: 'Premium',
-    accent: 'border-[var(--eaf-orange)] bg-[var(--eaf-orange)] text-[var(--eaf-bg0)] shadow-[var(--shadow-md)]',
     kicker: 'La méthode complète pour assurer ta réussite.',
     bullets: ["Soutenir une vraie routine hebdomadaire", "Moins de friction sur oral, écrit et tuteur", "Le bon rythme sans surpayer"],
     featured: true,
   },
   {
     name: 'Masterium',
-    accent: 'border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1-secondary)] text-[var(--eaf-orange)]',
     kicker: "L\u2019excellence absolue pour décrocher la mention.",
     bullets: ["Volume élevé sans coupure", "Confort sur les semaines chargées", "Conçu pour un usage vraiment intensif"],
   },
@@ -33,8 +30,11 @@ export function PricingTeaser() {
         <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--eaf-teal)]">Plans et valeur</p>
-            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)] sm:text-5xl">
-              Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme.
+            <h2 
+              className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)] sm:text-5xl"
+              style={{ fontFamily: 'var(--eaf-font-display)' }}
+            >
+              Teste d'abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-8 text-[var(--eaf-text-secondary)]">
               Chaque plan correspond à une intensité de préparation différente. Freemium sert à juger le produit sur pièce, Premium enlève les plafonds quand le besoin devient réel.
@@ -52,33 +52,51 @@ export function PricingTeaser() {
               <Link
                 href="/login?mode=register"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_register', path: '/' } })}
-                className="inline-flex items-center justify-center rounded-full border border-[var(--eaf-border-default)] bg-[var(--eaf-bg1)] px-6 py-3.5 text-sm font-semibold text-[var(--eaf-orange)] transition-colors hover:bg-[var(--eaf-bg1)]"
+                className="inline-flex items-center justify-center rounded-full border px-6 py-3.5 text-sm font-semibold text-[var(--eaf-orange)] transition-colors hover:bg-[var(--eaf-bg3)]"
+                style={{ background: 'var(--eaf-bg2)', borderColor: 'var(--eaf-border)' }}
               >
                 Essayer gratuitement
               </Link>
             </div>
 
             <p className="mt-4 max-w-lg text-sm leading-7 text-[var(--eaf-text-tertiary)]">
-              Le plan gratuit permet déjà de configurer ton parcours, d’ouvrir les premiers ateliers et de voir si le produit tient sa promesse avant toute dépense.
+              Le plan gratuit permet déjà de configurer ton parcours, d'ouvrir les premiers ateliers et de voir si le produit tient sa promesse avant toute dépense.
             </p>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
             {PLANS.map((plan) => (
-              <article key={plan.name} className={`${plan.accent} rounded-[var(--radius-2xl)] border p-6`}>
-                <p className="text-[11px] font-bold uppercase tracking-[0.26em] opacity-70">{plan.kicker}</p>
+              <article 
+                key={plan.name} 
+                className={`rounded-[var(--eaf-radius-2xl)] border p-6 ${plan.featured ? 'shadow-lg' : ''}`}
+                style={{ 
+                  background: plan.featured ? 'var(--eaf-orange)' : 'var(--eaf-bg2)',
+                  borderColor: plan.featured ? 'var(--eaf-orange-active)' : 'var(--eaf-border)'
+                }}
+              >
+                <p className={`text-[11px] font-bold uppercase tracking-[0.26em] ${plan.featured ? 'text-[var(--eaf-gold)]' : 'text-[var(--eaf-text-tertiary)]'}`}>
+                  {plan.kicker}
+                </p>
                 <div className="mt-3 flex items-center justify-between gap-3">
-                  <h3 className="font-display text-3xl tracking-[-0.03em]">{plan.name}</h3>
+                  <h3 
+                    className={`text-3xl tracking-[-0.03em] ${plan.featured ? 'text-[var(--eaf-bg0)]' : 'text-[var(--eaf-orange)]'}`}
+                    style={{ fontFamily: 'var(--eaf-font-display)' }}
+                  >
+                    {plan.name}
+                  </h3>
                   {plan.featured ? (
-                    <span className="rounded-full bg-[var(--eaf-bg0)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--eaf-orange)]">
+                    <span 
+                      className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--eaf-orange)]"
+                      style={{ background: 'var(--eaf-bg0)' }}
+                    >
                       Recommandé
                     </span>
                   ) : null}
                 </div>
-                <ul className="mt-6 space-y-3 text-sm leading-6">
+                <ul className={`mt-6 space-y-3 text-sm leading-6 ${plan.featured ? 'text-[var(--eaf-bg0)]' : 'text-[var(--eaf-text-secondary)]'}`}>
                   {plan.bullets.map((bullet) => (
                     <li key={bullet} className="flex items-start gap-3">
-                      <Check className="mt-1 h-4 w-4 shrink-0" />
+                      <Check className={`mt-1 h-4 w-4 shrink-0 ${plan.featured ? 'text-[var(--eaf-gold)]' : 'text-[var(--eaf-teal)]'}`} />
                       <span>{bullet}</span>
                     </li>
                   ))}

@@ -13,7 +13,7 @@ const AUDIENCE_CARDS = [
   {
     icon: UsersRound,
     title: 'Pour les parents',
-    body: "La valeur perçue vient d’un cadre visible : workflow clair, garde-fous nets, progression compréhensible.",
+    body: "La valeur perçue vient d'un cadre visible : workflow clair, garde-fous nets, progression compréhensible.",
   },
   {
     icon: ShieldCheck,
@@ -55,25 +55,36 @@ export function WhyNexus() {
   return (
     <section id="pourquoi-nexus" className="scroll-mt-24 py-8 md:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[var(--radius-2xl)] border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1)] p-6 shadow-[var(--shadow-md)] md:p-8 lg:p-10">
+        <div 
+          className="rounded-[var(--eaf-radius-2xl)] border p-6 shadow-md md:p-8 lg:p-10"
+          style={{ background: 'var(--eaf-bg2)', borderColor: 'var(--eaf-border)' }}
+        >
           <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--eaf-teal)]">Pourquoi cette page convertit</p>
               <h2
-                className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)] sm:text-5xl"
+                className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)] sm:text-5xl"
+                style={{ fontFamily: 'var(--eaf-font-display)' }}
               >
                 Un bon produit EAF doit convaincre trois personnes en même temps.
               </h2>
               <p className="mt-5 max-w-xl text-base leading-8 text-[var(--eaf-text-secondary)]">
-                L’élève veut une aide actionnable. Le parent veut un cadre crédible. L’enseignant doit reconnaître
+                L'élève veut une aide actionnable. Le parent veut un cadre crédible. L'enseignant doit reconnaître
                 une logique scolaire sérieuse. La landing doit rendre ce triangle évident dès les premiers scrolls.
               </p>
 
               <div className="mt-8 grid gap-3">
                 {AUDIENCE_CARDS.map((card) => (
-                  <article key={card.title} className="rounded-[var(--radius-2xl)] border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1-secondary)] p-4">
+                  <article 
+                    key={card.title} 
+                    className="rounded-[var(--eaf-radius-2xl)] border p-4"
+                    style={{ background: 'var(--eaf-bg3)', borderColor: 'var(--eaf-border)' }}
+                  >
                     <div className="flex items-start gap-3">
-                      <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--eaf-orange)] text-[var(--eaf-bg0)]">
+                      <div 
+                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-[var(--eaf-orange)]"
+                        style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
+                      >
                         <card.icon className="h-5 w-5" />
                       </div>
                       <div>
@@ -97,7 +108,8 @@ export function WhyNexus() {
                 <Link
                   href="/pricing"
                   onClick={() => track({ name: 'cta_click', props: { cta: 'why_nexus_pricing', path: '/' } })}
-                  className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--eaf-bg1)] px-6 py-3.5 text-sm font-semibold text-[var(--eaf-orange)] transition-colors hover:bg-[var(--eaf-bg1)]"
+                  className="inline-flex items-center justify-center rounded-full border px-6 py-3.5 text-sm font-semibold text-[var(--eaf-orange)] transition-colors hover:bg-[var(--eaf-bg3)]"
+                  style={{ background: 'var(--eaf-bg2)', borderColor: 'var(--eaf-border)' }}
                 >
                   Voir les tarifs
                 </Link>
@@ -107,7 +119,8 @@ export function WhyNexus() {
                 {FRICTION_POINTS.map((point) => (
                   <span
                     key={point}
-                    className="rounded-full border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text-body)]"
+                    className="rounded-full border px-3.5 py-1.5 text-xs font-semibold text-[var(--eaf-text-secondary)]"
+                    style={{ background: 'var(--eaf-bg3)', borderColor: 'var(--eaf-border)' }}
                   >
                     {point}
                   </span>
@@ -115,43 +128,68 @@ export function WhyNexus() {
               </div>
             </div>
 
-            <div className="rounded-[var(--radius-2xl)] bg-[var(--eaf-orange)] p-5 text-[var(--eaf-bg0)] shadow-[var(--shadow-md)] md:p-6">
+            <div 
+              className="rounded-[var(--eaf-radius-2xl)] p-5 shadow-md md:p-6"
+              style={{ 
+                background: 'linear-gradient(135deg, #0d1a35 0%, #111c30 60%, #0f1629 100%)',
+                border: '1px solid var(--eaf-indigo-border)'
+              }}
+            >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-gold)]">Différenciation utile</p>
-                  <h3 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-white">
+                  <h3 
+                    className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-white"
+                    style={{ fontFamily: 'var(--eaf-font-display)' }}
+                  >
                     Là où un outil généraliste s'arrête à une réponse, Nexus construit une continuité de travail.
                   </h3>
                 </div>
-                <div className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[var(--eaf-gold)]">
+                <div 
+                  className="rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[var(--eaf-gold)]"
+                  style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)' }}
+                >
                   Comparaison produit
                 </div>
               </div>
 
               <div className="mt-6 space-y-4">
                 {COMPARISON_ROWS.map((row) => (
-                  <div key={row.label} className="rounded-[var(--radius-2xl)] border border-white/10 bg-white/6 p-4">
+                  <div 
+                    key={row.label} 
+                    className="rounded-[var(--eaf-radius-2xl)] border p-4"
+                    style={{ background: 'var(--eaf-bg2)', borderColor: 'var(--eaf-border)' }}
+                  >
                     <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-gold)]">{row.label}</p>
                     <div className="mt-3 grid gap-3 md:grid-cols-2">
-                      <div className="rounded-[var(--radius-xl)] border border-white/10 bg-black/10 p-4">
+                      <div 
+                        className="rounded-[var(--eaf-radius-xl)] border p-4"
+                        style={{ background: 'var(--eaf-bg3)', borderColor: 'var(--eaf-border)' }}
+                      >
                         <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--eaf-text-tertiary)]">Outil généraliste</p>
                         <p className="mt-2 text-sm leading-6 text-[var(--eaf-text-secondary)]">{row.generic}</p>
                       </div>
-                      <div className="rounded-[var(--radius-xl)] bg-[var(--eaf-bg1-secondary)] p-4 text-[var(--eaf-orange)]">
+                      <div 
+                        className="rounded-[var(--eaf-radius-xl)] border p-4 text-[var(--eaf-orange)]"
+                        style={{ background: 'var(--eaf-bg3)', borderColor: 'var(--eaf-border)' }}
+                      >
                         <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--eaf-text-tertiary)]">Nexus Réussite</p>
-                        <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{row.nexus}</p>
+                        <p className="mt-2 text-sm leading-6 text-[var(--eaf-text-primary)]">{row.nexus}</p>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-6 rounded-[var(--radius-2xl)] border border-white/10 bg-[var(--eaf-orange-active)] p-4">
+              <div 
+                className="mt-6 rounded-[var(--eaf-radius-2xl)] border p-4"
+                style={{ background: 'var(--eaf-bg2)', borderColor: 'var(--eaf-border)' }}
+              >
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--eaf-gold)]" />
                   <p className="text-sm leading-6 text-[var(--eaf-text-secondary)]">
-                    L’objectif n’est pas de paraître « intelligent ». L’objectif est de rendre le travail plus cadré,
-                    plus crédible et plus simple à reprendre d’une séance à l’autre.
+                    L'objectif n'est pas de paraître « intelligent ». L'objectif est de rendre le travail plus cadré,
+                    plus crédible et plus simple à reprendre d'une séance à l'autre.
                   </p>
                 </div>
               </div>

@@ -4,7 +4,6 @@ const FEATURE_GROUPS = [
   {
     title: 'Atelier écrit',
     icon: FileStack,
-    tone: 'bg-[var(--eaf-orange)] text-[var(--eaf-bg0)] border-white/10',
     badge: 'Production longue',
     span: 'lg:col-span-7',
     animationClass: 'animation-delay-100',
@@ -14,7 +13,6 @@ const FEATURE_GROUPS = [
   {
     title: 'Oral officiel',
     icon: Mic,
-    tone: 'bg-[var(--eaf-bg1)] text-[var(--eaf-orange)] border-[var(--eaf-border-strong)]',
     badge: 'Format EAF',
     span: 'lg:col-span-5',
     animationClass: 'animation-delay-140',
@@ -24,7 +22,6 @@ const FEATURE_GROUPS = [
   {
     title: 'Corpus et citations',
     icon: ScanSearch,
-    tone: 'bg-[var(--eaf-bg1)] text-[var(--eaf-orange)] border-[var(--eaf-border-strong)]',
     badge: 'Sources visibles',
     span: 'lg:col-span-4',
     animationClass: 'animation-delay-200',
@@ -34,7 +31,6 @@ const FEATURE_GROUPS = [
   {
     title: 'Langue et quiz adaptatif',
     icon: BrainCircuit,
-    tone: 'bg-[var(--eaf-bg1-secondary)] text-[var(--eaf-orange)] border-[var(--eaf-border-strong)]',
     badge: 'Relance ciblée',
     span: 'lg:col-span-4',
     animationClass: 'animation-delay-260',
@@ -44,7 +40,6 @@ const FEATURE_GROUPS = [
   {
     title: 'Guidage personnalisé et mémoire de progression',
     icon: MessageCircleMore,
-    tone: 'bg-[var(--eaf-bg1)] text-[var(--eaf-orange)] border-[var(--eaf-border-strong)]',
     badge: 'Accompagnement actif',
     span: 'lg:col-span-4',
     animationClass: 'animation-delay-320',
@@ -61,7 +56,8 @@ export function Features() {
           <div className="max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--eaf-teal)]">Ateliers EAF</p>
             <h2
-              className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)] sm:text-5xl"
+              className="mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)] sm:text-5xl"
+              style={{ fontFamily: 'var(--eaf-font-display)' }}
             >
               Tout ce qu'il faut pour réussir l'EAF, organisé par usage réel.
             </h2>
@@ -76,29 +72,40 @@ export function Features() {
           {FEATURE_GROUPS.map((feature) => (
             <article
               key={feature.title}
-              className={`${feature.span} ${feature.tone} ${feature.animationClass} rounded-[var(--radius-2xl)] border p-6 shadow-[var(--shadow-md)] animate-bienvenue-fade-up-delay-2 md:p-7`}
+              className={`${feature.span} ${feature.animationClass} rounded-[var(--eaf-radius-2xl)] border p-6 shadow-md animate-bienvenue-fade-up-delay-2 md:p-7`}
+              style={{ background: 'var(--eaf-bg2)', borderColor: 'var(--eaf-border)' }}
             >
               <div className="flex items-center justify-between gap-4">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black/10">
-                  <feature.icon className="h-5 w-5" />
+                <div 
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-2xl"
+                  style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)' }}
+                >
+                  <feature.icon className="h-5 w-5 text-[var(--eaf-orange)]" />
                 </div>
-                <span className="rounded-full border border-current/15 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em]">
+                <span 
+                  className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-text-secondary)]"
+                  style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)' }}
+                >
                   {feature.badge}
                 </span>
               </div>
 
-              <h3 className="font-display mt-6 text-3xl leading-tight tracking-[-0.03em]">
+              <h3 
+                className="mt-6 text-3xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)]"
+                style={{ fontFamily: 'var(--eaf-font-display)' }}
+              >
                 {feature.title}
               </h3>
-              <p className="mt-3 max-w-2xl text-sm leading-7 opacity-85 sm:text-base">{feature.body}</p>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--eaf-text-secondary)] sm:text-base">{feature.body}</p>
 
               <div className="mt-6 flex flex-wrap gap-2.5">
                 {feature.bullets.map((bullet) => (
                   <span
                     key={bullet}
-                    className="inline-flex items-center gap-2 rounded-full border border-current/12 bg-black/5 px-3.5 py-1.5 text-xs font-semibold"
+                    className="inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-semibold text-[var(--eaf-text-secondary)]"
+                    style={{ background: 'var(--eaf-bg3)', borderColor: 'var(--eaf-border)' }}
                   >
-                    <Sparkles className="h-3.5 w-3.5" />
+                    <Sparkles className="h-3.5 w-3.5 text-[var(--eaf-orange)]" />
                     {bullet}
                   </span>
                 ))}
@@ -107,11 +114,17 @@ export function Features() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-[var(--radius-2xl)] border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1)] p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div 
+          className="mt-10 rounded-[var(--eaf-radius-2xl)] border p-6 shadow-md md:p-7"
+          style={{ background: 'var(--eaf-bg2)', borderColor: 'var(--eaf-border)' }}
+        >
           <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--eaf-teal)]">Fil directeur</p>
-              <h3 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)]">
+              <h3 
+                className="mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)]"
+                style={{ fontFamily: 'var(--eaf-font-display)' }}
+              >
                 De la copie à la relance, le même système garde le cap.
               </h3>
             </div>
@@ -121,7 +134,11 @@ export function Features() {
                 { icon: ScanSearch, title: 'Justifier', text: 'Les réponses exploitables gardent la trace des sources et des attentes.' },
                 { icon: BrainCircuit, title: 'Réactiver', text: 'Le retour alimente ensuite le parcours au lieu de se perdre.' },
               ].map((item) => (
-                <div key={item.title} className="rounded-[var(--radius-2xl)] border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1-secondary)] p-4">
+                <div 
+                  key={item.title} 
+                  className="rounded-[var(--eaf-radius-2xl)] border p-4"
+                  style={{ background: 'var(--eaf-bg3)', borderColor: 'var(--eaf-border)' }}
+                >
                   <item.icon className="h-5 w-5 text-[var(--eaf-teal)]" />
                   <p className="mt-3 text-sm font-bold text-[var(--eaf-orange)]">{item.title}</p>
                   <p className="mt-2 text-sm leading-6 text-[var(--eaf-text-secondary)]">{item.text}</p>
