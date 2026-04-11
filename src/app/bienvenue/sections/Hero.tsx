@@ -47,7 +47,7 @@ const SIGNALS = [
 export function Hero() {
   return (
     <section 
-      className="relative overflow-hidden border-b border-[var(--eaf-indigo-border)]"
+      className="relative overflow-hidden border-b border-[var(--eaf-indigo-border)] pt-16"
       style={{ background: 'linear-gradient(135deg, #0d1a35 0%, #111c30 60%, #0f1629 100%)' }}
     >
       {/* Decorative orb */}
