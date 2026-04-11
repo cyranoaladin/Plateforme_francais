@@ -246,7 +246,7 @@ export default function OnboardingPage() {
         setError(err.message || 'Erreur technique. Réessaie plus tard.');
         return false;
       }
-      console.warn('[onboarding] autosave failed:', err);
+      setError('Erreur réseau. Vérifie ta connexion et réessaie.');
       return false;
     }
     return true;
@@ -296,9 +296,9 @@ export default function OnboardingPage() {
       });
 
       track({ name: 'onboarding_complete', props: {} });
-      setWelcomeMessage(payload.welcomeMessage ?? 'Ton parcours est prêt. Complète ton descriptif de lecture pour simuler l\'épreuve orale dans les conditions réelles !');
+      setWelcomeMessage(payload.welcomeMessage ?? 'Ton parcours est prêt ! Bienvenue sur ton tableau de bord.');
       setTimeout(() => {
-        router.push('/descriptif-lecture?onboarding=true');
+        router.push('/dashboard');
         router.refresh();
       }, 1200);
     } catch (err) {

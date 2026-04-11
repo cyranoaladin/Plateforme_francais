@@ -37,8 +37,6 @@ async function registerNewUser(page: Page, email: string, password = 'TestInscr2
   // Le bouton dans l'UI s'appelle "Créer un compte"
   await expect(page.getByRole('button', { name: /cr[ée]er un compte/i })).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /cr[ée]er un compte/i }).click();
-  // Champ prénom : id="displayName"
-  await page.locator('#displayName').fill('Eleve Test E2E');
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);
   await page.locator('#confirmPassword').fill(password);
