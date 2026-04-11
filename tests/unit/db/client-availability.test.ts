@@ -25,7 +25,7 @@ describe('Database Availability Cache', () => {
   });
 
   it('should refresh cache after TTL expires', async () => {
-    const result1 = await isDatabaseAvailable();
+    await isDatabaseAvailable();
     
     // Avancer le temps de 31 secondes
     vi.advanceTimersByTime(31_000);
