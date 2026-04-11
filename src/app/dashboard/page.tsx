@@ -204,13 +204,18 @@ export default function Dashboard() {
   const latestInsight = recentActivity[0] ?? null;
 
   return (
-    <div className="p-6 md:p-8 space-y-6" style={{ maxWidth: '900px' }}>
+    <div className="p-6 md:p-8 space-y-6" style={{ width: '100%', minWidth: 0 }}>
       {/* ─── C.1 PILOTAGE DU JOUR (Hero card) ─── */}
-      <section 
-        className="relative overflow-hidden rounded-[24px] p-8 md:p-10"
-        style={{ 
+      <section
+        className="relative overflow-hidden rounded-[24px]"
+        style={{
           background: 'linear-gradient(135deg, #0d1a35 0%, #111c30 60%, #0f1629 100%)',
-          border: '1px solid var(--eaf-indigo-border)'
+          border: '1px solid var(--eaf-indigo-border)',
+          display: 'grid',
+          gridTemplateColumns: '1fr 300px',
+          gap: '32px',
+          alignItems: 'start',
+          padding: '36px 40px',
         }}
       >
         {/* Decorative orb */}
@@ -338,73 +343,18 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
-      </section>
 
-      {/* ─── C.2 GRID 2 COLONNES: Stats + Action immédiate ─── */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {/* 4 mini stats */}
-        <div 
-          className="grid grid-cols-2 gap-3 p-5 rounded-[16px]"
-          style={{ 
-            background: 'var(--eaf-bg1)',
-            border: '1px solid var(--eaf-border)'
-          }}
-        >
-          {[
-            { label: 'SÉRIE ACTIVE', value: String(data.streak), sub: 'jours', color: 'var(--eaf-teal)' },
-            { label: 'SESSIONS TRACÉES', value: String(data.totalSessions), color: 'var(--eaf-indigo)' },
-            { label: 'PERSONNALISATION', value: data.onboardingCompleted ? 'Activée' : 'À terminer', isBadge: true, badgeBg: 'var(--eaf-teal-dim)', badgeBorder: 'var(--eaf-teal-border)', badgeColor: 'var(--eaf-teal)' },
-            { label: 'REPÈRE FORT', value: data.hasEvaluationData ? strongestSkill.label : 'À construire', isBadge: true, badgeBg: 'var(--eaf-gold-dim)', badgeBorder: 'var(--eaf-gold-border)', badgeColor: 'var(--eaf-gold)' },
-          ].map((stat) => (
-            <div 
-              key={stat.label}
-              className="rounded-xl p-4"
-              style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
-            >
-              <p 
-                className="text-[10px] font-semibold uppercase tracking-[0.06em] mb-1.5"
-                style={{ color: 'var(--eaf-text-tertiary)' }}
-              >
-                {stat.label}
-              </p>
-              {stat.isBadge ? (
-                <span 
-                  className="inline-block rounded-full px-2.5 py-0.5 text-[13px] font-medium"
-                  style={{
-                    background: (stat as { badgeBg?: string }).badgeBg ?? 'var(--eaf-bg3)',
-                    color: stat.badgeColor,
-                    border: `1px solid ${(stat as { badgeBorder?: string }).badgeBorder ?? 'var(--eaf-border)'}`
-                  }}
-                >
-                  {stat.value}
-                </span>
-              ) : (
-                <p 
-                  className="text-[28px] font-bold"
-                  style={{ 
-                    fontFamily: 'var(--eaf-font-display)',
-                    color: stat.color || 'var(--eaf-text-primary)'
-                  }}
-                >
-                  {stat.value}
-                  {stat.sub && <span className="text-base ml-1" style={{ color: 'var(--eaf-text-secondary)' }}>{stat.sub}</span>}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* CE QUE TU DOIS FAIRE MAINTENANT */}
-        <div 
-          className="rounded-[16px] p-6"
-          style={{ 
-            background: 'var(--eaf-bg1)',
-            border: '1px solid var(--eaf-border)'
+        {/* Right column: CE QUE FAIRE MAINTENANT */}
+        <div
+          className="relative rounded-[16px] p-6 self-start"
+          style={{
+            background: 'rgba(255,255,255,0.04)',
+            border: '1px solid rgba(255,255,255,0.12)',
           }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Target className="h-3.5 w-3.5" style={{ color: 'var(--eaf-orange)' }} />
-            <span 
+            <span
               className="text-[11px] font-semibold uppercase tracking-[0.06em]"
               style={{ color: 'var(--eaf-text-tertiary)' }}
             >
@@ -412,9 +362,9 @@ export default function Dashboard() {
             </span>
           </div>
 
-          <h2 
-            className="text-[20px] font-bold mb-2"
-            style={{ 
+          <h2
+            className="text-[18px] font-bold mb-2"
+            style={{
               fontFamily: 'var(--eaf-font-display)',
               color: 'var(--eaf-text-primary)'
             }}
@@ -422,35 +372,34 @@ export default function Dashboard() {
             Réouvrir une œuvre
           </h2>
 
-          <p 
-            className="text-[13px] leading-[1.5] mb-5"
+          <p
+            className="text-[13px] leading-[1.5] mb-4"
             style={{ color: 'var(--eaf-text-secondary)' }}
           >
             Réactiver les repères, citations et enjeux qui serviront vraiment.
           </p>
 
-          {/* 3 infos grid */}
           <div className="grid grid-cols-3 gap-2 mb-4">
             {[
               { label: 'Temps estimé', value: '12 min' },
               { label: 'Pourquoi', value: 'Lecture cursive' },
               { label: 'Échéance', value: `Écrit : J-${data.countdownEcrit ?? 59}` },
             ].map((info) => (
-              <div 
+              <div
                 key={info.label}
-                className="rounded-lg p-2.5 text-center"
-                style={{ background: 'var(--eaf-bg2)' }}
+                className="rounded-lg p-2 text-center"
+                style={{ background: 'rgba(255,255,255,0.05)' }}
               >
                 <p className="text-[10px] uppercase mb-1" style={{ color: 'var(--eaf-text-tertiary)' }}>{info.label}</p>
-                <p className="text-[13px] font-semibold" style={{ color: 'var(--eaf-text-primary)' }}>{info.value}</p>
+                <p className="text-[11px] font-semibold" style={{ color: 'var(--eaf-text-primary)' }}>{info.value}</p>
               </div>
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-col gap-2">
             <Link
               href="/bibliotheque"
-              className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-[13px] font-semibold text-white transition-all"
+              className="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-[13px] font-semibold text-white transition-all"
               style={{ background: 'var(--eaf-orange)' }}
             >
               Commencer maintenant
@@ -458,10 +407,10 @@ export default function Dashboard() {
             </Link>
             <Link
               href="/tuteur"
-              className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-[13px] font-medium transition-all"
-              style={{ 
+              className="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-[13px] font-medium transition-all"
+              style={{
                 background: 'transparent',
-                border: '1px solid var(--eaf-border)',
+                border: '1px solid rgba(255,255,255,0.12)',
                 color: 'var(--eaf-text-secondary)'
               }}
             >
@@ -470,6 +419,52 @@ export default function Dashboard() {
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* ─── C.2 MINI STATS — PLEINE LARGEUR ─── */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[
+          { label: 'SÉRIE ACTIVE', value: String(data.streak), sub: 'jours', color: 'var(--eaf-teal)' },
+          { label: 'SESSIONS TRACÉES', value: String(data.totalSessions), color: 'var(--eaf-indigo)' },
+          { label: 'PERSONNALISATION', value: data.onboardingCompleted ? 'Activée' : 'À terminer', isBadge: true, badgeBg: 'var(--eaf-teal-dim)', badgeBorder: 'var(--eaf-teal-border)', badgeColor: 'var(--eaf-teal)' },
+          { label: 'REPÈRE FORT', value: data.hasEvaluationData ? strongestSkill.label : 'À construire', isBadge: true, badgeBg: 'var(--eaf-gold-dim)', badgeBorder: 'var(--eaf-gold-border)', badgeColor: 'var(--eaf-gold)' },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-xl p-4"
+            style={{ background: 'var(--eaf-bg1)', border: '1px solid var(--eaf-border)' }}
+          >
+            <p
+              className="text-[10px] font-semibold uppercase tracking-[0.06em] mb-1.5"
+              style={{ color: 'var(--eaf-text-tertiary)' }}
+            >
+              {stat.label}
+            </p>
+            {stat.isBadge ? (
+              <span
+                className="inline-block rounded-full px-2.5 py-0.5 text-[13px] font-medium"
+                style={{
+                  background: (stat as { badgeBg?: string }).badgeBg ?? 'var(--eaf-bg3)',
+                  color: stat.badgeColor,
+                  border: `1px solid ${(stat as { badgeBorder?: string }).badgeBorder ?? 'var(--eaf-border)'}`
+                }}
+              >
+                {stat.value}
+              </span>
+            ) : (
+              <p
+                className="text-[28px] font-bold"
+                style={{
+                  fontFamily: 'var(--eaf-font-display)',
+                  color: stat.color || 'var(--eaf-text-primary)'
+                }}
+              >
+                {stat.value}
+                {stat.sub && <span className="text-base ml-1" style={{ color: 'var(--eaf-text-secondary)' }}>{stat.sub}</span>}
+              </p>
+            )}
+          </div>
+        ))}
       </div>
 
       {/* ─── C.3 GRID 2 COLONNES: Boussole + Trajectoire ─── */}
