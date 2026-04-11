@@ -7,20 +7,20 @@ import { track } from '@/components/analytics/events';
 const PLANS = [
   {
     name: 'Freemium',
-    accent: 'border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--c-primary)]',
+    accent: 'border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1)] text-[var(--eaf-orange)]',
     kicker: 'Fais tes premiers pas vers le Bac.',
     bullets: ["Voir le vrai produit", "Configuration et premiers ateliers", "Vérifier si le cadre te convient"],
   },
   {
     name: 'Premium',
-    accent: 'border-[var(--c-primary)] bg-[var(--c-primary)] text-[var(--bg-page)] shadow-[var(--shadow-md)]',
+    accent: 'border-[var(--eaf-orange)] bg-[var(--eaf-orange)] text-[var(--eaf-bg0)] shadow-[var(--shadow-md)]',
     kicker: 'La méthode complète pour assurer ta réussite.',
     bullets: ["Soutenir une vraie routine hebdomadaire", "Moins de friction sur oral, écrit et tuteur", "Le bon rythme sans surpayer"],
     featured: true,
   },
   {
     name: 'Masterium',
-    accent: 'border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] text-[var(--c-primary)]',
+    accent: 'border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1-secondary)] text-[var(--eaf-orange)]',
     kicker: "L\u2019excellence absolue pour décrocher la mention.",
     bullets: ["Volume élevé sans coupure", "Confort sur les semaines chargées", "Conçu pour un usage vraiment intensif"],
   },
@@ -32,11 +32,11 @@ export function PricingTeaser() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Plans et valeur</p>
-            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--eaf-teal)]">Plans et valeur</p>
+            <h2 className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)] sm:text-5xl">
               Teste d’abord le vrai workflow. Choisis ensuite le plan qui suit ton rythme.
             </h2>
-            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
+            <p className="mt-5 max-w-xl text-base leading-8 text-[var(--eaf-text-secondary)]">
               Chaque plan correspond à une intensité de préparation différente. Freemium sert à juger le produit sur pièce, Premium enlève les plafonds quand le besoin devient réel.
             </p>
 
@@ -44,7 +44,7 @@ export function PricingTeaser() {
               <Link
                 href="/pricing"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_teaser', path: '/' } })}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--c-primary)] px-6 py-3.5 text-sm font-bold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--eaf-orange)] px-6 py-3.5 text-sm font-bold text-[var(--eaf-bg0)] transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
               >
                 Voir les tarifs, quotas et paiements
                 <ArrowRight className="h-4 w-4" />
@@ -52,13 +52,13 @@ export function PricingTeaser() {
               <Link
                 href="/login?mode=register"
                 onClick={() => track({ name: 'cta_click', props: { cta: 'pricing_register', path: '/' } })}
-                className="inline-flex items-center justify-center rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] px-6 py-3.5 text-sm font-semibold text-[var(--c-primary)] transition-colors hover:bg-[var(--bg-surface)]"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--eaf-border-default)] bg-[var(--eaf-bg1)] px-6 py-3.5 text-sm font-semibold text-[var(--eaf-orange)] transition-colors hover:bg-[var(--eaf-bg1)]"
               >
                 Essayer gratuitement
               </Link>
             </div>
 
-            <p className="mt-4 max-w-lg text-sm leading-7 text-[var(--text-muted)]">
+            <p className="mt-4 max-w-lg text-sm leading-7 text-[var(--eaf-text-tertiary)]">
               Le plan gratuit permet déjà de configurer ton parcours, d’ouvrir les premiers ateliers et de voir si le produit tient sa promesse avant toute dépense.
             </p>
           </div>
@@ -70,7 +70,7 @@ export function PricingTeaser() {
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <h3 className="font-display text-3xl tracking-[-0.03em]">{plan.name}</h3>
                   {plan.featured ? (
-                    <span className="rounded-full bg-[var(--bg-page)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--c-primary)]">
+                    <span className="rounded-full bg-[var(--eaf-bg0)] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--eaf-orange)]">
                       Recommandé
                     </span>
                   ) : null}

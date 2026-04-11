@@ -14,7 +14,7 @@ export const metadata = {
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-[var(--bg-page)] text-[var(--text-body)]">
+    <main className="min-h-screen bg-[var(--eaf-bg0)] text-[var(--text-body)]">
       <Hero />
       <WhyNexus />
       <HowItWorks />

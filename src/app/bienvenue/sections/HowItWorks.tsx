@@ -39,19 +39,19 @@ export function HowItWorks() {
     <section id="comment-ca-marche" className="scroll-mt-24 py-20 md:py-24">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">La méthode</p>
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--eaf-teal)]">La méthode</p>
           <h2
-            className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+            className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)] sm:text-5xl"
           >
             Une mécanique de progression, pas une accumulation d'outils.
           </h2>
-          <p className="mt-5 max-w-xl text-base leading-8 text-[var(--text-secondary)]">
+          <p className="mt-5 max-w-xl text-base leading-8 text-[var(--eaf-text-secondary)]">
             La différence n'est pas dans le nombre de modules. Elle est dans la continuité entre le diagnostic,
             la production, la correction et la relance. Tout est pensé pour réduire la dispersion.
           </p>
 
-          <div className="mt-8 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)]">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Ce que la page promet</p>
+          <div className="mt-8 rounded-[var(--radius-2xl)] border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1)] p-6 shadow-[var(--shadow-md)]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-text-tertiary)]">Ce que la page promet</p>
             <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-body)]">
               {[
                 'Une mise en route réellement utile, pas décorative.',
@@ -59,7 +59,7 @@ export function HowItWorks() {
                 'Chaque retour transformé en prochaine action.',
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--c-success)]" />
+                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--eaf-teal)]" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -70,7 +70,7 @@ export function HowItWorks() {
             <Link
               href="/login?mode=register"
               onClick={() => track({ name: 'cta_click', props: { cta: 'how_it_works_register', path: '/' } })}
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--c-primary)] px-5 py-3 text-sm font-bold text-[var(--bg-page)] transition-all hover:-translate-y-0.5 hover:bg-[var(--c-primary-active)]"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--eaf-orange)] px-5 py-3 text-sm font-bold text-[var(--eaf-bg0)] transition-all hover:-translate-y-0.5 hover:bg-[var(--eaf-orange-active)]"
             >
               Configurer mon parcours
               <ArrowRight className="h-4 w-4" />
@@ -82,33 +82,33 @@ export function HowItWorks() {
           {STEPS.map((step) => (
             <article
               key={step.number}
-              className={`rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] animate-bienvenue-fade-up ${step.animationClass}`}
+              className={`rounded-[var(--radius-2xl)] border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1)] p-6 shadow-[var(--shadow-md)] animate-bienvenue-fade-up ${step.animationClass}`}
             >
               <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
                 <div className="max-w-2xl">
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--c-primary)] text-sm font-bold text-[var(--bg-page)]">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--eaf-orange)] text-sm font-bold text-[var(--eaf-bg0)]">
                       {step.number}
                     </span>
-                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] text-[var(--c-success)]">
+                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1-secondary)] text-[var(--eaf-teal)]">
                       <step.icon className="h-5 w-5" />
                     </div>
                   </div>
 
-                  <h3 className="font-display mt-5 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+                  <h3 className="font-display mt-5 text-3xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)]">
                     {step.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)] sm:text-base">{step.description}</p>
+                  <p className="mt-3 text-sm leading-7 text-[var(--eaf-text-secondary)] sm:text-base">{step.description}</p>
                 </div>
 
                 <div className="grid gap-3 md:w-[21rem]">
-                  <div className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">Côté élève</p>
+                  <div className="rounded-[var(--radius-2xl)] border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1-secondary)] p-4">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-text-tertiary)]">Côté élève</p>
                     <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">{step.student}</p>
                   </div>
-                  <div className="rounded-[var(--radius-2xl)] bg-[var(--c-primary)] p-4 text-[var(--bg-page)]">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--color-amber-300)]">Côté Nexus</p>
-                    <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{step.platform}</p>
+                  <div className="rounded-[var(--radius-2xl)] bg-[var(--eaf-orange)] p-4 text-[var(--eaf-bg0)]">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--eaf-gold)]">Côté Nexus</p>
+                    <p className="mt-2 text-sm leading-6 text-[var(--eaf-text-secondary)]">{step.platform}</p>
                   </div>
                 </div>
               </div>

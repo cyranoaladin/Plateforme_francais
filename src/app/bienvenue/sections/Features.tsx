@@ -4,7 +4,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Atelier écrit',
     icon: FileStack,
-    tone: 'bg-[var(--c-primary)] text-[var(--bg-page)] border-white/10',
+    tone: 'bg-[var(--eaf-orange)] text-[var(--eaf-bg0)] border-white/10',
     badge: 'Production longue',
     span: 'lg:col-span-7',
     animationClass: 'animation-delay-100',
@@ -14,7 +14,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Oral officiel',
     icon: Mic,
-    tone: 'bg-[var(--bg-surface)] text-[var(--c-primary)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--eaf-bg1)] text-[var(--eaf-orange)] border-[var(--eaf-border-strong)]',
     badge: 'Format EAF',
     span: 'lg:col-span-5',
     animationClass: 'animation-delay-140',
@@ -24,7 +24,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Corpus et citations',
     icon: ScanSearch,
-    tone: 'bg-[var(--bg-surface)] text-[var(--c-primary)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--eaf-bg1)] text-[var(--eaf-orange)] border-[var(--eaf-border-strong)]',
     badge: 'Sources visibles',
     span: 'lg:col-span-4',
     animationClass: 'animation-delay-200',
@@ -34,7 +34,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Langue et quiz adaptatif',
     icon: BrainCircuit,
-    tone: 'bg-[var(--bg-surface-secondary)] text-[var(--c-primary)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--eaf-bg1-secondary)] text-[var(--eaf-orange)] border-[var(--eaf-border-strong)]',
     badge: 'Relance ciblée',
     span: 'lg:col-span-4',
     animationClass: 'animation-delay-260',
@@ -44,7 +44,7 @@ const FEATURE_GROUPS = [
   {
     title: 'Guidage personnalisé et mémoire de progression',
     icon: MessageCircleMore,
-    tone: 'bg-[var(--bg-surface)] text-[var(--c-primary)] border-[var(--border-strong)]',
+    tone: 'bg-[var(--eaf-bg1)] text-[var(--eaf-orange)] border-[var(--eaf-border-strong)]',
     badge: 'Accompagnement actif',
     span: 'lg:col-span-4',
     animationClass: 'animation-delay-320',
@@ -59,14 +59,14 @@ export function Features() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Ateliers EAF</p>
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--eaf-teal)]">Ateliers EAF</p>
             <h2
-              className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--c-primary)] sm:text-5xl"
+              className="font-display mt-4 text-4xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)] sm:text-5xl"
             >
               Tout ce qu'il faut pour réussir l'EAF, organisé par usage réel.
             </h2>
           </div>
-          <p className="max-w-xl text-sm leading-7 text-[var(--text-secondary)] sm:text-base">
+          <p className="max-w-xl text-sm leading-7 text-[var(--eaf-text-secondary)] sm:text-base">
             La page ne vend pas des "features" abstraites. Elle expose des situations concrètes de travail : produire,
             corriger, citer, relancer, piloter.
           </p>
@@ -107,11 +107,11 @@ export function Features() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface)] p-6 shadow-[var(--shadow-md)] md:p-7">
+        <div className="mt-10 rounded-[var(--radius-2xl)] border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1)] p-6 shadow-[var(--shadow-md)] md:p-7">
           <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-center">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--c-success)]">Fil directeur</p>
-              <h3 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--c-primary)]">
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--eaf-teal)]">Fil directeur</p>
+              <h3 className="font-display mt-3 text-3xl leading-tight tracking-[-0.03em] text-[var(--eaf-orange)]">
                 De la copie à la relance, le même système garde le cap.
               </h3>
             </div>
@@ -121,10 +121,10 @@ export function Features() {
                 { icon: ScanSearch, title: 'Justifier', text: 'Les réponses exploitables gardent la trace des sources et des attentes.' },
                 { icon: BrainCircuit, title: 'Réactiver', text: 'Le retour alimente ensuite le parcours au lieu de se perdre.' },
               ].map((item) => (
-                <div key={item.title} className="rounded-[var(--radius-2xl)] border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] p-4">
-                  <item.icon className="h-5 w-5 text-[var(--c-success)]" />
-                  <p className="mt-3 text-sm font-bold text-[var(--c-primary)]">{item.title}</p>
-                  <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.text}</p>
+                <div key={item.title} className="rounded-[var(--radius-2xl)] border border-[var(--eaf-border-strong)] bg-[var(--eaf-bg1-secondary)] p-4">
+                  <item.icon className="h-5 w-5 text-[var(--eaf-teal)]" />
+                  <p className="mt-3 text-sm font-bold text-[var(--eaf-orange)]">{item.title}</p>
+                  <p className="mt-2 text-sm leading-6 text-[var(--eaf-text-secondary)]">{item.text}</p>
                 </div>
               ))}
             </div>
