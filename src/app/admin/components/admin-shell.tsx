@@ -67,7 +67,7 @@ export function AdminShell({
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-[var(--bg-surface)] border-r border-[var(--border-primary)] flex flex-col transition-transform lg:translate-x-0 ${
+        className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-[var(--bg-surface)] border-r border-[var(--border-primary)] flex flex-col transition-transform md:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -82,7 +82,7 @@ export function AdminShell({
           </div>
           <button
             type="button"
-            className="ml-auto lg:hidden text-[var(--text-secondary)]"
+            className="ml-auto md:hidden text-[var(--text-secondary)]"
             onClick={() => setSidebarOpen(false)}
           >
             <X className="w-5 h-5" />
@@ -130,7 +130,7 @@ export function AdminShell({
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile top bar */}
-        <header className="lg:hidden flex items-center gap-3 px-4 py-3 border-b border-[var(--border-primary)] bg-[var(--bg-surface)]">
+        <header className="md:hidden flex items-center gap-3 px-4 py-3 border-b border-[var(--border-primary)] bg-[var(--bg-surface)]">
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
