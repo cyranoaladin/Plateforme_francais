@@ -121,9 +121,12 @@ function withSecurityHeaders(request: NextRequest): NextResponse {
 
   const pathname = request.nextUrl.pathname;
   const extraConnectSrc = process.env.NEXT_PUBLIC_CSP_CONNECT_EXTRA?.trim();
-  // The marketing landing is kept free of inline style attributes so it can ship
-  // a stricter CSP immediately without breaking authenticated product surfaces.
-  const enforceStrictStyleCsp = pathname === '/';
+  // TODO: Landing page inline styles cleanup required for strict CSP
+  // Current state: 289+ inline style={{...}} occurrences across landing components
+  // (Hero.tsx, StatsSection.tsx, FAQSection.tsx, FooterCTA.tsx, etc.)
+  // Strategy B applied: relaxed CSP until all inline styles are migrated to Tailwind/classes
+  // See: src/components/landing/* for migration targets
+  const enforceStrictStyleCsp = false; // Temporarily disabled until landing inline styles removed
   const connectSrc = [
     "'self'",
     ...(extraConnectSrc ? extraConnectSrc.split(/\s+/).filter(Boolean) : []),

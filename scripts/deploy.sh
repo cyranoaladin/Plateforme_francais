@@ -236,6 +236,12 @@ ssh "$SSH_TARGET" "cd $APP_DIR && mkdir -p .next/standalone/.data && rm -rf .nex
 # Sync server chunks missing from standalone (Turbopack sometimes omits action chunks)
 ssh "$SSH_TARGET" "cd $APP_DIR && rsync -a --ignore-existing .next/server/chunks/ .next/standalone/.next/server/chunks/ 2>/dev/null && echo '  ✅ Server chunks synced to standalone'"
 
+# --- 5b. Fix permissions on standalone .env ---
+echo "[5b/8] Correction des permissions du .env standalone..."
+ssh "$SSH_TARGET" "cd $APP_DIR && if [ -f .next/standalone/.env ]; then chown root:$APP_RUNTIME_USER .next/standalone/.env && chmod 640 .next/standalone/.env && echo '  ✅ Permissions .env corrigées (root:$APP_RUNTIME_USER, 640)'; fi"
+# Also ensure the main .env symlink is readable
+ssh "$SSH_TARGET" "cd $APP_DIR && if [ -L .env ]; then chmod 640 .env 2>/dev/null || true; fi"
+
 # --- 6. Build MCP server ---
 echo "[6/8] Build MCP server..."
 ssh "$SSH_TARGET" "cd $APP_DIR && npm run mcp:build"
