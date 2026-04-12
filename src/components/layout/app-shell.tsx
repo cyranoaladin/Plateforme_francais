@@ -27,7 +27,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <TrackingProvider />
       <Sidebar />
       <main 
-        className="relative min-h-screen flex-1 pb-20 md:min-w-0 md:pb-0 bg-[var(--eaf-bg0)] ml-[160px] mr-[220px]"
+        className="relative min-h-screen flex-1 pb-20 md:min-w-0 md:pb-0 bg-[var(--eaf-bg0)] ml-[220px] mr-[220px]"
       >
         {children}
       </main>

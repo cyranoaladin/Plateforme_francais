@@ -271,11 +271,11 @@ export function Sidebar() {
 
   return (
     <>
-      {/* ─── LEFT SIDEBAR (160px) ─── */}
+      {/* ─── LEFT SIDEBAR (220px) ─── */}
       <aside 
         className="hidden md:flex fixed inset-y-0 left-0 flex-col z-20"
         style={{ 
-          width: '160px', 
+          width: '220px', 
           background: 'var(--eaf-bg1)',
           borderRight: '1px solid var(--eaf-border)'
         }}
