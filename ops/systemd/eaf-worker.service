@@ -1,0 +1,55 @@
+[Unit]
+Description=Nexus EAF Queue Worker
+Documentation=https://github.com/cyranoaladin/Plateforme_francais/
+After=network.target postgresql.service redis-server.service
+Wants=postgresql.service redis-server.service
+
+[Service]
+Type=simple
+User=eaf
+Group=eaf
+WorkingDirectory=/opt/eaf/current
+
+# Environment file
+EnvironmentFile=/opt/eaf/secrets/.env.production
+
+# Worker specific env
+Environment="WORKER_MODE=standalone"
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/eaf/shared/logs /opt/eaf/shared/uploads /tmp
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Start command
+ExecStart=/usr/bin/node dist/worker/src/lib/queue/start-worker.js
+
+# Restart policy
+Restart=on-failure
+RestartSec=10
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Graceful shutdown
+TimeoutStopSec=60
+KillSignal=SIGTERM
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=eaf-worker
+
+[Install]
+WantedBy=multi-user.target

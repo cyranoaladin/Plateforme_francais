@@ -1,0 +1,55 @@
+[Unit]
+Description=Nexus EAF Web Application (Next.js)
+Documentation=https://github.com/cyranoaladin/Plateforme_francais/
+After=network.target postgresql.service redis-server.service
+Wants=postgresql.service redis-server.service
+
+[Service]
+Type=simple
+User=eaf
+Group=eaf
+WorkingDirectory=/opt/eaf/current
+
+# Environment file
+EnvironmentFile=/opt/eaf/secrets/.env.production
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/eaf/shared/logs /opt/eaf/shared/uploads /tmp
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Start command
+ExecStartPre=/bin/sh -c 'while ss -tlnp | grep -q ":3000"; do sleep 1; done'
+ExecStart=/usr/bin/node .next/standalone/server.js
+
+# Restart policy
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Graceful shutdown
+TimeoutStopSec=30
+KillSignal=SIGTERM
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=eaf-web
+
+[Install]
+WantedBy=multi-user.target
