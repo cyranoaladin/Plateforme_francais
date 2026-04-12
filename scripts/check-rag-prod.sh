@@ -1,98 +1,62 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════
-# CHECK RAG PRODUCTION
-# ═══════════════════════════════════════════════════════════════
-
 set -euo pipefail
-
 SECRETS_FILE="${SECRETS_FILE:-/opt/eaf/secrets/.env.production}"
-BASE_URL="${E2E_BASE_URL:-https://eaf.nexusreussite.academy}"
 ERRORS=0
-
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
+error() { printf "${RED}[ERROR]${NC} %s\n" "$1"; ERRORS=$((ERRORS + 1)); }
+ok() { printf "${GREEN}[OK]${NC} %s\n" "$1"; }
+warn() { printf "${YELLOW}[WARN]${NC} %s\n" "$1"; }
 
-error() { echo -e "${RED}[ERROR]${NC} $1"; ERRORS=$((ERRORS + 1)); }
-ok() { echo -e "${GREEN}[OK]${NC} $1"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+echo "=== CHECK RAG PRODUCTION ==="
 
-echo "═══════════════════════════════════════════════════════════════"
-echo "  CHECK RAG PRODUCTION"
-echo "═══════════════════════════════════════════════════════════════"
-echo ""
-
-# Charger les variables
 if [[ -f "$SECRETS_FILE" ]]; then
-    set -a
-    source "$SECRETS_FILE"
-    set +a
+    while IFS="=" read -r _k _v; do
+        [[ -z "$_k" || "$_k" =~ ^# ]] && continue
+        export "$_k=$_v"
+    done < <(grep -E "^[A-Za-z_][A-Za-z0-9_]*=" "$SECRETS_FILE")
 fi
 
-RAG_API_URL="${RAG_API_URL:-}"
+RAG_API_URL="${RAG_API_URL:-http://127.0.0.1:18001}"
 
-if [[ -z "$RAG_API_URL" ]]; then
-    warn "RAG_API_URL non configuré - RAG non disponible"
-    exit 0
-fi
-
-# 1. Health check endpoint
-echo "1. Health check RAG..."
-HEALTH=$(curl -s -m 5 "${BASE_URL}/api/v1/rag/health" 2>/dev/null || echo '{}')
-
-if echo "$HEALTH" | grep -q '"status":"ok"' || echo "$HEALTH" | grep -q '"status":"healthy"'; then
-    ok "RAG health endpoint OK"
+HEALTH=$(curl -s -m 5 "${RAG_API_URL}/health" 2>/dev/null || echo '{}')
+if echo "$HEALTH" | grep -q 'healthy\|"ok"'; then
+    ok "RAG health: healthy"
 else
-    error "RAG health endpoint failed"
-    echo "  Response: $HEALTH"
+    error "RAG health: failed"
 fi
 
-# 2. Test requête RAG
-echo ""
-echo "2. Test requête RAG..."
-QUERY_PAYLOAD='{"query":"méthode dissertation","top_k":3}'
-RESPONSE=$(curl -s -m 10 -X POST \
-    -H "Content-Type: application/json" \
-    -d "$QUERY_PAYLOAD" \
-    "${BASE_URL}/api/v1/rag/search" 2>/dev/null || echo '{}')
-
-# Vérifier si c'est un tableau de résultats ou une erreur
-if echo "$RESPONSE" | grep -q '\[.*\]'; then
-    RESULTS_COUNT=$(echo "$RESPONSE" | grep -o '"id"' | wc -l)
-    if [[ $RESULTS_COUNT -gt 0 ]]; then
-        ok "RAG retourne $RESULTS_COUNT résultats"
+if [[ -n "${RAG_API_TOKEN:-}" ]]; then
+    COLS=$(curl -s -m 5 "${RAG_API_URL}/collections" -H "Authorization: Bearer ${RAG_API_TOKEN}" 2>/dev/null || echo '{}')
+    TOTAL=$(echo "$COLS" | python3 -c "import json,sys; print(json.load(sys.stdin).get('total',0))" 2>/dev/null || echo "0")
+    if [[ "$TOTAL" -gt 0 ]]; then
+        ok "RAG collections: $TOTAL"
     else
-        warn "RAG retourne 0 résultats (peut être normal)"
+        error "RAG collections: 0"
     fi
-elif echo "$RESPONSE" | grep -q 'error'; then
-    error "RAG retourne une erreur"
-    echo "  Response: $RESPONSE"
+
+    SEARCH=$(curl -s -m 10 -X POST "${RAG_API_URL}/search" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer ${RAG_API_TOKEN}" \
+        -d '{"q":"litterature","top_k":2}' 2>/dev/null || echo '{}')
+    HITS=$(echo "$SEARCH" | python3 -c "import json,sys; print(len(json.load(sys.stdin).get('hits',[])))" 2>/dev/null || echo "0")
+    if [[ "$HITS" -gt 0 ]]; then
+        ok "RAG search: $HITS hits"
+    else
+        error "RAG search: 0 hits"
+    fi
 else
-    warn "Réponse RAG inattendue"
+    error "RAG_API_TOKEN not set"
 fi
 
-# 3. Vérifier timeout
-echo ""
-echo "3. Vérification timeout..."
-START_TIME=$(date +%s%N)
-curl -s -m 5 "${BASE_URL}/api/v1/rag/search" -X POST \
-    -H "Content-Type: application/json" \
-    -d '{"query":"test"}' > /dev/null 2>&1 || true
-END_TIME=$(date +%s%N)
-ELAPSED_MS=$(( (END_TIME - START_TIME) / 1000000 ))
-
-if [[ $ELAPSED_MS -lt 5000 ]]; then
-    ok "Temps de réponse: ${ELAPSED_MS}ms"
+APP_H=$(curl -s -m 10 "http://127.0.0.1:3000/api/v1/health" 2>/dev/null || echo '{}')
+RAG_CK=$(echo "$APP_H" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('checks',{}).get('rag','?'))" 2>/dev/null || echo "?")
+if [[ "$RAG_CK" == "ok" ]]; then
+    ok "RAG via app health: ok"
 else
-    warn "Temps de réponse lent: ${ELAPSED_MS}ms"
+    warn "RAG via app: $RAG_CK"
 fi
 
-echo ""
-if [[ $ERRORS -eq 0 ]]; then
-    echo -e "${GREEN}✅ RAG OK${NC}"
-    exit 0
-else
-    echo -e "${RED}❌ RAG ERRORS: $ERRORS${NC}"
-    exit 1
-fi
+if [[ $ERRORS -eq 0 ]]; then ok "PASS"; exit 0; else error "FAIL ($ERRORS)"; exit 1; fi

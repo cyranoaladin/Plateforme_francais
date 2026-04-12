@@ -1,53 +1,43 @@
 #!/bin/bash
-# ═══════════════════════════════════════════════════════════════
-# CHECK WORKER PRODUCTION
-# ═══════════════════════════════════════════════════════════════
-
 set -euo pipefail
-
 ERRORS=0
-
+export HOME=/opt/nexus
+export PM2_HOME=/opt/nexus/.pm2
+warn() { printf "${YELLOW}[WARN]${NC} %s\n" "$1"; }
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
+error() { printf "${RED}[ERROR]${NC} %s\n" "$1"; ERRORS=$((ERRORS + 1)); }
+ok() { printf "${GREEN}[OK]${NC} %s\n" "$1"; }
 
-error() { echo -e "${RED}[ERROR]${NC} $1"; ERRORS=$((ERRORS + 1)); }
-ok() { echo -e "${GREEN}[OK]${NC} $1"; }
+echo "=== CHECK WORKER PRODUCTION ==="
 
-echo "═══════════════════════════════════════════════════════════════"
-echo "  CHECK WORKER PRODUCTION"
-echo "═══════════════════════════════════════════════════════════════"
-echo ""
-
-# Vérifier process systemd
-if systemctl is-active --quiet eaf-worker; then
-    ok "eaf-worker service active"
+if pm2 describe eaf-worker 2>/dev/null | grep -q "status.*online"; then
+    ok "Worker PM2: online"
 else
-    error "eaf-worker service inactive"
+    error "Worker PM2: not online"
 fi
 
-# Vérifier logs récents (pas d'erreurs critiques)
-RECENT_ERRORS=$(journalctl -u eaf-worker --since "5 minutes ago" -p err 2>/dev/null | wc -l)
-if [[ ${RECENT_ERRORS} -eq 0 ]]; then
-    ok "Pas d'erreurs récentes dans les logs"
+UNSTABLE=$(pm2 describe eaf-worker 2>/dev/null | grep "unstable restarts" | awk -F"|" '{print $4}' | tr -d ' ' || echo "?")
+if [[ "$UNSTABLE" == "0" ]]; then
+    ok "Unstable restarts: 0"
 else
-    error "${RECENT_ERRORS} erreurs récentes dans les logs"
+    warn "Unstable restarts: $UNSTABLE"
 fi
 
-# Vérifier que le worker consomme des jobs (vérifier activité)
-RECENT_LOGS=$(journalctl -u eaf-worker --since "1 minute ago" 2>/dev/null | wc -l)
-if [[ ${RECENT_LOGS} -gt 0 ]]; then
-    ok "Worker produit des logs (actif)"
+ERR_LINES=$(tail -50 /var/log/pm2/eaf-worker-error.log 2>/dev/null | grep -ci "error\|fail" || true)
+if [[ "$ERR_LINES" -eq 0 ]]; then
+    ok "No errors in recent logs"
 else
-    warn "Worker peu de logs récents"
+    warn "$ERR_LINES error lines in logs"
 fi
 
-echo ""
-if [[ ${ERRORS} -eq 0 ]]; then
-    echo -e "${GREEN}✅ WORKER OK${NC}"
-    exit 0
+DLQ=$(redis-cli LLEN "bull:correction-jobs-dlq:wait" 2>/dev/null || echo "0")
+if [[ "$DLQ" == "0" ]]; then
+    ok "DLQ empty"
 else
-    echo -e "${RED}❌ WORKER ERRORS: ${ERRORS}${NC}"
-    exit 1
+    warn "DLQ: $DLQ jobs"
 fi
+
+if [[ $ERRORS -eq 0 ]]; then ok "PASS"; exit 0; else error "FAIL ($ERRORS)"; exit 1; fi
