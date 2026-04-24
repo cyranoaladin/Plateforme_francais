@@ -244,7 +244,10 @@ export default function ProfilPage() {
   }, [profile]);
 
   const resolvedProfile = profile ?? FALLBACK_PROFILE;
-  const displayName = resolvedProfile.displayName ?? 'Élève';
+  // Strip any trailing "(PlanName)" that may have been stored inside displayName to avoid
+  // "Emma Benali (Masterium) (Masterium)" doublon in the hero title.
+  const rawName = resolvedProfile.displayName ?? 'Élève';
+  const displayName = rawName.replace(/\s*\([^)]+\)\s*$/, '').trim() || 'Élève';
   const displayPlan = 'Masterium'; // Would come from billing status
   const tutorHref = buildTuteurHref({
     workId: resolvedProfile.oeuvreChoisieEntretien ?? resolvedProfile.selectedOeuvres?.[0] ?? null,
@@ -394,19 +397,19 @@ export default function ProfilPage() {
               </span>
             </div>
 
-            <h1 
+            <h1
               className="text-[36px] md:text-[48px] font-bold leading-[1.08] tracking-[-2px] mb-5"
-              style={{ 
+              style={{
                 fontFamily: 'var(--eaf-font-display)',
-                color: 'var(--eaf-text-primary)'
+                color: '#FFFFFF'
               }}
             >
               {displayName} ({displayPlan}), ton profil doit te dire où appuyer, pas seulement où tu en es.
             </h1>
 
-            <p 
+            <p
               className="text-[14px] leading-[1.7] max-w-[460px] mb-6"
-              style={{ color: 'var(--eaf-text-secondary)' }}
+              style={{ color: 'rgba(255,255,255,0.70)' }}
             >
               Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges déjà acquis.
             </p>
@@ -420,10 +423,10 @@ export default function ProfilPage() {
                 { label: 'Mise à jour', value: formatShortDate(resolvedProfile.skillMap.lastUpdated) },
               ].map((meta, idx, arr) => (
                 <span key={meta.label} className="flex items-center gap-2">
-                  <span style={{ color: 'var(--eaf-text-tertiary)' }}>{meta.label} :</span>
-                  <span style={{ color: 'var(--eaf-text-primary)', fontWeight: 600 }}>{meta.value}</span>
+                  <span style={{ color: 'rgba(255,255,255,0.50)' }}>{meta.label} :</span>
+                  <span style={{ color: 'rgba(255,255,255,0.90)', fontWeight: 600 }}>{meta.value}</span>
                   {idx < arr.length - 1 && (
-                    <span className="ml-2" style={{ color: 'var(--eaf-text-tertiary)' }}>|</span>
+                    <span className="ml-2" style={{ color: 'rgba(255,255,255,0.30)' }}>|</span>
                   )}
                 </span>
               ))}
@@ -450,18 +453,18 @@ export default function ProfilPage() {
               <Link
                 href={tutorHref}
                 className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[14px] font-medium transition-all"
-                style={{ 
+                style={{
                   background: 'transparent',
-                  border: '1px solid var(--eaf-border)',
-                  color: 'var(--eaf-text-secondary)'
+                  border: '1px solid rgba(255,255,255,0.20)',
+                  color: 'rgba(255,255,255,0.75)'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--eaf-indigo-border)';
                   e.currentTarget.style.color = 'var(--eaf-indigo)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--eaf-border)';
-                  e.currentTarget.style.color = 'var(--eaf-text-secondary)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.20)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.75)';
                 }}
               >
                 Débloquer un point précis
@@ -479,25 +482,25 @@ export default function ProfilPage() {
                 { label: 'COPIES', value: `${resolvedProfile.totalCopies}` },
                 { label: 'BADGES', value: `${resolvedProfile.badges.length}` },
               ].map((stat) => (
-                <div 
+                <div
                   key={stat.label}
                   className="rounded-xl p-3.5"
-                  style={{ 
-                    background: 'rgba(255,255,255,0.04)', 
-                    border: '1px solid var(--eaf-border)'
+                  style={{
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.12)'
                   }}
                 >
-                  <p 
+                  <p
                     className="text-[10px] font-semibold uppercase tracking-[0.06em] mb-1.5"
-                    style={{ color: 'var(--eaf-text-tertiary)' }}
+                    style={{ color: 'rgba(255,255,255,0.50)' }}
                   >
                     {stat.label}
                   </p>
-                  <p 
+                  <p
                     className="text-[24px] font-bold"
-                    style={{ 
+                    style={{
                       fontFamily: 'var(--eaf-font-display)',
-                      color: 'var(--eaf-text-primary)'
+                      color: '#FFFFFF'
                     }}
                   >
                     {stat.value}

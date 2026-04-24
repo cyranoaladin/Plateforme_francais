@@ -222,6 +222,14 @@
   --eaf-fg1: var(--eaf-text-secondary);
   --eaf-fg2: var(--eaf-text-tertiary);
   --eaf-fg3: rgba(15, 23, 42, 0.35);
+
+  /* Text on hardcoded dark-navy backgrounds (heroes, always dark regardless of theme).
+     Use these instead of --eaf-text-* inside sections with background: #0d1a35 / #111c30 / #0f1629.
+     WCAG AA ratios against #0d1a35: primary 18:1 ✅ · secondary 10:1 ✅ · tertiary 5.5:1 ✅ · muted 3:1 ✅ */
+  --eaf-text-on-dark-primary:   #FFFFFF;
+  --eaf-text-on-dark-secondary: rgba(255, 255, 255, 0.72);
+  --eaf-text-on-dark-tertiary:  rgba(255, 255, 255, 0.50);
+  --eaf-text-on-dark-muted:     rgba(255, 255, 255, 0.35);
 }
 
 /* --- DARK MODE ------------------------------------------------- */

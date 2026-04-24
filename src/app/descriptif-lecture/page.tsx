@@ -153,20 +153,20 @@ export default function DescriptifLecturePage() {
             </div>
 
             {/* Titre */}
-            <h1 
+            <h1
               className="text-[40px] font-bold leading-[1.1] tracking-[-1.5px] mb-4"
-              style={{ 
+              style={{
                 fontFamily: 'var(--eaf-font-display)',
-                color: 'var(--eaf-text-primary)'
+                color: '#FFFFFF'
               }}
             >
               Mon descriptif de lecture
             </h1>
 
             {/* Description */}
-            <p 
+            <p
               className="text-[14px] leading-[1.6]"
-              style={{ color: 'var(--eaf-text-secondary)' }}
+              style={{ color: 'rgba(255,255,255,0.70)' }}
             >
               Tu saisis ici les textes réellement étudiés en classe. L&apos;atelier oral doit tirer
               dans cette liste, comme l&apos;examinateur le jour de l&apos;épreuve.

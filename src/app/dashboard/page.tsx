@@ -230,9 +230,9 @@ export default function Dashboard() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <div className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: 'var(--eaf-orange)' }} />
-              <span 
+              <span
                 className="text-[11px] font-semibold uppercase tracking-[0.08em]"
-                style={{ color: 'var(--eaf-text-tertiary)' }}
+                style={{ color: 'rgba(255,255,255,0.50)' }}
               >
                 Pilotage du jour
               </span>
@@ -260,22 +260,22 @@ export default function Dashboard() {
           </div>
 
           {/* Title */}
-          <h1 
+          <h1
             className="text-[32px] md:text-[36px] font-bold leading-[1.12] tracking-[-1.5px] mb-3"
-            style={{ 
+            style={{
               fontFamily: 'var(--eaf-font-display)',
-              color: 'var(--eaf-text-primary)'
+              color: '#FFFFFF'
             }}
           >
             {data.displayName}, voilà la priorité qui doit faire bouger ta semaine.
           </h1>
 
           {/* Paragraph */}
-          <p 
+          <p
             className="text-[14px] leading-[1.6] mb-6 max-w-2xl"
-            style={{ color: 'var(--eaf-text-secondary)' }}
+            style={{ color: 'rgba(255,255,255,0.70)' }}
           >
-            Axe prioritaire : <strong style={{ color: 'var(--eaf-text-primary)' }}>{weakestSkill.label.toLowerCase()}</strong>. 
+            Axe prioritaire : <strong style={{ color: 'rgba(255,255,255,0.95)' }}>{weakestSkill.label.toLowerCase()}</strong>.
             La lecture utile n&apos;est pas exhaustive : elle remet en circulation les repères décisifs. 
             Priorité : mini-séances quotidiennes (10-20 min), construire la carte des compétences, alimenter la banque d&apos;erreurs.
           </p>
@@ -305,18 +305,18 @@ export default function Dashboard() {
             <Link
               href="/mon-parcours"
               className="inline-flex items-center gap-2 rounded-[10px] px-5 py-2.5 text-[14px] font-medium transition-all"
-              style={{ 
+              style={{
                 background: 'transparent',
-                border: '1px solid var(--eaf-border)',
-                color: 'var(--eaf-text-secondary)'
+                border: '1px solid rgba(255,255,255,0.20)',
+                color: 'rgba(255,255,255,0.75)'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--eaf-indigo-border)';
                 e.currentTarget.style.color = 'var(--eaf-indigo)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--eaf-border)';
-                e.currentTarget.style.color = 'var(--eaf-text-secondary)';
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.20)';
+                e.currentTarget.style.color = 'rgba(255,255,255,0.75)';
               }}
             >
               Voir le parcours
@@ -362,7 +362,7 @@ export default function Dashboard() {
               <Target className="h-3.5 w-3.5" style={{ color: 'var(--eaf-orange)' }} />
               <span
                 className="text-[11px] font-semibold uppercase tracking-[0.06em]"
-                style={{ color: 'var(--eaf-text-tertiary)' }}
+                style={{ color: 'rgba(255,255,255,0.50)' }}
               >
                 Ce que tu dois faire maintenant
               </span>
@@ -372,7 +372,7 @@ export default function Dashboard() {
               className="text-[18px] font-bold mb-2"
               style={{
                 fontFamily: 'var(--eaf-font-display)',
-                color: 'var(--eaf-text-primary)'
+                color: '#FFFFFF'
               }}
             >
               Réouvrir une œuvre
@@ -380,7 +380,7 @@ export default function Dashboard() {
 
             <p
               className="text-[13px] leading-[1.5] mb-4"
-              style={{ color: 'var(--eaf-text-secondary)' }}
+              style={{ color: 'rgba(255,255,255,0.70)' }}
             >
               Réactiver les repères, citations et enjeux qui serviront vraiment.
             </p>
@@ -396,8 +396,8 @@ export default function Dashboard() {
                   className="rounded-lg p-2 text-center"
                   style={{ background: 'rgba(255,255,255,0.05)' }}
                 >
-                  <p className="text-[10px] uppercase mb-1" style={{ color: 'var(--eaf-text-tertiary)' }}>{info.label}</p>
-                  <p className="text-[11px] font-semibold" style={{ color: 'var(--eaf-text-primary)' }}>{info.value}</p>
+                  <p className="text-[10px] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.50)' }}>{info.label}</p>
+                  <p className="text-[11px] font-semibold" style={{ color: '#FFFFFF' }}>{info.value}</p>
                 </div>
               ))}
             </div>
@@ -416,8 +416,8 @@ export default function Dashboard() {
                 className="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-[13px] font-medium transition-all"
                 style={{
                   background: 'transparent',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  color: 'var(--eaf-text-secondary)'
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  color: 'rgba(255,255,255,0.70)'
                 }}
               >
                 Alternative rapide
