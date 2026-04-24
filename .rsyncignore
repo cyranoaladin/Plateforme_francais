@@ -1,0 +1,115 @@
+# .rsyncignore — Exclusions rsync pour le déploiement en production
+# Usage : rsync -az --filter=':- .rsyncignore' ...
+# Toujours passer ce fichier au rsync pour les déploiements manuels.
+
+# === VCS ===
+.git/
+.gitignore
+
+# === DÉPENDANCES (reconstruites sur le serveur) ===
+node_modules/
+packages/*/node_modules/
+.pnp
+.pnp.js
+
+# === BUILD (reconstruit sur le serveur) ===
+.next/
+/out/
+dist/
+packages/*/dist/
+packages/*/build/
+*.tsbuildinfo
+next-env.d.ts
+
+# === PYTHON ===
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# === TESTS ===
+tests/
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/
+.vitest-unit-report.json
+*.spec.ts
+*.test.ts
+*.test.tsx
+
+# === ENVIRONNEMENTS (gérés séparément hors arbre) ===
+.env
+.env.local
+.env.*.local
+.env.backup
+.env.test
+.release.env
+.env.e2e
+
+# === OUTILS DE DÉVELOPPEMENT ===
+.claude/
+.codex/
+.worktrees/
+.windsurf/
+.windsurf_audit_logs
+.windsurfrules
+.superpowers/
+.vscode/
+.idea/
+.antigravity/
+.qwen/
+.archives/
+UI_UX/
+
+# === ARBORESCENCES / DOCS DE TRAVAIL ===
+arborescence*.txt
+arborescence-eaf.txt
+docs/arborescence_prod*.txt
+docs/arborescence_prod_*.txt
+
+# === SCRIPTS DE TEST / ANCIENS ===
+create-pr-branch.sh
+test-admin.sh
+test-manual-flow.sh
+scripts/run-all-tests.sh
+scripts/test-production-locale.sh
+scripts/test-402-live.sh
+scripts/rebase-stack.sh
+scripts/commit-and-push.sh
+scripts/fix-error-messages.py
+scripts/generate-env.py
+scripts/setup-postgres.py
+scripts/check-classification.md
+
+# === ARTEFACTS CI/CD ===
+/artifacts/
+/reports/
+/forensics/
+.audit-ci.json
+stryker.conf.json
+eaf.code-workspace
+proxy.ts
+_*.ts
+docker-compose.e2e.yml
+.env.e2e
+
+# === LOGS ===
+*.log
+logs/
+
+# === RESSOURCES LOURDES (sync séparé) ===
+/ressources/
+
+# === DONNÉES LOCALES ===
+/.data/
+/data/uploads/
+/data/exports/
+
+# === MCP DIST (build séparé) ===
+packages/mcp-server/dist/
+packages/mcp-server/node_modules/
+packages/mcp-server/*.log

@@ -37,57 +37,15 @@ echo "  ✅ Connexion SSH OK"
 # --- 1. Sync code to server ---
 echo "[1/8] Synchronisation du code vers le serveur..."
 rsync -avz --delete \
+  --filter=':- .rsyncignore' \
   --exclude='.git' \
-  --exclude='.worktrees' \
-  --exclude='node_modules' \
-  --exclude='.next' \
-  --exclude='.env' \
-  --exclude='.env.local' \
-  --exclude='.env.backup' \
-  --exclude='.env.test' \
-  --exclude='.release.env' \
-  --exclude='.data' \
-  --exclude='/ressources/' \
-  --exclude='coverage' \
-  --exclude='test-results' \
-  --exclude='tests' \
-  --exclude='dist' \
-  --exclude='.venv' \
-  --exclude='.vscode' \
-  --exclude='.antigravity' \
-  --exclude='.windsurf' \
-  --exclude='.windsurf_audit_logs' \
-  --exclude='.windsurfrules' \
-  --exclude='.superpowers' \
-  --exclude='.claude' \
-  --exclude='forensics' \
-  --exclude='UI_UX' \
-  --exclude='.vitest-unit-report.json' \
-  --exclude='*.log' \
-  --exclude='*.tsbuildinfo' \
-  --exclude='*.js.map' \
-  --exclude='*.d.ts.map' \
-  --exclude='create-pr-branch.sh' \
-  --exclude='test-admin.sh' \
-  --exclude='test-manual-flow.sh' \
-  --exclude='eaf.code-workspace' \
-  --exclude='proxy.ts' \
-  --exclude='stryker.conf.json' \
-  --exclude='_*.ts' \
-  --exclude='scripts/run-all-tests.sh' \
-  --exclude='scripts/test-production-locale.sh' \
-  --exclude='scripts/test-402-live.sh' \
-  --exclude='packages/mcp-server/dist/' \
-  --exclude='packages/mcp-server/node_modules/' \
-  --exclude='docs/eaf_arborescence_prod*.txt' \
-  --exclude='docs/eaf_arbo_*.txt' \
   -e ssh \
   ./ "$SSH_TARGET:$APP_DIR/"
 
 echo "  ✅ Code synchronisé"
 
 echo "[1a/8] Nettoyage artefacts non-production..."
-ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv .vscode .windsurf .windsurf_audit_logs .windsurfrules .superpowers forensics .claude UI_UX .env.test .vitest-unit-report.json coverage test-results tests dist .worktrees 2>/dev/null; find packages/mcp-server/dist \\( -name '*.js.map' -o -name '*.d.ts.map' \\) -exec rm -f {} + 2>/dev/null || true; rm -f create-pr-branch.sh test-admin.sh test-manual-flow.sh eaf.code-workspace proxy.ts stryker.conf.json tsconfig.tsbuildinfo 2>/dev/null; rm -f scripts/run-all-tests.sh scripts/test-production-locale.sh scripts/test-402-live.sh _*.ts 2>/dev/null; rm -f *.log 2>/dev/null; echo '  ✅ Artefacts nettoyés'"
+ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv venv .vscode .windsurf .windsurf_audit_logs .windsurfrules .superpowers .claude .codex .archives .qwen forensics UI_UX .env.test .vitest-unit-report.json coverage test-results tests dist .worktrees 2>/dev/null; find packages/mcp-server/dist \\( -name '*.js.map' -o -name '*.d.ts.map' \\) -exec rm -f {} + 2>/dev/null || true; rm -f create-pr-branch.sh test-admin.sh test-manual-flow.sh eaf.code-workspace proxy.ts stryker.conf.json tsconfig.tsbuildinfo 2>/dev/null; rm -f scripts/run-all-tests.sh scripts/test-production-locale.sh scripts/test-402-live.sh _*.ts 2>/dev/null; rm -f *.log arborescence*.txt 2>/dev/null; echo '  ✅ Artefacts nettoyés'"
 
 echo "[1b/8] Préparation de l'utilisateur runtime..."
 ssh "$SSH_TARGET" "id -u $APP_RUNTIME_USER >/dev/null 2>&1 || useradd -r -m -d $APP_RUNTIME_HOME -s /bin/bash $APP_RUNTIME_USER; mkdir -p $APP_RUNTIME_HOME/.pm2 /var/log/pm2 $APP_DIR/.data/migration-backups /opt/eaf/shared/uploads; chown -R $APP_RUNTIME_USER:$APP_RUNTIME_USER $APP_RUNTIME_HOME /var/log/pm2 $APP_DIR/.data /opt/eaf/shared/uploads; chown -R root:$APP_RUNTIME_USER $APP_DIR; chmod -R g+rX $APP_DIR; echo '  ✅ Runtime user prêt'"
