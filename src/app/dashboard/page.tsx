@@ -240,7 +240,7 @@ export default function Dashboard() {
             <div className="flex flex-wrap gap-2">
               <span 
                 className="rounded-full px-3 py-1 text-[11px] font-medium"
-                style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)', color: 'var(--eaf-text-secondary)' }}
+                style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)', color: 'rgba(255,255,255,0.72)' }}
               >
                 Lundi 8 juin 2026
               </span>
@@ -252,7 +252,7 @@ export default function Dashboard() {
               </span>
               <span 
                 className="rounded-full px-3 py-1 text-[11px] font-medium"
-                style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)', color: 'var(--eaf-text-tertiary)' }}
+                style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)', color: 'rgba(255,255,255,0.50)' }}
               >
                 Oral : {data.countdownOral ? `J-${data.countdownOral}` : 'date non renseignée'}
               </span>
@@ -338,8 +338,8 @@ export default function Dashboard() {
                 className="rounded-md px-3 py-1 text-[12px]"
                 style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
               >
-                <span style={{ color: 'var(--eaf-text-tertiary)' }}>{meta.label}:</span>{' '}
-                <span style={{ color: 'var(--eaf-text-primary)', fontWeight: 600 }}>{meta.value}</span>
+                <span style={{ color: 'rgba(255,255,255,0.50)' }}>{meta.label}:</span>{' '}
+                <span style={{ color: 'rgba(255,255,255,0.95)', fontWeight: 600 }}>{meta.value}</span>
               </span>
             ))}
           </div>

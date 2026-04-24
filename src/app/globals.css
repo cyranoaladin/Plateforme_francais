@@ -553,5 +553,57 @@ button, a, [role="button"], .touch-manipulation {
 .animation-delay-260 { animation-delay: 0.26s; }
 .animation-delay-320 { animation-delay: 0.32s; }
 .animation-delay-340 { animation-delay: 0.34s; }
-.animation-delay-420 { animation-delay: 0.42s; }
+.animation-delay-420 { animation-delay: 0.34s; }
 
+/* ═══════════════════════════════════════════════════════════
+   TEXTE SUR SECTIONS DARK-NAVY — WCAG AA COMPLIANT
+   Utiliser ces classes dans les hero sections et toute
+   section avec background navy hardcodé (#0d1a35 etc.)
+   ═══════════════════════════════════════════════════════════ */
+
+.text-on-dark-h1 {
+  color: #FFFFFF !important;
+  font-family: var(--eaf-font-display);
+}
+
+.text-on-dark-body {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.text-on-dark-label {
+  color: rgba(255, 255, 255, 0.50) !important;
+}
+
+.text-on-dark-muted {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Ghost button sur fond dark */
+.btn-ghost-dark {
+  border: 1px solid rgba(255, 255, 255, 0.20) !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  background: transparent !important;
+}
+
+.btn-ghost-dark:hover {
+  border-color: var(--eaf-indigo-border) !important;
+  color: var(--eaf-indigo) !important;
+}
+
+/* Stats card sur fond dark */
+.stat-card-dark {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.stat-card-dark .stat-value {
+  color: #FFFFFF !important;
+  font-weight: 700;
+}
+
+.stat-card-dark .stat-label {
+  color: rgba(255, 255, 255, 0.50) !important;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

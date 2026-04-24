@@ -336,19 +336,19 @@ export default function MonParcoursPage() {
             </span>
           </div>
 
-          <h1 
+          <h1
             className="text-[36px] md:text-[40px] font-bold leading-[1.1] tracking-[-1.8px] max-w-[600px] mb-5"
-            style={{ 
+            style={{
               fontFamily: 'var(--eaf-font-display)',
-              color: 'var(--eaf-text-primary)'
+              color: '#FFFFFF'
             }}
           >
             Ton parcours doit rendre la semaine lisible avant de la rendre ambitieuse.
           </h1>
 
-          <p 
+          <p
             className="text-[14px] leading-[1.6] max-w-[560px] mb-7"
-            style={{ color: 'var(--eaf-text-secondary)' }}
+            style={{ color: 'rgba(255,255,255,0.72)' }}
           >
             {profile?.displayName ? `${profile.displayName}, ` : ''}ici, le plan transforme le profil, l&apos;histoire de travail et les attendus officiels en blocs concrets : quoi lancer, dans quel ordre, et comment reprendre sans perdre le fil.
           </p>
@@ -369,17 +369,17 @@ export default function MonParcoursPage() {
                   border: '1px solid var(--eaf-border)'
                 }}
               >
-                <p 
+                <p
                   className="text-[10px] font-semibold uppercase tracking-wide mb-1"
-                  style={{ color: 'var(--eaf-text-tertiary)' }}
+                  style={{ color: 'rgba(255,255,255,0.50)' }}
                 >
                   {stat.label}
                 </p>
-                <p 
+                <p
                   className="text-[28px] font-bold"
-                  style={{ 
+                  style={{
                     fontFamily: 'var(--eaf-font-display)',
-                    color: 'var(--eaf-text-primary)'
+                    color: '#FFFFFF'
                   }}
                 >
                   {stat.value}
@@ -401,10 +401,10 @@ export default function MonParcoursPage() {
             <Link
               href="/dashboard"
               className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[14px] font-medium transition-all"
-              style={{ 
+              style={{
                 background: 'transparent',
-                border: '1px solid var(--eaf-border)',
-                color: 'var(--eaf-text-secondary)'
+                border: '1px solid rgba(255,255,255,0.20)',
+                color: 'rgba(255,255,255,0.75)'
               }}
             >
               Retour au tableau de bord

@@ -231,7 +231,7 @@ export function computeDashboardMetricsFromTimeline(
     streak: computeStreak(timeline),
     weeklyProgression,
     timeline,
-    displayName: data?.profile.displayName ?? 'Élève',
+    displayName: (data?.profile.displayName ?? 'Élève').replace(/\s*\([^)]+\)\s*$/, '').trim(),
     onboardingCompleted: data?.profile.onboardingCompleted ?? false,
     classLevel: data?.profile.classLevel ?? 'Première générale',
     voie: data?.profile.voie ?? 'GENERALE',
