@@ -3,6 +3,7 @@ import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { extractTextFromCopie, getUserSafeOcrText } from '@/lib/correction/ocr';
 import { logger } from '@/lib/logger';
+import { indexerTexteDescriptif } from '@/lib/rag/indexer';
 import { validateCsrf } from '@/lib/security/csrf';
 import { InvalidFileTypeError, validateUpload } from '@/lib/security/file-validator';
 import { getStorageProvider } from '@/lib/storage/provider';
@@ -79,6 +80,23 @@ export async function POST(req: NextRequest, context: RouteContext) {
       ...(contenuTexte ? { contenuTexte } : {}),
     },
   });
+
+  // Indexation RAG asynchrone si le texte a été extrait
+  if (updated.contenuTexte && updated.contenuTexte.trim().length > 50) {
+    indexerTexteDescriptif({
+      texteDescriptifId: updated.id,
+      studentId: auth.user.id,
+      contenu: updated.contenuTexte,
+      metadata: {
+        titre: updated.titreExtrait,
+        auteur: updated.oeuvreAuteur,
+        typeTexte: updated.typeTexte,
+        oeuvreNom: updated.oeuvreAuteur,
+      },
+    }).catch((err: unknown) =>
+      logger.warn({ texteId: updated.id, err }, 'descriptif.lecture.upload.rag_failed')
+    );
+  }
 
   return NextResponse.json({
     texte: updated,

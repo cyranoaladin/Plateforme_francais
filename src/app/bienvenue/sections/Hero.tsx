@@ -8,7 +8,7 @@ import {
   Clock3,
   LibraryBig,
   ShieldCheck,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { track } from '@/components/analytics/events';
 
 const MICRO_PROOFS = [

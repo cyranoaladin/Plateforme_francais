@@ -37,7 +37,7 @@ describe('scripts/deploy.sh', () => {
 
     expect(script).toContain('REMOTE_RESOURCE_COUNT=$(ssh "$SSH_TARGET" "find -L $RESSOURCES_DIR -type f 2>/dev/null | wc -l")');
     expect(script).toContain('rsync -az --delete ./ressources/ "$SSH_TARGET:$RESSOURCES_DIR/"');
-    expect(script).toContain('COUNT=\\$(find -L ./ressources -type f 2>/dev/null | wc -l)');
+    expect(script).toContain('COUNT=\\$(find -L $RESSOURCES_DIR -type f 2>/dev/null | wc -l)');
   });
 
   it('writes HEALTH_CHECK_READY and configures the uploads backup cron', () => {

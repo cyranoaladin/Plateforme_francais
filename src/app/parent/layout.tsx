@@ -8,20 +8,21 @@ export default async function ParentLayout({
 }) {
   const auth = await getAuthenticatedUser();
   if (!auth) {
-    redirect('/login');
+    redirect('/login?redirect=/parent');
   }
 
-  if (auth.user.role === 'parent') {
-    return <>{children}</>;
+  // Seuls les parents peuvent accéder à cette zone
+  if (auth.user.role !== 'parent') {
+    // Rediriger vers le dashboard approprié selon le rôle
+    if (auth.user.role === 'admin') {
+      redirect('/admin');
+    }
+    if (auth.user.role === 'enseignant') {
+      redirect('/enseignant');
+    }
+    // Élève ou tout autre rôle -> dashboard
+    redirect('/dashboard');
   }
 
-  if (auth.user.role === 'admin') {
-    redirect('/admin');
-  }
-
-  if (auth.user.role === 'enseignant') {
-    redirect('/enseignant');
-  }
-
-  redirect('/dashboard');
+  return <>{children}</>;
 }

@@ -27,14 +27,11 @@ test('admin: admin user can access dashboard and load tabs', async ({ page }) =>
   await login(page, 'admin@eaf.local', 'AdminTest2026!');
 
   await page.goto('/admin');
-  await expect(page.getByRole('heading', { name: /tableau de bord admin/i })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole('heading', { name: /tableau de bord/i })).toBeVisible({ timeout: 20_000 });
 
   // Users tab should call /api/v1/admin/users
   await page.getByRole('button', { name: /utilisateurs/i }).click();
-  await expect(page.getByText(/liste des utilisateurs/i)).toBeVisible({ timeout: 20_000 }).catch(async () => {
-    // If there is no explicit heading, ensure at least one user email appears
-    await expect(page.getByText(/@eaf\.local/i)).toBeVisible({ timeout: 20_000 });
-  });
+  await expect(page.getByRole('table').getByText(/@eaf\.local/i).first()).toBeVisible({ timeout: 20_000 });
 
   // Codes tab should call /api/v1/admin/activation-codes
   await page.getByRole('button', { name: /codes/i }).click();
@@ -48,9 +45,9 @@ test('admin: parent and teacher surfaces redirect back to /admin', async ({ page
 
   await page.goto('/parent');
   await expect(page).toHaveURL(/\/admin/, { timeout: 20_000 });
-  await expect(page.getByRole('heading', { name: /tableau de bord admin/i })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole('heading', { name: /tableau de bord/i })).toBeVisible({ timeout: 20_000 });
 
   await page.goto('/enseignant');
   await expect(page).toHaveURL(/\/admin/, { timeout: 20_000 });
-  await expect(page.getByRole('heading', { name: /tableau de bord admin/i })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole('heading', { name: /tableau de bord/i })).toBeVisible({ timeout: 20_000 });
 });

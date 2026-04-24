@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check } from '@/components/ui/icons';
 import { track } from '@/components/analytics/events';
 
 const PLANS = [

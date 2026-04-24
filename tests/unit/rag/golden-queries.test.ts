@@ -25,24 +25,25 @@ const GOLDEN_CASES = [
 
 describe('RAG Golden Queries', () => {
   it.each(GOLDEN_CASES)('query "$query" respecte le comportement attendu', async (entry) => {
-    const results = await searchOfficialReferences(entry.query, 5);
+    const testCase = entry as any;
+    const results = await searchOfficialReferences(testCase.query, 5);
 
-    if (entry.mustReturnEmpty) {
+    if (testCase.mustReturnEmpty) {
       expect(results.length).toBe(0);
       return;
     }
 
-    expect(results.length).toBeGreaterThanOrEqual(entry.minResults);
+    expect(results.length).toBeGreaterThanOrEqual(testCase.minResults);
     const allText = results.map((r) => `${r.title} ${r.excerpt}`).join(' ').toLowerCase();
 
-    if (entry.mustContain) {
-      for (const term of entry.mustContain) {
+    if (testCase.mustContain) {
+      for (const term of testCase.mustContain) {
         expect(allText).toContain(term.toLowerCase());
       }
     }
 
-    if (entry.mustContainAny) {
-      expect(entry.mustContainAny.some((term) => allText.includes(term.toLowerCase()))).toBe(true);
+    if (testCase.mustContainAny) {
+      expect(testCase.mustContainAny.some((term: string) => allText.includes(term.toLowerCase()))).toBe(true);
     }
   });
 });

@@ -1,4 +1,4 @@
-import { Play } from 'lucide-react';
+import { Play } from '@/components/ui/icons';
 import { Button } from '@/components/ui';
 
 type Props = {

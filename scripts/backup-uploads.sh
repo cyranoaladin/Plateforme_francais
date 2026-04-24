@@ -2,7 +2,7 @@
 set -euo pipefail
 
 DATE="$(date +%Y%m%d_%H%M%S)"
-SOURCE="$(cd "$(dirname "$0")/.." && pwd)/.data/uploads"
+SOURCE="/opt/eaf/shared/uploads"
 BACKUP_DIR="/backup/nexus-uploads/$DATE"
 
 mkdir -p "$BACKUP_DIR"

@@ -121,16 +121,15 @@ echo ""
 # ═══════════════════════════════════════════════════════════════
 # ÉTAPE 2: Lier les répertoires partagés
 # ═══════════════════════════════════════════════════════════════
-log_step "2/8: Liaison des répertoires partagés..."
+log_step "2/8: Préparation des répertoires partagés..."
 
-# Créer les symlinks
+# Garder la release buildable: pas de symlink hors root dans .data ou public/.
 rm -rf "${RELEASE_DIR}/.data"
-ln -sf "${SHARED_DIR}/data" "${RELEASE_DIR}/.data"
-ln -sf "${SHARED_DIR}/uploads" "${RELEASE_DIR}/public/uploads" 2>/dev/null || true
+mkdir -p "${RELEASE_DIR}/.data/migration-backups"
 ln -sf "${SHARED_DIR}/logs" "${RELEASE_DIR}/logs"
 ln -sf "${SHARED_DIR}/tmp" "${RELEASE_DIR}/tmp"
 
-log_info "✅ Symlinks créés"
+log_info "✅ Répertoires partagés préparés"
 echo ""
 
 # ═══════════════════════════════════════════════════════════════

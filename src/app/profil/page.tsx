@@ -12,7 +12,7 @@ import {
   Sparkles,
   Target,
   Trash2,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { ensurePublicCsrfToken } from '@/lib/security/csrf-client';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 

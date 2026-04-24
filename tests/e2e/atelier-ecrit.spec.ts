@@ -17,9 +17,7 @@ async function login(
 }
 
 async function registerFreeUser(page: Page, email: string, password = 'TestInscr2026!') {
-  await page.goto('/login');
-  await page.getByRole('button', { name: /cr[ée]er un compte/i }).click();
-  await page.locator('#displayName').fill('Élève Atelier Écrit');
+  await page.goto('/login?mode=register');
   await page.getByTestId('auth-email').fill(email);
   await page.getByTestId('auth-password').fill(password);
   await page.locator('#confirmPassword').fill(password);

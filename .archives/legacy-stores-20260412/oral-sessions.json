@@ -1,0 +1,218 @@
+{
+  "sessions": [
+    {
+      "id": "6c4a433f-4f44-4fd5-9758-6d1c6839ce97",
+      "userId": "dc9fcad4-ccfb-48d6-851b-1b08a7976822",
+      "oeuvre": "Le Mariage forcé",
+      "extrait": "Le dialogue accéléré transforme la dispute en mécanique comique.",
+      "questionGrammaire": "Analysez la valeur des impératifs dans la réplique.",
+      "interactions": [
+        {
+          "step": "LECTURE",
+          "transcript": "Réponse de test étape 1.",
+          "duration": 1,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 2,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:48:58.981Z"
+        }
+      ],
+      "createdAt": "2026-02-23T20:48:58.892Z",
+      "endedAt": null
+    },
+    {
+      "id": "deecf47e-13f3-45f6-937c-e148a57b96da",
+      "userId": "2bd2a2e9-bdd7-44eb-b91c-b5bfcd39fc2b",
+      "oeuvre": "Le Mariage forcé",
+      "extrait": "Sganarelle hésite entre désir de mariage et peur de la contrainte sociale.",
+      "questionGrammaire": "Identifiez la proposition subordonnée relative et sa fonction.",
+      "interactions": [
+        {
+          "step": "LECTURE",
+          "transcript": "Réponse de test étape 1.",
+          "duration": 1,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 2,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:50:12.055Z"
+        }
+      ],
+      "createdAt": "2026-02-23T20:50:11.862Z",
+      "endedAt": null
+    },
+    {
+      "id": "70b91c38-f608-42a9-af54-561b58babb75",
+      "userId": "e5bc28e5-543f-49bb-91c0-2c7d8eaa15fe",
+      "oeuvre": "Le Mariage forcé",
+      "extrait": "Le dialogue accéléré transforme la dispute en mécanique comique.",
+      "questionGrammaire": "Analysez la valeur des impératifs dans la réplique.",
+      "interactions": [
+        {
+          "step": "LECTURE",
+          "transcript": "Réponse API test pour LECTURE.",
+          "duration": 45,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 2,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:54:54.843Z"
+        },
+        {
+          "step": "EXPLICATION",
+          "transcript": "Réponse API test pour EXPLICATION.",
+          "duration": 45,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 8,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:54:54.863Z"
+        },
+        {
+          "step": "GRAMMAIRE",
+          "transcript": "Réponse API test pour GRAMMAIRE.",
+          "duration": 45,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 2,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:54:54.881Z"
+        },
+        {
+          "step": "ENTRETIEN",
+          "transcript": "Réponse API test pour ENTRETIEN.",
+          "duration": 45,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 8,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:54:54.900Z"
+        }
+      ],
+      "createdAt": "2026-02-23T20:54:54.804Z",
+      "endedAt": "2026-02-23T20:54:54.932Z"
+    },
+    {
+      "id": "4e16d575-edac-4461-be8f-07630e02a828",
+      "userId": "c04e0ef3-a85d-4490-ac87-f5231fc3febe",
+      "oeuvre": "Le Mariage forcé",
+      "extrait": "Le personnage se contredit pour masquer son angoisse devant l engagement.",
+      "questionGrammaire": "Repérez et analysez la coordination des propositions.",
+      "interactions": [
+        {
+          "step": "LECTURE",
+          "transcript": "Réponse API test pour LECTURE.",
+          "duration": 45,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 2,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:55:34.183Z"
+        },
+        {
+          "step": "EXPLICATION",
+          "transcript": "Réponse API test pour EXPLICATION.",
+          "duration": 45,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 8,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:55:34.205Z"
+        },
+        {
+          "step": "GRAMMAIRE",
+          "transcript": "Réponse API test pour GRAMMAIRE.",
+          "duration": 45,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 2,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:55:34.223Z"
+        },
+        {
+          "step": "ENTRETIEN",
+          "transcript": "Réponse API test pour ENTRETIEN.",
+          "duration": 45,
+          "feedback": {
+            "feedback": "Réponse non exploitable. Réessayez avec un transcript plus précis.",
+            "score": 0,
+            "max": 8,
+            "points_forts": [],
+            "axes": [
+              "Structurer davantage la réponse."
+            ]
+          },
+          "createdAt": "2026-02-23T20:55:34.244Z"
+        }
+      ],
+      "createdAt": "2026-02-23T20:55:34.148Z",
+      "endedAt": "2026-02-23T20:55:34.269Z"
+    },
+    {
+      "id": "65d2a474-07c4-4100-a66d-78d6bb2f3d72",
+      "userId": "user-1",
+      "oeuvre": "Candide",
+      "extrait": "Extrait",
+      "questionGrammaire": "Question",
+      "interactions": [],
+      "createdAt": "2026-03-15T02:37:54.619Z",
+      "endedAt": null
+    },
+    {
+      "id": "3b108ee4-0577-4e54-a1d2-b5ed2a6e2229",
+      "userId": "user-1",
+      "oeuvre": "Candide",
+      "extrait": "Extrait",
+      "questionGrammaire": "Question",
+      "interactions": [],
+      "createdAt": "2026-03-15T02:38:15.215Z",
+      "endedAt": null
+    }
+  ]
+}

@@ -8,7 +8,7 @@ describe('PassageFeedback', () => {
     const html = renderToString(
       createElement(PassageFeedback, {
         steps: ['LECTURE'],
-        stepLabels: { LECTURE: 'Lecture /2' },
+        stepLabels: { LECTURE: 'Lecture /2', EXPLICATION: 'Explication /8', GRAMMAIRE: 'Grammaire /2', ENTRETIEN: 'Entretien /8' },
         aggregated: { totalScore: 0, totalMax: 2 },
         feedbacks: {
           LECTURE: {
@@ -20,6 +20,9 @@ describe('PassageFeedback', () => {
             evaluationFailed: true,
             relance: 'Développe ton analyse.',
           },
+          EXPLICATION: undefined,
+          GRAMMAIRE: undefined,
+          ENTRETIEN: undefined,
         },
       }),
     );

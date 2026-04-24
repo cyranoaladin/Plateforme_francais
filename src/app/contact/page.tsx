@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Send } from 'lucide-react';
+import { Send } from '@/components/ui/icons';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { Button, Input, Select, Textarea } from '@/components/ui';
 import { StateNotice } from '@/components/ui';

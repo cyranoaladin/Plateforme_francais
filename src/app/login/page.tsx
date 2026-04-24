@@ -15,7 +15,7 @@ import {
   Shield,
   ShieldCheck,
   Users,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 

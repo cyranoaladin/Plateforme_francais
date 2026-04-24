@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
+import { logger } from '@/lib/logger';
 import { validateCsrf } from '@/lib/security/csrf';
+import { indexerTexteDescriptif, supprimerTexteDescriptifRAG } from '@/lib/rag/indexer';
 import { z } from 'zod';
 
 const patchSchema = z.object({
@@ -72,6 +74,23 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
     data,
   });
 
+  // Ré-indexation RAG asynchrone si le contenu a changé
+  if (texte.contenuTexte && texte.contenuTexte.trim().length > 50) {
+    indexerTexteDescriptif({
+      texteDescriptifId: texte.id,
+      studentId: auth.user.id,
+      contenu: texte.contenuTexte,
+      metadata: {
+        titre: texte.titreExtrait,
+        auteur: texte.oeuvreAuteur,
+        typeTexte: texte.typeTexte,
+        oeuvreNom: texte.oeuvreAuteur,
+      },
+    }).catch((err: unknown) =>
+      logger.warn({ texteId: texte.id, err }, 'rag.indexer.descriptif.patch_failed')
+    );
+  }
+
   return NextResponse.json({ texte });
 }
 
@@ -97,5 +116,11 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
   }
 
   await prisma.texteDescriptif.delete({ where: { id: texteId } });
+
+  // Suppression RAG asynchrone
+  supprimerTexteDescriptifRAG(texteId).catch((err: unknown) =>
+    logger.warn({ texteId, err }, 'rag.indexer.descriptif.delete_failed')
+  );
+
   return NextResponse.json({ success: true });
 }

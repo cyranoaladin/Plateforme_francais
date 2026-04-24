@@ -27,14 +27,14 @@ describe('Billing Quotas V2', () => {
 
   describe('PLAN_CATALOG quotas', () => {
     it('FREE has limited quotas', () => {
-      expect(PLAN_CATALOG.FREE.quotas.ORAL_SESSIONS.limit).toBe(1);
-      expect(PLAN_CATALOG.FREE.quotas.WRITTEN_CORRECTIONS.limit).toBe(2);
-      expect(PLAN_CATALOG.FREE.quotas.TUTOR_QUESTIONS.limit).toBe(3);
+      expect(PLAN_CATALOG.FREE.quotas.ORAL_SESSIONS!.limit).toBe(1);
+      expect(PLAN_CATALOG.FREE.quotas.WRITTEN_CORRECTIONS!.limit).toBe(2);
+      expect(PLAN_CATALOG.FREE.quotas.TUTOR_QUESTIONS!.limit).toBe(3);
       expect(PLAN_CATALOG.FREE.flags.ORAL_PDF_REPORT).toBe(false);
     });
 
     it('PRO has higher quotas', () => {
-      expect(PLAN_CATALOG.PRO.quotas.ORAL_SESSIONS.limit).toBe('unlimited');
+      expect(PLAN_CATALOG.PRO.quotas.ORAL_SESSIONS!.limit).toBe('unlimited');
       expect(PLAN_CATALOG.PRO.flags.ORAL_PDF_REPORT).toBe(true);
     });
 

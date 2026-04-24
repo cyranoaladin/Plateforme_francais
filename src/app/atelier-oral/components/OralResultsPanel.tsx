@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from '@/components/ui/icons';
 import { Button } from '@/components/ui';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { type BilanResult } from '../types';

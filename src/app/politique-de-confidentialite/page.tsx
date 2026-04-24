@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, Lock, Shield, UserCheck, DatabaseZap, KeyRound } from 'lucide-react';
+import { ArrowLeft, Lock, Shield, UserCheck, DatabaseZap, KeyRound } from '@/components/ui/icons';
 
 export const metadata = {
   title: 'Politique de confidentialité — Nexus Réussite',

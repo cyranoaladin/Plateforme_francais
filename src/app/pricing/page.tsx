@@ -16,7 +16,7 @@ import {
   MessageCircle,
   ShieldCheck,
   Sparkles,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 import { formatPlanLabel } from '@/lib/billing/plan-catalog';

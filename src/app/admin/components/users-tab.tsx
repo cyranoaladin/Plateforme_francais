@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, RefreshCw, MoreHorizontal, UserPlus, Ban, Search } from 'lucide-react';
+import { Mail, RefreshCw, MoreHorizontal, UserPlus, Ban, Search } from '@/components/ui/icons';
 import {
   Card,
   Badge,

@@ -16,7 +16,7 @@ import {
   ShieldCheck,
   Sparkles,
   UserRound,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 import { Button, Card, Input, Surface } from '@/components/ui';
@@ -206,16 +206,6 @@ export default function OnboardingPage() {
 
   const saveProfile = useCallback(async () => {
     try {
-      console.log('[onboarding] saveProfile payload:', {
-        displayName,
-        classLevel,
-        establishment,
-        eafDate,
-        selectedOeuvres: allSelectedOeuvres,
-        weakSignals,
-        classCode,
-      });
-      
       await apiFetch('/api/v1/student/profile', {
         method: 'PUT',
         json: {
@@ -231,7 +221,6 @@ export default function OnboardingPage() {
         },
       });
       
-      console.log('[onboarding] saveProfile success');
     } catch (err) {
       console.error('[onboarding] saveProfile failed:', err);
       if (isApiError(err)) {

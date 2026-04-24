@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight } from '@/components/ui/icons';
 
 type Plan = 'FREE' | 'PREMIUM' | 'PRO';
 

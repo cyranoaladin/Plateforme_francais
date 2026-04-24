@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
+import { BookOpen, AlertCircle, CheckCircle } from '@/components/ui/icons';
 import { Button } from '@/components/ui';
 
 type DescriptifItem = {

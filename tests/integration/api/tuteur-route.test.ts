@@ -25,6 +25,7 @@ vi.mock('@/lib/billing/usage', () => ({
 }));
 vi.mock('@/lib/rag/search', () => ({
   searchOfficialReferences: vi.fn().mockResolvedValue([]),
+  searchWithPersonalContext: vi.fn().mockResolvedValue([]),
 }));
 vi.mock('@/lib/security/sanitize', () => ({
   sanitizeString: (s: string) => s,

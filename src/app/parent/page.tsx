@@ -13,7 +13,7 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { ProgressionChart } from '@/components/dashboard/progression-chart';
 import { useDashboard } from '@/hooks/useDashboard';
 

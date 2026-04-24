@@ -13,7 +13,7 @@ import {
   Monitor,
   Activity,
   FileText,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { useState } from 'react';
 import { type AdminDashboardTab } from '@/lib/admin/dashboard-tab-data';
 

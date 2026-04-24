@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, GraduationCap, ShieldCheck, UsersRound } from 'lucide-react';
+import { ArrowRight, CheckCircle2, GraduationCap, ShieldCheck, UsersRound } from '@/components/ui/icons';
 import { track } from '@/components/analytics/events';
 
 const AUDIENCE_CARDS = [

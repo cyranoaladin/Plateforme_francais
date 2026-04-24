@@ -70,6 +70,30 @@ export function scoreFromDistance(distance: number): number {
 }
 
 /**
+ * Fetch personal descriptif chunks for a given student (no embedding needed).
+ * Returns a random sample of the student's indexed personal texts for context injection.
+ */
+export async function fetchStudentDescriptifChunks(
+  studentId: string,
+  topK = 3,
+): Promise<VectorRow[]> {
+  if (!(await isDatabaseAvailable())) return [];
+
+  const pattern = `descriptif-eleve:${studentId}:%`;
+  return prisma.$queryRaw<VectorRow[]>(
+    Prisma.sql`
+      SELECT "id", "docId", "sourceTitle", "sourceUrl", "sourceType", "content",
+             0.0 AS "distance"
+      FROM "Chunk"
+      WHERE "sourceType" = 'descriptif_eleve'
+        AND "sourceUrl" LIKE ${pattern}
+      ORDER BY RANDOM()
+      LIMIT ${topK}
+    `
+  );
+}
+
+/**
  * @deprecated Use metadata directly from the database Chunk entry.
  */
 export function levelFromDocId() {

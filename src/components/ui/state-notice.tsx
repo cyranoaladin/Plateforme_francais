@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { AlertTriangle, CheckCircle2, Info, Loader2, LucideIcon } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Info, Loader2, LucideIcon } from '@/components/ui/icons';
 
 type NoticeVariant = 'info' | 'success' | 'warning' | 'error' | 'loading' | 'empty';
 

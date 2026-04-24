@@ -92,6 +92,7 @@ describe('Teacher RBAC - classCode scope isolation', () => {
           user: {
             id: 'teacher-A',
             role: 'enseignant',
+            emailVerified: new Date().toISOString(),
             profile: { classCode: 'MATH2026' },
           },
         },
@@ -122,8 +123,7 @@ describe('Teacher RBAC - classCode scope isolation', () => {
 
       const { GET } = await import('@/app/api/v1/enseignant/dashboard/route');
 
-      const request = new NextRequest('http://localhost:3000/api/v1/enseignant/dashboard');
-      const response = await GET(request);
+      const response = await GET();
 
       expect(response.status).toBe(200);
       const body = await response.json();
@@ -147,6 +147,7 @@ describe('Teacher RBAC - classCode scope isolation', () => {
           user: {
             id: 'teacher-B',
             role: 'enseignant',
+            emailVerified: new Date().toISOString(),
             profile: { classCode: 'PHYS2026' },
           },
         },
@@ -168,8 +169,7 @@ describe('Teacher RBAC - classCode scope isolation', () => {
 
       const { GET } = await import('@/app/api/v1/enseignant/dashboard/route');
 
-      const request = new NextRequest('http://localhost:3000/api/v1/enseignant/dashboard');
-      const response = await GET(request);
+      const response = await GET();
 
       expect(response.status).toBe(200);
       const body = await response.json();
@@ -193,6 +193,7 @@ describe('Teacher RBAC - classCode scope isolation', () => {
           user: {
             id: 'teacher-A',
             role: 'enseignant',
+            emailVerified: new Date().toISOString(),
             profile: { classCode: 'MATH2026' },
           },
         },
@@ -251,6 +252,7 @@ describe('Teacher RBAC - classCode scope isolation', () => {
           user: {
             id: 'teacher-B',
             role: 'enseignant',
+            emailVerified: new Date().toISOString(),
             profile: { classCode: 'PHYS2026' },
           },
         },
@@ -295,6 +297,7 @@ describe('Teacher RBAC - classCode scope isolation', () => {
           user: {
             id: 'teacher-A',
             role: 'enseignant',
+            emailVerified: new Date().toISOString(),
             profile: { classCode: 'MATH2026' },
           },
         },
@@ -341,6 +344,7 @@ describe('Teacher RBAC - classCode scope isolation', () => {
           user: {
             id: 'teacher-A',
             role: 'enseignant',
+            emailVerified: new Date().toISOString(),
             profile: { classCode: 'MATH2026' },
           },
         },

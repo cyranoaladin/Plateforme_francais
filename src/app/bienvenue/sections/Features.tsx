@@ -1,4 +1,4 @@
-import { BookOpenText, BrainCircuit, FileStack, MessageCircleMore, Mic, ScanSearch, Sparkles } from 'lucide-react';
+import { BookOpenText, BrainCircuit, FileStack, MessageCircleMore, Mic, ScanSearch, Sparkles } from '@/components/ui/icons';
 
 const FEATURE_GROUPS = [
   {

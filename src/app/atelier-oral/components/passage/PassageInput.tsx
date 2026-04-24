@@ -1,4 +1,4 @@
-import { Mic, Square } from 'lucide-react';
+import { Mic, Square } from '@/components/ui/icons';
 
 type Props = {
   currentStepLabel: string;

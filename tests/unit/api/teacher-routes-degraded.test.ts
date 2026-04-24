@@ -30,15 +30,15 @@ vi.mock('@/lib/db/client', () => ({
 
 vi.mock('@/lib/auth/guard', () => ({
   requireAuthenticatedUser: vi.fn().mockResolvedValue({
-    auth: { user: { id: 'teacher-1', role: 'enseignant', profile: { classCode: 'MATH2026' } } },
+    auth: { user: { id: 'teacher-1', role: 'enseignant', emailVerified: new Date().toISOString(), profile: { classCode: 'MATH2026' } } },
     errorResponse: null,
   }),
   requireUserRole: vi.fn().mockResolvedValue({
-    auth: { user: { id: 'teacher-1', role: 'enseignant', profile: { classCode: 'MATH2026' } } },
+    auth: { user: { id: 'teacher-1', role: 'enseignant', emailVerified: new Date().toISOString(), profile: { classCode: 'MATH2026' } } },
     errorResponse: null,
   }),
   requireExactUserRole: vi.fn().mockResolvedValue({
-    auth: { user: { id: 'teacher-1', role: 'enseignant', profile: { classCode: 'MATH2026' } } },
+    auth: { user: { id: 'teacher-1', role: 'enseignant', emailVerified: new Date().toISOString(), profile: { classCode: 'MATH2026' } } },
     errorResponse: null,
   }),
 }));
@@ -93,8 +93,7 @@ describe('Teacher routes - DB degraded fail-closed', () => {
         '@/app/api/v1/enseignant/dashboard/route'
       );
 
-      const request = new NextRequest('http://localhost:3000/api/v1/enseignant/dashboard');
-      const response = await GET(request);
+      const response = await GET();
 
       expect(response.status).toBe(503);
       const body = await response.json();
@@ -120,8 +119,7 @@ describe('Teacher routes - DB degraded fail-closed', () => {
         '@/app/api/v1/enseignant/dashboard/route'
       );
 
-      const request = new NextRequest('http://localhost:3000/api/v1/enseignant/dashboard');
-      const response = await GET(request);
+      const response = await GET();
 
       expect(response.status).toBe(200);
       const body = await response.json();

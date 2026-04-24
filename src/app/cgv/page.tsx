@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, ShoppingCart, Scale } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Scale } from '@/components/ui/icons';
 
 export const metadata = {
   title: 'Conditions Générales de Vente — Nexus Réussite',

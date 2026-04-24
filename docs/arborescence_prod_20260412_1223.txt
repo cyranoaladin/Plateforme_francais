@@ -1,0 +1,2127 @@
+.
+├── bin
+├── current -> /opt/eaf/releases/20260412_025339
+├── deploy-production.sh
+├── releases
+│   ├── 20260412_024210
+│   │   ├── arborescence-eaf.txt
+│   │   ├── CHANGELOG.md
+│   │   ├── config
+│   │   │   ├── fr-copy-banned-phrases.json
+│   │   │   └── fr-copy-baseline.json
+│   │   ├── create-pr-branch.sh
+│   │   ├── dist
+│   │   │   └── worker
+│   │   │       └── src
+│   │   │           └── lib
+│   │   ├── docs
+│   │   │   ├── ADMIN_DASHBOARD_ENHANCEMENT.md
+│   │   │   ├── API_REFERENCE.md
+│   │   │   ├── arborescence_prod.txt
+│   │   │   ├── ARCHITECTURE.md
+│   │   │   ├── AUDIT_FRONTEND.md
+│   │   │   ├── AUDIT_GO_LIVE.md
+│   │   │   ├── CHECKLIST_GO_LIVE.md
+│   │   │   ├── CI_SECRETS.md
+│   │   │   ├── CLAUDE_FINAL_PROD_AUDIT
+│   │   │   │   ├── 00_SOURCE_OF_TRUTH.md
+│   │   │   │   ├── 01_SURFACE_MAP.md
+│   │   │   │   ├── 02_PUBLIC_ANONYMOUS_FLOWS.md
+│   │   │   │   ├── 03_AUTH_REGISTRATION_EMAILS.md
+│   │   │   │   ├── 04_DASHBOARD_ELEVE.md
+│   │   │   │   ├── 05_ATELIERS_ELEVE.md
+│   │   │   │   ├── 06_BIBLIOTHEQUE_RESSOURCES.md
+│   │   │   │   ├── 07_BILLING_ACTIVATION.md
+│   │   │   │   ├── 08_ROLES_PARENT_ENSEIGNANT_ADMIN.md
+│   │   │   │   ├── 09_RAG_LLM_MCP_MEMOIRE.md
+│   │   │   │   ├── 10_COHERENCE_FRONT_BACK_DB.md
+│   │   │   │   ├── 11_SECURITE_ROBUSTESSE.md
+│   │   │   │   ├── 12_TESTS_TECHNIQUES_CI.md
+│   │   │   │   ├── 13_UX_WORDING_COMMERCIAL.md
+│   │   │   │   ├── 14_DECISION_FINALE.md
+│   │   │   │   ├── 99_FINAL_RELEASE_DECISION.md
+│   │   │   │   └── ARCHITECTURE_AUDIT.md
+│   │   │   ├── COMPLETE_GUIDE.md
+│   │   │   ├── CONTRIBUTING.md
+│   │   │   ├── DATABASE_SCHEMA.md
+│   │   │   ├── DEPLOYMENT.md
+│   │   │   ├── eaf_arborescence_prod_2026-04-04.txt
+│   │   │   ├── eaf_arborescence_prod.txt
+│   │   │   ├── EMAIL_SETUP.md
+│   │   │   ├── FRONTEND_GUIDELINES.md
+│   │   │   ├── GUIDE_ELEVE.md
+│   │   │   ├── GUIDE_ENSEIGNANT.md
+│   │   │   ├── LANDING_PAGE_EAF_2026.md
+│   │   │   ├── MOBILE_TESTING.md
+│   │   │   ├── PLANS_AND_BILLING.md
+│   │   │   ├── RBAC_POLICY.md
+│   │   │   ├── README.md
+│   │   │   ├── REMEDIATION_REPORT.md
+│   │   │   ├── RUNBOOK_ORAL_VOICE_V1.md
+│   │   │   ├── RUNBOOK_PRODUCTION.md
+│   │   │   ├── S3_HETZNER_SETUP.md
+│   │   │   └── superpowers
+│   │   │       ├── plans
+│   │   │       │   ├── 2026-03-23-final-prod-audit.md
+│   │   │       │   ├── 2026-03-24-french-language-hardening.md
+│   │   │       │   ├── 2026-03-24-landing-header-refactor.md
+│   │   │       │   ├── 2026-04-01-atelier-ecrit-progress-stream.md
+│   │   │       │   ├── 2026-04-01-audit-v9-lot1-billing-oral.md
+│   │   │       │   ├── 2026-04-01-audit-v9-lot3-oral-front.md
+│   │   │       │   ├── 2026-04-01-audit-v9-lot4-ci-cd.md
+│   │   │       │   ├── 2026-04-01-audit-v9-lot4-remaining.md
+│   │   │       │   ├── 2026-04-01-bloc-d-billing.md
+│   │   │       │   ├── 2026-04-04-descriptif-baremes-refonte.md
+│   │   │       │   └── 2026-04-04-go-live-commercial-finition.md
+│   │   │       └── specs
+│   │   │           ├── 2026-03-23-final-prod-audit-design.md
+│   │   │           ├── 2026-03-24-french-language-hardening-design.md
+│   │   │           ├── 2026-03-24-landing-header-design.md
+│   │   │           ├── 2026-04-01-atelier-ecrit-progress-stream-design.md
+│   │   │           └── 2026-04-01-bloc-d-billing-design.md
+│   │   ├── eaf.code-workspace
+│   │   ├── ecosystem.config.cjs
+│   │   ├── emails
+│   │   │   ├── EmailVerificationEmail.tsx
+│   │   │   ├── ParentNotificationEmail.tsx
+│   │   │   ├── PasswordChangedEmail.tsx
+│   │   │   ├── PasswordResetEmail.tsx
+│   │   │   ├── SubscriptionEmail.tsx
+│   │   │   ├── TeacherNotificationEmail.tsx
+│   │   │   └── WelcomeEmail.tsx
+│   │   ├── eslint.config.mjs
+│   │   ├── forensics
+│   │   │   └── eaf_prod_snapshot_20260315_1110
+│   │   │       ├── ecosystem.config.cjs
+│   │   │       ├── middleware.ts
+│   │   │       ├── next.config.ts
+│   │   │       ├── oral-jury-respond-route.ts
+│   │   │       ├── oral-session-start-route.ts
+│   │   │       ├── oral-voice-submit-route.ts
+│   │   │       ├── payments-availability.ts
+│   │   │       └── pricing-page.tsx
+│   │   ├── knip.json
+│   │   ├── logs -> /opt/eaf/shared/logs
+│   │   ├── middleware.ts
+│   │   ├── next.config.ts
+│   │   ├── next-env.d.ts
+│   │   ├── nexus-routes
+│   │   │   ├── admin
+│   │   │   │   ├── directeur
+│   │   │   │   │   └── stats
+│   │   │   │   └── users
+│   │   │   │       └── search
+│   │   │   ├── assistant
+│   │   │   │   ├── coaches
+│   │   │   │   │   └── [id]
+│   │   │   │   └── students
+│   │   │   │       └── credits
+│   │   │   ├── coach
+│   │   │   │   └── sessions
+│   │   │   │       └── [sessionId]
+│   │   │   ├── deploy-to-nexus.sh
+│   │   │   ├── invoices
+│   │   │   │   └── [id]
+│   │   │   │       ├── pdf
+│   │   │   │       └── receipt
+│   │   │   ├── payments
+│   │   │   │   └── bank-transfer
+│   │   │   │       └── confirm
+│   │   │   ├── programme
+│   │   │   │   ├── maths-1ere
+│   │   │   │   │   └── progress
+│   │   │   │   └── maths-terminale
+│   │   │   │       └── progress
+│   │   │   ├── README.md
+│   │   │   ├── stages
+│   │   │   │   └── fevrier-2026
+│   │   │   │       └── bilan
+│   │   │   └── students
+│   │   │       └── [studentId]
+│   │   │           ├── badges
+│   │   │           └── route.ts
+│   │   ├── ops
+│   │   │   ├── nginx
+│   │   │   │   └── eaf-nexus.conf
+│   │   │   ├── nginx.conf
+│   │   │   ├── oral_voice_canary_check.sh
+│   │   │   └── oral_voice_preflight.sh
+│   │   ├── package.json
+│   │   ├── package-lock.json
+│   │   ├── packages
+│   │   │   ├── mcp-server
+│   │   │   │   ├── dist
+│   │   │   │   │   ├── client.d.ts
+│   │   │   │   │   ├── client.js
+│   │   │   │   │   ├── index.d.ts
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── lib
+│   │   │   │   │   ├── prompts
+│   │   │   │   │   ├── resources
+│   │   │   │   │   ├── server.d.ts
+│   │   │   │   │   ├── server.js
+│   │   │   │   │   ├── tools
+│   │   │   │   │   ├── transport-http.d.ts
+│   │   │   │   │   ├── transport-http.js
+│   │   │   │   │   └── types
+│   │   │   │   ├── mcp.config.json
+│   │   │   │   ├── package.json
+│   │   │   │   ├── prisma -> ../../prisma
+│   │   │   │   ├── README.md
+│   │   │   │   ├── src
+│   │   │   │   │   ├── client.ts
+│   │   │   │   │   ├── index.ts
+│   │   │   │   │   ├── lib
+│   │   │   │   │   ├── prompts
+│   │   │   │   │   ├── resources
+│   │   │   │   │   ├── server.ts
+│   │   │   │   │   ├── tools
+│   │   │   │   │   ├── transport-http.ts
+│   │   │   │   │   └── types
+│   │   │   │   ├── tests
+│   │   │   │   │   ├── all-tools.test.ts
+│   │   │   │   │   ├── mcp-server.test.ts
+│   │   │   │   │   ├── plan-catalog.test.ts
+│   │   │   │   │   └── skill-delta.test.ts
+│   │   │   │   ├── tsconfig.json
+│   │   │   │   └── vitest.config.ts
+│   │   │   └── shared-billing
+│   │   │       ├── dist
+│   │   │       │   ├── index.d.ts
+│   │   │       │   ├── index.d.ts.map
+│   │   │       │   ├── index.js
+│   │   │       │   ├── plan-catalog.d.ts
+│   │   │       │   ├── plan-catalog.d.ts.map
+│   │   │       │   ├── plan-catalog.js
+│   │   │       │   ├── programme-oeuvres.d.ts
+│   │   │       │   ├── programme-oeuvres.d.ts.map
+│   │   │       │   └── programme-oeuvres.js
+│   │   │       ├── package.json
+│   │   │       ├── src
+│   │   │       │   ├── index.ts
+│   │   │       │   ├── plan-catalog.ts
+│   │   │       │   └── programme-oeuvres.ts
+│   │   │       └── tsconfig.json
+│   │   ├── PLANS_AND_QUOTAS.md
+│   │   ├── playwright.config.ts
+│   │   ├── postcss.config.mjs
+│   │   ├── prisma
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_init
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0002_student_profile_onboarding
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0003_profile_badges
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0004_rag_columns_and_missing_models
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0005_oral_eaf_conformity
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0006_oral_v2_schema
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0007_billing_plans_v2
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0008_addendum_memory_store_v1
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0009b_oral_oeuvre_choisie
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0009_gamification_xp_columns
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0010_descriptif_lecture
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0011_carnet_lecture
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0012_pgvector_hnsw_index
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0013_premium_history_and_learning_memory
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0014_add_billing_tables
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0015_add_web_vital_table
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0016_add_premium_max_plan
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0017_fix_activation_code_schema
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0018_add_manual_provider
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0019_add_parent_consent_fields
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0020_fix_oral_totalscore_float
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0021_default_provider_manual
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0022_add_password_reset_token
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0023_add_teacher_email_to_student_profile
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0024_add_usage_counter_lookup_index
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0025_parent_consent_enum_and_school_year
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0026_copie_progress_events
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 0027_add_missing_indexes_default_annee
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20260404123533_add_texte_prepare_descriptif
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20260404165617_unify_texte_descriptif
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20260409_add_admin_audit_log
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20260411_add_activation_plan_enum
+│   │   │   │   │   └── migration.sql
+│   │   │   │   └── migration_lock.toml
+│   │   │   ├── schema.prisma
+│   │   │   └── seed-official-works.ts
+│   │   ├── public
+│   │   │   ├── assets
+│   │   │   │   ├── dashboard-parent.svg
+│   │   │   │   ├── dashboard-student.svg
+│   │   │   │   ├── og-cover.png
+│   │   │   │   ├── og-cover.svg
+│   │   │   │   ├── oral-simulator-preview.svg
+│   │   │   │   └── oral-simulator-preview.webp
+│   │   │   ├── favicon.svg
+│   │   │   ├── hero-bg.jpg
+│   │   │   ├── hero-student.jpg
+│   │   │   ├── images
+│   │   │   │   ├── logo_nexus_reussite_nav.webp
+│   │   │   │   ├── logo_nexus_reussite.png
+│   │   │   │   ├── logo.png
+│   │   │   │   ├── logo_slogan_nexus_email.png
+│   │   │   │   └── logo_slogan_nexus.png
+│   │   │   ├── manifest.json
+│   │   │   ├── pdf.worker.min.js
+│   │   │   ├── ressources -> ../ressources
+│   │   │   └── section-bg-1.jpg
+│   │   ├── README.md
+│   │   ├── scripts
+│   │   │   ├── audit-csrf-routes.mjs
+│   │   │   ├── backup-uploads.sh
+│   │   │   ├── build-worker.mjs
+│   │   │   ├── check-banned-phrases.mjs
+│   │   │   ├── check-curly-quotes.ts
+│   │   │   ├── check-env.js
+│   │   │   ├── check-fr-copy.ts
+│   │   │   ├── commit-and-push.sh
+│   │   │   ├── create-admin-production.ts
+│   │   │   ├── deploy-ressources.sh
+│   │   │   ├── deploy.sh
+│   │   │   ├── fix-error-messages.py
+│   │   │   ├── generate-env.py
+│   │   │   ├── generate-release-meta.sh
+│   │   │   ├── index-rag.ts
+│   │   │   ├── ingest-media-catalog.ts
+│   │   │   ├── integration-test-production.sh
+│   │   │   ├── migrate-legacy-descriptif.ts
+│   │   │   ├── migrate-memory-store-to-db.ts
+│   │   │   ├── migrate-oral-sessions-to-db.ts
+│   │   │   ├── migrate-uploads-to-s3.ts
+│   │   │   ├── nginx-eaf.conf
+│   │   │   ├── ops
+│   │   │   │   ├── backup-postgres.sh
+│   │   │   │   ├── cleanup-local-documents.sh
+│   │   │   │   ├── health-monitor.sh
+│   │   │   │   └── install-cron.sh
+│   │   │   ├── pedagogical-test.sh
+│   │   │   ├── pw_webserver_local.ts
+│   │   │   ├── rag-diagnostic.sh
+│   │   │   ├── rebase-stack.sh
+│   │   │   ├── remigrate-orphan-users.ts
+│   │   │   ├── run-all-tests.sh
+│   │   │   ├── scan-ressources.ts
+│   │   │   ├── seed-test-users.ts
+│   │   │   ├── seed.ts
+│   │   │   ├── setup-github-secrets.sh
+│   │   │   ├── setup-postgres.py
+│   │   │   ├── setup-server-production.sh
+│   │   │   ├── setup-server.sh
+│   │   │   ├── setup.sh
+│   │   │   ├── smoke-test-production.sh
+│   │   │   ├── standardize-styles.sh
+│   │   │   ├── test-admin-dashboard.sh
+│   │   │   ├── test-production-locale.sh
+│   │   │   ├── verify-catalog-paths.ts
+│   │   │   └── visual-qa-precheck.sh
+│   │   ├── src
+│   │   │   ├── app
+│   │   │   │   ├── admin
+│   │   │   │   │   ├── components
+│   │   │   │   │   ├── enhanced-page.tsx
+│   │   │   │   │   ├── layout.tsx
+│   │   │   │   │   ├── login
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── api
+│   │   │   │   │   ├── mcp
+│   │   │   │   │   └── v1
+│   │   │   │   ├── atelier-ecrit
+│   │   │   │   │   ├── components
+│   │   │   │   │   ├── correction
+│   │   │   │   │   ├── hooks
+│   │   │   │   │   ├── loading.tsx
+│   │   │   │   │   ├── page.tsx
+│   │   │   │   │   └── types.ts
+│   │   │   │   ├── atelier-langue
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── atelier-oral
+│   │   │   │   │   ├── components
+│   │   │   │   │   ├── hooks
+│   │   │   │   │   ├── loading.tsx
+│   │   │   │   │   ├── page.tsx
+│   │   │   │   │   └── types.ts
+│   │   │   │   ├── bibliotheque
+│   │   │   │   │   ├── loading.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── bienvenue
+│   │   │   │   │   ├── page.tsx
+│   │   │   │   │   └── sections
+│   │   │   │   ├── carnet
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── cgu
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── cgv
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── contact
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── dashboard
+│   │   │   │   │   ├── layout.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── descriptif
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── descriptif-lecture
+│   │   │   │   │   ├── AddTexteForm.tsx
+│   │   │   │   │   ├── page.tsx
+│   │   │   │   │   └── TexteCard.tsx
+│   │   │   │   ├── enseignant
+│   │   │   │   │   ├── layout.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── error.tsx
+│   │   │   │   ├── favicon.ico
+│   │   │   │   ├── global-error.tsx
+│   │   │   │   ├── globals.css
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── loading.tsx
+│   │   │   │   ├── login
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── mentions-legales
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── mon-parcours
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── not-found.tsx
+│   │   │   │   ├── onboarding
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   ├── paiement
+│   │   │   │   │   ├── checkout
+│   │   │   │   │   ├── confirmation
+│   │   │   │   │   └── refus
+│   │   │   │   ├── parent
+│   │   │   │   │   ├── layout.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── politique-de-confidentialite
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── pricing
+│   │   │   │   │   ├── layout.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── profil
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── (public)
+│   │   │   │   │   └── landing
+│   │   │   │   ├── quiz
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── robots.ts
+│   │   │   │   ├── sitemap.ts
+│   │   │   │   └── tuteur
+│   │   │   │       ├── loading.tsx
+│   │   │   │       └── page.tsx
+│   │   │   ├── components
+│   │   │   │   ├── accessibility
+│   │   │   │   │   └── dyslexia-toggle.tsx
+│   │   │   │   ├── analytics
+│   │   │   │   │   └── events.ts
+│   │   │   │   ├── atelier-oral
+│   │   │   │   │   ├── OralHero.tsx
+│   │   │   │   │   ├── OralStepIndicator.tsx
+│   │   │   │   │   └── OralTimer.tsx
+│   │   │   │   ├── consent
+│   │   │   │   │   └── ConsentBanner.tsx
+│   │   │   │   ├── dashboard
+│   │   │   │   │   └── progression-chart.tsx
+│   │   │   │   ├── landing
+│   │   │   │   │   ├── ComparisonTable.tsx
+│   │   │   │   │   ├── DashboardToggle.tsx
+│   │   │   │   │   ├── FAQSection.tsx
+│   │   │   │   │   ├── FooterCTA.tsx
+│   │   │   │   │   ├── Footer.tsx
+│   │   │   │   │   ├── Hero.tsx
+│   │   │   │   │   ├── MethodSteps.tsx
+│   │   │   │   │   ├── MobilePcBanner.tsx
+│   │   │   │   │   ├── PricingSection.tsx
+│   │   │   │   │   ├── SocialProofStrip.tsx
+│   │   │   │   │   ├── StatsSection.tsx
+│   │   │   │   │   ├── StickyNav.tsx
+│   │   │   │   │   ├── TestimonialsSection.tsx
+│   │   │   │   │   ├── WhatsAppButton.tsx
+│   │   │   │   │   └── WorkshopTabs.tsx
+│   │   │   │   ├── layout
+│   │   │   │   │   ├── app-shell.tsx
+│   │   │   │   │   ├── sidebar.tsx
+│   │   │   │   │   └── student-navigation.ts
+│   │   │   │   ├── monitoring
+│   │   │   │   │   └── web-vitals-reporter.tsx
+│   │   │   │   ├── theme
+│   │   │   │   │   └── theme-provider.tsx
+│   │   │   │   ├── tracking
+│   │   │   │   │   ├── MetaPixel.tsx
+│   │   │   │   │   └── tracking-provider.tsx
+│   │   │   │   └── ui
+│   │   │   │       ├── badge.tsx
+│   │   │   │       ├── button.tsx
+│   │   │   │       ├── card.tsx
+│   │   │   │       ├── dropdown-menu.tsx
+│   │   │   │       ├── EmailVerificationBanner.tsx
+│   │   │   │       ├── icons.ts
+│   │   │   │       ├── Icon.tsx
+│   │   │   │       ├── index.ts
+│   │   │   │       ├── input.tsx
+│   │   │   │       ├── pdf-preview-viewer.tsx
+│   │   │   │       ├── section-header.tsx
+│   │   │   │       ├── select.tsx
+│   │   │   │       ├── state-notice.tsx
+│   │   │   │       ├── surface.tsx
+│   │   │   │       ├── textarea.tsx
+│   │   │   │       ├── UpgradePrompt.tsx
+│   │   │   │       └── use-dialog-accessibility.ts
+│   │   │   ├── data
+│   │   │   │   ├── baremes-officiels.ts
+│   │   │   │   ├── extraits-oeuvres.ts
+│   │   │   │   ├── media-catalog.ts
+│   │   │   │   ├── oeuvres-programme.ts
+│   │   │   │   ├── programme-eaf-2025.ts
+│   │   │   │   ├── references.ts
+│   │   │   │   ├── ressources-scan.json
+│   │   │   │   └── ressources.ts
+│   │   │   ├── hooks
+│   │   │   │   └── useDashboard.ts
+│   │   │   ├── lib
+│   │   │   │   ├── admin
+│   │   │   │   │   ├── audit.ts
+│   │   │   │   │   ├── dashboard-tab-data.ts
+│   │   │   │   │   └── plan-visibility.ts
+│   │   │   │   ├── agents
+│   │   │   │   │   ├── avocat-diable.ts
+│   │   │   │   │   ├── diagnosticien.ts
+│   │   │   │   │   ├── diction
+│   │   │   │   │   ├── pastiche
+│   │   │   │   │   ├── planner.ts
+│   │   │   │   │   ├── policy-gate.ts
+│   │   │   │   │   ├── prompts
+│   │   │   │   │   ├── rappel-agent.ts
+│   │   │   │   │   ├── rapport-auto.ts
+│   │   │   │   │   ├── router.ts
+│   │   │   │   │   ├── shadow-timer
+│   │   │   │   │   └── student-modeler.ts
+│   │   │   │   ├── api
+│   │   │   │   │   └── client.ts
+│   │   │   │   ├── atelier-ecrit
+│   │   │   │   │   └── upload-validation.ts
+│   │   │   │   ├── auth
+│   │   │   │   │   ├── client-auth-state.ts
+│   │   │   │   │   ├── guard.ts
+│   │   │   │   │   ├── linked-role-accounts.ts
+│   │   │   │   │   ├── session.ts
+│   │   │   │   │   └── types.ts
+│   │   │   │   ├── billing
+│   │   │   │   │   ├── context.ts
+│   │   │   │   │   ├── dashboard-upgrade.ts
+│   │   │   │   │   ├── library-gating.ts
+│   │   │   │   │   ├── plan-catalog.ts
+│   │   │   │   │   ├── public-offers.ts
+│   │   │   │   │   ├── quota-messages.ts
+│   │   │   │   │   ├── quotas.ts
+│   │   │   │   │   ├── redeem.ts
+│   │   │   │   │   └── usage.ts
+│   │   │   │   ├── cache
+│   │   │   │   │   └── lru.ts
+│   │   │   │   ├── carnet
+│   │   │   │   │   └── pdf.tsx
+│   │   │   │   ├── compliance
+│   │   │   │   │   └── anti-triche.ts
+│   │   │   │   ├── config
+│   │   │   │   │   ├── tunisia.ts
+│   │   │   │   │   └── validate-env.ts
+│   │   │   │   ├── correction
+│   │   │   │   │   ├── annotation-mapper.ts
+│   │   │   │   │   ├── correcteur.ts
+│   │   │   │   │   ├── normalize-correction.ts
+│   │   │   │   │   └── ocr.ts
+│   │   │   │   ├── cron
+│   │   │   │   │   └── scheduler.ts
+│   │   │   │   ├── date
+│   │   │   │   │   └── current-school-year.ts
+│   │   │   │   ├── db
+│   │   │   │   │   ├── client.ts
+│   │   │   │   │   ├── fallback-store.ts
+│   │   │   │   │   └── repositories
+│   │   │   │   ├── design-tokens.ts
+│   │   │   │   ├── e2e
+│   │   │   │   │   └── playwright-db.ts
+│   │   │   │   ├── email
+│   │   │   │   │   ├── client.ts
+│   │   │   │   │   ├── parental-consent.ts
+│   │   │   │   │   └── service.ts
+│   │   │   │   ├── epreuves
+│   │   │   │   │   ├── exam-blanc-generator.ts
+│   │   │   │   │   ├── fallback-store.ts
+│   │   │   │   │   ├── generation-normalizer.ts
+│   │   │   │   │   ├── report-pdf.tsx
+│   │   │   │   │   ├── repository.ts
+│   │   │   │   │   ├── types.ts
+│   │   │   │   │   └── worker.ts
+│   │   │   │   ├── evaluation
+│   │   │   │   │   └── langue.ts
+│   │   │   │   ├── exam
+│   │   │   │   │   └── exam-info.ts
+│   │   │   │   ├── gamification
+│   │   │   │   │   └── badges.ts
+│   │   │   │   ├── langue
+│   │   │   │   │   └── exercise-bank.ts
+│   │   │   │   ├── llm
+│   │   │   │   │   ├── adapters
+│   │   │   │   │   ├── agent-base.ts
+│   │   │   │   │   ├── context-manager.ts
+│   │   │   │   │   ├── cost-tracker.ts
+│   │   │   │   │   ├── embeddings.ts
+│   │   │   │   │   ├── factory.ts
+│   │   │   │   │   ├── orchestrator.ts
+│   │   │   │   │   ├── prompts
+│   │   │   │   │   ├── provider.ts
+│   │   │   │   │   ├── router.ts
+│   │   │   │   │   ├── self-reflection.ts
+│   │   │   │   │   ├── skills
+│   │   │   │   │   ├── streaming.ts
+│   │   │   │   │   ├── timeout.ts
+│   │   │   │   │   └── token-estimate.ts
+│   │   │   │   ├── logger.ts
+│   │   │   │   ├── mcp
+│   │   │   │   │   ├── client.ts
+│   │   │   │   │   └── index.ts
+│   │   │   │   ├── memory
+│   │   │   │   │   ├── context-builder.ts
+│   │   │   │   │   ├── profile-loader.ts
+│   │   │   │   │   ├── scoring.ts
+│   │   │   │   │   └── store.ts
+│   │   │   │   ├── monitoring
+│   │   │   │   │   └── web-vitals.ts
+│   │   │   │   ├── navigation
+│   │   │   │   │   ├── app-shell-paths.ts
+│   │   │   │   │   └── tuteur-link.ts
+│   │   │   │   ├── notifications
+│   │   │   │   │   ├── push.ts
+│   │   │   │   │   └── templates.ts
+│   │   │   │   ├── onboarding
+│   │   │   │   │   └── copy-analysis.ts
+│   │   │   │   ├── oral
+│   │   │   │   │   ├── audio-recorder.ts
+│   │   │   │   │   ├── audio-utils.ts
+│   │   │   │   │   ├── capabilities.ts
+│   │   │   │   │   ├── evaluate-and-persist.ts
+│   │   │   │   │   ├── examiner-context.ts
+│   │   │   │   │   ├── rag-context.ts
+│   │   │   │   │   ├── remote-audio.ts
+│   │   │   │   │   ├── repository.ts
+│   │   │   │   │   ├── scoring.ts
+│   │   │   │   │   ├── service.ts
+│   │   │   │   │   └── state-machine.ts
+│   │   │   │   ├── parent
+│   │   │   │   │   └── digest.ts
+│   │   │   │   ├── pdf
+│   │   │   │   │   ├── document-html-pdf.tsx
+│   │   │   │   │   └── generator.ts
+│   │   │   │   ├── portfolio
+│   │   │   │   │   ├── export.ts
+│   │   │   │   │   └── profil-card-generator.ts
+│   │   │   │   ├── profile
+│   │   │   │   │   └── profile-score-summary.ts
+│   │   │   │   ├── queue
+│   │   │   │   │   ├── correction-queue.ts
+│   │   │   │   │   ├── start-worker.ts
+│   │   │   │   │   └── worker.ts
+│   │   │   │   ├── quiz
+│   │   │   │   │   └── theme-mapping.ts
+│   │   │   │   ├── rag
+│   │   │   │   │   ├── chunker.ts
+│   │   │   │   │   ├── citations.ts
+│   │   │   │   │   ├── external-client.ts
+│   │   │   │   │   ├── indexer.ts
+│   │   │   │   │   ├── ingestion
+│   │   │   │   │   ├── media-indexer.ts
+│   │   │   │   │   ├── rerank.ts
+│   │   │   │   │   ├── search.ts
+│   │   │   │   │   └── vector-search.ts
+│   │   │   │   ├── ressources
+│   │   │   │   │   └── path.ts
+│   │   │   │   ├── rgpd
+│   │   │   │   │   └── consent.ts
+│   │   │   │   ├── security
+│   │   │   │   │   ├── csrf-client.ts
+│   │   │   │   │   ├── csrf.ts
+│   │   │   │   │   ├── file-validator.ts
+│   │   │   │   │   ├── llm-rate-limiter.ts
+│   │   │   │   │   ├── rate-limit.ts
+│   │   │   │   │   └── sanitize.ts
+│   │   │   │   ├── spaced-repetition
+│   │   │   │   │   └── sm2.ts
+│   │   │   │   ├── storage
+│   │   │   │   │   ├── copies.ts
+│   │   │   │   │   ├── paths.ts
+│   │   │   │   │   ├── provider.ts
+│   │   │   │   │   └── s3-provider.ts
+│   │   │   │   ├── store
+│   │   │   │   │   └── premium-store.ts
+│   │   │   │   ├── stt
+│   │   │   │   │   ├── browser.ts
+│   │   │   │   │   └── transcriber.ts
+│   │   │   │   ├── tracking
+│   │   │   │   │   └── meta-capi.ts
+│   │   │   │   ├── tts
+│   │   │   │   │   └── generator.ts
+│   │   │   │   ├── tutor
+│   │   │   │   │   └── visible-citations.ts
+│   │   │   │   ├── types
+│   │   │   │   │   └── premium.ts
+│   │   │   │   ├── ui
+│   │   │   │   │   └── sanitize-llm.ts
+│   │   │   │   ├── utils.ts
+│   │   │   │   └── validation
+│   │   │   │       ├── request.ts
+│   │   │   │       └── schemas.ts
+│   │   │   ├── scripts
+│   │   │   │   └── generate-activation-codes.ts
+│   │   │   └── styles
+│   │   │       └── tokens.css
+│   │   ├── test-admin.sh
+│   │   ├── test-manual-flow.sh
+│   │   ├── test-results
+│   │   ├── tests
+│   │   │   ├── audit
+│   │   │   │   ├── phase14-mobile.spec.ts
+│   │   │   │   ├── phase2-public.spec.ts
+│   │   │   │   └── playwright.audit.config.ts
+│   │   │   ├── contracts
+│   │   │   │   ├── bootstrap-roles.mjs
+│   │   │   │   ├── bootstrap-teacher-copies.mjs
+│   │   │   │   ├── openapi.auth.yaml
+│   │   │   │   ├── openapi.public.yaml
+│   │   │   │   ├── openapi.teacher.allowed.yaml
+│   │   │   │   ├── openapi.teacher.forbidden.yaml
+│   │   │   │   ├── run-schemathesis-auth.sh
+│   │   │   │   ├── run-schemathesis.sh
+│   │   │   │   ├── run-schemathesis-teacher-rbac.sh
+│   │   │   │   ├── run-teacher-comment-rbac.sh
+│   │   │   │   └── run-teacher-export-rbac.sh
+│   │   │   ├── e2e
+│   │   │   │   ├── accessibility.spec.ts
+│   │   │   │   ├── admin-dashboard.spec.ts
+│   │   │   │   ├── admin.spec.ts
+│   │   │   │   ├── atelier-ecrit-bilan-prod.spec.ts
+│   │   │   │   ├── atelier-ecrit.spec.ts
+│   │   │   │   ├── atelier-oral.spec.ts
+│   │   │   │   ├── audit-role-dashboards-prod.spec.ts
+│   │   │   │   ├── dashboard-student-ui.spec.ts
+│   │   │   │   ├── descriptif-carnet.spec.ts
+│   │   │   │   ├── espace-enseignant.spec.ts
+│   │   │   │   ├── fixtures
+│   │   │   │   ├── flows.spec.ts
+│   │   │   │   ├── helpers
+│   │   │   │   │   └── auth.ts
+│   │   │   │   ├── inscription-workflow.spec.ts
+│   │   │   │   ├── landing-header-layout.spec.ts
+│   │   │   │   ├── landing-mobile-responsive.spec.ts
+│   │   │   │   ├── login-role-routing.spec.ts
+│   │   │   │   ├── mobile-accessibility.spec.ts
+│   │   │   │   ├── mobile-critical.spec.ts
+│   │   │   │   ├── mobile.spec.ts
+│   │   │   │   ├── mobile-visual-regression.spec.ts
+│   │   │   │   ├── navigation.spec.ts
+│   │   │   │   ├── onboarding.spec.ts
+│   │   │   │   ├── parcours.spec.ts
+│   │   │   │   ├── payment-flow.spec.ts
+│   │   │   │   ├── platform.spec.ts
+│   │   │   │   ├── quiz-adaptatif.spec.ts
+│   │   │   │   ├── securite.spec.ts
+│   │   │   │   ├── security-roles.spec.ts
+│   │   │   │   ├── tuteur-chat.spec.ts
+│   │   │   │   └── workflows
+│   │   │   │       ├── 01-inscription-onboarding.spec.ts
+│   │   │   │       ├── 02-atelier-oral.spec.ts
+│   │   │   │       ├── 03-atelier-ecrit.spec.ts
+│   │   │   │       ├── 04-descriptif-lecture.spec.ts
+│   │   │   │       ├── 05-espace-enseignant.spec.ts
+│   │   │   │       ├── 06-securite.spec.ts
+│   │   │   │       └── 07-landing-mobile-conversion.spec.ts
+│   │   │   ├── fixtures
+│   │   │   │   └── copie-test.png
+│   │   │   ├── integration
+│   │   │   │   ├── api
+│   │   │   │   │   ├── auth.test.ts
+│   │   │   │   │   ├── enseignant.test.ts
+│   │   │   │   │   ├── epreuves.test.ts
+│   │   │   │   │   ├── oral-route.test.ts
+│   │   │   │   │   ├── oral.test.ts
+│   │   │   │   │   ├── parcours.test.ts
+│   │   │   │   │   ├── quiz.test.ts
+│   │   │   │   │   ├── rag-route.test.ts
+│   │   │   │   │   ├── rag.test.ts
+│   │   │   │   │   ├── tuteur-route.test.ts
+│   │   │   │   │   └── tuteur.test.ts
+│   │   │   │   ├── db
+│   │   │   │   │   ├── copie-progress.test.ts
+│   │   │   │   │   ├── copie.test.ts
+│   │   │   │   │   ├── memory-events.test.ts
+│   │   │   │   │   ├── oral-session.test.ts
+│   │   │   │   │   ├── user-repo.test.ts
+│   │   │   │   │   └── vector-search.test.ts
+│   │   │   │   ├── external
+│   │   │   │   │   └── mistral.test.ts
+│   │   │   │   ├── oral-session-flow.test.ts
+│   │   │   │   ├── orchestrator-pipeline.test.ts
+│   │   │   │   ├── rag
+│   │   │   │   │   └── external-rag.prod-guard.test.ts
+│   │   │   │   ├── rag-pipeline.test.ts
+│   │   │   │   └── router-agent.test.ts
+│   │   │   ├── performance
+│   │   │   │   └── load-test.yml
+│   │   │   ├── security
+│   │   │   │   └── run-zap.sh
+│   │   │   ├── setup-jsdom.ts
+│   │   │   ├── tsconfig.json
+│   │   │   ├── tsconfig.tsbuildinfo
+│   │   │   └── unit
+│   │   │       ├── admin
+│   │   │       │   └── dashboard-tab-data.test.ts
+│   │   │       ├── agents
+│   │   │       │   ├── diagnosticien.test.ts
+│   │   │       │   ├── diction-analyzer.test.ts
+│   │   │       │   ├── examiner-persona.test.ts
+│   │   │       │   ├── pastiche.test.ts
+│   │   │       │   ├── planner.test.ts
+│   │   │       │   ├── policy-gate.test.ts
+│   │   │       │   ├── policy-gate-tunisia.test.ts
+│   │   │       │   ├── rapport-auto.test.ts
+│   │   │       │   ├── router-agent.test.ts
+│   │   │       │   ├── shadow-timer.test.ts
+│   │   │       │   └── student-modeler.test.ts
+│   │   │       ├── api
+│   │   │       │   ├── admin
+│   │   │       │   ├── admin-billing-legacy-plan.test.ts
+│   │   │       │   ├── admin-plan-visibility.test.ts
+│   │   │       │   ├── badges-route.test.ts
+│   │   │       │   ├── billing-routes.test.ts
+│   │   │       │   ├── carnet-route.test.ts
+│   │   │       │   ├── class-code-route.test.ts
+│   │   │       │   ├── client.test.ts
+│   │   │       │   ├── comment-idor.test.ts
+│   │   │       │   ├── contact-route.test.ts
+│   │   │       │   ├── copie-direct-status-route.test.ts
+│   │   │       │   ├── copie-events-route.test.ts
+│   │   │       │   ├── copie-file-route.test.ts
+│   │   │       │   ├── copie-report-route.test.ts
+│   │   │       │   ├── copie-status-route.test.ts
+│   │   │       │   ├── cron-session-cleanup.test.ts
+│   │   │       │   ├── csrf-route.test.ts
+│   │   │       │   ├── descriptif-route.test.ts
+│   │   │       │   ├── epreuves-copie-route.test.ts
+│   │   │       │   ├── epreuves-generate-route.test.ts
+│   │   │       │   ├── export-csv-route.test.ts
+│   │   │       │   ├── health
+│   │   │       │   ├── health-route.test.ts
+│   │   │       │   ├── interact-constants.test.ts
+│   │   │       │   ├── langue-generate-route.test.ts
+│   │   │       │   ├── media-access-route.test.ts
+│   │   │       │   ├── media-route.test.ts
+│   │   │       │   ├── memory-timeline-route.test.ts
+│   │   │       │   ├── oeuvre-choisie-route.test.ts
+│   │   │       │   ├── oral-audio-turn.test.ts
+│   │   │       │   ├── oral-end-route.test.ts
+│   │   │       │   ├── oral-interact-entretien.test.ts
+│   │   │       │   ├── oral-jury-respond-route.test.ts
+│   │   │       │   ├── oral-session-route.test.ts
+│   │   │       │   ├── oral-sessions-route.test.ts
+│   │   │       │   ├── oral-voice-submit-route.test.ts
+│   │   │       │   ├── parent-dashboard-route.test.ts
+│   │   │       │   ├── ressources-catalog-route.test.ts
+│   │   │       │   ├── teacher-rbac-scope.test.ts
+│   │   │       │   ├── teacher-routes-degraded.test.ts
+│   │   │       │   ├── tuteur-message-route.test.ts
+│   │   │       │   └── vitals-route.test.ts
+│   │   │       ├── atelier-ecrit
+│   │   │       │   └── upload-validation.test.ts
+│   │   │       ├── auth
+│   │   │       │   ├── login-api-role.test.ts
+│   │   │       │   ├── login-routing.test.ts
+│   │   │       │   ├── password.test.ts
+│   │   │       │   ├── reset-password-schema.test.ts
+│   │   │       │   └── session.test.ts
+│   │   │       ├── badges.test.ts
+│   │   │       ├── billing
+│   │   │       │   ├── activation-code-hash.test.ts
+│   │   │       │   ├── context.test.ts
+│   │   │       │   ├── dashboard-upgrade.test.ts
+│   │   │       │   ├── fallback-prod.test.ts
+│   │   │       │   ├── library-gating.test.ts
+│   │   │       │   ├── paywall-message.test.ts
+│   │   │       │   ├── plan-catalog-logic.test.ts
+│   │   │       │   ├── quota-atomicity.test.ts
+│   │   │       │   ├── quota-enforcement.test.ts
+│   │   │       │   ├── quotas-single-source.test.ts
+│   │   │       │   ├── quotas.test.ts
+│   │   │       │   ├── redeem-legacy-plan.test.ts
+│   │   │       │   └── require-quota-missing.test.ts
+│   │   │       ├── cache
+│   │   │       │   └── lru.test.ts
+│   │   │       ├── compliance
+│   │   │       │   └── anti-triche.test.ts
+│   │   │       ├── components
+│   │   │       │   ├── atelier-ecrit
+│   │   │       │   ├── atelier-oral
+│   │   │       │   ├── chat-tuteur.test.tsx
+│   │   │       │   ├── countdown.test.ts
+│   │   │       │   ├── landing
+│   │   │       │   ├── landing-pricing-copy.test.ts
+│   │   │       │   ├── oral-simulator-source.test.ts
+│   │   │       │   ├── OralWorkSelector.test.tsx
+│   │   │       │   ├── quiz-player.test.tsx
+│   │   │       │   ├── rapport-correction.test.tsx
+│   │   │       │   ├── sidebar-upgrade-visibility.test.ts
+│   │   │       │   ├── student-navigation.test.ts
+│   │   │       │   └── upload-copie.test.tsx
+│   │   │       ├── config
+│   │   │       │   ├── api-route-logger-usage.test.ts
+│   │   │       │   ├── ci-workflows.test.ts
+│   │   │       │   ├── deploy-script.test.ts
+│   │   │       │   ├── fr-copy-workflow-shell.test.ts
+│   │   │       │   ├── next-config.test.ts
+│   │   │       │   ├── nginx-eaf.test.ts
+│   │   │       │   ├── tunisia.test.ts
+│   │   │       │   └── worker-runtime-config.test.ts
+│   │   │       ├── correcteur.test.ts
+│   │   │       ├── correction
+│   │   │       │   ├── annotation-mapper.test.ts
+│   │   │       │   ├── correcteur.test.ts
+│   │   │       │   ├── normalize-correction.test.ts
+│   │   │       │   ├── ocr.test.ts
+│   │   │       │   ├── report-generator.test.ts
+│   │   │       │   ├── rubrique.test.ts
+│   │   │       │   └── worker.test.ts
+│   │   │       ├── cost-tracker-v2.test.ts
+│   │   │       ├── data
+│   │   │       │   ├── media-catalog.test.ts
+│   │   │       │   ├── oeuvres-programme.test.ts
+│   │   │       │   └── programme-coherence.test.ts
+│   │   │       ├── date
+│   │   │       │   └── current-school-year.test.ts
+│   │   │       ├── db
+│   │   │       │   ├── client-availability.test.ts
+│   │   │       │   └── user-repo-contact-fields.test.ts
+│   │   │       ├── email
+│   │   │       │   ├── app-url-no-localhost.test.ts
+│   │   │       │   └── parent-teacher-notification.test.ts
+│   │   │       ├── fr-copy
+│   │   │       │   └── banned-phrases.test.ts
+│   │   │       ├── gamification
+│   │   │       │   └── badges.test.ts
+│   │   │       ├── go-live-guards.test.ts
+│   │   │       ├── hooks
+│   │   │       │   ├── atelier-ecrit
+│   │   │       │   ├── atelier-oral
+│   │   │       │   └── use-dashboard.test.ts
+│   │   │       ├── langue
+│   │   │       │   └── exercise-bank.test.ts
+│   │   │       ├── langue-evaluation.test.ts
+│   │   │       ├── lib
+│   │   │       │   ├── app-shell-paths.test.ts
+│   │   │       │   ├── exam-info.test.ts
+│   │   │       │   ├── oral
+│   │   │       │   └── storage-provider.test.ts
+│   │   │       ├── llm
+│   │   │       │   ├── agent-base.test.ts
+│   │   │       │   ├── cost-tracker.test.ts
+│   │   │       │   ├── guardrail-integration.test.ts
+│   │   │       │   ├── guardrails.test.ts
+│   │   │       │   ├── mistral-router.test.ts
+│   │   │       │   ├── mistral-timeout.test.ts
+│   │   │       │   ├── no-url-guardrail.test.ts
+│   │   │       │   ├── orchestrator.test.ts
+│   │   │       │   ├── provider-factory.test.ts
+│   │   │       │   ├── rate-limiter.test.ts
+│   │   │       │   ├── skills
+│   │   │       │   ├── timeout-helper.test.ts
+│   │   │       │   └── token-estimate.test.ts
+│   │   │       ├── mcp-client.test.ts
+│   │   │       ├── memory
+│   │   │       │   ├── context-builder.test.ts
+│   │   │       │   ├── scoring.test.ts
+│   │   │       │   ├── streak.test.ts
+│   │   │       │   └── weak-signals.test.ts
+│   │   │       ├── middleware-public-routes.test.ts
+│   │   │       ├── middleware-security-headers.test.ts
+│   │   │       ├── mistral-ocr.test.ts
+│   │   │       ├── mistral-router-v2.test.ts
+│   │   │       ├── notifications
+│   │   │       │   └── templates.test.ts
+│   │   │       ├── onboarding
+│   │   │       │   └── copy-analysis.test.ts
+│   │   │       ├── oral
+│   │   │       │   ├── chrono.test.ts
+│   │   │       │   ├── entretien-oeuvre.test.ts
+│   │   │       │   ├── evaluate-and-persist.test.ts
+│   │   │       │   ├── evaluator.test.ts
+│   │   │       │   ├── extraits.test.ts
+│   │   │       │   ├── scoring.test.ts
+│   │   │       │   ├── service-pick-extrait.test.ts
+│   │   │       │   ├── service.test.ts
+│   │   │       │   ├── session.test.ts
+│   │   │       │   └── state-machine.test.ts
+│   │   │       ├── oral-capabilities.test.ts
+│   │   │       ├── oral-repository.test.ts
+│   │   │       ├── oral-session.test.ts
+│   │   │       ├── orchestrator.test.ts
+│   │   │       ├── pages
+│   │   │       │   ├── loading.test.ts
+│   │   │       │   └── profile-editing.test.ts
+│   │   │       ├── parent
+│   │   │       │   └── digest.test.ts
+│   │   │       ├── pdf
+│   │   │       │   ├── document-html-pdf.test.ts
+│   │   │       │   └── generator.test.ts
+│   │   │       ├── pedagogy
+│   │   │       │   ├── baremes.test.ts
+│   │   │       │   ├── descriptif-conformite.test.ts
+│   │   │       │   ├── grammaire.test.ts
+│   │   │       │   └── storage-paths.test.ts
+│   │   │       ├── policy-gate-tunisia.test.ts
+│   │   │       ├── portfolio
+│   │   │       │   └── export.test.ts
+│   │   │       ├── profile
+│   │   │       │   └── profile-score-summary.test.ts
+│   │   │       ├── queue
+│   │   │       │   ├── correction-queue-degraded.test.ts
+│   │   │       │   └── correction-queue.test.ts
+│   │   │       ├── quiz
+│   │   │       │   └── adaptive.test.ts
+│   │   │       ├── rag
+│   │   │       │   ├── chunker.test.ts
+│   │   │       │   ├── external-client.test.ts
+│   │   │       │   ├── golden-queries.test.ts
+│   │   │       │   ├── hybrid-search.test.ts
+│   │   │       │   ├── indexer.test.ts
+│   │   │       │   ├── ingestion-pipeline.test.ts
+│   │   │       │   ├── rerank.test.ts
+│   │   │       │   ├── rrf-fusion.test.ts
+│   │   │       │   └── vector-search.test.ts
+│   │   │       ├── rag-search.test.ts
+│   │   │       ├── rappel-agent-mcp.test.ts
+│   │   │       ├── rgpd
+│   │   │       │   └── consent.test.ts
+│   │   │       ├── role-layouts.test.ts
+│   │   │       ├── security
+│   │   │       │   ├── csrf-client.test.ts
+│   │   │       │   ├── csrf.test.ts
+│   │   │       │   ├── file-validator.test.ts
+│   │   │       │   ├── llm-quota-enforcement.test.ts
+│   │   │       │   ├── prompt-injection.test.ts
+│   │   │       │   ├── rate-limit.test.ts
+│   │   │       │   ├── rbac.test.ts
+│   │   │       │   └── sanitize.test.ts
+│   │   │       ├── skills
+│   │   │       │   └── agent-schemas.test.ts
+│   │   │       ├── spaced-repetition
+│   │   │       │   └── sm2.test.ts
+│   │   │       ├── spaced-repetition.test.ts
+│   │   │       ├── store
+│   │   │       │   └── premium-store.test.ts
+│   │   │       ├── stt
+│   │   │       │   └── transcriber.test.ts
+│   │   │       ├── tutor-visible-citations.test.ts
+│   │   │       ├── upload-copie.test.ts
+│   │   │       ├── validation
+│   │   │       │   ├── new-schemas.test.ts
+│   │   │       │   └── request.test.ts
+│   │   │       └── vector-search.test.ts
+│   │   ├── tsconfig.json
+│   │   ├── tsconfig.test.json
+│   │   ├── tsconfig.test.tsbuildinfo
+│   │   ├── tsconfig.tsbuildinfo
+│   │   ├── tsconfig.worker.json
+│   │   └── vitest.config.ts
+│   └── 20260412_025339
+│       ├── arborescence-eaf.txt
+│       ├── CHANGELOG.md
+│       ├── config
+│       │   ├── fr-copy-banned-phrases.json
+│       │   └── fr-copy-baseline.json
+│       ├── create-pr-branch.sh
+│       ├── dist
+│       │   └── worker
+│       │       └── src
+│       │           └── lib
+│       ├── docs
+│       │   ├── ADMIN_DASHBOARD_ENHANCEMENT.md
+│       │   ├── API_REFERENCE.md
+│       │   ├── arborescence_prod.txt
+│       │   ├── ARCHITECTURE.md
+│       │   ├── AUDIT_FRONTEND.md
+│       │   ├── AUDIT_GO_LIVE.md
+│       │   ├── CHECKLIST_GO_LIVE.md
+│       │   ├── CI_SECRETS.md
+│       │   ├── CLAUDE_FINAL_PROD_AUDIT
+│       │   │   ├── 00_SOURCE_OF_TRUTH.md
+│       │   │   ├── 01_SURFACE_MAP.md
+│       │   │   ├── 02_PUBLIC_ANONYMOUS_FLOWS.md
+│       │   │   ├── 03_AUTH_REGISTRATION_EMAILS.md
+│       │   │   ├── 04_DASHBOARD_ELEVE.md
+│       │   │   ├── 05_ATELIERS_ELEVE.md
+│       │   │   ├── 06_BIBLIOTHEQUE_RESSOURCES.md
+│       │   │   ├── 07_BILLING_ACTIVATION.md
+│       │   │   ├── 08_ROLES_PARENT_ENSEIGNANT_ADMIN.md
+│       │   │   ├── 09_RAG_LLM_MCP_MEMOIRE.md
+│       │   │   ├── 10_COHERENCE_FRONT_BACK_DB.md
+│       │   │   ├── 11_SECURITE_ROBUSTESSE.md
+│       │   │   ├── 12_TESTS_TECHNIQUES_CI.md
+│       │   │   ├── 13_UX_WORDING_COMMERCIAL.md
+│       │   │   ├── 14_DECISION_FINALE.md
+│       │   │   ├── 99_FINAL_RELEASE_DECISION.md
+│       │   │   └── ARCHITECTURE_AUDIT.md
+│       │   ├── COMPLETE_GUIDE.md
+│       │   ├── CONTRIBUTING.md
+│       │   ├── DATABASE_SCHEMA.md
+│       │   ├── DEPLOYMENT.md
+│       │   ├── eaf_arborescence_prod_2026-04-04.txt
+│       │   ├── eaf_arborescence_prod.txt
+│       │   ├── EMAIL_SETUP.md
+│       │   ├── FRONTEND_GUIDELINES.md
+│       │   ├── GUIDE_ELEVE.md
+│       │   ├── GUIDE_ENSEIGNANT.md
+│       │   ├── LANDING_PAGE_EAF_2026.md
+│       │   ├── MOBILE_TESTING.md
+│       │   ├── P0_CORRECTION_REPORT.md
+│       │   ├── PLANS_AND_BILLING.md
+│       │   ├── RBAC_POLICY.md
+│       │   ├── README.md
+│       │   ├── REMEDIATION_REPORT.md
+│       │   ├── RUNBOOK_ORAL_VOICE_V1.md
+│       │   ├── RUNBOOK_PRODUCTION.md
+│       │   ├── S3_HETZNER_SETUP.md
+│       │   └── superpowers
+│       │       ├── plans
+│       │       │   ├── 2026-03-23-final-prod-audit.md
+│       │       │   ├── 2026-03-24-french-language-hardening.md
+│       │       │   ├── 2026-03-24-landing-header-refactor.md
+│       │       │   ├── 2026-04-01-atelier-ecrit-progress-stream.md
+│       │       │   ├── 2026-04-01-audit-v9-lot1-billing-oral.md
+│       │       │   ├── 2026-04-01-audit-v9-lot3-oral-front.md
+│       │       │   ├── 2026-04-01-audit-v9-lot4-ci-cd.md
+│       │       │   ├── 2026-04-01-audit-v9-lot4-remaining.md
+│       │       │   ├── 2026-04-01-bloc-d-billing.md
+│       │       │   ├── 2026-04-04-descriptif-baremes-refonte.md
+│       │       │   └── 2026-04-04-go-live-commercial-finition.md
+│       │       └── specs
+│       │           ├── 2026-03-23-final-prod-audit-design.md
+│       │           ├── 2026-03-24-french-language-hardening-design.md
+│       │           ├── 2026-03-24-landing-header-design.md
+│       │           ├── 2026-04-01-atelier-ecrit-progress-stream-design.md
+│       │           └── 2026-04-01-bloc-d-billing-design.md
+│       ├── eaf.code-workspace
+│       ├── ecosystem.config.cjs
+│       ├── emails
+│       │   ├── EmailVerificationEmail.tsx
+│       │   ├── ParentNotificationEmail.tsx
+│       │   ├── PasswordChangedEmail.tsx
+│       │   ├── PasswordResetEmail.tsx
+│       │   ├── SubscriptionEmail.tsx
+│       │   ├── TeacherNotificationEmail.tsx
+│       │   └── WelcomeEmail.tsx
+│       ├── eslint.config.mjs
+│       ├── forensics
+│       │   └── eaf_prod_snapshot_20260315_1110
+│       │       ├── ecosystem.config.cjs
+│       │       ├── middleware.ts
+│       │       ├── next.config.ts
+│       │       ├── oral-jury-respond-route.ts
+│       │       ├── oral-session-start-route.ts
+│       │       ├── oral-voice-submit-route.ts
+│       │       ├── payments-availability.ts
+│       │       └── pricing-page.tsx
+│       ├── knip.json
+│       ├── middleware.ts
+│       ├── next.config.ts
+│       ├── next-env.d.ts
+│       ├── nexus-routes
+│       │   ├── admin
+│       │   │   ├── directeur
+│       │   │   │   └── stats
+│       │   │   └── users
+│       │   │       └── search
+│       │   ├── assistant
+│       │   │   ├── coaches
+│       │   │   │   └── [id]
+│       │   │   └── students
+│       │   │       └── credits
+│       │   ├── coach
+│       │   │   └── sessions
+│       │   │       └── [sessionId]
+│       │   ├── deploy-to-nexus.sh
+│       │   ├── invoices
+│       │   │   └── [id]
+│       │   │       ├── pdf
+│       │   │       └── receipt
+│       │   ├── payments
+│       │   │   └── bank-transfer
+│       │   │       └── confirm
+│       │   ├── programme
+│       │   │   ├── maths-1ere
+│       │   │   │   └── progress
+│       │   │   └── maths-terminale
+│       │   │       └── progress
+│       │   ├── README.md
+│       │   ├── stages
+│       │   │   └── fevrier-2026
+│       │   │       └── bilan
+│       │   └── students
+│       │       └── [studentId]
+│       │           ├── badges
+│       │           └── route.ts
+│       ├── ops
+│       │   ├── nginx
+│       │   │   └── eaf-nexus.conf
+│       │   ├── nginx.conf
+│       │   ├── oral_voice_canary_check.sh
+│       │   └── oral_voice_preflight.sh
+│       ├── package.json
+│       ├── package-lock.json
+│       ├── packages
+│       │   ├── mcp-server
+│       │   │   ├── dist
+│       │   │   │   ├── client.d.ts
+│       │   │   │   ├── client.js
+│       │   │   │   ├── index.d.ts
+│       │   │   │   ├── index.js
+│       │   │   │   ├── lib
+│       │   │   │   ├── prompts
+│       │   │   │   ├── resources
+│       │   │   │   ├── server.d.ts
+│       │   │   │   ├── server.js
+│       │   │   │   ├── tools
+│       │   │   │   ├── transport-http.d.ts
+│       │   │   │   ├── transport-http.js
+│       │   │   │   └── types
+│       │   │   ├── mcp.config.json
+│       │   │   ├── package.json
+│       │   │   ├── prisma -> ../../prisma
+│       │   │   ├── README.md
+│       │   │   ├── src
+│       │   │   │   ├── client.ts
+│       │   │   │   ├── index.ts
+│       │   │   │   ├── lib
+│       │   │   │   ├── prompts
+│       │   │   │   ├── resources
+│       │   │   │   ├── server.ts
+│       │   │   │   ├── tools
+│       │   │   │   ├── transport-http.ts
+│       │   │   │   └── types
+│       │   │   ├── tests
+│       │   │   │   ├── all-tools.test.ts
+│       │   │   │   ├── mcp-server.test.ts
+│       │   │   │   ├── plan-catalog.test.ts
+│       │   │   │   └── skill-delta.test.ts
+│       │   │   ├── tsconfig.json
+│       │   │   └── vitest.config.ts
+│       │   └── shared-billing
+│       │       ├── dist
+│       │       │   ├── index.d.ts
+│       │       │   ├── index.d.ts.map
+│       │       │   ├── index.js
+│       │       │   ├── plan-catalog.d.ts
+│       │       │   ├── plan-catalog.d.ts.map
+│       │       │   ├── plan-catalog.js
+│       │       │   ├── programme-oeuvres.d.ts
+│       │       │   ├── programme-oeuvres.d.ts.map
+│       │       │   └── programme-oeuvres.js
+│       │       ├── package.json
+│       │       ├── src
+│       │       │   ├── index.ts
+│       │       │   ├── plan-catalog.ts
+│       │       │   └── programme-oeuvres.ts
+│       │       └── tsconfig.json
+│       ├── PLANS_AND_QUOTAS.md
+│       ├── playwright.config.ts
+│       ├── postcss.config.mjs
+│       ├── prisma
+│       │   ├── migrations
+│       │   │   ├── 0001_init
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0002_student_profile_onboarding
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0003_profile_badges
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0004_rag_columns_and_missing_models
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0005_oral_eaf_conformity
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0006_oral_v2_schema
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0007_billing_plans_v2
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0008_addendum_memory_store_v1
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0009b_oral_oeuvre_choisie
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0009_gamification_xp_columns
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0010_descriptif_lecture
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0011_carnet_lecture
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0012_pgvector_hnsw_index
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0013_premium_history_and_learning_memory
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0014_add_billing_tables
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0015_add_web_vital_table
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0016_add_premium_max_plan
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0017_fix_activation_code_schema
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0018_add_manual_provider
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0019_add_parent_consent_fields
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0020_fix_oral_totalscore_float
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0021_default_provider_manual
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0022_add_password_reset_token
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0023_add_teacher_email_to_student_profile
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0024_add_usage_counter_lookup_index
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0025_parent_consent_enum_and_school_year
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0026_copie_progress_events
+│       │   │   │   └── migration.sql
+│       │   │   ├── 0027_add_missing_indexes_default_annee
+│       │   │   │   └── migration.sql
+│       │   │   ├── 20260404123533_add_texte_prepare_descriptif
+│       │   │   │   └── migration.sql
+│       │   │   ├── 20260404165617_unify_texte_descriptif
+│       │   │   │   └── migration.sql
+│       │   │   ├── 20260409_add_admin_audit_log
+│       │   │   │   └── migration.sql
+│       │   │   ├── 20260411_add_activation_plan_enum
+│       │   │   │   └── migration.sql
+│       │   │   └── migration_lock.toml
+│       │   ├── schema.prisma
+│       │   └── seed-official-works.ts
+│       ├── public
+│       │   ├── assets
+│       │   │   ├── dashboard-parent.svg
+│       │   │   ├── dashboard-student.svg
+│       │   │   ├── og-cover.png
+│       │   │   ├── og-cover.svg
+│       │   │   ├── oral-simulator-preview.svg
+│       │   │   └── oral-simulator-preview.webp
+│       │   ├── favicon.svg
+│       │   ├── hero-bg.jpg
+│       │   ├── hero-student.jpg
+│       │   ├── images
+│       │   │   ├── logo_nexus_reussite_nav.webp
+│       │   │   ├── logo_nexus_reussite.png
+│       │   │   ├── logo.png
+│       │   │   ├── logo_slogan_nexus_email.png
+│       │   │   └── logo_slogan_nexus.png
+│       │   ├── manifest.json
+│       │   ├── pdf.worker.min.js
+│       │   ├── ressources -> ../ressources
+│       │   └── section-bg-1.jpg
+│       ├── README.md
+│       ├── scripts
+│       │   ├── audit-csrf-routes.mjs
+│       │   ├── backup-uploads.sh
+│       │   ├── build-worker.mjs
+│       │   ├── check-banned-phrases.mjs
+│       │   ├── check-curly-quotes.ts
+│       │   ├── check-env.js
+│       │   ├── check-fr-copy.ts
+│       │   ├── commit-and-push.sh
+│       │   ├── create-admin-production.ts
+│       │   ├── deploy-ressources.sh
+│       │   ├── deploy.sh
+│       │   ├── fix-error-messages.py
+│       │   ├── generate-env.py
+│       │   ├── generate-release-meta.sh
+│       │   ├── index-rag.ts
+│       │   ├── ingest-media-catalog.ts
+│       │   ├── integration-test-production.sh
+│       │   ├── migrate-legacy-descriptif.ts
+│       │   ├── migrate-memory-store-to-db.ts
+│       │   ├── migrate-oral-sessions-to-db.ts
+│       │   ├── migrate-uploads-to-s3.ts
+│       │   ├── nginx-eaf.conf
+│       │   ├── ops
+│       │   │   ├── backup-postgres.sh
+│       │   │   ├── cleanup-local-documents.sh
+│       │   │   ├── health-monitor.sh
+│       │   │   └── install-cron.sh
+│       │   ├── pedagogical-test.sh
+│       │   ├── pw_webserver_local.ts
+│       │   ├── rag-diagnostic.sh
+│       │   ├── rebase-stack.sh
+│       │   ├── remigrate-orphan-users.ts
+│       │   ├── run-all-tests.sh
+│       │   ├── scan-ressources.ts
+│       │   ├── seed-test-users.ts
+│       │   ├── seed.ts
+│       │   ├── setup-github-secrets.sh
+│       │   ├── setup-postgres.py
+│       │   ├── setup-server-production.sh
+│       │   ├── setup-server.sh
+│       │   ├── setup.sh
+│       │   ├── smoke-test-production.sh
+│       │   ├── standardize-styles.sh
+│       │   ├── test-admin-dashboard.sh
+│       │   ├── test-production-locale.sh
+│       │   ├── test-worker-job.mjs
+│       │   ├── verify-catalog-paths.ts
+│       │   └── visual-qa-precheck.sh
+│       ├── src
+│       │   ├── app
+│       │   │   ├── admin
+│       │   │   │   ├── components
+│       │   │   │   ├── enhanced-page.tsx
+│       │   │   │   ├── layout.tsx
+│       │   │   │   ├── login
+│       │   │   │   └── page.tsx
+│       │   │   ├── api
+│       │   │   │   ├── mcp
+│       │   │   │   └── v1
+│       │   │   ├── atelier-ecrit
+│       │   │   │   ├── components
+│       │   │   │   ├── correction
+│       │   │   │   ├── hooks
+│       │   │   │   ├── loading.tsx
+│       │   │   │   ├── page.tsx
+│       │   │   │   └── types.ts
+│       │   │   ├── atelier-langue
+│       │   │   │   └── page.tsx
+│       │   │   ├── atelier-oral
+│       │   │   │   ├── components
+│       │   │   │   ├── hooks
+│       │   │   │   ├── loading.tsx
+│       │   │   │   ├── page.tsx
+│       │   │   │   └── types.ts
+│       │   │   ├── bibliotheque
+│       │   │   │   ├── loading.tsx
+│       │   │   │   └── page.tsx
+│       │   │   ├── bienvenue
+│       │   │   │   ├── page.tsx
+│       │   │   │   └── sections
+│       │   │   ├── carnet
+│       │   │   │   └── page.tsx
+│       │   │   ├── cgu
+│       │   │   │   └── page.tsx
+│       │   │   ├── cgv
+│       │   │   │   └── page.tsx
+│       │   │   ├── contact
+│       │   │   │   └── page.tsx
+│       │   │   ├── dashboard
+│       │   │   │   ├── layout.tsx
+│       │   │   │   └── page.tsx
+│       │   │   ├── descriptif
+│       │   │   │   └── page.tsx
+│       │   │   ├── descriptif-lecture
+│       │   │   │   ├── AddTexteForm.tsx
+│       │   │   │   ├── page.tsx
+│       │   │   │   └── TexteCard.tsx
+│       │   │   ├── enseignant
+│       │   │   │   ├── layout.tsx
+│       │   │   │   └── page.tsx
+│       │   │   ├── error.tsx
+│       │   │   ├── favicon.ico
+│       │   │   ├── global-error.tsx
+│       │   │   ├── globals.css
+│       │   │   ├── layout.tsx
+│       │   │   ├── loading.tsx
+│       │   │   ├── login
+│       │   │   │   └── page.tsx
+│       │   │   ├── mentions-legales
+│       │   │   │   └── page.tsx
+│       │   │   ├── mon-parcours
+│       │   │   │   └── page.tsx
+│       │   │   ├── not-found.tsx
+│       │   │   ├── onboarding
+│       │   │   │   └── page.tsx
+│       │   │   ├── page.tsx
+│       │   │   ├── paiement
+│       │   │   │   ├── checkout
+│       │   │   │   ├── confirmation
+│       │   │   │   └── refus
+│       │   │   ├── parent
+│       │   │   │   ├── layout.tsx
+│       │   │   │   └── page.tsx
+│       │   │   ├── politique-de-confidentialite
+│       │   │   │   └── page.tsx
+│       │   │   ├── pricing
+│       │   │   │   ├── layout.tsx
+│       │   │   │   └── page.tsx
+│       │   │   ├── profil
+│       │   │   │   └── page.tsx
+│       │   │   ├── (public)
+│       │   │   │   └── landing
+│       │   │   ├── quiz
+│       │   │   │   └── page.tsx
+│       │   │   ├── robots.ts
+│       │   │   ├── sitemap.ts
+│       │   │   └── tuteur
+│       │   │       ├── loading.tsx
+│       │   │       └── page.tsx
+│       │   ├── components
+│       │   │   ├── accessibility
+│       │   │   │   └── dyslexia-toggle.tsx
+│       │   │   ├── analytics
+│       │   │   │   └── events.ts
+│       │   │   ├── atelier-oral
+│       │   │   │   ├── OralHero.tsx
+│       │   │   │   ├── OralStepIndicator.tsx
+│       │   │   │   └── OralTimer.tsx
+│       │   │   ├── consent
+│       │   │   │   └── ConsentBanner.tsx
+│       │   │   ├── dashboard
+│       │   │   │   └── progression-chart.tsx
+│       │   │   ├── landing
+│       │   │   │   ├── ComparisonTable.tsx
+│       │   │   │   ├── DashboardToggle.tsx
+│       │   │   │   ├── FAQSection.tsx
+│       │   │   │   ├── FooterCTA.tsx
+│       │   │   │   ├── Footer.tsx
+│       │   │   │   ├── Hero.tsx
+│       │   │   │   ├── MethodSteps.tsx
+│       │   │   │   ├── MobilePcBanner.tsx
+│       │   │   │   ├── PricingSection.tsx
+│       │   │   │   ├── SocialProofStrip.tsx
+│       │   │   │   ├── StatsSection.tsx
+│       │   │   │   ├── StickyNav.tsx
+│       │   │   │   ├── TestimonialsSection.tsx
+│       │   │   │   ├── WhatsAppButton.tsx
+│       │   │   │   └── WorkshopTabs.tsx
+│       │   │   ├── layout
+│       │   │   │   ├── app-shell.tsx
+│       │   │   │   ├── sidebar.tsx
+│       │   │   │   └── student-navigation.ts
+│       │   │   ├── monitoring
+│       │   │   │   └── web-vitals-reporter.tsx
+│       │   │   ├── theme
+│       │   │   │   └── theme-provider.tsx
+│       │   │   ├── tracking
+│       │   │   │   ├── MetaPixel.tsx
+│       │   │   │   └── tracking-provider.tsx
+│       │   │   └── ui
+│       │   │       ├── badge.tsx
+│       │   │       ├── button.tsx
+│       │   │       ├── card.tsx
+│       │   │       ├── dropdown-menu.tsx
+│       │   │       ├── EmailVerificationBanner.tsx
+│       │   │       ├── icons.ts
+│       │   │       ├── Icon.tsx
+│       │   │       ├── index.ts
+│       │   │       ├── input.tsx
+│       │   │       ├── pdf-preview-viewer.tsx
+│       │   │       ├── section-header.tsx
+│       │   │       ├── select.tsx
+│       │   │       ├── state-notice.tsx
+│       │   │       ├── surface.tsx
+│       │   │       ├── textarea.tsx
+│       │   │       ├── UpgradePrompt.tsx
+│       │   │       └── use-dialog-accessibility.ts
+│       │   ├── data
+│       │   │   ├── baremes-officiels.ts
+│       │   │   ├── extraits-oeuvres.ts
+│       │   │   ├── media-catalog.ts
+│       │   │   ├── oeuvres-programme.ts
+│       │   │   ├── programme-eaf-2025.ts
+│       │   │   ├── references.ts
+│       │   │   ├── ressources-scan.json
+│       │   │   └── ressources.ts
+│       │   ├── hooks
+│       │   │   └── useDashboard.ts
+│       │   ├── lib
+│       │   │   ├── admin
+│       │   │   │   ├── audit.ts
+│       │   │   │   ├── dashboard-tab-data.ts
+│       │   │   │   └── plan-visibility.ts
+│       │   │   ├── agents
+│       │   │   │   ├── avocat-diable.ts
+│       │   │   │   ├── diagnosticien.ts
+│       │   │   │   ├── diction
+│       │   │   │   ├── pastiche
+│       │   │   │   ├── planner.ts
+│       │   │   │   ├── policy-gate.ts
+│       │   │   │   ├── prompts
+│       │   │   │   ├── rappel-agent.ts
+│       │   │   │   ├── rapport-auto.ts
+│       │   │   │   ├── router.ts
+│       │   │   │   ├── shadow-timer
+│       │   │   │   └── student-modeler.ts
+│       │   │   ├── api
+│       │   │   │   └── client.ts
+│       │   │   ├── atelier-ecrit
+│       │   │   │   └── upload-validation.ts
+│       │   │   ├── auth
+│       │   │   │   ├── client-auth-state.ts
+│       │   │   │   ├── guard.ts
+│       │   │   │   ├── linked-role-accounts.ts
+│       │   │   │   ├── session.ts
+│       │   │   │   └── types.ts
+│       │   │   ├── billing
+│       │   │   │   ├── context.ts
+│       │   │   │   ├── dashboard-upgrade.ts
+│       │   │   │   ├── library-gating.ts
+│       │   │   │   ├── plan-catalog.ts
+│       │   │   │   ├── public-offers.ts
+│       │   │   │   ├── quota-messages.ts
+│       │   │   │   ├── quotas.ts
+│       │   │   │   ├── redeem.ts
+│       │   │   │   └── usage.ts
+│       │   │   ├── cache
+│       │   │   │   └── lru.ts
+│       │   │   ├── carnet
+│       │   │   │   └── pdf.tsx
+│       │   │   ├── compliance
+│       │   │   │   └── anti-triche.ts
+│       │   │   ├── config
+│       │   │   │   ├── tunisia.ts
+│       │   │   │   └── validate-env.ts
+│       │   │   ├── correction
+│       │   │   │   ├── annotation-mapper.ts
+│       │   │   │   ├── correcteur.ts
+│       │   │   │   ├── normalize-correction.ts
+│       │   │   │   └── ocr.ts
+│       │   │   ├── cron
+│       │   │   │   └── scheduler.ts
+│       │   │   ├── date
+│       │   │   │   └── current-school-year.ts
+│       │   │   ├── db
+│       │   │   │   ├── client.ts
+│       │   │   │   ├── fallback-store.ts
+│       │   │   │   └── repositories
+│       │   │   ├── design-tokens.ts
+│       │   │   ├── e2e
+│       │   │   │   └── playwright-db.ts
+│       │   │   ├── email
+│       │   │   │   ├── client.ts
+│       │   │   │   ├── parental-consent.ts
+│       │   │   │   └── service.ts
+│       │   │   ├── epreuves
+│       │   │   │   ├── exam-blanc-generator.ts
+│       │   │   │   ├── fallback-store.ts
+│       │   │   │   ├── generation-normalizer.ts
+│       │   │   │   ├── report-pdf.tsx
+│       │   │   │   ├── repository.ts
+│       │   │   │   ├── types.ts
+│       │   │   │   └── worker.ts
+│       │   │   ├── evaluation
+│       │   │   │   └── langue.ts
+│       │   │   ├── exam
+│       │   │   │   └── exam-info.ts
+│       │   │   ├── gamification
+│       │   │   │   └── badges.ts
+│       │   │   ├── langue
+│       │   │   │   └── exercise-bank.ts
+│       │   │   ├── llm
+│       │   │   │   ├── adapters
+│       │   │   │   ├── agent-base.ts
+│       │   │   │   ├── context-manager.ts
+│       │   │   │   ├── cost-tracker.ts
+│       │   │   │   ├── embeddings.ts
+│       │   │   │   ├── factory.ts
+│       │   │   │   ├── orchestrator.ts
+│       │   │   │   ├── prompts
+│       │   │   │   ├── provider.ts
+│       │   │   │   ├── router.ts
+│       │   │   │   ├── self-reflection.ts
+│       │   │   │   ├── skills
+│       │   │   │   ├── streaming.ts
+│       │   │   │   ├── timeout.ts
+│       │   │   │   └── token-estimate.ts
+│       │   │   ├── logger.ts
+│       │   │   ├── mcp
+│       │   │   │   ├── client.ts
+│       │   │   │   └── index.ts
+│       │   │   ├── memory
+│       │   │   │   ├── context-builder.ts
+│       │   │   │   ├── profile-loader.ts
+│       │   │   │   ├── scoring.ts
+│       │   │   │   └── store.ts
+│       │   │   ├── monitoring
+│       │   │   │   └── web-vitals.ts
+│       │   │   ├── navigation
+│       │   │   │   ├── app-shell-paths.ts
+│       │   │   │   └── tuteur-link.ts
+│       │   │   ├── notifications
+│       │   │   │   ├── push.ts
+│       │   │   │   └── templates.ts
+│       │   │   ├── onboarding
+│       │   │   │   └── copy-analysis.ts
+│       │   │   ├── oral
+│       │   │   │   ├── audio-recorder.ts
+│       │   │   │   ├── audio-utils.ts
+│       │   │   │   ├── capabilities.ts
+│       │   │   │   ├── evaluate-and-persist.ts
+│       │   │   │   ├── examiner-context.ts
+│       │   │   │   ├── rag-context.ts
+│       │   │   │   ├── remote-audio.ts
+│       │   │   │   ├── repository.ts
+│       │   │   │   ├── scoring.ts
+│       │   │   │   ├── service.ts
+│       │   │   │   └── state-machine.ts
+│       │   │   ├── parent
+│       │   │   │   └── digest.ts
+│       │   │   ├── pdf
+│       │   │   │   ├── document-html-pdf.tsx
+│       │   │   │   └── generator.ts
+│       │   │   ├── portfolio
+│       │   │   │   ├── export.ts
+│       │   │   │   └── profil-card-generator.ts
+│       │   │   ├── profile
+│       │   │   │   └── profile-score-summary.ts
+│       │   │   ├── queue
+│       │   │   │   ├── correction-queue.ts
+│       │   │   │   ├── start-worker.ts
+│       │   │   │   └── worker.ts
+│       │   │   ├── quiz
+│       │   │   │   └── theme-mapping.ts
+│       │   │   ├── rag
+│       │   │   │   ├── chunker.ts
+│       │   │   │   ├── citations.ts
+│       │   │   │   ├── external-client.ts
+│       │   │   │   ├── indexer.ts
+│       │   │   │   ├── ingestion
+│       │   │   │   ├── media-indexer.ts
+│       │   │   │   ├── rerank.ts
+│       │   │   │   ├── search.ts
+│       │   │   │   └── vector-search.ts
+│       │   │   ├── ressources
+│       │   │   │   └── path.ts
+│       │   │   ├── rgpd
+│       │   │   │   └── consent.ts
+│       │   │   ├── security
+│       │   │   │   ├── csrf-client.ts
+│       │   │   │   ├── csrf.ts
+│       │   │   │   ├── file-validator.ts
+│       │   │   │   ├── llm-rate-limiter.ts
+│       │   │   │   ├── rate-limit.ts
+│       │   │   │   └── sanitize.ts
+│       │   │   ├── spaced-repetition
+│       │   │   │   └── sm2.ts
+│       │   │   ├── storage
+│       │   │   │   ├── copies.ts
+│       │   │   │   ├── paths.ts
+│       │   │   │   ├── provider.ts
+│       │   │   │   └── s3-provider.ts
+│       │   │   ├── store
+│       │   │   │   └── premium-store.ts
+│       │   │   ├── stt
+│       │   │   │   ├── browser.ts
+│       │   │   │   └── transcriber.ts
+│       │   │   ├── tracking
+│       │   │   │   └── meta-capi.ts
+│       │   │   ├── tts
+│       │   │   │   └── generator.ts
+│       │   │   ├── tutor
+│       │   │   │   └── visible-citations.ts
+│       │   │   ├── types
+│       │   │   │   └── premium.ts
+│       │   │   ├── ui
+│       │   │   │   └── sanitize-llm.ts
+│       │   │   ├── utils.ts
+│       │   │   └── validation
+│       │   │       ├── request.ts
+│       │   │       └── schemas.ts
+│       │   ├── scripts
+│       │   │   └── generate-activation-codes.ts
+│       │   └── styles
+│       │       └── tokens.css
+│       ├── test-admin.sh
+│       ├── test-manual-flow.sh
+│       ├── test-results
+│       ├── tests
+│       │   ├── audit
+│       │   │   ├── phase14-mobile.spec.ts
+│       │   │   ├── phase2-public.spec.ts
+│       │   │   └── playwright.audit.config.ts
+│       │   ├── contracts
+│       │   │   ├── bootstrap-roles.mjs
+│       │   │   ├── bootstrap-teacher-copies.mjs
+│       │   │   ├── openapi.auth.yaml
+│       │   │   ├── openapi.public.yaml
+│       │   │   ├── openapi.teacher.allowed.yaml
+│       │   │   ├── openapi.teacher.forbidden.yaml
+│       │   │   ├── run-schemathesis-auth.sh
+│       │   │   ├── run-schemathesis.sh
+│       │   │   ├── run-schemathesis-teacher-rbac.sh
+│       │   │   ├── run-teacher-comment-rbac.sh
+│       │   │   └── run-teacher-export-rbac.sh
+│       │   ├── e2e
+│       │   │   ├── accessibility.spec.ts
+│       │   │   ├── admin-dashboard.spec.ts
+│       │   │   ├── admin.spec.ts
+│       │   │   ├── atelier-ecrit-bilan-prod.spec.ts
+│       │   │   ├── atelier-ecrit.spec.ts
+│       │   │   ├── atelier-oral.spec.ts
+│       │   │   ├── audit-role-dashboards-prod.spec.ts
+│       │   │   ├── dashboard-student-ui.spec.ts
+│       │   │   ├── descriptif-carnet.spec.ts
+│       │   │   ├── espace-enseignant.spec.ts
+│       │   │   ├── fixtures
+│       │   │   ├── flows.spec.ts
+│       │   │   ├── helpers
+│       │   │   │   └── auth.ts
+│       │   │   ├── inscription-workflow.spec.ts
+│       │   │   ├── landing-header-layout.spec.ts
+│       │   │   ├── landing-mobile-responsive.spec.ts
+│       │   │   ├── login-role-routing.spec.ts
+│       │   │   ├── mobile-accessibility.spec.ts
+│       │   │   ├── mobile-critical.spec.ts
+│       │   │   ├── mobile.spec.ts
+│       │   │   ├── mobile-visual-regression.spec.ts
+│       │   │   ├── navigation.spec.ts
+│       │   │   ├── onboarding.spec.ts
+│       │   │   ├── parcours.spec.ts
+│       │   │   ├── payment-flow.spec.ts
+│       │   │   ├── platform.spec.ts
+│       │   │   ├── quiz-adaptatif.spec.ts
+│       │   │   ├── securite.spec.ts
+│       │   │   ├── security-roles.spec.ts
+│       │   │   ├── tuteur-chat.spec.ts
+│       │   │   └── workflows
+│       │   │       ├── 01-inscription-onboarding.spec.ts
+│       │   │       ├── 02-atelier-oral.spec.ts
+│       │   │       ├── 03-atelier-ecrit.spec.ts
+│       │   │       ├── 04-descriptif-lecture.spec.ts
+│       │   │       ├── 05-espace-enseignant.spec.ts
+│       │   │       ├── 06-securite.spec.ts
+│       │   │       └── 07-landing-mobile-conversion.spec.ts
+│       │   ├── fixtures
+│       │   │   └── copie-test.png
+│       │   ├── integration
+│       │   │   ├── api
+│       │   │   │   ├── auth.test.ts
+│       │   │   │   ├── enseignant.test.ts
+│       │   │   │   ├── epreuves.test.ts
+│       │   │   │   ├── oral-route.test.ts
+│       │   │   │   ├── oral.test.ts
+│       │   │   │   ├── parcours.test.ts
+│       │   │   │   ├── quiz.test.ts
+│       │   │   │   ├── rag-route.test.ts
+│       │   │   │   ├── rag.test.ts
+│       │   │   │   ├── tuteur-route.test.ts
+│       │   │   │   └── tuteur.test.ts
+│       │   │   ├── db
+│       │   │   │   ├── copie-progress.test.ts
+│       │   │   │   ├── copie.test.ts
+│       │   │   │   ├── memory-events.test.ts
+│       │   │   │   ├── oral-session.test.ts
+│       │   │   │   ├── user-repo.test.ts
+│       │   │   │   └── vector-search.test.ts
+│       │   │   ├── external
+│       │   │   │   └── mistral.test.ts
+│       │   │   ├── oral-session-flow.test.ts
+│       │   │   ├── orchestrator-pipeline.test.ts
+│       │   │   ├── rag
+│       │   │   │   └── external-rag.prod-guard.test.ts
+│       │   │   ├── rag-pipeline.test.ts
+│       │   │   └── router-agent.test.ts
+│       │   ├── performance
+│       │   │   └── load-test.yml
+│       │   ├── security
+│       │   │   └── run-zap.sh
+│       │   ├── setup-jsdom.ts
+│       │   ├── tsconfig.json
+│       │   ├── tsconfig.tsbuildinfo
+│       │   └── unit
+│       │       ├── admin
+│       │       │   └── dashboard-tab-data.test.ts
+│       │       ├── agents
+│       │       │   ├── diagnosticien.test.ts
+│       │       │   ├── diction-analyzer.test.ts
+│       │       │   ├── examiner-persona.test.ts
+│       │       │   ├── pastiche.test.ts
+│       │       │   ├── planner.test.ts
+│       │       │   ├── policy-gate.test.ts
+│       │       │   ├── policy-gate-tunisia.test.ts
+│       │       │   ├── rapport-auto.test.ts
+│       │       │   ├── router-agent.test.ts
+│       │       │   ├── shadow-timer.test.ts
+│       │       │   └── student-modeler.test.ts
+│       │       ├── api
+│       │       │   ├── admin
+│       │       │   ├── admin-billing-legacy-plan.test.ts
+│       │       │   ├── admin-plan-visibility.test.ts
+│       │       │   ├── badges-route.test.ts
+│       │       │   ├── billing-routes.test.ts
+│       │       │   ├── carnet-route.test.ts
+│       │       │   ├── class-code-route.test.ts
+│       │       │   ├── client.test.ts
+│       │       │   ├── comment-idor.test.ts
+│       │       │   ├── contact-route.test.ts
+│       │       │   ├── copie-direct-status-route.test.ts
+│       │       │   ├── copie-events-route.test.ts
+│       │       │   ├── copie-file-route.test.ts
+│       │       │   ├── copie-report-route.test.ts
+│       │       │   ├── copie-status-route.test.ts
+│       │       │   ├── cron-session-cleanup.test.ts
+│       │       │   ├── csrf-route.test.ts
+│       │       │   ├── descriptif-route.test.ts
+│       │       │   ├── epreuves-copie-route.test.ts
+│       │       │   ├── epreuves-generate-route.test.ts
+│       │       │   ├── export-csv-route.test.ts
+│       │       │   ├── health
+│       │       │   ├── health-route.test.ts
+│       │       │   ├── interact-constants.test.ts
+│       │       │   ├── langue-generate-route.test.ts
+│       │       │   ├── media-access-route.test.ts
+│       │       │   ├── media-route.test.ts
+│       │       │   ├── memory-timeline-route.test.ts
+│       │       │   ├── oeuvre-choisie-route.test.ts
+│       │       │   ├── oral-audio-turn.test.ts
+│       │       │   ├── oral-end-route.test.ts
+│       │       │   ├── oral-interact-entretien.test.ts
+│       │       │   ├── oral-jury-respond-route.test.ts
+│       │       │   ├── oral-session-route.test.ts
+│       │       │   ├── oral-sessions-route.test.ts
+│       │       │   ├── oral-voice-submit-route.test.ts
+│       │       │   ├── parent-dashboard-route.test.ts
+│       │       │   ├── ressources-catalog-route.test.ts
+│       │       │   ├── teacher-rbac-scope.test.ts
+│       │       │   ├── teacher-routes-degraded.test.ts
+│       │       │   ├── tuteur-message-route.test.ts
+│       │       │   └── vitals-route.test.ts
+│       │       ├── atelier-ecrit
+│       │       │   └── upload-validation.test.ts
+│       │       ├── auth
+│       │       │   ├── login-api-role.test.ts
+│       │       │   ├── login-routing.test.ts
+│       │       │   ├── password.test.ts
+│       │       │   ├── reset-password-schema.test.ts
+│       │       │   └── session.test.ts
+│       │       ├── badges.test.ts
+│       │       ├── billing
+│       │       │   ├── activation-code-hash.test.ts
+│       │       │   ├── context.test.ts
+│       │       │   ├── dashboard-upgrade.test.ts
+│       │       │   ├── fallback-prod.test.ts
+│       │       │   ├── library-gating.test.ts
+│       │       │   ├── paywall-message.test.ts
+│       │       │   ├── plan-catalog-logic.test.ts
+│       │       │   ├── quota-atomicity.test.ts
+│       │       │   ├── quota-enforcement.test.ts
+│       │       │   ├── quotas-single-source.test.ts
+│       │       │   ├── quotas.test.ts
+│       │       │   ├── redeem-legacy-plan.test.ts
+│       │       │   └── require-quota-missing.test.ts
+│       │       ├── cache
+│       │       │   └── lru.test.ts
+│       │       ├── compliance
+│       │       │   └── anti-triche.test.ts
+│       │       ├── components
+│       │       │   ├── atelier-ecrit
+│       │       │   ├── atelier-oral
+│       │       │   ├── chat-tuteur.test.tsx
+│       │       │   ├── countdown.test.ts
+│       │       │   ├── landing
+│       │       │   ├── landing-pricing-copy.test.ts
+│       │       │   ├── oral-simulator-source.test.ts
+│       │       │   ├── OralWorkSelector.test.tsx
+│       │       │   ├── quiz-player.test.tsx
+│       │       │   ├── rapport-correction.test.tsx
+│       │       │   ├── sidebar-upgrade-visibility.test.ts
+│       │       │   ├── student-navigation.test.ts
+│       │       │   └── upload-copie.test.tsx
+│       │       ├── config
+│       │       │   ├── api-route-logger-usage.test.ts
+│       │       │   ├── ci-workflows.test.ts
+│       │       │   ├── deploy-script.test.ts
+│       │       │   ├── fr-copy-workflow-shell.test.ts
+│       │       │   ├── next-config.test.ts
+│       │       │   ├── nginx-eaf.test.ts
+│       │       │   ├── tunisia.test.ts
+│       │       │   └── worker-runtime-config.test.ts
+│       │       ├── correcteur.test.ts
+│       │       ├── correction
+│       │       │   ├── annotation-mapper.test.ts
+│       │       │   ├── correcteur.test.ts
+│       │       │   ├── normalize-correction.test.ts
+│       │       │   ├── ocr.test.ts
+│       │       │   ├── report-generator.test.ts
+│       │       │   ├── rubrique.test.ts
+│       │       │   └── worker.test.ts
+│       │       ├── cost-tracker-v2.test.ts
+│       │       ├── data
+│       │       │   ├── media-catalog.test.ts
+│       │       │   ├── oeuvres-programme.test.ts
+│       │       │   └── programme-coherence.test.ts
+│       │       ├── date
+│       │       │   └── current-school-year.test.ts
+│       │       ├── db
+│       │       │   ├── client-availability.test.ts
+│       │       │   └── user-repo-contact-fields.test.ts
+│       │       ├── email
+│       │       │   ├── app-url-no-localhost.test.ts
+│       │       │   └── parent-teacher-notification.test.ts
+│       │       ├── fr-copy
+│       │       │   └── banned-phrases.test.ts
+│       │       ├── gamification
+│       │       │   └── badges.test.ts
+│       │       ├── go-live-guards.test.ts
+│       │       ├── hooks
+│       │       │   ├── atelier-ecrit
+│       │       │   ├── atelier-oral
+│       │       │   └── use-dashboard.test.ts
+│       │       ├── langue
+│       │       │   └── exercise-bank.test.ts
+│       │       ├── langue-evaluation.test.ts
+│       │       ├── lib
+│       │       │   ├── app-shell-paths.test.ts
+│       │       │   ├── exam-info.test.ts
+│       │       │   ├── oral
+│       │       │   └── storage-provider.test.ts
+│       │       ├── llm
+│       │       │   ├── agent-base.test.ts
+│       │       │   ├── cost-tracker.test.ts
+│       │       │   ├── guardrail-integration.test.ts
+│       │       │   ├── guardrails.test.ts
+│       │       │   ├── mistral-router.test.ts
+│       │       │   ├── mistral-timeout.test.ts
+│       │       │   ├── no-url-guardrail.test.ts
+│       │       │   ├── orchestrator.test.ts
+│       │       │   ├── provider-factory.test.ts
+│       │       │   ├── rate-limiter.test.ts
+│       │       │   ├── skills
+│       │       │   ├── timeout-helper.test.ts
+│       │       │   └── token-estimate.test.ts
+│       │       ├── mcp-client.test.ts
+│       │       ├── memory
+│       │       │   ├── context-builder.test.ts
+│       │       │   ├── scoring.test.ts
+│       │       │   ├── streak.test.ts
+│       │       │   └── weak-signals.test.ts
+│       │       ├── middleware-public-routes.test.ts
+│       │       ├── middleware-security-headers.test.ts
+│       │       ├── mistral-ocr.test.ts
+│       │       ├── mistral-router-v2.test.ts
+│       │       ├── notifications
+│       │       │   └── templates.test.ts
+│       │       ├── onboarding
+│       │       │   └── copy-analysis.test.ts
+│       │       ├── oral
+│       │       │   ├── chrono.test.ts
+│       │       │   ├── entretien-oeuvre.test.ts
+│       │       │   ├── evaluate-and-persist.test.ts
+│       │       │   ├── evaluator.test.ts
+│       │       │   ├── extraits.test.ts
+│       │       │   ├── scoring.test.ts
+│       │       │   ├── service-pick-extrait.test.ts
+│       │       │   ├── service.test.ts
+│       │       │   ├── session.test.ts
+│       │       │   └── state-machine.test.ts
+│       │       ├── oral-capabilities.test.ts
+│       │       ├── oral-repository.test.ts
+│       │       ├── oral-session.test.ts
+│       │       ├── orchestrator.test.ts
+│       │       ├── pages
+│       │       │   ├── loading.test.ts
+│       │       │   └── profile-editing.test.ts
+│       │       ├── parent
+│       │       │   └── digest.test.ts
+│       │       ├── pdf
+│       │       │   ├── document-html-pdf.test.ts
+│       │       │   └── generator.test.ts
+│       │       ├── pedagogy
+│       │       │   ├── baremes.test.ts
+│       │       │   ├── descriptif-conformite.test.ts
+│       │       │   ├── grammaire.test.ts
+│       │       │   └── storage-paths.test.ts
+│       │       ├── policy-gate-tunisia.test.ts
+│       │       ├── portfolio
+│       │       │   └── export.test.ts
+│       │       ├── profile
+│       │       │   └── profile-score-summary.test.ts
+│       │       ├── queue
+│       │       │   ├── correction-queue-degraded.test.ts
+│       │       │   └── correction-queue.test.ts
+│       │       ├── quiz
+│       │       │   └── adaptive.test.ts
+│       │       ├── rag
+│       │       │   ├── chunker.test.ts
+│       │       │   ├── external-client.test.ts
+│       │       │   ├── golden-queries.test.ts
+│       │       │   ├── hybrid-search.test.ts
+│       │       │   ├── indexer.test.ts
+│       │       │   ├── ingestion-pipeline.test.ts
+│       │       │   ├── rerank.test.ts
+│       │       │   ├── rrf-fusion.test.ts
+│       │       │   └── vector-search.test.ts
+│       │       ├── rag-search.test.ts
+│       │       ├── rappel-agent-mcp.test.ts
+│       │       ├── rgpd
+│       │       │   └── consent.test.ts
+│       │       ├── role-layouts.test.ts
+│       │       ├── security
+│       │       │   ├── csrf-client.test.ts
+│       │       │   ├── csrf.test.ts
+│       │       │   ├── file-validator.test.ts
+│       │       │   ├── llm-quota-enforcement.test.ts
+│       │       │   ├── prompt-injection.test.ts
+│       │       │   ├── rate-limit.test.ts
+│       │       │   ├── rbac.test.ts
+│       │       │   └── sanitize.test.ts
+│       │       ├── skills
+│       │       │   └── agent-schemas.test.ts
+│       │       ├── spaced-repetition
+│       │       │   └── sm2.test.ts
+│       │       ├── spaced-repetition.test.ts
+│       │       ├── store
+│       │       │   └── premium-store.test.ts
+│       │       ├── stt
+│       │       │   └── transcriber.test.ts
+│       │       ├── tutor-visible-citations.test.ts
+│       │       ├── upload-copie.test.ts
+│       │       ├── validation
+│       │       │   ├── new-schemas.test.ts
+│       │       │   └── request.test.ts
+│       │       └── vector-search.test.ts
+│       ├── tsconfig.json
+│       ├── tsconfig.test.json
+│       ├── tsconfig.test.tsbuildinfo
+│       ├── tsconfig.tsbuildinfo
+│       ├── tsconfig.worker.json
+│       └── vitest.config.ts
+├── rollback-production.sh
+├── secrets
+└── shared
+    ├── backups
+    │   └── json-fallback-20260412
+    │       ├── epreuves-store.json
+    │       ├── memory-store.json
+    │       ├── oral-sessions.json
+    │       └── premium-store.json
+    ├── data
+    ├── logs
+    ├── tmp
+    └── uploads
+
+595 directories, 1530 files

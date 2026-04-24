@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Plus, CheckCircle } from 'lucide-react';
+import { Plus, CheckCircle } from '@/components/ui/icons';
 import { AddTexteForm } from './AddTexteForm';
 import { TexteCard } from './TexteCard';
 import { DESCRIPTIF_REGLEMENTAIRE, OBJETS_ETUDE, type ObjetEtudeId } from '@/data/programme-eaf-2025';

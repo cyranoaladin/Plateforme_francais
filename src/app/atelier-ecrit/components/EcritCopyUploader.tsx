@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Camera, ChevronRight, FileText, Loader2, Upload, UploadCloud } from 'lucide-react';
+import { Camera, ChevronRight, FileText, Loader2, Upload, UploadCloud } from '@/components/ui/icons';
 import { Badge, Button } from '@/components/ui';
 import { type CopieLink, type EpreuvePayload } from '../types';
 

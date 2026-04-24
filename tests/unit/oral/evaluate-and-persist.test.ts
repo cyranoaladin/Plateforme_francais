@@ -60,16 +60,25 @@ vi.mock('@/lib/logger', () => ({
 }));
 
 import { QuotaExceededError } from '@/lib/billing/usage';
+import type { BillingContext } from '@/lib/billing/context';
 import { evaluateAndPersistPhase, PHASE_TOKEN_COST } from '@/lib/oral/evaluate-and-persist';
 
-const billing = {
+const billing: BillingContext = {
   planId: 'FREE',
   config: {
+    id: 'FREE',
+    label: 'Freemium',
+    priceTnd: 0,
+    billingCycle: 'free',
+    rateLimits: { oralStartPerHour: 6 },
     quotas: {
       LLM_TOKENS: { limit: 8_000, period: 'day' },
     },
+    flags: {},
   },
-} as const;
+  endsAt: null,
+  isActive: true,
+};
 
 const session = {
   id: 'session-1',

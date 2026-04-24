@@ -15,7 +15,7 @@ import {
   ShieldCheck,
   Sparkles,
   Users,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 import { StateNotice, Surface, Textarea } from '@/components/ui';
 

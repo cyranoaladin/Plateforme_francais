@@ -10,7 +10,7 @@ import {
   Search,
   ZoomIn,
   ZoomOut,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import type { PDFDocumentProxy, RenderTask } from 'pdfjs-dist/types/src/display/api';
 
 type PdfJsModule = typeof import('pdfjs-dist/legacy/build/pdf.mjs');

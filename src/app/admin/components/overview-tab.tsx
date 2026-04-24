@@ -1,6 +1,6 @@
 'use client';
 
-import { Users, CheckCircle, Clock, DollarSign } from 'lucide-react';
+import { Users, CheckCircle, Clock, DollarSign } from '@/components/ui/icons';
 import { Card, Badge } from '@/components/ui';
 import { formatPlanLabel } from '@/lib/billing/plan-catalog';
 import { StatCard } from './stat-card';

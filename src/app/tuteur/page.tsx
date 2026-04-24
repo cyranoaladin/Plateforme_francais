@@ -10,7 +10,7 @@ import {
   Send,
   ShieldCheck,
   Sparkles,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { Badge, Button } from '@/components/ui';

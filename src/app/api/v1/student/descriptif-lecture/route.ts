@@ -3,6 +3,7 @@ import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { prisma } from '@/lib/db/client';
 import { logger } from '@/lib/logger';
 import { validateCsrf } from '@/lib/security/csrf';
+import { indexerTexteDescriptif, supprimerTexteDescriptifRAG } from '@/lib/rag/indexer';
 import { z } from 'zod';
 
 const OBJETS = ['POESIE', 'THEATRE', 'LITTERATURE_IDEES', 'ROMAN_RECIT'] as const;
@@ -119,6 +120,24 @@ export async function POST(req: NextRequest) {
   });
 
   logger.info({ userId: auth.user.id, texteId: texte.id }, 'descriptif.lecture.created');
+
+  // Indexation RAG asynchrone — non-bloquante
+  if (texte.contenuTexte && texte.contenuTexte.trim().length > 50) {
+    indexerTexteDescriptif({
+      texteDescriptifId: texte.id,
+      studentId: auth.user.id,
+      contenu: texte.contenuTexte,
+      metadata: {
+        titre: texte.titreExtrait,
+        auteur: texte.oeuvreAuteur,
+        typeTexte: texte.typeTexte,
+        oeuvreNom: texte.oeuvreAuteur,
+      },
+    }).catch((err: unknown) =>
+      logger.warn({ texteId: texte.id, err }, 'rag.indexer.descriptif.async_failed')
+    );
+  }
+
   return NextResponse.json({ texte }, { status: 201 });
 }
 
@@ -142,6 +161,12 @@ export async function PUT(req: NextRequest) {
     );
   }
 
+  // Récupérer les IDs existants pour nettoyer le RAG
+  const existingIds = await prisma.texteDescriptif.findMany({
+    where: { userId: auth.user.id },
+    select: { id: true },
+  });
+
   await prisma.$transaction([
     prisma.texteDescriptif.deleteMany({ where: { userId: auth.user.id } }),
     prisma.texteDescriptif.createMany({
@@ -153,10 +178,36 @@ export async function PUT(req: NextRequest) {
     }),
   ]);
 
+  // Nettoyage RAG asynchrone des anciens textes
+  for (const { id } of existingIds) {
+    supprimerTexteDescriptifRAG(id).catch((err: unknown) =>
+      logger.warn({ texteId: id, err }, 'rag.indexer.descriptif.delete_failed')
+    );
+  }
+
   const textes = await prisma.texteDescriptif.findMany({
     where: { userId: auth.user.id },
     orderBy: [{ objetEtude: 'asc' }, { position: 'asc' }, { createdAt: 'asc' }],
   });
+
+  // Ré-indexer les textes avec contenu
+  for (const texte of textes) {
+    if (texte.contenuTexte && texte.contenuTexte.trim().length > 50) {
+      indexerTexteDescriptif({
+        texteDescriptifId: texte.id,
+        studentId: auth.user.id,
+        contenu: texte.contenuTexte,
+        metadata: {
+          titre: texte.titreExtrait,
+          auteur: texte.oeuvreAuteur,
+          typeTexte: texte.typeTexte,
+          oeuvreNom: texte.oeuvreAuteur,
+        },
+      }).catch((err: unknown) =>
+        logger.warn({ texteId: texte.id, err }, 'rag.indexer.descriptif.reindex_failed')
+      );
+    }
+  }
 
   return NextResponse.json({ textes, total: textes.length });
 }

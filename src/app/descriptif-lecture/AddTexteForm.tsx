@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { X } from 'lucide-react';
+import { X } from '@/components/ui/icons';
 import { OBJETS_ETUDE, type ObjetEtudeId, type TypeTexteId } from '@/data/programme-eaf-2025';
 
 type AddTexteFormProps = {
@@ -45,6 +45,8 @@ export function AddTexteForm({ selectedObjet, onSaved, onCancel }: AddTexteFormP
   });
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [fileStatus, setFileStatus] = useState<'idle' | 'loaded' | 'error'>('idle');
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const selectedObjetData = useMemo(
     () => OBJETS_ETUDE.find((objet) => objet.id === form.objetEtude) ?? OBJETS_ETUDE[0],
@@ -334,11 +336,78 @@ export function AddTexteForm({ selectedObjet, onSaved, onCancel }: AddTexteFormP
       <div className="mt-4 space-y-4">
         <div>
           <label style={labelStyle}>Texte intégral ou extrait</label>
+
+          {/* Zone d'import de fichier TXT */}
+          <div style={{
+            border: `2px dashed ${fileStatus === 'loaded' ? 'var(--eaf-teal)' : fileStatus === 'error' ? 'var(--eaf-orange)' : 'rgba(123,142,255,0.25)'}`,
+            borderRadius: '10px',
+            padding: '12px 16px',
+            marginBottom: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            background: fileStatus === 'loaded' ? 'rgba(26,213,160,0.05)' : 'var(--eaf-bg2)',
+          }}>
+            <input
+              type="file"
+              accept=".txt,text/plain"
+              id="texte-file-input"
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                if (file.size > 5 * 1024 * 1024) {
+                  setFileStatus('error');
+                  setFileName('Fichier trop volumineux (max 5 Mo)');
+                  return;
+                }
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                  const text = evt.target?.result as string;
+                  setForm((c) => ({ ...c, contenuTexte: text }));
+                  setFileStatus('loaded');
+                  setFileName(file.name);
+                };
+                reader.onerror = () => { setFileStatus('error'); setFileName('Erreur de lecture'); };
+                reader.readAsText(file, 'UTF-8');
+              }}
+            />
+            <label
+              htmlFor="texte-file-input"
+              style={{
+                cursor: 'pointer',
+                fontSize: '13px',
+                color: fileStatus === 'loaded' ? 'var(--eaf-teal)' : 'var(--eaf-text-secondary)',
+                fontWeight: fileStatus === 'loaded' ? 600 : 400,
+                flex: 1,
+              }}
+            >
+              {fileStatus === 'loaded'
+                ? `✅ ${fileName}`
+                : fileStatus === 'error'
+                  ? `⚠️ ${fileName}`
+                  : '📎 Importer un fichier .txt (optionnel — remplit le champ ci-dessous)'}
+            </label>
+            {fileStatus === 'loaded' && (
+              <button
+                type="button"
+                onClick={() => {
+                  setFileStatus('idle');
+                  setFileName(null);
+                  setForm((c) => ({ ...c, contenuTexte: '' }));
+                }}
+                style={{ fontSize: '11px', color: 'var(--eaf-text-tertiary)', background: 'none', border: 'none', cursor: 'pointer' }}
+              >
+                Retirer
+              </button>
+            )}
+          </div>
+
           <textarea
             value={form.contenuTexte}
             rows={6}
             onChange={(e) => setForm((c) => ({ ...c, contenuTexte: e.target.value }))}
-            placeholder="Colle le texte si tu veux éviter l'étape d'upload."
+            placeholder="Colle ou importe le texte — le tuteur et l'oral pourront travailler sur le contenu réel."
             style={{
               ...inputStyle,
               resize: 'vertical',

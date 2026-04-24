@@ -3,11 +3,20 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 const mockGetPlan7Days = vi.fn();
 const mockSaveStudyPlan = vi.fn();
 const mockGetDueErrorBankItems = vi.fn();
+const mockTexteDescriptifFindMany = vi.fn();
 
 vi.mock('@/lib/store/premium-store', () => ({
   getPlan7Days: (...args: unknown[]) => mockGetPlan7Days(...args),
   saveStudyPlan: (...args: unknown[]) => mockSaveStudyPlan(...args),
   getDueErrorBankItems: (...args: unknown[]) => mockGetDueErrorBankItems(...args),
+}));
+
+vi.mock('@/lib/db/client', () => ({
+  prisma: {
+    texteDescriptif: {
+      findMany: (...args: unknown[]) => mockTexteDescriptifFindMany(...args),
+    },
+  },
 }));
 
 describe('getOrRefreshPlan7Days', () => {
@@ -16,6 +25,7 @@ describe('getOrRefreshPlan7Days', () => {
     vi.resetModules();
     mockSaveStudyPlan.mockResolvedValue(undefined);
     mockGetDueErrorBankItems.mockResolvedValue([]);
+    mockTexteDescriptifFindMany.mockResolvedValue([]);
   });
 
   it('retourne le plan existant si âge < 7 jours', async () => {
@@ -86,6 +96,10 @@ describe('getOrRefreshPlan7Days', () => {
 
   it('intègre les items ErrorBank dus dans les slots de révision', async () => {
     mockGetPlan7Days.mockResolvedValue(null);
+    // 16 textes → pas de slot descriptif qui viendrait s'intercaler
+    mockTexteDescriptifFindMany.mockResolvedValue(
+      Array.from({ length: 16 }, (_, i) => ({ id: `t-${i}`, titreExtrait: `T${i}`, oeuvreAuteur: `A${i}` })),
+    );
     mockGetDueErrorBankItems.mockResolvedValue([
       { id: 'err-1', errorType: 'plan_desequilibre', correction: 'Équilibrer les parties' },
       { id: 'err-2', errorType: 'citation_absente', correction: 'Ajouter des citations' },
@@ -94,7 +108,9 @@ describe('getOrRefreshPlan7Days', () => {
     const { getOrRefreshPlan7Days } = await import('@/lib/agents/planner');
     const result = await getOrRefreshPlan7Days('stu-1');
 
-    const revisionSlots = result.slots?.filter((s: { type?: string }) => s.type === 'revision') ?? [];
+    const revisionSlots = result.slots?.filter(
+      (s: { type?: string; title?: string }) => s.type === 'revision' && s.title?.startsWith('Révision'),
+    ) ?? [];
     expect(revisionSlots.length).toBeGreaterThan(0);
     expect(revisionSlots[0].title).toContain('Révision');
   });

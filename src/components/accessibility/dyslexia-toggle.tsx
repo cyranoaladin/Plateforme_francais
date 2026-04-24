@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Eye } from 'lucide-react';
+import { Eye } from '@/components/ui/icons';
 
 const STORAGE_KEY = 'eaf_dyslexia_mode';
 

@@ -4,7 +4,7 @@ import { createMemoryEventRecord } from '@/lib/db/repositories/memoryRepo';
 import { orchestrate } from '@/lib/llm/orchestrator';
 import { createLlmStream } from '@/lib/llm/streaming';
 import { createMemoryEvent } from '@/lib/memory/store';
-import { searchOfficialReferences } from '@/lib/rag/search';
+import { searchOfficialReferences, searchWithPersonalContext } from '@/lib/rag/search';
 import { validateCsrf } from '@/lib/security/csrf';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { BillingContextUnavailableError, getBillingContext } from '@/lib/billing/context';
@@ -198,7 +198,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const refs = await searchOfficialReferences(userMessage, 4);
+  const refs = await searchWithPersonalContext(userMessage, auth.user.id, 4);
   const context = refs
     .map((ref, index) => `[${index + 1}] ${ref.title} (${ref.id})\n${ref.excerpt}`)
     .join('\n\n');

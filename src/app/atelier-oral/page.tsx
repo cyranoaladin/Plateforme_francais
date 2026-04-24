@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Play, Sparkles, ListOrdered } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Play, Sparkles, ListOrdered } from '@/components/ui/icons';
 import { OralHero } from '@/components/atelier-oral/OralHero';
 import { Button } from '@/components/ui';
 import { getCurrentAnneeScolaire } from '@/lib/date/current-school-year';
@@ -23,6 +24,26 @@ import {
 export default function AtelierOralPage() {
   const programmeYear = getCurrentAnneeScolaire();
   const programmeSelection = getProgrammeSelection(programmeYear);
+
+  const [descriptifWorks, setDescriptifWorks] = useState<string[]>([]);
+  const [descriptifCount, setDescriptifCount] = useState<number | undefined>(undefined);
+  useEffect(() => {
+    fetch('/api/v1/student/descriptif-lecture')
+      .then((r) => r.ok ? r.json() : { textes: [], total: 0 })
+      .then((d: { textes?: { oeuvreAuteur: string }[]; total?: number }) => {
+        setDescriptifCount(d.total ?? (d.textes?.length ?? 0));
+        const seen = new Set<string>();
+        const unique: string[] = [];
+        for (const t of d.textes ?? []) {
+          if (t.oeuvreAuteur && !seen.has(t.oeuvreAuteur)) {
+            seen.add(t.oeuvreAuteur);
+            unique.push(t.oeuvreAuteur);
+          }
+        }
+        setDescriptifWorks(unique);
+      })
+      .catch(() => null);
+  }, []);
   const oral = useOralSession({
     initialWork: programmeSelection.availableWorks[0] ?? '',
   });
@@ -112,6 +133,7 @@ export default function AtelierOralPage() {
           >
             <OralWorkSelector
               availableWorks={programmeSelection.availableWorks}
+              descriptifWorks={descriptifWorks}
               currentWork={oral.oeuvre}
               selectedMode={oral.mode}
               onSelectWork={oral.setOeuvre}
@@ -341,7 +363,7 @@ export default function AtelierOralPage() {
                 {oral.prepChecklist.length}/{PREP_CHECKLIST.length} étapes complétées
               </p>
               <div className="mt-4">
-                <OralChecklistWarning completed={oral.prepChecklist.length} total={PREP_CHECKLIST.length} />
+                <OralChecklistWarning completed={oral.prepChecklist.length} total={PREP_CHECKLIST.length} descriptifCount={descriptifCount} />
               </div>
             </section>
 

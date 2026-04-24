@@ -1,4 +1,4 @@
-import { BookOpen } from 'lucide-react';
+import { BookOpen } from '@/components/ui/icons';
 
 type OralHeroProps = {
   isSimulation: boolean;

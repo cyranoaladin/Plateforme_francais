@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ChevronRight, PenTool, ShieldCheck } from 'lucide-react';
+import { ChevronRight, PenTool, ShieldCheck } from '@/components/ui/icons';
 import { StateNotice } from '@/components/ui';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { EcritCorrectionProgress } from './components/EcritCorrectionProgress';

@@ -6,6 +6,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { Redis } from 'ioredis';
 import { consumeQuota, QuotaExceededError } from '@/lib/billing/usage';
 import { getBillingContext } from '@/lib/billing/context';
 
@@ -50,7 +51,7 @@ describe('LLM Token Quota Enforcement', () => {
       ping: vi.fn().mockResolvedValue('PONG'),
       eval: vi.fn().mockResolvedValue([0, 100]), // allowed=0 → denied
       decrby: vi.fn().mockResolvedValue(0),
-    } as ReturnType<typeof getRedisClient>);
+    } as unknown as Redis);
 
     const quotaEntry = { limit: 100, period: 'day' as const };
 
@@ -82,7 +83,7 @@ describe('Billing Context', () => {
     const context = await getBillingContext('no-sub-user');
 
     expect(context.planId).toBe('FREE');
-    expect(context.config.quotas.LLM_TOKENS.limit).toBe(8_000);
+    expect(context.config.quotas.LLM_TOKENS!.limit).toBe(8_000);
   });
 
   it('should fall back to FREE plan when DB unavailable (test env)', async () => {

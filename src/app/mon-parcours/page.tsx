@@ -13,7 +13,7 @@ import {
   Calendar,
   BarChart3,
   GraduationCap,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 

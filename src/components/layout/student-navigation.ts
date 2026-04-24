@@ -11,7 +11,7 @@ import {
   Quote,
   Type,
   UserCircle2,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 
 type TimelineEntry = {
   createdAt: string;

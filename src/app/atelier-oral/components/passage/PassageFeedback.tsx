@@ -1,4 +1,4 @@
-import { AlertCircle, Star, Volume2 } from 'lucide-react';
+import { AlertCircle, Star, Volume2 } from '@/components/ui/icons';
 import { speakText } from '@/lib/oral/audio-utils';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { type OralStep, type StepFeedback } from '../../types';

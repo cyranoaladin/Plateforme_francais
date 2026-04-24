@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Shield, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react';
+import { Shield, Eye, EyeOff, Loader2, AlertCircle } from '@/components/ui/icons';
 import { apiFetch, isApiError } from '@/lib/api/client';
 
 export default function AdminLoginPage() {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Monitor, Trash2, User } from 'lucide-react';
+import { Monitor, Trash2, User } from '@/components/ui/icons';
 import { Card, Badge, Button } from '@/components/ui';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 

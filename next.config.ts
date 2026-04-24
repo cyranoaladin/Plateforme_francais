@@ -66,10 +66,10 @@ const nextConfig: NextConfig = {
   },
   // Remove X-Powered-By header (information disclosure)
   poweredByHeader: false,
-  // Next.js 16 defaults to Turbopack for `next build`.
-  // root must include /srv/eaf_ressources (symlink target outside /opt/eaf_platform).
+  // Keep Turbopack and output tracing aligned on the release root.
+  // External pedagogical assets stay outside the build via outputFileTracingExcludes.
   turbopack: {
-    root: '/',
+    root: appRoot,
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {

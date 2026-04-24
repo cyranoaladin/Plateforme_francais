@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, FileText, Scale } from 'lucide-react';
+import { ArrowLeft, FileText, Scale } from '@/components/ui/icons';
 
 export const metadata = {
   title: 'Conditions Générales d\u2019Utilisation — Nexus Réussite',

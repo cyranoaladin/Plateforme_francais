@@ -30,7 +30,7 @@ describe('POST /api/v1/contact', () => {
   it('retourne 403 si le contrôle CSRF échoue', async () => {
     const { validateCsrf } = await import('@/lib/security/csrf');
     vi.mocked(validateCsrf).mockResolvedValue(
-      NextResponse.json({ error: 'Jeton CSRF manquant.' }, { status: 403 }),
+      NextResponse.json({ error: 'Jeton CSRF manquant.', code: 'TEST' }, { status: 403 }),
     );
 
     const { POST } = await import('@/app/api/v1/contact/route');

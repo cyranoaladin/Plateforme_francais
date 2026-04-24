@@ -27,11 +27,17 @@ export {
   ArrowRight,
   ArrowUp,
   ArrowDown,
+  ArrowUpRight,
+  ArrowDownRight,
   LogOut,
   Settings,
   User,
   Users,
   UserPlus,
+  UserCheck,
+  UserCircle2,
+  UserRound,
+  UsersRound,
   LogIn,
 } from 'lucide-react';
 
@@ -41,6 +47,9 @@ export {
 export {
   Send,
   MessageSquare,
+  MessageSquareText,
+  MessageSquareQuote,
+  MessagesSquare,
   MessageCircle,
   MessageCircleMore,
   Mail,
@@ -140,6 +149,7 @@ export {
   ClipboardList,
   BookMarked,
   Library,
+  LibraryBig,
   Bookmark,
 } from 'lucide-react';
 
@@ -162,6 +172,9 @@ export {
   MinusCircle,
   GripVertical,
   Move,
+  Key,
+  ZoomIn,
+  ZoomOut,
 } from 'lucide-react';
 
 // ============================================================================
@@ -200,6 +213,7 @@ export {
 // ============================================================================
 export {
   Clock,
+  Clock3,
   Timer,
   Hourglass,
   Calendar,
@@ -229,7 +243,11 @@ export {
   Building2,
   Globe,
   Globe2,
+  Map,
   ExternalLink,
+  Landmark,
+  Flame,
+  ChartColumn,
   Link,
   Link2,
   Paperclip,

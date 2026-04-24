@@ -1,5 +1,5 @@
 import { OFFICIAL_REFERENCES, type ReferenceDoc } from '@/data/references';
-import { levelFromDocId, scoreFromDistance, vectorSearch } from '@/lib/rag/vector-search';
+import { levelFromDocId, scoreFromDistance, vectorSearch, fetchStudentDescriptifChunks } from '@/lib/rag/vector-search';
 import { reciprocalRankFusion, metadataRerank } from '@/lib/rag/rerank';
 import { externalRAG, type ExternalRAGChunk } from '@/lib/rag/external-client';
 import { logger } from '@/lib/logger';
@@ -292,6 +292,38 @@ export async function searchExternalRAGOnly(
   context?: { oeuvre?: string; parcours?: string; niveau?: string },
 ): Promise<RagSearchResult[]> {
   return searchExternalRAG(query, maxResults, context);
+}
+
+/**
+ * Search official references PLUS personal descriptif texts for a given student.
+ * Personal texts are prepended (highest context priority) and the official search
+ * runs in parallel (cached). No extra embedding call — personal texts are fetched
+ * by studentId filter directly from the Chunk table.
+ */
+export async function searchWithPersonalContext(
+  query: string,
+  studentId: string,
+  maxResults = 5,
+  context?: { oeuvre?: string; parcours?: string },
+): Promise<RagSearchResult[]> {
+  const [officialRefs, personalChunks] = await Promise.all([
+    searchOfficialReferences(query, maxResults, context),
+    fetchStudentDescriptifChunks(studentId, 2).catch(() => []),
+  ]);
+
+  const personalRefs: RagSearchResult[] = personalChunks.map((chunk) => ({
+    id: chunk.docId,
+    title: chunk.sourceTitle,
+    type: 'texte_officiel' as ReferenceDoc['type'],
+    level: 'Première',
+    sourceRef: `Descriptif personnel — ${chunk.sourceTitle}`,
+    excerpt: chunk.content.slice(0, 400),
+    url: undefined,
+    score: 1.5,
+  }));
+
+  // Personal texts first (higher relevance for the student), then official sources
+  return [...personalRefs, ...officialRefs].slice(0, maxResults + personalRefs.length);
 }
 
 export function formatRagContextForPrompt(results: RagSearchResult[]): string {

@@ -47,6 +47,7 @@ vi.mock('@/lib/security/rate-limit', () => ({
 }));
 vi.mock('@/lib/rag/search', () => ({
   searchOfficialReferences: vi.fn().mockResolvedValue([]),
+  searchWithPersonalContext: vi.fn().mockResolvedValue([]),
 }));
 vi.mock('@/lib/security/sanitize', () => ({
   sanitizeString: (s: string) => s,
@@ -66,7 +67,7 @@ vi.mock('@/lib/llm/streaming', () => ({
 
 import { requireAuthenticatedUser } from '@/lib/auth/guard';
 import { orchestrate } from '@/lib/llm/orchestrator';
-import { searchOfficialReferences } from '@/lib/rag/search';
+import { searchOfficialReferences, searchWithPersonalContext } from '@/lib/rag/search';
 
 describe('POST /api/v1/tuteur/message', () => {
   beforeEach(() => {
@@ -76,6 +77,7 @@ describe('POST /api/v1/tuteur/message', () => {
         user: {
           id: 'user-1',
           email: 'test@example.com',
+          emailVerified: new Date().toISOString(),
           role: 'eleve',
           profile: {
             displayName: 'Test User',
@@ -88,10 +90,10 @@ describe('POST /api/v1/tuteur/message', () => {
             descriptifTextes: [],
           },
         },
-        session: { id: 'session-1', userId: 'user-1', expiresAt: new Date() },
+        token: 'mock-token',
       },
       errorResponse: null,
-    } as Awaited<ReturnType<typeof requireAuthenticatedUser>>);
+    } as unknown as Awaited<ReturnType<typeof requireAuthenticatedUser>>);
   });
 
   it('retourne 429 quand quota LLM tuteur depasse', async () => {
@@ -111,7 +113,7 @@ describe('POST /api/v1/tuteur/message', () => {
   });
 
   it('n expose pas d url ou de chemin interne dans les citations visibles', async () => {
-    vi.mocked(searchOfficialReferences).mockResolvedValue([
+    vi.mocked(searchWithPersonalContext).mockResolvedValue([
       {
         id: 'ref-1',
         title: '/data/uploads/rapport-jury-eaf-2025.pdf',

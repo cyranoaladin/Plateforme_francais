@@ -48,6 +48,7 @@ function makeAuth() {
         id: 'user-1',
         role: 'eleve' as const,
         email: 'test@eaf.local',
+        emailVerified: new Date().toISOString(),
         passwordHash: '',
         passwordSalt: '',
         createdAt: '2026-01-01',

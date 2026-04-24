@@ -1,4 +1,4 @@
-import { FileText, Sparkles, Upload } from 'lucide-react';
+import { FileText, Sparkles, Upload } from '@/components/ui/icons';
 import { STUDIO_STEPS } from '../types';
 
 type Props = {

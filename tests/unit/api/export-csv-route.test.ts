@@ -11,33 +11,33 @@ vi.mock('@/lib/auth/guard', () => ({
   requireExactUserRole: vi.fn(),
 }));
 
-vi.mock('@/lib/db/client', () => ({
-  isDatabaseAvailable: vi.fn().mockResolvedValue(false),
-  prisma: {},
-}));
+// Mock DB disponible pour les tests de succès
+const mockUsers = [
+  {
+    id: 'stu-1',
+    email: 'eleve@eaf.local',
+    role: 'eleve',
+    profile: { displayName: 'Élève Test', classCode: 'CLS-A' },
+    evaluations: [{ score: 14 }, { score: 16 }],
+    memoryEvents: [{ createdAt: new Date('2026-01-15T10:00:00Z') }],
+  },
+  {
+    id: 'stu-2',
+    email: 'eleve2@eaf.local',
+    role: 'eleve',
+    profile: { displayName: 'Élève Test 2', classCode: 'CLS-A' },
+    evaluations: [],
+    memoryEvents: [],
+  },
+];
 
-vi.mock('@/lib/db/fallback-store', () => ({
-  readFallbackStore: vi.fn().mockResolvedValue({
-    users: [
-      {
-        id: 'stu-1',
-        email: 'eleve@eaf.local',
-        role: 'eleve',
-        profile: { displayName: 'Élève Test', classCode: 'CLS-A' },
-      },
-    ],
-    events: [
-      {
-        id: 'ev-1',
-        userId: 'stu-1',
-        type: 'evaluation',
-        feature: 'ecrit',
-        payload: { score: 14 },
-        createdAt: '2026-01-15T10:00:00Z',
-      },
-    ],
-    sessions: [],
-  }),
+vi.mock('@/lib/db/client', () => ({
+  isDatabaseAvailable: vi.fn(),
+  prisma: {
+    user: {
+      findMany: vi.fn().mockResolvedValue(mockUsers),
+    },
+  },
 }));
 
 function makeEnseignantAuth(classCode: string | 'NO_CODE' = 'CLS-A') {
@@ -51,6 +51,7 @@ function makeEnseignantAuth(classCode: string | 'NO_CODE' = 'CLS-A') {
         passwordHash: '',
         passwordSalt: '',
         createdAt: '2026-01-01',
+        emailVerified: new Date().toISOString(),
         profile: {
           displayName: 'Prof Test',
           classLevel: 'Enseignant',
@@ -77,12 +78,16 @@ describe('GET /api/v1/enseignant/export', () => {
     redisMock.incr.mockResolvedValue(1);
     redisMock.expire.mockResolvedValue(1);
     redisMock.ttl.mockResolvedValue(55);
+    
+    const { isDatabaseAvailable } = await import('@/lib/db/client');
+    vi.mocked(isDatabaseAvailable).mockResolvedValue(true);
+    
     const { requireUserRole, requireExactUserRole } = await import('@/lib/auth/guard');
     vi.mocked(requireUserRole).mockResolvedValue(makeEnseignantAuth());
     vi.mocked(requireExactUserRole).mockResolvedValue(makeEnseignantAuth());
   });
 
-  it('retourne un CSV avec Content-Type text/csv', async () => {
+  it('retourne un CSV avec Content-Type text/csv quand DB disponible', async () => {
     const { GET } = await import('@/app/api/v1/enseignant/export/route');
     const req = new Request('http://localhost/api/v1/enseignant/export');
     const res = await GET(req);
@@ -130,5 +135,17 @@ describe('GET /api/v1/enseignant/export', () => {
     const req = new Request('http://localhost/api/v1/enseignant/export');
     const res = await GET(req);
     expect(res!.status).toBe(403);
+  });
+
+  it('retourne 503 si DB indisponible', async () => {
+    const { isDatabaseAvailable } = await import('@/lib/db/client');
+    vi.mocked(isDatabaseAvailable).mockResolvedValue(false);
+
+    const { GET } = await import('@/app/api/v1/enseignant/export/route');
+    const req = new Request('http://localhost/api/v1/enseignant/export');
+    const res = await GET(req);
+    expect(res.status).toBe(503);
+    const data = await res.json();
+    expect(data.error).toContain('Service temporairement indisponible');
   });
 });

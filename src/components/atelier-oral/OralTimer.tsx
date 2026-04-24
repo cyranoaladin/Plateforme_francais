@@ -1,4 +1,4 @@
-import { Clock, Zap } from 'lucide-react';
+import { Clock, Zap } from '@/components/ui/icons';
 
 function formatTimer(seconds: number): string {
   const m = Math.floor(seconds / 60);

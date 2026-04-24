@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Copy, Ban } from 'lucide-react';
+import { Copy, Ban } from '@/components/ui/icons';
 import { Card, Badge, Button, Input } from '@/components/ui';
 import { formatPlanLabel } from '@/lib/billing/plan-catalog';
 import { getCsrfToken } from '@/lib/security/csrf-client';

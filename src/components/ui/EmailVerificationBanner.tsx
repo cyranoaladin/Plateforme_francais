@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircle2, Mail } from 'lucide-react';
+import { CheckCircle2, Mail } from '@/components/ui/icons';
 import { apiFetch } from '@/lib/api/client';
 
 interface EmailVerificationBannerProps {

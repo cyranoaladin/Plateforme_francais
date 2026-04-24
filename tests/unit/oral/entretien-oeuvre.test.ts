@@ -28,6 +28,7 @@ describe('evaluateOralPhase — phase ENTRETIEN avec oeuvreChoisieEntretien', ()
       oeuvre: 'Manon Lescaut',
       duration: 480,
       oeuvreChoisieEntretien: 'Manon Lescaut — Abbé Prévost',
+      userId: 'user-1',
     });
 
     expect(result.score).toBeGreaterThanOrEqual(0);
@@ -44,6 +45,7 @@ describe('evaluateOralPhase — phase ENTRETIEN avec oeuvreChoisieEntretien', ()
       questionGrammaire: '',
       oeuvre: 'Test',
       duration: 480,
+      userId: 'user-1',
     });
     expect(result.score).toBeLessThanOrEqual(8);
     expect(result.max).toBe(8);
@@ -58,6 +60,7 @@ describe('evaluateOralPhase — phase ENTRETIEN avec oeuvreChoisieEntretien', ()
       oeuvre: 'Cahier de Douai',
       duration: 300,
       oeuvreChoisieEntretien: null,
+      userId: 'user-1',
     });
     expect(result.score).toBeLessThanOrEqual(8);
   });
@@ -87,6 +90,7 @@ describe('evaluateOralPhase — phase GRAMMAIRE', () => {
       questionGrammaire: 'Analysez la proposition relative dans ce vers.',
       oeuvre: 'Cahier de Douai',
       duration: 120,
+      userId: 'user-1',
     });
     expect(result.score).toBeLessThanOrEqual(2);
     expect(result.max).toBe(2);
@@ -100,6 +104,7 @@ describe('evaluateOralPhase — phase GRAMMAIRE', () => {
       questionGrammaire: '',
       oeuvre: 'Cahier de Douai',
       duration: 90,
+      userId: 'user-1',
     });
     expect(result.score).toBeLessThanOrEqual(2);
     expect(result.max).toBe(2);
@@ -113,6 +118,7 @@ describe('evaluateOralPhase — phase GRAMMAIRE', () => {
       questionGrammaire: '',
       oeuvre: 'Manon Lescaut',
       duration: 480,
+      userId: 'user-1',
     });
     expect(result.score).toBeLessThanOrEqual(8);
     expect(result.max).toBe(8);

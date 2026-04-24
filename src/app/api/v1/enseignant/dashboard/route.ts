@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireExactUserRole } from '@/lib/auth/guard';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
-import { readFallbackStore } from '@/lib/db/fallback-store';
 
 type DashboardStudent = {
   id: string;
@@ -72,49 +71,9 @@ export async function GET() {
   }
 
   if (!(await isDatabaseAvailable())) {
-    if (process.env.NODE_ENV === 'production') {
-      return NextResponse.json(
-        { error: 'Service temporairement indisponible. Veuillez réessayer dans quelques instants.' },
-        { status: 503 },
-      );
-    }
-    const store = await readFallbackStore();
-    const students = store.users
-      .filter((item) => {
-        if ((item.role ?? 'eleve') !== 'eleve') return false;
-        return item.profile.classCode === classCode || item.profile.teacherEmail?.toLowerCase() === teacherEmail;
-      })
-      .map((item) => {
-        const events = store.events.filter((event) => event.userId === item.id);
-        const evalScores = events
-          .filter((event) => event.type === 'evaluation' && typeof event.payload?.score === 'number')
-          .map((event) => Number(event.payload?.score ?? 0));
-        const average = evalScores.length > 0
-          ? Number((evalScores.reduce((sum, value) => sum + value, 0) / evalScores.length).toFixed(1))
-          : 0;
-
-        const lastActivity = events.length > 0
-          ? events.map((event) => event.createdAt).sort((a, b) => b.localeCompare(a))[0] ?? null
-          : null;
-
-        return {
-          id: item.id,
-          displayName: item.profile.displayName,
-          email: item.email,
-          averageScore: average,
-          lastActivity,
-          nextMockExam: null,
-        } satisfies DashboardStudent;
-      });
-
     return NextResponse.json(
-      {
-        classCode,
-        students,
-        distribution: buildDistribution([]),
-        copies: [] as DashboardCopy[],
-      },
-      { status: 200 },
+      { error: 'Service temporairement indisponible. Veuillez réessayer dans quelques instants.' },
+      { status: 503 },
     );
   }
 
@@ -158,9 +117,9 @@ export async function GET() {
   });
 
   const dashboardStudents: DashboardStudent[] = students.map((student) => {
-    const evaluationScores = student.evaluations.map((item) => item.score);
+    const evaluationScores = student.evaluations.map((item: { score: number }) => item.score);
     const avgScore = evaluationScores.length > 0
-      ? Number((evaluationScores.reduce((sum, value) => sum + value, 0) / evaluationScores.length).toFixed(1))
+      ? Number((evaluationScores.reduce((sum: number, value: number) => sum + value, 0) / evaluationScores.length).toFixed(1))
       : 0;
 
     const latestEpreuve = student.epreuves[0] ?? null;
@@ -175,7 +134,13 @@ export async function GET() {
   });
 
   const dashboardCopies: DashboardCopy[] = students.flatMap((student) =>
-    student.copies.map((copy) => {
+    student.copies.map((copy: { 
+      id: string; 
+      status: string; 
+      createdAt: Date; 
+      epreuve: { type: string }; 
+      correction?: unknown 
+    }) => {
       const correction = typeof copy.correction === 'object' && copy.correction ? copy.correction as Record<string, unknown> : null;
       const note = correction && typeof correction.note === 'number' ? correction.note : null;
       const teacherComment = correction && typeof correction.commentaireEnseignant === 'string'

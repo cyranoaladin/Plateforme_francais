@@ -24,7 +24,7 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   MoreHorizontal,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { Card, Button, Input, Badge, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui';
 import { getAdminDataLoadTargets, type AdminDashboardTab } from '@/lib/admin/dashboard-tab-data';
 import { formatPlanLabel, normalizePlanId, toPublicPlanId } from '@/lib/billing/plan-catalog';

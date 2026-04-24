@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { BookOpen, Download, Plus, ScrollText, Sparkles } from 'lucide-react';
+import { BookOpen, Download, Plus, ScrollText, Sparkles } from '@/components/ui/icons';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 import { Badge, Button, StateNotice } from '@/components/ui';
 

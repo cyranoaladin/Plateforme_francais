@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, Building2, Globe, Lock, Scale, FileText, Mail } from 'lucide-react';
+import { ArrowLeft, Building2, Globe, Lock, Scale, FileText, Mail } from '@/components/ui/icons';
 
 export const metadata = {
   title: 'Mentions légales & CGU',

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { BookOpen, Brain, GraduationCap, Hash, Sparkles, Target } from 'lucide-react';
+import { BookOpen, Brain, GraduationCap, Hash, Sparkles, Target } from '@/components/ui/icons';
 import { buildTuteurHref } from '@/lib/navigation/tuteur-link';
 import { getCsrfToken } from '@/lib/security/csrf-client';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';

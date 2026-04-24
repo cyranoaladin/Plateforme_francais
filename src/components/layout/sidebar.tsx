@@ -21,7 +21,7 @@ import {
   Library,
   Quote,
   MessagesSquare,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { useEffect, useRef, useState } from 'react';
 import { getCsrfTokenFromDocument } from '@/lib/security/csrf-client';
 import { useTheme } from '@/components/theme/theme-provider';

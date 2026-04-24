@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, AlertTriangle } from 'lucide-react';
+import { ArrowRight, AlertTriangle } from '@/components/ui/icons';
 
 const PAYMENT_REFUSAL_COPY = {
   title: 'Activation non confirmée',

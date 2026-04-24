@@ -9,9 +9,7 @@ import {
 
 describe('oral/state-machine', () => {
   it('refuse les transitions invalides', () => {
-    // @ts-expect-error - testing invalid phase transition
     expect(canTransition('DRAFT', 'PASSAGE_RUNNING')).toBe(false);
-    // @ts-expect-error - testing invalid phase transition
     expect(() => transition('DRAFT', 'PASSAGE_RUNNING')).toThrow();
   });
 

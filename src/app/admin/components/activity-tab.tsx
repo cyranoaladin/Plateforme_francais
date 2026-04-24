@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Activity, Cpu, Zap, TrendingUp } from 'lucide-react';
+import { Activity, Cpu, Zap, TrendingUp } from '@/components/ui/icons';
 import { Card, Badge, Button } from '@/components/ui';
 import { StatCard } from './stat-card';
 

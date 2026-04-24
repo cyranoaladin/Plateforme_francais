@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Upload, Trash2, FileText, NotebookPen, ChevronDown, ChevronUp } from 'lucide-react';
+import { Upload, Trash2, FileText, NotebookPen, ChevronDown, ChevronUp } from '@/components/ui/icons';
 
 type TexteDescriptif = {
   id: string;

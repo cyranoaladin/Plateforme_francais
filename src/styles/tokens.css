@@ -155,6 +155,7 @@
   /* Brand colors */
   --eaf-orange: #E87A52;
   --eaf-orange-hover: #D46A43;
+  --eaf-orange-active: #C05A33;
   --eaf-orange-glow: rgba(232, 122, 82, 0.25);
   --eaf-orange-dim: rgba(232, 122, 82, 0.08);
   --eaf-orange-border: rgba(232, 122, 82, 0.20);

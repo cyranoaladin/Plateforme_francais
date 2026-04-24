@@ -90,7 +90,7 @@ echo "[1a/8] Nettoyage artefacts non-production..."
 ssh "$SSH_TARGET" "cd $APP_DIR && rm -rf .venv .vscode .windsurf .windsurf_audit_logs .windsurfrules .superpowers forensics .claude UI_UX .env.test .vitest-unit-report.json coverage test-results tests dist .worktrees 2>/dev/null; find packages/mcp-server/dist \\( -name '*.js.map' -o -name '*.d.ts.map' \\) -exec rm -f {} + 2>/dev/null || true; rm -f create-pr-branch.sh test-admin.sh test-manual-flow.sh eaf.code-workspace proxy.ts stryker.conf.json tsconfig.tsbuildinfo 2>/dev/null; rm -f scripts/run-all-tests.sh scripts/test-production-locale.sh scripts/test-402-live.sh _*.ts 2>/dev/null; rm -f *.log 2>/dev/null; echo '  ✅ Artefacts nettoyés'"
 
 echo "[1b/8] Préparation de l'utilisateur runtime..."
-ssh "$SSH_TARGET" "id -u $APP_RUNTIME_USER >/dev/null 2>&1 || useradd -r -m -d $APP_RUNTIME_HOME -s /bin/bash $APP_RUNTIME_USER; mkdir -p $APP_RUNTIME_HOME/.pm2 /var/log/pm2 $APP_DIR/.data/uploads $APP_DIR/.data/migration-backups; chown -R $APP_RUNTIME_USER:$APP_RUNTIME_USER $APP_RUNTIME_HOME /var/log/pm2 $APP_DIR/.data/uploads $APP_DIR/.data/migration-backups; chown -R root:$APP_RUNTIME_USER $APP_DIR; chmod -R g+rX $APP_DIR; echo '  ✅ Runtime user prêt'"
+ssh "$SSH_TARGET" "id -u $APP_RUNTIME_USER >/dev/null 2>&1 || useradd -r -m -d $APP_RUNTIME_HOME -s /bin/bash $APP_RUNTIME_USER; mkdir -p $APP_RUNTIME_HOME/.pm2 /var/log/pm2 $APP_DIR/.data/migration-backups /opt/eaf/shared/uploads; chown -R $APP_RUNTIME_USER:$APP_RUNTIME_USER $APP_RUNTIME_HOME /var/log/pm2 $APP_DIR/.data /opt/eaf/shared/uploads; chown -R root:$APP_RUNTIME_USER $APP_DIR; chmod -R g+rX $APP_DIR; echo '  ✅ Runtime user prêt'"
 
 echo "[1c/8] Secrets hors de l'arbre applicatif..."
 ssh "$SSH_TARGET" "bash -s" <<'SECRETS_EOF'
@@ -149,15 +149,11 @@ if [ "${REMOTE_RESOURCE_COUNT:-0}" -lt 100 ]; then
   fi
 fi
 if [ "${REMOTE_RESOURCE_COUNT:-0}" -lt 100 ]; then
-  echo "❌ Symlink ressources invalide ou volume incomplet: ${REMOTE_RESOURCE_COUNT:-0} fichiers dans $RESSOURCES_DIR"
+  echo "❌ Volume ressources invalide ou incomplet: ${REMOTE_RESOURCE_COUNT:-0} fichiers dans $RESSOURCES_DIR"
   echo "   Ajoutez les ressources localement ou copiez-les manuellement sur le serveur avant de relancer."
   exit 1
 fi
 echo "  ✅ $REMOTE_RESOURCE_COUNT fichiers ressources disponibles dans $RESSOURCES_DIR"
-
-echo "[1e/8] Préparation du volume ressources durable (symlink après build)..."
-# Retirer le symlink temporairement pour que Turbopack ne le traverse pas pendant le build
-ssh "$SSH_TARGET" "[ -L $APP_DIR/ressources ] && rm -f $APP_DIR/ressources || true"
 
 # --- 2. Install dependencies on server ---
 echo "[2/8] Installation des dépendances..."
@@ -218,7 +214,7 @@ echo "[4b/8] Archivage des file stores legacy..."
 ssh "$SSH_TARGET" "cd $APP_DIR && LEGACY_FILES='.data/memory-store.json .data/oral-sessions.json .data/premium-store.json .data/epreuves-store.json'; ACTIVE=''; for file in \$LEGACY_FILES; do if [ -f \$file ]; then ACTIVE=\"\$ACTIVE \$file\"; fi; done; if [ -n \"\${ACTIVE# }\" ]; then ARCHIVE_DIR=.data/migration-backups/\$(date +%Y%m%d_%H%M%S)_deploy_archive; mkdir -p \"\$ARCHIVE_DIR\"; mv \$ACTIVE \"\$ARCHIVE_DIR\"/; echo \"  Archived legacy stores to \$ARCHIVE_DIR\"; else echo '  No active legacy file stores'; fi"
 
 echo "[4c/8] Sauvegarde préventive des uploads standalone avant build..."
-ssh "$SSH_TARGET" "if [ -d $APP_DIR/.next/standalone/.data/uploads ]; then COUNT=\$(find $APP_DIR/.next/standalone/.data/uploads -type f 2>/dev/null | wc -l); if [ \$COUNT -gt 0 ]; then echo '  ⚠ '\$COUNT' fichiers détectés dans standalone/.data/uploads — migration vers .data/uploads/'; rsync -a $APP_DIR/.next/standalone/.data/uploads/ $APP_DIR/.data/uploads/ 2>/dev/null || true; fi; fi"
+ssh "$SSH_TARGET" "if [ -d $APP_DIR/.next/standalone/.data/uploads ]; then COUNT=\$(find $APP_DIR/.next/standalone/.data/uploads -type f 2>/dev/null | wc -l); if [ \$COUNT -gt 0 ]; then echo '  ⚠ '\$COUNT' fichiers détectés dans standalone/.data/uploads — migration vers /opt/eaf/shared/uploads/'; rsync -a $APP_DIR/.next/standalone/.data/uploads/ /opt/eaf/shared/uploads/ 2>/dev/null || true; fi; fi"
 
 # --- 5. Build Next.js ---
 echo "[5/8] Build Next.js (production)..."
@@ -227,12 +223,11 @@ echo "  → Build SHA: $LOCAL_GIT_SHA"
 BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 ssh "$SSH_TARGET" "cd $APP_DIR && printf 'BUILD_GIT_SHA=%s\nBUILD_TIME=%s\nHEALTH_CHECK_READY=true\n' '$LOCAL_GIT_SHA' '$BUILD_TIME' > .release.env"
 ssh "$SSH_TARGET" "cd $APP_DIR && printf '%s\n' '$LOCAL_GIT_SHA' > .git_sha && printf '%s\n' '$BUILD_TIME' > .build_time"
-# Remove symlinks that break Turbopack before build (restored in step 7b)
+# Remove legacy symlinks that break Turbopack before build.
 ssh "$SSH_TARGET" "cd $APP_DIR && { [ -L ressources ] && rm ressources || true; } && { [ -L public/ressources ] && rm public/ressources || true; }"
 ssh "$SSH_TARGET" "cd $APP_DIR && npx prisma generate --schema=prisma/schema.prisma"
 ssh "$SSH_TARGET" "cd $APP_DIR && BUILD_GIT_SHA=$LOCAL_GIT_SHA BUILD_TIME=$BUILD_TIME NODE_ENV=production npm run build"
 ssh "$SSH_TARGET" "cd $APP_DIR && if [ -d .next/standalone ]; then cp -f .git_sha .build_time .next/standalone/; fi"
-ssh "$SSH_TARGET" "cd $APP_DIR && mkdir -p .next/standalone/.data && rm -rf .next/standalone/.data/uploads && ln -sfn $APP_DIR/.data/uploads .next/standalone/.data/uploads"
 # Sync server chunks missing from standalone (Turbopack sometimes omits action chunks)
 ssh "$SSH_TARGET" "cd $APP_DIR && rsync -a --ignore-existing .next/server/chunks/ .next/standalone/.next/server/chunks/ 2>/dev/null && echo '  ✅ Server chunks synced to standalone'"
 
@@ -300,13 +295,8 @@ else
   echo "  → Certificat existant conservé"
 fi
 
-# --- 7b. Rétablir le symlink ressources après le build ---
-echo "[7b/8] Rétablissement du symlink ressources..."
-ssh "$SSH_TARGET" "ln -sfn $RESSOURCES_DIR $APP_DIR/ressources"
-echo "  ✅ Symlink $APP_DIR/ressources → $RESSOURCES_DIR"
-
-echo "[7c/8] Vérification du symlink ressources..."
-ssh "$SSH_TARGET" "cd $APP_DIR && COUNT=\$(find -L ./ressources -type f 2>/dev/null | wc -l); if [ \"\$COUNT\" -lt 100 ]; then echo '  ❌ Symlink ressources invalide: '\$COUNT' fichiers'; exit 1; else echo '  ✅ '\$COUNT' fichiers ressources accessibles'; fi"
+echo "[7b/8] Vérification du volume ressources durable..."
+ssh "$SSH_TARGET" "COUNT=\$(find -L $RESSOURCES_DIR -type f 2>/dev/null | wc -l); if [ \"\$COUNT\" -lt 100 ]; then echo '  ❌ Volume ressources invalide: '\$COUNT' fichiers'; exit 1; else echo '  ✅ '\$COUNT' fichiers ressources accessibles dans $RESSOURCES_DIR'; fi"
 
 echo "[7d/8] Configuration du backup quotidien des uploads..."
 ssh "$SSH_TARGET" "cat > /etc/cron.d/nexus-backup <<'EOF'

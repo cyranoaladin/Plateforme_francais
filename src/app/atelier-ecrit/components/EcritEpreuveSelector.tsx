@@ -1,4 +1,4 @@
-import { FileText, Sparkles } from 'lucide-react';
+import { FileText, Sparkles } from '@/components/ui/icons';
 import { Button } from '@/components/ui';
 import { BAREMES } from '@/data/baremes-officiels';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';

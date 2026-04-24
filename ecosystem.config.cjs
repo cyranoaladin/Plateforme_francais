@@ -1,20 +1,8 @@
-// Load environment variables before any other code (gracefully handle if dotenv not available)
-try {
-  require('dotenv').config({ path: '/opt/eaf_platform/.env' });
-} catch (e) {
-  // dotenv not available, env will be loaded by Node or PM2
-}
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const fs = require('fs');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const path = require('path');
 
-const repoRoot = __dirname;
-// Blue-green deployment: appRoot est dynamique basé sur SLOT ou APP_ROOT
-// Le CI injecte APP_ROOT=/var/www/eaf-{blue,green} lors du déploiement
-const slot = process.env.SLOT || 'blue';
-const appRoot = process.env.APP_ROOT || `/var/www/eaf-${slot}`;
+// Runtime canonique: PM2 pointe toujours vers le symlink atomique /opt/eaf/current.
+const appRoot = '/opt/eaf/current';
 
 function parseEnvFile(filePath) {
   if (!fs.existsSync(filePath)) {
@@ -51,30 +39,24 @@ function parseEnvFile(filePath) {
   return values;
 }
 
-function loadEnvBundle(...relativePaths) {
+function loadEnvBundle(baseDir, relativePaths) {
   return relativePaths.reduce((merged, relativePath) => ({
     ...merged,
-    ...parseEnvFile(path.join(repoRoot, relativePath)),
+    ...parseEnvFile(path.join(baseDir, relativePath)),
   }), {});
 }
 
-const appEnv = loadEnvBundle('.env', '.env.local', '.release.env');
-const mcpEnv = loadEnvBundle(path.join('packages', 'mcp-server', '.env'));
-const sharedMcpApiKey = appEnv.MCP_API_KEY || mcpEnv.MCP_API_KEY;
-
 function readOptionalFile(filePath) {
   try {
-    if (!fs.existsSync(filePath)) return null;
+    if (!fs.existsSync(filePath)) {
+      return null;
+    }
     const raw = fs.readFileSync(filePath, 'utf8').trim();
     return raw || null;
   } catch {
     return null;
   }
 }
-
-const releaseGitSha = appEnv.BUILD_GIT_SHA || readOptionalFile(path.join(appRoot, '.git_sha'));
-const releaseBuildTime = appEnv.BUILD_TIME || readOptionalFile(path.join(appRoot, '.build_time'));
-const slotSuffix = process.env.SLOT ? `-${process.env.SLOT}` : '-blue';
 
 function withProductionDefaults(defaults, fileEnv) {
   return {
@@ -84,14 +66,21 @@ function withProductionDefaults(defaults, fileEnv) {
   };
 }
 
+const appEnv = loadEnvBundle(appRoot, ['.env', '.env.local', '.env.production', '.release.env']);
+const mcpEnv = loadEnvBundle(path.join(appRoot, 'packages', 'mcp-server'), ['.env']);
+const sharedMcpApiKey = appEnv.MCP_API_KEY || mcpEnv.MCP_API_KEY;
+
+const releaseGitSha = appEnv.BUILD_GIT_SHA || readOptionalFile(path.join(appRoot, '.git_sha'));
+const releaseBuildTime = appEnv.BUILD_TIME || readOptionalFile(path.join(appRoot, '.build_time'));
+
 const webEnv = withProductionDefaults(
   {
     APP_ROOT: appRoot,
     RESSOURCES_ROOT: '/srv/eaf_ressources',
-    COPIES_DIR: `${appRoot}/.data/uploads`,
+    COPIES_DIR: '/opt/eaf/shared/uploads',
     HEALTH_CHECK_READY: 'true',
     HOSTNAME: '127.0.0.1',
-    PORT: 3000,
+    PORT: '3000',
   },
   {
     ...appEnv,
@@ -105,69 +94,48 @@ const workerEnv = withProductionDefaults(
   {
     APP_ROOT: appRoot,
     RESSOURCES_ROOT: '/srv/eaf_ressources',
-    COPIES_DIR: `${appRoot}/.data/uploads`,
+    COPIES_DIR: '/opt/eaf/shared/uploads',
+  },
+  {
+    ...appEnv,
     ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}),
   },
-  { ...appEnv, ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}) },
 );
 
 const mcpRuntimeEnv = withProductionDefaults(
   {
+    APP_ROOT: appRoot,
     MCP_TRANSPORT: 'http',
-    MCP_PORT: 3100,
+    MCP_PORT: '3100',
+    PORT: '3100',
     MCP_HTTP_BIND: '127.0.0.1',
+  },
+  {
+    ...appEnv,
+    ...mcpEnv,
     ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}),
   },
-  { ...mcpEnv, ...(sharedMcpApiKey ? { MCP_API_KEY: sharedMcpApiKey } : {}) },
 );
 
-/**
- * PM2 Ecosystem configuration for Nexus Réussite EAF
- * @see https://pm2.keymetrics.io/docs/usage/application-declaration/
- */
 module.exports = {
   apps: [
     {
-      name: `eaf-nextjs${slotSuffix}`,
-      script: '.next/standalone/server.js',
+      name: 'eaf-nextjs',
+      script: path.join(appRoot, '.next/standalone/server.js'),
       cwd: appRoot,
       env: webEnv,
       env_production: webEnv,
       instances: 1,
       exec_mode: 'fork',
-      max_memory_restart: '1G',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      error_file: '/var/log/pm2/eaf-nextjs-error.log',
+      max_memory_restart: '2G',
+      restart_delay: 3000,
+      max_restarts: 5,
+      min_uptime: '10s',
+      log_file: '/var/log/pm2/eaf-nextjs.log',
       out_file: '/var/log/pm2/eaf-nextjs-out.log',
+      error_file: '/var/log/pm2/eaf-nextjs-error.log',
       merge_logs: true,
-      autorestart: true,
-      watch: false,
-      max_restarts: 5,
-      restart_delay: 2000,
-      kill_timeout: 5000,
-      pmx: false,
-    },
-    {
-      name: 'eaf-mcp',
-      script: 'node',
-      args: 'dist/index.js',
-      cwd: `${appRoot}/packages/mcp-server`,
-      env: mcpRuntimeEnv,
-      env_production: mcpRuntimeEnv,
-      instances: 1,
-      exec_mode: 'fork',
-      max_memory_restart: '256M',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      error_file: '/var/log/pm2/eaf-mcp-error.log',
-      out_file: '/var/log/pm2/eaf-mcp-out.log',
-      merge_logs: true,
-      autorestart: true,
-      watch: false,
-      max_restarts: 5,
-      restart_delay: 2000,
-      kill_timeout: 5000,
-      listen_timeout: 10000,
-      pmx: false,
     },
     {
       name: 'eaf-worker',
@@ -178,16 +146,29 @@ module.exports = {
       env_production: workerEnv,
       instances: 1,
       exec_mode: 'fork',
-      max_memory_restart: '512M',
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      error_file: '/var/log/pm2/eaf-worker-error.log',
+      max_memory_restart: '1G',
+      restart_delay: 5000,
+      log_file: '/var/log/pm2/eaf-worker.log',
       out_file: '/var/log/pm2/eaf-worker-out.log',
+      error_file: '/var/log/pm2/eaf-worker-error.log',
       merge_logs: true,
-      autorestart: true,
-      max_restarts: 5,
-      restart_delay: 2000,
-      kill_timeout: 5000,
-      pmx: false,
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+    },
+    {
+      name: 'eaf-mcp',
+      script: 'node',
+      args: 'dist/index.js',
+      cwd: path.join(appRoot, 'packages', 'mcp-server'),
+      env: mcpRuntimeEnv,
+      env_production: mcpRuntimeEnv,
+      instances: 1,
+      exec_mode: 'fork',
+      max_memory_restart: '512M',
+      log_file: '/var/log/pm2/eaf-mcp.log',
+      out_file: '/var/log/pm2/eaf-mcp-out.log',
+      error_file: '/var/log/pm2/eaf-mcp-error.log',
+      merge_logs: true,
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
     },
   ],
   parseEnvFile,

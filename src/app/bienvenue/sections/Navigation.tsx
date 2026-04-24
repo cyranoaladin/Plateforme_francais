@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, User, Sparkles, Zap, Shield, BookOpen, ArrowRight } from 'lucide-react';
+import { Menu, X, User, Sparkles, Zap, Shield, BookOpen, ArrowRight } from '@/components/ui/icons';
 import { track } from '@/components/analytics/events';
 
 const NAV_LINKS = [

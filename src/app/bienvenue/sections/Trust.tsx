@@ -1,4 +1,4 @@
-import { CheckCheck, LockKeyhole, Quote, ShieldCheck, UserRoundCheck } from 'lucide-react';
+import { CheckCheck, LockKeyhole, Quote, ShieldCheck, UserRoundCheck } from '@/components/ui/icons';
 
 const TRUST_BLOCKS = [
   {

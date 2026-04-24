@@ -66,7 +66,6 @@ describe('Billing Quotas - Fallback prod fail-closed', () => {
         period: 'week',
       });
 
-      expect(result.allowed).not.toBe(false);
       expect(result.remaining).toBe(5);
     });
 

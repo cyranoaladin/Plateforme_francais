@@ -10,7 +10,7 @@ import {
   Landmark,
   Loader2,
   Smartphone,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { apiFetch, isApiError } from '@/lib/api/client';
 import { track } from '@/components/analytics/events';
 import { StateNotice, Surface } from '@/components/ui';

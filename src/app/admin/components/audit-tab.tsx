@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FileText, Download } from 'lucide-react';
+import { FileText, Download } from '@/components/ui/icons';
 import { Card, Badge, Button } from '@/components/ui';
 
 type AuditEntry = {

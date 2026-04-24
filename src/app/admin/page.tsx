@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle } from '@/components/ui/icons';
 import { Card } from '@/components/ui';
 import { getAdminDataLoadTargets, type AdminDashboardTab } from '@/lib/admin/dashboard-tab-data';
 import { type Stats, type Payment, type AdminUser, type ActivationCode } from './components/shared';

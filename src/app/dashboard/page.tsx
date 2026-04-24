@@ -10,7 +10,8 @@ import {
   Sparkles,
   Target,
   Zap,
-} from 'lucide-react';
+} from '@/components/ui/icons';
+import { DescriptifRappelCard } from '@/components/dashboard/DescriptifRappelCard';
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -344,80 +345,87 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Right column: CE QUE FAIRE MAINTENANT */}
+        {/* Right column: CE QUE FAIRE MAINTENANT — ou alerte descriptif si vide */}
         <div
-          className="relative rounded-[16px] p-6 self-start"
+          className="relative rounded-[16px] self-start"
           style={{
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.12)',
+            background: descriptifTotal === 0 ? 'transparent' : 'rgba(255,255,255,0.04)',
+            border: descriptifTotal === 0 ? 'none' : '1px solid rgba(255,255,255,0.12)',
+            padding: descriptifTotal === 0 ? '0' : '24px',
           }}
         >
-          <div className="flex items-center gap-2 mb-4">
-            <Target className="h-3.5 w-3.5" style={{ color: 'var(--eaf-orange)' }} />
-            <span
-              className="text-[11px] font-semibold uppercase tracking-[0.06em]"
-              style={{ color: 'var(--eaf-text-tertiary)' }}
-            >
-              Ce que tu dois faire maintenant
-            </span>
-          </div>
-
-          <h2
-            className="text-[18px] font-bold mb-2"
-            style={{
-              fontFamily: 'var(--eaf-font-display)',
-              color: 'var(--eaf-text-primary)'
-            }}
-          >
-            Réouvrir une œuvre
-          </h2>
-
-          <p
-            className="text-[13px] leading-[1.5] mb-4"
-            style={{ color: 'var(--eaf-text-secondary)' }}
-          >
-            Réactiver les repères, citations et enjeux qui serviront vraiment.
-          </p>
-
-          <div className="grid grid-cols-3 gap-2 mb-4">
-            {[
-              { label: 'Temps estimé', value: '12 min' },
-              { label: 'Pourquoi', value: 'Lecture cursive' },
-              { label: 'Échéance', value: `Écrit : J-${data.countdownEcrit ?? 59}` },
-            ].map((info) => (
-              <div
-                key={info.label}
-                className="rounded-lg p-2 text-center"
-                style={{ background: 'rgba(255,255,255,0.05)' }}
+        {descriptifTotal === 0 ? (
+          <DescriptifRappelCard current={0} minimum={16} />
+        ) : (
+          <>
+            <div className="flex items-center gap-2 mb-4">
+              <Target className="h-3.5 w-3.5" style={{ color: 'var(--eaf-orange)' }} />
+              <span
+                className="text-[11px] font-semibold uppercase tracking-[0.06em]"
+                style={{ color: 'var(--eaf-text-tertiary)' }}
               >
-                <p className="text-[10px] uppercase mb-1" style={{ color: 'var(--eaf-text-tertiary)' }}>{info.label}</p>
-                <p className="text-[11px] font-semibold" style={{ color: 'var(--eaf-text-primary)' }}>{info.value}</p>
-              </div>
-            ))}
-          </div>
+                Ce que tu dois faire maintenant
+              </span>
+            </div>
 
-          <div className="flex flex-col gap-2">
-            <Link
-              href="/bibliotheque"
-              className="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-[13px] font-semibold text-white transition-all"
-              style={{ background: 'var(--eaf-orange)' }}
-            >
-              Commencer maintenant
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-            <Link
-              href="/tuteur"
-              className="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-[13px] font-medium transition-all"
+            <h2
+              className="text-[18px] font-bold mb-2"
               style={{
-                background: 'transparent',
-                border: '1px solid rgba(255,255,255,0.12)',
-                color: 'var(--eaf-text-secondary)'
+                fontFamily: 'var(--eaf-font-display)',
+                color: 'var(--eaf-text-primary)'
               }}
             >
-              Alternative rapide
-              <Zap className="h-3.5 w-3.5" />
-            </Link>
-          </div>
+              Réouvrir une œuvre
+            </h2>
+
+            <p
+              className="text-[13px] leading-[1.5] mb-4"
+              style={{ color: 'var(--eaf-text-secondary)' }}
+            >
+              Réactiver les repères, citations et enjeux qui serviront vraiment.
+            </p>
+
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              {[
+                { label: 'Temps estimé', value: '12 min' },
+                { label: 'Pourquoi', value: 'Lecture cursive' },
+                { label: 'Échéance', value: `Écrit : J-${data.countdownEcrit ?? 59}` },
+              ].map((info) => (
+                <div
+                  key={info.label}
+                  className="rounded-lg p-2 text-center"
+                  style={{ background: 'rgba(255,255,255,0.05)' }}
+                >
+                  <p className="text-[10px] uppercase mb-1" style={{ color: 'var(--eaf-text-tertiary)' }}>{info.label}</p>
+                  <p className="text-[11px] font-semibold" style={{ color: 'var(--eaf-text-primary)' }}>{info.value}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Link
+                href="/bibliotheque"
+                className="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-[13px] font-semibold text-white transition-all"
+                style={{ background: 'var(--eaf-orange)' }}
+              >
+                Commencer maintenant
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <Link
+                href="/tuteur"
+                className="inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-[13px] font-medium transition-all"
+                style={{
+                  background: 'transparent',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  color: 'var(--eaf-text-secondary)'
+                }}
+              >
+                Alternative rapide
+                <Zap className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </>
+        )}
         </div>
       </section>
 
@@ -1096,37 +1104,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ─── C.8 AVERTISSEMENT DESCRIPTIF ─── */}
-      {descriptifTotal < 16 && (
-        <div 
-          className="rounded-[14px] p-5"
-          style={{ 
-            background: 'rgba(255,107,53,0.06)',
-            border: '1px solid rgba(255,107,53,0.30)'
-          }}
-        >
-          <h3 
-            className="text-[14px] font-semibold mb-2 flex items-center gap-2"
-            style={{ color: 'var(--eaf-orange)' }}
-          >
-            <AlertTriangle className="h-4 w-4" />
-            Ton descriptif de lecture est incomplet
-          </h3>
-          <p 
-            className="text-[13px] mb-3"
-            style={{ color: 'var(--eaf-text-secondary)' }}
-          >
-            L&apos;atelier oral simule sur des textes génériques. Ajoute tes textes étudiés pour simuler l&apos;épreuve réelle.
-          </p>
-          <Link
-            href="/descriptif-lecture"
-            className="inline-flex items-center gap-2 text-[13px] font-semibold transition-colors hover:underline"
-            style={{ color: 'var(--eaf-orange)' }}
-          >
-            Compléter mon descriptif
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
-        </div>
+      {/* ─── C.8 AVERTISSEMENT DESCRIPTIF (sous le hero si partiellement rempli) ─── */}
+      {descriptifTotal > 0 && descriptifTotal < 16 && (
+        <DescriptifRappelCard current={descriptifTotal} minimum={16} />
       )}
 
       {/* ─── Upgrade Banner (if applicable) ─── */}

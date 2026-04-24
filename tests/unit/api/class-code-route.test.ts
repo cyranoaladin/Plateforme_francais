@@ -21,6 +21,7 @@ function makeEnseignantAuth() {
         id: 'teach-1',
         role: 'enseignant' as const,
         email: 'prof@eaf.local',
+        emailVerified: new Date().toISOString(),
         passwordHash: '',
         passwordSalt: '',
         createdAt: '2026-01-01',

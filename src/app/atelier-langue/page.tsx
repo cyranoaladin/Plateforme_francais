@@ -12,7 +12,7 @@ import {
   Star,
   Target,
   Type,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import { useTrackInteraction } from '@/components/tracking/tracking-provider';
 import { Button, StateNotice } from '@/components/ui';
 import { buildLangueExerciseSeries } from '@/lib/langue/exercise-bank';

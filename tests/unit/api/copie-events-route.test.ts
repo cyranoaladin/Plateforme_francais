@@ -20,6 +20,7 @@ function makeAuth(userId = 'user-1') {
         id: userId,
         role: 'eleve' as const,
         email: 'test@eaf.local',
+        emailVerified: new Date().toISOString(),
         passwordHash: '',
         passwordSalt: '',
         createdAt: '2026-01-01',

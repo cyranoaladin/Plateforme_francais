@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
-import { AlertTriangle, Download, Flame, Loader2, Quote, Sparkles, Target } from 'lucide-react';
+import { AlertTriangle, Download, Flame, Loader2, Quote, Sparkles, Target } from '@/components/ui/icons';
 import { mapAnnotationsToRegions } from '@/lib/correction/annotation-mapper';
 import { normalizeCorrectionPayload } from '@/lib/correction/normalize-correction';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';

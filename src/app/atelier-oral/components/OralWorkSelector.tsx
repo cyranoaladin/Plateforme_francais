@@ -1,11 +1,12 @@
 import { type ExamPersona, PERSONA_LABELS } from '@/lib/agents/prompts/examiner-persona';
-import { Smile, Meh, Frown, Dices } from 'lucide-react';
+import { Smile, Meh, Frown, Dices } from '@/components/ui/icons';
 
 export type WorkMode = 'SIMULATION' | 'FREE_PRACTICE';
 
 type Props = {
   currentWork: string;
   availableWorks: string[];
+  descriptifWorks?: string[];
   selectedMode: WorkMode;
   onSelectWork: (work: string) => void;
   onChangeMode: (mode: WorkMode) => void;
@@ -47,6 +48,7 @@ const PERSONA_COLORS: Record<ExamPersona, { bg: string; text: string; border: st
 
 export function OralWorkSelector({
   availableWorks,
+  descriptifWorks = [],
   currentWork,
   selectedMode,
   onSelectWork,
@@ -56,6 +58,56 @@ export function OralWorkSelector({
   showProgrammeWarning,
   warningMessage,
 }: Props) {
+  // Œuvres du programme non déjà dans le descriptif
+  const programmeOnly = availableWorks.filter((w) => !descriptifWorks.includes(w));
+
+  function WorkButton({ work, badge }: { work: string; badge?: 'descriptif' | 'programme' }) {
+    const isSelected = work === currentWork;
+    return (
+      <button
+        key={work}
+        data-testid={`oeuvre-option-${work}`}
+        onClick={() => onSelectWork(work)}
+        className="flex items-start gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-all hover:border-[var(--eaf-indigo)]/30"
+        style={{
+          background: isSelected ? 'rgba(123,142,255,0.10)' : 'var(--eaf-bg2)',
+          borderColor: isSelected ? 'var(--eaf-indigo)' : 'rgba(123, 142, 255, 0.15)',
+          color: isSelected ? 'var(--eaf-fg0)' : 'var(--eaf-fg1)',
+        }}
+      >
+        {isSelected && (
+          <div
+            className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+            style={{ background: 'var(--eaf-indigo)' }}
+          >
+            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="#050913" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+        )}
+        <div className="flex-1 min-w-0">
+          <span className="block truncate">{work}</span>
+          {badge === 'descriptif' && (
+            <span
+              className="mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold"
+              style={{ background: 'rgba(45,212,191,0.12)', color: 'var(--eaf-teal)' }}
+            >
+              Ton descriptif ✓
+            </span>
+          )}
+          {badge === 'programme' && (
+            <span
+              className="mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-medium"
+              style={{ background: 'var(--eaf-bg3)', color: 'var(--eaf-fg3)' }}
+            >
+              Programme officiel
+            </span>
+          )}
+        </div>
+      </button>
+    );
+  }
+
   return (
     <section className="space-y-6">
       {/* Mode Tabs */}
@@ -86,35 +138,38 @@ export function OralWorkSelector({
       </div>
 
       {/* Work Grid */}
-      <div className="grid gap-2 sm:grid-cols-2" data-testid="oeuvre-select">
-        {availableWorks.map((work) => {
-          const isSelected = work === currentWork;
-          return (
-            <button
-              key={work}
-              data-testid={`oeuvre-option-${work}`}
-              onClick={() => onSelectWork(work)}
-              className="flex items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-all hover:border-[var(--eaf-indigo)]/30"
-              style={{
-                background: isSelected ? 'var(--eaf-indigo)/10' : 'var(--eaf-bg2)',
-                borderColor: isSelected ? 'var(--eaf-indigo)' : 'rgba(123, 142, 255, 0.15)',
-                color: isSelected ? 'var(--eaf-fg0)' : 'var(--eaf-fg1)',
-              }}
-            >
-              {isSelected && (
-                <div
-                  className="flex h-5 w-5 items-center justify-center rounded-full"
-                  style={{ background: 'var(--eaf-indigo)' }}
-                >
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="#050913" strokeWidth={3}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-              )}
-              <span className="flex-1">{work}</span>
-            </button>
-          );
-        })}
+      <div className="space-y-4" data-testid="oeuvre-select">
+        {/* Textes du descriptif personnel */}
+        {descriptifWorks.length > 0 && (
+          <div>
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: 'var(--eaf-teal)' }}>
+              Tes textes étudiés en classe
+            </p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {descriptifWorks.map((work) => (
+                <WorkButton key={work} work={work} badge="descriptif" />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Programme officiel */}
+        <div>
+          {descriptifWorks.length > 0 && (
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: 'var(--eaf-fg3)' }}>
+              Programme officiel
+            </p>
+          )}
+          <div className="grid gap-2 sm:grid-cols-2">
+            {(descriptifWorks.length > 0 ? programmeOnly : availableWorks).map((work) => (
+              <WorkButton
+                key={work}
+                work={work}
+                badge={descriptifWorks.length > 0 ? 'programme' : undefined}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Examiner Profile */}

@@ -329,6 +329,13 @@ body {
   }
 }
 
+/* Visible uniquement sur desktop (≥ 1024px) */
+@media (max-width: 1023px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
 /* Suppression scrollbar sur les carousels */
 .scroll-no-bar::-webkit-scrollbar {
   display: none;

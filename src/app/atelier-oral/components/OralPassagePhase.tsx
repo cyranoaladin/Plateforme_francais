@@ -1,5 +1,5 @@
 import { type RefObject } from 'react';
-import { Headphones, Loader2 } from 'lucide-react';
+import { Headphones, Loader2 } from '@/components/ui/icons';
 import { PERSONA_LABELS } from '@/lib/agents/prompts/examiner-persona';
 import { sanitizeLlmText } from '@/lib/ui/sanitize-llm';
 import { OralStepIndicator } from '@/components/atelier-oral/OralStepIndicator';

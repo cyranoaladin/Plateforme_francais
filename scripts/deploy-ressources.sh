@@ -94,12 +94,6 @@ REMOTE_SETUP=$(cat <<EOF
 set -euo pipefail
 mkdir -p "$REMOTE_ROOT"
 mkdir -p "$APP_DIR"
-if [ -L "$APP_DIR/ressources" ] || [ ! -e "$APP_DIR/ressources" ]; then
-  ln -sfn "$REMOTE_ROOT" "$APP_DIR/ressources"
-elif [ -d "$APP_DIR/ressources" ] && [ -z "$(find "$APP_DIR/ressources" -mindepth 1 -maxdepth 1 -print -quit)" ]; then
-  rmdir "$APP_DIR/ressources"
-  ln -sfn "$REMOTE_ROOT" "$APP_DIR/ressources"
-fi
 EOF
 )
 
@@ -113,7 +107,6 @@ ls -ld "$REMOTE_ROOT"
 printf 'files='; find "$REMOTE_ROOT" -type f | wc -l
 printf 'dirs='; find "$REMOTE_ROOT" -type d | wc -l
 du -sh "$REMOTE_ROOT"
-ls -ld "$APP_DIR/ressources"
 EOF
 )
 

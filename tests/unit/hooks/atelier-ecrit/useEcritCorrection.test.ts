@@ -7,7 +7,7 @@ describe('useEcritCorrection helpers', () => {
     expect(shouldUseEventSource({ EventSource: undefined })).toBe(false);
     expect(
       shouldUseEventSource({
-        EventSource: class FakeEventSource {},
+        EventSource: class FakeEventSource { static CONNECTING = 0; static OPEN = 1; static CLOSED = 2; } as unknown as typeof EventSource,
       }),
     ).toBe(true);
   });

@@ -16,7 +16,7 @@ import {
   Search,
   Video,
   X,
-} from 'lucide-react';
+} from '@/components/ui/icons';
 import {
   RESSOURCES,
   type EafResource,

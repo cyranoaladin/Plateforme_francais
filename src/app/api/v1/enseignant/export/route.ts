@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireExactUserRole } from '@/lib/auth/guard';
 import { isDatabaseAvailable, prisma } from '@/lib/db/client';
-import { readFallbackStore } from '@/lib/db/fallback-store';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 
 /**
@@ -56,63 +55,38 @@ export async function GET(request: Request) {
 
   const rows: string[] = ['student_name,email,average_score,last_activity'];
 
-  if (await isDatabaseAvailable()) {
-    const students = await prisma.user.findMany({
-      where: { role: 'eleve', profile: { classCode } },
-      include: {
-        profile: true,
-        evaluations: true,
-        memoryEvents: {
-          orderBy: { createdAt: 'desc' },
-          take: 1,
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
-
-    for (const student of students) {
-      const scores = student.evaluations.map((item) => item.score);
-      const average = scores.length > 0
-        ? (scores.reduce((sum, value) => sum + value, 0) / scores.length).toFixed(2)
-        : '0.00';
-
-      rows.push([
-        csvEscape(student.profile?.displayName ?? 'Élève'),
-        csvEscape(student.email),
-        average,
-        student.memoryEvents[0]?.createdAt.toISOString() ?? '',
-      ].join(','));
-    }
-  } else if (process.env.NODE_ENV === 'production') {
+  if (!(await isDatabaseAvailable())) {
     return NextResponse.json(
       { error: 'Service temporairement indisponible. Veuillez réessayer dans quelques instants.' },
       { status: 503 },
     );
-  } else {
-    const store = await readFallbackStore();
-    const students = store.users.filter((item) => (item.role ?? 'eleve') === 'eleve' && item.profile.classCode === classCode);
+  }
 
-    for (const student of students) {
-      const events = store.events.filter((event) => event.userId === student.id);
-      const scores = events
-        .filter((event) => event.type === 'evaluation' && typeof event.payload?.score === 'number')
-        .map((event) => Number(event.payload?.score ?? 0));
+  const students = await prisma.user.findMany({
+    where: { role: 'eleve', profile: { classCode } },
+    include: {
+      profile: true,
+      evaluations: true,
+      memoryEvents: {
+        orderBy: { createdAt: 'desc' },
+        take: 1,
+      },
+    },
+    orderBy: { createdAt: 'desc' },
+  });
 
-      const average = scores.length > 0
-        ? (scores.reduce((sum, value) => sum + value, 0) / scores.length).toFixed(2)
-        : '0.00';
+  for (const student of students) {
+    const scores = student.evaluations.map((item: { score: number }) => item.score);
+    const average = scores.length > 0
+      ? (scores.reduce((sum: number, value: number) => sum + value, 0) / scores.length).toFixed(2)
+      : '0.00';
 
-      const lastActivity = events.length > 0
-        ? events.map((event) => event.createdAt).sort((a, b) => b.localeCompare(a))[0] ?? ''
-        : '';
-
-      rows.push([
-        csvEscape(student.profile.displayName),
-        csvEscape(student.email),
-        average,
-        lastActivity,
-      ].join(','));
-    }
+    rows.push([
+      csvEscape(student.profile?.displayName ?? 'Élève'),
+      csvEscape(student.email),
+      average,
+      student.memoryEvents[0]?.createdAt.toISOString() ?? '',
+    ].join(','));
   }
 
   return new NextResponse(`${rows.join('\n')}\n`, {
