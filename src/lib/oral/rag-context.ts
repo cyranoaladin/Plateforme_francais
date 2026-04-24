@@ -1,6 +1,7 @@
 import { toCitations } from '@/lib/rag/citations';
 import {
   formatRagContextForPrompt,
+  searchWithPersonalContext,
   searchOfficialReferences,
 } from '@/lib/rag/search';
 import type { OralPhaseKey } from '@/lib/oral/scoring';
@@ -16,6 +17,7 @@ export async function buildOralRagContext(input: {
   oeuvreChoisie?: string | null;
   transcript?: string;
   questionGrammaire?: string;
+  userId?: string | null;
 }): Promise<OralRagContext> {
   const targetOeuvre = input.oeuvreChoisie ?? input.oeuvre ?? undefined;
   const query = [
@@ -28,9 +30,9 @@ export async function buildOralRagContext(input: {
     .join('\n');
 
   try {
-    const results = await searchOfficialReferences(query, 3, {
-      oeuvre: targetOeuvre,
-    });
+    const results = input.userId
+      ? await searchWithPersonalContext(query, input.userId, 3, { oeuvre: targetOeuvre })
+      : await searchOfficialReferences(query, 3, { oeuvre: targetOeuvre });
 
     return {
       promptContext: formatRagContextForPrompt(results),

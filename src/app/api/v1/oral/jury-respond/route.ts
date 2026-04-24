@@ -50,6 +50,7 @@ export async function POST(request: Request) {
     phase: 'JURY',
     oeuvreChoisie: parsed.data.oeuvreChoisie,
     transcript: parsed.data.message,
+    userId: auth.user.id,
   });
 
   let juryText = 'Peux-tu préciser ton argument avec un exemple du texte ?';

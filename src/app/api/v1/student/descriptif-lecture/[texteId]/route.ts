@@ -84,7 +84,7 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
         titre: texte.titreExtrait,
         auteur: texte.oeuvreAuteur,
         typeTexte: texte.typeTexte,
-        oeuvreNom: texte.oeuvreAuteur,
+        oeuvreNom: texte.oeuvreNom ?? texte.titreExtrait ?? null,
       },
     }).catch((err: unknown) =>
       logger.warn({ texteId: texte.id, err }, 'rag.indexer.descriptif.patch_failed')

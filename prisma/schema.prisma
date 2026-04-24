@@ -853,6 +853,7 @@ model TexteDescriptif {
   objetEtude        ObjetEtude
   typeTexte         TypeTexteDescriptif
   oeuvreAuteur      String
+  oeuvreNom         String?
   titreExtrait      String
   incipit           String?
   numeroPagesRef    String?

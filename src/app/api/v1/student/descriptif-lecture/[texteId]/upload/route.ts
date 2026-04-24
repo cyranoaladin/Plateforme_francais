@@ -91,7 +91,7 @@ export async function POST(req: NextRequest, context: RouteContext) {
         titre: updated.titreExtrait,
         auteur: updated.oeuvreAuteur,
         typeTexte: updated.typeTexte,
-        oeuvreNom: updated.oeuvreAuteur,
+        oeuvreNom: updated.oeuvreNom ?? updated.titreExtrait ?? null,
       },
     }).catch((err: unknown) =>
       logger.warn({ texteId: updated.id, err }, 'descriptif.lecture.upload.rag_failed')

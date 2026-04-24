@@ -19,6 +19,7 @@ const texteSchema = z.object({
   objetEtude: z.enum(OBJETS),
   typeTexte: z.enum(TYPES),
   oeuvreAuteur: z.string().min(2).max(300),
+  oeuvreNom: z.string().max(300).optional(),
   titreExtrait: z.string().min(1).max(500),
   incipit: z.string().max(2000).optional(),
   numeroPagesRef: z.string().max(50).optional(),
@@ -131,7 +132,7 @@ export async function POST(req: NextRequest) {
         titre: texte.titreExtrait,
         auteur: texte.oeuvreAuteur,
         typeTexte: texte.typeTexte,
-        oeuvreNom: texte.oeuvreAuteur,
+        oeuvreNom: texte.oeuvreNom ?? texte.titreExtrait ?? null,
       },
     }).catch((err: unknown) =>
       logger.warn({ texteId: texte.id, err }, 'rag.indexer.descriptif.async_failed')
@@ -201,7 +202,7 @@ export async function PUT(req: NextRequest) {
           titre: texte.titreExtrait,
           auteur: texte.oeuvreAuteur,
           typeTexte: texte.typeTexte,
-          oeuvreNom: texte.oeuvreAuteur,
+          oeuvreNom: texte.oeuvreNom ?? texte.titreExtrait ?? null,
         },
       }).catch((err: unknown) =>
         logger.warn({ texteId: texte.id, err }, 'rag.indexer.descriptif.reindex_failed')

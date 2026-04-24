@@ -14,6 +14,7 @@ type FormState = {
   objetEtude: ObjetEtudeId;
   typeTexte: TypeTexteId;
   oeuvreAuteur: string;
+  oeuvreNom: string;
   titreExtrait: string;
   incipit: string;
   numeroPagesRef: string;
@@ -36,6 +37,7 @@ export function AddTexteForm({ selectedObjet, onSaved, onCancel }: AddTexteFormP
     objetEtude: selectedObjet,
     typeTexte: DEFAULT_TYPE,
     oeuvreAuteur: '',
+    oeuvreNom: '',
     titreExtrait: '',
     incipit: '',
     numeroPagesRef: '',
@@ -64,6 +66,7 @@ export function AddTexteForm({ selectedObjet, onSaved, onCancel }: AddTexteFormP
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
+          oeuvreNom: form.oeuvreNom || undefined,
           incipit: form.incipit || undefined,
           numeroPagesRef: form.numeroPagesRef || undefined,
           contenuTexte: form.contenuTexte || undefined,
@@ -197,6 +200,24 @@ export function AddTexteForm({ selectedObjet, onSaved, onCancel }: AddTexteFormP
             onChange={(e) => setForm((c) => ({ ...c, oeuvreAuteur: e.target.value }))}
             placeholder="La Peau de chagrin — Honoré de Balzac"
             required
+            style={inputStyle}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(123,142,255,0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--eaf-border)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          />
+        </div>
+        <div>
+          <label style={labelStyle}>Titre de l&apos;œuvre <span style={{ fontWeight: 400, opacity: 0.6 }}>(optionnel)</span></label>
+          <input
+            type="text"
+            value={form.oeuvreNom}
+            onChange={(e) => setForm((c) => ({ ...c, oeuvreNom: e.target.value }))}
+            placeholder="La Peau de chagrin"
             style={inputStyle}
             onFocus={(e) => {
               e.currentTarget.style.borderColor = 'var(--eaf-indigo)';
