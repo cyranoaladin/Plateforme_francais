@@ -85,11 +85,15 @@ scripts/generate-env.py
 scripts/setup-postgres.py
 scripts/check-classification.md
 
+# === DOSSIERS PROJET FRÈRE (non déployés en prod EAF) ===
+nexus-routes/
+
 # === ARTEFACTS CI/CD ===
 /artifacts/
 /reports/
 /forensics/
 .audit-ci.json
+ecosystem.config.cjs.backup.*
 stryker.conf.json
 eaf.code-workspace
 proxy.ts
