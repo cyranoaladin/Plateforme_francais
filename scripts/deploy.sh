@@ -39,6 +39,10 @@ echo "[1/8] Synchronisation du code vers le serveur..."
 rsync -avz --delete \
   --filter=':- .rsyncignore' \
   --exclude='.git' \
+  --exclude='node_modules' \
+  --exclude='.next' \
+  --exclude='/.data' \
+  --exclude='/ressources/' \
   -e ssh \
   ./ "$SSH_TARGET:$APP_DIR/"
 
