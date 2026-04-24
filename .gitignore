@@ -102,3 +102,8 @@ next-env.d.ts
 
 # === MCP LOGS ===
 packages/mcp-server/*.log
+
+# === BINARY DOCS (use Markdown instead) ===
+*.docx
+*.xlsx
+*.pptx
