@@ -58,13 +58,13 @@ jobs:
       group: ci-static-analysis-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -144,13 +144,13 @@ jobs:
       group: ci-worker-build-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -191,13 +191,13 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -275,13 +275,13 @@ jobs:
         image: redis:7-alpine
         ports: ["6379:6379"]
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -348,13 +348,13 @@ jobs:
       BILLING_CODE_PEPPER: "ci_dummy_pepper_32chars_minimum_ok"
       MCP_API_KEY: "ci_dummy_mcp_key_32chars_ok"
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -403,7 +403,7 @@ jobs:
           echo "✅ Serveur contract prêt"
       - name: Upload server logs (contract)
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: contract-server-logs
           path: server.log
@@ -419,7 +419,7 @@ jobs:
         run: npm run test:contracts:teacher-export-rbac | tee teacher-export-rbac.log
       - name: Upload contract reports
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: schemathesis-reports
           path: |
@@ -462,13 +462,13 @@ jobs:
       BILLING_CODE_PEPPER: "ci_dummy_pepper_32chars_minimum_ok"
       MCP_API_KEY: "ci_dummy_mcp_key_32chars_ok"
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -527,7 +527,7 @@ jobs:
           if [ -f .e2e_server_pid ]; then kill "$(cat .e2e_server_pid)" 2>/dev/null || true; fi
       - name: Upload server logs (E2E)
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: e2e-server-logs
           path: |
@@ -536,7 +536,7 @@ jobs:
         run: npx playwright test --project=chromium
         env:
           E2E_BASE_URL: http://localhost:3000
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-report
@@ -551,13 +551,13 @@ jobs:
       group: ci-security-scan-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -590,7 +590,7 @@ jobs:
           fi
       - name: Upload GitLeaks SARIF report
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: gitleaks-results
           path: results.sarif
@@ -629,13 +629,13 @@ jobs:
       group: ci-performance-tests-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -659,7 +659,7 @@ jobs:
       group: ci-zap-security-tests-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
       - name: Run ZAP active scan
         run: bash tests/security/run-zap.sh
 
@@ -673,13 +673,13 @@ jobs:
       group: ci-mutation-tests-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -694,7 +694,7 @@ jobs:
         run: npm run test:mutation | tee stryker.log
       - name: Upload mutation reports
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: stryker-reports
           path: |
@@ -714,13 +714,13 @@ jobs:
       cancel-in-progress: false
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "${{ env.NODE_VERSION }}"
           cache: npm
       - name: Cache npm dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
