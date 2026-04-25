@@ -398,7 +398,7 @@ export default function ProfilPage() {
             </div>
 
             <h1
-              className="text-[36px] md:text-[48px] font-bold leading-[1.08] tracking-[-2px] mb-5"
+              className="text-on-dark-h1 text-[36px] md:text-[48px] font-bold leading-[1.08] tracking-[-2px] mb-5"
               style={{
                 fontFamily: 'var(--eaf-font-display)',
                 color: '#FFFFFF'
@@ -408,7 +408,7 @@ export default function ProfilPage() {
             </h1>
 
             <p
-              className="text-[14px] leading-[1.7] max-w-[460px] mb-6"
+              className="text-on-dark-body text-[14px] leading-[1.7] max-w-[460px] mb-6"
               style={{ color: 'rgba(255,255,255,0.70)' }}
             >
               Le rôle de cette page est de condenser ton état réel : compétences les plus stables, erreurs récurrentes, tâches immédiates et badges déjà acquis.
@@ -423,7 +423,7 @@ export default function ProfilPage() {
                 { label: 'Mise à jour', value: formatShortDate(resolvedProfile.skillMap.lastUpdated) },
               ].map((meta, idx, arr) => (
                 <span key={meta.label} className="flex items-center gap-2">
-                  <span style={{ color: 'rgba(255,255,255,0.50)' }}>{meta.label} :</span>
+                  <span className="text-on-dark-label" style={{ color: 'rgba(255,255,255,0.50)' }}>{meta.label} :</span>
                   <span style={{ color: 'rgba(255,255,255,0.90)', fontWeight: 600 }}>{meta.value}</span>
                   {idx < arr.length - 1 && (
                     <span className="ml-2" style={{ color: 'rgba(255,255,255,0.30)' }}>|</span>
@@ -452,7 +452,7 @@ export default function ProfilPage() {
               </Link>
               <Link
                 href={tutorHref}
-                className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[14px] font-medium transition-all"
+                className="btn-ghost-dark inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[14px] font-medium transition-all"
                 style={{
                   background: 'transparent',
                   border: '1px solid rgba(255,255,255,0.20)',

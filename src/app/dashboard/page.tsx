@@ -261,7 +261,7 @@ export default function Dashboard() {
 
           {/* Title */}
           <h1
-            className="text-[32px] md:text-[36px] font-bold leading-[1.12] tracking-[-1.5px] mb-3"
+            className="text-on-dark-h1 text-[32px] md:text-[36px] font-bold leading-[1.12] tracking-[-1.5px] mb-3"
             style={{
               fontFamily: 'var(--eaf-font-display)',
               color: '#FFFFFF'
@@ -272,7 +272,7 @@ export default function Dashboard() {
 
           {/* Paragraph */}
           <p
-            className="text-[14px] leading-[1.6] mb-6 max-w-2xl"
+            className="text-on-dark-body text-[14px] leading-[1.6] mb-6 max-w-2xl"
             style={{ color: 'rgba(255,255,255,0.70)' }}
           >
             Axe prioritaire : <strong style={{ color: 'rgba(255,255,255,0.95)' }}>{weakestSkill.label.toLowerCase()}</strong>.
@@ -304,7 +304,7 @@ export default function Dashboard() {
             </Link>
             <Link
               href="/mon-parcours"
-              className="inline-flex items-center gap-2 rounded-[10px] px-5 py-2.5 text-[14px] font-medium transition-all"
+              className="btn-ghost-dark inline-flex items-center gap-2 rounded-[10px] px-5 py-2.5 text-[14px] font-medium transition-all"
               style={{
                 background: 'transparent',
                 border: '1px solid rgba(255,255,255,0.20)',
@@ -338,7 +338,7 @@ export default function Dashboard() {
                 className="rounded-md px-3 py-1 text-[12px]"
                 style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
               >
-                <span style={{ color: 'rgba(255,255,255,0.50)' }}>{meta.label}:</span>{' '}
+                <span className="text-on-dark-label" style={{ color: 'rgba(255,255,255,0.50)' }}>{meta.label}:</span>{' '}
                 <span style={{ color: 'rgba(255,255,255,0.95)', fontWeight: 600 }}>{meta.value}</span>
               </span>
             ))}
@@ -369,7 +369,7 @@ export default function Dashboard() {
             </div>
 
             <h2
-              className="text-[18px] font-bold mb-2"
+              className="text-on-dark-h1 text-[18px] font-bold mb-2"
               style={{
                 fontFamily: 'var(--eaf-font-display)',
                 color: '#FFFFFF'
@@ -379,7 +379,7 @@ export default function Dashboard() {
             </h2>
 
             <p
-              className="text-[13px] leading-[1.5] mb-4"
+              className="text-on-dark-body text-[13px] leading-[1.5] mb-4"
               style={{ color: 'rgba(255,255,255,0.70)' }}
             >
               Réactiver les repères, citations et enjeux qui serviront vraiment.
@@ -393,11 +393,11 @@ export default function Dashboard() {
               ].map((info) => (
                 <div
                   key={info.label}
-                  className="rounded-lg p-2 text-center"
+                  className="stat-card-dark rounded-lg p-2 text-center"
                   style={{ background: 'rgba(255,255,255,0.05)' }}
                 >
-                  <p className="text-[10px] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.50)' }}>{info.label}</p>
-                  <p className="text-[11px] font-semibold" style={{ color: '#FFFFFF' }}>{info.value}</p>
+                  <p className="stat-label text-[10px] uppercase mb-1" style={{ color: 'rgba(255,255,255,0.50)' }}>{info.label}</p>
+                  <p className="stat-value text-[11px] font-semibold" style={{ color: '#FFFFFF' }}>{info.value}</p>
                 </div>
               ))}
             </div>
@@ -1122,8 +1122,8 @@ export default function Dashboard() {
             <div className="flex items-start gap-3">
               <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-white/80" />
               <div>
-                <p className="text-sm font-bold text-white">{upgradeState.title}</p>
-                <p className="mt-1 text-sm leading-6 text-white/70">{upgradeState.detail}</p>
+                <p className="text-on-dark-h1 text-sm font-bold">{upgradeState.title}</p>
+                <p className="text-on-dark-body mt-1 text-sm leading-6">{upgradeState.detail}</p>
               </div>
             </div>
             <Link

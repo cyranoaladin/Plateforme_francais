@@ -177,12 +177,12 @@ export default function CarnetPage() {
               Carnet de lecture
             </div>
             <h1
-              className="mt-5 max-w-4xl text-4xl leading-tight text-white md:text-[44px]"
+              className="text-on-dark-h1 mt-5 max-w-4xl text-4xl leading-tight md:text-[44px]"
               style={{ fontFamily: 'var(--font-heading, Fraunces, serif)', letterSpacing: '-1.5px' }}
             >
               Un lieu pour garder les œuvres vivantes, pas seulement les résumer.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/70 md:text-base">
+            <p className="text-on-dark-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
               Note une citation, une réaction, un lien culturel ou un mini résumé. Le carnet sert à préparer l'entretien et à retrouver vite une matière personnelle quand il faut reparler d'une œuvre.
             </p>
           </div>
@@ -190,41 +190,41 @@ export default function CarnetPage() {
           {/* Stats + Export */}
           <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
             <div
-              className="rounded-xl px-4 py-4"
+              className="stat-card-dark rounded-xl px-4 py-4"
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 backdropFilter: 'blur(8px)',
               }}
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--eaf-indigo)]">
+              <p className="stat-label text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--eaf-indigo)]">
                 Entrées
               </p>
-              <p className="mt-2 text-2xl font-semibold text-white">{entries.length}</p>
+              <p className="stat-value mt-2 text-2xl font-semibold">{entries.length}</p>
             </div>
             <div
-              className="rounded-xl px-4 py-4"
+              className="stat-card-dark rounded-xl px-4 py-4"
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 backdropFilter: 'blur(8px)',
               }}
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--eaf-gold)]">
+              <p className="stat-label text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--eaf-gold)]">
                 Œuvres
               </p>
-              <p className="mt-2 text-2xl font-semibold text-white">{grouped.length}</p>
+              <p className="stat-value mt-2 text-2xl font-semibold">{grouped.length}</p>
             </div>
             {/* Export PDF - séparé des stats */}
             <div
-              className="rounded-xl px-4 py-4"
+              className="stat-card-dark rounded-xl px-4 py-4"
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 backdropFilter: 'blur(8px)',
               }}
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--eaf-fg3)]">
+              <p className="stat-label text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--eaf-fg3)]">
                 Export
               </p>
               {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}

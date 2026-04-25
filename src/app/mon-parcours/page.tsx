@@ -337,7 +337,7 @@ export default function MonParcoursPage() {
           </div>
 
           <h1
-            className="text-[36px] md:text-[40px] font-bold leading-[1.1] tracking-[-1.8px] max-w-[600px] mb-5"
+            className="text-on-dark-h1 text-[36px] md:text-[40px] font-bold leading-[1.1] tracking-[-1.8px] max-w-[600px] mb-5"
             style={{
               fontFamily: 'var(--eaf-font-display)',
               color: '#FFFFFF'
@@ -347,7 +347,7 @@ export default function MonParcoursPage() {
           </h1>
 
           <p
-            className="text-[14px] leading-[1.6] max-w-[560px] mb-7"
+            className="text-on-dark-body text-[14px] leading-[1.6] max-w-[560px] mb-7"
             style={{ color: 'rgba(255,255,255,0.72)' }}
           >
             {profile?.displayName ? `${profile.displayName}, ` : ''}ici, le plan transforme le profil, l&apos;histoire de travail et les attendus officiels en blocs concrets : quoi lancer, dans quel ordre, et comment reprendre sans perdre le fil.
@@ -363,20 +363,20 @@ export default function MonParcoursPage() {
             ].map((stat) => (
               <div 
                 key={stat.label}
-                className="rounded-xl p-4"
+                className="stat-card-dark rounded-xl p-4"
                 style={{ 
                   background: 'rgba(255,255,255,0.04)', 
                   border: '1px solid var(--eaf-border)'
                 }}
               >
                 <p
-                  className="text-[10px] font-semibold uppercase tracking-wide mb-1"
+                  className="stat-label text-[10px] font-semibold uppercase tracking-wide mb-1"
                   style={{ color: 'rgba(255,255,255,0.50)' }}
                 >
                   {stat.label}
                 </p>
                 <p
-                  className="text-[28px] font-bold"
+                  className="stat-value text-[28px] font-bold"
                   style={{
                     fontFamily: 'var(--eaf-font-display)',
                     color: '#FFFFFF'
@@ -400,7 +400,7 @@ export default function MonParcoursPage() {
             </Link>
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[14px] font-medium transition-all"
+              className="btn-ghost-dark inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-[14px] font-medium transition-all"
               style={{
                 background: 'transparent',
                 border: '1px solid rgba(255,255,255,0.20)',

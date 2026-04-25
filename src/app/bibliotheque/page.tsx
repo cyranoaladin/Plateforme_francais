@@ -331,12 +331,12 @@ export default function BibliothequePage() {
               Bibliothèque pédagogique
             </div>
             <h1
-              className="mt-5 max-w-4xl text-4xl leading-tight text-white md:text-[44px]"
+              className="text-on-dark-h1 mt-5 max-w-4xl text-4xl leading-tight md:text-[44px]"
               style={{ fontFamily: 'var(--font-heading, Fraunces, serif)', letterSpacing: '-1.5px' }}
             >
               Un fonds de travail EAF qui aide à avancer, pas un simple stock de fichiers.
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/70 md:text-base">
+            <p className="text-on-dark-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
               Annales, œuvres, rapports de jury, documents et vidéos sont réunis dans un espace conçu pour réactiver
               vite une méthode, une œuvre ou un repère utile juste avant un atelier, un oral ou une révision ciblée.
             </p>
@@ -351,7 +351,7 @@ export default function BibliothequePage() {
             ].map((item) => (
               <div
                 key={item.label}
-                className="rounded-xl px-4 py-4"
+                className="stat-card-dark rounded-xl px-4 py-4"
                 style={{
                   background: 'rgba(255, 255, 255, 0.05)',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -359,12 +359,12 @@ export default function BibliothequePage() {
                 }}
               >
                 <p
-                  className="text-[11px] font-semibold uppercase tracking-[0.2em]"
+                  className="stat-label text-[11px] font-semibold uppercase tracking-[0.2em]"
                   style={{ color: `var(--eaf-${item.color})` }}
                 >
                   {item.label}
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
+                <p className="stat-value mt-2 text-2xl font-semibold">{item.value}</p>
               </div>
             ))}
           </div>

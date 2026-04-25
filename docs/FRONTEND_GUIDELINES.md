@@ -209,6 +209,27 @@ Les cibles tactiles doivent faire au moins 44×44px:
 .animate-pulse  /* Éviter ou utiliser avec précaution */
 ```
 
+## Couleurs de texte selon le fond
+
+### FOND DARK-NAVY
+
+- H1 : `#FFFFFF` ou classe `.text-on-dark-h1`
+- Sous-titres : `rgba(255,255,255,0.72)` ou `.text-on-dark-body`
+- Labels : `rgba(255,255,255,0.50)` ou `.text-on-dark-label`
+- Muted : `rgba(255,255,255,0.35)` ou `.text-on-dark-muted`
+
+### JAMAIS sur fond dark
+
+- `var(--eaf-text-primary)` = noir light-mode
+- `var(--eaf-text-secondary)` = gris light-mode
+- `var(--eaf-text-tertiary)`
+- `var(--eaf-border)` pour les ghost buttons
+- `var(--eaf-orange)` pour les H1/H2
+
+### --eaf-orange = CTAs et alertes UNIQUEMENT
+
+Jamais pour les titres. Toujours pour les boutons, badges d'alerte, icônes.
+
 ---
 
 ## 🎯 Bonnes Pratiques

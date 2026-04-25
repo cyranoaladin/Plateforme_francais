@@ -40,12 +40,12 @@ export function OralHero({ isSimulation }: OralHeroProps) {
             Atelier oral
           </div>
           <h1
-            className="mt-5 max-w-4xl text-4xl leading-tight text-white md:text-[44px]"
+            className="text-on-dark-h1 mt-5 max-w-4xl text-4xl leading-tight md:text-[44px]"
             style={{ fontFamily: 'var(--font-heading, Fraunces, serif)', letterSpacing: '-1.5px' }}
           >
             Une simulation officielle pensée comme un espace d'entraînement, pas comme un outil brut.
           </h1>
-          <p className="mt-4 max-w-3xl text-sm leading-7 text-white/70 md:text-base">
+          <p className="text-on-dark-body mt-4 max-w-3xl text-sm leading-7 md:text-base">
             Tirage, préparation, passage puis bilan. Tout est réuni dans un seul espace pour te garder concentré sur la qualité de ta prise de parole, la précision des attendus officiels et les points à retravailler la séance suivante.
           </p>
         </div>
@@ -59,7 +59,7 @@ export function OralHero({ isSimulation }: OralHeroProps) {
           ].map((item) => (
             <div
               key={item.label}
-              className="rounded-xl px-4 py-4"
+              className="stat-card-dark rounded-xl px-4 py-4"
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -67,12 +67,12 @@ export function OralHero({ isSimulation }: OralHeroProps) {
               }}
             >
               <p
-                className="text-[11px] font-semibold uppercase tracking-[0.2em]"
+                className="stat-label text-[11px] font-semibold uppercase tracking-[0.2em]"
                 style={{ color: `var(--eaf-${item.color})` }}
               >
                 {item.label}
               </p>
-              <p className="mt-2 text-2xl font-semibold text-white">{item.value}</p>
+              <p className="stat-value mt-2 text-2xl font-semibold">{item.value}</p>
             </div>
           ))}
         </div>

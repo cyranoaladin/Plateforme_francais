@@ -154,7 +154,7 @@ export default function DescriptifLecturePage() {
 
             {/* Titre */}
             <h1
-              className="text-[40px] font-bold leading-[1.1] tracking-[-1.5px] mb-4"
+              className="text-on-dark-h1 text-[40px] font-bold leading-[1.1] tracking-[-1.5px] mb-4"
               style={{
                 fontFamily: 'var(--eaf-font-display)',
                 color: '#FFFFFF'
@@ -165,7 +165,7 @@ export default function DescriptifLecturePage() {
 
             {/* Description */}
             <p
-              className="text-[14px] leading-[1.6]"
+              className="text-on-dark-body text-[14px] leading-[1.6]"
               style={{ color: 'rgba(255,255,255,0.70)' }}
             >
               Tu saisis ici les textes réellement étudiés en classe. L&apos;atelier oral doit tirer
@@ -175,14 +175,14 @@ export default function DescriptifLecturePage() {
 
           {/* Colonne droite — Card conformité */}
           <div 
-            className="rounded-2xl p-6 min-w-[220px]"
+            className="stat-card-dark rounded-2xl p-6 min-w-[220px]"
             style={{ 
               background: 'var(--eaf-bg2)', 
               border: '1px solid var(--eaf-border)'
             }}
           >
             <p 
-              className="text-[10px] font-semibold uppercase tracking-[0.08em] mb-4"
+              className="stat-label text-[10px] font-semibold uppercase tracking-[0.08em] mb-4"
               style={{ color: 'var(--eaf-text-tertiary)' }}
             >
               Conformité réglementaire
