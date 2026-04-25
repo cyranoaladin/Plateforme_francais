@@ -11,6 +11,8 @@ set -euo pipefail
 
 DOMAIN="eaf.nexusreussite.academy"
 APP_DIR="/opt/eaf_platform"
+RELEASES_DIR="/opt/eaf/releases"
+CURRENT_LINK="/opt/eaf/current"
 RESSOURCES_DIR="/srv/eaf_ressources"
 BRANCH="${DEPLOY_BRANCH:-main}"
 APP_RUNTIME_USER="${APP_RUNTIME_USER:-nexus}"
@@ -206,6 +208,33 @@ ssh "$SSH_TARGET" "find $APP_DIR/packages/mcp-server/dist \( -name '*.js.map' -o
 ssh "$SSH_TARGET" "rm -rf $APP_DIR/packages/mcp-server/src/ $APP_DIR/packages/mcp-server/tests/ 2>/dev/null"
 echo "  ✅ MCP build terminé (src/ et source maps supprimés)"
 
+echo "[6b/8] Publication de la release active..."
+ssh "$SSH_TARGET" "bash -s" <<EOF
+set -euo pipefail
+APP_DIR="$APP_DIR"
+RELEASES_DIR="$RELEASES_DIR"
+CURRENT_LINK="$CURRENT_LINK"
+APP_RUNTIME_USER="$APP_RUNTIME_USER"
+RELEASE_ID="\$(date +%Y%m%d_%H%M%S)"
+RELEASE_DIR="\$RELEASES_DIR/\$RELEASE_ID"
+
+mkdir -p "\$RELEASE_DIR"
+rsync -a --delete "\$APP_DIR/" "\$RELEASE_DIR/"
+chown -R root:"\$APP_RUNTIME_USER" "\$RELEASE_DIR"
+chmod -R g+rX "\$RELEASE_DIR"
+
+ln -sfn "\$RELEASE_DIR" "\$CURRENT_LINK"
+chown -h root:root "\$CURRENT_LINK"
+
+# Keep rollback useful without accumulating unbounded 1GB+ releases.
+find "\$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' \
+  | sort -rn \
+  | awk 'NR>5 {print \$2}' \
+  | xargs -r rm -rf
+
+echo "  ✅ Release active: \$RELEASE_DIR"
+EOF
+
 # --- 7. Sync Nginx config + SSL (first run only for certbot) ---
 echo "[7/8] Synchronisation Nginx..."
 ssh "$SSH_TARGET" "cat > /etc/nginx/sites-available/$DOMAIN" < scripts/nginx-eaf.conf
@@ -287,7 +316,7 @@ echo "[8/8] Redémarrage des services PM2..."
 ssh "$SSH_TARGET" "for app in eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker; do pm2 delete \"\$app\" 2>/dev/null || true; done"
 ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 delete eaf-nextjs-blue eaf-nextjs-green eaf-mcp eaf-worker 2>/dev/null || true"
 ssh "$SSH_TARGET" "fuser -k 3100/tcp 2>/dev/null || true; sleep 2"
-ssh "$SSH_TARGET" "cd $APP_DIR && sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env"
+ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart /opt/eaf/ecosystem.config.cjs --env production --update-env"
 ssh "$SSH_TARGET" "sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save"
 
 # --- 9. Smoke test post-deploy ---

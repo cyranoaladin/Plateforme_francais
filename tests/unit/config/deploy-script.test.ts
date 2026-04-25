@@ -28,8 +28,20 @@ describe('scripts/deploy.sh', () => {
     const script = readFileSync(resolve(process.cwd(), 'scripts/deploy.sh'), 'utf8');
 
     expect(script).toContain('APP_RUNTIME_USER="${APP_RUNTIME_USER:-nexus}"');
-    expect(script).toContain('sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart ecosystem.config.cjs --env production --update-env');
+    expect(script).toContain('sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 startOrRestart /opt/eaf/ecosystem.config.cjs --env production --update-env');
     expect(script).toContain('sudo -u $APP_RUNTIME_USER env HOME=$APP_RUNTIME_HOME PM2_HOME=$APP_RUNTIME_HOME/.pm2 pm2 save');
+  });
+
+  it('publishes the freshly built app directory to /opt/eaf/current before restarting PM2', () => {
+    const script = readFileSync(resolve(process.cwd(), 'scripts/deploy.sh'), 'utf8');
+
+    expect(script).toContain('RELEASES_DIR="/opt/eaf/releases"');
+    expect(script).toContain('CURRENT_LINK="/opt/eaf/current"');
+    expect(script).toContain('rsync -a --delete "\\$APP_DIR/" "\\$RELEASE_DIR/"');
+    expect(script).toContain('ln -sfn "\\$RELEASE_DIR" "\\$CURRENT_LINK"');
+    expect(script.indexOf('ln -sfn "\\$RELEASE_DIR" "\\$CURRENT_LINK"')).toBeLessThan(
+      script.indexOf('pm2 startOrRestart /opt/eaf/ecosystem.config.cjs'),
+    );
   });
 
   it('verifies the durable resources volume and rechecks the symlink after build', () => {
