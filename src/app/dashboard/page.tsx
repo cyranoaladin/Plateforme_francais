@@ -240,19 +240,31 @@ export default function Dashboard() {
             <div className="flex flex-wrap gap-2">
               <span 
                 className="rounded-full px-3 py-1 text-[11px] font-medium"
-                style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)', color: 'rgba(255,255,255,0.72)' }}
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.14)',
+                  color: 'rgba(255,255,255,0.72)',
+                }}
               >
                 Lundi 8 juin 2026
               </span>
               <span 
                 className="rounded-full px-3 py-1 text-[11px] font-medium"
-                style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-orange-border)', color: 'var(--eaf-orange)' }}
+                style={{
+                  background: 'rgba(255,181,71,0.12)',
+                  border: '1px solid rgba(255,181,71,0.28)',
+                  color: 'var(--eaf-orange)',
+                }}
               >
                 Écrit : J-{data.countdownEcrit ?? 59}
               </span>
               <span 
                 className="rounded-full px-3 py-1 text-[11px] font-medium"
-                style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)', color: 'rgba(255,255,255,0.50)' }}
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.14)',
+                  color: 'rgba(255,255,255,0.60)',
+                }}
               >
                 Oral : {data.countdownOral ? `J-${data.countdownOral}` : 'date non renseignée'}
               </span>
@@ -329,14 +341,17 @@ export default function Dashboard() {
             {[
               { label: 'Voie', value: data.classLevel },
               { label: 'Point fort courant', value: data.hasEvaluationData ? strongestSkill.label : 'En construction' },
-              { label: 'Angle à retrendre', value: data.hasEvaluationData ? weakestSkill.label : 'À préciser' },
+              { label: 'Angle à reprendre', value: data.hasEvaluationData ? weakestSkill.label : 'À préciser' },
               { label: 'Niveau moyen', value: formatScoreLabel(averageScore) },
               { label: 'Dernier passage', value: latestInsight?.date ?? 'pas encore de séance' },
             ].map((meta) => (
               <span 
                 key={meta.label}
                 className="rounded-md px-3 py-1 text-[12px]"
-                style={{ background: 'var(--eaf-bg2)', border: '1px solid var(--eaf-border)' }}
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                }}
               >
                 <span className="text-on-dark-label" style={{ color: 'rgba(255,255,255,0.50)' }}>{meta.label}:</span>{' '}
                 <span style={{ color: 'rgba(255,255,255,0.95)', fontWeight: 600 }}>{meta.value}</span>

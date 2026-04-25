@@ -55,4 +55,18 @@ describe('dark navy hero contrast guard', () => {
       expect(source, file).toContain('text-on-dark-body');
     }
   });
+
+  it('keeps dashboard hero chips on translucent dark backgrounds', () => {
+    const source = readProjectFile('src/app/dashboard/page.tsx');
+    const heroStart = source.indexOf('Pilotage du jour');
+    const heroStatsEnd = source.indexOf('Right column: CE QUE FAIRE MAINTENANT');
+    const heroHeaderAndMeta = source.slice(heroStart, heroStatsEnd);
+
+    expect(heroHeaderAndMeta).toContain('Lundi 8 juin 2026');
+    expect(heroHeaderAndMeta).toContain('Oral : {data.countdownOral');
+    expect(heroHeaderAndMeta).toContain('Angle à reprendre');
+    expect(heroHeaderAndMeta).toContain("background: 'rgba(255,255,255,0.06)'");
+    expect(heroHeaderAndMeta).not.toContain("background: 'var(--eaf-bg2)'");
+    expect(heroHeaderAndMeta).not.toContain("background: 'var(--eaf-bg3)'");
+  });
 });
