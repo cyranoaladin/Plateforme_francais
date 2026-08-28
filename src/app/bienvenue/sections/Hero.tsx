@@ -164,7 +164,7 @@ export function Hero() {
                   style={{ background: 'var(--eaf-bg3)', border: '1px solid var(--eaf-border)' }}
                 >
                   <Clock3 className="h-3.5 w-3.5 text-[var(--eaf-text-tertiary)]" />
-                  Session 2026
+                  Cette semaine
                 </div>
               </div>
 

@@ -246,7 +246,7 @@ export default function Dashboard() {
                   color: 'rgba(255,255,255,0.72)',
                 }}
               >
-                Lundi 8 juin 2026
+                {new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
               <span 
                 className="rounded-full px-3 py-1 text-[11px] font-medium"
