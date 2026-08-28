@@ -124,7 +124,7 @@ export default function GlobalError({
             letterSpacing: '0.02em',
           }}
         >
-          Nexus Réussite — Session 2026
+          Nexus Réussite — Préparation EAF
         </p>
       </body>
     </html>

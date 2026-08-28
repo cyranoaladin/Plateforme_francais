@@ -16,11 +16,11 @@ import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
 import { MetaPixel } from "@/components/tracking/MetaPixel";
 
 export const metadata: Metadata = {
-  title: "Nexus Réussite — Préparation EAF Bac Français 2026",
+  title: "Nexus Réussite — Préparation EAF Bac Français",
   description: "Prépare ton Bac de Français avec Nexus : correction de copies, simulation d'oral officiel, tuteur IA avec sources citées. Inscris-toi gratuitement.",
-  keywords: ['bac français', 'EAF', 'préparation bac', 'oral français', 'correction copie', 'Première générale', 'bac 2026'],
+  keywords: ['bac français', 'EAF', 'préparation bac', 'oral français', 'correction copie', 'Première générale'],
   openGraph: {
-    title: "Nexus Réussite — Préparation EAF 2026",
+    title: "Nexus Réussite — Préparation EAF",
     description: "Correction de copies, simulation d'oral, tuteur IA avec corpus officiel. Commence gratuitement.",
     url: 'https://eaf.nexusreussite.academy',
     siteName: 'Nexus Réussite',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Nexus Réussite — Préparation EAF 2026",
+    title: "Nexus Réussite — Préparation EAF",
     description: "Correction de copies IA, simulation d'oral officiel.",
   },
   robots: { index: true, follow: true },

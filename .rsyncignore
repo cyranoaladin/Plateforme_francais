@@ -67,6 +67,13 @@ UI_UX/
 
 # === ARBORESCENCES / DOCS DE TRAVAIL ===
 arborescence*.txt
+eaf-audit-*/
+eaf-audit-*.tar
+eaf-audit-*.tar.gz
+eaf-audit-*.tar.gz.sha256
+eaf-forensic-*/
+eaf-forensic-*.tar.gz
+eaf-forensic-*.tar.gz.sha256
 arborescence-eaf.txt
 docs/arborescence_prod*.txt
 docs/arborescence_prod_*.txt

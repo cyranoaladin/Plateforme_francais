@@ -269,7 +269,7 @@ export default function PricingPage() {
             <img src="/images/logo_slogan_nexus.png" alt="Nexus Réussite" className="h-11 w-auto object-contain" />
             <div className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-secondary)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--c-primary)]">
               <span className="h-2 w-2 rounded-full bg-[var(--c-success)]" />
-              Plans 2026
+              Nos formules
             </div>
           </Link>
           <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[var(--text-secondary)]">

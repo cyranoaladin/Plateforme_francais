@@ -26,7 +26,7 @@ const FEATURE_GROUPS = [
     span: 'lg:col-span-4',
     animationClass: 'animation-delay-200',
     body: 'Le guidage et les ateliers mobilisent BO, Eduscol, rapports de jury et œuvres au programme avec des références internes visibles et réutilisables.',
-    bullets: ['Citations internes', 'Recherche intelligente dans le corpus', 'Corpus 2025-2026'],
+    bullets: ['Citations internes', 'Recherche intelligente dans le corpus', 'Corpus à jour chaque session'],
   },
   {
     title: 'Langue et quiz adaptatif',
