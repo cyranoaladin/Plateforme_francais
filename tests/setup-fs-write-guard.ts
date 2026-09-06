@@ -42,6 +42,7 @@ function isForbidden(target: string): boolean {
   return FORBIDDEN_PATTERNS.some((re) => re.test(resolved));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- wraps heterogeneous fs.*Sync signatures generically
 function guardSync<T extends (...args: any[]) => any>(name: string, original: T): T {
   return function guarded(this: unknown, ...args: Parameters<T>) {
     const target = args[0];

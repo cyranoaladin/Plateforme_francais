@@ -7,7 +7,7 @@ export default defineConfig({
     exclude: ['tests/e2e/**'],
     globals: true,
     environment: 'node',
-    setupFiles: ['tests/setup-fs-write-guard.ts', 'tests/setup-jsdom.ts'],
+    setupFiles: ['tests/setup-jsdom.ts'],
     pool: 'forks',
     testTimeout: 15_000,
     hookTimeout: 10_000,
